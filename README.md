@@ -27,7 +27,7 @@ Gateway Watchit Seeder
 
 6) `ipfs daemon  --enable-pubsub-experiment &`
 
-**And expose our node tu ipfs network migration*
+*And expose our node tu ipfs network migration*
 
 7) `bash ./resource/bash/restart_ipfs.sh`
 
