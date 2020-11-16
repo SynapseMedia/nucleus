@@ -3,12 +3,12 @@ Gateway Watchit Seeder
 
 ## How
 
-**Start docker containers
+** Start docker containers
 
 1) docker-compose up
 
-**Migrate movies to mongodb
-**Please wait until movies get ready migrated
+** Migrate movies to mongodb
+** Please wait until movies get ready migrated
 
 2) docker-compose exec watchit_migrator bash -c "export PYTHONPATH=$PYTHONPATH:/data/watchit && python resource/py/migrate.py"
 
