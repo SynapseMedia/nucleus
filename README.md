@@ -33,5 +33,5 @@ Gateway Watchit Seeder
 
 
 # watchit-app
-In [Check this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables with BOOTSTRAP_IP address (Gateway IP) and BOOTSTRAP_HASH (IPFS ID ex: QmNWCiQTM1drWrdAM5jgRjdGiDoy7sYjznpip1BZU1Jz5m)
+In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables with BOOTSTRAP_IP address (Gateway IP) and BOOTSTRAP_HASH (IPFS ID ex: QmNWCiQTM1drWrdAM5jgRjdGiDoy7sYjznpip1BZU1Jz5m)
 
