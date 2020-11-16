@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+node_modules
+.idea
+package-lock.json
+resource/down_torrents/
+hash
+clients
+orbitdb
+source
+.env
