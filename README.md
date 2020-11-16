@@ -10,6 +10,5 @@ Gateway Watchit Seeder
 4) ipfs id # Copy ipfs ID (ex: QmNWCiQTM1drWrdAM5jgRjdGiDoy7sYjznpip1BZU1Jz5m)
 5) bash ./resource/bash/init_ipfs.sh {YOUR_IPFS_ID_HERE}
 6) ipfs daemon  --enable-pubsub-experiment
-// Migrate to ipfs
 7) bash ./resource/bash/restart_ipfs.sh
 
