@@ -1,3 +1,6 @@
+[![Gitter](https://badges.gitter.im/watchit-app/community.svg)](https://gitter.im/watchit-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+
 # watchit-gateway
 Gateway Watchit Seeder
 
