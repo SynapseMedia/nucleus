@@ -39,7 +39,7 @@ Gateway Watchit Seeder
 
 *After run migration in gateway*
 
-1) Two file are generated `hash` and `clients`. Please copy first entry hash in `hash` file and any of the list in `clients` file
+1) Two file are generated `hash` and `clients`. Please copy first entry hash in `hash (Private Key)` file and any of the list in `clients (Public Key)` file. This keys will be requested on app login. 
 
 *To configure your app please*
 
