@@ -36,7 +36,7 @@ Gateway Watchit Seeder
 
 *After run migration in gateway*
 
-1) Two file are generated `hash` and `clients`. Please copy first orbitdb hash in `hash` file and any of the list in `clients` file
+1) Two file are generated `hash` and `clients`. Please copy first entry hash in `hash` file and any of the list in `clients` file
 
 *To configure your app please*
 
