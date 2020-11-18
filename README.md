@@ -33,10 +33,13 @@ Gateway Watchit Seeder
 
 
 # watchit-app
+
 *After run migration in gateway*
-1) Two file are generated `hash` and `clients`. Please copy first hash in `hash` (orbit db hash) file and any of the `clients` (client auth) file
+
+1) Two file are generated `hash` and `clients`. Please copy first orbitdb hash in `hash` file and any of the list in `clients` file
 
 *To configure your app please*
+
 2) In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables with:
 
 ..* BOOTSTRAP_IP address (Gateway IP) 
