@@ -42,7 +42,7 @@ Gateway Watchit Seeder
 
 2) In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables with:
 
-...BOOTSTRAP_IP = {GATEWAY_IP}
+ ..* BOOTSTRAP_IP = {GATEWAY_IP}
 
-...BOOTSTRAP_HASH = {COPIED_ID}
+ ..* BOOTSTRAP_HASH = {COPIED_ID}
 
