@@ -5,6 +5,8 @@ const MongoClient = require('mongodb').MongoClient;
 const createHash = require('hash-generator');
 const ipfs = IpfsApi(/*{host: '167.71.11.115', port: '5001', protocol: 'http'}*/);
 const msgpack = require("msgpack-lite");
+const keypair = require("keypair");
+const crypto = require("crypto");
 
 args = process.argv.slice(2);
 const SKIP_CLIENTS = args[0] !== 'false';
@@ -27,7 +29,9 @@ const DB_CLIENTS = args[4] || 'wt.c.db';
         const DB_NAME = SOURCE_DB;
         const orbitdb = await OrbitDB.createInstance(ipfs);
         //const ACCOUNTS = 1;
-        const ACCOUNTS_SIZE = 20;
+        const ACCOUNTS_SIZE = 5
+        const DAG_LINKS_SIZE = 2
+
         // DB
         const db = await orbitdb.log(DB_MOVIES, {
             overwrite: RECREATE,
@@ -44,28 +48,59 @@ const DB_CLIENTS = args[4] || 'wt.c.db';
             console.log('Saving clients..');
             fs.writeFileSync('clients', '');
 
-            let clients = await orbitdb.keyvalue(DB_CLIENTS, {
-                overwrite: RECREATE,
-                replicate: true,
-                localOnly: false,
-                accessController: {
-                    write: [orbitdb.identity.id]
-                }
-            });
-
-            let clientAddr = clients.address.toString();
+            let leafNodes = {}
+            let collectionChain = [];
             let dbAddr = db.address.toString();
-            fs.writeFileSync('hash', `${clientAddr.split('/')[2]}\n`);
-            fs.appendFileSync('hash', dbAddr.split('/')[2]);
-            clients.events.on('peer', (p) => console.log('Peer Client:', p));
-
-            for (const c of Array(ACCOUNTS_SIZE).keys()) {
+            for (const roots of Array(DAG_LINKS_SIZE).keys()) {
+                let clients = {}
                 let hash = createHash(50);
-                await clients.set(hash, {'key': dbAddr.split('/')[2]});
-                console.log('DB:', c, '->', hash);
-                fs.appendFileSync('clients', `${hash}\n`);
+
+                for (const client of Array(ACCOUNTS_SIZE).keys()) {
+                    let pair = keypair(1024)
+                    let id = createHash(10);
+                    let toEncrypt = Buffer.from(dbAddr, 'utf8')
+                    let enCrypted = crypto.publicEncrypt(pair.public, toEncrypt).toString('base64')
+                    collectionChain.push(`${id}.${hash}\n${pair.private}\n\n`)
+
+                    // Merge clients
+                    clients = {
+                        ...clients, ...{
+                            [id]: {key: enCrypted}
+                        }
+                    }
+                }
+
+                leafNodes = {
+                    ...leafNodes, ...{
+                        [hash]: await ipfs.dag.put({
+                            keys: clients
+                        }, {pin: true})
+                    }
+                };
             }
-            //END CLIENTS
+
+            let rootNode = await ipfs.dag.put({
+                links: leafNodes,
+                timestamp: Date.now(),
+                size: ACCOUNTS_SIZE,
+                childs: DAG_LINKS_SIZE
+            }, {pin: true})
+
+            // Testing dag links
+            let testKey = Object.keys(leafNodes)[0]
+            console.log(await ipfs.dag.get(rootNode, {
+                path: `links/${testKey}/keys/`
+            }));
+
+
+            let clientAddr = rootNode.toString();
+            let clientAddSplit = clientAddr.split('/')[2]
+            fs.writeFileSync('hash', `${clientAddSplit}\n`);
+            fs.appendFileSync('hash', dbAddr.split('/')[2]);
+
+            for (const chain of collectionChain) // Append client data
+                fs.appendFileSync('clients', `${clientAddr}.${chain}`);
+
         }
 
         console.log('Starting db..');

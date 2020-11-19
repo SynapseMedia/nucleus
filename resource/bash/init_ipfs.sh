@@ -14,7 +14,7 @@ ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
 ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001
 ipfs config Swarm.EnableAutoRelay true --json
 ipfs config Swarm.EnableRelayHop true --json
-ipfs config Discovery.MDNS.Enabled false --json
+ipfs config Discovery.MDNS.Enabled true --json # Allowed be found in local
 
 ipfs bootstrap rm --all
 ipfs bootstrap add /dns4/node0.preload.ipfs.io/tcp/443/wss/p2p/QmZMxNdpMkewiVZLMRxaNxUeZpDUb34pWjZ1kZvsd16Zic

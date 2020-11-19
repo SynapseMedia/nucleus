@@ -21,6 +21,7 @@
     "local": "node resource/orbit/local.js"
   },
   "devDependencies": {
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "keypair": "^1.0.1"
   }
 }
