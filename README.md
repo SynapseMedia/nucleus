@@ -1,3 +1,6 @@
+[![Gitter](https://badges.gitter.im/watchit-app/community.svg)](https://gitter.im/watchit-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+
 # watchit-gateway
 Gateway Watchit Seeder
 
@@ -27,16 +30,16 @@ Gateway Watchit Seeder
 
 6) `ipfs daemon  --enable-pubsub-experiment &`
 
-*And expose our node tu ipfs network migration*
+*And expose our node tu ipfs network over orbitdb migration*
 
 7) `bash ./resource/bash/restart_ipfs.sh`
 
 
 # watchit-app
 
-*After run migration in gateway*
+*After run migration (Step 2) and expose our node in gateway (Step 7)*
 
-1) Two file are generated `hash` and `clients`. Please copy first entry hash in `hash` file and any of the list in `clients` file
+1) Two file are generated `hash` and `clients`. Please copy first entry hash in `hash (Private Key)` file and any of the list in `clients (Public Key)` file. This keys will be requested on app login. 
 
 *To configure your app please*
 
