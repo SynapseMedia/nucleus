@@ -13,7 +13,6 @@ const SKIP_CLIENTS = args[0] !== 'false';
 const SOURCE_DB = args[1] || 'witth20200930';
 const RECREATE = args[2] !== 'false';
 const DB_MOVIES = args[3] || 'wt.movies.db';
-const DB_CLIENTS = args[4] || 'wt.c.db';
 
 (async () => {
     try {
@@ -95,7 +94,6 @@ const DB_CLIENTS = args[4] || 'wt.c.db';
 
             let clientAddr = rootNode.toString();
             let clientAddSplit = clientAddr.split('/')[2]
-            fs.writeFileSync('hash', `${clientAddSplit}\n`);
             fs.appendFileSync('hash', dbAddr.split('/')[2]);
 
             for (const chain of collectionChain) // Append client data
@@ -109,7 +107,7 @@ const DB_CLIENTS = args[4] || 'wt.c.db';
 
         // MOVIES
         let index = 0;
-        const MAX_CHUNKS = 500
+        const MAX_CHUNKS = 1000
         const url = 'mongodb://localhost:27017';
         const client = new MongoClient(url);
         await client.connect(async () => {
