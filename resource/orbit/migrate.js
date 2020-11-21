@@ -93,7 +93,6 @@ const DB_MOVIES = args[3] || 'wt.movies.db';
 
 
             let clientAddr = rootNode.toString();
-            let clientAddSplit = clientAddr.split('/')[2]
             fs.appendFileSync('hash', dbAddr.split('/')[2]);
 
             for (const chain of collectionChain) // Append client data
