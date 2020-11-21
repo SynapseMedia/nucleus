@@ -1,13 +1,12 @@
 version: '3'
 services:
   watchit_migrator:
+    image: gmena/watchit
     container_name: watchit_migrator
     restart: unless-stopped
     volumes:
       - .:/data/watchit/
-    #  command: bash -c "export PYTHONPATH=$PYTHONPATH:/data/watchit && python resource/py/migrate.py"
     command: tail -f .gitignore
-    build: resource
     ports:
       - "8050:80"
     depends_on:
