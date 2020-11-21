@@ -1,7 +1,7 @@
 version: '3'
 services:
   watchit_migrator:
-    image: gmena/watchit
+    image: gmena/watchit:v1.0.0
     container_name: watchit_migrator
     restart: unless-stopped
     volumes:
