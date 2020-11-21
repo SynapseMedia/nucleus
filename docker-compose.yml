@@ -7,8 +7,6 @@ services:
     volumes:
       - .:/data/watchit/
     command: tail -f .gitignore
-    ports:
-      - "8050:80"
     depends_on:
       - watchit_mongodb
 
