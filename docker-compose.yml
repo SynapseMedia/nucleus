@@ -3,10 +3,11 @@ services:
   watchit_migrator:
     image: gmena/watchit:v1.0.0
     container_name: watchit_migrator
-    restart: unless-stopped
+    restart: never
     volumes:
       - .:/data/watchit/
-    command: tail -f .gitignore
+    command: python resource/py/migrate.py
+
     depends_on:
       - watchit_mongodb
 
