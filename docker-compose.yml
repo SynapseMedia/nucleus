@@ -3,7 +3,7 @@ services:
   watchit_migrator:
     image: gmena/watchit:v1.0.1
     container_name: watchit_migrator
-    command: bash -c "export PYTHONPATH=$PYTHONPATH:/data/watchit && python resource/py/migrate.py"
+    command: bash -c "export PYTHONPATH=$PYTHONPATH:/data/watchit && python3 resource/py/migrate.py"
     depends_on:
       - watchit_mongodb
 
