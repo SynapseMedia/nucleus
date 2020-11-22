@@ -3,7 +3,6 @@ services:
   watchit_migrator:
     image: gmena/watchit:v1.0.0
     container_name: watchit_migrator
-    restart: no
     volumes:
       - .:/data/watchit/
     command: bash -c "export PYTHONPATH=$PYTHONPATH:/data/watchit && python resource/py/migrate.py"
