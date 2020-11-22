@@ -6,7 +6,7 @@ Gateway Watchit Seeder
 
 ## How
 
-*Start docker containers*
+*Start docker containers and starts movies migration to mongodb (Please wait until movies get ready migrated)*
 
 1) `docker-compose up`
 
