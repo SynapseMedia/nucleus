@@ -1,5 +1,11 @@
 [![Gitter](https://badges.gitter.im/watchit-app/community.svg)](https://gitter.im/watchit-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+# Getting started
+* If you don’t have Go, [install it](https://golang.org/doc/install).
+* If you don’t have IPFS , [install it](https://docs.ipfs.io/install/).
+* Look [into this example](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/) how to spawn an IPFS node in Node.js and in the Browser
+
+
 
 # watchit-gateway
 Gateway Watchit Seeder
