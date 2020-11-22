@@ -6,7 +6,7 @@ services:
     restart: no
     volumes:
       - .:/data/watchit/
-    command: bash -c "export PYTHONPATH=$PYTHONPATH:/data/watchit && python resource/py/migrate.py
+    command: bash -c "export PYTHONPATH=$PYTHONPATH:/data/watchit && python resource/py/migrate.py"
     depends_on:
       - watchit_mongodb
 
