@@ -3,7 +3,7 @@ services:
   watchit_migrator:
     image: gmena/watchit:v1.0.0
     container_name: watchit_migrator
-    restart: never
+    restart: no
     volumes:
       - .:/data/watchit/
     command: python resource/py/migrate.py
