@@ -20,8 +20,8 @@ if __name__ == '__main__':
     _parser.add_argument('--page', dest='page', default=0, type=int, help='Start page')
     _parser.add_argument('--step', dest='step', default=50, type=int, help='Step page')
     _parser.add_argument('--refresh', dest='refresh', default=False, type=bool, help='Refresh')
-    _parser.add_argument('--refresh-yifi', dest='refresh_yifi', default=True, type=bool, help='Refresh YTS')
-    _parser.add_argument('--refresh-open', dest='refresh_open', default=True, type=bool, help='Refresh Open')
+    _parser.add_argument('--refresh-yifi', dest='refresh_yifi', default=False, type=bool, help='Refresh YTS')
+    _parser.add_argument('--refresh-open', dest='refresh_open', default=False, type=bool, help='Refresh Open')
     _root_api = 'https://yts.mx'
 
     DB_DATE_VERSION = date.today().strftime('%Y%m%d')
