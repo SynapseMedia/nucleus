@@ -23,11 +23,11 @@ Gateway Watchit Seeder
 
 *After run migration and expose our node in gateway*
 
->  `clients` file its generated . Please copy entry hash in `clients` file and corresponding `private key`. This keys will be requested on app login. 
+> `clients` file its generated . Please copy entry hash in `clients` file and corresponding `private key`. This keys will be requested on app login. 
 
 *To configure your app please*
 
-In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables with: 
+> In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables with: 
 > Get ipfs "node id" using `docker-compose exec watchit_ipfs ipfs id -f=<id>`
 * `BOOTSTRAP_IP = {GATEWAY_IP} `
 * `BOOTSTRAP_HASH = {IPFS_NODE_ID}`
