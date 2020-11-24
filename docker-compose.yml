@@ -1,7 +1,7 @@
 version: '3'
 services:
   watchit_ipfs:
-    image: gmena/ipfs:v1.2.0
+    image: gmena/node:v1.0.0
     restart: unless-stopped
     ports:
       - "4001:4001"
@@ -10,7 +10,7 @@ services:
       - "5001:5001"
 
   watchit_migrator:
-    image: gmena/watchit:v1.0.7
+    image: gmena/migrate:v1.0.0
     container_name: watchit_migrator
     command: python3 resource/py/migrate.py
     volumes:
