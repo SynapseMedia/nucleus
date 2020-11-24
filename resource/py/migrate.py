@@ -31,7 +31,6 @@ if __name__ == '__main__':
     _root_api = 'https://yts.mx'
 
 
-
     # CLI args
     _args = _parser.parse_args()
     # Initialize yts.ag
