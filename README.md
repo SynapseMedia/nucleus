@@ -13,7 +13,7 @@ Gateway Watchit Seeder
 
 ## How
 
-*Start docker containers and starts movies migration. *
+*Start docker containers and starts movies migration.*
 > Init and start bootstrap ipfs node. 
 > (Please wait until movies get ready migrated)
 
@@ -21,7 +21,7 @@ Gateway Watchit Seeder
 
 # watchit-app
 
-*After run migration and expose our node in gateway *
+*After run migration and expose our node in gateway*
 
 1) `clients` file its generated . Please copy entry hash in `clients` file and corresponding `private key`. This keys will be requested on app login. 
 
