@@ -92,10 +92,10 @@ const RECREATE = args[2] !== 'false';
                 path: `links/${testKey}/keys/`
             }));
 
-
+            // Hold base hash
             let clientAddr = rootNode.toString();
             fs.appendFileSync('hash', dbAddr.split('/')[2]);
-
+            // Save clients in file
             for (const chain of collectionChain) // Append client data
                 fs.appendFileSync('clients', `${clientAddr}.${chain}`);
 
