@@ -59,7 +59,8 @@ if __name__ == '__main__':
 
 
     # If clean
-    if _args.refresh or _mongo_db.movies.find({}).count() == 0:
+    empty_mongo = _mongo_db.movies.find({}).count() == 0
+    if _args.refresh or empty_mongo:
         print('Rewriting...')
         print("\nStarting migrations from yts.mx " + DB_DATE_VERSION)
         # The result of migration
@@ -71,7 +72,7 @@ if __name__ == '__main__':
         _mongo_bulk = [InsertOne(i) for k, i in _migration_result.items()]
         _mongo_db.movies.bulk_write(_mongo_bulk)
 
-    if _args.refresh_yifi:
+    if _args.refresh_yifi or empty_mongo:
         # Process subs for each movie
         print("\nStarting migration from yify subtitles")
         migration_result = list(_mongo_db.movies.find({}))
@@ -82,7 +83,7 @@ if __name__ == '__main__':
         print("Save in Mongo YTS subs")
         write_subs(migration_result, subs_lists_yifi, 'yifi')
 
-    if _args.refresh_open:
+    if _args.refresh_open or empty_mongo:
         print("\nStarting migration from open subtitles")
         migration_result = list(_mongo_db.movies.find({}))
         subs_lists_open = OSubs(migration_result)

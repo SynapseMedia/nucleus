@@ -4,6 +4,7 @@
 * If you don’t have Go, [install it](https://golang.org/doc/install).
 * If you don’t have IPFS , [install it](https://github.com/ipfs/go-ipfs#install).
 * Look [into this example](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/) how to spawn an IPFS node in Node.js and in the Browser
+* Look [into this example](https://mrh.io/ipfs-private-networks/) how to spawn an IPFS private node and generate swarm key
 
 
 
@@ -16,26 +17,9 @@ Gateway Watchit Seeder
 
 1) `docker-compose up`
 
-*Initialize IPFS*
+*Now lets get init and set bootstrap ipfs node. Run ipfs daemon as background and expose our node tu ipfs network with orbitdb migration*
 
-2) `ipfs init`
-
-*In a new console please get ID and copy it*
-
-3) `ipfs id # Copy ipfs ID (ex: QmNWCiQTM1drWrdAM5jgRjdGiDoy7sYjznpip1BZU1Jz5m)`
-
-*Now lets get init and set bootstrap ipfs node*
-
-4) `bash ./resource/bash/init_ipfs.sh {YOUR_IPFS_ID_HERE}`
-
-*Run ipfs daemon as background*
-
-5) `ipfs daemon  --enable-pubsub-experiment &`
-
-*And expose our node tu ipfs network with orbitdb migration*
-
-7) `bash ./resource/bash/restart_ipfs.sh`
-
+4) `bash ./resource/bash/run.sh`
 
 # watchit-app
 

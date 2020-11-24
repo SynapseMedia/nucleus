@@ -9,3 +9,5 @@ ADD requeriments.txt .
 RUN pip3 install python-opensubtitles
 RUN pip3 install -r requeriments.txt
 COPY . $PROJECT_ROOT
+
+RUN ["chmod", "+x", "/data/watchit/entrypoint.sh"]

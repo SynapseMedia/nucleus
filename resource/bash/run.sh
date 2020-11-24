@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
+sudo npm i -g forever
+
 forever stopall
 rm hash
-rm clients
 rm -rf orbitdb/
-
-# Clean old pinned data
-ipfs pin ls --type recursive | cut -d' ' -f1 | xargs -n1 ipfs pin rm
-ipfs repo gc
 
 # Fix sort memory error in mongo
 docker-compose exec watchit_mongo mongo --eval 'db.adminCommand({setParameter: 1, internalQueryExecMaxBlockingSortBytes:1048576000})'
