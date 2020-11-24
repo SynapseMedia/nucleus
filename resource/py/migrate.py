@@ -1,8 +1,9 @@
-# import os
+import os
 # import sys
 
 import argparse
 import ipdb
+from subprocess import call
 from datetime import date
 from pymongo import MongoClient, InsertOne, UpdateOne
 
@@ -11,21 +12,25 @@ from resource.py.subs.yifisubs import YSubs
 from resource.py.torrents.yts import YTS
 
 
-
 __author__ = 'gmena'
 if __name__ == '__main__':
+    DB_DATE_VERSION = date.today().strftime('%Y%m%d')
+    MONGO_HOST, MONGO_PORT = ('watchit_mongo', '27017')
+    ROOT_PROJECT = os.environ['PROJECT_ROOT']
+    REFRESH_MOVIES = os.environ['REFRESH_MOVIES'] == 'True'
+    REFRESH_SUBS = os.environ['REFRESH_SUBS'] == 'True'
+    print("\nRunning %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT)
 
     # CLI
     _parser = argparse.ArgumentParser('YTS Torrent Migrate')
     _parser.add_argument('--page', dest='page', default=0, type=int, help='Start page')
     _parser.add_argument('--step', dest='step', default=50, type=int, help='Step page')
-    _parser.add_argument('--refresh', dest='refresh', default=False, type=bool, help='Refresh')
-    _parser.add_argument('--refresh-yifi', dest='refresh_yifi', default=False, type=bool, help='Refresh YTS')
-    _parser.add_argument('--refresh-open', dest='refresh_open', default=False, type=bool, help='Refresh Open')
+    _parser.add_argument('--refresh', dest='refresh', default=REFRESH_MOVIES, type=bool, help='Refresh')
+    _parser.add_argument('--refresh-yifi', dest='refresh_yifi', default=REFRESH_SUBS, type=bool, help='Refresh YTS')
+    _parser.add_argument('--refresh-open', dest='refresh_open', default=REFRESH_SUBS, type=bool, help='Refresh Open')
     _root_api = 'https://yts.mx'
 
-    DB_DATE_VERSION = date.today().strftime('%Y%m%d')
-    MONGO_HOST, MONGO_PORT = ('watchit_mongo', '27017')
+
 
     # CLI args
     _args = _parser.parse_args()
@@ -95,3 +100,8 @@ if __name__ == '__main__':
 
     print("\n\033[92mMigration Complete:\033[0m")
     print('Entries yts indexed: ' + str(len(_migration_result)))
+
+
+# Spawn node subprocess
+regenerate_clients = _args.refresh and "true" or "false"
+call(["bash", "%s/resource/bash/run.sh %s %s" % (ROOT_PROJECT, regenerate_clients, DB_DATE_VERSION) ])

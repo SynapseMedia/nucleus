@@ -25,7 +25,7 @@ Gateway Watchit Seeder
 
 *After run migration and expose our node in gateway *
 
-1) `clients` file is generated . Please copy entry hash in `clients` file and corresponding `private key`. This keys will be requested on app login. 
+1) `clients` file its generated . Please copy entry hash in `clients` file and corresponding `private key`. This keys will be requested on app login. 
 
 *To configure your app please*
 
