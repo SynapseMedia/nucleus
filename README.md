@@ -15,7 +15,7 @@ Gateway Watchit Seeder
 
 *Start docker containers and starts movies migration.*
 > Init and start bootstrap ipfs node. 
-> (Please wait until movies get ready migrated)
+> (Please wait until movies get ready migrated).
 
 `docker-compose up`
 
@@ -27,10 +27,10 @@ Gateway Watchit Seeder
 
 *To configure your app please*
 
-> Get ipfs "node id" using `docker-compose exec watchit_ipfs ipfs id -f=<id>`
+> Get ipfs "node id" using `docker-compose exec watchit_ipfs ipfs id -f=<id>`.
 * `BOOTSTRAP_IP = {GATEWAY_IP} `
 * `BOOTSTRAP_HASH = {IPFS_NODE_ID}`
-> In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables with: 
+> In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables. 
 
 
 
