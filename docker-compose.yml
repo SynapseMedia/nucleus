@@ -10,7 +10,7 @@ services:
       - "5001:5001"
 
   watchit_migrator:
-    image: gmena/watchit:v1.0.5
+    image: gmena/watchit:v1.0.7
     container_name: watchit_migrator
     command: python3 resource/py/migrate.py
     volumes:

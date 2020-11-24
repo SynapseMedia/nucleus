@@ -19,7 +19,7 @@ if __name__ == '__main__':
     ROOT_PROJECT = os.environ['PROJECT_ROOT']
     REFRESH_MOVIES = os.environ['REFRESH_MOVIES'] == 'True'
     REFRESH_SUBS = os.environ['REFRESH_SUBS'] == 'True'
-    print("\nRunning %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT)
+    print("\nRunning %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
 
     # CLI
     _parser = argparse.ArgumentParser('YTS Torrent Migrate')
