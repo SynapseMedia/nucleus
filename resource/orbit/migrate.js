@@ -9,6 +9,8 @@ const keypair = require("keypair");
 const crypto = require("crypto");
 
 args = process.argv.slice(2);
+const MAX_CHUNKS = 1000
+const MONGO_DB = 'watchit_mongo'
 const SKIP_CLIENTS = args[0] !== 'false';
 const SOURCE_DB = args[1] || 'witth20201124';
 const RECREATE = args[2] !== 'false';
@@ -106,15 +108,17 @@ const DB_MOVIES = args[3] || 'wt.movies.db';
 
         // MOVIES
         let index = 0;
-        const MAX_CHUNKS = 1000
-        const url = 'mongodb://localhost:27017';
+        const url = `mongodb:${MONGO_DB}//27017`;
         const client = new MongoClient(url);
         await client.connect(async () => {
-            const adminDb = client.db(DB_NAME).collection('movies')
-            const cursor = adminDb.find({}).limit(0).sort({year: 1})//.addCursorFlag('noCursorTimeout', true);
+            // Generate cursor for all movies
+            const adminDb = client.db(DB_NAME)
+            await adminDb.executeDbAdminCommand({setParameter: 1, internalQueryExecMaxBlockingSortBytes: 1048576000});
+            const cursor = adminDb.collection('movies').find({}).limit(0).sort({year: 1})
             const size = await cursor.count();
             const data = chunkGen(await cursor.toArray(), MAX_CHUNKS);
             console.log('Total movies:', size)
+
 
             for (const chunk of data) {
                 console.log('Starting');
