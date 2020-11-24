@@ -103,4 +103,4 @@ if __name__ == '__main__':
 
 
 # Spawn node subprocess
-call(["bash", "%s/resource/bash/run.sh %s %s" % (ROOT_PROJECT, MONGO_HOST, DB_DATE_VERSION) ])
+call(["bash", "%sresource/bash/run.sh %s %s" % (ROOT_PROJECT, MONGO_HOST, DB_DATE_VERSION) ])
