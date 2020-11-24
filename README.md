@@ -29,7 +29,10 @@ Gateway Watchit Seeder
 
 *To configure your app please*
 
-2) In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables with: `BOOTSTRAP_IP = {GATEWAY_IP} BOOTSTRAP_HASH = {COPIED_ID}`
+2) In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables with: 
+Get ipfs "node id" using `docker-compose exec watchit_ipfs ipfs id -f=<id>`
+* `BOOTSTRAP_IP = {GATEWAY_IP} `
+* `BOOTSTRAP_HASH = {IPFS_NODE_ID}`
 
 
 
