@@ -103,5 +103,4 @@ if __name__ == '__main__':
 
 
 # Spawn node subprocess
-regenerate_clients = _args.refresh and "true" or "false"
-call(["bash", "%s/resource/bash/run.sh %s %s" % (ROOT_PROJECT, regenerate_clients, DB_DATE_VERSION) ])
+call(["bash", "%s/resource/bash/run.sh %s %s" % (ROOT_PROJECT, MONGO_HOST, DB_DATE_VERSION) ])

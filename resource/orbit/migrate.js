@@ -10,11 +10,10 @@ const crypto = require("crypto");
 
 args = process.argv.slice(2);
 const MAX_CHUNKS = 1000
-const MONGO_DB = 'watchit_mongo'
-const SKIP_CLIENTS = args[0] !== 'false';
+const SKIP_CLIENTS = true
+const MONGO_DB = args[0] || 'watchit_mongo'
 const SOURCE_DB = args[1] || 'witth20201124';
 const RECREATE = args[2] !== 'false';
-const DB_MOVIES = args[3] || 'wt.movies.db';
 
 (async () => {
     try {
@@ -167,7 +166,6 @@ const DB_MOVIES = args[3] || 'wt.movies.db';
 
             await client.close();
             console.log('Closed db..');
-            // heapdump.writeSnapshot();
         });
 
     } catch (err) {
