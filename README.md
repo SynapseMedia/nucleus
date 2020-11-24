@@ -19,7 +19,7 @@ Gateway Watchit Seeder
 
 *Now lets get init and set bootstrap ipfs node. Run ipfs daemon as background and expose our node tu ipfs network with orbitdb migration*
 
-2) `bash ./resource/bash/run.sh`
+2) `bash ./resource/bash/run.sh {DB_VERSION_DATE ex: format YYMMDD (20201124)}`
 
 # watchit-app
 

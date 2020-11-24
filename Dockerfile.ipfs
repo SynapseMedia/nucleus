@@ -1,0 +1,6 @@
+FROM ipfs/go-ipfs:v0.6.0
+ENV IPFS_PROFILE server
+ENV IPFS_PATH /data/ipfs
+
+COPY ./resource/bash/init_ipfs.sh /usr/local/bin/start_ipfs
+CMD ["daemon", "--migrate=true", "--enable-pubsub-experiment"]

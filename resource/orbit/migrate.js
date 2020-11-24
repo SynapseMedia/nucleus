@@ -10,7 +10,7 @@ const crypto = require("crypto");
 
 args = process.argv.slice(2);
 const SKIP_CLIENTS = args[0] !== 'false';
-const SOURCE_DB = args[1] || 'witth20200930';
+const SOURCE_DB = args[1] || 'witth20201124';
 const RECREATE = args[2] !== 'false';
 const DB_MOVIES = args[3] || 'wt.movies.db';
 

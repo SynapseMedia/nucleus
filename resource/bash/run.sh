@@ -10,4 +10,4 @@ docker-compose exec watchit_mongo mongo --eval 'db.adminCommand({setParameter: 1
 docker-compose exec watchit_mongo mongo --eval 'db.adminCommand({setParameter: 1, internalQueryMaxBlockingSortMemoryUsageBytes:1048576000})' > /dev/null
 
 # Run migration and expose orbit forever
-forever start resource/orbit/migrate.js false
+forever start resource/orbit/migrate.js false $1

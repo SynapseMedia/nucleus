@@ -51,7 +51,6 @@ else
 
   # Unset the swarm key file variable
   unset IPFS_SWARM_KEY_FILE
-
   ipfs config Datastore.StorageMax 10GB
   ipfs config Datastore.BloomFilterSize 1048576 --json
   ipfs config Swarm.EnableAutoRelay true --json
@@ -76,4 +75,4 @@ else
 
 fi
 
-exec ipfs "$@" --enable-pubsub-experiment
+exec ipfs "$@"
