@@ -13,13 +13,11 @@ Gateway Watchit Seeder
 
 ## How
 
-*Start docker containers and starts movies migration to mongodb (Please wait until movies get ready migrated)*
+*Start docker containers and starts movies migration. *
+> Init and start bootstrap ipfs node. 
+> (Please wait until movies get ready migrated)
 
-1) `docker-compose up`
-
-*Now lets get init and set bootstrap ipfs node. Run ipfs daemon as background and expose our node tu ipfs network with orbitdb migration*
-
-2) `bash ./resource/bash/run.sh {DB_VERSION_DATE ex: format YYMMDD (20201124)}`
+`docker-compose up`
 
 # watchit-app
 
