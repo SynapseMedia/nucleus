@@ -41,6 +41,7 @@ if __name__ == '__main__':
     print('\nSetting mongodb')
     _mongo = MongoClient('mongodb://' + MONGO_HOST + ':' + str(MONGO_PORT) + '/witth' + DB_DATE_VERSION)
     _mongo_db = _mongo['witth' + DB_DATE_VERSION]
+    _migration_result = []
 
     def write_subs(migration_result, save_subs={}, index='default'):
         for v in migration_result:
@@ -97,6 +98,5 @@ if __name__ == '__main__':
     print("\n\033[92mMigration Complete:\033[0m")
     print('Entries yts indexed: ' + str(len(_migration_result)))
 
-
-# Spawn node subprocess
-call(["npm", "run", "migrate %s %s" % (MONGO_HOST, DB_DATE_VERSION) ])
+    # Spawn node subprocess
+    call(["node", "%s/resource/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST, DB_DATE_VERSION], shell=False)
