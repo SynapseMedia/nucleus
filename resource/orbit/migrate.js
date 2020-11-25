@@ -1,19 +1,20 @@
+args = process.argv.slice(2);
+const MAX_CHUNKS = 1000
+const SKIP_CLIENTS = false
+const MONGO_DB = args[0] || 'watchit_mongo'
+const IPFS_NODE = args[2] || 'watchit_ipfs'
+const SOURCE_DB = args[1] || 'witth20201124';
+const RECREATE = args[3] !== 'false';
+
 const fs = require('fs');
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
 const MongoClient = require('mongodb').MongoClient;
 const createHash = require('hash-generator');
-const ipfs = IpfsApi({host: 'watchit_ipfs', port: '5001', protocol: 'http'});
+const ipfs = IpfsApi({host: IPFS_NODE, port: '5001', protocol: 'http'});
 const msgpack = require("msgpack-lite");
 const keypair = require("keypair");
 const crypto = require("crypto");
-
-args = process.argv.slice(2);
-const MAX_CHUNKS = 1000
-const SKIP_CLIENTS = false
-const MONGO_DB = args[0] || 'watchit_mongo'
-const SOURCE_DB = args[1] || 'witth20201124';
-const RECREATE = args[2] !== 'false';
 
 (async () => {
     try {
