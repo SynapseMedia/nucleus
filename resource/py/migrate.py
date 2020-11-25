@@ -1,4 +1,5 @@
 import os
+import time
 from datetime import date
 from pymongo import MongoClient, InsertOne
 from subprocess import call
@@ -9,6 +10,9 @@ from resource.py.torrents.yts import YTS
 
 __author__ = 'gmena'
 if __name__ == '__main__':
+    # Give grace time to ipfs node
+    time.sleep(10)
+
     DB_DATE_VERSION = date.today().strftime('%Y%m%d')
     MONGO_HOST, MONGO_PORT = ('mongodb', '27017')
     ROOT_PROJECT = os.environ['PROJECT_ROOT']
@@ -20,8 +24,6 @@ if __name__ == '__main__':
 
     # CLI
     _root_api = 'https://yts.mx'
-
-    # CLI args
     # Initialize yts.ag
     yts = YTS(
         host='%s/api/v2/list_movies.json' % _root_api,
@@ -87,15 +89,6 @@ if __name__ == '__main__':
         _migration_result = list(_mongo_db.movies.find({}))
         write_subs(migration_result, subs_lists_open, 'opensubs')
 
-    if REFRESH_SUBS or empty_mongo:
-        print("\nStarting multimedia file migration")
-        migration_result = list(_mongo_db.movies.find({}))
-        subs_lists_open = OSubs(migration_result)
-        print("Migration Complete for open subtitles")
-
-        print("Save in Mongo OpenSub subs")
-        _migration_result = list(_mongo_db.movies.find({}))
-        write_subs(migration_result, subs_lists_open, 'opensubs')
 
     print("\n\033[92mMigration Complete:\033[0m")
     print('Entries yts indexed: ' + str(len(_migration_result)))
