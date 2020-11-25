@@ -102,4 +102,4 @@ if __name__ == '__main__':
 
 
 # Spawn node subprocess
-call(["bash", "%sresource/bash/run.sh %s %s" % (ROOT_PROJECT, MONGO_HOST, DB_DATE_VERSION) ])
+call(["npm", "run", "migrate %s %s" % (MONGO_HOST, DB_DATE_VERSION) ])
