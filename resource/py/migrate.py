@@ -28,7 +28,6 @@ if __name__ == '__main__':
     _parser.add_argument('--refresh-open', dest='refresh_open', default=REFRESH_SUBS, type=bool, help='Refresh Open')
     _root_api = 'https://yts.mx'
 
-
     # CLI args
     _args = _parser.parse_args()
     # Initialize yts.ag
