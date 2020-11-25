@@ -1,20 +1,23 @@
 version: '3'
 services:
   watchit_ipfs:
-    image: gmena/node:v1.0.0
+    image: gmena/node:v1.0.1
     restart: unless-stopped
     ports:
       - "4001:4001"
       - "4002:4002"
-      - "8080:8080"
-      - "5001:5001"
+      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:5001:5001"
 
   watchit_migrator:
-    image: gmena/migrate:v1.0.6
+    image: gmena/migrate:v1.0.12
     container_name: watchit_migrator
     command: python3 resource/py/migrate.py
+    links:
+      - "watchit_mongodb:mongodb"
+      - "watchit_ipfs:ipfs"
     volumes:
-    - .:/data/watchit
+      - .:/data/watchit
     env_file:
       - .env
     depends_on:

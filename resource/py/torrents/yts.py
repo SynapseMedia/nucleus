@@ -2,6 +2,8 @@ import requests
 from contextlib import contextmanager
 from multiprocessing import Pool
 
+from resource.py.media.ingest import ingest_ipfs
+
 __author__ = 'gmena'
 
 
@@ -90,6 +92,25 @@ class YTS(object):
             for x, y in results.items():
                 yield x, y.get()
 
+    @staticmethod
+    def ingest_media(mv):
+
+        media_dir = '/%s' % mv['imdb_code']
+        image_index = [
+            "background_image", "background_image_original",
+            "small_cover_image", "medium_cover_image", "large_cover_image"
+        ]
+
+        mv = {**mv, **{ # Merge the ingested files
+            x: ingest_ipfs(mv[x], "%s/%s.jpg" % (media_dir, x))
+            for x in image_index
+        }}
+
+        for torrent in mv['torrents']:
+            torrent_dir = '/%s/%s/%s' % (media_dir, torrent['quality'], torrent['hash'])
+            torrent['hash'] = ingest_ipfs(torrent['url'], torrent_dir)
+        return mv
+
     def migrate(self, resource_name: str):
         """
         Elastic migrate
@@ -106,6 +127,7 @@ class YTS(object):
                     movie_meta['resource_id'] = movie_meta['id']
                     movie_meta['resource_name'] = resource_name
                     movie_meta['trailer_code'] = movie_meta['yt_trailer_code']
+                    movie_meta = YTS.ingest_media(movie_meta)
 
                     del movie_meta['yt_trailer_code']
                     del movie_meta['id']
