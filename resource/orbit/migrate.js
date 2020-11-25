@@ -31,7 +31,6 @@ const crypto = require("crypto");
         // Create OrbitDB instance
         const DB_NAME = SOURCE_DB;
         const orbitdb = await OrbitDB.createInstance(ipfs);
-        //const ACCOUNTS = 1;
         const ACCOUNTS_SIZE = 5
         const DAG_LINKS_SIZE = 2
 
@@ -120,7 +119,6 @@ const crypto = require("crypto");
             const size = await cursor.count();
             const data = chunkGen(await cursor.toArray(), MAX_CHUNKS);
             console.log('Total movies:', size)
-
 
             for (const chunk of data) {
                 console.log('Starting');
