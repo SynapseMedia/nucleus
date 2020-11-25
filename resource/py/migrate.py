@@ -1,8 +1,6 @@
 import os
 # import sys
-
 import argparse
-import ipdb
 from subprocess import call
 from datetime import date
 from pymongo import MongoClient, InsertOne, UpdateOne

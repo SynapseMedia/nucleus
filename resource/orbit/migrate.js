@@ -1,6 +1,8 @@
 args = process.argv.slice(2);
+
 const MAX_CHUNKS = 1000
 const SKIP_CLIENTS = false
+const DB_MOVIES = 'wt.movies.db'
 const MONGO_DB = args[0] || 'watchit_mongo'
 const IPFS_NODE = args[2] || 'watchit_ipfs'
 const SOURCE_DB = args[1] || 'witth20201124';
@@ -95,7 +97,7 @@ const crypto = require("crypto");
 
             // Hold base hash
             let clientAddr = rootNode.toString();
-            fs.appendFileSync('hash', dbAddr.split('/')[2]);
+            fs.writeFileSync('hash', dbAddr.split('/')[2]);
             // Save clients in file
             for (const chain of collectionChain) // Append client data
                 fs.appendFileSync('clients', `${clientAddr}.${chain}`);
