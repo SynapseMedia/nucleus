@@ -68,4 +68,4 @@ def ingest_ipfs(uri, _dir):
     """
     directory = download_file(uri, _dir)
     print('Adding IPFS file:', directory)
-    return ipfs.add(directory)['Hash']
+    return ipfs.add(directory, pin=True)['Hash']
