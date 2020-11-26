@@ -67,5 +67,5 @@ def ingest_ipfs(uri, _dir):
     :return:
     """
     directory = download_file(uri, _dir)
-    print('Adding IPFS file:', directory)
+    print('Adding IPFS file:', directory, '\n')
     return ipfs.add(directory)['Hash']

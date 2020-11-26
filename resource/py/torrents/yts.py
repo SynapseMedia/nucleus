@@ -116,10 +116,18 @@ class YTS(object):
 
     @staticmethod
     def process_ingestion(yts_movies_indexed):
-        for x in yts_movies_indexed:
-            yts_movies_indexed[x] = YTS.ingest_media(
-                yts_movies_indexed[x]
-            )
+        with Pool(processes=10) as pool:
+            p_async = pool.apply_async
+            results = {x: p_async( # Pool process ingest
+                YTS.ingest_media, args=(yts_movies_indexed[x],)
+            ) for x in yts_movies_indexed}
+
+            pool.close()
+            pool.join()
+
+            return { # Generate ingestion dict
+                x: y.get() for x, y in results.items()
+            }
 
     @contextmanager
     def migrate(self, resource_name: str):
