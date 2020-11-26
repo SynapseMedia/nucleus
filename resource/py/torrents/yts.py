@@ -143,8 +143,10 @@ class YTS(object):
                     del movie_meta['id']
                     del movie_meta['state']
                     del movie_meta['url']
-                    # Push indexed
-                    self.yts_movies_indexed[movie_meta['imdb_code']] = movie_meta
+                    # Push indexed movie
+                    self.yts_movies_indexed[
+                        movie_meta['imdb_code']
+                    ] = movie_meta
 
         # Return result
         return YTS.process_ingestion(
