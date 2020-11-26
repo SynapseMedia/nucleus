@@ -110,7 +110,7 @@ class YTS(object):
         for torrent in mv['torrents']:
             torrent_dir = '%s/%s/%s' % (media_dir, torrent['quality'], torrent['hash'])
             torrent['hash'] = ingest_ipfs(torrent['url'], torrent_dir)
-            print('IPFS torrent hash for %s: %s' % (mv['imdb_code'], torrent['hash']))
+            print('IPFS torrent hash for %s: %s' % (mv['imdb_code'], torrent['hash']), '\n')
 
         return mv
 
