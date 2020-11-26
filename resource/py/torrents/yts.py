@@ -1,6 +1,5 @@
 import requests
 from contextlib import contextmanager
-from multiprocessing import Pool
 
 from resource.py.media.ingest import ingest_ipfs
 
@@ -28,8 +27,8 @@ class YTS(object):
         """
         # Request yifi
         _request: str = self.YTS_HOST + ('?%s' % query_string if query_string else '')
-        _cookie = 'adcashufpv3=17981512371092097718392042062; __atuvc=0%7C33%2C0%7C34%2C1%7C35%2C0%7C36%2C1%7C37; __cfduid=d482a2a492e144c0c7ed075d4dcad6ced1601498497; PHPSESSID=072ncmi79u10em13b129jq5n13'
-        _agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'
+        _cookie = '__cfduid=d69cbd9b1eab1aac23ce5bdf7b56d617e1605989262; adcashufpv3=17981512371092097718392042062; PHPSESSID=algs7ie2teub9v8ebpeg5rrrp9; __atuvc=1%7C47%2C3%7C48'
+        _agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'
 
         try:
             conn = self.req_session.get(
@@ -75,22 +74,12 @@ class YTS(object):
 
             print("\033[92mRequesting", str(total_pages), '\033[0m')
             page_list = range(total_pages)
-            pool = Pool(processes=10)
-            p_async = pool.apply_async
             results = {}
 
             # Generate async pools
             for x in page_list:
-                results[x] = p_async(
-                    self.get_movies, args=(x,)
-                )
-
-            # Close pool
-            pool.close()
-            pool.join()
-            # Generate dict with data
-            for x, y in results.items():
-                yield x, y.get()
+                results[x] = self.get_movies(x)
+            yield results.items()
 
     @staticmethod
     def ingest_media(mv):
@@ -101,13 +90,13 @@ class YTS(object):
             "small_cover_image", "medium_cover_image", "large_cover_image"
         ]
 
-        mv = {**mv, **{ # Merge the ingested files
+        mv = {**mv, **{  # Merge the ingested files
             x: ingest_ipfs(mv[x], "%s/%s.jpg" % (media_dir, x))
             for x in image_index
         }}
 
         for torrent in mv['torrents']:
-            torrent_dir = '/%s/%s/%s' % (media_dir, torrent['quality'], torrent['hash'])
+            torrent_dir = '%s/%s/%s' % (media_dir, torrent['quality'], torrent['hash'])
             torrent['hash'] = ingest_ipfs(torrent['url'], torrent_dir)
             print('IPFS torrent hash for %s: %s' % (mv['imdb_code'], torrent['hash']))
 
@@ -129,14 +118,17 @@ class YTS(object):
                     movie_meta['resource_id'] = movie_meta['id']
                     movie_meta['resource_name'] = resource_name
                     movie_meta['trailer_code'] = movie_meta['yt_trailer_code']
-                    movie_meta = YTS.ingest_media(movie_meta)
+                    _movie_meta = YTS.ingest_media(movie_meta)
 
-                    del movie_meta['yt_trailer_code']
-                    del movie_meta['id']
-                    del movie_meta['state']
-                    del movie_meta['url']
+                    del _movie_meta['yt_trailer_code']
+                    del _movie_meta['id']
+                    del _movie_meta['state']
+                    del _movie_meta['url']
+
                     # Push indexed
-                    self.yts_movies_indexed[movie_meta['imdb_code']] = movie_meta
+                    self.yts_movies_indexed[
+                        _movie_meta['imdb_code']
+                    ] = _movie_meta
 
         # Return result
         return self.yts_movies_indexed

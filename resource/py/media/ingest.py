@@ -15,9 +15,12 @@ _agents = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A'
 ]
 
-session = requests.Session()
-ipfs = ipfshttpclient.connect('/dns/ipfs/tcp/5001/http', session=True)
-root_path = os.path.dirname(os.path.realpath(__file__))
+try:
+    ipfs = ipfshttpclient.connect('/dns/ipfs/tcp/5001/http')
+    root_path = os.path.dirname(os.path.realpath(__file__))
+    print(ipfs.id())
+except ipfshttpclient.exceptions.ConnectionError:
+    exit(0)
 
 
 def download_file(uri, _dir):
@@ -27,6 +30,7 @@ def download_file(uri, _dir):
     :param _dir:
     :return:
     """
+    session = requests.Session()
     directory = "%s/torrents%s" % (root_path, _dir)
     dirname = os.path.dirname(directory)
     file_check = Path(directory)
@@ -34,7 +38,7 @@ def download_file(uri, _dir):
     # already exists?
     if file_check.is_file():
         print("Existing file: ", directory)
-        return _dir
+        return directory
 
     # Create if not exist dir
     Path(dirname).mkdir(parents=True, exist_ok=True)
@@ -51,15 +55,17 @@ def download_file(uri, _dir):
             out.write(block)
         out.close()
 
+    print('File stored in:', directory)
     return directory
 
 
-def ingest_ipfs(uri, directory):
+def ingest_ipfs(uri, _dir):
     """
     Go and conquer the world little child!!
-    :param directory:
+    :param uri:
+    :param _dir:
     :return:
     """
-    directory = download_file(uri, directory)
+    directory = download_file(uri, _dir)
     print('Adding IPFS file:', directory)
     return ipfs.add(directory)['Hash']

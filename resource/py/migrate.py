@@ -3,15 +3,12 @@ import time
 from datetime import date
 from pymongo import MongoClient, InsertOne
 from subprocess import call
-
 from resource.py.subs.opensubs import migrate as OSubs
 from resource.py.subs.yifisubs import YSubs
 from resource.py.torrents.yts import YTS
 
 __author__ = 'gmena'
 if __name__ == '__main__':
-    # Give grace time to ipfs node
-    time.sleep(10)
 
     DB_DATE_VERSION = date.today().strftime('%Y%m%d')
     MONGO_HOST, MONGO_PORT = ('mongodb', '27017')

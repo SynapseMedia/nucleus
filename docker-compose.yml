@@ -12,6 +12,7 @@ services:
   watchit_migrator:
     image: gmena/migrate:v1.0.12
     container_name: watchit_migrator
+    restart: unless-stopped
     command: python3 resource/py/migrate.py
     links:
       - "watchit_mongodb:mongodb"
