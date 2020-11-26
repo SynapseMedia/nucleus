@@ -1,5 +1,6 @@
 import requests
 from contextlib import contextmanager
+from multiprocessing import Pool
 
 from resource.py.media.ingest import ingest_ipfs
 
@@ -74,12 +75,23 @@ class YTS(object):
 
             print("\033[92mRequesting", str(total_pages), '\033[0m')
             page_list = range(total_pages)
-            results = {}
 
-            # Generate async pools
-            for x in page_list:
-                results[x] = self.get_movies(x)
-            yield results.items()
+            with Pool(processes=10) as pool:
+                p_async = pool.apply_async
+                results = {}
+
+                # Generate async pools
+                for x in page_list:
+                    results[x] = p_async(
+                        self.get_movies, args=(x,)
+                    )
+
+                # Close pool
+                pool.close()
+                pool.join()
+            # Generate dict with data
+            for x, y in results.items():
+                yield x, y.get()
 
     @staticmethod
     def ingest_media(mv):
@@ -102,6 +114,14 @@ class YTS(object):
 
         return mv
 
+    @staticmethod
+    def process_ingestion(yts_movies_indexed):
+        for x in yts_movies_indexed:
+            yts_movies_indexed[x] = YTS.ingest_media(
+                yts_movies_indexed[x]
+            )
+
+    @contextmanager
     def migrate(self, resource_name: str):
         """
         Elastic migrate
@@ -118,17 +138,15 @@ class YTS(object):
                     movie_meta['resource_id'] = movie_meta['id']
                     movie_meta['resource_name'] = resource_name
                     movie_meta['trailer_code'] = movie_meta['yt_trailer_code']
-                    _movie_meta = YTS.ingest_media(movie_meta)
 
-                    del _movie_meta['yt_trailer_code']
-                    del _movie_meta['id']
-                    del _movie_meta['state']
-                    del _movie_meta['url']
-
+                    del movie_meta['yt_trailer_code']
+                    del movie_meta['id']
+                    del movie_meta['state']
+                    del movie_meta['url']
                     # Push indexed
-                    self.yts_movies_indexed[
-                        _movie_meta['imdb_code']
-                    ] = _movie_meta
+                    self.yts_movies_indexed[movie_meta['imdb_code']] = movie_meta
 
         # Return result
-        return self.yts_movies_indexed
+        return YTS.process_ingestion(
+            self.yts_movies_indexed
+        )
