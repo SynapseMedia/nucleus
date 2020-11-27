@@ -1,3 +1,4 @@
+import csv
 import ipfshttpclient
 import os
 import random
@@ -23,6 +24,12 @@ try:
     print(ipfs.id())
 except ipfshttpclient.exceptions.ConnectionError:
     exit(0)
+
+
+def get_pb_domain_set(csv_file='pd_movies.csv'):
+    with open(f"{root_path}/{csv_file}", 'r') as f:
+        reader = csv.reader(f)
+        return set([row[1] for row in reader])
 
 
 def download_file(uri, _dir):

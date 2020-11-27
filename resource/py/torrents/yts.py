@@ -3,7 +3,7 @@ from contextlib import contextmanager
 from multiprocessing import Pool
 
 from resource.py import Log
-from resource.py.media.ingest import download_file, ingest_dir
+from resource.py.media.ingest import download_file, ingest_dir, get_pb_domain_set
 
 __author__ = 'gmena'
 
@@ -19,6 +19,7 @@ class YTS(object):
         self.yts_recursive_page = page  # start page
         self.yts_movies_indexed = dict()  # indexed
         self.req_session = requests.Session()
+        self.pb_match = get_pb_domain_set()
 
     @contextmanager
     def request(self, query_string=None):
@@ -94,37 +95,42 @@ class YTS(object):
             for x, y in results.items():
                 yield x, y.get()
 
-    @staticmethod
-    def ingest_media(mv):
+    def ingest_media(self, mv):
         print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
         # Downloading files
-        media_dir = mv['imdb_code']
+        current_imdb_code = mv['imdb_code']
+        current_imdb_code_set = set(current_imdb_code)
+        public_domain_movie = self.pb_match.intersection(current_imdb_code_set)
+
         image_index = [
             "background_image", "background_image_original",
             "small_cover_image", "medium_cover_image", "large_cover_image"
         ]
 
         for x in image_index:  # Download all image assets
-            download_file(mv[x], "%s/%s.jpg" % (media_dir, x))
+            download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
             del mv[x]
 
         for torrent in mv['torrents']:
-            torrent_dir = '%s/%s/%s' % (media_dir, torrent['quality'], torrent['hash'])
+            torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])
             download_file(torrent['url'], torrent_dir)
 
         del mv['torrents']
-        hash_directory = ingest_dir(media_dir)
+        hash_directory = ingest_dir(current_imdb_code)
         mv['hash'] = hash_directory
+        mv['pdm'] = bool(public_domain_movie)
+
         # Logs on ready ingested
+        print(f"Public domain movie? {Log.BOLD}{bool(public_domain_movie)}{Log.ENDC}")
+        print(f"Hash ready for {current_imdb_code}: {hash_directory}")
         print(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}\n")
         return mv
 
-    @staticmethod
-    def process_ingestion(yts_movies_indexed):
-        with Pool(processes=5) as pool:
+    def process_ingestion(self,yts_movies_indexed):
+        with Pool(processes=2) as pool:
             p_async = pool.apply_async
             results = {x: p_async(  # Pool process ingest
-                YTS.ingest_media, args=(yts_movies_indexed[x],)
+                self.ingest_media, args=(yts_movies_indexed[x],)
             ) for x in yts_movies_indexed}
 
             pool.close()
@@ -162,6 +168,6 @@ class YTS(object):
                     ] = movie_meta
 
         # Return result
-        return YTS.process_ingestion(
+        return self.process_ingestion(
             self.yts_movies_indexed
         )
