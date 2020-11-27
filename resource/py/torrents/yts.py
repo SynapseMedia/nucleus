@@ -74,7 +74,7 @@ class YTS(object):
             total_pages = round(int(ping['data']['movie_count']) / self.YTS_RECURSIVE_LIMIT)
             total_pages = total_pages if self.yts_recursive_page == 0 else self.yts_recursive_page
 
-            print(f"{Log.HEADER}Requesting {str(total_pages)} {Log.ENDC}")
+            print(f"{Log.HEADER}Requesting {str(total_pages)} pages {Log.ENDC}")
             page_list = range(total_pages)
 
             with Pool(processes=10) as pool:
@@ -96,7 +96,7 @@ class YTS(object):
 
     @staticmethod
     def ingest_media(mv):
-        print(f"\n {Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
+        print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
         media_dir = '/%s' % mv['imdb_code']
         image_index = [
             "background_image", "background_image_original",
@@ -113,7 +113,7 @@ class YTS(object):
             torrent['hash'] = ingest_ipfs(torrent['url'], torrent_dir)
 
         # Logs on ready ingested
-        print(f"{Log.WARNING}Done {mv['imdb_code']}{Log.ENDC}\n")
+        print(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}\n")
         return mv
 
     @staticmethod
