@@ -3,8 +3,8 @@
 # Getting started
 * If you don’t have Go, [install it](https://golang.org/doc/install).
 * If you don’t have IPFS , [install it](https://github.com/ipfs/go-ipfs#install).
-* Look [into this example](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/) how to spawn an IPFS node in Node.js and in the Browser
-* Look [into this example](https://mrh.io/ipfs-private-networks/) how to spawn an IPFS private node and generate swarm key
+* [How to spawn an IPFS node in Node.js and in the Browser](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/) 
+* [Wow to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/) 
 
 
 
