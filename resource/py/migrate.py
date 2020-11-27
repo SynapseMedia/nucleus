@@ -56,7 +56,7 @@ if __name__ == '__main__':
     empty_mongo = _mongo_db.movies.find({}).count() == 0
     if REFRESH_MOVIES or empty_mongo:
         print('Rewriting...')
-        print(f"\n{Log.WARNING}Starting migrations from yts.mx {DB_DATE_VERSION}{Log.ENDC}")
+        print(f"\n{Log.BOLD}Starting migrations from yts.mx {DB_DATE_VERSION}{Log.ENDC}")
         # The result of migration
         _migration_result = yts.migrate(resource_name='yts')
         print(f"\n{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
