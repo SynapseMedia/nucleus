@@ -18,7 +18,6 @@ if __name__ == '__main__':
     STEP_PAGE = int(os.environ.get('STEP_PAGE', 50))
     REFRESH_MOVIES = os.environ.get('REFRESH_MOVIES', 'False') == 'True'
     REFRESH_SUBS = os.environ.get('REFRESH_SUBS', 'False') == 'True'
-    print("\nRunning %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
 
     # CLI
     _root_api = 'https://yts.mx'
@@ -30,6 +29,7 @@ if __name__ == '__main__':
 
     # Setting mongo
     print('\nSetting mongodb')
+    print("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
     _mongo = MongoClient('mongodb://' + MONGO_HOST + ':' + str(MONGO_PORT) + '/witth' + DB_DATE_VERSION)
     _mongo_db = _mongo['witth' + DB_DATE_VERSION]
     _migration_result = []
