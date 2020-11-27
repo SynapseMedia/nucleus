@@ -42,7 +42,7 @@ def download_file(uri, _dir):
         print(f"{Log.FAIL}File already exists: {_dir}{Log.ENDC}")
         return directory
 
-    print(f"{Log.OKGREEN}Downloading file:{directory}{Log.ENDC}")
+    print(f"{Log.OKGREEN}Downloading file: {directory}{Log.ENDC}")
     # Create if not exist dir
     Path(dirname).mkdir(parents=True, exist_ok=True)
     response = session.get(uri, verify=True, timeout=60, headers={
@@ -71,6 +71,6 @@ def ingest_ipfs(uri, _dir):
     """
     directory = download_file(uri, _dir)
     hash = ipfs.add(directory, pin=True)['Hash']
-    print(f"{Log.WARNING}Adding file: {_dir}{Log.ENDC}")
-    print(f"{Log.WARNING}IPFS hash: {hash}")
+    print(f"{Log.WARNING}Ingesting file: {_dir}{Log.ENDC}")
+    print(f"{Log.WARNING}IPFS hash: {hash}\n")
     return hash

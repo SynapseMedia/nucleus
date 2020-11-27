@@ -96,7 +96,7 @@ class YTS(object):
 
     @staticmethod
     def ingest_media(mv):
-        print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
+        print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}\n")
         media_dir = '/%s' % mv['imdb_code']
         image_index = [
             "background_image", "background_image_original",
