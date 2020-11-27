@@ -4,6 +4,8 @@ import random
 import requests
 from pathlib import Path
 
+from resource.py import Log
+
 __author__ = 'gmena'
 # Session keep alive
 # http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
@@ -37,9 +39,10 @@ def download_file(uri, _dir):
 
     # already exists?
     if file_check.is_file():
-        print("Existing file: ", directory)
+        print(f"{Log.UNDERLINE}File already exists: {directory}{Log.ENDC}")
         return directory
 
+    print(f"{Log.UNDERLINE}Downloading file:{directory}{Log.ENDC}")
     # Create if not exist dir
     Path(dirname).mkdir(parents=True, exist_ok=True)
     response = session.get(uri, verify=True, timeout=60, headers={
@@ -55,7 +58,7 @@ def download_file(uri, _dir):
             out.write(block)
         out.close()
 
-    print('File stored in:', directory)
+    print(f"{Log.UNDERLINE}File stored in: {directory}{Log.ENDC}")
     return directory
 
 
@@ -67,5 +70,7 @@ def ingest_ipfs(uri, _dir):
     :return:
     """
     directory = download_file(uri, _dir)
-    print('Adding IPFS file:', directory)
-    return ipfs.add(directory, pin=True)['Hash']
+    hash = ipfs.add(directory, pin=True)['Hash']
+    print(f"{Log.WARNING}Adding file: {directory}{Log.ENDC}")
+    print(f"{Log.WARNING}IPFS hash for {_dir}")
+    return hash

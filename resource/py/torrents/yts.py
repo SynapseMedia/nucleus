@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from multiprocessing import Pool
 
 from resource.py.media.ingest import ingest_ipfs
+from resource.py import Log
 
 __author__ = 'gmena'
 
@@ -50,7 +51,7 @@ class YTS(object):
 
     def get_movies(self, page):
         # Req YTS
-        print("\033[92mRequesting page", str(page), '\033[0m')
+        print(f"Requesting page {str(page)}")
         _uri = 'page=' + str(page) + '&limit=' + str(self.YTS_RECURSIVE_LIMIT) + '&sort=date_added'
         with self.request(_uri) as conn_result:
             # OK 200?
@@ -73,7 +74,7 @@ class YTS(object):
             total_pages = round(int(ping['data']['movie_count']) / self.YTS_RECURSIVE_LIMIT)
             total_pages = total_pages if self.yts_recursive_page == 0 else self.yts_recursive_page
 
-            print("\033[92mRequesting", str(total_pages), '\033[0m')
+            print(f"{Log.HEADER}Requesting {str(total_pages)} {Log.ENDC}")
             page_list = range(total_pages)
 
             with Pool(processes=10) as pool:
@@ -95,7 +96,7 @@ class YTS(object):
 
     @staticmethod
     def ingest_media(mv):
-
+        print(f"\n {Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
         media_dir = '/%s' % mv['imdb_code']
         image_index = [
             "background_image", "background_image_original",
@@ -110,22 +111,23 @@ class YTS(object):
         for torrent in mv['torrents']:
             torrent_dir = '%s/%s/%s' % (media_dir, torrent['quality'], torrent['hash'])
             torrent['hash'] = ingest_ipfs(torrent['url'], torrent_dir)
-            print('IPFS torrent hash for %s: %s' % (mv['imdb_code'], torrent['hash']), '\n')
 
+        # Logs on ready ingested
+        print(f"{Log.WARNING}Done {mv['imdb_code']}{Log.ENDC}\n")
         return mv
 
     @staticmethod
     def process_ingestion(yts_movies_indexed):
-        with Pool(processes=10) as pool:
+        with Pool(processes=5) as pool:
             p_async = pool.apply_async
-            results = {x: p_async( # Pool process ingest
+            results = {x: p_async(  # Pool process ingest
                 YTS.ingest_media, args=(yts_movies_indexed[x],)
             ) for x in yts_movies_indexed}
 
             pool.close()
             pool.join()
 
-            return { # Generate ingestion dict
+            return {  # Generate ingestion dict
                 x: y.get() for x, y in results.items()
             }
 
