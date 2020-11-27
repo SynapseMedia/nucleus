@@ -84,8 +84,8 @@ if __name__ == '__main__':
         _migration_result = list(_mongo_db.movies.find({}))
         write_subs(migration_result, subs_lists_open, 'opensubs')
 
-    print("\n\033[92mMigration Complete:\033[0m")
-    print('Entries yts indexed: ' + str(len(_migration_result)))
+    print(f"{Log.BOLD}Migration Complete:{Log.ENDC}")
+    print(f"{Log.UNDERLINE}Entries yts indexed: {len(_migration_result)}{Log.ENDC}")
 
     # Spawn node subprocess
     call(["node", "%s/resource/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST, DB_DATE_VERSION], shell=False)
