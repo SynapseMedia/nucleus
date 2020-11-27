@@ -39,7 +39,7 @@ def download_file(uri, _dir):
 
     # already exists?
     if file_check.is_file():
-        print(f"{Log.FAIL}File already exists: {_dir}{Log.ENDC}")
+        print(f"{Log.WARNING}File already exists: {_dir}{Log.ENDC}")
         return directory
 
     print(f"{Log.OKGREEN}Downloading file: {directory}{Log.ENDC}")
@@ -71,6 +71,6 @@ def ingest_ipfs(uri, _dir):
     """
     directory = download_file(uri, _dir)
     hash = ipfs.add(directory, pin=True)['Hash']
-    print(f"{Log.WARNING}Ingesting file: {_dir}{Log.ENDC}")
-    print(f"{Log.WARNING}IPFS hash: {hash}\n")
+    print(f"Ingesting file: {Log.BOLD}{_dir}{Log.ENDC}")
+    print(f"IPFS hash: {Log.BOLD}{hash}{Log.ENDC}\n")
     return hash

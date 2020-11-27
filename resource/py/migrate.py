@@ -84,7 +84,7 @@ if __name__ == '__main__':
         _migration_result = list(_mongo_db.movies.find({}))
         write_subs(migration_result, subs_lists_open, 'opensubs')
 
-    print(f"{Log.BOLD}Migration Complete:{Log.ENDC}")
+    print(f"\n{Log.BOLD}Migration Complete:{Log.ENDC}")
     print(f"{Log.UNDERLINE}Entries yts indexed: {len(_migration_result)}{Log.ENDC}")
 
     # Spawn node subprocess
