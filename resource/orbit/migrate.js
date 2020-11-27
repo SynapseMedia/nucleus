@@ -4,7 +4,7 @@ const MAX_CHUNKS = 1000
 const SKIP_CLIENTS = false
 const DB_MOVIES = 'wt.movies.db'
 const MONGO_DB = args[0] || 'mongodb'
-const SOURCE_DB = args[1] || 'witth20201124';
+const SOURCE_DB = args[1] || 'witth';
 const IPFS_NODE = args[2] || 'ipfs'
 const RECREATE = args[3] !== 'false';
 

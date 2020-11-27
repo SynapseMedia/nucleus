@@ -30,7 +30,7 @@ if __name__ == '__main__':
     # Setting mongo
     print('\nSetting mongodb')
     print("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
-    _mongo = MongoClient('mongodb://' + MONGO_HOST + ':' + str(MONGO_PORT) + '/witth' + DB_DATE_VERSION)
+    _mongo = MongoClient('mongodb://' + MONGO_HOST + ':' + str(MONGO_PORT) + '/witth')
     _mongo_db = _mongo['witth' + DB_DATE_VERSION]
     _migration_result = []
 
@@ -88,4 +88,4 @@ if __name__ == '__main__':
     print(f"{Log.UNDERLINE}Entries yts indexed: {len(_migration_result)}{Log.ENDC}")
 
     # Spawn node subprocess
-    call(["node", "%s/resource/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST, DB_DATE_VERSION], shell=False)
+    call(["node", "%s/resource/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST], shell=False)
