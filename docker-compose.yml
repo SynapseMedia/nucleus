@@ -10,7 +10,7 @@ services:
       - "127.0.0.1:5001:5001"
 
   watchit_migrator:
-    image: gmena/migrate:v1.0.13
+    image: gmena/migrate:v1.0.14
     container_name: watchit_migrator
     restart: unless-stopped
     command: python3 resource/py/migrate.py
