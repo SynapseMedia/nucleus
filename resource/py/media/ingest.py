@@ -33,7 +33,7 @@ def download_file(uri, _dir):
     :return:
     """
     session = requests.Session()
-    directory = "%s/torrents%s" % (root_path, _dir)
+    directory = "%s/torrents/%s" % (root_path, _dir)
     dirname = os.path.dirname(directory)
     file_check = Path(directory)
 
@@ -42,7 +42,7 @@ def download_file(uri, _dir):
         print(f"{Log.WARNING}File already exists: {_dir}{Log.ENDC}")
         return directory
 
-    print(f"{Log.OKGREEN}Downloading file: {directory}{Log.ENDC}")
+    # print(f"{Log.OKGREEN}Downloading file: {directory}{Log.ENDC}")
     # Create if not exist dir
     Path(dirname).mkdir(parents=True, exist_ok=True)
     response = session.get(uri, verify=True, timeout=60, headers={
@@ -62,7 +62,21 @@ def download_file(uri, _dir):
     return directory
 
 
-def ingest_ipfs(uri, _dir):
+def ingest_dir(_dir):
+    """
+    Go and conquer the world little child!!:
+    :param _dir:
+    :return:
+    """
+    directory = "%s/torrents/%s" % (root_path, _dir)
+    print(f"Ingesting directory: {Log.BOLD}{_dir}{Log.ENDC}")
+    _hash = ipfs.add(directory, pin=True, recursive=True)
+    _hash = next(item for item in _hash if item['Name'] == _dir)['Hash']
+    print(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
+    return _hash
+
+
+def ingest_file(uri, _dir):
     """
     Go and conquer the world little child!!
     :param uri:
@@ -70,7 +84,7 @@ def ingest_ipfs(uri, _dir):
     :return:
     """
     directory = download_file(uri, _dir)
-    hash = ipfs.add(directory, pin=True)['Hash']
     print(f"Ingesting file: {Log.BOLD}{_dir}{Log.ENDC}")
-    print(f"IPFS hash: {Log.BOLD}{hash}{Log.ENDC}\n")
-    return hash
+    _hash = ipfs.add(directory, pin=True)['Hash']
+    print(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
+    return _hash

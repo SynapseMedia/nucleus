@@ -2,8 +2,8 @@ import requests
 from contextlib import contextmanager
 from multiprocessing import Pool
 
-from resource.py.media.ingest import ingest_ipfs
 from resource.py import Log
+from resource.py.media.ingest import download_file, ingest_dir
 
 __author__ = 'gmena'
 
@@ -96,22 +96,25 @@ class YTS(object):
 
     @staticmethod
     def ingest_media(mv):
-        print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}\n")
-        media_dir = '/%s' % mv['imdb_code']
+        print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
+        # Downloading files
+        media_dir = mv['imdb_code']
         image_index = [
             "background_image", "background_image_original",
             "small_cover_image", "medium_cover_image", "large_cover_image"
         ]
 
-        mv = {**mv, **{  # Merge the ingested files
-            x: ingest_ipfs(mv[x], "%s/%s.jpg" % (media_dir, x))
-            for x in image_index
-        }}
+        for x in image_index:  # Download all image assets
+            download_file(mv[x], "%s/%s.jpg" % (media_dir, x))
+            del mv[x]
 
         for torrent in mv['torrents']:
             torrent_dir = '%s/%s/%s' % (media_dir, torrent['quality'], torrent['hash'])
-            torrent['hash'] = ingest_ipfs(torrent['url'], torrent_dir)
+            download_file(torrent['url'], torrent_dir)
 
+        del mv['torrents']
+        hash_directory = ingest_dir(media_dir)
+        mv['hash'] = hash_directory
         # Logs on ready ingested
         print(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}\n")
         return mv
