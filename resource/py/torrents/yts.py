@@ -3,7 +3,7 @@ from contextlib import contextmanager
 from multiprocessing import Pool
 
 from resource.py import Log
-from resource.py.media.ingest import download_file, ingest_dir, get_pb_domain_set
+from resource.py.media.ingest import get_pb_domain_set
 
 __author__ = 'gmena'
 
@@ -30,7 +30,7 @@ class YTS(object):
         """
         # Request yifi
         _request: str = self.YTS_HOST + ('?%s' % query_string if query_string else '')
-        _cookie = '__cfduid=d69cbd9b1eab1aac23ce5bdf7b56d617e1605989262; adcashufpv3=17981512371092097718392042062; PHPSESSID=algs7ie2teub9v8ebpeg5rrrp9; __atuvc=1%7C47%2C3%7C48'
+        _cookie = '__cfduid=d69cbd9b1eab1aac23ce5bdf7b56d617e1605989262; adcashufpv3=17981512371092097718392042062; __atuvc=1%7C47%2C5%7C48; PHPSESSID=7r9dv1f37no3qj4dde5hf241h7'
         _agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'
 
         try:
@@ -95,52 +95,6 @@ class YTS(object):
             for x, y in results.items():
                 yield x, y.get()
 
-    def ingest_media(self, mv):
-        print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
-        # Downloading files
-        current_imdb_code = mv['imdb_code']
-        current_imdb_code_set = set(current_imdb_code)
-        public_domain_movie = self.pb_match.intersection(current_imdb_code_set)
-
-        image_index = [
-            "background_image", "background_image_original",
-            "small_cover_image", "medium_cover_image", "large_cover_image"
-        ]
-
-        for x in image_index:  # Download all image assets
-            download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
-            del mv[x]
-
-        for torrent in mv['torrents']:
-            torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])
-            download_file(torrent['url'], torrent_dir)
-
-        del mv['torrents']
-        hash_directory = ingest_dir(current_imdb_code)
-        mv['hash'] = hash_directory
-        mv['pdm'] = bool(public_domain_movie)
-
-        # Logs on ready ingested
-        print(f"Public domain movie? {Log.BOLD}{bool(public_domain_movie)}{Log.ENDC}")
-        print(f"Hash ready for {current_imdb_code}: {hash_directory}")
-        print(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}\n")
-        return mv
-
-    def process_ingestion(self,yts_movies_indexed):
-        with Pool(processes=2) as pool:
-            p_async = pool.apply_async
-            results = {x: p_async(  # Pool process ingest
-                self.ingest_media, args=(yts_movies_indexed[x],)
-            ) for x in yts_movies_indexed}
-
-            pool.close()
-            pool.join()
-
-            return {  # Generate ingestion dict
-                x: y.get() for x, y in results.items()
-            }
-
-    @contextmanager
     def migrate(self, resource_name: str):
         """
         Elastic migrate
@@ -149,25 +103,28 @@ class YTS(object):
         """
         # Get generator
         for page, movie_meta_iter in self.request_generator():
-            if movie_meta_iter:
-                for movie_meta in movie_meta_iter:
-                    print('indexing ' + movie_meta['title'])
-                    # Rewrite resource id
-                    movie_meta['page'] = page
-                    movie_meta['resource_id'] = movie_meta['id']
-                    movie_meta['resource_name'] = resource_name
-                    movie_meta['trailer_code'] = movie_meta['yt_trailer_code']
+            if not movie_meta_iter:
+                continue
+            for movie_meta in movie_meta_iter:
+                print('indexing ' + movie_meta['title'])
+                current_imdb_code_set = {movie_meta['imdb_code']}
+                public_domain_movie = self.pb_match.intersection(current_imdb_code_set)
 
-                    del movie_meta['yt_trailer_code']
-                    del movie_meta['id']
-                    del movie_meta['state']
-                    del movie_meta['url']
-                    # Push indexed movie
-                    self.yts_movies_indexed[
-                        movie_meta['imdb_code']
-                    ] = movie_meta
+                # Rewrite resource id
+                movie_meta['page'] = page
+                movie_meta['resource_id'] = movie_meta['id']
+                movie_meta['resource_name'] = resource_name
+                movie_meta['trailer_code'] = movie_meta['yt_trailer_code']
+                movie_meta['pdm'] = bool(public_domain_movie)
+
+                del movie_meta['yt_trailer_code']
+                del movie_meta['id']
+                del movie_meta['state']
+                del movie_meta['url']
+                # Push indexed movie
+                self.yts_movies_indexed[
+                    movie_meta['imdb_code']
+                ] = movie_meta
 
         # Return result
-        return self.process_ingestion(
-            self.yts_movies_indexed
-        )
+        return self.yts_movies_indexed

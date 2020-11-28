@@ -7,6 +7,7 @@ from resource.py import Log
 from resource.py.subs.opensubs import migrate as OSubs
 from resource.py.subs.yifisubs import YSubs
 from resource.py.torrents.yts import YTS
+from resource.py.media.ingest import write_subs
 
 __author__ = 'gmena'
 if __name__ == '__main__':
@@ -30,27 +31,9 @@ if __name__ == '__main__':
     # Setting mongo
     print('\nSetting mongodb')
     print("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
-    _mongo = MongoClient('mongodb://' + MONGO_HOST + ':' + str(MONGO_PORT) + '/witth')
-    _mongo_db = _mongo['witth' + DB_DATE_VERSION]
+    _mongo_db = MongoClient('mongodb://' + MONGO_HOST + ':' + str(MONGO_PORT) + '/witth')
+    _mongo_db = _mongo_db['witth']
     _migration_result = []
-
-
-    def write_subs(result, save_subs=None, index='default'):
-        save_subs = save_subs or {}
-        for v in result:
-            # Init subs
-            new_subs = {}
-            x = v['imdb_code']
-            old_subs = 'subtitles' in v and v['subtitles'] or {}
-
-            if x in save_subs and save_subs[x]:
-                new_subs = {**old_subs, **{index: dict(save_subs[x])}}
-
-            _mongo_db.movies.update_one(
-                {'_id': v['_id']},
-                {'$set': {'subtitles': new_subs}}
-            )
-
 
     # If clean
     empty_mongo = _mongo_db.movies.find({}).count() == 0
@@ -59,8 +42,8 @@ if __name__ == '__main__':
         print(f"\n{Log.BOLD}Starting migrations from yts.mx {DB_DATE_VERSION}{Log.ENDC}")
         # The result of migration
         _migration_result = yts.migrate(resource_name='yts')
-        print(f"\n{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
-        print(f"\n{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
+        print(f"{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
+        print(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
         _mongo_db.movies.delete_many({})  # Clean all
         _mongo_bulk = [InsertOne(i) for k, i in _migration_result.items()]
         _mongo_db.movies.bulk_write(_mongo_bulk)
@@ -71,18 +54,18 @@ if __name__ == '__main__':
         migration_result = list(_mongo_db.movies.find({}))
         ysubs = YSubs(host='http://www.yifysubtitles.com')
         subs_lists_yifi = ysubs.migrate(migration_result)
-        print(f"\n{Log.OKGREEN}Migration Complete for yifi subtitles{Log.ENDC}")
-        print(f"\n{Log.OKGREEN}Merging YTS subs{Log.ENDC}")
-        write_subs(migration_result, subs_lists_yifi, 'yifi')
+        print(f"{Log.OKGREEN}Migration Complete for yifi subtitles{Log.ENDC}")
+        print(f"{Log.OKGREEN}Merging YTS subs{Log.ENDC}")
+        write_subs(_mongo_db, migration_result, subs_lists_yifi, 'yifi')
 
     if REFRESH_SUBS or empty_mongo:
         print(f"\n{Log.WARNING}Starting migration from open subtitles{Log.ENDC}")
         migration_result = list(_mongo_db.movies.find({}))
         subs_lists_open = OSubs(migration_result)
-        print(f"\n{Log.OKGREEN}Migration Complete for open subtitles{Log.ENDC}")
-        print(f"\n{Log.OKGREEN}Save in Mongo OpenSub subs{Log.ENDC}")
+        print(f"{Log.OKGREEN}Migration Complete for open subtitles{Log.ENDC}")
+        print(f"{Log.OKGREEN}Save in Mongo OpenSub subs{Log.ENDC}")
         _migration_result = list(_mongo_db.movies.find({}))
-        write_subs(migration_result, subs_lists_open, 'opensubs')
+        write_subs(_mongo_db, migration_result, subs_lists_open, 'opensubs')
 
     print(f"\n{Log.BOLD}Migration Complete:{Log.ENDC}")
     print(f"{Log.UNDERLINE}Entries yts indexed: {len(_migration_result)}{Log.ENDC}")
