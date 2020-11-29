@@ -2,9 +2,11 @@ import csv
 import ipfshttpclient
 import os
 import random
+import re
 import requests
-from pathlib import Path
 from multiprocessing import Pool
+from pathlib import Path
+
 from resource.py import Log
 
 __author__ = 'gmena'
@@ -118,13 +120,14 @@ def ingest_media(mv):
     # Key - Source
     for key, sub_collection in mv['subtitles'].items():
         for lang, sub_lang in sub_collection.items():  # Key - Lang
-            langs_dir = f"{current_imdb_code}/subs/{lang}"
+            lang_cleaned = re.sub('[^a-zA-Z0-9 \n\.]', '', lang).replace(' ', '_')
+            langs_dir = f"{current_imdb_code}/subs/{lang_cleaned}"
             for sub in sub_lang:  # Iterate over links
                 url_link = sub['link']
                 file_name = f"{url_link.rsplit('/', 1)[-1]}.zip"
                 file_dir = "%s/%s" % (langs_dir, file_name)
                 download_file(url_link, file_dir)
-                sub['link'] = file_name
+                sub['link'] = f"{lang_cleaned}/{file_name}"
 
     del mv['torrents']
     del mv['_id']
