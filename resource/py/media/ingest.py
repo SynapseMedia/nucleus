@@ -96,11 +96,12 @@ def ingest_file(uri, _dir):
     print(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
     return _hash
 
+
 def ingest_media(mv):
     print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
     # Downloading files
     current_imdb_code = mv['imdb_code']
-    image_index = [ # Index image movie lists
+    image_index = [  # Index image movie lists
         "background_image", "background_image_original",
         "small_cover_image", "medium_cover_image",
         "large_cover_image"
@@ -114,7 +115,19 @@ def ingest_media(mv):
         torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])
         download_file(torrent['url'], torrent_dir)
 
+    # Key - Source
+    for key, sub_collection in mv['subtitles'].items():
+        for lang, sub_lang in sub_collection.items():  # Key - Lang
+            langs_dir = f"{current_imdb_code}/subs/{lang}"
+            for sub in sub_lang:  # Iterate over links
+                url_link = sub['link']
+                file_name = f"{url_link.rsplit('/', 1)[-1]}.zip"
+                file_dir = "%s/%s" % (langs_dir, file_name)
+                download_file(url_link, file_dir)
+                sub['link'] = file_name
+
     del mv['torrents']
+    del mv['_id']
     hash_directory = ingest_dir(current_imdb_code)
     mv['hash'] = hash_directory
 
@@ -127,8 +140,9 @@ def ingest_media(mv):
 def process_ingestion(movies_indexed):
     with Pool(processes=10) as pool:
         p_async = pool.apply_async
-        results = {x: p_async(  # Pool process ingest
-            ingest_media, args=(movies_indexed[x],)
+        # Pool process ingest
+        results = {x['imdb_code']: p_async(
+            ingest_media, args=(x,)
         ) for x in movies_indexed}
 
         pool.close()

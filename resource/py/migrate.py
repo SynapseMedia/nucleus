@@ -1,13 +1,13 @@
 import os
 from datetime import date
 from pymongo import MongoClient, InsertOne
-from subprocess import call
+# from subprocess import call
 
 from resource.py import Log
+from resource.py.media.ingest import write_subs, process_ingestion
 from resource.py.subs.opensubs import migrate as OSubs
 from resource.py.subs.yifisubs import YSubs
 from resource.py.torrents.yts import YTS
-from resource.py.media.ingest import write_subs
 
 __author__ = 'gmena'
 if __name__ == '__main__':
@@ -28,11 +28,20 @@ if __name__ == '__main__':
         page=START_PAGE, limit=STEP_PAGE
     )
 
+
+    def db_factory(db_name):
+        _client = MongoClient(f"mongodb://{MONGO_HOST}:{MONGO_PORT}/")
+        return _client[db_name]
+
+    def rewrite_entries(db, data):
+        db.movies.delete_many({})  # Clean all
+        bulk = [InsertOne(i) for k, i in data.items()]
+        db.movies.bulk_write(bulk)
+
     # Setting mongo
     print('\nSetting mongodb')
     print("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
-    _mongo_db = MongoClient('mongodb://' + MONGO_HOST + ':' + str(MONGO_PORT) + '/witth')
-    _mongo_db = _mongo_db['witth']
+    _mongo_db = db_factory('witth')
     _migration_result = []
 
     # If clean
@@ -44,9 +53,7 @@ if __name__ == '__main__':
         _migration_result = yts.migrate(resource_name='yts')
         print(f"{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
         print(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
-        _mongo_db.movies.delete_many({})  # Clean all
-        _mongo_bulk = [InsertOne(i) for k, i in _migration_result.items()]
-        _mongo_db.movies.bulk_write(_mongo_bulk)
+        rewrite_entries(_mongo_db, _migration_result)
 
     if REFRESH_SUBS or empty_mongo:
         # Process subs for each movie
@@ -67,8 +74,16 @@ if __name__ == '__main__':
         _migration_result = list(_mongo_db.movies.find({}))
         write_subs(_mongo_db, migration_result, subs_lists_open, 'opensubs')
 
-    print(f"\n{Log.BOLD}Migration Complete:{Log.ENDC}")
-    print(f"{Log.UNDERLINE}Entries yts indexed: {len(_migration_result)}{Log.ENDC}")
+    if REFRESH_MOVIES or empty_mongo:
+        _migration_result = list(_mongo_db.movies.find({}))
+        _migration_result = process_ingestion(_migration_result)
+        _mongo_db_ipfs = db_factory('ipfs')
+        rewrite_entries(_mongo_db_ipfs, _migration_result)
+
+    if len(_migration_result) > 0:
+        print(f"\n{Log.BOLD}Migration Complete:{Log.ENDC}")
+        print(f"{Log.UNDERLINE}Entries yts indexed: {len(_migration_result)}{Log.ENDC}")
+
 
     # Spawn node subprocess
-    call(["node", "%s/resource/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST], shell=False)
+    # call(["node", "%s/resource/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST], shell=False)
