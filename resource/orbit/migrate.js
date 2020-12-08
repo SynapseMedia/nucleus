@@ -89,6 +89,7 @@ const crypto = require("crypto");
             }, {pin: true})
 
             // Testing dag links
+            // TODO write test
             let testKey = Object.keys(leafNodes)[0]
             console.log(await ipfs.dag.get(rootNode, {
                 path: `links/${testKey}/keys/`
