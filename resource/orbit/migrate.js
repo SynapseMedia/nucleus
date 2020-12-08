@@ -137,10 +137,6 @@ const crypto = require("crypto");
                         }
                     }
 
-                    delete v['background_image']
-                    delete v['background_image_original']
-                    delete v['summary']
-                    delete v['synopsis']
                     delete v['url']
                     delete v['state']
                     return v
