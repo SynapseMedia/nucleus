@@ -130,9 +130,6 @@ const crypto = require("crypto");
                     index++;
                     v['_id'] = `wt_loc_${index}`;
                     v['total'] = size;
-                    v['small_cover_image'] = v['small_cover_image'].replace(/^.*\/\/[^\/]+/, '');
-                    v['large_cover_image'] = v['large_cover_image'].replace(/^.*\/\/[^\/]+/, '');
-                    v['medium_cover_image'] = v['medium_cover_image'].replace(/^.*\/\/[^\/]+/, '');
 
                     if ('torrents' in v) {
                         for (const value of v.torrents) {
