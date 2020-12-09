@@ -89,6 +89,7 @@ const crypto = require("crypto");
             }, {pin: true})
 
             // Testing dag links
+            // TODO write test
             let testKey = Object.keys(leafNodes)[0]
             console.log(await ipfs.dag.get(rootNode, {
                 path: `links/${testKey}/keys/`
@@ -129,9 +130,6 @@ const crypto = require("crypto");
                     index++;
                     v['_id'] = `wt_loc_${index}`;
                     v['total'] = size;
-                    v['small_cover_image'] = v['small_cover_image'].replace(/^.*\/\/[^\/]+/, '');
-                    v['large_cover_image'] = v['large_cover_image'].replace(/^.*\/\/[^\/]+/, '');
-                    v['medium_cover_image'] = v['medium_cover_image'].replace(/^.*\/\/[^\/]+/, '');
 
                     if ('torrents' in v) {
                         for (const value of v.torrents) {
@@ -139,10 +137,6 @@ const crypto = require("crypto");
                         }
                     }
 
-                    delete v['background_image']
-                    delete v['background_image_original']
-                    delete v['summary']
-                    delete v['synopsis']
                     delete v['url']
                     delete v['state']
                     return v
