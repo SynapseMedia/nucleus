@@ -6,7 +6,8 @@ import re
 import requests
 from multiprocessing import Pool
 from pathlib import Path
-
+from resource.py.subs.opensubs import OPEN_SUBS_RECURSIVE_SLEEP_REQUEST
+from xmlrpc.client import ProtocolError
 from resource.py import Log
 
 __author__ = 'gmena'
@@ -22,7 +23,7 @@ _agents = [
 ]
 
 try:
-    ipfs = ipfshttpclient.connect('/dns/ipfs/tcp/5001/http')
+    ipfs = ipfshttpclient.connect('/dns/ipfs/tcp/5001/http', session=True)
     print(ipfs.id())
 except ipfshttpclient.exceptions.ConnectionError:
     pass
@@ -100,60 +101,57 @@ def ingest_file(uri, _dir):
 
 
 def ingest_media(mv):
-    print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
-    # Downloading files
-    current_imdb_code = mv['imdb_code']
-    image_index = [  # Index image movie lists
-        "background_image", "background_image_original",
-        "small_cover_image", "medium_cover_image",
-        "large_cover_image"
-    ]
+    try:
+        print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
+        # Downloading files
+        current_imdb_code = mv['imdb_code']
+        image_index = [  # Index image movie lists
+            "background_image", "background_image_original",
+            "small_cover_image", "medium_cover_image",
+            "large_cover_image"
+        ]
 
-    for x in image_index:  # Download all image assets
-        download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
-        del mv[x]
+        for x in image_index:  # Download all image assets
+            download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
+            del mv[x]
 
-    for torrent in mv['torrents']:
-        torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])
-        download_file(torrent['url'], torrent_dir)
+        for torrent in mv['torrents']:
+            torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])
+            download_file(torrent['url'], torrent_dir)
 
-    # Key - Source
-    for key, sub_collection in mv['subtitles'].items():
-        for lang, sub_lang in sub_collection.items():  # Key - Lang
-            lang_cleaned = re.sub('[^a-zA-Z0-9 \n\.]', '', lang).replace(' ', '_')
-            langs_dir = f"{current_imdb_code}/subs/{lang_cleaned}"
-            for sub in sub_lang:  # Iterate over links
-                url_link = sub['link']
-                file_name = f"{url_link.rsplit('/', 1)[-1]}.zip"
-                file_dir = "%s/%s" % (langs_dir, file_name)
-                download_file(url_link, file_dir)
-                sub['link'] = f"{lang_cleaned}/{file_name}"
+        # Key - Source
+        for key, sub_collection in mv['subtitles'].items():
+            for lang, sub_lang in sub_collection.items():  # Key - Lang
+                lang_cleaned = re.sub('[^a-zA-Z0-9 \n\.]', '', lang).replace(' ', '_')
+                langs_dir = f"{current_imdb_code}/subs/{lang_cleaned}"
+                for sub in sub_lang:  # Iterate over links
+                    url_link = sub['link']
+                    file_name = f"{url_link.rsplit('/', 1)[-1]}.zip"
+                    file_dir = "%s/%s" % (langs_dir, file_name)
+                    download_file(url_link, file_dir)
+                    sub['link'] = f"{lang_cleaned}/{file_name}"
 
-    del mv['torrents']
-    del mv['_id']
-    hash_directory = ingest_dir(current_imdb_code)
-    mv['hash'] = hash_directory
+        del mv['torrents']
+        del mv['_id']
+        hash_directory = ingest_dir(current_imdb_code)
+        mv['hash'] = hash_directory
 
-    # Logs on ready ingested
-    print(f"Hash ready for {current_imdb_code}: {hash_directory}")
-    print(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}\n")
-    return mv
+        # Logs on ready ingested
+        print(f"Hash ready for {current_imdb_code}: {hash_directory}")
+        print(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}\n")
+        return mv
+    except (ProtocolError, Exception) as e:
+        print('Retry download assets')
+        print("\n\033[93mWait", str(OPEN_SUBS_RECURSIVE_SLEEP_REQUEST), 'seconds\033[0m\n')
+        time.sleep(OPEN_SUBS_RECURSIVE_SLEEP_REQUEST)
+        return ingest_media(mv)
 
 
 def process_ingestion(movies_indexed):
-    with Pool(processes=10) as pool:
-        p_async = pool.apply_async
-        # Pool process ingest
-        results = {x['imdb_code']: p_async(
-            ingest_media, args=(x,)
-        ) for x in movies_indexed}
-
-        pool.close()
-        pool.join()
-
-        return {  # Generate ingestion dict
-            x: y.get() for x, y in results.items()
-        }
+    # with Pool(processes=1) as pool:
+    # p_async = pool.apply_async
+    # Pool process ingest
+    return {x['imdb_code']: ingest_media(x) for x in movies_indexed}
 
 
 def write_subs(mongo, result, save_subs=None, index='default'):

@@ -78,7 +78,7 @@ if __name__ == '__main__':
         print(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
         migration_result = list(_mongo_db.movies.find({}))
         ingestion_result = process_ingestion(migration_result)
-        rewrite_entries(_ipfs_db, ingestion_result)
+        # rewrite_entries(_ipfs_db, ingestion_result)
 
     # Spawn node subprocess
     # call(["node", "%s/resource/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST], shell=False)
