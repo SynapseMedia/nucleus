@@ -6,11 +6,12 @@ services:
     ports:
       - "4001:4001"
       - "4002:4002"
-      - "127.0.0.1:8080:8080"
-      - "127.0.0.1:5001:5001"
+      - "8080:8080"
+      - "5001:5001"
 
   watchit_migrator:
-    image: gmena/migrate:v1.0.14
+    image: gmena/migrate:v1.0.15
+    restart: unless-stopped
     container_name: watchit_migrator
     command: python3 resource/py/migrate.py
     links:

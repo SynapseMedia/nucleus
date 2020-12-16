@@ -1,19 +1,13 @@
-import csv
-import ipfshttpclient
-import os
-import random
-import re
-import requests
+import csv, re, time, random, ipfshttpclient, requests, os
+from resource.py.subs.opensubs import OPEN_SUBS_RECURSIVE_SLEEP_REQUEST
 from multiprocessing import Pool
 from pathlib import Path
-from resource.py.subs.opensubs import OPEN_SUBS_RECURSIVE_SLEEP_REQUEST
 from xmlrpc.client import ProtocolError
 from resource.py import Log
 
 __author__ = 'gmena'
 # Session keep alive
 # http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
-
 root_path = os.path.dirname(os.path.realpath(__file__))
 _agents = [
     'Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/21.0',
@@ -111,13 +105,15 @@ def ingest_media(mv):
             "large_cover_image"
         ]
 
-        for x in image_index:  # Download all image assets
-            download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
-            del mv[x]
+        for x in image_index:
+            if x in mv:  # Download all image assets
+                download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
+                del mv[x]
 
         for torrent in mv['torrents']:
             torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])
             download_file(torrent['url'], torrent_dir)
+            del torrent['url']
 
         # Key - Source
         for key, sub_collection in mv['subtitles'].items():
@@ -131,28 +127,24 @@ def ingest_media(mv):
                     download_file(url_link, file_dir)
                     sub['link'] = f"{lang_cleaned}/{file_name}"
 
-        del mv['torrents']
         del mv['_id']
         hash_directory = ingest_dir(current_imdb_code)
         mv['hash'] = hash_directory
-
         # Logs on ready ingested
-        print(f"Hash ready for {current_imdb_code}: {hash_directory}")
         print(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}\n")
         return mv
-    except (ProtocolError, Exception) as e:
-        print('Retry download assets')
+    except Exception as e:
+        print('Retry download assets error:', e)
         print("\n\033[93mWait", str(OPEN_SUBS_RECURSIVE_SLEEP_REQUEST), 'seconds\033[0m\n')
         time.sleep(OPEN_SUBS_RECURSIVE_SLEEP_REQUEST)
         return ingest_media(mv)
 
 
-def process_ingestion(movies_indexed):
-    # with Pool(processes=1) as pool:
-    # p_async = pool.apply_async
-    # Pool process ingest
-    return {x['imdb_code']: ingest_media(x) for x in movies_indexed}
-
+def process_ingestion(ipfs_db, mongo, movies_indexed):
+    for x in movies_indexed:
+        ingested_data = ingest_media(x)
+        ipfs_db.movies.update({'_id': x['_id']}, ingested_data)
+        mongo.movies.update({'_id': x['_id']}, {'$set': {'updated': True}})
 
 def write_subs(mongo, result, save_subs=None, index='default'):
     save_subs = save_subs or {}
