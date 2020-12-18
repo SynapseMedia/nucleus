@@ -1,4 +1,4 @@
-import time
+import time, os
 
 from collections import defaultdict
 from pythonopensubtitles.opensubtitles import OpenSubtitles
@@ -6,7 +6,7 @@ from xmlrpc.client import ProtocolError
 
 __author__ = 'gmena'
 
-OPEN_SUBS_RECURSIVE_SLEEP_REQUEST = 5
+OPEN_SUBS_RECURSIVE_SLEEP_REQUEST = int(os.environ.get('OPEN_SUBS_RECURSIVE_SLEEP_REQUEST'))
 engine = OpenSubtitles('en', 'zorrillosdev')
 
 def login():
@@ -44,6 +44,7 @@ def requests_subs(imdb_id: str):
             _score = res['Score']
             _trusted = res['SubFromTrusted']
             _result_set[_lang].append({
+                'id': res.get('IDSubtitleFile'),
                 'rating': _rate,
                 'link': _link,
                 'format': _format,

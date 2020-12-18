@@ -28,8 +28,8 @@ class YSubs(object):
 
         # Request YTS
         _request = self.YSUBS_HOST + '/movie-imdb/' + query_string
-        _cookie = '_ga=GA1.2.513014713.1588880525; __cfduid=d66cb1e9c8b5f78715a38ff45f292dc211593235691; ys-sw=1905'
-        _agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
+        _cookie = '__cfduid=df5835b1fca2e8f5d6b5760acb778327a1606680247; _ga=GA1.2.1426751841.1606680232; __gads=ID=bfd9eb0faf988b08-22e286746eb80003:T=1606680250:RT=1606680250:S=ALNI_MZv5VFqynyKi4dUVEbFef4Ew9TR9A; _gid=GA1.2.323216250.1608055752; _gat_gtag_UA_127397621_1=1; ys-sw=1348'
+        _agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'
 
         # Request
         try:
@@ -44,7 +44,7 @@ class YSubs(object):
             # Return json
             yield conn.text
         except (Exception,) as e:
-            print(e)
+            print('Retry request sub error:', e)
             yield self.request(query_string)
 
     def request_scraper(self, imdb_code: str) -> dict:

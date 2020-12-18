@@ -1,9 +1,16 @@
-import csv, re, time, random, ipfshttpclient, requests, os
-from resource.py.subs.opensubs import OPEN_SUBS_RECURSIVE_SLEEP_REQUEST
-from multiprocessing import Pool
+import time
+
+import csv
+import ipfshttpclient
+import os
+import random
+import re
+import requests
 from pathlib import Path
 from xmlrpc.client import ProtocolError
+
 from resource.py import Log
+from resource.py.subs.opensubs import OPEN_SUBS_RECURSIVE_SLEEP_REQUEST, login
 
 __author__ = 'gmena'
 # Session keep alive
@@ -42,25 +49,25 @@ def download_file(uri, _dir):
     file_check = Path(directory)
 
     # already exists?
-    if file_check.is_file():
+    if file_check.exists():
         print(f"{Log.WARNING}File already exists: {_dir}{Log.ENDC}")
         return directory
 
     # print(f"{Log.OKGREEN}Downloading file: {directory}{Log.ENDC}")
     # Create if not exist dir
     Path(dirname).mkdir(parents=True, exist_ok=True)
-    response = session.get(uri, verify=True, timeout=60, headers={
+    response = session.get(uri, verify=True, stream=True, timeout=60, headers={
         'User-Agent': _agents[random.randint(0, 3)]
     })
 
     # Check status for response
     if response.status_code == requests.codes.ok:
-        # Avoid to re-download
-        out = open(directory, "wb")
-        for block in response.iter_content(1024):
-            if not block: break
-            out.write(block)
-        out.close()
+        print(f"{Log.WARNING}Trying download to: {directory}{Log.ENDC}")
+        with open(directory, "wb") as out:
+            for block in response.iter_content(256):
+                if not block: break
+                out.write(block)
+            out.close()
 
     print(f"{Log.OKGREEN}File stored in: {directory}{Log.ENDC}")
     return directory
@@ -94,6 +101,35 @@ def ingest_file(uri, _dir):
     return _hash
 
 
+def download_scrapp_subs(current_imdb_code, sub_collection):
+    for lang, sub_lang in sub_collection.items():  # Key - Lang
+        lang_cleaned = re.sub('[^a-zA-Z0-9 \n\.]', '', lang).replace(' ', '_')
+        langs_dir = f"{current_imdb_code}/subs/{lang_cleaned}"
+        for sub in sub_lang:  # Iterate over links
+            url_link = sub['link']
+            file_name = f"{url_link.rsplit('/', 1)[-1]}.zip"
+            file_dir = "%s/%s" % (langs_dir, file_name)
+            download_file(url_link, file_dir)
+            sub['link'] = f"{lang_cleaned}/{file_name}"
+
+
+def download_opensubs(current_imdb_code, sub_collection):
+    try:
+        # TODO need process download over API
+        # TODO https://github.com/agonzalezro/python-opensubtitles/blob/master/APPENDIX.md
+        pass
+    except ProtocolError as e:
+        print("\n\033[93mWait", str(OPEN_SUBS_RECURSIVE_SLEEP_REQUEST * 2), 'seconds\033[0m\n')
+        time.sleep(OPEN_SUBS_RECURSIVE_SLEEP_REQUEST * 2)
+        return download_opensubs(current_imdb_code, sub_collection)
+    except (TypeError, Exception) as e:
+        print(e)
+        print('No sub')
+
+
+API_NEEDED = {'opensubs': download_opensubs}
+
+
 def ingest_media(mv):
     try:
         print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
@@ -108,26 +144,29 @@ def ingest_media(mv):
         for x in image_index:
             if x in mv:  # Download all image assets
                 download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
-                del mv[x]
 
         for torrent in mv['torrents']:
             torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])
             download_file(torrent['url'], torrent_dir)
-            del torrent['url']
 
         # Key - Source
         for key, sub_collection in mv['subtitles'].items():
-            for lang, sub_lang in sub_collection.items():  # Key - Lang
-                lang_cleaned = re.sub('[^a-zA-Z0-9 \n\.]', '', lang).replace(' ', '_')
-                langs_dir = f"{current_imdb_code}/subs/{lang_cleaned}"
-                for sub in sub_lang:  # Iterate over links
-                    url_link = sub['link']
-                    file_name = f"{url_link.rsplit('/', 1)[-1]}.zip"
-                    file_dir = "%s/%s" % (langs_dir, file_name)
-                    download_file(url_link, file_dir)
-                    sub['link'] = f"{lang_cleaned}/{file_name}"
+            if key in API_NEEDED:
+                # API_NEEDED[key](  # Switch to API handler
+                #     current_imdb_code,
+                #     sub_collection
+                # )
+                continue
+
+            # Otherwise process all scrapped links
+            download_scrapp_subs(
+                current_imdb_code,
+                sub_collection
+            )
 
         del mv['_id']
+        map(lambda x: mv.pop(x, None), image_index)
+        map(lambda x: x.pop('url', None), mv['torrents'])
         hash_directory = ingest_dir(current_imdb_code)
         mv['hash'] = hash_directory
         # Logs on ready ingested
@@ -141,10 +180,13 @@ def ingest_media(mv):
 
 
 def process_ingestion(ipfs_db, mongo, movies_indexed):
+    login();  # Login opensubs
     for x in movies_indexed:
+        _id = x['_id']  # Current id
         ingested_data = ingest_media(x)
-        ipfs_db.movies.update({'_id': x['_id']}, ingested_data)
-        mongo.movies.update({'_id': x['_id']}, {'$set': {'updated': True}})
+        ipfs_db.movies.insert_one(ingested_data)
+        mongo.movies.update({'_id': _id}, {'$set': {'updated': True}})
+
 
 def write_subs(mongo, result, save_subs=None, index='default'):
     save_subs = save_subs or {}

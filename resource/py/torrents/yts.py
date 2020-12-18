@@ -30,7 +30,7 @@ class YTS(object):
         """
         # Request yifi
         _request: str = self.YTS_HOST + ('?%s' % query_string if query_string else '')
-        _cookie = '__cfduid=d69cbd9b1eab1aac23ce5bdf7b56d617e1605989262; adcashufpv3=17981512371092097718392042062; __atuvc=1%7C47%2C5%7C48; PHPSESSID=7r9dv1f37no3qj4dde5hf241h7'
+        _cookie = '_cfduid=d69cbd9b1eab1aac23ce5bdf7b56d617e1605989262; adcashufpv3=17981512371092097718392042062; __atuvc=1%7C47%2C5%7C48%2C1%7C49; PHPSESSID=pb3emjbgf45m5s7gs31ipcg30l'
         _agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'
 
         try:
