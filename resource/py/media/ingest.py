@@ -180,7 +180,6 @@ def ingest_media(mv):
 
 
 def process_ingestion(ipfs_db, mongo, movies_indexed):
-    login();  # Login opensubs
     for x in movies_indexed:
         _id = x['_id']  # Current id
         ingested_data = ingest_media(x)
