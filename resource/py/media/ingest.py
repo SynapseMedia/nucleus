@@ -165,8 +165,6 @@ def ingest_media(mv):
             )
 
         del mv['_id']
-        map(lambda x: mv.pop(x, None), image_index)
-        map(lambda x: x.pop('url', None), mv['torrents'])
         hash_directory = ingest_dir(current_imdb_code)
         mv['hash'] = hash_directory
         # Logs on ready ingested
