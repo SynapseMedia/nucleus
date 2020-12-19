@@ -25,11 +25,10 @@ Gateway Watchit Seeder
 
 Please copy entry hash in `clients` file located in your root directory and the `private key` as well. This keys will be requested on app login. 
 
-*To configure your app please*
+*To configure your app please in [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/ipfs.js) set your ENV variables*
 
 > Get ipfs "node id" using `docker-compose exec watchit_ipfs ipfs id -f=<id>`.
-* `BOOTSTRAP_LIST=['/ip4/{GATEWAY_IP}/tcp/4001/p2p/{IPFS_NODE_ID}','/ip4/{GATEWAY_IP}/ws/4002/p2p/{IPFS_NODE_ID}']`
-> In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/ipfs.js) set your ENV variables. 
+* `BOOTSTRAP_LIST=['/ip4/{GATEWAY_IP}/tcp/4001/p2p/{IPFS_NODE_ID}','/ip4/{GATEWAY_IP}/ws/4002/p2p/{IPFS_NODE_ID}']` 
 
 
 
