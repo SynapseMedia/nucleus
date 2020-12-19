@@ -29,7 +29,7 @@ Please copy entry hash in `clients` file located in your root directory and the 
 
 > Get ipfs "node id" using `docker-compose exec watchit_ipfs ipfs id -f=<id>`.
 * `BOOTSTRAP_LIST=['/ip4/{GATEWAY_IP}/tcp/4001/p2p/{IPFS_NODE_ID}','/ip4/{GATEWAY_IP}/ws/4002/p2p/{IPFS_NODE_ID}']`
-> In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/orbit.js) set your ENV variables. 
+> In [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/ipfs.js) set your ENV variables. 
 
 
 
