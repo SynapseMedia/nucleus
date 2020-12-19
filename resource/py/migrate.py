@@ -76,7 +76,7 @@ if __name__ == '__main__':
 
     if REFRESH_IPFS or empty_ipfs:
         print(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
-        migration_result = _mongo_db.movies.find({"updated": {'$exists': False}})
+        migration_result = _mongo_db.movies.find({"updated": {'$exists': False}}, no_cursor_timeout=True)
         process_ingestion(_ipfs_db, _mongo_db, migration_result)
 
     # Spawn node subprocess
