@@ -14,7 +14,7 @@ Gateway Watchit Seeder
 ## How
 
 *Start docker containers and starts movies migration.*
-> Init and start bootstrap ipfs node. 
+> Run content/bootstrap IPFS node. 
 > (Please wait until movies get ready migrated).
 
 `docker-compose up`
