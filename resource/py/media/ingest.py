@@ -85,7 +85,6 @@ def ingest_media(mv):
                 sub_collection
             )
 
-        del mv['_id']
         hash_directory = ingest_dir(current_imdb_code)
         mv['hash'] = hash_directory
         # Logs on ready ingested
@@ -104,6 +103,7 @@ def process_ingestion(ipfs_db, mongo, movies_indexed):
         ingested_data = ingest_media(x)
         ipfs_db.movies.insert_one(ingested_data)
         mongo.movies.update({'_id': _id}, {'$set': {'updated': True}})
+    movies_indexed.close()
 
 
 def write_subs(mongo, result, save_subs=None, index='default'):

@@ -20,6 +20,7 @@ if __name__ == '__main__':
     REFRESH_MOVIES = os.environ.get('REFRESH_MOVIES', 'False') == 'True'
     REFRESH_IPFS = os.environ.get('REFRESH_IPFS', 'False') == 'True'
     REFRESH_SUBS = os.environ.get('REFRESH_SUBS', 'False') == 'True'
+    FLUSH_CACHE_IPFS = os.environ.get('FLUSH_CACHE_IPFS', 'False') == 'True'
 
     # CLI
     _root_api = 'https://yts.mx'
@@ -30,10 +31,12 @@ if __name__ == '__main__':
         page=START_PAGE, limit=STEP_PAGE
     )
 
+
     def rewrite_entries(r_db, data):
         r_db.movies.delete_many({})  # Clean all
         bulk = [InsertOne(i) for k, i in data.items()]
         r_db.movies.bulk_write(bulk)
+
 
     # Setting mongo
     print('\nSetting mongodb')
@@ -76,7 +79,15 @@ if __name__ == '__main__':
 
     if REFRESH_IPFS or empty_ipfs:
         print(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
-        migration_result = _mongo_db.movies.find({"updated": {'$exists': False}}, no_cursor_timeout=True)
+        if FLUSH_CACHE_IPFS:
+            # Reset old entries and restore it
+            _ipfs_db.movies.delete_many({})
+            _mongo_db.movies.update_many({"updated": True}, {'$unset': {"updated": None}})
+        # Start IPFS ingestion
+        # Get stored movies data and process it
+        migration_result = _mongo_db.movies.find({
+            "updated": {'$exists': False}
+        }, no_cursor_timeout=True).batch_size(1000)
         process_ingestion(_ipfs_db, _mongo_db, migration_result)
 
     # Spawn node subprocess
