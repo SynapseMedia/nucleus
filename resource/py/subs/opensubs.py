@@ -75,7 +75,7 @@ def migrate(movies: iter):
     # Subs lists
     count = 0
     results = {}
-    total = len(movies)
+    total = movies.count()
     _subs_lists_result = {}
 
     # Generate async pools
