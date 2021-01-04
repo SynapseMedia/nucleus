@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
     if REFRESH_IPFS or empty_ipfs:
         print(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
-        if FLUSH_CACHE_IPFS:
+        if FLUSH_CACHE_IPFS or empty_ipfs:
             # Reset old entries and restore it
             _ipfs_db.movies.delete_many({})
             _mongo_db.movies.update_many({"updated": True}, {'$unset': {"updated": None}})
