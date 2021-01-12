@@ -3,8 +3,9 @@
 # Getting started
 * If you don’t have Go, [install it](https://golang.org/doc/install).
 * If you don’t have IPFS , [install it](https://github.com/ipfs/go-ipfs#install).
-* Spawn go-ipfs [How to spawn an IPFS node in Node.js](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/) 
-* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/) 
+* [Spawm go-ipfs with docker](https://mrh.io/ipfs_docker/).
+* [How to spawn an IPFS node in Node.js](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/).
+* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/).
 
 
 
@@ -14,7 +15,7 @@ Gateway Watchit Seeder
 ## How
 
 *Start docker containers and starts movies migration.*
-> Run seeder/bootstrap IPFS node. 
+> Run seeder/bootstrap IPFS public node. 
 > (Please wait until movies get ready migrated).
 
 `docker-compose up`
