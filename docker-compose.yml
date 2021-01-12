@@ -30,6 +30,4 @@ services:
     restart: unless-stopped
     ports:
       - "27017:27017"
-    environment:
-      - MONGODB_EXTRA_FLAGS=--setParameter cursorTimeoutMillis=120000
 

@@ -62,27 +62,29 @@ if __name__ == '__main__':
     if REFRESH_SUBS or empty_mongo:
         # Process subs for each movie
         print(f"\n{Log.WARNING}Starting migration from yify subtitles{Log.ENDC}")
-        migration_result = _mongo_db.movies.find({})
+        migration_result = _mongo_db.movies.find({}, no_cursor_timeout=True).batch_size(1000)
         ysubs = YSubs(host='http://www.yifysubtitles.com')
         subs_lists_yifi = ysubs.migrate(migration_result)
         print(f"{Log.OKGREEN}Migration Complete for yifi subtitles{Log.ENDC}")
         print(f"{Log.OKGREEN}Merging YTS subs{Log.ENDC}")
         write_subs(_mongo_db, migration_result, subs_lists_yifi, 'yifi')
+        migration_result.close()
 
     if REFRESH_SUBS or empty_mongo:
         print(f"\n{Log.WARNING}Starting migration from open subtitles{Log.ENDC}")
-        migration_result = _mongo_db.movies.find({})
+        migration_result = _mongo_db.movies.find({}, no_cursor_timeout=True).batch_size(1000)
         subs_lists_open = OSubs(migration_result)
         print(f"{Log.OKGREEN}Migration Complete for open subtitles{Log.ENDC}")
         print(f"{Log.OKGREEN}Save in Mongo OpenSub subs{Log.ENDC}")
         write_subs(_mongo_db, migration_result, subs_lists_open, 'opensubs')
+        migration_result.close()
 
-    if REFRESH_IPFS or empty_ipfs:
-        print(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
+        if REFRESH_IPFS or empty_ipfs:
+            print(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
         if FLUSH_CACHE_IPFS or empty_ipfs:
             # Reset old entries and restore it
             _ipfs_db.movies.delete_many({})
-            _mongo_db.movies.update_many({"updated": True}, {'$unset': {"updated": None}})
+        _mongo_db.movies.update_many({"updated": True}, {'$unset': {"updated": None}})
         # Start IPFS ingestion
         # Get stored movies data and process it
         migration_result = _mongo_db.movies.find({
@@ -90,5 +92,5 @@ if __name__ == '__main__':
         }, no_cursor_timeout=True).batch_size(1000)
         process_ingestion(_ipfs_db, _mongo_db, migration_result)
 
-    # Spawn node subprocess
-    # call(["node", "%s/resource/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST], shell=False)
+        # Spawn node subprocess
+        # call(["node", "%s/resource/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST], shell=False)
