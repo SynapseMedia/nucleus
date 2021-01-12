@@ -30,7 +30,12 @@ Gateway Watchit Seeder
 
 > Get "IPFS_NODE_ID" using `docker-compose exec watchit_ipfs ipfs id -f=<id>`.
 
-```BOOTSTRAP_LIST=['/ip4/{GATEWAY_IP}/tcp/4001/p2p/{IPFS_NODE_ID}','/ip4/{GATEWAY_IP}/tcp/4002/ws/p2p/{IPFS_NODE_ID}']``` 
+```
+"Bootstrap": [
+        '/ip4/{GATEWAY_IP}/tcp/4001/p2p/{IPFS_NODE_ID}',
+        '/ip4/{GATEWAY_IP}/tcp/4002/ws/p2p/{IPFS_NODE_ID}'
+]
+``` 
 
 
 
