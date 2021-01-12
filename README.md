@@ -3,7 +3,7 @@
 # Getting started
 * If you don’t have Go, [install it](https://golang.org/doc/install).
 * If you don’t have IPFS , [install it](https://github.com/ipfs/go-ipfs#install).
-* [Spawm go-ipfs with docker](https://mrh.io/ipfs_docker/).
+* [Spawn go-ipfs node with docker](https://mrh.io/ipfs_docker/).
 * [How to spawn an IPFS node in Node.js](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/).
 * For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/).
 
@@ -30,7 +30,7 @@ Gateway Watchit Seeder
 
 > Get "IPFS_NODE_ID" using `docker-compose exec watchit_ipfs ipfs id -f=<id>`.
 
-`BOOTSTRAP_LIST=['/ip4/{GATEWAY_IP}/tcp/4001/p2p/{IPFS_NODE_ID}','/ip4/{GATEWAY_IP}/tcp/4002/ws/p2p/{IPFS_NODE_ID}']` 
+```BOOTSTRAP_LIST=['/ip4/{GATEWAY_IP}/tcp/4001/p2p/{IPFS_NODE_ID}','/ip4/{GATEWAY_IP}/tcp/4002/ws/p2p/{IPFS_NODE_ID}']``` 
 
 
 
