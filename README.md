@@ -24,7 +24,7 @@ Gateway Watchit Seeder
 
 1) After run migration and expose our node in gateway
 
-> Please copy entry hash in `clients` file located in your root files directory and the `private key` as well. This keys will be requested on app login.*
+> Please copy `public key` in `clients` file located in your root files directory and the `private key` as well. This keys will be requested on app login.*
 
 2) To configure your app please go into [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/ipfs.js) and set your ENV variables.
 
