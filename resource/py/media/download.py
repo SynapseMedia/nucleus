@@ -1,9 +1,10 @@
-import requests, os, random
+import requests, os, random, time
 from pathlib import Path
 from resource.py import Log
 from xmlrpc.client import ProtocolError
 from resource.py.subs.opensubs import OPEN_SUBS_RECURSIVE_SLEEP_REQUEST
 root_path = os.path.dirname(os.path.realpath(__file__))
+
 # Session keep alive
 # http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
 _agents = [

@@ -6,14 +6,30 @@ from resource.py import Log
 from resource.py.media.ingest import get_pb_domain_set
 
 __author__ = 'gmena'
+POOL_PROCESS = 10
 
 
 class YTS(object):
+    """
+    This class defines the basic interface called by the migrate process.
+
+    These methods will be called by the migrate:
+      request(query_string)
+      get_movies(page)
+      request_generator()
+
+    In migrate process each page is requested to get JSON content, pre process it and return it
+    To know more about YTS API doc https://yts.mx/api
+    """
+
+    def __str__(self):
+        return 'YTS'
+
     def __init__(self, host: str, page: int = 0, limit: int = 50):
         # ignore 400 cause by IndexAlreadyExistsException when creating an index
 
         # CONSTANTS
-        self.YTS_HOST = host
+        self.YTS_HOST = '%s/api/v2/list_movies.json' % host
         self.YTS_RECURSIVE_LIMIT = limit  # limit result per page (step)
 
         self.yts_recursive_page = page  # start page
@@ -51,6 +67,11 @@ class YTS(object):
             yield {}
 
     def get_movies(self, page):
+        """
+        Process request for movies from YTS
+        :param page:
+        :return:
+        """
         # Req YTS
         print(f"Requesting page {str(page)}")
         _uri = 'page=' + str(page) + '&limit=' + str(self.YTS_RECURSIVE_LIMIT) + '&sort=date_added'
@@ -65,7 +86,7 @@ class YTS(object):
 
     def request_generator(self) -> iter:
         """
-        Request yts handler
+        Pool async requests for YTS
         :return:
         """
 
@@ -78,7 +99,7 @@ class YTS(object):
             print(f"{Log.HEADER}Requesting {str(total_pages)} pages {Log.ENDC}")
             page_list = range(total_pages)
 
-            with Pool(processes=10) as pool:
+            with Pool(processes=POOL_PROCESS) as pool:
                 p_async = pool.apply_async
                 results = {}
 
@@ -95,10 +116,9 @@ class YTS(object):
             for x, y in results.items():
                 yield x, y.get()
 
-    def migrate(self, resource_name: str):
+    def migrate(self):
         """
-        Elastic migrate
-        :param resource_name:
+        Start migrate from YTS
         :return:
         """
         # Get generator
@@ -113,7 +133,7 @@ class YTS(object):
                 # Rewrite resource id
                 movie_meta['page'] = page
                 movie_meta['resource_id'] = movie_meta['id']
-                movie_meta['resource_name'] = resource_name
+                movie_meta['resource_name'] = 'YTS'
                 movie_meta['trailer_code'] = movie_meta['yt_trailer_code']
                 movie_meta['pdm'] = bool(public_domain_movie)
 
