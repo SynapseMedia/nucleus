@@ -1,4 +1,7 @@
-import ipfshttpclient, csv, time
+import csv
+import ipfshttpclient
+import time
+
 from resource.py import Log
 from resource.py.media.download import root_path, download_file, download_scrap_subs, API_NEEDED
 from resource.py.subs.opensubs import OPEN_SUBS_RECURSIVE_SLEEP_REQUEST
@@ -71,19 +74,20 @@ def ingest_media(mv):
             download_file(torrent['url'], torrent_dir)
 
         # Key - Source
-        for key, sub_collection in mv['subtitles'].items():
-            if key in API_NEEDED:
-                # API_NEEDED[key](  # Switch to API handler
-                #     current_imdb_code,
-                #     sub_collection
-                # )
-                continue
+        if 'subtitles' in mv:
+            for key, sub_collection in mv['subtitles'].items():
+                if key in API_NEEDED:
+                    # API_NEEDED[key](  # Switch to API handler
+                    #     current_imdb_code,
+                    #     sub_collection
+                    # )
+                    continue
 
-            # Otherwise process all scrapped links
-            download_scrap_subs(
-                current_imdb_code,
-                sub_collection
-            )
+                # Otherwise process all scrapped links
+                download_scrap_subs(
+                    current_imdb_code,
+                    sub_collection
+                )
 
         hash_directory = ingest_dir(current_imdb_code)
         mv['hash'] = hash_directory
@@ -107,16 +111,24 @@ def process_ingestion(ipfs_db, mongo, movies_indexed):
 
 
 def write_subs(mongo, result, save_subs=None, index='default'):
+    """
+    Helper to merge subs in temp db
+    :param mongo:
+    :param result:
+    :param save_subs:
+    :param index:
+    :return:
+    """
     save_subs = save_subs or {}
     for v in result:
         # Init subs
         new_subs = {}
-        x = v['imdb_code']
-        old_subs = 'subtitles' in v and v['subtitles'] or {}
+        imdb_code = v['imdb_code']
+        old_subs = v.get('subtitles', {})
 
         # Check if subs in collection and merge it
-        if x in save_subs and save_subs[x]:
-            new_subs = {**old_subs, **{index: dict(save_subs[x])}}
+        if imdb_code in save_subs and save_subs[imdb_code]:
+            new_subs = {**old_subs, **{index: dict(save_subs[imdb_code])}}
 
         # Update subs
         mongo.movies.update_one(

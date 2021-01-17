@@ -38,6 +38,7 @@ if __name__ == '__main__':
         r_db.movies.bulk_write(bulk)
 
 
+
     # Setting mongo
     print('\nSetting mongodb')
     print("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
@@ -49,6 +50,7 @@ if __name__ == '__main__':
     empty_mongo = _mongo_db.movies.find({}).count() == 0
     empty_ipfs = _ipfs_db.movies.find({}).count() == 0
 
+    # TODO move this to module
     if REFRESH_MOVIES or empty_mongo:
         print('Rewriting...')
         print(f"\n{Log.BOLD}Starting migrations from yts.mx {DB_DATE_VERSION}{Log.ENDC}")
@@ -59,32 +61,38 @@ if __name__ == '__main__':
         rewrite_entries(_mongo_db, migration_result)
         print(f"{Log.UNDERLINE}Entries yts indexed: {len(migration_result)}{Log.ENDC}")
 
-    if REFRESH_SUBS or empty_mongo:
-        # Process subs for each movie
-        print(f"\n{Log.WARNING}Starting migration from yify subtitles{Log.ENDC}")
-        migration_result = _mongo_db.movies.find({}, no_cursor_timeout=True).batch_size(1000)
-        ysubs = YSubs(host='http://www.yifysubtitles.com')
-        subs_lists_yifi = ysubs.migrate(migration_result)
-        print(f"{Log.OKGREEN}Migration Complete for yifi subtitles{Log.ENDC}")
-        print(f"{Log.OKGREEN}Merging YTS subs{Log.ENDC}")
-        write_subs(_mongo_db, migration_result, subs_lists_yifi, 'yifi')
-        migration_result.close()
+    # TODO move this to module
+    # if REFRESH_SUBS or empty_mongo:
+    #     # Process subs for each movie
+    #     print(f"\n{Log.WARNING}Starting migration from yify subtitles{Log.ENDC}")
+    #     migration_result = _mongo_db.movies.find({}, no_cursor_timeout=True)
+    #     ysubs = YSubs(host='http://www.yifysubtitles.com')
+    #     subs_lists_yifi = ysubs.migrate(migration_result)
+    #     print(f"{Log.OKGREEN}Migration Complete for yifi subtitles{Log.ENDC}")
+    #     print(f"{Log.OKGREEN}Merging YTS subs{Log.ENDC}")
+    #     write_subs(_mongo_db, migration_result, subs_lists_yifi, 'yifi')
+    #     migration_result.close()
+    #
+    # if REFRESH_SUBS or empty_mongo:
+    #     print(f"\n{Log.WARNING}Starting migration from open subtitles{Log.ENDC}")
+    #     migration_result = _mongo_db.movies.find({}, no_cursor_timeout=True)
+    #     subs_lists_open = OSubs(migration_result)
+    #     print(f"{Log.OKGREEN}Migration Complete for open subtitles{Log.ENDC}")
+    #     print(f"{Log.OKGREEN}Save in Mongo OpenSub subs{Log.ENDC}")
+    #     write_subs(_mongo_db, migration_result, subs_lists_open, 'opensubs')
+    #     migration_result.close()
 
-    if REFRESH_SUBS or empty_mongo:
-        print(f"\n{Log.WARNING}Starting migration from open subtitles{Log.ENDC}")
-        migration_result = _mongo_db.movies.find({}, no_cursor_timeout=True).batch_size(1000)
-        subs_lists_open = OSubs(migration_result)
-        print(f"{Log.OKGREEN}Migration Complete for open subtitles{Log.ENDC}")
-        print(f"{Log.OKGREEN}Save in Mongo OpenSub subs{Log.ENDC}")
-        write_subs(_mongo_db, migration_result, subs_lists_open, 'opensubs')
-        migration_result.close()
-
-        if REFRESH_IPFS or empty_ipfs:
-            print(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
+    #TODO move this to module
+    if REFRESH_IPFS or empty_ipfs:
+        print(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
         if FLUSH_CACHE_IPFS or empty_ipfs:
             # Reset old entries and restore it
             _ipfs_db.movies.delete_many({})
-        _mongo_db.movies.update_many({"updated": True}, {'$unset': {"updated": None}})
+            _mongo_db.movies.update_many(
+                {"updated": True},
+                {'$unset': {"updated": None}}
+            )
+
         # Start IPFS ingestion
         # Get stored movies data and process it
         migration_result = _mongo_db.movies.find({
