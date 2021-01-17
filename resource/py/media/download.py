@@ -1,9 +1,12 @@
-import requests, os, random, time
+import os
+import random
+import re
+import requests
 from pathlib import Path
+
 from resource.py import Log
-from xmlrpc.client import ProtocolError
-from resource.py.subs.opensubs import OPEN_SUBS_RECURSIVE_SLEEP_REQUEST
-root_path = os.path.dirname(os.path.realpath(__file__))
+
+ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 # Session keep alive
 # http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
@@ -14,6 +17,7 @@ _agents = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A'
 ]
 
+
 def download_file(uri, _dir):
     """
     Take from the boring centralized network
@@ -22,7 +26,7 @@ def download_file(uri, _dir):
     :return:
     """
     session = requests.Session()
-    directory = "%s/torrents/%s" % (root_path, _dir)
+    directory = "%s/torrents/%s" % (ROOT_PATH, _dir)
     dirname = os.path.dirname(directory)
     file_check = Path(directory)
 
@@ -51,7 +55,6 @@ def download_file(uri, _dir):
     return directory
 
 
-
 def download_scrap_subs(current_imdb_code, sub_collection):
     """
     Download scrapped subs
@@ -68,26 +71,3 @@ def download_scrap_subs(current_imdb_code, sub_collection):
             file_dir = "%s/%s" % (langs_dir, file_name)
             download_file(url_link, file_dir)
             sub['link'] = f"{lang_cleaned}/{file_name}"
-
-
-def download_opensubs(current_imdb_code, sub_collection):
-    """
-    Api source download opensubs
-    :param current_imdb_code:
-    :param sub_collection:
-    :return:
-    """
-    try:
-        # TODO need process download over API
-        # TODO https://github.com/agonzalezro/python-opensubtitles/blob/master/APPENDIX.md
-        pass
-    except ProtocolError as e:
-        print("\n\033[93mWait", str(OPEN_SUBS_RECURSIVE_SLEEP_REQUEST * 2), 'seconds\033[0m\n')
-        time.sleep(OPEN_SUBS_RECURSIVE_SLEEP_REQUEST * 2)
-        return download_opensubs(current_imdb_code, sub_collection)
-    except (TypeError, Exception) as e:
-        print(e)
-        print('No sub')
-
-
-API_NEEDED = {'opensubs': download_opensubs}
