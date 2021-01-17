@@ -2,7 +2,7 @@
 node_modules
 .idea
 package-lock.json
-resource/down_torrents/
+src/down_torrents/
 hash
 clients
 orbitdb

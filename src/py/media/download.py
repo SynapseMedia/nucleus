@@ -4,7 +4,7 @@ import re
 import requests
 from pathlib import Path
 
-from resource.py import Log
+from src.py import Log
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 

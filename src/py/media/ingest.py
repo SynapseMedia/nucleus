@@ -3,7 +3,7 @@ import time
 import csv
 import ipfshttpclient
 
-from resource.py import Log
+from src.py import Log
 from .download import ROOT_PATH
 from .download import download_file
 

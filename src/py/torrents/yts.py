@@ -2,8 +2,8 @@ import requests
 from contextlib import contextmanager
 from multiprocessing import Pool
 
-from resource.py import Log
-from resource.py.media.ingest import get_pb_domain_set
+from src.py import Log
+from src.py.media.ingest import get_pb_domain_set
 
 __author__ = 'gmena'
 POOL_PROCESS = 10
@@ -130,7 +130,7 @@ class YTS(object):
                 current_imdb_code_set = {movie_meta['imdb_code']}
                 public_domain_movie = self.pb_match.intersection(current_imdb_code_set)
 
-                # Rewrite resource id
+                # Rewrite src id
                 movie_meta['page'] = page
                 movie_meta['resource_id'] = movie_meta['id']
                 movie_meta['resource_name'] = 'YTS'

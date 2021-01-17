@@ -17,9 +17,9 @@
     "wrtc": "^0.4.5"
   },
   "scripts": {
-    "migrate": "node resource/orbit/migrate.js",
-    "node": "node resource/orbit/node.js",
-    "local": "node resource/orbit/local.js"
+    "migrate": "node src/orbit/migrate.js",
+    "node": "node src/orbit/node.js",
+    "local": "node src/orbit/local.js"
   },
   "devDependencies": {
     "fs": "0.0.1-security",

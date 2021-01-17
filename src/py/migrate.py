@@ -1,10 +1,10 @@
 import os
 from datetime import date
 
-from resource.py import Log
-from resource.py import media
-from resource.py import mongo
-from resource.py import torrents
+from src.py import Log
+from src.py import media
+from src.py import mongo
+from src.py import torrents
 
 __author__ = 'gmena'
 if __name__ == '__main__':
@@ -64,7 +64,7 @@ if __name__ == '__main__':
         print(f"{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
         print(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
 
-        # Start to write obtained entries from resource
+        # Start to write obtained entries from src
         rewrite_entries(temp_db, migration_result)
         print(f"{Log.UNDERLINE}Entries yts indexed: {len(migration_result)}{Log.ENDC}")
 
@@ -86,4 +86,4 @@ if __name__ == '__main__':
         init_ingestion(cache_db, temp_db, migration_result)
 
         # Spawn node subprocess
-        # call(["node", "%s/resource/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST], shell=False)
+        # call(["node", "%s/src/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST], shell=False)

@@ -3,5 +3,5 @@ hash
 clients
 orbitdb/
 node_modules/
-resource/py/media/torrents/
+src/py/media/torrents/
 
