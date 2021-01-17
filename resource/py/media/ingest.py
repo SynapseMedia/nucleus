@@ -1,11 +1,15 @@
-import csv
-import ipfshttpclient
 import time
 
+import csv
+import ipfshttpclient
+
 from resource.py import Log
-from resource.py.media.download import root_path, download_file
+from .download import ROOT_PATH
+from .download import download_file
 
 __author__ = 'gmena'
+
+RECURSIVE_SLEEP_REQUEST = 10
 
 try:
     ipfs = ipfshttpclient.connect('/dns/ipfs/tcp/5001/http', session=True)
@@ -20,7 +24,7 @@ def get_pb_domain_set(csv_file='pdm.csv'):
     :param csv_file:
     :return:
     """
-    with open(f"{root_path}/{csv_file}", 'r') as f:
+    with open(f"{ROOT_PATH}/{csv_file}", 'r') as f:
         reader = csv.reader(f)
         return set([row[1] for row in reader])
 
@@ -32,7 +36,7 @@ def ingest_ipfs_dir(_dir):
     :param _dir:
     :return:
     """
-    directory = "%s/torrents/%s" % (root_path, _dir)
+    directory = "%s/torrents/%s" % (ROOT_PATH, _dir)
     print(f"Ingesting directory: {Log.BOLD}{_dir}{Log.ENDC}")
     _hash = ipfs.add(directory, pin=True, recursive=True)
     _hash = next(item for item in _hash if item['Name'] == _dir)['Hash']
@@ -80,7 +84,6 @@ def ingest_ipfs_metadata(mv: list):
             torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])
             download_file(torrent['url'], torrent_dir)
 
-
         # Logs on ready ingested
         hash_directory = ingest_ipfs_dir(current_imdb_code)
         mv['hash'] = hash_directory
@@ -88,9 +91,6 @@ def ingest_ipfs_metadata(mv: list):
         return mv
     except Exception as e:
         print('Retry download assets error:', e)
-        print("\n\033[93mWait", str(OPEN_SUBS_RECURSIVE_SLEEP_REQUEST), 'seconds\033[0m\n')
-        time.sleep(OPEN_SUBS_RECURSIVE_SLEEP_REQUEST)
+        print("\n\033[93mWait", str(RECURSIVE_SLEEP_REQUEST), 'seconds\033[0m\n')
+        time.sleep(RECURSIVE_SLEEP_REQUEST)
         return ingest_ipfs_metadata(mv)
-
-
-
