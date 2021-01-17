@@ -32,7 +32,7 @@ if __name__ == '__main__':
             _id = x['_id']  # Current id
             ingested_data = media.ingest_ipfs_metadata(x)
             idb.movies.insert_one(ingested_data)
-            wdb.movies.update({'_id': _id}, {'$set': {'updated': True}})
+            wdb.movies.update_one({'_id': _id}, {'$set': {'updated': True}})
         movies_indexed.close()
 
 
