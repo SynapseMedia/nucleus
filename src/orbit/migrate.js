@@ -1,7 +1,7 @@
 args = process.argv.slice(2);
 
 const MAX_CHUNKS = 1000
-const SKIP_CLIENTS = false
+const SKIP_CLIENTS = true
 const DB_MOVIES = 'wt.movies.db'
 const MONGO_DB = args[0] || 'mongodb'
 const SOURCE_DB = args[1] || 'ipfs';
