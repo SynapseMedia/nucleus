@@ -4,7 +4,7 @@ const MAX_CHUNKS = 1000
 const SKIP_CLIENTS = false
 const DB_MOVIES = 'wt.movies.db'
 const MONGO_DB = args[0] || 'mongodb'
-const SOURCE_DB = args[1] || 'witth';
+const SOURCE_DB = args[1] || 'ipfs';
 const IPFS_NODE = args[2] || 'ipfs'
 const RECREATE = args[3] !== 'false';
 
@@ -110,8 +110,8 @@ const crypto = require("crypto");
 
         // MOVIES
         let index = 0;
-        const url = `mongodb:${MONGO_DB}//27017`;
-        const client = new MongoClient(url);
+        const url = `mongodb://${MONGO_DB}`;
+        const client = new MongoClient(url, { useNewUrlParser: true });
         await client.connect(async () => {
             // Generate cursor for all movies
             const adminDb = client.db(DB_NAME)
