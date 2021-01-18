@@ -79,6 +79,7 @@ def ingest_ipfs_metadata(mv: list):
         for x in image_index:
             if x in mv:  # Download all image assets
                 download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
+                del mv[x] # Remove old
 
         for torrent in mv['torrents']:
             torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])
