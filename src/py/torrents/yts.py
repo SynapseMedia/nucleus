@@ -7,7 +7,7 @@ from src.py.media.ingest import get_pb_domain_set
 
 __author__ = 'gmena'
 POOL_PROCESS = 10
-
+ROOT_API = 'https://yts.mx'
 
 class YTS(object):
     """
@@ -25,7 +25,7 @@ class YTS(object):
     def __str__(self):
         return 'YTS'
 
-    def __init__(self, host: str, page: int = 0, limit: int = 50):
+    def __init__(self, host: str= ROOT_API, page: int = 0, limit: int = 50):
         # ignore 400 cause by IndexAlreadyExistsException when creating an index
 
         # CONSTANTS
