@@ -1,7 +1,5 @@
 .idea/
-hash
-clients
 orbitdb/
-node_modules/
+node_modules/**
 src/py/media/torrents/
 

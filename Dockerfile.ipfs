@@ -7,5 +7,5 @@ EXPOSE 4002:4002
 EXPOSE 127.0.0.1:8080:8080
 EXPOSE 127.0.0.1:5001:5001
 
-COPY ./resource/bash/init_ipfs.sh /usr/local/bin/start_ipfs
+COPY ./src/bash/init_ipfs.sh /usr/local/bin/start_ipfs
 CMD ["daemon",  "--enable-pubsub-experiment"]
