@@ -46,7 +46,7 @@ class YTS(object):
         """
         # Request yifi
         _request: str = self.YTS_HOST + ('?%s' % query_string if query_string else '')
-        _cookie = '_cfduid=d69cbd9b1eab1aac23ce5bdf7b56d617e1605989262; adcashufpv3=17981512371092097718392042062; __atuvc=1%7C47%2C5%7C48%2C1%7C49; PHPSESSID=pb3emjbgf45m5s7gs31ipcg30l'
+        _cookie = 'adcashufpv3=17981512371092097718392042062; __cfduid=dbf1c05bdb221675033d2ae958eb4f2961610924444; __atuvc=1%7C3; PHPSESSID=vaddrbb83hnm7sfj1tgqc52shg; __cf_bm=0284cbddd1042cb621f57dd4f36b2d517b13eb50-1610994684-1800-AWmH5PKF0W0T0T2wUzqQ1XOuj7WyhuhPAfuSnF38dBYEyrQ/TQlfb4lT7jds14lU2/5IwLQB2NsIGGFd2rk7GLB85AbgZ1BbEnrV+NuKkyio78/maf1rUB2w5S1qGgnadQ=='
         _agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'
 
         try:

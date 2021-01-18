@@ -31,10 +31,7 @@ const msgpack = require("msgpack-lite");
         const db = await orbitdb.log(DB_MOVIES, {
             overwrite: RECREATE,
             localOnly: false,
-            replicate: true,
-            accessController: {
-                write: [orbitdb.identity.id]
-            }
+            replicate: true
         });
         // END DB
 
