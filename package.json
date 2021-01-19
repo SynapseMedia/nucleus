@@ -6,7 +6,7 @@
   "author": "The team zorrillos",
   "description": "Watch movies for free",
   "dependencies": {
-    "ipfs-http-client": "^48.2.0",
+    "ipfs-http-client": "^47.0.1",
     "mongodb": "^3.5.9",
     "msgpack-lite": "^0.1.26",
     "node-rsa": "^1.0.8",
@@ -15,7 +15,6 @@
   },
   "scripts": {
     "migrate": "node src/orbit/migrate.js",
-    "node": "node src/orbit/node.js",
     "local": "node src/orbit/local.js"
   },
   "devDependencies": {

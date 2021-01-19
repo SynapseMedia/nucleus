@@ -2,7 +2,7 @@ const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db')
 
 args = process.argv.slice(2);
-const HASH_MOVIES = args[0];
+const ADDRESS = args[0];
 
 
 (async () => {
@@ -14,7 +14,7 @@ const HASH_MOVIES = args[0];
         const orbitdb = await OrbitDB.createInstance(ipfs);
 
         console.log('Starting db movies..')
-        const dbAddress = `/orbitdb/${HASH_MOVIES}/wt.movies.db`;
+        const dbAddress = `/orbitdb/${ADDRESS}/wt.movies.db`;
         const db = await orbitdb.open(dbAddress, {
             sync: true, replicate: true
         });
