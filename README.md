@@ -22,7 +22,7 @@ Gateway Watchit Seeder
 
 # watchit-app
 
-1) After run migration and expose our node in gateway
+After run migration and expose our node in gateway
 
-> Please copy `address` in `hash` file located in your root files directory. This key will be requested on app login.*
+Please copy `address` in `hash` file located in your root files directory. This key will be requested on app login.*
 
