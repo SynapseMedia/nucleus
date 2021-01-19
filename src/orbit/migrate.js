@@ -9,9 +9,11 @@ const RECREATE = args[3] !== 'false';
 const fs = require('fs')
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
+const { consume } = require('streaming-iterables')
 const MongoClient = require('mongodb').MongoClient;
 const ipfs = IpfsApi({host: IPFS_NODE, port: '5001', protocol: 'http'});
 const msgpack = require("msgpack-lite");
+
 
 (async () => {
     try {
@@ -37,12 +39,20 @@ const msgpack = require("msgpack-lite");
 
         console.log('Starting db..');
         const dbAddress = db.address.toString()
-        console.log(dbAddress);
-        db.events.on('peer', (p) => console.log('Peer Db:', p));
-        fs.writeFileSync('hash', dbAddress.split('/')[2]);
+        const dbAddressHash = dbAddress.split('/')[2]
 
-        // MOVIES
-        let index = 0;
+        // Add provider to allow nodes connect to it
+        console.info('Providing address', dbAddressHash);
+        await consume(ipfs.dht.provide(dbAddressHash))
+        console.info('Provided done')
+
+        // Add events
+        console.info('Adding hash to file')
+        db.events.on('peer', (p) => console.log('Peer Db:', p));
+        fs.writeFileSync('hash', dbAddressHash);
+
+        // Start movies migration to orbit from mongo
+        let index = 0; // Keep cursor for movies id
         const url = `mongodb://${MONGO_DB}`;
         const client = new MongoClient(url, {useUnifiedTopology: true});
         await client.connect(async () => {
