@@ -96,7 +96,8 @@ def ingest_ipfs_metadata(mv: list):
         # Logs on ready ingested
         hash_directory = ingest_ipfs_dir(current_imdb_code)
         mv['hash'] = hash_directory
-        logger.info(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}\n")
+        logger.info(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}")
+        logger.info('\n')
         return mv
     except Exception as e:
         logger.error('Retry download assets error:', e)
