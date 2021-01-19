@@ -78,7 +78,7 @@ class YTS(object):
         _uri = 'page=' + str(page) + '&limit=' + str(self.YTS_RECURSIVE_LIMIT) + '&sort=date_added'
         with self.request(_uri) as conn_result:
             if not 'data' in conn_result:
-                logger.debug(f"{Log.FAIL}Fail: {page} with result {conn_result}{Log.ENDC}")
+                logger.debug(f"{Log.FAIL}Fail: {page}{Log.ENDC}")
                 logger.info("Retrying...")
                 return self.get_movies(page)
 
