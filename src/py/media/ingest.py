@@ -24,7 +24,7 @@ def start_node():
 logger.info(f"{Log.OKGREEN}Starting node{Log.ENDC}")
 ipfs = start_node()  # Initialize api connection to node
 logger.info(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}")
-
+logger.info('\n')
 
 def get_pb_domain_set(csv_file='pdm.csv'):
     """

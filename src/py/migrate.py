@@ -50,6 +50,7 @@ if __name__ == '__main__':
 
     logger.info('Setting mongodb')
     logger.info("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
+    logger.info('\n')
     # Initialize db list from name
     temp_db, cache_db = mongo.get_dbs('witth', 'ipfs')
 
@@ -69,6 +70,7 @@ if __name__ == '__main__':
         logger.info(f"{Log.UNDERLINE}Entries yts indexed: {len(migration_result)}{Log.ENDC}")
 
     if REFRESH_IPFS or empty_cache:
+        logger.info('\n')
         logger.info(f"{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
         if FLUSH_CACHE_IPFS or empty_cache:
             # Reset old entries and restore it
