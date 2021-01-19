@@ -23,6 +23,7 @@ class YTS(object):
     To know more about YTS API doc https://yts.mx/api
     """
 
+
     def __str__(self):
         return 'YTS'
 
@@ -124,7 +125,7 @@ class YTS(object):
             for x, y in results.items():
                 yield x, y.get()
 
-    def migrate(self):
+    def __call__(self):
         """
         Start migrate from YTS
         :return:

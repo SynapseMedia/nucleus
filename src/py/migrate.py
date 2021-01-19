@@ -60,7 +60,7 @@ if __name__ == '__main__':
     if REFRESH_MOVIES or empty_tmp:
         print('Rewriting...')
         print(f"\n{Log.BOLD}Starting migrations from yts.mx {DB_DATE_VERSION}{Log.ENDC}")
-        migration_result = torrents.migrate(source='YTS', page=START_PAGE, limit=STEP_PAGE)
+        migration_result = torrents.YTS(page=START_PAGE, limit=STEP_PAGE)()
         print(f"{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
         print(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
 
