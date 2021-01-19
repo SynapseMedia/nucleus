@@ -89,7 +89,7 @@ class YTS(object):
             return conn_result['data']['movies']
 
 
-    def request_generator(self):
+    def pool_request(self):
         """
         Pool async requests for YTS
         :return:
@@ -111,8 +111,8 @@ class YTS(object):
         Start migrate from YTS
         :return:
         """
-        # Get generator
-        for movie_meta_iter in self.request_generator():
+        # Get data from pool parallel processing
+        for movie_meta_iter in self.pool_request():
             if not movie_meta_iter:
                 continue
 
