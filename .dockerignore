@@ -1,5 +1,11 @@
 .idea/
+.git
+.cache
+README.md
+core
+.gitignore
 orbitdb/
-node_modules/**
-src/py/media/torrents/
+node_modules/
+src/py/media/torrents/**
+src/bash
 

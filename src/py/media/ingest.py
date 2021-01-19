@@ -26,6 +26,7 @@ ipfs = start_node()  # Initialize api connection to node
 logger.info(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}")
 logger.info('\n')
 
+
 def get_pb_domain_set(csv_file='pdm.csv'):
     """
     Get public domain movies from csv
@@ -100,7 +101,7 @@ def ingest_ipfs_metadata(mv: list):
         logger.info('\n')
         return mv
     except Exception as e:
-        logger.error('Retry download assets error:', e)
-        logger.warning(f"{Log.WARNING}Wait", str(RECURSIVE_SLEEP_REQUEST), Log.ENDC )
+        logger.error(f"Retry download assets error: {e}")
+        logger.warning(f"{Log.WARNING}Wait {RECURSIVE_SLEEP_REQUEST}{Log.ENDC}")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
         return ingest_ipfs_metadata(mv)

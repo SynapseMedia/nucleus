@@ -42,11 +42,10 @@ const msgpack = require("msgpack-lite");
         // MOVIES
         let index = 0;
         const url = `mongodb://${MONGO_DB}`;
-        const client = new MongoClient(url, { useNewUrlParser: true });
+        const client = new MongoClient(url, {useUnifiedTopology: true});
         await client.connect(async () => {
             // Generate cursor for all movies
             const adminDb = client.db(DB_NAME)
-            await adminDb.executeDbAdminCommand({setParameter: 1, internalQueryExecMaxBlockingSortBytes: 1048576000});
             const cursor = adminDb.collection('movies').find({}).limit(0).sort({year: 1})
             const size = await cursor.count();
             const data = chunkGen(await cursor.toArray(), MAX_CHUNKS);
@@ -80,8 +79,7 @@ const msgpack = require("msgpack-lite");
                     {pin: true}
                 );
 
-                // console.log(cid);
-                await db.add(cid.cid);
+                await db.add(cid.cid.toString());
                 console.log('Saving data..');
                 console.log('Processed: ', `${index}/${size}`);
                 console.log('Last id:', index);
