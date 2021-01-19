@@ -89,7 +89,7 @@ class YTS(object):
             return conn_result['data']['movies']
 
 
-    def request_generator(self) -> iter:
+    def request_generator(self):
         """
         Pool async requests for YTS
         :return:
@@ -100,12 +100,11 @@ class YTS(object):
             total_pages = round(int(ping['data']['movie_count']) / self.YTS_RECURSIVE_LIMIT)
             total_pages = total_pages if self.yts_recursive_page == 0 else self.yts_recursive_page
             logger.info(f"{Log.HEADER}Requesting {str(total_pages)} pages {Log.ENDC}")
-            page_list = range(1, total_pages)
+            page_list = range(1, total_pages + 1)
 
             with Pool(POOL_PROCESS) as pool:
                 logger.info(f"Preparing processes: {POOL_PROCESS}")
-                yield pool.map(self.get_movies, list(page_list))
-                pool.terminate()
+                return pool.map(self.get_movies, list(page_list))
 
     def __call__(self):
         """
