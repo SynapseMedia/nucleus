@@ -18,11 +18,6 @@ const address = args[0] || fs.readFileSync(
         const ipfs = IpfsApi();
         const orbitdb = await OrbitDB.createInstance(ipfs);
 
-        // Add provider to allow nodes connect to it
-        console.info('Providing address', address);
-        await consume(ipfs.dht.provide(address))
-        console.info('Provided done')
-
         console.log('Starting db movies..')
         const dbAddress = `/orbitdb/${address}/wt.movies.db`;
         const db = await orbitdb.open(dbAddress, {sync: true, replicate: true});
