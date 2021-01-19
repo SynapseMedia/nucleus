@@ -69,7 +69,7 @@ if __name__ == '__main__':
         logger.info(f"{Log.UNDERLINE}Entries yts indexed: {len(migration_result)}{Log.ENDC}")
 
     if REFRESH_IPFS or empty_cache:
-        logger.info(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
+        logger.info(f"{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
         if FLUSH_CACHE_IPFS or empty_cache:
             # Reset old entries and restore it
             cache_db.movies.delete_many({})
