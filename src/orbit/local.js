@@ -1,9 +1,12 @@
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db')
-
+const fs = require('fs')
+const path = require('path')
 args = process.argv.slice(2);
-const ADDRESS = args[0];
-
+const address = args[0] ||  fs.readFileSync(
+    path.join(process.cwd(), 'hash'),
+    {encoding: 'utf8', flag: 'r'}
+);
 
 (async () => {
     try {
@@ -11,10 +14,10 @@ const ADDRESS = args[0];
         // Create OrbitDB instance
         console.log('Loading db..')
         const ipfs = IpfsApi();
-        const orbitdb = await OrbitDB.createInstance(ipfs);
+        const orbitdb = await OrbitDB.createInstance(ipfs, {directory: './orbitLocal'});
 
         console.log('Starting db movies..')
-        const dbAddress = `/orbitdb/${ADDRESS}/wt.movies.db`;
+        const dbAddress = `/orbitdb/${address}/wt.movies.db`;
         const db = await orbitdb.open(dbAddress, {
             sync: true, replicate: true
         });
