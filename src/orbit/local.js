@@ -14,7 +14,7 @@ const address = args[0] ||  fs.readFileSync(
         // Create OrbitDB instance
         console.log('Loading db..')
         const ipfs = IpfsApi();
-        const orbitdb = await OrbitDB.createInstance(ipfs, {directory: './orbitLocal'});
+        const orbitdb = await OrbitDB.createInstance(ipfs);
 
         console.log('Starting db movies..')
         const dbAddress = `/orbitdb/${address}/wt.movies.db`;
