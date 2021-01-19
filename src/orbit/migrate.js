@@ -36,8 +36,10 @@ const msgpack = require("msgpack-lite");
         // END DB
 
         console.log('Starting db..');
-        console.log(db.address.toString());
+        const dbAddress = db.address.toString()
+        console.log(dbAddress);
         db.events.on('peer', (p) => console.log('Peer Db:', p));
+        fs.writeFileSync('hash', dbAddress.split('/')[2]);
 
         // MOVIES
         let index = 0;
