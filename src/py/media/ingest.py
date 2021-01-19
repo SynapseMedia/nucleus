@@ -11,11 +11,18 @@ __author__ = 'gmena'
 
 RECURSIVE_SLEEP_REQUEST = 10
 
-try:
-    ipfs = ipfshttpclient.connect('/dns/ipfs/tcp/5001/http', session=True)
-    print(ipfs.id())
-except ipfshttpclient.exceptions.ConnectionError:
-    pass
+
+def start_node():
+    try:
+        return ipfshttpclient.connect('/dns/ipfs/tcp/5001/http', session=True)
+    except ipfshttpclient.exceptions.ConnectionError:
+        print(f"{Log.WARNING}Waiting for node active{Log.ENDC}")
+        time.sleep(RECURSIVE_SLEEP_REQUEST)
+        return start_node()
+
+print(f"{Log.OKGREEN}Starting node{Log.ENDC}")
+ipfs = start_node() # Initialize api connection to node
+print(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}\n")
 
 
 def get_pb_domain_set(csv_file='pdm.csv'):
@@ -79,7 +86,7 @@ def ingest_ipfs_metadata(mv: list):
         for x in image_index:
             if x in mv:  # Download all image assets
                 download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
-                del mv[x] # Remove old
+                del mv[x]  # Remove old
 
         for torrent in mv['torrents']:
             torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])

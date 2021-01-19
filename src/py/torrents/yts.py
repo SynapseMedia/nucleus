@@ -9,6 +9,7 @@ __author__ = 'gmena'
 POOL_PROCESS = 10
 ROOT_API = 'https://yts.mx'
 
+
 class YTS(object):
     """
     This class defines the basic interface called by the migrate process.
@@ -25,7 +26,7 @@ class YTS(object):
     def __str__(self):
         return 'YTS'
 
-    def __init__(self, host: str= ROOT_API, page: int = 0, limit: int = 50):
+    def __init__(self, host: str = ROOT_API, page: int = 0, limit: int = 50):
         # ignore 400 cause by IndexAlreadyExistsException when creating an index
 
         # CONSTANTS
@@ -45,9 +46,10 @@ class YTS(object):
         :return:
         """
         # Request yifi
-        _request: str = self.YTS_HOST + ('?%s' % query_string if query_string else '')
+        _request: str = f"{self.YTS_HOST}{'?%s' % query_string if query_string else ''}"
         _cookie = 'adcashufpv3=17981512371092097718392042062; __cfduid=dbf1c05bdb221675033d2ae958eb4f2961610924444; __atuvc=1%7C3; PHPSESSID=vaddrbb83hnm7sfj1tgqc52shg; __cf_bm=0284cbddd1042cb621f57dd4f36b2d517b13eb50-1610994684-1800-AWmH5PKF0W0T0T2wUzqQ1XOuj7WyhuhPAfuSnF38dBYEyrQ/TQlfb4lT7jds14lU2/5IwLQB2NsIGGFd2rk7GLB85AbgZ1BbEnrV+NuKkyio78/maf1rUB2w5S1qGgnadQ=='
         _agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'
+        print(f"{Log.WARNING}Request: {_request}{Log.ENDC}")
 
         try:
             conn = self.req_session.get(
@@ -63,7 +65,7 @@ class YTS(object):
             # Return json
             yield conn.json()
         except (Exception,) as e:
-            print(e)
+            print(f"{Log.FAIL}Fail request: {e}{Log.ENDC}")
             yield {}
 
     def get_movies(self, page):
@@ -76,6 +78,12 @@ class YTS(object):
         print(f"Requesting page {str(page)}")
         _uri = 'page=' + str(page) + '&limit=' + str(self.YTS_RECURSIVE_LIMIT) + '&sort=date_added'
         with self.request(_uri) as conn_result:
+            if not 'data' in conn_result:
+                print(page)
+                print(self.YTS_RECURSIVE_LIMIT)
+                print(conn_result)
+                return False
+
             # OK 200?
             if 'status' in conn_result and conn_result['status'] != 'ok':
                 return False
