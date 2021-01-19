@@ -17,20 +17,6 @@ const address = args[0] || fs.readFileSync(
         const ipfs = IpfsApi();
         const orbitdb = await OrbitDB.createInstance(ipfs);
 
-        for await (const cid of ipfs.dht.findProvs(address)) {
-            console.info('Connecting to:', cid.id)
-            const mAddr = cid.addrs.map((m) => `${m.toString()}/p2p/${cid.id}`)
-            console.log(cid);
-            for (const m of mAddr) {
-                try {
-                    await ipfs.swarm.connect(m, {timeout: 1000})
-                    console.log(`Connected to`, m);
-                } catch (e) {
-                    console.log(`Cannot connect to`, m);
-                }
-            }
-        }
-
         console.log('Starting db movies..')
         const dbAddress = `/orbitdb/${address}/wt.movies.db`;
         const db = await orbitdb.open(dbAddress, {sync: true, replicate: true});
