@@ -9,6 +9,7 @@ __author__ = 'gmena'
 POOL_PROCESS = 10
 ROOT_API = 'https://yts.mx'
 
+
 class YTS(object):
     """
     This class defines the basic interface called by the migrate process.
@@ -78,7 +79,8 @@ class YTS(object):
         with self.request(_uri) as conn_result:
             if not 'data' in conn_result:
                 logger.debug(f"{Log.FAIL}Fail: {page} with result {conn_result}{Log.ENDC}")
-                return False
+                logger.info("Retrying...")
+                return self.get_movies(page)
 
             # OK 200?
             if 'status' in conn_result and conn_result['status'] != 'ok':
@@ -87,7 +89,6 @@ class YTS(object):
                 return False
             # Yield result
             return conn_result['data']['movies']
-
 
     def pool_request(self):
         """
