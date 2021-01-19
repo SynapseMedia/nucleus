@@ -77,7 +77,7 @@ class YTS(object):
         _uri = 'page=' + str(page) + '&limit=' + str(self.YTS_RECURSIVE_LIMIT) + '&sort=date_added'
         with self.request(_uri) as conn_result:
             if not 'data' in conn_result:
-                logger.debug(conn_result)
+                logger.debug(f"{Log.FAIL}Fail: {page} with result {conn_result}{Log.ENDC}")
                 return False
 
             # OK 200?
@@ -99,7 +99,6 @@ class YTS(object):
             if not 'data' in ping: return False
             total_pages = round(int(ping['data']['movie_count']) / self.YTS_RECURSIVE_LIMIT)
             total_pages = total_pages if self.yts_recursive_page == 0 else self.yts_recursive_page
-
             logger.info(f"{Log.HEADER}Requesting {str(total_pages)} pages {Log.ENDC}")
             page_list = range(total_pages)
 
