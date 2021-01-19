@@ -6,7 +6,7 @@ from src.py import Log, logger
 from src.py.media.ingest import get_pb_domain_set
 
 __author__ = 'gmena'
-POOL_PROCESS = 3
+POOL_PROCESS = 10
 ROOT_API = 'https://yts.mx'
 
 class YTS(object):
