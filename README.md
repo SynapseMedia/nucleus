@@ -22,21 +22,7 @@ Gateway Watchit Seeder
 
 # watchit-app
 
-1) After run migration and expose our node in gateway
+After run migration and expose our node in gateway
 
-> Please copy `public key` in `clients` file located in your root files directory and the `private key` as well. This keys will be requested on app login.*
-
-2) To configure your app please go into [this file](https://github.com/ZorrillosDev/watchit-desktop/blob/master/public/lib/settings/ipfs.js) and set your ENV variables.
-
-> Get "IPFS_NODE_ID" using `docker-compose exec watchit_ipfs ipfs id -f=<id>`.
-
-```
-"Bootstrap": [
-        '/ip4/{GATEWAY_IP}/tcp/4001/p2p/{IPFS_NODE_ID}',
-        '/ip4/{GATEWAY_IP}/tcp/4002/ws/p2p/{IPFS_NODE_ID}'
-]
-``` 
-
-
-
+Please copy `address` in `hash` file located in your root files directory. This key will be requested on app login.*
 
