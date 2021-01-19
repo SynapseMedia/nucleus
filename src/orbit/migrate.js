@@ -6,7 +6,7 @@ const MONGO_DB = args[0] || 'mongodb'
 const SOURCE_DB = args[1] || 'ipfs';
 const IPFS_NODE = args[2] || 'ipfs'
 const RECREATE = args[3] !== 'false';
-
+const fs = require('fs')
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
 const MongoClient = require('mongodb').MongoClient;
