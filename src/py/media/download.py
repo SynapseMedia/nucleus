@@ -4,7 +4,7 @@ import re
 import requests
 from pathlib import Path
 
-from src.py import Log
+from src.py import Log, logger
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -32,7 +32,7 @@ def download_file(uri, _dir):
 
     # already exists?
     if file_check.exists():
-        print(f"{Log.WARNING}File already exists: {_dir}{Log.ENDC}")
+        logger.warning(f"{Log.WARNING}File already exists: {_dir}{Log.ENDC}")
         return directory
 
     # print(f"{Log.OKGREEN}Downloading file: {directory}{Log.ENDC}")
@@ -44,14 +44,14 @@ def download_file(uri, _dir):
 
     # Check status for response
     if response.status_code == requests.codes.ok:
-        print(f"{Log.WARNING}Trying download to: {directory}{Log.ENDC}")
+        logger.warning(f"{Log.WARNING}Trying download to: {directory}{Log.ENDC}")
         with open(directory, "wb") as out:
             for block in response.iter_content(256):
                 if not block: break
                 out.write(block)
             out.close()
 
-    print(f"{Log.OKGREEN}File stored in: {directory}{Log.ENDC}")
+    logger.info(f"{Log.OKGREEN}File stored in: {directory}{Log.ENDC}")
     return directory
 
 

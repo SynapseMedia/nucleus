@@ -1,7 +1,7 @@
 import os
 from datetime import date
 
-from src.py import Log
+from src.py import logger, Log
 from src.py import media
 from src.py import mongo
 from src.py import torrents
@@ -48,8 +48,8 @@ if __name__ == '__main__':
         db.movies.bulk_write(bulk)
 
 
-    print('\nSetting mongodb')
-    print("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
+    logger.info('Setting mongodb')
+    logger.info("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
     # Initialize db list from name
     temp_db, cache_db = mongo.get_dbs('witth', 'ipfs')
 
@@ -58,18 +58,18 @@ if __name__ == '__main__':
     empty_cache = cache_db.movies.count() == 0
 
     if REFRESH_MOVIES or empty_tmp:
-        print('Rewriting...')
-        print(f"\n{Log.BOLD}Starting migrations from yts.mx {DB_DATE_VERSION}{Log.ENDC}")
+        logger.info('Rewriting...')
+        logger.info(f"{Log.BOLD}Starting migrations from yts.mx {DB_DATE_VERSION}{Log.ENDC}")
         migration_result = torrents.YTS(page=START_PAGE, limit=STEP_PAGE)()
-        print(f"{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
-        print(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
+        logger.info(f"{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
+        logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
 
         # Start to write obtained entries from src
         rewrite_entries(temp_db, migration_result)
-        print(f"{Log.UNDERLINE}Entries yts indexed: {len(migration_result)}{Log.ENDC}")
+        logger.info(f"{Log.UNDERLINE}Entries yts indexed: {len(migration_result)}{Log.ENDC}")
 
     if REFRESH_IPFS or empty_cache:
-        print(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
+        logger.info(f"\n{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
         if FLUSH_CACHE_IPFS or empty_cache:
             # Reset old entries and restore it
             cache_db.movies.delete_many({})

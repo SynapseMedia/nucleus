@@ -3,7 +3,7 @@ import time
 import csv
 import ipfshttpclient
 
-from src.py import Log
+from src.py import Log, logger
 from .download import ROOT_PATH
 from .download import download_file
 
@@ -16,13 +16,14 @@ def start_node():
     try:
         return ipfshttpclient.connect('/dns/ipfs/tcp/5001/http', session=True)
     except ipfshttpclient.exceptions.ConnectionError:
-        print(f"{Log.WARNING}Waiting for node active{Log.ENDC}")
+        logger.info(f"{Log.WARNING}Waiting for node active{Log.ENDC}")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
         return start_node()
 
-print(f"{Log.OKGREEN}Starting node{Log.ENDC}")
-ipfs = start_node() # Initialize api connection to node
-print(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}\n")
+
+logger.info(f"{Log.OKGREEN}Starting node{Log.ENDC}")
+ipfs = start_node()  # Initialize api connection to node
+logger.info(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}")
 
 
 def get_pb_domain_set(csv_file='pdm.csv'):
@@ -44,10 +45,10 @@ def ingest_ipfs_dir(_dir):
     :return:
     """
     directory = "%s/torrents/%s" % (ROOT_PATH, _dir)
-    print(f"Ingesting directory: {Log.BOLD}{_dir}{Log.ENDC}")
+    logger.info(f"Ingesting directory: {Log.BOLD}{_dir}{Log.ENDC}")
     _hash = ipfs.add(directory, pin=True, recursive=True)
     _hash = next(item for item in _hash if item['Name'] == _dir)['Hash']
-    print(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
+    logger.info(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
     return _hash
 
 
@@ -60,9 +61,9 @@ def ingest_ipfs_file(uri, _dir):
     :return:
     """
     directory = download_file(uri, _dir)
-    print(f"Ingesting file: {Log.BOLD}{_dir}{Log.ENDC}")
+    logger.info(f"Ingesting file: {Log.BOLD}{_dir}{Log.ENDC}")
     _hash = ipfs.add(directory, pin=True)['Hash']
-    print(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
+    logger.info(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
     return _hash
 
 
@@ -74,7 +75,7 @@ def ingest_ipfs_metadata(mv: list):
     :return:
     """
     try:
-        print(f"\n{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
+        logger.info(f"{Log.OKBLUE}Ingesting {mv['imdb_code']}{Log.ENDC}")
         # Downloading files
         current_imdb_code = mv['imdb_code']
         image_index = [  # Index image movie lists
@@ -95,10 +96,10 @@ def ingest_ipfs_metadata(mv: list):
         # Logs on ready ingested
         hash_directory = ingest_ipfs_dir(current_imdb_code)
         mv['hash'] = hash_directory
-        print(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}\n")
+        logger.info(f"{Log.OKGREEN}Done {mv['imdb_code']}{Log.ENDC}")
         return mv
     except Exception as e:
-        print('Retry download assets error:', e)
-        print("\n\033[93mWait", str(RECURSIVE_SLEEP_REQUEST), 'seconds\033[0m\n')
+        logger.error('Retry download assets error:', e)
+        logger.warning(f"{Log.WARNING}Wait", str(RECURSIVE_SLEEP_REQUEST), Log.ENDC )
         time.sleep(RECURSIVE_SLEEP_REQUEST)
         return ingest_ipfs_metadata(mv)

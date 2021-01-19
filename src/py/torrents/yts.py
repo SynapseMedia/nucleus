@@ -2,13 +2,12 @@ import requests
 from contextlib import contextmanager
 from multiprocessing import Pool
 
-from src.py import Log
+from src.py import Log, logger
 from src.py.media.ingest import get_pb_domain_set
 
 __author__ = 'gmena'
-POOL_PROCESS = 10
+POOL_PROCESS = 3
 ROOT_API = 'https://yts.mx'
-
 
 class YTS(object):
     """
@@ -22,7 +21,6 @@ class YTS(object):
     In migrate process each page is requested to get JSON content, pre process it and return it
     To know more about YTS API doc https://yts.mx/api
     """
-
 
     def __str__(self):
         return 'YTS'
@@ -48,9 +46,8 @@ class YTS(object):
         """
         # Request yifi
         _request: str = f"{self.YTS_HOST}{'?%s' % query_string if query_string else ''}"
-        _cookie = 'adcashufpv3=17981512371092097718392042062; __cfduid=dbf1c05bdb221675033d2ae958eb4f2961610924444; __atuvc=1%7C3; PHPSESSID=vaddrbb83hnm7sfj1tgqc52shg; __cf_bm=0284cbddd1042cb621f57dd4f36b2d517b13eb50-1610994684-1800-AWmH5PKF0W0T0T2wUzqQ1XOuj7WyhuhPAfuSnF38dBYEyrQ/TQlfb4lT7jds14lU2/5IwLQB2NsIGGFd2rk7GLB85AbgZ1BbEnrV+NuKkyio78/maf1rUB2w5S1qGgnadQ=='
+        _cookie = 'adcashufpv3=17981512371092097718392042062; __cfduid=dbf1c05bdb221675033d2ae958eb4f2961610924444; PHPSESSID=vaddrbb83hnm7sfj1tgqc52shg; __atuvc=6%7C3'
         _agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'
-        print(f"{Log.WARNING}Request: {_request}{Log.ENDC}")
 
         try:
             conn = self.req_session.get(
@@ -66,7 +63,7 @@ class YTS(object):
             # Return json
             yield conn.json()
         except (Exception,) as e:
-            print(f"{Log.FAIL}Fail request: {e}{Log.ENDC}")
+            logger.error(f"{Log.FAIL}Fail request: {e}{Log.ENDC}")
             yield {}
 
     def get_movies(self, page):
@@ -76,13 +73,11 @@ class YTS(object):
         :return:
         """
         # Req YTS
-        print(f"Requesting page {str(page)}")
+        logger.info(f"Requesting page {str(page)}")
         _uri = 'page=' + str(page) + '&limit=' + str(self.YTS_RECURSIVE_LIMIT) + '&sort=date_added'
         with self.request(_uri) as conn_result:
             if not 'data' in conn_result:
-                print(page)
-                print(self.YTS_RECURSIVE_LIMIT)
-                print(conn_result)
+                logger.debug(conn_result)
                 return False
 
             # OK 200?
@@ -93,37 +88,25 @@ class YTS(object):
             # Yield result
             return conn_result['data']['movies']
 
+
     def request_generator(self) -> iter:
         """
         Pool async requests for YTS
         :return:
         """
-
         # Uri
         with self.request() as ping:
             if not 'data' in ping: return False
             total_pages = round(int(ping['data']['movie_count']) / self.YTS_RECURSIVE_LIMIT)
             total_pages = total_pages if self.yts_recursive_page == 0 else self.yts_recursive_page
 
-            print(f"{Log.HEADER}Requesting {str(total_pages)} pages {Log.ENDC}")
+            logger.info(f"{Log.HEADER}Requesting {str(total_pages)} pages {Log.ENDC}")
             page_list = range(total_pages)
 
-            with Pool(processes=POOL_PROCESS) as pool:
-                p_async = pool.apply_async
-                results = {}
-
-                # Generate async pools
-                for x in page_list:
-                    results[x] = p_async(
-                        self.get_movies, args=(x,)
-                    )
-
-                # Close pool
-                pool.close()
-                pool.join()
-            # Generate dict with data
-            for x, y in results.items():
-                yield x, y.get()
+            with Pool(POOL_PROCESS) as pool:
+                logger.warning(f"Preparing processes: {POOL_PROCESS}")
+                yield pool.map(self.get_movies, list(page_list))
+                pool.terminate()
 
     def __call__(self):
         """
@@ -131,16 +114,16 @@ class YTS(object):
         :return:
         """
         # Get generator
-        for page, movie_meta_iter in self.request_generator():
+        for movie_meta_iter in self.request_generator():
             if not movie_meta_iter:
                 continue
+
             for movie_meta in movie_meta_iter:
-                print('indexing ' + movie_meta['title'])
+                logger.info('Indexing ' + movie_meta['title'])
                 current_imdb_code_set = {movie_meta['imdb_code']}
                 public_domain_movie = self.pb_match.intersection(current_imdb_code_set)
 
                 # Rewrite src id
-                movie_meta['page'] = page
                 movie_meta['resource_id'] = movie_meta['id']
                 movie_meta['resource_name'] = 'YTS'
                 movie_meta['trailer_code'] = movie_meta['yt_trailer_code']
