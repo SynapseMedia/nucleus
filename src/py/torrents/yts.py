@@ -113,7 +113,6 @@ class YTS(object):
         """
         # Get generator
         for movie_meta_iter in self.request_generator():
-            logger.debug(movie_meta_iter)
             if not movie_meta_iter:
                 continue
 
