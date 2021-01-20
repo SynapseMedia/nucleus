@@ -1,6 +1,17 @@
 #!/bin/bash
 
+## Usage: worker.sh {IPNS_CID}
+#
+#- IMPLEMENTATION
+#-    author          phillmac
+#-    license         GNU General Public License
+
+
 export IPFS_RESOLVE_TIMEOUT=15m
+
+function ipfs (){
+   docker run --rm -v "$(pwd)":/tmp -w /tmp --net default peelvalley/ipfs-cli "${@}";
+}
 
 function rawurlencode () {
   local string="${1}"
