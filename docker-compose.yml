@@ -41,6 +41,8 @@ services:
       FORCE_HTTP1: 'true'
       ANNOUNCE_DBS: 'true'
       LOG: 'DEBUG'
+    links:
+      - "watchit_ipfs:ipfs"
     depends_on:
       - watchit_ipfs
     ports:

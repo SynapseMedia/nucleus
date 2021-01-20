@@ -10,7 +10,7 @@
 export IPFS_RESOLVE_TIMEOUT=15m
 
 function ipfs (){
-   docker run --rm -v "$(pwd)":/tmp -w /tmp --net default peelvalley/ipfs-cli "${@}";
+   docker run --rm --net default peelvalley/ipfs-cli "${@}";
 }
 
 function rawurlencode () {
