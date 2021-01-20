@@ -10,7 +10,7 @@
 export IPFS_RESOLVE_TIMEOUT=15m
 
 function ipfs (){
-   docker run --rm -e "IPFS_API_HOST=watchit_ipfs"  peelvalley/ipfs-cli "${@}";
+   docker run --rm  -e "IPFS_API_PREFIX=ip4" -e "IPFS_API_HOST=127.0.0.1" --net host peelvalley/ipfs-cli "${@}";
 }
 
 function rawurlencode () {
