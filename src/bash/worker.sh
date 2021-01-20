@@ -6,9 +6,8 @@
 #-    author          phillmac
 #-    license         GNU General Public License
 
-
 export IPFS_RESOLVE_TIMEOUT=15m
-export ORBIT_DB_HOST="127.0.0.1"
+
 
 function ipfs (){
    docker run --rm  -e "IPFS_API_PREFIX=ip4" -e "IPFS_API_HOST=127.0.0.1" --net host peelvalley/ipfs-cli "${@}";
@@ -37,8 +36,8 @@ function db.open ()
     local dbAddr;
     host=${2:-${ORBIT_DB_HOST}};
     dbAddr=$(rawurlencode "${1}");
-    echo host
-    echo dbAddr
+    echo $host
+    echo $dbAddr
     curljsonp -d "{\"awaitOpen\":false, \"fetchEntryTimeout\":${ORBIT_DB_ENTRIES_TIMEOUT}}" "${host}/db/${dbAddr}"
 }
 
