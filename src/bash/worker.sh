@@ -40,7 +40,7 @@ function db.open ()
 }
 
 function curljsonp () {
-    curl --silent - -X POST -H "Content-Type: application/json" "${@}"
+    curl --silent --X POST -H "Content-Type: application/json" "${@}"
 }
 
 function getIPNSBase58BTC() {
