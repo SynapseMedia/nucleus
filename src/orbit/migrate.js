@@ -44,7 +44,6 @@ const msgpack = require("msgpack-lite");
         // Add provider to allow nodes connect to it
         console.info('Providing address', dbAddressHash);
         await consume(ipfs.dht.provide(dbAddressHash))
-        console.info('Provided done')
         console.info('Publishing address', dbAddressHash)
         const ipns = await ipfs.name.publish(dbAddressHash, {key: 'watchit'})
         console.info('Publish done', ipns.name)
