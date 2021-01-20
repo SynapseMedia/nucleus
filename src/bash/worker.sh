@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export IPFS_RESOLVE_TIMEOUT=15M
 
 function rawurlencode () {
   local string="${1}"
