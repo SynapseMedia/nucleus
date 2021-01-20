@@ -6,7 +6,7 @@ function db.open ()
     local dbAddr;
     host=${2:-${ORBIT_DB_HOST}};
     dbAddr=$(rawurlencode "${1}");
-    curljsonp -d "{\"awaitOpen\": false, \"fetchEntryTimeout\": ${ORBIT_DB_ENTRIES_TIMEOUT}}" "${host}/db/${dbAddr}" | python -m json.tool
+    curljsonp -d "{\"awaitOpen\": false, \"fetchEntryTimeout\": ${ORBIT_DB_ENTRIES_TIMEOUT}}" "${host}/db/${dbAddr}" | python3 -m json.tool
 }
 
 function curljsonp () {
