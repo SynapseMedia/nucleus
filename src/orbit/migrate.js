@@ -9,7 +9,7 @@ const RECREATE = args[3] !== 'false';
 const fs = require('fs')
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
-const { consume } = require('streaming-iterables')
+const {consume} = require('streaming-iterables')
 const MongoClient = require('mongodb').MongoClient;
 const ipfs = IpfsApi({host: IPFS_NODE, port: '5001', protocol: 'http'});
 const msgpack = require("msgpack-lite");
@@ -45,6 +45,9 @@ const msgpack = require("msgpack-lite");
         console.info('Providing address', dbAddressHash);
         await consume(ipfs.dht.provide(dbAddressHash))
         console.info('Provided done')
+        console.info('Publishing address', dbAddressHash)
+        const ipns = await ipfs.name.publish(dbAddressHash, {key: 'watchit'})
+        console.info('Publish done', ipns.name)
 
         // Add events
         console.info('Adding hash to file')

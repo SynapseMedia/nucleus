@@ -1,7 +1,7 @@
 version: '3'
 services:
   watchit_ipfs:
-    image: gmena/node:v1.0.9
+    image: gmena/node:v1.0.10
     restart: unless-stopped
     ports:
       - "4001:4001"
@@ -31,3 +31,20 @@ services:
     ports:
       - "27017:27017"
 
+  watchit_orbitdb_api:
+    image:  phillmac/orbit-db-http-api-dev:debug
+    restart: unless-stopped
+    command: ["node", "--trace-warnings", "src/cli.js", "api", "--debug"]
+    init: TRUE
+    environment:
+      IPFS_HOST: 'watchit_ipfs'
+      ORBITDB_DIR: '/orbitdb'
+      FORCE_HTTP1: 'true'
+      ANNOUNCE_DBS: 'true'
+      LOG: 'DEBUG'
+    depends_on:
+      - watchit_ipfs
+    ports:
+      - 127.0.0.1:3000:3000/tcp
+    volumes:
+      - ./orbitdb:/orbitdb

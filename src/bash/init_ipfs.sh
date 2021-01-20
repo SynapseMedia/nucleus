@@ -58,6 +58,12 @@ else
   ipfs config Swarm.EnableRelayHop true --json
   ipfs config Discovery.MDNS.Enabled true --json # Allowed be found in local
 
+  # Get current id
+  current_node_id=$(ipfs id -f="<id>")
+  ipfs bootstrap add /dns4/watchit_ipfs/tcp/4001/p2p/"$current_node_id"
+  ipfs bootstrap add /dns4/watchit_ipfs/tcp/4002/ws/p2p/"$current_node_id"
+  ipfs bootstrap add /ip4/0.0.0.0/tcp/4001/p2p/"$current_node_id"
+  ipfs bootstrap add /ip4/0.0.0.0/tcp/4002/ws/p2p/"$current_node_id"
 
   export IPFS_FD_MAX=8192
   ulimit -n 8192
