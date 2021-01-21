@@ -28,22 +28,27 @@ services:
     image: mongo
     container_name: watchit_mongo
     restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=watchit
+      - MONGO_INITDB_ROOT_PASSWORD=watchit
+    volumes:
+      - ./mongo-volume:/data/db
     ports:
       - "27017:27017"
 
-  watchit_orbitdb_api:
-    image:  phillmac/orbit-db-http-api-dev:debug
-    restart: unless-stopped
-    command: ["node", "--trace-warnings", "src/cli.js", "api", "--debug"]
-    environment:
-      IPFS_HOST: 'watchit_ipfs'
-      ORBITDB_DIR: '/orbitdb'
-      FORCE_HTTP1: 'true'
-      ANNOUNCE_DBS: 'true'
-      LOG: 'DEBUG'
-    depends_on:
-      - watchit_ipfs
-    ports:
-      - 127.0.0.1:3000:3000/tcp
-    volumes:
-      - ./orbitdb:/orbitdb
+#  watchit_orbitdb_api:
+#    image:  phillmac/orbit-db-http-api-dev:debug
+#    restart: unless-stopped
+#    command: ["node", "--trace-warnings", "src/cli.js", "api", "--debug"]
+#    environment:
+#      IPFS_HOST: 'watchit_ipfs'
+#      ORBITDB_DIR: '/orbitdb'
+#      FORCE_HTTP1: 'true'
+#      ANNOUNCE_DBS: 'true'
+#      LOG: 'DEBUG'
+#    depends_on:
+#      - watchit_ipfs
+#    ports:
+#      - 127.0.0.1:3000:3000/tcp
+#    volumes:
+#      - ./orbitdb:/orbitdb
