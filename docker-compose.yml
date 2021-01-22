@@ -28,11 +28,6 @@ services:
     image: mongo
     container_name: watchit_mongo
     restart: unless-stopped
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=watchit
-      - MONGO_INITDB_ROOT_PASSWORD=watchit
-    volumes:
-      - ./mongo-volume:/data/db
     ports:
       - "27017:27017"
 

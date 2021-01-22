@@ -6,7 +6,7 @@ from src.py import Log, logger
 from src.py.media.ingest import get_pb_domain_set
 
 __author__ = 'gmena'
-POOL_PROCESS = 10
+POOL_PROCESS = 5
 ROOT_API = 'https://yts.mx'
 
 
@@ -65,7 +65,8 @@ class YTS(object):
             yield conn.json()
         except (Exception,) as e:
             logger.error(f"{Log.FAIL}Fail request: {e}{Log.ENDC}")
-            yield {}
+            logger.warning(f"{Log.WARNING}Retrying..{Log.ENDC}")
+            yield self.request(query_string)
 
     def get_movies(self, page):
         """
