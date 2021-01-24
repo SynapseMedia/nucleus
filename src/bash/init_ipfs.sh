@@ -55,7 +55,6 @@ else
   ipfs config Datastore.StorageMax 30GB
   ipfs config Datastore.BloomFilterSize 1048576 --json
   ipfs config Swarm.EnableAutoRelay true --json
-  ipfs config Swarm.EnableRelayHop true --json
   ipfs config Discovery.MDNS.Enabled true --json # Allowed be found in local
 
   # Get current id
