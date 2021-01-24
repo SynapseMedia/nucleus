@@ -3,6 +3,8 @@ services:
   watchit_ipfs:
     image: gmena/node:v1.0.11
     restart: unless-stopped
+    volumes:
+      - ~/.ipfs:/data/ipfs
     ports:
       - "4001:4001"
       - "4002:4002"
