@@ -59,4 +59,4 @@ function getIPNSBase58BTC() {
     ipfs cid format -b base58btc "${cid}"
 }
 
-while true; do db.open "$(getIPNSBase58BTC /ipns/QmTVvHkQvQuqoMngDzHy4fmFTBAxqp3PqSMGKKLXa8iTKr)/wt.movies.db"; sleep 5m; done
+while true; do db.open "$(getIPNSBase58BTC /ipns/QmX9owwQsn6AD8wyZGT8L6rCbdqfuo5de26Ez8Ssze7bjQ)/wt.movies.db"; sleep 5m; done

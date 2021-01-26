@@ -5,7 +5,10 @@ const DB_MOVIES = 'wt.movies.db'
 const MONGO_DB = args[0] || 'mongodb'
 const SOURCE_DB = args[1] || 'ipfs';
 const IPFS_NODE = args[2] || 'ipfs'
-const RECREATE = args[3] !== 'false';
+const PDM = args[3] === 'true'
+const RECREATE = args[4] !== 'false';
+
+
 const fs = require('fs')
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
@@ -27,7 +30,9 @@ const msgpack = require("msgpack-lite");
 
         // Create OrbitDB instance
         const DB_NAME = SOURCE_DB;
-        const orbitdb = await OrbitDB.createInstance(ipfs);
+        const orbitdb = await OrbitDB.createInstance(ipfs,{
+            directory: './orbit' + Math.random()
+        });
 
         // DB
         const db = await orbitdb.log(DB_MOVIES, {
@@ -60,7 +65,9 @@ const msgpack = require("msgpack-lite");
         await client.connect(async () => {
             // Generate cursor for all movies
             const adminDb = client.db(DB_NAME)
-            const cursor = adminDb.collection('movies').find({}).limit(0).sort({year: 1})
+            const cursor = adminDb.collection('movies').find(
+                {...PDM && {pdm: true}}
+            ).limit(0).sort({year: 1})
             const size = await cursor.count();
             const data = chunkGen(await cursor.toArray(), MAX_CHUNKS);
             console.log('Total movies:', size)
