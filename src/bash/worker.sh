@@ -38,7 +38,7 @@ function db.open ()
     local dbAddr;
     host=${2:-${ORBIT_DB_HOST}};
     dbAddr=$(rawurlencode "${1}");
-    echo "Opening host ${host} ${dbAddr}"
+    echo "Opening host ${host}"
     curljsonp -d "{\"awaitOpen\":false, \"fetchEntryTimeout\":${ORBIT_DB_ENTRIES_TIMEOUT}}" "${host}/db/${dbAddr}"
 }
 
