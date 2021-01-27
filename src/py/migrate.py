@@ -4,7 +4,7 @@ from datetime import date
 from src.py import logger, Log
 from src.py import media
 from src.py import mongo
-from src.py import torrents
+from src.py import resolvers
 
 __author__ = 'gmena'
 if __name__ == '__main__':
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     if REFRESH_MOVIES or empty_tmp:
         logger.info('Rewriting...')
         logger.info(f"{Log.BOLD}Starting migrations from yts.mx {DB_DATE_VERSION}{Log.ENDC}")
-        migration_result = torrents.YTS(page=START_PAGE, limit=STEP_PAGE)()
+        migration_result = resolvers.YTS(page=START_PAGE, limit=STEP_PAGE)()
         logger.info(f"{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
         logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
 
