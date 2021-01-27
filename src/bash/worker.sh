@@ -10,7 +10,7 @@
 export IPFS_RESOLVE_TIMEOUT=15m
 export ORBIT_DB_ENTRIES_TIMEOUT=1000
 export ORBIT_DB_HOST="http://127.0.0.1:3001"
-IPNS_CID=$1
+IPNS_CID="${1}"
 
 function ipfs (){
    docker run --rm  -e "IPFS_API_PREFIX=ip4" -e "IPFS_API_HOST=127.0.0.1" --net host peelvalley/ipfs-cli "${@}";

@@ -66,7 +66,7 @@ class YTS(object):
         except (Exception,) as e:
             logger.error(f"{Log.FAIL}Fail request: {e}{Log.ENDC}")
             logger.warning(f"{Log.WARNING}Retrying..{Log.ENDC}")
-            yield self.request(query_string)
+            return self.request(query_string)
 
     def get_movies(self, page):
         """
