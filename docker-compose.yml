@@ -1,8 +1,10 @@
 version: '3'
 services:
   watchit_ipfs:
-    image: gmena/node:v1.1.0
+    image: gmena/node:v1.1.2
     restart: unless-stopped
+    volumes:
+    - ~/.ipfs:/data/ipfs
     ports:
       - "4001:4001"
       - "4002:4002"
@@ -13,6 +15,7 @@ services:
     image: gmena/migrate:v1.0.23
     container_name: watchit_migrator
     command: python3 src/py/migrate.py
+    restart: unless-stopped
     links:
       - "watchit_mongodb:mongodb"
       - "watchit_ipfs:ipfs"

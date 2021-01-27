@@ -53,14 +53,13 @@ else
   # Unset the swarm key file variable
   unset IPFS_SWARM_KEY_FILE
   ipfs config Datastore.StorageMax 30GB
-  ipfs config Datastore.BloomFilterSize 1048576 --json
-  ipfs config Swarm.EnableAutoRelay true --json
-  ipfs config Swarm.EnableRelayHop false --json
-  ipfs config Swarm.ConnMgr.Type "basic" --json
-  ipfs config Swarm.ConnMgr.LowWater 450 --json
-  ipfs config Swarm.ConnMgr.HighWater 1500 --json
-  ipfs config Swarm.ConnMgr.GracePeriod "20s" --json
-  ipfs config Discovery.MDNS.Enabled true --json # Allowed be found in local
+  ipfs config Swarm.EnableAutoRelay true
+  ipfs config Swarm.EnableRelayHop false
+  ipfs config Swarm.ConnMgr.Type "basic"
+  ipfs config Swarm.ConnMgr.LowWater 450
+  ipfs config Swarm.ConnMgr.HighWater 1500
+  ipfs config Swarm.ConnMgr.GracePeriod "20s"
+  ipfs config Discovery.MDNS.Enabled true
 
   # Get current id
   current_node_id=$(ipfs id -f="<id>")

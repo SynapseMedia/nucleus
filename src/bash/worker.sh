@@ -10,6 +10,7 @@
 export IPFS_RESOLVE_TIMEOUT=15m
 export ORBIT_DB_ENTRIES_TIMEOUT=1000
 export ORBIT_DB_HOST="http://127.0.0.1:3001"
+IPNS_CID=$1
 
 function ipfs (){
    docker run --rm  -e "IPFS_API_PREFIX=ip4" -e "IPFS_API_HOST=127.0.0.1" --net host peelvalley/ipfs-cli "${@}";
@@ -63,5 +64,5 @@ function getIPNSBase58BTC() {
 }
 
 echo "Running worker"
-echo "$(getIPNSBase58BTC /ipns/QmX9owwQsn6AD8wyZGT8L6rCbdqfuo5de26Ez8Ssze7bjQ)/wt.movies.db"
-while true; do db.open "$(getIPNSBase58BTC /ipns/QmX9owwQsn6AD8wyZGT8L6rCbdqfuo5de26Ez8Ssze7bjQ)/wt.movies.db"; sleep 5m; done
+echo "$(getIPNSBase58BTC /ipns/${IPNS_CID})/wt.movies.db"
+while true; do db.open "$(getIPNSBase58BTC /ipns/${IPNS_CID})/wt.movies.db"; sleep 5m; done
