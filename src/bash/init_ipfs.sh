@@ -25,7 +25,7 @@ else
   ipfs init $INIT_ARGS
   ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001
   ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
-  ipfs config Addresses.Swarm '["/ip4/0.0.0.0/tcp/4001", "/ip4/0.0.0.0/tcp/4002/ws", "/ip6/::/tcp/4001", "/ip4/0.0.0.0/udp/4001/quic", "/ip6/::/udp/4001/quic"]' --json
+  ipfs config Addresses.Swarm '["/ip4/0.0.0.0/tcp/4001", "/ip4/0.0.0.0/tcp/4002/ws", "/ip6/::/tcp/4001"]' --json
   ipfs config Peering.Peers '[{ "ID": "12D3KooWQw3vx2E4FKpL9GHC9BpFya1MXVUFEVBAQVhMDkreCqwF", "Addrs": ["/ip4/185.215.224.79/tcp/4001"] }, { "ID": "12D3KooWD4Z47R1pnzTxCVQAiTKTHasWU2xTAcffyC38BNKM68yw", "Addrs": ["/ip4/185.215.227.40/tcp/4001"] }, { "ID": "QmbPFTECrXd7o2HS2jWAJ2CyAckv3Z5SFy8gnEHKxxH52g", "Addrs": ["/ip4/144.172.69.157/tcp/4001"] }]' --json
 
   # Set up the swarm key, if provided
@@ -55,6 +55,11 @@ else
   ipfs config Datastore.StorageMax 30GB
   ipfs config Datastore.BloomFilterSize 1048576 --json
   ipfs config Swarm.EnableAutoRelay true --json
+  ipfs config Swarm.EnableRelayHop false --json
+  ipfs config Swarm.ConnMgr.Type "basic" --json
+  ipfs config Swarm.ConnMgr.LowWater 450 --json
+  ipfs config Swarm.ConnMgr.HighWater 1500 --json
+  ipfs config Swarm.ConnMgr.GracePeriod "20s" --json
   ipfs config Discovery.MDNS.Enabled true --json # Allowed be found in local
 
   # Get current id
