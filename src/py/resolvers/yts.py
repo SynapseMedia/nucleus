@@ -12,7 +12,7 @@ ROOT_API = 'https://yts.mx'
 
 class YTS(object):
     """
-    This class defines the basic interface called by the migrate process.
+    This class defines the basic resolver interface called by the migrate process.
 
     These methods will be called by the migrate:
       request(query_string)
