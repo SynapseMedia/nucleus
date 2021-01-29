@@ -11,7 +11,6 @@ if __name__ == '__main__':
     DB_DATE_VERSION = date.today().strftime('%Y%m%d')
     ROOT_PROJECT = os.environ.get('PROJECT_ROOT', '/data/watchit')
 
-
     # Process each resolver and merge it
     for resolver in resolvers.load():
         _resolver = resolver(scheme)  # Init class with scheme

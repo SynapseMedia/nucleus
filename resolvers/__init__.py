@@ -25,9 +25,8 @@ import pkgutil
 
 __title__ = 'watchit'
 __version__ = '0.1.0'
-__author__ = 'Geolffrey Mena'
 __license__ = 'MIT'
-__copyright__ = 'Copyright 2020-2021 Geolffrey MEna'
+__copyright__ = 'Copyright 2020-2021 ZorrillosDev'
 
 
 def load():
