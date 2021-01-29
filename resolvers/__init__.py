@@ -5,7 +5,7 @@ Always remember to comply with the specifications of
 each resolver for the correct functioning of the gateway.
 
 Define your resolvers modules below.
-Ex: Each resolver must implement 2 fundamental methods.
+Ex: Each resolver must implement 3 fundamental methods.
 
 class Dummy:
     def __init__(self, scheme)
