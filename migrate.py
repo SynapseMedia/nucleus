@@ -4,7 +4,7 @@ from datetime import date
 from src.core import logger, Log
 from src.core import media
 from src.core import mongo
-from src.core import resolvers
+import resolvers
 
 __author__ = 'gmena'
 if __name__ == '__main__':

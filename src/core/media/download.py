@@ -35,7 +35,6 @@ def download_file(uri, _dir):
         logger.warning(f"{Log.WARNING}File already exists: {_dir}{Log.ENDC}")
         return directory
 
-    # print(f"{Log.OKGREEN}Downloading file: {directory}{Log.ENDC}")
     # Create if not exist dir
     Path(dirname).mkdir(parents=True, exist_ok=True)
     response = session.get(uri, verify=True, stream=True, timeout=60, headers={
