@@ -4,7 +4,7 @@ Watchit simple and useful general purpose gateway framework
 Always remember to comply with the specifications of
 each resolver for the correct functioning of the gateway.
 
-Define your resolvers below.
+Define your resolvers modules below.
 Ex: Each resolver must implement 2 fundamental methods.
 
 class Test:
@@ -22,7 +22,7 @@ __author__ = 'Geolffrey Mena'
 __license__ = 'MIT'
 __copyright__ = 'Copyright 2020-2021 Geolffrey MEna'
 
-from .yts import YTS
-from .test import Test
 
-RESOLVERS = [YTS, Test]
+RESOLVERS = [
+
+]

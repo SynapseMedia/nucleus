@@ -1,4 +1,4 @@
-class Test:
+class DummyResolver:
     def __str__(self):
         return 'Test'
 

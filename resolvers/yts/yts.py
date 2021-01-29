@@ -6,7 +6,10 @@ from src.core import Log, logger
 from src.core.media.ingest import get_pb_domain_set
 
 __author__ = 'gmena'
+
 POOL_PROCESS = 5
+PAGE_START = 0
+PAGE_SIZE = 50
 ROOT_API = 'https://yts.mx'
 
 
@@ -26,7 +29,7 @@ class YTS(object):
     def __str__(self):
         return 'YTS'
 
-    def __init__(self, host: str = ROOT_API, page: int = 0, limit: int = 50):
+    def __init__(self, host: str = ROOT_API, page: int = PAGE_START, limit: int = PAGE_SIZE):
         # ignore 400 cause by IndexAlreadyExistsException when creating an index
 
         # CONSTANTS

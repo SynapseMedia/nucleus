@@ -4,7 +4,7 @@ import csv
 import ipfshttpclient
 
 from src.core import Log, logger
-from .download import ROOT_PATH
+from .download import ROOT_PATH, HOME_PATH
 from .download import download_file
 
 __author__ = 'gmena'
@@ -45,7 +45,7 @@ def ingest_ipfs_dir(_dir):
     :param _dir:
     :return:
     """
-    directory = "%s/torrents/%s" % (ROOT_PATH, _dir)
+    directory = "%s/torrents/%s" % (HOME_PATH, _dir)
     logger.info(f"Ingesting directory: {Log.BOLD}{_dir}{Log.ENDC}")
     _hash = ipfs.add(directory, pin=True, recursive=True)
     _hash = next(item for item in _hash if item['Name'] == _dir)['Hash']
@@ -71,8 +71,7 @@ def ingest_ipfs_file(uri, _dir):
 def ingest_ipfs_metadata(mv: dict):
     """
     Loop over assets, download it and add it to IPFS
-    Please check movies scheme in https://yts.mx/api
-    :param mv: List of movies
+    :param mv:
     :return:
     """
     try:

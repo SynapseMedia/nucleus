@@ -10,3 +10,4 @@ source
 scheme.js
 resolvers
 !resolvers/__init__.py
+!resolvers/dummy/*
