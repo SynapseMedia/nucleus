@@ -7,7 +7,7 @@ each resolver for the correct functioning of the gateway.
 Define your resolvers modules below.
 Ex: Each resolver must implement 2 fundamental methods.
 
-class Test:
+class Dummy:
     def __str__(self):
         return 'Test'
 
@@ -15,6 +15,8 @@ class Test:
         return {}
 
 """
+import inspect
+import pkgutil
 
 __title__ = 'watchit'
 __version__ = '0.1.0'
@@ -23,6 +25,15 @@ __license__ = 'MIT'
 __copyright__ = 'Copyright 2020-2021 Geolffrey MEna'
 
 
-RESOLVERS = [
+def load():
+    """
+    Auto load modules in `resolvers` path
+    """
+    for loader, name, is_pkg in pkgutil.walk_packages(__path__):
+        _module = loader.find_module(name).load_module(name)
+        for _, obj in inspect.getmembers(_module):
+            if inspect.isclass(obj) and is_pkg and hasattr(obj, '__call__'):
+                yield obj
 
-]
+
+__all__ = ['load']

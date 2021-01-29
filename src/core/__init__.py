@@ -36,4 +36,4 @@ class Log:
     UNDERLINE = '\033[4m'
 
 
-__all__ = ["Log", "logger", 'AutoLoad']
+__all__ = ["Log", "logger"]

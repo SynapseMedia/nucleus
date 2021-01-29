@@ -12,8 +12,6 @@ if __name__ == '__main__':
     DB_DATE_VERSION = date.today().strftime('%Y%m%d')
     ROOT_PROJECT = os.environ.get('PROJECT_ROOT', '/data/watchit')
 
-    START_PAGE = int(os.environ.get('START_PAGE', 0))
-    STEP_PAGE = int(os.environ.get('STEP_PAGE', 50))
     REFRESH_MOVIES = os.environ.get('REFRESH_MOVIES', 'False') == 'True'
     REFRESH_IPFS = os.environ.get('REFRESH_IPFS', 'False') == 'True'
     FLUSH_CACHE_IPFS = os.environ.get('FLUSH_CACHE_IPFS', 'False') == 'True'

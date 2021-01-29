@@ -11,6 +11,16 @@ services:
       - "8080:8080"
       - "5001:5001"
 
+
+  watchit_test:
+    image: gmena/migrate:v1.1.0
+    container_name: watchit_test
+    command: python3 test.py
+    volumes:
+      - .:/data/watchit
+    env_file:
+      - .env
+
   watchit_migrator:
     image: gmena/migrate:v1.0.23
     container_name: watchit_migrator

@@ -15,8 +15,8 @@
     "streaming-iterables": "^5.0.4"
   },
   "scripts": {
-    "migrate": "node src/orbit/migrate.js",
-    "local": "node src/orbit/local.js"
+    "migrate": "node src/core/orbit/migrate.js",
+    "local": "node src/core/orbit/local.js"
   },
   "devDependencies": {
     "fs": "0.0.1-security"
