@@ -63,7 +63,10 @@ if __name__ == '__main__':
     if REFRESH_MOVIES or empty_tmp:
         logger.info('Rewriting...')
         logger.info(f"{Log.BOLD}Starting migrations from yts.mx {DB_DATE_VERSION}{Log.ENDC}")
-        migration_result = resolvers.YTS(page=START_PAGE, limit=STEP_PAGE)()
+
+        # Process each resolver and merge it
+        # for resolver in resolvers.RESOLVERS_LIST:
+        migration_result = resolvers.yts.YTS()()
         logger.info(f"{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
         logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
 
