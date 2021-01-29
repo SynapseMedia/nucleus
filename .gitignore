@@ -2,7 +2,6 @@
 node_modules
 .idea
 package-lock.json
-src/down_torrents/
 hash
 clients
 orbitdb
@@ -12,3 +11,4 @@ resolvers
 !resolvers/__init__.py
 !resolvers/dummy/dummy.py
 !resolvers/dummy/__init__.py
+src/core/media/torrents
