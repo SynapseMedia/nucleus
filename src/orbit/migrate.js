@@ -31,7 +31,7 @@ const msgpack = require("msgpack-lite");
         // Create OrbitDB instance
         const DB_NAME = SOURCE_DB;
         const orbitdb = await OrbitDB.createInstance(ipfs,{
-            directory: './orbit' + Math.random()
+            directory: './orbit'
         });
 
         // DB

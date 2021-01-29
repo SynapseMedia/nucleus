@@ -1,10 +1,10 @@
 import os
 from datetime import date
 
-from src.py import logger, Log
-from src.py import media
-from src.py import mongo
-from src.py import resolvers
+from src.core import logger, Log
+from src.core import media
+from src.core import mongo
+from src.core import resolvers
 
 __author__ = 'gmena'
 if __name__ == '__main__':
@@ -31,6 +31,8 @@ if __name__ == '__main__':
         for x in movies_indexed:
             _id = x['_id']  # Current id
             ingested_data = media.ingest_ipfs_metadata(x)
+            if 'torrents' not in x:
+                continue
             idb.movies.insert_one(ingested_data)
             wdb.movies.update_one({'_id': _id}, {'$set': {'updated': True}})
         movies_indexed.close()

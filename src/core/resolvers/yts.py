@@ -2,8 +2,8 @@ import requests
 from contextlib import contextmanager
 from multiprocessing import Pool
 
-from src.py import Log, logger
-from src.py.media.ingest import get_pb_domain_set
+from src.core import Log, logger
+from src.core.media.ingest import get_pb_domain_set
 
 __author__ = 'gmena'
 POOL_PROCESS = 5
