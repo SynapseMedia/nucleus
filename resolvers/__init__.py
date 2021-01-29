@@ -8,6 +8,11 @@ Define your resolvers modules below.
 Ex: Each resolver must implement 2 fundamental methods.
 
 class Dummy:
+    def __init__(self, scheme)
+        Initialize resolver with scheme module
+        Scheme module define methods to validate and clean
+        pass
+
     def __str__(self):
         return 'Test'
 

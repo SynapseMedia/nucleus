@@ -7,7 +7,7 @@ class Dummy:
     def __init__(self, scheme):
         """
         Initialize resolver with scheme module
-        :param scheme: Scheme define method to validate and clean scheme
+        :param scheme: Scheme module defines methods to validate and clean
         """
         self.scheme = scheme
         pass
