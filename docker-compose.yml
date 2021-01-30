@@ -50,7 +50,7 @@ services:
   watchit_worker:
     image: gmena/migrate:v1.0.23
     restart: unless-stopped
-    command: [ 'ls -la' ]
+    command: [ 'bash', '-c', '"ls -la"' ]
     volumes:
       - .:/data/watchit
     depends_on:
