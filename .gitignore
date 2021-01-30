@@ -11,5 +11,6 @@ resolvers
 !resolvers/__init__.py
 !resolvers/dummy/dummy.py
 !resolvers/dummy/__init__.py
+src/bash/local_init_ipfs.sh
 src/core/media/torrents
 data/ipfs
