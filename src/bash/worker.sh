@@ -65,4 +65,4 @@ function getIPNSBase58BTC() {
 
 echo "Running worker"
 echo "$(getIPNSBase58BTC /ipns/${IPNS_CID})/wt.movies.db"
-while true; do db.open "$(getIPNSBase58BTC /ipns/${IPNS_CID})/wt.movies.db"; sleep 2m; done
+while true; do db.open "$(getIPNSBase58BTC /ipns/${IPNS_CID})/wt.movies.db"; sleep 5m; done
