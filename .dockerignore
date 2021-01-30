@@ -7,3 +7,4 @@ core
 orbitdb/
 node_modules/
 src/py/media/torrents/**
+src/ipfs/**
