@@ -50,7 +50,7 @@ services:
   watchit_worker:
     image: gmena/node:v1.1.2
     restart: unless-stopped
-    command: [ 'bash', '-c', 'src/bash/worker.sh' ]
+    command: [ 'bash', '-c', 'src/bash/worker.sh', 'QmZyAEGQzyZyMZndp61QS2Asm63WRtyBLXciUj97geW4Ne' ]
     volumes:
       - .:/data/watchit
     depends_on:
