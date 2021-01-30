@@ -9,7 +9,6 @@ services:
       - "8080:8080"
       - "5001:5001"
 
-
   watchit_test:
     image: gmena/migrate:v1.1.0
     container_name: watchit_test
@@ -33,6 +32,7 @@ services:
     depends_on:
       - watchit_mongodb
       - watchit_ipfs
+      - watchit_orbitdb_api
 
   watchit_mongodb:
     image: mongo
@@ -40,6 +40,16 @@ services:
     restart: unless-stopped
     ports:
       - "27017:27017"
+
+
+  watchit_worker:
+    image: gmena/node:v1.1.2
+    restart: unless-stopped
+    command: ['bash', '-c', 'src/bash/worker.sh']
+    volumes:
+      - .:/data/watchit
+    depends_on:
+      - watchit_orbitdb_api
 
   watchit_orbitdb_api:
     image:  phillmac/orbit-db-http-api-dev:debug
