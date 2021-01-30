@@ -4,7 +4,7 @@ node_modules
 package-lock.json
 hash
 clients
-orbitdb
+orbitdb/
 source
 scheme.js
 resolvers
@@ -12,3 +12,4 @@ resolvers
 !resolvers/dummy/dummy.py
 !resolvers/dummy/__init__.py
 src/core/media/torrents
+data/ipfs
