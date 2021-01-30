@@ -48,7 +48,7 @@ services:
       - "27017:27017"
 
   watchit_worker:
-    image: gmena/node:v1.1.2
+    image: gmena/migrate:v1.0.23
     restart: unless-stopped
     command: [ 'bash', '-c', '"src/bash/worker.sh QmZyAEGQzyZyMZndp61QS2Asm63WRtyBLXciUj97geW4Ne"' ]
     volumes:
