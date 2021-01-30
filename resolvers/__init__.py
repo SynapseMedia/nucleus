@@ -22,6 +22,7 @@ class Dummy:
 """
 import inspect
 import pkgutil
+from .yts import yts
 
 __title__ = 'watchit'
 __version__ = '0.1.0'
@@ -40,4 +41,4 @@ def load():
                 yield obj
 
 
-__all__ = ['load']
+__all__ = ['load', 'yts', 'dummy']
