@@ -1,8 +1,3 @@
-import json
-import os
-from src.core import logger
-
-
 class Dummy:
     def __init__(self, scheme):
         """

@@ -27,7 +27,7 @@ services:
   watchit_migrator:
     image: gmena/migrate:v1.0.23
     container_name: watchit_migrator
-    command: python3 migrate.py
+    command: python3 main.py
     links:
       - "watchit_mongodb:mongodb"
       - "watchit_ipfs:ipfs"
