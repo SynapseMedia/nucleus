@@ -41,4 +41,4 @@ def load():
                 yield obj
 
 
-__all__ = ['load', 'yts', 'dummy']
+__all__ = ['load']
