@@ -1,12 +1,14 @@
-args = process.argv.slice(2);
+const argv = require('minimist')(process.argv.slice(2));
 
 const MAX_CHUNKS = 1000
 const DB_MOVIES = 'wt.movies.db'
-const MONGO_DB = args[0] || 'mongodb'
-const SOURCE_DB = args[1] || 'ipfs';
-const IPFS_NODE = args[2] || 'ipfs'
-const PDM = args[3] === 'true'
-const RECREATE = args[4] !== 'false';
+const SOURCE_DB = argv.source || 'ipfs';
+const IPFS_NODE = argv.node || 'ipfs'
+const KEY = argv.key || 'watchit' // Local key used to IPNS publish
+const MONGO_DB = argv.hdb || 'mongodb' // Temporary helper db
+const PDM = argv.p // Activate PDM filter
+const RECREATE = argv.r || true // Recreate database
+const REGEN = argv.regen || true
 
 
 const fs = require('fs')
@@ -30,8 +32,8 @@ const msgpack = require("msgpack-lite");
 
         // Create OrbitDB instance
         const DB_NAME = SOURCE_DB;
-        const orbitdb = await OrbitDB.createInstance(ipfs,{
-            directory: './orbit' + Math.random().toString()
+        const orbitdb = await OrbitDB.createInstance(ipfs, {
+            directory: REGEN ? './orbit' + Math.random().toString() : './orbit'
         });
 
         // DB
@@ -50,7 +52,7 @@ const msgpack = require("msgpack-lite");
         console.info('Providing address', dbAddressHash);
         await consume(ipfs.dht.provide(dbAddressHash))
         console.info('Publishing address', dbAddressHash)
-        const ipns = await ipfs.name.publish(dbAddressHash, {key: 'watchit'})
+        const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
         console.info('Publish done', ipns.name)
 
         // Add events

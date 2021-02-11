@@ -2,9 +2,11 @@
 .git
 .cache
 README.md
-core
 .gitignore
+test.py
+hash
+data/
 orbitdb/
+orbit0*/
 node_modules/
-src/py/media/torrents/**
-src/ipfs/**
+src/core/media/torrents/**

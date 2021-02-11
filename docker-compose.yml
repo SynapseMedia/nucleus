@@ -16,9 +16,10 @@ services:
       - "5001:5001"
 
   watchit_test:
-    image: gmena/migrate:v1.1.0
     container_name: watchit_test
     command: python3 test.py
+    build:
+      context: .
     volumes:
       - .:/data/watchit
     env_file:
@@ -50,7 +51,7 @@ services:
   watchit_worker:
     image: gmena/migrate:v1.0.23
     restart: unless-stopped
-    command: [ 'bash', '-c', '"src/bash/worker.sh QmZyAEGQzyZyMZndp61QS2Asm63WRtyBLXciUj97geW4Ne"' ]
+    command: [ 'bash', '-c', '"/data/watchit/src/bash/worker.sh QmZyAEGQzyZyMZndp61QS2Asm63WRtyBLXciUj97geW4Ne"' ]
     volumes:
       - .:/data/watchit
     depends_on:
