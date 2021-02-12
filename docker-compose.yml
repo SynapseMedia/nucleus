@@ -3,14 +3,15 @@ services:
   watchit_ipfs:
     image: ipfs/go-ipfs:v0.6.0
     restart: unless-stopped
-    command: ["daemon", "--enable-pubsub-experiment"]
+    command: [ "daemon", "--enable-pubsub-experiment" ]
     environment:
       - IPFS_PROFILE=server
       - IPFS_PATH=/ipfsdata
     volumes:
       - ./data/ipfs/:/ipfsdata
     ports:
-      - "80:80"
+      - "80:8080"
+      - "8080:8080"
       - "4001:4001"
       - "4002:4002"
       - "127.0.0.1:5001:5001"
