@@ -49,11 +49,11 @@ const msgpack = require("msgpack-lite");
         const dbAddressHash = dbAddress.split('/')[2]
 
         // Add provider to allow nodes connect to it
-        console.info('Providing address', dbAddressHash);
-        await consume(ipfs.dht.provide(dbAddressHash))
-        console.info('Publishing address', dbAddressHash)
-        const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
-        console.info('Publish done', ipns.name)
+        // console.info('Providing address', dbAddressHash);
+        // await consume(ipfs.dht.provide(dbAddressHash))
+        // console.info('Publishing address', dbAddressHash)
+        // const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
+        // console.info('Publish done', ipns.name)
 
         // Add events
         console.info('Adding hash to file')
@@ -75,6 +75,8 @@ const msgpack = require("msgpack-lite");
             console.log('Total movies:', size)
 
             for (const chunk of data) {
+                console.log(chunk)
+                break;
                 console.log('Starting');
                 console.log('Chunk size:', chunk.length)
 
