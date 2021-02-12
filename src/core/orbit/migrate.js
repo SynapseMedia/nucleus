@@ -8,7 +8,7 @@ const KEY = argv.key || 'watchit' // Local key used to IPNS publish
 const MONGO_DB = argv.hdb || 'mongodb' // Temporary helper db
 const PDM = argv.p // Activate PDM filter
 const RECREATE = argv.r || true // Recreate database
-const REGEN = argv.regen || true
+const REGEN = argv.g || false
 
 
 const fs = require('fs')
@@ -44,7 +44,7 @@ const msgpack = require("msgpack-lite");
         });
         // END DB
 
-        console.log('Starting db..');
+        console.log(`Starting ${PDM ? 'PDM' : 'W'} db `);
         const dbAddress = db.address.toString()
         const dbAddressHash = dbAddress.split('/')[2]
 

@@ -12,18 +12,8 @@ services:
     ports:
       - "4001:4001"
       - "4002:4002"
-      - "8080:8080"
+      - "80:8080"
       - "5001:5001"
-
-  watchit_test:
-    container_name: watchit_test
-    command: python3 test.py
-    build:
-      context: .
-    volumes:
-      - .:/data/watchit
-    env_file:
-      - .env
 
   watchit_migrator:
     image: gmena/migrate:v1.0.23
@@ -47,15 +37,6 @@ services:
     restart: unless-stopped
     ports:
       - "27017:27017"
-
-  watchit_worker:
-    image: gmena/migrate:v1.0.23
-    restart: unless-stopped
-    command: [ 'bash', '-c', '"/data/watchit/src/bash/worker.sh QmZyAEGQzyZyMZndp61QS2Asm63WRtyBLXciUj97geW4Ne"' ]
-    volumes:
-      - .:/data/watchit
-    depends_on:
-      - watchit_orbitdb_api
 
   watchit_orbitdb_api:
     image: phillmac/orbit-db-http-api-dev:debug

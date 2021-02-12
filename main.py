@@ -1,9 +1,9 @@
 import os
 from datetime import date
-
 from src.core import logger, Log
-from src.core import media
 from src.core import mongo
+from src.core import helper
+import src.core.scheme as scheme
 import resolvers
 
 __author__ = 'gmena'
@@ -14,45 +14,29 @@ if __name__ == '__main__':
 
     REFRESH_MOVIES = os.environ.get('REFRESH_MOVIES', 'False') == 'True'
     REFRESH_IPFS = os.environ.get('REFRESH_IPFS', 'False') == 'True'
+    REGEN_MOVIES = os.environ.get('REGEN_MOVIES', 'False') == 'True'
+    REGEN_ORBITDB = os.environ.get('REGEN_ORBITDB', 'False') == 'True'
     FLUSH_CACHE_IPFS = os.environ.get('FLUSH_CACHE_IPFS', 'False') == 'True'
-
-
-    def init_ingestion(idb, wdb, movies_indexed):
-        """
-        Start ingestion for each movie
-        Request, download and add files to ipfs then save as cache in mongo
-        :param idb: Cache ipfs db to hold cursor
-        :param wdb: Temp movies db with all movies stored from resources
-        :param movies_indexed:
-        :return:
-        """
-        for x in movies_indexed:
-            _id = x['_id']  # Current id
-            ingested_data = media.ingest_ipfs_metadata(x)
-            if 'torrents' not in x:
-                continue
-            idb.movies.insert_one(ingested_data)
-            wdb.movies.update_one({'_id': _id}, {'$set': {'updated': True}})
-        movies_indexed.close()
-
-
-    def rewrite_entries(db, data):
-        """
-        Just remove old data and replace it with new data
-        :param db:
-        :param data:
-        :return:
-        """
-        db.movies.delete_many({})  # Clean all
-        bulk = [mongo.InsertOne(i) for k, i in data.items()]
-        db.movies.bulk_write(bulk)
-
 
     logger.info('Setting mongodb')
     logger.info("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
     logger.info('\n')
+
+    # Process each resolver and merge it
+    for resolver in resolvers.load():
+        _resolver = resolver(scheme)  # Init class with scheme
+        logger.info(f"{Log.BOLD}Starting migrations from {_resolver} {DB_DATE_VERSION}{Log.ENDC}")
+        migration_result = _resolver()  # Call class and start migration
+        logger.info(migration_result)
+        # scheme.validator.check(migration_result)
+
+        logger.info(f"{Log.OKGREEN}Migration Complete for {_resolver}{Log.ENDC}")
+        # logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
+
+    exit(0)
     # Initialize db list from name
-    temp_db, cache_db = mongo.get_dbs('witth', 'ipfs')
+    tmp_db_name = 'witth%s' % DB_DATE_VERSION if REGEN_MOVIES else 'witth'
+    temp_db, cache_db = mongo.get_dbs(tmp_db_name, 'ipfs')
 
     # Check for empty db
     empty_tmp = temp_db.movies.count() == 0
@@ -69,7 +53,7 @@ if __name__ == '__main__':
         logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
 
         # Start to write obtained entries from src
-        rewrite_entries(temp_db, migration_result)
+        helper.rewrite_entries(temp_db, migration_result)
         logger.info(f"{Log.UNDERLINE}Entries yts indexed: {len(migration_result)}{Log.ENDC}")
 
     if REFRESH_IPFS or empty_cache:
@@ -88,7 +72,8 @@ if __name__ == '__main__':
         migration_result = temp_db.movies.find({
             "updated": {'$exists': False}
         }, no_cursor_timeout=True).batch_size(1000)
-        init_ingestion(cache_db, temp_db, migration_result)
+        helper.init_ingestion(cache_db, temp_db, migration_result)
 
-        # Spawn node subprocess
-        # call(["node", "%s/src/orbit/migrate.js" % ROOT_PROJECT, MONGO_HOST], shell=False)
+    # Start node subprocess migration
+    helper.call_orbit_subprocess(REGEN_ORBITDB)
+    exit(0)
