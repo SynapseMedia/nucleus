@@ -10,9 +10,9 @@ services:
     volumes:
       - ./data/ipfs/:/ipfsdata
     ports:
+      - "80:80"
       - "4001:4001"
       - "4002:4002"
-      - "80:8080"
       - "127.0.0.1:5001:5001"
 
   watchit_migrator:
