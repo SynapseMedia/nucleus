@@ -4,7 +4,7 @@ class Dummy:
         return 'Test'
 
     @staticmethod
-    def data(scheme):
+    def data(scheme) -> list:
         """
         Process your data and populate scheme struct
         src/core/scheme/definition.py
@@ -32,7 +32,7 @@ class Dummy:
             ]
         }], many=True)
 
-    def __call__(self, scheme):
+    def __call__(self, scheme) -> list:
         """
         Returned meta should be valid scheme
         """
