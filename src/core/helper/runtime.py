@@ -39,5 +39,5 @@ def rewrite_entries(db, data):
     :return:
     """
     db.movies.delete_many({})  # Clean all
-    bulk = [mongo.InsertOne(i) for k, i in data.items()]
+    bulk = [mongo.InsertOne(i) for i in data]
     db.movies.bulk_write(bulk)

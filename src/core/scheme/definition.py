@@ -4,7 +4,7 @@ Exceptions:
     - If imdb_code cannot be found add your custom imdb_code ex: tt{movie_id}
 """
 from datetime import date
-from marshmallow import Schema, fields, validate, INCLUDE
+from marshmallow import Schema, fields, validate, EXCLUDE
 
 DEFAULT_RATE_MAX = 10
 # Just in case according this
@@ -13,13 +13,14 @@ DEFAULT_RATE_MAX = 10
 # https://en.wikipedia.org/wiki/Fresh_Guacamole
 FIRST_MOVIE_YEAR_EVER = 1880
 LONGEST_RUNTIME_MOVIE = 51420
-SHORTEST_RUNTIME_MOVIE = 100
+SHORTEST_RUNTIME_MOVIE = 1
 
+ALLOWED_FORMATS = ['hls', 'torrent']
 DEFAULT_GENRES = [
     'All', 'Action', 'Adventure', 'Animation', 'Biography',
     'Comedy', 'Crime', 'Documentary', 'Drama', 'Family',
     'Fantasy', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance',
-    'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western'
+    'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western', 'News'
 ]
 
 
@@ -27,10 +28,11 @@ class ResourceScheme(Schema):
     url = fields.Url(required=True)  # File link
     hash = fields.Str(required=True)  # File hash
     quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
+    type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 
 
 class MovieSchema(Schema):
-    title = fields.Str(validate=validate.Length(min=6))
+    title = fields.Str(validate=validate.Length(min=1))
     # Optional resource id to keep linked ex: origin?id=45
     resource_id = fields.Int(missing=0)
     # Where the data comes from?
@@ -42,11 +44,12 @@ class MovieSchema(Schema):
     runtime = fields.Float(validate=validate.Range(min=SHORTEST_RUNTIME_MOVIE, max=LONGEST_RUNTIME_MOVIE))
     genres = fields.List(fields.Str(), validate=validate.ContainsOnly(choices=DEFAULT_GENRES))
     synopsis = fields.Str(required=True)
+    pdm = fields.Bool(default=False)
     trailer_code = fields.Str(missing=None)  # Youtube trailer code
     # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
-    lang = fields.Str(validate=validate.Length(min=2, max=10))
+    language = fields.Str(validate=validate.Length(min=2, max=10))
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
-    mpa_rating = fields.Str(missing=None, validate=validate.Length(min=1, max=5))
+    mpa_rating = fields.Str(default='PG')
     small_cover_image = fields.Url(required=True)
     medium_cover_image = fields.Url(required=True)
     large_cover_image = fields.Url(required=True)

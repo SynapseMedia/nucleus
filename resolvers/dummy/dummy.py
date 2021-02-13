@@ -1,17 +1,15 @@
 class Dummy:
-    def __init__(self, scheme):
-        """
-        Initialize resolver with scheme module
-        :param scheme: Scheme module defines methods to validate and clean
-        """
-        self.scheme = scheme
-        pass
 
     def __str__(self):
         return 'Test'
 
-    def data(self):
-        return [{
+    @staticmethod
+    def data(scheme):
+        """
+        Process your data and populate scheme struct
+        src/core/scheme/definition.py
+        """
+        return scheme.validator.check([{
             "resource_id": 85,
             "imdb_code": "tt00000",
             "title": "A Fork in the Road",
@@ -19,7 +17,7 @@ class Dummy:
             "genres": ["Action", "Comedy", "Crime"],
             "synopsis": "Baby loves have fun",
             "trailer_code": "uIrQ9535RFo",
-            "lang": "en",
+            "language": "en",
             "small_cover_image": "https://happy.com/legal/movies/baby_test_movie.jpg",
             "medium_cover_image": "https://happy.com/legal/movies/baby_test_movie.jpg",
             "large_cover_image": "https://happy.com/legal/movies/baby_test_movie.jpg",
@@ -28,15 +26,14 @@ class Dummy:
                 {
                     "url": "https://happy.com/legal/movies/baby_test_movie/torrent.file",
                     "hash": "778EF443F532DCB6F0383310E2E4935C76BADC9F",
-                    "quality": "720p"
+                    "quality": "720p",
+                    "type": "torrent"
                 }
             ]
-        }]
+        }], many=True)
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, scheme):
         """
-        Return should be valid scheme
-        please check code/scheme/definition.py
+        Returned meta should be valid scheme
         """
-        self.scheme.validator.check(self.data())
-        return self.data()
+        return Dummy.data(scheme)

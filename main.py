@@ -24,14 +24,16 @@ if __name__ == '__main__':
 
     # Process each resolver and merge it
     for resolver in resolvers.load():
-        _resolver = resolver(scheme)  # Init class with scheme
-        logger.info(f"{Log.BOLD}Starting migrations from {_resolver} {DB_DATE_VERSION}{Log.ENDC}")
-        migration_result = _resolver()  # Call class and start migration
-        logger.info(migration_result)
-        # scheme.validator.check(migration_result)
+        _resolver = resolver()  # Init class with scheme
+        logger.warning(f"{Log.BOLD}Starting migrations from {_resolver} {DB_DATE_VERSION}{Log.ENDC}")
+        migration_result = _resolver(scheme)  # Call class and start migration
+
+        if migration_result:  # Check if scheme its valid
+            scheme.validator.check(migration_result, many=True)
+            logger.info(f"{Log.OKGREEN}Scheme valid for {_resolver}{Log.ENDC}")
 
         logger.info(f"{Log.OKGREEN}Migration Complete for {_resolver}{Log.ENDC}")
-        # logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
+        logger.info(f"\n")
 
     exit(0)
     # Initialize db list from name
