@@ -2,6 +2,7 @@
 Scheme definition for movies used in watchit app
 Exceptions:
     - If imdb_code cannot be found add your custom imdb_code ex: tt{movie_id}
+    - If url its declared hash will be omitted or if hash its declared url will be omitted
 """
 from datetime import date
 from marshmallow import Schema, fields, validate, EXCLUDE
@@ -20,7 +21,7 @@ DEFAULT_GENRES = [
     'All', 'Action', 'Adventure', 'Animation', 'Biography',
     'Comedy', 'Crime', 'Documentary', 'Drama', 'Family',
     'Fantasy', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance',
-    'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western', 'News'
+    'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western', 'News', 'Reality-TV'
 ]
 
 

@@ -18,9 +18,9 @@ class Dummy:
             "synopsis": "Baby loves have fun",
             "trailer_code": "uIrQ9535RFo",
             "language": "en",
-            "small_cover_image": "https://static.hollywoodreporter.com/sites/default/files/2018/09/coming_to_netflix_in_october_2018-_the_seven_deadly_sins-_revival_of_the_commandments-publicity_-production_still-_h_2018-768x433.jpg",
-            "medium_cover_image": "https://static.hollywoodreporter.com/sites/default/files/2018/09/coming_to_netflix_in_october_2018-_the_seven_deadly_sins-_revival_of_the_commandments-publicity_-production_still-_h_2018-768x433.jpg",
-            "large_cover_image": "https://static.hollywoodreporter.com/sites/default/files/2018/09/coming_to_netflix_in_october_2018-_the_seven_deadly_sins-_revival_of_the_commandments-publicity_-production_still-_h_2018-768x433.jpg",
+            "small_cover_image": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg",
+            "medium_cover_image": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg",
+            "large_cover_image": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg",
             "date_uploaded_unix": 1446321498,
             "resource": [
                 {
