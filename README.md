@@ -19,7 +19,3 @@ Gateway Watchit Seeder
 > (Please wait until movies get ready migrated).
 
 `docker-compose up`
-
-# watchit-app
-
-After run migration and expose our node in gateway please copy `address` inside `hash` file located in your root files directory. This key will be requested on app login.

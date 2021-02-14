@@ -11,7 +11,6 @@ const RECREATE = argv.r || true // Recreate database
 const REGEN = argv.g || false
 
 
-const fs = require('fs')
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
 const {consume} = require('streaming-iterables')
@@ -48,17 +47,15 @@ const msgpack = require("msgpack-lite");
         const dbAddress = db.address.toString()
         const dbAddressHash = dbAddress.split('/')[2]
 
-        // Add provider to allow nodes connect to it
-        // console.info('Providing address', dbAddressHash);
-        // await consume(ipfs.dht.provide(dbAddressHash))
-        // console.info('Publishing address', dbAddressHash)
-        // const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
-        // console.info('Publish done', ipns.name)
+        //Add provider to allow nodes connect to it
+        console.info('Providing address', dbAddressHash);
+        await consume(ipfs.dht.provide(dbAddressHash))
+        console.info('Publishing address', dbAddressHash)
+        const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
+        console.info('Publish done', ipns.name)
 
         // Add events
-        console.info('Adding hash to file')
         db.events.on('peer', (p) => console.log('Peer Db:', p));
-        fs.writeFileSync('hash', dbAddressHash);
 
         // Start movies migration to orbit from mongo
         let index = 0; // Keep cursor for movies id
@@ -75,8 +72,6 @@ const msgpack = require("msgpack-lite");
             console.log('Total movies:', size)
 
             for (const chunk of data) {
-                console.log(chunk)
-                break;
                 console.log('Starting');
                 console.log('Chunk size:', chunk.length)
 
