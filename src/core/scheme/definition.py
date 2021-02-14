@@ -21,7 +21,7 @@ DEFAULT_GENRES = [
     'All', 'Action', 'Adventure', 'Animation', 'Biography',
     'Comedy', 'Crime', 'Documentary', 'Drama', 'Family',
     'Fantasy', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance',
-    'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western', 'News', 'Reality-TV'
+    'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western', 'News', 'Reality-TV', 'Talk-Show', 'Game-Show'
 ]
 
 
