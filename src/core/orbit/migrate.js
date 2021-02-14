@@ -1,15 +1,16 @@
-args = process.argv.slice(2);
+const argv = require('minimist')(process.argv.slice(2));
 
 const MAX_CHUNKS = 1000
 const DB_MOVIES = 'wt.movies.db'
-const MONGO_DB = args[0] || 'mongodb'
-const SOURCE_DB = args[1] || 'ipfs';
-const IPFS_NODE = args[2] || 'ipfs'
-const PDM = args[3] === 'true'
-const RECREATE = args[4] !== 'false';
+const SOURCE_DB = argv.source || 'ipfs';
+const IPFS_NODE = argv.node || 'ipfs'
+const KEY = argv.key || 'watchit' // Local key used to IPNS publish
+const MONGO_DB = argv.hdb || 'mongodb' // Temporary helper db
+const PDM = argv.p // Activate PDM filter
+const RECREATE = argv.r || true // Recreate database
+const REGEN = argv.g || false
 
 
-const fs = require('fs')
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
 const {consume} = require('streaming-iterables')
@@ -30,8 +31,8 @@ const msgpack = require("msgpack-lite");
 
         // Create OrbitDB instance
         const DB_NAME = SOURCE_DB;
-        const orbitdb = await OrbitDB.createInstance(ipfs,{
-            directory: './orbit' + Math.random()
+        const orbitdb = await OrbitDB.createInstance(ipfs, {
+            directory: REGEN ? './orbit' + Math.random().toString() : './orbit'
         });
 
         // DB
@@ -42,21 +43,19 @@ const msgpack = require("msgpack-lite");
         });
         // END DB
 
-        console.log('Starting db..');
+        console.log(`Starting ${PDM ? 'PDM' : 'W'} db `);
         const dbAddress = db.address.toString()
         const dbAddressHash = dbAddress.split('/')[2]
 
-        // Add provider to allow nodes connect to it
+        //Add provider to allow nodes connect to it
         console.info('Providing address', dbAddressHash);
         await consume(ipfs.dht.provide(dbAddressHash))
         console.info('Publishing address', dbAddressHash)
-        const ipns = await ipfs.name.publish(dbAddressHash, {key: 'watchit'})
+        const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
         console.info('Publish done', ipns.name)
 
         // Add events
-        console.info('Adding hash to file')
         db.events.on('peer', (p) => console.log('Peer Db:', p));
-        fs.writeFileSync('hash', dbAddressHash);
 
         // Start movies migration to orbit from mongo
         let index = 0; // Keep cursor for movies id

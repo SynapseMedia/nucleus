@@ -7,6 +7,7 @@
   "description": "Watch movies for free",
   "dependencies": {
     "ipfs-http-client": "^47.0.1",
+    "minimist": "^1.2.5",
     "mongodb": "^3.5.9",
     "msgpack-lite": "^0.1.26",
     "node-rsa": "^1.0.8",
@@ -15,8 +16,9 @@
     "streaming-iterables": "^5.0.4"
   },
   "scripts": {
-    "migrate": "node src/orbit/migrate.js",
-    "local": "node src/orbit/local.js"
+    "mwz": "node src/core/orbit/migrate.js -r ---key=watchit",
+    "mpdm": "node src/core/orbit/migrate.js -pr --key=pdm",
+    "local": "node src/core/orbit/local.js"
   },
   "devDependencies": {
     "fs": "0.0.1-security"

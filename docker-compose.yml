@@ -1,21 +1,25 @@
 version: '3'
 services:
   watchit_ipfs:
-    image: gmena/node:v1.1.2
+    image: ipfs/go-ipfs:v0.6.0
     restart: unless-stopped
+    command: [ "daemon", "--enable-pubsub-experiment"]
+    environment:
+      - IPFS_PROFILE=server
+      - IPFS_PATH=/ipfsdata
     volumes:
-    - ~/.ipfs:/data/ipfs
+      - ./data/ipfs/:/ipfsdata
     ports:
+      - "80:8080"
+      - "8080:8080"
       - "4001:4001"
       - "4002:4002"
-      - "8080:8080"
-      - "5001:5001"
+      - "127.0.0.1:5001:5001"
 
   watchit_migrator:
-    image: gmena/migrate:v1.0.23
+    image: gmena/migrate:v1.0.24
     container_name: watchit_migrator
-    command: python3 src/py/migrate.py
-    restart: unless-stopped
+    command: python3 main.py
     links:
       - "watchit_mongodb:mongodb"
       - "watchit_ipfs:ipfs"
@@ -26,6 +30,7 @@ services:
     depends_on:
       - watchit_mongodb
       - watchit_ipfs
+      - watchit_orbitdb_api
 
   watchit_mongodb:
     image: mongo
@@ -35,9 +40,9 @@ services:
       - "27017:27017"
 
   watchit_orbitdb_api:
-    image:  phillmac/orbit-db-http-api-dev:debug
+    image: phillmac/orbit-db-http-api-dev:debug
     restart: unless-stopped
-    command: ["node", "--trace-warnings", "src/cli.js", "api", "--debug"]
+    command: [ "node", "--trace-warnings", "src/cli.js", "api", "--debug" ]
     environment:
       IPFS_HOST: 'watchit_ipfs'
       ORBITDB_DIR: '/orbitdb'
@@ -50,3 +55,4 @@ services:
       - 127.0.0.1:3001:3000/tcp
     volumes:
       - ./orbitdb:/orbitdb
+

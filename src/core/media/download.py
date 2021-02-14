@@ -3,10 +3,11 @@ import random
 import re
 import requests
 from pathlib import Path
-
-from src.py import Log, logger
+from src.core import Log, logger
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
+HOME_PATH = ROOT_PATH
+# HOME_PATH = os.path.join(str(Path.home()), '.gwatchit')
 
 # Session keep alive
 # http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
@@ -26,7 +27,7 @@ def download_file(uri, _dir):
     :return:
     """
     session = requests.Session()
-    directory = "%s/torrents/%s" % (ROOT_PATH, _dir)
+    directory = "%s/torrents/%s" % (HOME_PATH, _dir)
     dirname = os.path.dirname(directory)
     file_check = Path(directory)
 
@@ -35,7 +36,6 @@ def download_file(uri, _dir):
         logger.warning(f"{Log.WARNING}File already exists: {_dir}{Log.ENDC}")
         return directory
 
-    # print(f"{Log.OKGREEN}Downloading file: {directory}{Log.ENDC}")
     # Create if not exist dir
     Path(dirname).mkdir(parents=True, exist_ok=True)
     response = session.get(uri, verify=True, stream=True, timeout=60, headers={
