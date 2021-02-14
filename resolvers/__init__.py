@@ -17,7 +17,6 @@ class Dummy:
 """
 import inspect
 import pkgutil
-from .yts import yts
 
 __title__ = 'watchit'
 __version__ = '0.1.0'
