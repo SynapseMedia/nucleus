@@ -23,7 +23,7 @@ generation and acquisition of content.
 
 ## Tools
 
-###Resolvers
+### Resolvers
 
 Resolvers implement the logic necessary for the acquisition, preprocessing, cleaning and schematization of data from any
 available resource. Based on the following class abstraction we can see the methods required for the development of a
@@ -47,12 +47,12 @@ class Dummy:
 
 Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py)
 
-###Scheme
+### Scheme
 
 The elaboration of the schema is quite simple, it consists of a popular arrangement with dictionaries containing the
 metadata example:
 
-####MovieScheme
+#### MovieScheme
 ```
   title = fields.Str(validate=validate.Length(min=1))
   # Optional resource id to keep linked ex: origin?id=45
@@ -80,7 +80,7 @@ metadata example:
   date_uploaded_unix = fields.Int()
 ```
 
-####ResourceScheme
+#### ResourceScheme
     url = fields.Url(required=False, relative=True)  # File link
     hash = fields.Str(required=False)  # CID hash
     index = fields.Str(required=True)  # File index in hash directory
