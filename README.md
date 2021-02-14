@@ -102,6 +102,8 @@ metadata example:
         * If 'url' its declared gateway will try to migrate content to IPFS.
         * If 'hash' its declared 'url' will be omitted and 'hash' will be keeped.
 
+Please check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py)
+
 ## Run
 
 *Start docker containers and starts movies migration.*
