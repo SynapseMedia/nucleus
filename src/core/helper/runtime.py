@@ -1,6 +1,8 @@
 from src.core import helper
 from src.core import media
-from src.core import mongo
+from src.core import Log, logger
+from pymongo.errors import BulkWriteError
+import src.core.scheme as scheme
 import asyncio
 
 
@@ -24,8 +26,6 @@ def init_ingestion(idb, wdb, movies_indexed):
     for x in movies_indexed:
         _id = x['_id']  # Current id
         ingested_data = media.ingest_ipfs_metadata(x)
-        if 'torrents' not in x:
-            continue
         idb.movies.insert_one(ingested_data)
         wdb.movies.update_one({'_id': _id}, {'$set': {'updated': True}})
     movies_indexed.close()
@@ -38,6 +38,26 @@ def rewrite_entries(db, data):
     :param data:
     :return:
     """
-    db.movies.delete_many({})  # Clean all
-    bulk = [mongo.InsertOne(i) for i in data]
-    db.movies.bulk_write(bulk)
+    try:
+        db.movies.delete_many({})  # Clean all
+        db.movies.insert_many(data)
+    except BulkWriteError:
+        pass
+
+
+def flush_ipfs(cache_db, temp_db):
+    # Reset old entries and restore it
+    cache_db.movies.delete_many({})
+    temp_db.movies.update_many(
+        {"updated": True},
+        {'$unset': {"updated": None}}
+    )
+
+
+def results_generator(resolver) -> iter:
+    """
+    Dummy resolver generator call
+    """
+    resolver = resolver()  # Init class
+    logger.info(f"{Log.WARNING}Generating migrations from {resolver}{Log.ENDC}")
+    return resolver(scheme)  # Call class and start migration

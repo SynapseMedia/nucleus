@@ -25,8 +25,9 @@ DEFAULT_GENRES = [
 
 
 class ResourceScheme(Schema):
-    url = fields.Url(required=True)  # File link
-    hash = fields.Str(required=True)  # File hash
+    url = fields.Url(required=False, relative=True)  # File link
+    hash = fields.Str(required=False)  # CID hash
+    index = fields.Str(required=True)  # File index in hash directory
     quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 

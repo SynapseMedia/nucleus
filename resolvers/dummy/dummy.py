@@ -1,6 +1,6 @@
 class Dummy:
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Test'
 
     @staticmethod
@@ -18,16 +18,16 @@ class Dummy:
             "synopsis": "Baby loves have fun",
             "trailer_code": "uIrQ9535RFo",
             "language": "en",
-            "small_cover_image": "https://happy.com/legal/movies/baby_test_movie.jpg",
-            "medium_cover_image": "https://happy.com/legal/movies/baby_test_movie.jpg",
-            "large_cover_image": "https://happy.com/legal/movies/baby_test_movie.jpg",
+            "small_cover_image": "https://static.hollywoodreporter.com/sites/default/files/2018/09/coming_to_netflix_in_october_2018-_the_seven_deadly_sins-_revival_of_the_commandments-publicity_-production_still-_h_2018-768x433.jpg",
+            "medium_cover_image": "https://static.hollywoodreporter.com/sites/default/files/2018/09/coming_to_netflix_in_october_2018-_the_seven_deadly_sins-_revival_of_the_commandments-publicity_-production_still-_h_2018-768x433.jpg",
+            "large_cover_image": "https://static.hollywoodreporter.com/sites/default/files/2018/09/coming_to_netflix_in_october_2018-_the_seven_deadly_sins-_revival_of_the_commandments-publicity_-production_still-_h_2018-768x433.jpg",
             "date_uploaded_unix": 1446321498,
             "resource": [
                 {
-                    "url": "https://happy.com/legal/movies/baby_test_movie/torrent.file",
-                    "hash": "778EF443F532DCB6F0383310E2E4935C76BADC9F",
+                    "hash": "QmVuR5s1enhtAK5ipvLNiqgSz8CecCkPL8GumrBE3e53gg",
                     "quality": "720p",
-                    "type": "torrent"
+                    "index": "index.m3u8",
+                    "type": "hls"
                 }
             ]
         }], many=True)
@@ -36,4 +36,4 @@ class Dummy:
         """
         Returned meta should be valid scheme
         """
-        return Dummy.data(scheme)
+        yield Dummy.data(scheme)

@@ -8,11 +8,11 @@ Define your resolvers modules below.
 Ex: Each resolver must implement 3 fundamental methods.
 
 class Dummy:
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Test'
 
-    def __call__(self, *args, **kwargs):
-        return {}
+    def __call__(self, *args, **kwargs) -> iter:
+        yield data
 
 """
 import inspect
@@ -32,7 +32,7 @@ def load():
     for loader, name, is_pkg in pkgutil.walk_packages(__path__):
         _module = loader.find_module(name).load_module(name)
         for _, obj in inspect.getmembers(_module):
-            if inspect.isclass(obj) and is_pkg and hasattr(obj, '__call__'):
+            if inspect.isclass(obj) and is_pkg:
                 yield obj
 
 

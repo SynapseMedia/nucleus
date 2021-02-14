@@ -68,6 +68,18 @@ def ingest_ipfs_file(uri, _dir):
     return _hash
 
 
+def process_resource_hash(resources, hash_):
+    """
+    Clean re-struct resources
+    """
+    for resource in resources:
+        resource['hash'] = resource.get('hash', hash_)
+        # Remove unneeded url
+        if 'url' in resource:
+            del resource['url']
+    return resources
+
+
 def ingest_ipfs_metadata(mv: dict):
     """
     Loop over assets, download it and add it to IPFS
@@ -78,25 +90,23 @@ def ingest_ipfs_metadata(mv: dict):
         logger.info(f"{Log.OKBLUE}Ingesting {mv.get('imdb_code')}{Log.ENDC}")
         # Downloading files
         current_imdb_code = mv.get('imdb_code')
-        image_index = [  # Index image movie lists
-            "background_image", "background_image_original",
-            "small_cover_image", "medium_cover_image",
-            "large_cover_image"
-        ]
+        image_index = ["small_cover_image", "medium_cover_image", "large_cover_image"]
 
         for x in image_index:
             if x in mv:  # Download all image assets
                 download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
                 del mv[x]  # Remove old
 
-        if 'torrents' in mv:
-            for torrent in mv.get('torrents'):
-                torrent_dir = '%s/%s/%s' % (current_imdb_code, torrent['quality'], torrent['hash'])
-                download_file(torrent['url'], torrent_dir)
+        if 'resource' in mv:
+            for resource in mv.get('resource'):
+                if 'url' not in resource: continue  # Cached resource
+                resource_dir = '%s/%s/%s' % (current_imdb_code, resource['quality'], resource['index'])
+                download_file(resource['url'], resource_dir)
 
         # Logs on ready ingested
         hash_directory = ingest_ipfs_dir(current_imdb_code)
-        mv['hash'] = hash_directory
+        process_resource_hash(mv['resource'], hash_directory)
+        mv['hash'] = hash_directory  # Add current hash to movie
         logger.info(f"{Log.OKGREEN}Done {mv.get('imdb_code')}{Log.ENDC}")
         logger.info('\n')
         return mv

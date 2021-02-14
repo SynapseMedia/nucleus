@@ -4,7 +4,7 @@ from src.core import logger, Log
 from src.core import mongo
 from src.core import helper
 import src.core.scheme as scheme
-import resolvers
+import resolvers, asyncio
 
 __author__ = 'gmena'
 if __name__ == '__main__':
@@ -22,20 +22,6 @@ if __name__ == '__main__':
     logger.info("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
     logger.info('\n')
 
-    # Process each resolver and merge it
-    for resolver in resolvers.load():
-        _resolver = resolver()  # Init class with scheme
-        logger.warning(f"{Log.BOLD}Starting migrations from {_resolver} {DB_DATE_VERSION}{Log.ENDC}")
-        migration_result = _resolver(scheme)  # Call class and start migration
-
-        if migration_result:  # Check if scheme its valid
-            scheme.validator.check(migration_result, many=True)
-            logger.info(f"{Log.OKGREEN}Scheme valid for {_resolver}{Log.ENDC}")
-
-        logger.info(f"{Log.OKGREEN}Migration Complete for {_resolver}{Log.ENDC}")
-        logger.info(f"\n")
-
-    exit(0)
     # Initialize db list from name
     tmp_db_name = 'witth%s' % DB_DATE_VERSION if REGEN_MOVIES else 'witth'
     temp_db, cache_db = mongo.get_dbs(tmp_db_name, 'ipfs')
@@ -46,28 +32,30 @@ if __name__ == '__main__':
 
     if REFRESH_MOVIES or empty_tmp:
         logger.info('Rewriting...')
-        logger.info(f"{Log.BOLD}Starting migrations from yts.mx {DB_DATE_VERSION}{Log.ENDC}")
 
         # Process each resolver and merge it
-        # for resolver in resolvers.RESOLVERS_LIST:
-        migration_result = resolvers.yts.YTS()()
-        logger.info(f"{Log.OKGREEN}Migration Complete for yts.ag{Log.ENDC}")
-        logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
+        resolvers_list = resolvers.load()
+        logger.warning(f"{Log.WARNING}Running resolvers{Log.ENDC}")
+        migration_result = map(helper.runtime.results_generator, resolvers_list)
+
+        # Merge results from migrations
+        logger.warning(f"{Log.WARNING}Starting merge{Log.ENDC}")
+        merged_data = scheme.merge.acc_gens(migration_result)
+        logger.info(f"{Log.OKGREEN}Data merge complete{Log.ENDC}")
+
+        scheme.validator.check(merged_data, many=True)
+        logger.info(f"{Log.OKGREEN}Valid scheme{Log.ENDC}")
 
         # Start to write obtained entries from src
-        helper.rewrite_entries(temp_db, migration_result)
-        logger.info(f"{Log.UNDERLINE}Entries yts indexed: {len(migration_result)}{Log.ENDC}")
+        logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
+        helper.rewrite_entries(temp_db, merged_data)  # Add data to helper db
+        logger.info(f"{Log.UNDERLINE}Entries yts indexed: {len(merged_data)}{Log.ENDC}")
 
     if REFRESH_IPFS or empty_cache:
         logger.info('\n')
         logger.info(f"{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
         if FLUSH_CACHE_IPFS or empty_cache:
-            # Reset old entries and restore it
-            cache_db.movies.delete_many({})
-            temp_db.movies.update_many(
-                {"updated": True},
-                {'$unset': {"updated": None}}
-            )
+            helper.runtime.flush_ipfs(cache_db, temp_db)
 
         # Start IPFS ingestion
         # Get stored movies data and process it
@@ -77,5 +65,5 @@ if __name__ == '__main__':
         helper.init_ingestion(cache_db, temp_db, migration_result)
 
     # Start node subprocess migration
-    helper.call_orbit_subprocess(REGEN_ORBITDB)
+    # asyncio.run(helper.call_orbit_subprocess(REGEN_ORBITDB))
     exit(0)
