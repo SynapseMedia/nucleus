@@ -25,8 +25,10 @@ generation and acquisition of content.
 
 ### Resolvers
 
-A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch content
-from various sources. Resolvers implement the logic necessary for the acquisition, preprocessing, cleaning and
+"A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch content
+from various sources." - @aphelionz
+
+Resolvers implement the logic necessary for the acquisition, preprocessing, cleaning and
 schematization of data from any available resource. Based on the following class abstraction we can see the methods
 required for the development of a resolver:
 
