@@ -146,8 +146,9 @@ If `index` is not defined in `images` collection then default key `index` will b
 
 **URL**
 
-To migrate centralized remote or local data to decentralized network need to define your schema as follow:
 If your files are in local env please use uri `file://` scheme.
+To migrate centralized remote or local data to decentralized network need to define your schema as follow:
+
 ```
 "small_cover_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
 "medium_cover_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
