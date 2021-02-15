@@ -11,7 +11,7 @@ class Dummy:
         :param scheme: Scheme object
         :yield object: Scheme valid
         """
-        yield scheme.validator.check({
+        yield scheme.validator.check([{
             "resource_id": 85,
             "imdb_code": "tt00000",
             "title": "A Fork in the Road",
@@ -35,4 +35,4 @@ class Dummy:
                     "type": "hls"
                 }
             ]
-        })
+        }], many=True)
