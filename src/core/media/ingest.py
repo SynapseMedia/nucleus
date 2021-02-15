@@ -10,7 +10,7 @@ from .download import download_file
 __author__ = 'gmena'
 
 RECURSIVE_SLEEP_REQUEST = 10
-IMAGE_INDEX = ["small_cover_image", "medium_cover_image", "large_cover_image"]
+IMAGE_INDEX = ["small_image", "medium_image", "large_image"]
 
 
 def start_node():

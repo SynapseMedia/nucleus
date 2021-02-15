@@ -20,12 +20,9 @@ class Dummy:
             "synopsis": "Baby loves have fun",
             "trailer_code": "uIrQ9535RFo",
             "language": "en",
-            "small_cover_image": {
-                "url": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-            "medium_cover_image": {
-                "url": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-            "large_cover_image": {
-                "url": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+            "small_image": {"url": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+            "medium_image": {"url": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+            "large_image": {"url": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
             "date_uploaded_unix": 1446321498,
             "resource": [
                 {

@@ -58,8 +58,8 @@ class MovieSchema(Schema):
     language = fields.Str(validate=validate.Length(min=2, max=10))
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating = fields.Str(default='PG')
-    small_cover_image = fields.Nested(ImageScheme())
-    medium_cover_image = fields.Nested(ImageScheme())
-    large_cover_image = fields.Nested(ImageScheme())
+    small_image = fields.Nested(ImageScheme())
+    medium_image = fields.Nested(ImageScheme())
+    large_image = fields.Nested(ImageScheme())
     resource = fields.List(fields.Nested(ResourceScheme()))
     date_uploaded_unix = fields.Int()
