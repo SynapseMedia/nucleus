@@ -125,8 +125,8 @@ corresponding hash and later associate it to the movie in the metadata:
 
 If your content already exists in IPFS you just have to define it as follows.
 
-**If you do not define an `index` in `resource` the `cid` must be an absolute link to the file else 
-`index` will be retrieved from directory**
+**If you do not define an `index` in `resource` the `cid` must be an absolute link to the file. If  
+`index` not defined in `images` default key `index` will be set**
 
  ```
 "small_cover_image": {"cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid

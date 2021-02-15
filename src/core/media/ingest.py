@@ -1,6 +1,6 @@
 import time
 
-import csv
+import csv, os
 import ipfshttpclient
 
 from src.core import Log, logger
@@ -10,6 +10,7 @@ from .download import download_file
 __author__ = 'gmena'
 
 RECURSIVE_SLEEP_REQUEST = 10
+IMAGE_INDEX = ["small_cover_image", "medium_cover_image", "large_cover_image"]
 
 
 def start_node():
@@ -68,7 +69,7 @@ def ingest_ipfs_file(uri, _dir):
     return _hash
 
 
-def process_resource_hash(resources, hash_):
+def migrate_resource_hash(resources, hash_):
     """
     Clean re-struct resources
     """
@@ -78,6 +79,47 @@ def process_resource_hash(resources, hash_):
         if 'url' in resource:
             del resource['url']
     return resources
+
+
+def migrate_image_hash(resources, hash_):
+    """
+    Clean re-struct resources
+    """
+    for x in IMAGE_INDEX:
+        resources[x]['cid'] = resources[x].get('cid', hash_)
+    return resources
+
+
+def fetch_movie_resources(mv, current_imdb_code) -> dict:
+    """
+    Check if resources need to be downloaded
+    :param mv: Movie schema
+    :param current_imdb_code
+    """
+    for resource in mv.get('resource'):
+        if 'url' not in resource: continue  # Cached resource
+        resource['index'] = resource['index'] if 'index' in resource else 'index'
+        resource_dir = '%s/%s/%s' % (current_imdb_code, resource['quality'], resource['index'])
+        download_file(resource['url'], resource_dir)
+    return mv
+
+
+def fetch_images_resources(mv, current_imdb_code) -> dict:
+    """
+    Check if images need to be downloaded
+    :param mv: Movie schema
+    :param current_imdb_code
+    """
+    for x in IMAGE_INDEX:
+        if 'cid' in mv[x]: continue
+        url = mv[x]['url']
+        index = os.path.basename(url)
+        download_file(mv[x]['url'], "%s/%s" % (current_imdb_code, index))
+        mv[x]['index'] = mv[x]['index'] if 'index' in mv[x] else index
+
+        if 'url' in mv[x]:
+            del mv[x]['url']
+    return mv
 
 
 def ingest_ipfs_metadata(mv: dict):
@@ -90,24 +132,16 @@ def ingest_ipfs_metadata(mv: dict):
         logger.info(f"{Log.OKBLUE}Ingesting {mv.get('imdb_code')}{Log.ENDC}")
         # Downloading files
         current_imdb_code = mv.get('imdb_code')
-        image_index = ["small_cover_image", "medium_cover_image", "large_cover_image"]
 
-        for x in image_index:
-            if x in mv:  # Download all image assets
-                if 'cid' in mv[x]: continue
-                download_file(mv[x]['url'], "%s/%s.jpg" % (current_imdb_code, x))
-                del mv[x]  # Remove old
-
-        if 'resource' in mv:
-            for resource in mv.get('resource'):
-                if 'url' not in resource: continue  # Cached resource
-                resource['index'] = resource['index'] if 'index' in resource else 'index'
-                resource_dir = '%s/%s/%s' % (current_imdb_code, resource['quality'], resource['index'])
-                download_file(resource['url'], resource_dir)
+        # Fetch resources if needed
+        mv = fetch_images_resources(mv, current_imdb_code)
+        mv = fetch_movie_resources(mv, current_imdb_code)
 
         # Logs on ready ingested
         hash_directory = ingest_ipfs_dir(current_imdb_code)
-        process_resource_hash(mv['resource'], hash_directory)
+        migrate_resource_hash(mv['resource'], hash_directory)
+        migrate_image_hash(mv, hash_directory)
+
         mv['hash'] = hash_directory  # Add current hash to movie
         logger.info(f"{Log.OKGREEN}Done {mv.get('imdb_code')}{Log.ENDC}")
         logger.info('\n')
