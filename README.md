@@ -184,6 +184,6 @@ check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/m
 ## Run
 
 *Start docker containers and starts movies migration.*
-> Run seeder/bootstrap IPFS public node.
+> Run seeder IPFS public node.
 
 `docker-compose up`
