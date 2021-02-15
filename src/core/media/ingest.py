@@ -95,7 +95,7 @@ def ingest_ipfs_metadata(mv: dict):
         for x in image_index:
             if x in mv:  # Download all image assets
                 if 'cid' in mv[x]: continue
-                download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
+                download_file(mv[x]['url'], "%s/%s.jpg" % (current_imdb_code, x))
                 del mv[x]  # Remove old
 
         if 'resource' in mv:

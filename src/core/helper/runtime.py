@@ -26,8 +26,6 @@ def init_ingestion(idb, wdb, movies_indexed):
     :param movies_indexed:
     """
     for x in movies_indexed:
-
-
         _id = x['_id']  # Current id
         ingested_data = media.ingest_ipfs_metadata(x)
         idb.movies.insert_one(ingested_data)

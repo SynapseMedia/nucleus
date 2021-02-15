@@ -119,7 +119,7 @@ ImageSchema:
 
 When establishing a `cid`, the gateway just associate that hash to the metadata. If a URL is found, the gateway must
 execute the download of the file in a directory associated with each movie and ingest it in IPFS to obtain its
-corresponding hash and later associate it to the movie in the metadata example:
+corresponding hash and later associate it to the movie in the metadata:
 
 **CID:**
 
