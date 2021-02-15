@@ -162,7 +162,7 @@ key `index` will be set
 ```
 
 It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you can see
-the `index` is used to define the name of the resulting file name in the IPFS directory
+the `index` is used to define the name of the resulting path in the IPFS directory
 
 ```
 /{cid}
