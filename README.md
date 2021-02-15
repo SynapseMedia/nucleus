@@ -92,9 +92,9 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
   # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
   mpa_rating = fields.Str(default='PG')
   # This uri links should be declared to IPFS ingestion
-  small_cover_image = fields.Nested(ImageScheme())
-  medium_cover_image = fields.Nested(ImageScheme())
-  large_cover_image = fields.Nested(ImageScheme())
+  small_image = fields.Nested(ImageScheme())
+  medium_image = fields.Nested(ImageScheme())
+  large_image = fields.Nested(ImageScheme())
   resource = fields.List(fields.Nested(ResourceScheme()))
   date_uploaded_unix = fields.Int()
 ```
@@ -169,9 +169,9 @@ the `index` is used to define the name of the resulting path in the IPFS directo
 
 ```
 /{cid}
-/{cid}/small_cover_image.jpg
-/{cid}/medium_cover_image.jpg
-/{cid}/large_cover_image.jpg
+/{cid}/small_image.jpg
+/{cid}/medium_image.jpg
+/{cid}/large_image.jpg
 /{cid}/index.m3u8
 
 ```
