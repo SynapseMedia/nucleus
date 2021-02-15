@@ -55,7 +55,7 @@ Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master
 
 ### Scheme
 
-The elaboration of the schema is quite simple, it consists of a popular arrangement with dictionaries containing the
+The elaboration of the schema is quite simple, it consists in populate an array with dictionaries containing the
 metadata example:
 
 ```
