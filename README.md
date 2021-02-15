@@ -146,6 +146,8 @@ If `index` is not defined in `images` collection then default key `index` will b
 
 **URL**
 
+To migrate centralized remote or local data to decentralized network need to define your schema as follow:
+If your files are in local env please use uri `file://` scheme.
 ```
 "small_cover_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
 "medium_cover_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
@@ -162,7 +164,7 @@ If `index` is not defined in `images` collection then default key `index` will b
 ```
 
 **Note:** It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you can see
-the `index` is used to define the name of the resulting path in the IPFS directory
+the `index` is used to define the name of the resulting path in the IPFS directory. 
 
 ```
 /{cid}
