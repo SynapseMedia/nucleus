@@ -25,12 +25,12 @@ generation and acquisition of content.
 
 ### Resolvers
 
-"A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch content
-from various sources." - @aphelionz
+"A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch
+content from various sources." - @aphelionz
 
-Resolvers implement the logic necessary for the acquisition, preprocessing, cleaning and
-schematization of data from any available resource. Based on the following class abstraction we can see the methods
-required for the development of a resolver:
+Resolvers implement the logic necessary for the acquisition, preprocessing, cleaning and schematization of data from any
+available resource. Based on the following class abstraction we can see the methods required for the development of a
+resolver:
 
 ~~~~
 Define your resolvers modules below.
@@ -55,8 +55,8 @@ Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master
 
 ### Scheme
 
-The elaboration of the schema is quite simple, it consists in populate an array with dictionaries containing 
-the schematized metadata:
+The elaboration of the schema is quite simple, it consists in populate an array with dictionaries containing the
+schematized metadata:
 
 ```
 FIRST_MOVIE_YEAR_EVER = 1880
@@ -125,8 +125,8 @@ corresponding hash and later associate it to the movie in the metadata:
 
 If your content already exists in IPFS you just have to define it as follows.
 
-**If you do not define an `index` in `resource` the `cid` must be an absolute link to the file. If  
-`index` not defined in `images` default key `index` will be set**
+If you do not define an `index` in `resource` the `cid` must be an absolute link to the file. If `index` not defined
+in `images` default key `index` will be set
 
  ```
 "small_cover_image": {"cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
@@ -161,8 +161,8 @@ If your content already exists in IPFS you just have to define it as follows.
 ]
 ```
 
-It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you can
-see the `index` is used to define the name of the resulting file name in the IPFS directory
+It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you can see
+the `index` is used to define the name of the resulting file name in the IPFS directory
 
 ```
 /{cid}
