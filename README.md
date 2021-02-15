@@ -103,7 +103,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
 
     url = fields.Url(relative=True)  # Remote file
     cid = fields.Str()  # CID hash 
-    index = fields.Str()  # File index in CID directory (optional)
+    index = fields.Str()  # File index in CID directory
     quality = fields.Str(required=True)  # 720p | 1080p | 2048p | 3D
     type = fields.Str() # torrent | hls
 
@@ -125,8 +125,8 @@ corresponding hash and later associate it to the movie in the metadata:
 
 If your content already exists in IPFS you just have to define it as follows.
 
-If you do not define an `index` in `resource` the `cid` must be an absolute link to the file. If `index` not defined
-in `images` default key `index` will be set
+If you do not define an `index` in `resource` the `cid` must be absolute. If `index` not defined in `images` default
+key `index` will be set
 
  ```
 "small_cover_image": {"cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
@@ -136,7 +136,7 @@ in `images` default key `index` will be set
 "resource": [
     {
         "cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", # Example cid
-        "index": "index.m3u8", 
+        "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.m3u8
         "quality": "720p",
         "type": "hls"
     }
