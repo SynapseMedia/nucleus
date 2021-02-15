@@ -125,7 +125,7 @@ corresponding hash and later associate it to the movie in the metadata:
 
 If your content already exists in IPFS you just have to define it as follows.
 
-If you do not define an `index` in `resource` the `cid` must be absolute. If `index` not defined in `images` default
+**Note:** If you do not define an `index` in `resource` the `cid` must be absolute. If `index` not defined in `images` default
 key `index` will be set
 
  ```
@@ -161,7 +161,7 @@ key `index` will be set
 ]
 ```
 
-It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you can see
+**Note:** It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you can see
 the `index` is used to define the name of the resulting path in the IPFS directory
 
 ```
