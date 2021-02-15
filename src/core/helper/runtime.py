@@ -7,7 +7,10 @@ import asyncio
 
 
 async def call_orbit_subprocess(regen=False):
-    # Spawn node subprocess
+    """
+    Spawn nodejs subprocess
+    :param regen: Regenerate db
+    """
     await asyncio.gather(
         helper.run(f"npm run mpdm {regen and '-- -g' or ''}"),
         helper.run(f"npm run mwz {regen and '-- -g' or ''}")
@@ -21,9 +24,10 @@ def init_ingestion(idb, wdb, movies_indexed):
     :param idb: Cache ipfs db to hold cursor
     :param wdb: Temp movies db with all movies stored from resources
     :param movies_indexed:
-    :return:
     """
     for x in movies_indexed:
+
+
         _id = x['_id']  # Current id
         ingested_data = media.ingest_ipfs_metadata(x)
         idb.movies.insert_one(ingested_data)
@@ -36,7 +40,6 @@ def rewrite_entries(db, data):
     Just remove old data and replace it with new data
     :param db:
     :param data:
-    :return:
     """
     try:
         db.movies.delete_many({})  # Clean all
@@ -57,6 +60,7 @@ def flush_ipfs(cache_db, temp_db):
 def results_generator(resolver) -> iter:
     """
     Dummy resolver generator call
+    :return iter: Iterable result
     """
     resolver = resolver()  # Init class
     logger.info(f"{Log.WARNING}Generating migrations from {resolver}{Log.ENDC}")

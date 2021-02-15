@@ -25,10 +25,15 @@ DEFAULT_GENRES = [
 ]
 
 
+class ImageScheme(Schema):
+    url = fields.Url(relative=True)  # File link
+    cid = fields.Str()  # CID hash
+
+
 class ResourceScheme(Schema):
-    url = fields.Url(required=False, relative=True)  # File link
-    hash = fields.Str(required=False)  # CID hash
-    index = fields.Str(required=True)  # File index in hash directory
+    url = fields.Url(relative=True)  # File link
+    cid = fields.Str()  # CID hash
+    index = fields.Str()  # File index in CID directory
     quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 
@@ -53,8 +58,8 @@ class MovieSchema(Schema):
     language = fields.Str(validate=validate.Length(min=2, max=10))
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating = fields.Str(default='PG')
-    small_cover_image = fields.Url(required=True)
-    medium_cover_image = fields.Url(required=True)
-    large_cover_image = fields.Url(required=True)
+    small_cover_image = fields.Nested(ImageScheme())
+    medium_cover_image = fields.Nested(ImageScheme())
+    large_cover_image = fields.Nested(ImageScheme())
     resource = fields.List(fields.Nested(ResourceScheme()))
     date_uploaded_unix = fields.Int()

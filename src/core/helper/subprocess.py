@@ -5,7 +5,7 @@ import asyncio
 async def run(cmd):
     """
     Start an async subprocess cmd
-    :param cmd
+    :param cmd: Command to exec
     """
     proc = await asyncio.create_subprocess_shell(cmd)
     stdout, stderr = await proc.communicate()

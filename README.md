@@ -24,10 +24,11 @@ generation and acquisition of content.
 ## Tools
 
 ### Resolvers
-A resolver is a set of instructions, expressed as a Python class. A gateway will execute a resolver to fetch content from various sources.
-Resolvers implement the logic necessary for the acquisition, preprocessing, cleaning and schematization of data from any
-available resource. Based on the following class abstraction we can see the methods required for the development of a
-resolver:
+
+A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch content
+from various sources. Resolvers implement the logic necessary for the acquisition, preprocessing, cleaning and
+schematization of data from any available resource. Based on the following class abstraction we can see the methods
+required for the development of a resolver:
 
 ~~~~
 Define your resolvers modules below.
@@ -37,10 +38,13 @@ class Dummy:
     def __str__(self) -> str:
         return 'Test'
 
-    def __call__(self, *args, **kwargs) -> iter:
-        """
+    def __call__(self, scheme, *args, **kwargs) -> iter:
+       """
+        Returned meta should be valid scheme
         Process your data and populate scheme struct
         src/core/scheme/definition.py
+        :param scheme: Scheme object
+        :yield object: Scheme valid
         """
         yield data
 ~~~~
@@ -52,7 +56,19 @@ Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master
 The elaboration of the schema is quite simple, it consists of a popular arrangement with dictionaries containing the
 metadata example:
 
+```
+FIRST_MOVIE_YEAR_EVER = 1880
+LONGEST_RUNTIME_MOVIE = 51420 # Minutes
+SHORTEST_RUNTIME_MOVIE = 1 # Minutes
+DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' | 
+    'Biography' | 'Comedy' | 'Crime' | 'Documentary' | 'Drama' | 'Family' |
+    'Fantasy' | 'Film-Noir' | 'Game-Show' | 'History' | 'Horror' | 'Music' | 'Musical' |
+    'Mystery' | 'News' | 'Romance' | 'Reality-TV' | 'Sci-Fi' | 'Sport' | 'Talk-Show' | 'Thriller' | 
+    'War' | 'Western'  
+```
+
 #### MovieScheme
+
 ```
   title = fields.Str(validate=validate.Length(min=1))
   # Optional resource id to keep linked ex: origin?id=45
@@ -74,36 +90,94 @@ metadata example:
   # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
   mpa_rating = fields.Str(default='PG')
   # This uri links should be declared to IPFS ingestion
-  small_cover_image = fields.Url(required=True)
-  medium_cover_image = fields.Url(required=True)
-  large_cover_image = fields.Url(required=True)
+  small_cover_image = fields.Nested(ImageScheme())
+  medium_cover_image = fields.Nested(ImageScheme())
+  large_cover_image = fields.Nested(ImageScheme())
   resource = fields.List(fields.Nested(ResourceScheme()))
   date_uploaded_unix = fields.Int()
 ```
 
 #### ResourceScheme
-    url = fields.Url(required=False, relative=True)  # File link
-    hash = fields.Str(required=False)  # CID hash
-    index = fields.Str(required=True)  # File index in hash directory
-    quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
-    type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
+
+    url = fields.Url(relative=True)  # Remote file
+    cid = fields.Str()  # CID hash 
+    index = fields.Str()  # File index in CID directory (optional)
+    quality = fields.Str(required=True)  # 720p | 1080p | 2048p | 3D
+    type = fields.Str() # torrent | hls
+
+#### ImageScheme
+
+    url = fields.Url(relative=True)  # Remote file
+    cid = fields.Str()  # CID hash
+
+## Underneath
+
+The process of evaluating the resolvers will determine the type of action to be executed in the ResourceSchema |
+ImageSchema:
+
+When establishing a `cid`, the gateway just associate that hash to the metadata. If a URL is found, the gateway must
+execute the download of the file in a directory associated with each movie and ingest it in IPFS to obtain its
+corresponding hash and later associate it to the movie in the metadata example:
+
+**CID:**
+
+If your content already exists in IPFS you just have to define it as follows.
+
+**If you do not define an `index` in `resource` the `cid` must be an absolute link to the file else 
+`index` will be retrieved from directory**
+
+ ```
+"small_cover_image": {"cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
+"medium_cover_image": {"cid": "QmYNQJoKGNHTpPTYFSh9KkDpaExgd2iuMa3aF6ytMpPda2", "index": "myimage.jpg"},
+"large_cover_image": {"cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
+"date_uploaded_unix": 1446321498,
+"resource": [
+    {
+        "cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", # Example cid
+        "index": "index.m3u8", 
+        "quality": "720p",
+        "type": "hls"
+    }
+]
+
+```
+
+**URL**
+
+```
+"small_cover_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+"medium_cover_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+"large_cover_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+"date_uploaded_unix": 1446321498,
+"resource": [
+    {
+        "url": "https://movies.ssl-images-amazon.com/images/I/movie.m3u8",
+        "index": "index.m3u8", 
+        "quality": "720p",
+        "type": "hls"
+    }
+]
+```
+
+It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you can
+see the `index` is used to define the name of the resulting file name in the IPFS directory
+
+```
+/{cid}
+/{cid}/small_cover_image.jpg
+/{cid}/medium_cover_image.jpg
+/{cid}/large_cover_image.jpg
+/{cid}/index.m3u8
+
+```
 
 **Notes**
-  
-    * ResourceScheme:
-      * index its the file system file to be retrieved ex:
-          https://gateway.ipfs.io/hash/index.movie
 
+* If 'imdb_code' cannot be found add your custom imdb_code ex: tt{movie_id}
+* 'url' and 'hash' are mutually exclusive
 
-**Exceptions:**
-
-    * MovieScheme: 
-        * If 'imdb_code' cannot be found add your custom imdb_code ex: tt{movie_id}
-    * ResourceScheme: 
-        * If 'url' its declared gateway will try to migrate content to IPFS.
-        * If 'hash' its declared 'url' will be omitted and 'hash' will be keeped.
-
-Please check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py)
+Please
+check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py)
 
 ## Run
 

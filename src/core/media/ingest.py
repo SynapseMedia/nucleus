@@ -73,7 +73,7 @@ def process_resource_hash(resources, hash_):
     Clean re-struct resources
     """
     for resource in resources:
-        resource['hash'] = resource.get('hash', hash_)
+        resource['cid'] = resource.get('cid', hash_)
         # Remove unneeded url
         if 'url' in resource:
             del resource['url']
@@ -94,12 +94,14 @@ def ingest_ipfs_metadata(mv: dict):
 
         for x in image_index:
             if x in mv:  # Download all image assets
+                if 'cid' in mv[x]: continue
                 download_file(mv[x], "%s/%s.jpg" % (current_imdb_code, x))
                 del mv[x]  # Remove old
 
         if 'resource' in mv:
             for resource in mv.get('resource'):
                 if 'url' not in resource: continue  # Cached resource
+                resource['index'] = resource['index'] if 'index' in resource else 'index'
                 resource_dir = '%s/%s/%s' % (current_imdb_code, resource['quality'], resource['index'])
                 download_file(resource['url'], resource_dir)
 
