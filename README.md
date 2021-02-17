@@ -28,7 +28,7 @@ generation and acquisition of content.
 "A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch
 content from various sources." - @aphelionz
 
-Resolvers implement the logic necessary for the acquisition, preprocessing, cleaning and schematization of data from any
+Resolvers implement the logic necessary for the fetch, preprocessing, cleaning and schematization of data from any
 available resource. Based on the following class abstraction we can see the methods required for the development of a
 resolver:
 
@@ -166,7 +166,7 @@ To migrate centralized remote or local data to decentralized network need to def
 
 **Note:** It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you can see
 the `index` is used to define the name of the resulting path in the IPFS directory. 
-
+  
 ```
 /{cid}
 /{cid}/small_image.jpg
@@ -186,7 +186,7 @@ check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/m
 
 ## Run
 
-*Start docker containers and starts movies migration.*
+*Copy your module resolver to `resolvers` directory and start docker containers.*
 > Run seeder IPFS public node.
 
 `docker-compose up`
