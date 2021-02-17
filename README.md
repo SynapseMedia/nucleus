@@ -119,7 +119,7 @@ ImageSchema:
 
 When establishing a `cid`, the gateway just associate that hash to the metadata. If a URL is found, the gateway must
 execute the download of the file in a directory associated with each movie and ingest it in IPFS to obtain its
-corresponding hash and later associate it to the movie in the metadata:
+corresponding `cid` and later associate it to the movie in the metadata:
 
 **CID:**
 
@@ -178,11 +178,20 @@ the `index` is used to define the name of the resulting path in the IPFS directo
 
 **Notes**
 
-* If 'imdb_code' cannot be found add your custom imdb_code ex: tt{movie_id}
-* 'url' and 'hash' are mutually exclusive
+* 'url' and 'cid' are mutually exclusive
+* If 'imdb_code' cannot be found for your movies please add your custom imdb_code ex: tt{movie_id}
 
 Please
 check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py)
+
+**Caching**
+
+After obtaining and schematizing the metadata these clean and pre-processed meta will be stored in a "temporary
+collection cache" and in a "temporary collection cursor". The "temporary collection" keeps all the meta while 
+"the cursor collection" keeps the already processed meta to avoid unnecessary re-processing.
+
+
+All this meta later will then be obtained and ingested in [OrbitDB](https://orbitdb.org/).
 
 ## Run
 
