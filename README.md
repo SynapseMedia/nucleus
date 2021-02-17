@@ -87,8 +87,8 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
   runtime = fields.Float(validate=validate.Range(min=SHORTEST_RUNTIME_MOVIE, max=LONGEST_RUNTIME_MOVIE))
   genres = fields.List(fields.Str(), validate=validate.ContainsOnly(choices=DEFAULT_GENRES))
   synopsis = fields.Str(required=True)
-  # Public domain movie?
-  pdm = fields.Bool(default=False)
+  # Public domain movie? Please help us to avoid piracy
+  pdm = fields.Bool(default=True)
   trailer_code = fields.Str(missing=None)  # Youtube trailer code
   # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
   language = fields.Str(validate=validate.Length(min=2, max=10))
