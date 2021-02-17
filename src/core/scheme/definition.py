@@ -62,4 +62,4 @@ class MovieSchema(Schema):
     medium_image = fields.Nested(ImageScheme())
     large_image = fields.Nested(ImageScheme())
     resource = fields.List(fields.Nested(ResourceScheme()))
-    date_uploaded_unix = fields.Int()
+    date_uploaded_unix = fields.Int(required=True)

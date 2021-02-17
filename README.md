@@ -8,8 +8,7 @@
 * If you don’t have IPFS , [install it](https://github.com/ipfs/go-ipfs#install).
 * [Spawn go-ipfs node with docker](https://mrh.io/ipfs_docker/).
 * [How to spawn an IPFS node in Node.js](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/).
-* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/)
-  .
+* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/).
 
 ## Quick summary
 
@@ -99,7 +98,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
   medium_image = fields.Nested(ImageScheme())
   large_image = fields.Nested(ImageScheme())
   resource = fields.List(fields.Nested(ResourceScheme()))
-  date_uploaded_unix = fields.Int()
+  date_uploaded_unix = fields.Int(required=True)
 ```
 
 #### ResourceScheme
