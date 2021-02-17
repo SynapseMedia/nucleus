@@ -9,7 +9,7 @@ class Dummy:
         Process your data and populate scheme struct
         src/core/scheme/definition.py
         :param scheme: Scheme object
-        :yield object: Scheme valid
+        :yield list: Scheme valid obejct list ex: [movie1, movie2]
         """
         yield scheme.validator.check([{
             "resource_id": 85,
