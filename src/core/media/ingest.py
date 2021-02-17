@@ -75,9 +75,6 @@ def migrate_resource_hash(resources, hash_):
     """
     for resource in resources:
         resource['cid'] = resource.get('cid', hash_)
-        # Remove unneeded url
-        if 'url' in resource:
-            del resource['url']
     return resources
 
 
@@ -97,7 +94,8 @@ def fetch_movie_resources(mv, current_imdb_code) -> dict:
     :param current_imdb_code
     """
     for resource in mv.get('resource'):
-        if 'url' not in resource: continue  # Cached resource
+        if 'url' not in resource:
+            continue
         resource['index'] = resource['index'] if 'index' in resource else 'index'
         resource_dir = '%s/%s/%s' % (current_imdb_code, resource['quality'], resource['index'])
         download_file(resource['url'], resource_dir)
@@ -111,14 +109,29 @@ def fetch_images_resources(mv, current_imdb_code) -> dict:
     :param current_imdb_code
     """
     for x in IMAGE_INDEX:
-        if 'cid' in mv[x]: continue
+        if 'url' not in mv[x]:
+            continue
         url = mv[x]['url']
         index = os.path.basename(url)
         download_file(mv[x]['url'], "%s/%s" % (current_imdb_code, index))
         mv[x]['index'] = mv[x]['index'] if 'index' in mv[x] else index
+    return mv
 
+
+def clean_resources(mv):
+    """
+    Clean url of resources
+    :para mv: Current movie meta processing
+    """
+    # Clean images url if defined
+    for x in IMAGE_INDEX:
         if 'url' in mv[x]:
             del mv[x]['url']
+
+    # Clean resource url if defined
+    for resource in mv['resource']:
+        if 'url' in resource:
+            del resource['url']
     return mv
 
 
@@ -145,7 +158,7 @@ def ingest_ipfs_metadata(mv: dict):
         mv['hash'] = hash_directory  # Add current hash to movie
         logger.info(f"{Log.OKGREEN}Done {mv.get('imdb_code')}{Log.ENDC}")
         logger.info('\n')
-        return mv
+        return clean_resources(mv)
     except Exception as e:
         logger.error(f"Retry download assets error: {e}")
         logger.warning(f"{Log.WARNING}Wait {RECURSIVE_SLEEP_REQUEST}{Log.ENDC}")
