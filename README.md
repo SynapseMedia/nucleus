@@ -112,7 +112,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     url = fields.Url(relative=True)  # Remote file
     cid = fields.Str()  # CID hash
 
-## Underneath
+## Usage
 
 The process of evaluating the resolvers will determine the type of action to be executed in the ResourceSchema |
 ImageSchema:
@@ -193,9 +193,29 @@ collection cache" and in a "temporary collection cursor". The "temporary collect
 
 All this meta later will then be obtained and ingested in [OrbitDB](https://orbitdb.org/).
 
+Please check some environment variables that are used to control this behavior:
+
+```
+# Flush tmp cache cursor
+FLUSH_CACHE_IPFS=False
+# Force get movies from source
+REFRESH_MOVIES=False
+# Force refresh IPFS ingestion
+REFRESH_IPFS=True
+# Create a new tmp collection version in each migration
+REGEN_MOVIES=False
+# Create a new source directory in each migration
+REGEN_ORBITDB=False
+```
+
 ## Run
 
-*Copy your module resolver to `resolvers` directory and start docker containers.*
-> Run seeder IPFS public node.
+1) Copy your custom module resolver to `resolvers` directory.
+2) Start container `docker-compose up` to run migrator.
+3) After finishing the migration process you can get the orbit addresses.
+4) Copy the orbit address and use it when starting the [application](https://github.com/ZorrillosDev/watchit-desktop).
 
-`docker-compose up`
+
+
+
+
