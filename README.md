@@ -1,4 +1,4 @@
-# Gateway Watchit Seeder
+# Watchit Gateway
 
 [![Gitter](https://badges.gitter.im/watchit-app/community.svg)](https://gitter.im/watchit-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
@@ -56,8 +56,11 @@ Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master
 ### Scheme
 
 The elaboration of the schema is quite simple, it consists in populate an array with dictionaries containing the
-schematized metadata:
+schematized metadata.
+Please check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py).
 
+
+Some env vars used below to define schemas:
 ```
 FIRST_MOVIE_YEAR_EVER = 1880
 LONGEST_RUNTIME_MOVIE = 51420 # Minutes
@@ -180,9 +183,6 @@ the `index` is used to define the name of the resulting path in the IPFS directo
 
 * 'url' and 'cid' are mutually exclusive
 * If 'imdb_code' cannot be found for your movies please add your custom imdb_code ex: tt{movie_id}
-
-Please
-check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py)
 
 **Caching**
 
