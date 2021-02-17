@@ -127,9 +127,6 @@ corresponding `cid` and later associate it to the movie in the metadata:
 
 If your content already exists in IPFS you just have to define it as follows.
 
-**Note:** If you do not define an `index` in `resource` collection the `cid` must be absolute.
-If `index` is not defined in `images` collection then default key `index` will be set
-
  ```
 "small_image": {"cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
 "medium_image": {"cid": "QmYNQJoKGNHTpPTYFSh9KkDpaExgd2iuMa3aF6ytMpPda2", "index": "myimage.jpg"},
@@ -145,6 +142,9 @@ If `index` is not defined in `images` collection then default key `index` will b
 ]
 
 ```
+
+**Note:** If you do not define an `index` in `resource` collection the `cid` must be absolute.
+If `index` is not defined in `images` collection then default key `index` will be set
 
 **URL**
 
