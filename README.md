@@ -14,7 +14,7 @@
 ## Quick summary
 
 The watchit gateway is an interface or micro framework for the migration of content to IPFS and the distribution of
-metadata through OrbitDB.
+metadata through [OrbitDB](https://orbitdb.org/).
 
 Watchit gateway adds migrated data to the metastore (orbitdb) which is distributed in a predefined scheme definition to
 ensure the integrity of the data that is later consumed by
