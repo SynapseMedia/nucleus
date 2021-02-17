@@ -19,7 +19,7 @@ metadata through [OrbitDB](https://orbitdb.org/).
 Watchit gateway adds migrated data to the metastore (orbitdb) which is distributed in a predefined scheme definition to
 ensure the integrity of the data that is later consumed by
 the [application](https://github.com/ZorrillosDev/watchit-desktop). Watchit gateway provides simple tools for the
-generation and acquisition of content.
+generation and fetching of content.
 
 ## Tools
 
