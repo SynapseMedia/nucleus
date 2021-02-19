@@ -212,7 +212,7 @@ REGEN_ORBITDB=False
 1) Copy your custom module resolver to `resolvers` directory.
 2) Start container `docker-compose up` to run migrator.
 3) After finishing the migration process you can get the orbit addresses.
-4) Copy the orbit address and use it when starting the [application](https://github.com/ZorrillosDev/watchit-desktop).
+4) Copy the orbit address and use it when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
 
 
 
