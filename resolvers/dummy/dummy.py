@@ -1,19 +1,17 @@
-import typing
-
-
 class Dummy:
 
     def __str__(self) -> str:
         return 'Test'
 
-    def __call__(self, scheme) -> typing.Generator[list]:
+    def __call__(self, scheme):
         """
         Returned meta should be valid scheme
         Process your data and populate scheme struct
         src/core/scheme/definition.py
+
         :param scheme: Scheme object
-        :returns: Scheme valid object list ex: [movie1, movie2]
-        :rtype Generator[list]
+        :returns: Scheme valid object list ex: {movie1, movie2}
+        :rtype Generator
         """
         yield scheme.validator.check([{
             "resource_id": 85,
@@ -36,4 +34,4 @@ class Dummy:
                     "type": "hls"
                 }
             ]
-        }], many=True)
+        }])

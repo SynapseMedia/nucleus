@@ -4,6 +4,7 @@ from src.core import Log, logger
 from pymongo.errors import BulkWriteError
 import src.core.scheme as scheme
 import asyncio
+import typing
 
 
 async def call_orbit_subprocess(regen=False):
@@ -55,10 +56,11 @@ def flush_ipfs(cache_db, temp_db):
     )
 
 
-def results_generator(resolver) -> iter:
+def results_generator(resolver: iter) -> typing.Generator:
     """
     Dummy resolver generator call
-    :return iter: Iterable result
+    :param resolver
+    :returns: Iterable result
     """
     resolver = resolver()  # Init class
     logger.info(f"{Log.WARNING}Generating migrations from {resolver}{Log.ENDC}")

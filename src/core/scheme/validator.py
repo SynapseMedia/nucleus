@@ -3,9 +3,12 @@ from src.core import Log, logger
 from marshmallow.exceptions import ValidationError
 
 
-def check(data: list, many: bool = False, **kwargs) -> MovieSchema:
+def check(data: list, many: bool = True, **kwargs) -> MovieSchema:
     """
     Bypass check data in scheme
+    :param data: List of schemas object
+    :param many: Validate many
+    :returns Validated schema
     """
     try:
         return MovieSchema(
