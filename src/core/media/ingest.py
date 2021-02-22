@@ -28,23 +28,23 @@ logger.info(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}")
 logger.info('\n')
 
 
-def get_pb_domain_set(csv_file='pdm.csv'):
+def get_pb_domain_set(csv_file: str = 'pdm.csv') -> set:
     """
     Get public domain movies from csv
-    :param csv_file:
-    :return:
+    :param csv_file: Path to csv file with pre-defined PDM movies list
+    :return: Unique list of PDM
     """
     with open(f"{ROOT_PATH}/{csv_file}", 'r') as f:
         reader = csv.reader(f)
         return set([row[1] for row in reader])
 
 
-def ingest_ipfs_dir(_dir):
+def ingest_ipfs_dir(_dir: str) -> str:
     """
     Go and conquer the world little child!!:
     Add directory to ipfs
-    :param _dir:
-    :return:
+    :param _dir: Directory to add to IPFS
+    :return: The resulting CID
     """
     directory = "%s/torrents/%s" % (HOME_PATH, _dir)
     logger.info(f"Ingesting directory: {Log.BOLD}{_dir}{Log.ENDC}")
@@ -54,13 +54,13 @@ def ingest_ipfs_dir(_dir):
     return _hash
 
 
-def ingest_ipfs_file(uri, _dir):
+def ingest_ipfs_file(uri: str, _dir: str) -> str:
     """
     Go and conquer the world little child!!
     Add file to ipfs
-    :param uri:
-    :param _dir:
-    :return:
+    :param uri: The link to file
+    :param _dir: The tmp dir to store it
+    :return: The resulting CID for file
     """
     directory = download_file(uri, _dir)
     logger.info(f"Ingesting file: {Log.BOLD}{_dir}{Log.ENDC}")
@@ -69,18 +69,24 @@ def ingest_ipfs_file(uri, _dir):
     return _hash
 
 
-def migrate_resource_hash(resources, hash_):
+def migrate_resource_hash(resources: dict, hash_: str) -> dict:
     """
-    Clean re-struct resources
+    Re-struct resources adding the corresponding cid
+    :param resources: ResourceScheme dict
+    :param hash_: CID hash
+    :return: ResourceScheme with CID assoc
     """
     for resource in resources:
         resource['cid'] = resource.get('cid', hash_)
     return resources
 
 
-def migrate_image_hash(resources, hash_):
+def migrate_image_hash(resources: dict, hash_: str) -> dict:
     """
-    Clean re-struct resources
+    Re-struct image resources adding the corresponding cid
+    :param resources: ImageScheme dict
+    :param hash_: CID hash
+    :return: ImageScheme with CID assoc
     """
     for x in IMAGE_INDEX:
         resources[x]['cid'] = resources[x].get('cid', hash_)
@@ -89,9 +95,10 @@ def migrate_image_hash(resources, hash_):
 
 def fetch_movie_resources(mv, current_imdb_code) -> dict:
     """
-    Check if resources need to be downloaded
-    :param mv: Movie schema
-    :param current_imdb_code
+    Check if resources need to be downloaded and download it
+    :param mv: ResourceSchema dict
+    :param current_imdb_code: Imdb code key in collection
+    :return: ResourceSchema dict
     """
     for resource in mv.get('resource'):
         if 'url' not in resource:
@@ -104,9 +111,10 @@ def fetch_movie_resources(mv, current_imdb_code) -> dict:
 
 def fetch_images_resources(mv, current_imdb_code) -> dict:
     """
-    Check if images need to be downloaded
-    :param mv: Movie schema
-    :param current_imdb_code
+    Check if images need to be downloaded and download it
+    :param mv: ImageSchema dict
+    :param current_imdb_code: Imdb code key in collection
+    :return: ImageScheme dict
     """
     for x in IMAGE_INDEX:
         if 'url' not in mv[x]:
@@ -118,10 +126,11 @@ def fetch_images_resources(mv, current_imdb_code) -> dict:
     return mv
 
 
-def clean_resources(mv):
+def clean_resources(mv: dict) -> dict:
     """
-    Clean url of resources
-    :para mv: Current movie meta processing
+    Clean url key from schema
+    :param mv: Current movie meta processing
+    :return: Cleaned schema
     """
     # Clean images url if defined
     for x in IMAGE_INDEX:
@@ -135,11 +144,11 @@ def clean_resources(mv):
     return mv
 
 
-def ingest_ipfs_metadata(mv: dict):
+def ingest_ipfs_metadata(mv: dict) -> dict:
     """
     Loop over assets, download it and add it to IPFS
-    :param mv:
-    :return:
+    :param mv: MovieSchema
+    :return: Cleaned, pre-processed, structured ready schema
     """
     try:
         logger.info(f"{Log.OKBLUE}Ingesting {mv.get('imdb_code')}{Log.ENDC}")

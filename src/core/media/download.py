@@ -7,7 +7,6 @@ from src.core import Log, logger
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 HOME_PATH = ROOT_PATH
-# HOME_PATH = os.path.join(str(Path.home()), '.gwatchit')
 
 # Session keep alive
 # http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
@@ -19,12 +18,12 @@ _agents = [
 ]
 
 
-def download_file(uri, _dir):
+def download_file(uri, _dir) -> str:
     """
     Take from the boring centralized network
-    :param uri:
-    :param _dir:
-    :return:
+    :param uri: Link to file
+    :param _dir: Where store the file?
+    :return: Directory of stored file
     """
     session = requests.Session()
     directory = "%s/torrents/%s" % (HOME_PATH, _dir)
@@ -55,11 +54,11 @@ def download_file(uri, _dir):
     return directory
 
 
-def download_scrap_subs(current_imdb_code, sub_collection):
+def download_scrap_subs(current_imdb_code: str, sub_collection: dict):
     """
     Download scrapped subs
-    :param current_imdb_code:
-    :param sub_collection:
+    :param current_imdb_code: The imdb code assoc with movie
+    :param sub_collection: The subtitles schema collection
     :return:
     """
     for lang, sub_lang in sub_collection.items():  # Key - Lang
