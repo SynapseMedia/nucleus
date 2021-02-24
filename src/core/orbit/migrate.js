@@ -17,7 +17,7 @@ const {consume} = require('streaming-iterables')
 const MongoClient = require('mongodb').MongoClient;
 const ipfs = IpfsApi({host: IPFS_NODE, port: '5001', protocol: 'http'});
 const msgpack = require("msgpack-lite");
-const {v4: uuidv4} = require('uuid')
+const {v4: uuidv4} = require('uuid');
 
 
 (async () => {
