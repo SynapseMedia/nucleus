@@ -17,6 +17,7 @@ const {consume} = require('streaming-iterables')
 const MongoClient = require('mongodb').MongoClient;
 const ipfs = IpfsApi({host: IPFS_NODE, port: '5001', protocol: 'http'});
 const msgpack = require("msgpack-lite");
+const {v4: uuidv4} = require('uuid')
 
 
 (async () => {
@@ -32,7 +33,7 @@ const msgpack = require("msgpack-lite");
         // Create OrbitDB instance
         const DB_NAME = SOURCE_DB;
         const orbitdb = await OrbitDB.createInstance(ipfs, {
-            directory: REGEN ? './orbit' + Math.random().toString() : './orbit'
+            directory: REGEN ? `./orbit${uuidv4()}` : './orbit'
         });
 
         // DB

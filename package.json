@@ -13,7 +13,8 @@
     "node-rsa": "^1.0.8",
     "orbit-db": "~0.26.0",
     "secp256k1": "^3.8.0",
-    "streaming-iterables": "^5.0.4"
+    "streaming-iterables": "^5.0.4",
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "mwz": "node src/core/orbit/migrate.js -r ---key=watchit",
