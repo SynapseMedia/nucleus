@@ -52,7 +52,7 @@ const {v4: uuidv4} = require('uuid');
         //Add provider to allow nodes connect to it
         console.info(`Providing address ${dbAddressHash} for ${definedType}`);
         await consume(ipfs.dht.provide(dbAddressHash))
-        console.info(`Providing address ${dbAddressHash} for ${definedType}\``)
+        console.info(`Publishing address ${dbAddressHash} for ${definedType}`)
         const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
         console.info(`Publish done for for ${definedType}`, ipns.name)
 
