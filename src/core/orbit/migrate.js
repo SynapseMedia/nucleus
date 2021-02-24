@@ -42,18 +42,19 @@ const {v4: uuidv4} = require('uuid');
             localOnly: false,
             replicate: true
         });
-        // END DB
 
-        console.log(`Starting ${PDM ? 'PDM' : 'W'} db `);
+        // END DB
+        const definedType = PDM ? 'PDM' : 'W';
+        console.log(`Starting ${definedType} db `);
         const dbAddress = db.address.toString()
         const dbAddressHash = dbAddress.split('/')[2]
 
         //Add provider to allow nodes connect to it
-        console.info('Providing address', dbAddressHash);
+        console.info(`Providing address ${dbAddressHash} for ${definedType}`);
         await consume(ipfs.dht.provide(dbAddressHash))
-        console.info('Publishing address', dbAddressHash)
+        console.info(`Providing address ${dbAddressHash} for ${definedType}\``)
         const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
-        console.info('Publish done', ipns.name)
+        console.info(`Publish done for for ${definedType}`, ipns.name)
 
         // Add events
         db.events.on('peer', (p) => console.log('Peer Db:', p));
