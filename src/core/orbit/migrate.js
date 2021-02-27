@@ -54,11 +54,8 @@ const logs = {
     const dbAddressHash = dbAddress.split('/')[2]
 
     //Add provider to allow nodes connect to it
-    logs.info(`Publishing address for ${definedType}`)
     await consume(ipfs.dht.provide(dbAddressHash))
     await ipfs.name.publish(dbAddressHash, {key: KEY})
-    logs.success(`Publish done for ${definedType}`)
-
 
     // Start movies migration to orbit from mongo
     let index = 0; // Keep cursor for movies id
@@ -80,7 +77,7 @@ const logs = {
 
             const size = await cursor.count();
             const data = chunkGen(await cursor.toArray(), MAX_CHUNKS);
-            logs.warn(`Migrating ${size} movies...\n`)
+            logs.warn(`Migrating ${size} movies..`)
 
             for (const chunk of data) {
                 // let before = +new Date();
