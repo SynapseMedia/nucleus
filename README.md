@@ -4,8 +4,6 @@
 
 ## Getting started
 
-* If you don’t have Go, [install it](https://golang.org/doc/install).
-* If you don’t have IPFS , [install it](https://github.com/ipfs/go-ipfs#install).
 * [Spawn go-ipfs node with docker](https://mrh.io/ipfs_docker/).
 * [How to spawn an IPFS node in Node.js](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/).
 * For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/).
