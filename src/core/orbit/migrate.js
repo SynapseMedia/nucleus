@@ -80,23 +80,14 @@ const logs = {
 
             const size = await cursor.count();
             const data = chunkGen(await cursor.toArray(), MAX_CHUNKS);
-            logs.info(`Total movies: ${size}`)
-            logs.warn('Migrating...\n')
+            logs.warn(`Migrating ${size} movies...\n`)
+
             for (const chunk of data) {
                 // let before = +new Date();
                 let ch = chunk.map((v) => {
                     index++;
                     v['_id'] = `wt_loc_${index}`;
                     v['total'] = size;
-
-                    if ('torrents' in v) {
-                        for (const value of v.torrents) {
-                            delete value['url'];
-                        }
-                    }
-
-                    delete v['url']
-                    delete v['state']
                     return v
                 });
 
