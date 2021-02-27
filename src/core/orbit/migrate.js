@@ -1,3 +1,4 @@
+process.env.FORCE_COLOR = 1
 const argv = require('minimist')(process.argv.slice(2));
 
 const MAX_CHUNKS = 1000
@@ -12,16 +13,21 @@ const RECREATE = argv.r || true // Recreate database
 const KEY = argv.key || 'watchit' // Local key used to IPNS publish
 const REGEN = argv.g || false
 
-
+const chalk = require('chalk')
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
 const {consume} = require('streaming-iterables')
 const MongoClient = require('mongodb').MongoClient;
-const logs = require('pino')({prettyPrint: {colorize: true}})
 const ipfs = IpfsApi({host: IPFS_NODE, port: '5001', protocol: 'http'});
 const msgpack = require("msgpack-lite");
 const {v4: uuidv4} = require('uuid');
-
+const logger = require('pino')({prettyPrint: true});
+const logs = {
+    success: (msg) => logger.info(chalk.green(msg)),
+    info: (msg) => logger.info(chalk.cyan(msg)),
+    warn: (msg) => logger.warn(chalk.yellow(msg)),
+    err: (msg) => logger.err(chalk.red(msg)),
+};
 
 (async () => {
 
@@ -42,7 +48,7 @@ const {v4: uuidv4} = require('uuid');
     db.events.on('peer', (p) => logs.warn('Peer Db:', p));
 
     // END DB
-    const definedType = PDM ? 'PDM' : 'All';
+    const definedType = PDM ? 'PDM' : 'FULL';
     logs.info(`Starting ${definedType} db `);
     const dbAddress = db.address.toString()
     const dbAddressHash = dbAddress.split('/')[2]
@@ -50,8 +56,8 @@ const {v4: uuidv4} = require('uuid');
     //Add provider to allow nodes connect to it
     logs.info(`Publishing address for ${definedType}`)
     await consume(ipfs.dht.provide(dbAddressHash))
-    const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
-    logs.warn(`Publish done for for ${definedType}`, ipns.name)
+    await ipfs.name.publish(dbAddressHash, {key: KEY})
+    logs.success(`Publish done for ${definedType}`)
 
 
     // Start movies migration to orbit from mongo
@@ -75,7 +81,7 @@ const {v4: uuidv4} = require('uuid');
             const size = await cursor.count();
             const data = chunkGen(await cursor.toArray(), MAX_CHUNKS);
             logs.info(`Total movies: ${size}`)
-
+            logs.warn('Migrating...\n')
             for (const chunk of data) {
                 // let before = +new Date();
                 let ch = chunk.map((v) => {
@@ -112,9 +118,9 @@ const {v4: uuidv4} = require('uuid');
             }
 
             logs.info(`Processed: ${index}/${size}`);
-            logs.warn(`Address: ${dbAddressHash}`)
+            logs.success(`Address for ${definedType}: ${dbAddressHash}`)
             await client.close();
-            logs.warn('Closed db..');
+            logs.warn('Closed db..\n');
         })
 
 
