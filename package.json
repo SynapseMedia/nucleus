@@ -6,6 +6,7 @@
   "author": "The team zorrillos",
   "description": "Watch movies for free",
   "dependencies": {
+    "@liquicode/lib-logger": "^0.2.2",
     "ipfs-http-client": "^47.0.1",
     "minimist": "^1.2.5",
     "mongodb": "^3.5.9",
