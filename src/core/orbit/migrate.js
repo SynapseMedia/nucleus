@@ -55,7 +55,7 @@ const logs = {
 
     //Add provider to allow nodes connect to it
     await consume(ipfs.dht.provide(dbAddressHash))
-    await ipfs.name.publish(dbAddressHash, {key: KEY})
+    const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
 
     // Start movies migration to orbit from mongo
     let index = 0; // Keep cursor for movies id
@@ -106,7 +106,8 @@ const logs = {
             }
 
             logs.info(`Processed: ${index}/${size}`);
-            logs.success(`Address for ${definedType}: ${dbAddressHash}`)
+            logs.success(`CID for ${definedType}: ${dbAddressHash}`)
+            logs.success(`IPNS for ${definedType}: ${ipns.name}`)
             await client.close();
             logs.warn('Closed db..\n');
         })
