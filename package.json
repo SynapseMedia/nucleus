@@ -6,13 +6,14 @@
   "author": "The team zorrillos",
   "description": "Watch movies for free",
   "dependencies": {
-    "@liquicode/lib-logger": "^0.2.2",
     "ipfs-http-client": "^47.0.1",
     "minimist": "^1.2.5",
     "mongodb": "^3.5.9",
     "msgpack-lite": "^0.1.26",
     "node-rsa": "^1.0.8",
     "orbit-db": "~0.26.0",
+    "pino": "^6.11.1",
+    "pino-pretty": "^4.5.0",
     "secp256k1": "^3.8.0",
     "streaming-iterables": "^5.0.4",
     "uuid": "^8.3.2"
