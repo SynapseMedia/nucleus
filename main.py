@@ -65,5 +65,8 @@ if __name__ == '__main__':
         helper.init_ingestion(cache_db, temp_db, migration_result)
 
     # Start node subprocess migration
-    asyncio.run(helper.call_orbit_subprocess(REGEN_ORBITDB))
+    asyncio.run(helper.call_orbit_subprocess(
+        REGEN_ORBITDB,  # Regen orbit directory
+        tmp_db_name  # Helper tmp db source name
+    ))
     exit(0)

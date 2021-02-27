@@ -7,14 +7,15 @@ import asyncio
 import typing
 
 
-async def call_orbit_subprocess(regen=False):
+async def call_orbit_subprocess(regen=False, hdb='witth'):
     """
     Spawn nodejs subprocess
     :param regen: Regenerate db
+    :param hdb: The temp db source
     """
     await asyncio.gather(
-        helper.run(f"npm run mpdm {regen and '-- -g' or ''}"),
-        helper.run(f"npm run mwz {regen and '-- -g' or ''}")
+        helper.run(f"npm run mpdm -- {regen and '-g' or ''} --hdb={hdb}"),
+        helper.run(f"npm run mwz -- {regen and '-g' or ''} --hdb={hdb}")
     )
 
 
