@@ -25,7 +25,6 @@ const {v4: uuidv4} = require('uuid');
 
 (async () => {
 
-    logs.info(`Connecting ipfs node`);
     const chunkGen = (_movies, l) => {
         return new Array(Math.ceil(_movies.length / l)).fill(0)
             .map((_, n) => _movies.slice(n * l, n * l + l));
@@ -49,9 +48,8 @@ const {v4: uuidv4} = require('uuid');
     const dbAddressHash = dbAddress.split('/')[2]
 
     //Add provider to allow nodes connect to it
-    logs.info(`Providing address for ${definedType}`);
-    await consume(ipfs.dht.provide(dbAddressHash))
     logs.info(`Publishing address for ${definedType}`)
+    await consume(ipfs.dht.provide(dbAddressHash))
     const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
     logs.warn(`Publish done for for ${definedType}`, ipns.name)
 
@@ -68,7 +66,6 @@ const {v4: uuidv4} = require('uuid');
         logs.warn('Connecting to helper db..');
         await client.connect(async (err) => {
 
-            console.log(DB_NAME)
             // Generate cursor for all movies
             const adminDb = client.db(DB_NAME)
             const cursor = adminDb.collection('movies').find(
@@ -77,7 +74,7 @@ const {v4: uuidv4} = require('uuid');
 
             const size = await cursor.count();
             const data = chunkGen(await cursor.toArray(), MAX_CHUNKS);
-            logs.info('Total movies:', size)
+            logs.info(`Total movies: ${size}`)
 
             for (const chunk of data) {
                 // let before = +new Date();
@@ -114,16 +111,15 @@ const {v4: uuidv4} = require('uuid');
                 // console.log('Created: ', cid.cid.toString());
             }
 
+            logs.info(`Processed: ${index}/${size}`);
+            logs.warn(`Address: ${dbAddressHash}`)
+            await client.close();
+            logs.warn('Closed db..');
         })
 
-        logs.info('Processed: ', `${index}/${size}`);
-        logs.warn('Address:', `${dbAddressHash}`)
 
     } catch (err) {
         logs.error(err);
-    } finally {
-        await client.close();
-        logs.warn('Closed db..');
     }
 
 })()
