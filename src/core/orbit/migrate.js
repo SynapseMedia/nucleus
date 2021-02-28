@@ -45,7 +45,7 @@ const logs = {
 
     // DB
     const db = await orbitdb.log(ORBIT_DB_NAME, DB_OPTIONS);
-    db.events.on('peer', (p) => logs.warn('Peer Db:', p));
+    db.events.on('peer', (p) => logs.warn(`Peer Db: ${p}`));
 
     // END DB
     const definedType = PDM ? 'PDM' : 'FULL';
@@ -117,4 +117,5 @@ const logs = {
         logs.error(err);
     }
 
-})()
+}
+)()
