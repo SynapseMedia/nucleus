@@ -149,7 +149,7 @@ def clean_resources(mv: dict) -> dict:
 def ingest_ipfs_metadata(mv: dict) -> dict:
     """
     Loop over assets, download it and add it to IPFS
-    :param mv: MovieSchema
+    :param mv: MovieScheme
     :return: Cleaned, pre-processed, structured ready schema
     """
     try:
