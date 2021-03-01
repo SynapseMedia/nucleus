@@ -71,7 +71,32 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     'War' | 'Western'  
 ```
 
-#### MovieScheme
+
+#### CIDScheme
+    cid = fields.Str()  # CID hash 
+    index = fields.Str()  # File index in CID directory
+
+
+#### URLScheme
+    url = fields.Url(relative=True)  # File link
+    index = fields.Str()  # File index in CID directory
+
+
+#### VideoCIDScheme(CIDScheme)
+    cid = fields.Str()  # CID hash 
+    index = fields.Str()  # File index in CID directory
+    quality = fields.Str(required=True)  # 720p | 1080p | 2048p | 3D
+    type = fields.Str() # torrent | hls
+
+
+#### VideoURLScheme(URLScheme)
+    url = fields.Url(relative=True)  # File link
+    index = fields.Str()  # File index in CID directory
+    quality = fields.Str(required=True)  # 720p | 1080p | 2048p | 3D
+    type = fields.Str() # torrent | hls
+
+
+#### MovieSchema
 
 ```
   title = fields.Str(validate=validate.Length(min=1))
@@ -93,34 +118,19 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
   language = fields.Str(validate=validate.Length(min=2, max=10))
   # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
   mpa_rating = fields.Str(default='PG')
-  # This uri links should be declared to IPFS ingestion
-  small_image = fields.Nested(ImageScheme())
-  medium_image = fields.Nested(ImageScheme())
-  large_image = fields.Nested(ImageScheme())
-  resource = fields.List(fields.Nested(VideoScheme()))
+  small_image = fields.Nested(validate.ContainsOnly(choiced=[URISchema, CIDSchema]))
+  medium_image = fields.Nested(validate.ContainsOnly(choiced=[URISchema, CIDSchema]))
+  large_image = fields.Nested(validate.ContainsOnly(choiced=[URISchema, CIDSchema]))
+  resource = fields.List(fields.Nested(validate.ContainsOnly(choiced=[VideoCIDSchema, VideoURLSchema])))
   date_uploaded_unix = fields.Int(required=True)
 ```
-
-#### VideoScheme
-
-    url = fields.Url(relative=True)  # Remote|Local file
-    cid = fields.Str()  # CID hash 
-    index = fields.Str()  # File index in CID directory
-    quality = fields.Str(required=True)  # 720p | 1080p | 2048p | 3D
-    type = fields.Str() # torrent | hls
-
-#### ImageScheme
-
-    url = fields.Url(relative=True)  # Remote|Local file
-    cid = fields.Str()  # CID hash
-    index = fields.Str()  # File index in CID directory
 
 ## Usage
 
 The process of evaluating the resolvers will determine the type of action to be executed in the VideoSchema |
 ImageSchema:
 
-When establishing a `cid`, the gateway just associate that hash to the metadata. If a URL is found, the gateway must
+When establishing a `cid` scheme, the gateway just associate that hash to the metadata. If a URL scheme is found, the gateway must
 execute the download of the file in a directory associated with each movie and ingest it in IPFS to obtain its
 corresponding `cid` and later associate it to the movie in the metadata:
 

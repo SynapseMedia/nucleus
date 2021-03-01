@@ -1,9 +1,9 @@
-from .definition import MovieScheme
+from .definition import MovieSchema
 from src.core import Log, logger
 from marshmallow.exceptions import ValidationError
 
 
-def check(data: list, many: bool = True, **kwargs) -> MovieScheme:
+def check(data: list, many: bool = True, **kwargs) -> MovieSchema:
     """
     Bypass check data in scheme
     :param data: List of schemas object
@@ -11,7 +11,7 @@ def check(data: list, many: bool = True, **kwargs) -> MovieScheme:
     :return Validated schema
     """
     try:
-        return MovieScheme(
+        return MovieSchema(
             many=many, **kwargs
         ).load(data)
     except ValidationError as e:

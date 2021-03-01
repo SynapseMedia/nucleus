@@ -27,27 +27,39 @@ DEFAULT_GENRES = [
 
 class ResourceScheme(Schema):
     index = fields.Str()  # File index in CID directory
-    abs = fields.Bool(default=False)
+    abs = fields.Bool(missing=False)
 
 
-class CIDScheme(ResourceScheme):
-    cid = fields.Str()  # CID hash
-
-
-class URIScheme(ResourceScheme):
-    url = fields.Url(relative=True)  # File link
-
-
-class ImageScheme(CIDScheme, URIScheme):
-    pass
-
-
-class VideoScheme(CIDScheme, URIScheme):
+class VideoSchema(ResourceScheme):
     quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 
 
-class MovieScheme(Schema):
+class CIDSchema(ResourceScheme):
+    cid = fields.Str()  # CID hash
+
+
+class URLSchema(ResourceScheme):
+    url = fields.Url(relative=True)  # File link
+
+
+class VideoCIDSchema(VideoSchema, CIDSchema):
+    """
+    Video resource with cid definition
+    {resource: {cid: QM...xl}}
+    """
+    pass
+
+
+class VideoURLSchema(VideoSchema, URLSchema):
+    """
+    Video resource with url definition
+    {resource: {url: http://...video.m3u8}}
+    """
+    pass
+
+
+class MovieSchema(Schema):
     title = fields.Str(validate=validate.Length(min=1))
     # Optional resource id to keep linked ex: origin?id=45
     resource_id = fields.Int(missing=0)
@@ -67,8 +79,8 @@ class MovieScheme(Schema):
     language = fields.Str(validate=validate.Length(min=2, max=10))
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating = fields.Str(default='PG')
-    small_image = fields.Nested(ImageScheme())
-    medium_image = fields.Nested(ImageScheme())
-    large_image = fields.Nested(ImageScheme())
-    resource = fields.List(fields.Nested(VideoScheme()))
+    small_image = fields.Nested(validate.ContainsOnly(choiced=[URLSchema, CIDSchema]))
+    medium_image = fields.Nested(validate.ContainsOnly(choiced=[URLSchema, CIDSchema]))
+    large_image = fields.Nested(validate.ContainsOnly(choiced=[URLSchema, CIDSchema]))
+    resource = fields.List(fields.Nested(validate.ContainsOnly(choiced=[VideoCIDSchema, VideoURLSchema])))
     date_uploaded_unix = fields.Int(required=True)
