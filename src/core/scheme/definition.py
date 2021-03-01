@@ -27,39 +27,33 @@ DEFAULT_GENRES = [
 
 class ResourceScheme(Schema):
     index = fields.Str()  # File index in CID directory
-    abs = fields.Bool(missing=False)
+    abs = fields.Bool(default=False)
 
 
-class VideoSchema(ResourceScheme):
+class CIDScheme(ResourceScheme):
+    cid = fields.Str()  # CID hash
+
+
+class URIScheme(ResourceScheme):
+    url = fields.Url(relative=True)  # File link
+
+
+class ImageScheme(CIDScheme, URIScheme):
+    """
+    Image resource definition
+    """
+    pass
+
+
+class VideoScheme(CIDScheme, URIScheme):
+    """
+    Video resource definition
+    """
     quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 
 
-class CIDSchema(ResourceScheme):
-    cid = fields.Str()  # CID hash
-
-
-class URLSchema(ResourceScheme):
-    url = fields.Url(relative=True)  # File link
-
-
-class VideoCIDSchema(VideoSchema, CIDSchema):
-    """
-    Video resource with cid definition
-    {resource: {cid: QM...xl}}
-    """
-    pass
-
-
-class VideoURLSchema(VideoSchema, URLSchema):
-    """
-    Video resource with url definition
-    {resource: {url: http://...video.m3u8}}
-    """
-    pass
-
-
-class MovieSchema(Schema):
+class MovieScheme(Schema):
     title = fields.Str(validate=validate.Length(min=1))
     # Optional resource id to keep linked ex: origin?id=45
     resource_id = fields.Int(missing=0)
@@ -79,8 +73,8 @@ class MovieSchema(Schema):
     language = fields.Str(validate=validate.Length(min=2, max=10))
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating = fields.Str(default='PG')
-    small_image = fields.Nested(validate.ContainsOnly(choiced=[URLSchema, CIDSchema]))
-    medium_image = fields.Nested(validate.ContainsOnly(choiced=[URLSchema, CIDSchema]))
-    large_image = fields.Nested(validate.ContainsOnly(choiced=[URLSchema, CIDSchema]))
-    resource = fields.List(fields.Nested(validate.ContainsOnly(choiced=[VideoCIDSchema, VideoURLSchema])))
+    small_image = fields.Nested(ImageScheme)
+    medium_image = fields.Nested(ImageScheme)
+    large_image = fields.Nested(ImageScheme)
+    resource = fields.List(fields.Nested(VideoScheme))
     date_uploaded_unix = fields.Int(required=True)
