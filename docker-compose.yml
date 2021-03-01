@@ -17,7 +17,8 @@ services:
       - "127.0.0.1:5001:5001"
 
   watchit_migrator:
-    image: gmena/migrate:v1.0.28
+    build: .
+    image: gmena/migrate:v1.0.29
     container_name: watchit_migrator
     command: python3 main.py
     links:

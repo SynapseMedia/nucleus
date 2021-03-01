@@ -102,6 +102,7 @@ def fetch_movie_resources(mv, current_imdb_code) -> dict:
     """
     for resource in mv.get('resource'):
         if 'url' not in resource:
+            mv['abs'] = True
             continue
         resource['index'] = resource['index'] if 'index' in resource else 'index'
         resource_dir = '%s/%s/%s' % (current_imdb_code, resource['quality'], resource['index'])
@@ -118,6 +119,7 @@ def fetch_images_resources(mv, current_imdb_code) -> dict:
     """
     for x in IMAGE_INDEX:
         if 'url' not in mv[x]:
+            mv['abs'] = True
             continue
         url = mv[x]['url']
         index = os.path.basename(url)
