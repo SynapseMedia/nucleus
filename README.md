@@ -144,7 +144,7 @@ If your content already exists in IPFS you just have to define it as follows.
 ```
 
 **Note:** If you do not define an `index` in `resource` collection the `cid` must be absolute. If `index` is not defined
-in `images` collection then default key `index` will be set
+in `images` then default key `index` will be set
 
 **URL**
 
