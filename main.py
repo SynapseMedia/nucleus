@@ -51,10 +51,11 @@ if __name__ == '__main__':
         helper.rewrite_entries(temp_db, merged_data)  # Add data to helper db
         logger.info(f"{Log.UNDERLINE}Entries yts indexed: {len(merged_data)}{Log.ENDC}")
 
-    if REFRESH_IPFS or empty_cache or empty_tmp:
+    empty_ = empty_cache or empty_tmp
+    if REFRESH_IPFS or empty_:
         logger.info('\n')
         logger.info(f"{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
-        if FLUSH_CACHE_IPFS or empty_cache:
+        if FLUSH_CACHE_IPFS or empty_:
             helper.runtime.flush_ipfs(cache_db, temp_db)
 
         # Start IPFS ingestion

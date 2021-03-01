@@ -25,20 +25,29 @@ DEFAULT_GENRES = [
 ]
 
 
-class ImageScheme(Schema):
-    url = fields.Url(relative=True)  # File link
-    cid = fields.Str()  # CID hash
-
-
 class ResourceScheme(Schema):
-    url = fields.Url(relative=True)  # File link
-    cid = fields.Str()  # CID hash
     index = fields.Str()  # File index in CID directory
+    abs = fields.Bool(default=False)
+
+
+class CIDScheme(ResourceScheme):
+    cid = fields.Str()  # CID hash
+
+
+class URIScheme(ResourceScheme):
+    url = fields.Url(relative=True)  # File link
+
+
+class ImageScheme(CIDScheme, URIScheme):
+    pass
+
+
+class VideoScheme(CIDScheme, URIScheme):
     quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 
 
-class MovieSchema(Schema):
+class MovieScheme(Schema):
     title = fields.Str(validate=validate.Length(min=1))
     # Optional resource id to keep linked ex: origin?id=45
     resource_id = fields.Int(missing=0)
@@ -61,5 +70,5 @@ class MovieSchema(Schema):
     small_image = fields.Nested(ImageScheme())
     medium_image = fields.Nested(ImageScheme())
     large_image = fields.Nested(ImageScheme())
-    resource = fields.List(fields.Nested(ResourceScheme()))
+    resource = fields.List(fields.Nested(VideoScheme()))
     date_uploaded_unix = fields.Int(required=True)

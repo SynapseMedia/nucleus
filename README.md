@@ -45,7 +45,7 @@ class Dummy:
         
         :param scheme: MovieScheme object
         :returns: Scheme valid object list ex: {movie1, movie2}
-        :rtype Generator
+        :rtype Generator[MovieScheme]
         """
         yield data
 ~~~~
@@ -97,13 +97,13 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
   small_image = fields.Nested(ImageScheme())
   medium_image = fields.Nested(ImageScheme())
   large_image = fields.Nested(ImageScheme())
-  resource = fields.List(fields.Nested(ResourceScheme()))
+  resource = fields.List(fields.Nested(VideoScheme()))
   date_uploaded_unix = fields.Int(required=True)
 ```
 
-#### ResourceScheme
+#### VideoScheme
 
-    url = fields.Url(relative=True)  # Remote file
+    url = fields.Url(relative=True)  # Remote|Local file
     cid = fields.Str()  # CID hash 
     index = fields.Str()  # File index in CID directory
     quality = fields.Str(required=True)  # 720p | 1080p | 2048p | 3D
@@ -111,12 +111,13 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
 
 #### ImageScheme
 
-    url = fields.Url(relative=True)  # Remote file
+    url = fields.Url(relative=True)  # Remote|Local file
     cid = fields.Str()  # CID hash
+    index = fields.Str()  # File index in CID directory
 
 ## Usage
 
-The process of evaluating the resolvers will determine the type of action to be executed in the ResourceSchema |
+The process of evaluating the resolvers will determine the type of action to be executed in the VideoSchema |
 ImageSchema:
 
 When establishing a `cid`, the gateway just associate that hash to the metadata. If a URL is found, the gateway must
