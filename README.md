@@ -6,7 +6,8 @@
 
 * [Spawn go-ipfs node with docker](https://mrh.io/ipfs_docker/).
 * [How to spawn an IPFS node in Node.js](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/).
-* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/).
+* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/)
+  .
 
 ## Quick summary
 
@@ -14,9 +15,8 @@ The watchit gateway is an interface or micro framework for the migration of cont
 metadata through [OrbitDB](https://orbitdb.org/).
 
 Watchit gateway adds migrated data to the metastore (orbitdb) which is distributed in a predefined scheme definition to
-ensure the integrity of the data that is later consumed by
-the [dapp](https://github.com/ZorrillosDev/watchit-desktop). Watchit gateway provides simple tools for the
-generation and fetching of content.
+ensure the integrity of the data that is later consumed by the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
+Watchit gateway provides simple tools for the generation and fetching of content.
 
 ## Tools
 
@@ -25,9 +25,8 @@ generation and fetching of content.
 "A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch
 content from various sources." - @aphelionz
 
-Resolvers implement the logic necessary for fetch, preprocessing, cleaning and schematization of data from any
-available resource. Based on the following class abstraction we can see the methods required for the development of a
-resolver:
+Resolvers implement the logic necessary for fetch, preprocessing, cleaning and schematization of data from any available
+resource. Based on the following class abstraction we can see the methods required for the development of a resolver:
 
 ~~~~
 Define your resolvers modules below.
@@ -55,11 +54,11 @@ Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master
 ### Scheme
 
 The elaboration of the schema is quite simple, it consists in populate an array with dictionaries containing the
-schematized metadata.
-Please check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py).
-
+schematized metadata. Please
+check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py).
 
 Some env vars used below to define schemas:
+
 ```
 FIRST_MOVIE_YEAR_EVER = 1880
 LONGEST_RUNTIME_MOVIE = 51420 # Minutes
@@ -70,6 +69,20 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     'Mystery' | 'News' | 'Romance' | 'Reality-TV' | 'Sci-Fi' | 'Sport' | 'Talk-Show' | 'Thriller' | 
     'War' | 'Western'  
 ```
+
+#### VideoScheme
+
+    url = fields.Url(relative=True)  # Remote|Local file
+    cid = fields.Str()  # CID hash 
+    index = fields.Str()  # File index in CID directory
+    quality = fields.Str(required=True)  # 720p | 1080p | 2048p | 3D
+    type = fields.Str() # torrent | hls
+
+#### ImageScheme
+
+    url = fields.Url(relative=True)  # Remote|Local file
+    cid = fields.Str()  # CID hash
+    index = fields.Str()  # File index in CID directory
 
 #### MovieScheme
 
@@ -94,26 +107,12 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
   # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
   mpa_rating = fields.Str(default='PG')
   # This uri links should be declared to IPFS ingestion
-  small_image = fields.Nested(ImageScheme())
-  medium_image = fields.Nested(ImageScheme())
-  large_image = fields.Nested(ImageScheme())
-  resource = fields.List(fields.Nested(VideoScheme()))
+  small_image = fields.Nested(ImageScheme)
+  medium_image = fields.Nested(ImageScheme)
+  large_image = fields.Nested(ImageScheme)
+  resource = fields.List(fields.Nested(VideoScheme))
   date_uploaded_unix = fields.Int(required=True)
 ```
-
-#### VideoScheme
-
-    url = fields.Url(relative=True)  # Remote|Local file
-    cid = fields.Str()  # CID hash 
-    index = fields.Str()  # File index in CID directory
-    quality = fields.Str(required=True)  # 720p | 1080p | 2048p | 3D
-    type = fields.Str() # torrent | hls
-
-#### ImageScheme
-
-    url = fields.Url(relative=True)  # Remote|Local file
-    cid = fields.Str()  # CID hash
-    index = fields.Str()  # File index in CID directory
 
 ## Usage
 
@@ -144,13 +143,13 @@ If your content already exists in IPFS you just have to define it as follows.
 
 ```
 
-**Note:** If you do not define an `index` in `resource` collection the `cid` must be absolute.
-If `index` is not defined in `images` collection then default key `index` will be set
+**Note:** If you do not define an `index` in `resource` collection the `cid` must be absolute. If `index` is not defined
+in `images` collection then default key `index` will be set
 
 **URL**
 
-If your files are in local env please use uri `file://` scheme.
-To migrate centralized remote or local data to decentralized network need to define your schema as follow:
+If your files are in local env please use uri `file://` scheme. To migrate centralized remote or local data to
+decentralized network need to define your schema as follow:
 
 ```
 "small_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
@@ -167,9 +166,9 @@ To migrate centralized remote or local data to decentralized network need to def
 ]
 ```
 
-**Note:** It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you can see
-the `index` is used to define the name of the resulting path in the IPFS directory. 
-  
+**Note:** It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you
+can see the `index` is used to define the name of the resulting path in the IPFS directory.
+
 ```
 /{cid}
 /{cid}/small_image.jpg
@@ -187,9 +186,8 @@ the `index` is used to define the name of the resulting path in the IPFS directo
 **Caching**
 
 After obtaining and schematizing the metadata these clean and pre-processed meta will be stored in a "temporary
-collection cache" and in a "temporary collection cursor". The "temporary collection" keeps all the meta while 
+collection cache" and in a "temporary collection cursor". The "temporary collection" keeps all the meta while
 "the cursor collection" keeps the already processed meta to avoid unnecessary re-processing.
-
 
 All this meta later will then be obtained and ingested in [OrbitDB](https://orbitdb.org/).
 
