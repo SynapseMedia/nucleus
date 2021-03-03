@@ -34,7 +34,7 @@ class Dummy:
                         "route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"
                     },
                 },
-                "video": [
+                "videos": [
                     {
                         "route": "QmVuR5s1enhtAK5ipvLNiqgSz8CecCkPL8GumrBE3e53gg",
                         "quality": "720p",

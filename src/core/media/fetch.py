@@ -11,7 +11,7 @@ def fetch_movie_resources(mv, current_imdb_code) -> dict:
     """
     for resource in mv['resource']['videos']:
         if cid.is_cid(resource['route']):
-            mv['abs'] = True
+            resource['abs'] = True
             continue
 
         resource['index'] = resource['index'] if 'index' in resource else 'index'
@@ -34,8 +34,7 @@ def fetch_images_resources(mv, current_imdb_code) -> dict:
             v['abs'] = True
             continue
 
-        url = v['url']
-        index = os.path.basename(url)
+        index = os.path.basename(v['route'])
         download_file(v['route'], "%s/%s" % (current_imdb_code, index))
         v['index'] = v['index'] if 'index' in v else index
     return mv

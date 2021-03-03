@@ -1,6 +1,4 @@
 import time
-
-import csv
 import ipfshttpclient
 
 from src.core import Log, logger

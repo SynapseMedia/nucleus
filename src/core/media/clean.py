@@ -26,8 +26,8 @@ def migrate_resource_hash(mv: dict, hash_: str) -> dict:
     :param hash_: CID hash
     :return: MovieScheme with CID assoc
     """
-    for _, v in mv['resource']['videos'].items():
-        v['cid'] = v.get('route', hash_)
+    for v in mv['resource']['videos']:
+        v['cid'] = v.get('route') if 'abs' in v else hash_
     return mv
 
 
@@ -39,5 +39,5 @@ def migrate_image_hash(mv: dict, hash_: str) -> dict:
     :return: MovieScheme with CID assoc
     """
     for _, v in mv['resource']['images'].items():
-        v['cid'] = v.get('route', hash_)
+        v['cid'] = v.get('route') if 'abs' in v else hash_
     return mv

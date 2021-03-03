@@ -39,7 +39,7 @@ class GenericScheme(Schema):
 
     @validates('route')
     def validate_route(self, value):
-        if not cid.is_cid(value) or not validators.url.url(value):
+        if not cid.is_cid(value) and not validators.url(value):
             raise ValidationError('Route must be a CID or URI')
 
 
