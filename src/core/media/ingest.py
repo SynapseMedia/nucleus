@@ -1,12 +1,12 @@
 import time
 
-import csv, os
+import csv
 import ipfshttpclient
-import cid
 
 from src.core import Log, logger
-from .download import ROOT_PATH, HOME_PATH
-from .download import download_file
+from .download import download_file, HOME_PATH
+from .fetch import fetch_movie_resources, fetch_images_resources
+from .clean import clean_resources, migrate_resource_hash, migrate_image_hash
 
 __author__ = 'gmena'
 
@@ -26,17 +26,6 @@ logger.info(f"{Log.OKGREEN}Starting node{Log.ENDC}")
 ipfs = start_node()  # Initialize api connection to node
 logger.info(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}")
 logger.info('\n')
-
-
-def get_pb_domain_set(csv_file: str = 'pdm.csv') -> set:
-    """
-    Get public domain movies from csv
-    :param csv_file: Path to csv file with pre-defined PDM movies list
-    :return: Unique list of PDM
-    """
-    with open(f"{ROOT_PATH}/{csv_file}", 'r') as f:
-        reader = csv.reader(f)
-        return set([row[1] for row in reader])
 
 
 def ingest_ipfs_dir(_dir: str) -> str:
@@ -67,87 +56,6 @@ def ingest_ipfs_file(uri: str, _dir: str) -> str:
     _hash = ipfs.add(directory, pin=True)['Hash']
     logger.info(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
     return _hash
-
-
-def migrate_resource_hash(resources: dict, hash_: str) -> dict:
-    """
-    Re-struct resources adding the corresponding cid
-    :param resources: VideoScheme dict
-    :param hash_: CID hash
-    :return: VideoScheme with CID assoc
-    """
-    for _, v in resources['resource']['videos'].items():
-        v['cid'] = v.get('route', hash_)
-    return resources
-
-
-def migrate_image_hash(resources: dict, hash_: str) -> dict:
-    """
-    Re-struct image resources adding the corresponding cid
-    :param resources: ResourceScheme dict
-    :param hash_: CID hash
-    :return: ImageScheme with CID assoc
-    """
-    for _, v in resources['resource']['images'].items():
-        v['cid'] = v.get('route', hash_)
-    return resources
-
-
-def fetch_movie_resources(mv, current_imdb_code) -> dict:
-    """
-    Check if resources need to be downloaded and download it
-    :param mv: ResourceSchema dict
-    :param current_imdb_code: Imdb code key in collection
-    :return: ResourceSchema dict
-    """
-    for resource in mv['resource']['videos']:
-        if 'url' not in resource:
-            mv['abs'] = True
-            continue
-
-        resource['index'] = resource['index'] if 'index' in resource else 'index'
-        resource_dir = '%s/%s/%s' % (current_imdb_code, resource['quality'], resource['index'])
-        download_file(resource['route'], resource_dir)
-    return mv
-
-
-def fetch_images_resources(mv, current_imdb_code) -> dict:
-    """
-    Check if images need to be downloaded and download it
-    :param mv: ImageSchema dict
-    :param current_imdb_code: Imdb code key in collection
-    :return: ImageScheme dict
-    """
-
-    for _, v in mv['resource']['images'].items():
-        # Check for valid cid
-        if cid.is_cid(v['route']):
-            v['abs'] = True
-            continue
-
-        url = v['url']
-        index = os.path.basename(url)
-        download_file(v['route'], "%s/%s" % (current_imdb_code, index))
-        v['index'] = v['index'] if 'index' in v else index
-    return mv
-
-
-def clean_resources(mv: dict) -> dict:
-    """
-    Clean url key from schema
-    :param mv: Current movie meta processing
-    :return: Cleaned schema
-    """
-    # Clean images url if defined
-    for x in IMAGE_INDEX:
-        if 'url' in mv['resource']['images'][x]:
-            del mv['resource']['images'][x]['url']
-
-    # Clean resource url if defined
-    for resource in mv['resource']['videos']:
-        if 'url' in resource:
-            del resource['url']
-    return mv
 
 
 def ingest_ipfs_metadata(mv: dict) -> dict:

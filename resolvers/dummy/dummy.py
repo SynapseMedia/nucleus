@@ -25,15 +25,18 @@ class Dummy:
             "resource": {
                 "images": {
                     "small_image": {
-                        "url": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+                        "route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"
+                    },
                     "medium_image": {
-                        "url": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+                        "route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"
+                    },
                     "large_image": {
-                        "url": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+                        "route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"
+                    },
                 },
                 "video": [
                     {
-                        "cid": "QmVuR5s1enhtAK5ipvLNiqgSz8CecCkPL8GumrBE3e53gg",
+                        "route": "QmVuR5s1enhtAK5ipvLNiqgSz8CecCkPL8GumrBE3e53gg",
                         "quality": "720p",
                         "index": "index.m3u8",
                         "type": "hls"
