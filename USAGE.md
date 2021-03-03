@@ -1,9 +1,7 @@
 
 ## Usage
 
-***NOTE!*** The gateway is **alpha-stage** software. 
-It means watchit-gateway hasn't been security audited and programming APIs and data formats can still change.
-Currently watchit-gateway supports`torrent` type in resolvers movie resources. 
+***NOTE!*** Currently watchit-gateway supports`torrent` type in resolvers movie resources. 
 Please see [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) for future streaming mechanisms.
 
 ## Quick Summary
