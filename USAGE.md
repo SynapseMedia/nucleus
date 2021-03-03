@@ -1,6 +1,12 @@
 
 ## Usage
 
+***NOTE!*** The gateway is **alpha-stage** software. 
+It means watchit-gateway hasn't been security audited and programming APIs and data formats can still change.
+Currently watchit-gateway supports`torrent` type in resolvers movie resources. 
+Please see [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) for future streaming mechanisms.
+
+## Quick Summary
 The process of evaluating the resolvers will determine the type of action to be executed in the VideoSchema |
 ImageSchema:
 
@@ -10,7 +16,7 @@ corresponding `cid` and later associate it to the movie in the metadata:
 
 **CID:**
 
-If your content already exists in IPFS you just have to define it as follows.
+If your content already exists in IPFS you just have to define your scheme in resolver as follows.
 
  ```
 "small_image": {"cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
@@ -20,9 +26,9 @@ If your content already exists in IPFS you just have to define it as follows.
 "resource": [
     {
         "cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", # Example cid
-        "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.m3u8
+        "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.torrent
         "quality": "720p",
-        "type": "hls"
+        "type": "torrent"
     }
 ]
 
@@ -34,7 +40,7 @@ in `images` collection then default key `index` will be set.
 **URL**
 
 If your files are in local env please use uri `file://` scheme. To migrate centralized remote or local data to
-decentralized network need to define your schema as follow:
+decentralized network need to define your schema in resolver as follow:
 
 ```
 "small_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
@@ -43,10 +49,10 @@ decentralized network need to define your schema as follow:
 "date_uploaded_unix": 1446321498,
 "resource": [
     {
-        "url": "https://movies.ssl-images-amazon.com/I/movie.mp4",
-        "index": "index.mp4", 
+        "url": "https://movies.ssl-images-amazon.com/I/movie.torrent",
+        "index": "index.torrent", 
         "quality": "720p",
-        "type": "hls"
+        "type": "torrent"
     }
 ]
 ```
@@ -59,7 +65,7 @@ can see the `index` is used to define the name of the resulting path in the IPFS
 /{cid}/small_image.jpg
 /{cid}/medium_image.jpg
 /{cid}/large_image.jpg
-/{cid}/index.mp4
+/{cid}/index.torrent
 
 ```
 
