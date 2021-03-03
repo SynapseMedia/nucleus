@@ -135,7 +135,7 @@ If your content already exists in IPFS you just have to define it as follows.
 "resource": [
     {
         "cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", # Example cid
-        "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.m3u8
+        "index": "index.mp4", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.mp4
         "quality": "720p",
         "type": "hls"
     }
@@ -158,8 +158,8 @@ decentralized network need to define your schema as follow:
 "date_uploaded_unix": 1446321498,
 "resource": [
     {
-        "url": "https://movies.ssl-images-amazon.com/I/movie.m3u8",
-        "index": "index.m3u8", 
+        "url": "https://movies.ssl-images-amazon.com/I/movie.mp4",
+        "index": "index.mp4", 
         "quality": "720p",
         "type": "hls"
     }
