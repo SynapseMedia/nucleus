@@ -6,8 +6,7 @@
 
 * [Spawn go-ipfs node with docker](https://mrh.io/ipfs_docker/).
 * [How to spawn an IPFS node in Node.js](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/).
-* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/)
-  .
+* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/).
 
 ## Quick summary
 
@@ -51,7 +50,18 @@ Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master
 
 ### Scheme && Usage
 
-Pending documentation
+See [SCHEME.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/SCHEME.md).
+
+## Usage
+
+See [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md) for full documentation.
+
+## Run
+
+1) Copy your custom module resolver to `resolvers` directory.
+2) Start container `docker-compose up` to run migrator.
+3) After finishing the migration process you can get the orbit addresses.
+4) Copy the orbit address and use it when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
 
 
 
