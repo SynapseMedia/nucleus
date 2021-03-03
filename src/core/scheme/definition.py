@@ -4,8 +4,10 @@ Exceptions:
     - If imdb_code cannot be found add your custom imdb_code ex: tt{movie_id}
     - If url its declared hash will be omitted or if hash its declared url will be omitted
 """
+import cid
+import validators
 from datetime import date
-from marshmallow import Schema, fields, validate, EXCLUDE
+from marshmallow import Schema, validates, fields, validate, EXCLUDE, ValidationError
 
 DEFAULT_RATE_MAX = 10
 # Just in case according this
@@ -34,6 +36,11 @@ class GenericScheme(Schema):
     route = fields.Str(required=True)  # Could be cid | uri
     index = fields.Str()  # File index in directory
     abs = fields.Bool(default=False)
+
+    @validates('route')
+    def validate_route(self, value):
+        if not cid.is_cid(value) or not validators.url.url(value):
+            raise ValidationError('Route must be a CID or URI')
 
 
 class VideoScheme(GenericScheme):
