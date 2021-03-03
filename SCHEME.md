@@ -1,8 +1,8 @@
 ### Scheme
 
 The elaboration of the schema is quite simple, it consists in populate an array with dictionaries containing the
-schematized metadata. Please
-check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py).
+schematized metadata. 
+Please check [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py).
 
 Some env vars used below to define schemas:
 
