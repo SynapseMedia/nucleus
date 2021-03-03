@@ -2,6 +2,7 @@
 ## Usage
 
 ***NOTE!*** Currently watchit-gateway supports`torrent` type in resolvers movie resources. 
+
 Please see [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) for future streaming mechanisms.
 
 ## Quick Summary
