@@ -49,20 +49,9 @@ class Dummy:
 
 Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py)
 
-### Scheme
+### Scheme && Usage
 
-See [SCHEME.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/SCHEME.md).
-
-## Usage
-
-See [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md) for full documentation.
-
-## Run
-
-1) Copy your custom module resolver to `resolvers` directory.
-2) Start container `docker-compose up` to run migrator.
-3) After finishing the migration process you can get the orbit addresses.
-4) Copy the orbit address and use it when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
+Pending documentation
 
 
 
