@@ -56,14 +56,11 @@ See [SCHEME.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/SCHE
 
 See [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md) for full documentation.
 
-## Run
-
-1) Copy your custom module resolver to `resolvers` directory.
-2) Start container `docker-compose up` to run migrator.
-3) After finishing the migration process you can get the orbit addresses.
-4) Copy the orbit address and use it when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
-
-
+##  More info
+* Visit our site [watchitapp.site](http://watchitapp.site).
+* Read our post in [dev.to](https://dev.to/geolffreym/watchit-2b88).
+* Check out [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) to future features.
+* Get in touch with us in [gitter](https://gitter.im/watchit-app/community).
 
 
 
