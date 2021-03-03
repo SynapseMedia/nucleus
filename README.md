@@ -119,7 +119,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
 The process of evaluating the resolvers will determine the type of action to be executed in the VideoSchema |
 ImageSchema:
 
-When establishing a `cid`, the gateway just associate that hash to the metadata. If a URL is found, the gateway must
+When establishing a `cid`, the gateway just associate that hash to the metadata. If an `url` is found, the gateway must
 execute the download of the file in a directory associated with each movie and ingest it in IPFS to obtain its
 corresponding `cid` and later associate it to the movie in the metadata:
 
@@ -144,7 +144,7 @@ If your content already exists in IPFS you just have to define it as follows.
 ```
 
 **Note:** If you do not define an `index` in `resource` collection the `cid` must be absolute. If `index` is not defined
-in `images` collection then default key `index` will be set
+in `images` collection then default key `index` will be set.
 
 **URL**
 
@@ -158,7 +158,7 @@ decentralized network need to define your schema as follow:
 "date_uploaded_unix": 1446321498,
 "resource": [
     {
-        "url": "https://movies.ssl-images-amazon.com/images/I/movie.m3u8",
+        "url": "https://movies.ssl-images-amazon.com/I/movie.m3u8",
         "index": "index.m3u8", 
         "quality": "720p",
         "type": "hls"
