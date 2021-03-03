@@ -57,6 +57,12 @@ See [SCHEME.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/SCHE
 
 See [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md) for full documentation.
 
+##  More info
+* Visit our site [watchitapp.site](http://watchitapp.site).
+* Read our post in [dev.to](https://dev.to/geolffreym/watchit-2b88).
+* Check out [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) to future features.
+* Get in touch with us in [gitter](https://gitter.im/watchit-app/community).
+
 ## Run
 
 1) Copy your custom module resolver to `resolvers` directory.
