@@ -3,6 +3,7 @@
 
 > The gateway supports `torrent` type in resolvers movie resource. please see [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) for inclusion of future streaming mechanisms.
 
+## Quick Summary
 The process of evaluating the resolvers will determine the type of action to be executed in the VideoSchema |
 ImageSchema:
 
@@ -12,7 +13,7 @@ corresponding `cid` and later associate it to the movie in the metadata:
 
 **CID:**
 
-If your content already exists in IPFS you just have to define it as follows.
+If your content already exists in IPFS you just have to define your scheme in resolver as follows.
 
  ```
 "small_image": {"cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
@@ -36,7 +37,7 @@ in `images` collection then default key `index` will be set.
 **URL**
 
 If your files are in local env please use uri `file://` scheme. To migrate centralized remote or local data to
-decentralized network need to define your schema as follow:
+decentralized network need to define your schema in resolver as follow:
 
 ```
 "small_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
