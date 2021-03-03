@@ -25,7 +25,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     cid = fields.Str()  # CID hash 
     index = fields.Str()  # File index in CID directory
     quality = fields.Str(required=True)  # 720p | 1080p | 2048p | 3D
-    type = fields.Str() # torrent | hls
+    type = fields.Str() # torrent 
 
 #### ImageScheme
 

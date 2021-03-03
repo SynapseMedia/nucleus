@@ -30,8 +30,8 @@ class Dummy:
                 {
                     "cid": "QmVuR5s1enhtAK5ipvLNiqgSz8CecCkPL8GumrBE3e53gg",
                     "quality": "720p",
-                    "index": "index.m3u8",
-                    "type": "hls"
+                    "index": "index.torrent",
+                    "type": "torrent"
                 }
             ]
         }])
