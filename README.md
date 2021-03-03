@@ -135,7 +135,7 @@ If your content already exists in IPFS you just have to define it as follows.
 "resource": [
     {
         "cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", # Example cid
-        "index": "index.mp4", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.mp4
+        "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.m3u8
         "quality": "720p",
         "type": "hls"
     }
