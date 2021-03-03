@@ -4,6 +4,9 @@
 "A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch
 content from various sources." - @aphelionz
 
+The elaboration of the schema is quite simple, it consists in populate an array with dictionaries containing the
+schematized metadata.
+
 Resolvers implement the logic necessary for fetch, preprocessing, cleaning and schematization of data from any available
 resource. Based on the following class abstraction we can see the methods required for the development of a resolver:
 
