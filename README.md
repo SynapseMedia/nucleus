@@ -174,7 +174,7 @@ can see the `index` is used to define the name of the resulting path in the IPFS
 /{cid}/small_image.jpg
 /{cid}/medium_image.jpg
 /{cid}/large_image.jpg
-/{cid}/index.m3u8
+/{cid}/index.mp4
 
 ```
 
