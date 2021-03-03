@@ -48,7 +48,7 @@ class Dummy:
 
 Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py)
 
-### Scheme && Usage
+### Scheme
 
 See [SCHEME.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/SCHEME.md).
 
