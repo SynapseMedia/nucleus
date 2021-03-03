@@ -3,6 +3,8 @@
 [![Gitter](https://badges.gitter.im/watchit-app/community.svg)](https://gitter.im/watchit-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Getting started
+***NOTE!*** The gateway is **alpha-stage** software. 
+It means watchit-gateway hasn't been security audited and programming APIs and data formats can still change.
 
 * [Spawn go-ipfs node with docker](https://mrh.io/ipfs_docker/).
 * [How to spawn an IPFS node in Node.js](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/).
