@@ -6,7 +6,8 @@
 
 * [Spawn go-ipfs node with docker](https://mrh.io/ipfs_docker/).
 * [How to spawn an IPFS node in Node.js](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/).
-* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/).
+* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/)
+  .
 
 ## Quick summary
 
@@ -17,15 +18,47 @@ Watchit gateway adds migrated data to the metastore (orbitdb) which is distribut
 ensure the integrity of the data that is later consumed by the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
 Watchit gateway provides simple tools for the generation and fetching of content.
 
-## Concepts
-Please see our concepts full documentation to understand better the underneath:
-* [SCHEME.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/SCHEME.md)
-* [RESOLVERS.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/RESOLVERS.md)
+### Resolvers
+
+"A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch
+content from various sources." - @aphelionz
+
+Resolvers implement the logic necessary for fetch, preprocessing, cleaning and schematization of data from any available
+resource. Based on the following class abstraction we can see the methods required for the development of a resolver:
+
+~~~~
+Define your resolvers modules below.
+Ex: Each resolver must implement 2 fundamental methods.
+
+class Dummy:
+    def __str__(self) -> str:
+        return 'Test'
+
+    def __call__(self, scheme, *args, **kwargs):
+       """
+        Returned meta should be valid scheme
+        Process your data and populate scheme struct
+        src/core/scheme/definition.py
+        
+        :param scheme: MovieScheme object
+        :returns: Scheme valid object list ex: {movie1, movie2}
+        :rtype Generator[MovieScheme]
+        """
+        yield data
+~~~~
+
+Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py)
+
+### Scheme
+
+See [SCHEME.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/SCHEME.md).
 
 ## Usage
-See [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md) for the full documentation.
+
+See [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md) for full documentation.
 
 ## Run
+
 1) Copy your custom module resolver to `resolvers` directory.
 2) Start container `docker-compose up` to run migrator.
 3) After finishing the migration process you can get the orbit addresses.
