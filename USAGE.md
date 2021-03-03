@@ -1,9 +1,7 @@
 
 ## Usage
 
-***NOTE!*** Currently watchit-gateway supports`torrent` type in resolvers movie resources. 
-
-Please see [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) for future streaming mechanisms.
+***NOTE!*** Currently watchit-gateway supports`torrent` type in resolvers movie resources. Please see [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) for future streaming mechanisms.
 
 ## Quick Summary
 The process of evaluating the resolvers will determine the type of action to be executed in the VideoSchema |
