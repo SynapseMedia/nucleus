@@ -50,7 +50,7 @@ class VideoScheme(GenericScheme):
     :type quality: Optional attribute if .m3u8 match in `index` or `uri`
     :type type: Mechanism to stream video eg: hls | torrent
     """
-    quality = fields.Str(required=False)  # Quality ex: 720p, 1080p..
+    quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 
 
