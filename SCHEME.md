@@ -1,6 +1,6 @@
 ### Scheme
 
-We need predefined scheme definition to ensure the integrity of the data that is later consumed by the [dapp](https://github.com/ZorrillosDev/watchit-desktop)
+We need predefined scheme definition to ensure the integrity of the data that is later consumed by the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
 The process to elaborate the schema is quite simple, basically consists in populate an array with dictionaries containing the
 schematized metadata as shown in this [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py).
 See [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py).
