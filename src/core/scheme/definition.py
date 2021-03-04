@@ -54,9 +54,9 @@ class VideoScheme(GenericScheme):
 
 
 class ImageCollectionScheme(Schema):
-    small_image = fields.Nested(GenericScheme)
-    medium_image = fields.Nested(GenericScheme)
-    large_image = fields.Nested(GenericScheme)
+    small = fields.Nested(GenericScheme)
+    medium = fields.Nested(GenericScheme)
+    large = fields.Nested(GenericScheme)
 
 
 class ResourceScheme(Schema):

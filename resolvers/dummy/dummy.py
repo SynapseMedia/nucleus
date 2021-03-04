@@ -24,13 +24,13 @@ class Dummy:
             "date_uploaded_unix": 1446321498,
             "resource": {
                 "images": {
-                    "small_image": {
+                    "small": {
                         "route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"
                     },
-                    "medium_image": {
+                    "medium": {
                         "route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"
                     },
-                    "large_image": {
+                    "large": {
                         "route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"
                     },
                 },
