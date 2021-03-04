@@ -1,33 +1,26 @@
-"""
-Scheme definition for movies used in watchit app
-Exceptions:
-    - If imdb_code cannot be found add your custom imdb_code ex: tt{movie_id}
-    - If url its declared hash will be omitted or if hash its declared url will be omitted
-"""
-import cid
-import validators
-from datetime import date
-from marshmallow import Schema, validates, fields, validate, EXCLUDE, ValidationError
+### Scheme
 
-DEFAULT_RATE_MAX = 10
-# Just in case according this
-# https://en.wikipedia.org/wiki/1870s_in_film
-# https://en.wikipedia.org/wiki/List_of_longest_films
-# https://en.wikipedia.org/wiki/Fresh_Guacamole
+The elaboration of the schema is quite simple, it consists in populate an array with dictionaries containing the
+schematized metadata please check
+our [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py).
+See [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py) for
+full definition.
+
+Some env vars used below to define schemas:
+
+```
 FIRST_MOVIE_YEAR_EVER = 1880
-LONGEST_RUNTIME_MOVIE = 51420
-SHORTEST_RUNTIME_MOVIE = 1
+LONGEST_RUNTIME_MOVIE = 51420 # Minutes
+SHORTEST_RUNTIME_MOVIE = 1 # Minutes
+DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' | 
+    'Biography' | 'Comedy' | 'Crime' | 'Documentary' | 'Drama' | 'Family' |
+    'Fantasy' | 'Film-Noir' | 'Game-Show' | 'History' | 'Horror' | 'Music' | 'Musical' |
+    'Mystery' | 'News' | 'Romance' | 'Reality-TV' | 'Sci-Fi' | 'Sport' | 'Talk-Show' | 'Thriller' | 
+    'War' | 'Western'  
+```
 
-ALLOWED_FORMATS = ['hls', 'torrent']
-DEFAULT_GENRES = [
-    'All', 'Action', 'Adventure', 'Animation', 'Biography',
-    'Comedy', 'Crime', 'Documentary', 'Drama', 'Family',
-    'Fantasy', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance',
-    'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western', 'News', 'Reality-TV', 'Talk-Show', 'Game-Show'
-]
+### GenericScheme(Schema):
 
-
-class GenericScheme(Schema):
     """
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
@@ -37,38 +30,29 @@ class GenericScheme(Schema):
     index = fields.Str()  # File index in directory
     abs = fields.Bool(default=False)
 
-    @validates('route')
-    def validate_route(self, value):
-        if not cid.is_cid(value) and not validators.url(value):
-            raise ValidationError('Route must be a CID or URI')
-
-
-class VideoScheme(GenericScheme):
+#### VideoScheme(GenericScheme)
     """
-    Video resource definition
+    Video resource definition 
     Implicit defined `route`, `index` attrs from parent.
     :type quality: Optional attribute if .m3u8 match in `index` or `uri`
     :type type: Mechanism to stream video eg: hls | torrent
     """
-    quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
+    quality = fields.Str(required=False)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 
+### ImageCollectionScheme(Schema):
 
-class ImageCollectionScheme(Schema):
     small = fields.Nested(GenericScheme)
     medium = fields.Nested(GenericScheme)
     large = fields.Nested(GenericScheme)
 
+### ResourceScheme
 
-class ResourceScheme(Schema):
-    """
-    Nested resource scheme
-    """
     images = fields.Nested(ImageCollectionScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
+#### MovieScheme
 
-class MovieScheme(Schema):
     title = fields.Str(validate=validate.Length(min=1))
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
     imdb_code = fields.Str(validate=validate.Regexp(r'^tt[0-9]{5,10}$'))

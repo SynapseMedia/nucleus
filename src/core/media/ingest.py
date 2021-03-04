@@ -1,16 +1,14 @@
 import time
-
-import csv, os
 import ipfshttpclient
 
 from src.core import Log, logger
-from .download import ROOT_PATH, HOME_PATH
-from .download import download_file
+from .download import download_file, HOME_PATH
+from .fetch import fetch_movie_resources, fetch_images_resources
+from .clean import clean_resources, migrate_resource_hash, migrate_image_hash
 
 __author__ = 'gmena'
 
 RECURSIVE_SLEEP_REQUEST = 10
-IMAGE_INDEX = ["small_image", "medium_image", "large_image"]
 
 
 def start_node():
@@ -26,17 +24,6 @@ logger.info(f"{Log.OKGREEN}Starting node{Log.ENDC}")
 ipfs = start_node()  # Initialize api connection to node
 logger.info(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}")
 logger.info('\n')
-
-
-def get_pb_domain_set(csv_file: str = 'pdm.csv') -> set:
-    """
-    Get public domain movies from csv
-    :param csv_file: Path to csv file with pre-defined PDM movies list
-    :return: Unique list of PDM
-    """
-    with open(f"{ROOT_PATH}/{csv_file}", 'r') as f:
-        reader = csv.reader(f)
-        return set([row[1] for row in reader])
 
 
 def ingest_ipfs_dir(_dir: str) -> str:
@@ -69,83 +56,6 @@ def ingest_ipfs_file(uri: str, _dir: str) -> str:
     return _hash
 
 
-def migrate_resource_hash(resources: dict, hash_: str) -> dict:
-    """
-    Re-struct resources adding the corresponding cid
-    :param resources: ResourceScheme dict
-    :param hash_: CID hash
-    :return: ResourceScheme with CID assoc
-    """
-    for resource in resources:
-        resource['cid'] = resource.get('cid', hash_)
-    return resources
-
-
-def migrate_image_hash(resources: dict, hash_: str) -> dict:
-    """
-    Re-struct image resources adding the corresponding cid
-    :param resources: ImageScheme dict
-    :param hash_: CID hash
-    :return: ImageScheme with CID assoc
-    """
-    for x in IMAGE_INDEX:
-        resources[x]['cid'] = resources[x].get('cid', hash_)
-    return resources
-
-
-def fetch_movie_resources(mv, current_imdb_code) -> dict:
-    """
-    Check if resources need to be downloaded and download it
-    :param mv: ResourceSchema dict
-    :param current_imdb_code: Imdb code key in collection
-    :return: ResourceSchema dict
-    """
-    for resource in mv.get('resource'):
-        if 'url' not in resource:
-            mv['abs'] = True
-            continue
-        resource['index'] = resource['index'] if 'index' in resource else 'index'
-        resource_dir = '%s/%s/%s' % (current_imdb_code, resource['quality'], resource['index'])
-        download_file(resource['url'], resource_dir)
-    return mv
-
-
-def fetch_images_resources(mv, current_imdb_code) -> dict:
-    """
-    Check if images need to be downloaded and download it
-    :param mv: ImageSchema dict
-    :param current_imdb_code: Imdb code key in collection
-    :return: ImageScheme dict
-    """
-    for x in IMAGE_INDEX:
-        if 'url' not in mv[x]:
-            mv['abs'] = True
-            continue
-        url = mv[x]['url']
-        index = os.path.basename(url)
-        download_file(mv[x]['url'], "%s/%s" % (current_imdb_code, index))
-        mv[x]['index'] = mv[x]['index'] if 'index' in mv[x] else index
-    return mv
-
-
-def clean_resources(mv: dict) -> dict:
-    """
-    Clean url key from schema
-    :param mv: Current movie meta processing
-    :return: Cleaned schema
-    """
-    # Clean images url if defined
-    for x in IMAGE_INDEX:
-        if 'url' in mv[x]:
-            del mv[x]['url']
-
-    # Clean resource url if defined
-    for resource in mv['resource']:
-        if 'url' in resource:
-            del resource['url']
-    return mv
-
-
 def ingest_ipfs_metadata(mv: dict) -> dict:
     """
     Loop over assets, download it and add it to IPFS
@@ -163,7 +73,7 @@ def ingest_ipfs_metadata(mv: dict) -> dict:
 
         # Logs on ready ingested
         hash_directory = ingest_ipfs_dir(current_imdb_code)
-        migrate_resource_hash(mv['resource'], hash_directory)
+        migrate_resource_hash(mv, hash_directory)
         migrate_image_hash(mv, hash_directory)
 
         mv['hash'] = hash_directory  # Add current hash to movie
