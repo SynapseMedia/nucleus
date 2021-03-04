@@ -25,6 +25,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
     :type index: This is the index file name definition
+    :type abs: Bool flag to absolute or not `route` defined
     """
     route = fields.Str(required=True)  # Could be cid | uri
     index = fields.Str()  # File index in directory
@@ -40,7 +41,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     quality = fields.Str(required=False)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 
-### ImageCollectionScheme(Schema):
+### ImageCollectionScheme:
 
     small = fields.Nested(GenericScheme)
     medium = fields.Nested(GenericScheme)
