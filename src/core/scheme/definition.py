@@ -32,6 +32,7 @@ class GenericScheme(Schema):
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
     :type index: This is the index file name definition
+    :type abs: Bool flag to absolute or not `route` defined
     """
     route = fields.Str(required=True)  # Could be cid | uri
     index = fields.Str()  # File index in directory
