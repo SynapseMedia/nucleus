@@ -19,46 +19,54 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     'War' | 'Western'  
 ```
 
-#### VideoScheme
+### GenericScheme(Schema):
 
-    url = fields.Url(relative=True)  # Remote|Local file
-    cid = fields.Str()  # CID hash 
-    index = fields.Str()  # File index in CID directory
-    quality = fields.Str(required=True)  # 720p | 1080p | 2048p | 3D
-    type = fields.Str() # torrent | hls
+    """
+    Generic abstract resource class definition
+    :type route: Define how to reach the resource eg: cid | uri
+    :type index: This is the index file name definition
+    """
+    route = fields.Str(required=True)  # Could be cid | uri
+    index = fields.Str()  # File index in directory
+    abs = fields.Bool(default=False)
 
-#### ImageScheme
+#### VideoScheme(GenericScheme)
+    """
+    Video resource definition 
+    Implicit defined `route`, `index` attrs from parent.
+    :type quality: Optional attribute if .m3u8 match in `index` or `uri`
+    :type type: Mechanism to stream video eg: hls | torrent
+    """
+    quality = fields.Str(required=False)  # Quality ex: 720p, 1080p..
+    type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 
-    url = fields.Url(relative=True)  # Remote|Local file
-    cid = fields.Str()  # CID hash
-    index = fields.Str()  # File index in CID directory
+### ImageCollectionScheme(Schema):
+
+    small = fields.Nested(GenericScheme)
+    medium = fields.Nested(GenericScheme)
+    large = fields.Nested(GenericScheme)
+
+### ResourceScheme
+
+    images = fields.Nested(ImageCollectionScheme)
+    videos = fields.List(fields.Nested(VideoScheme))
 
 #### MovieScheme
 
-```
-  title = fields.Str(validate=validate.Length(min=1))
-  # Optional resource id to keep linked ex: origin?id=45
-  resource_id = fields.Int(missing=0)
-  # Where the data comes from?
-  resource_name = fields.Str(validate=validate.Length(min=2))
-  # https://es.wikipedia.org/wiki/Internet_Movie_Database
-  imdb_code = fields.Str(validate=validate.Regexp(r'^tt[0-9]{5,10}$'))
-  rating = fields.Float(validate=validate.Range(min=0, max=DEFAULT_RATE_MAX))
-  year = fields.Int(validate=validate.Range(min=FIRST_MOVIE_YEAR_EVER, max=date.today().year + 1))
-  runtime = fields.Float(validate=validate.Range(min=SHORTEST_RUNTIME_MOVIE, max=LONGEST_RUNTIME_MOVIE))
-  genres = fields.List(fields.Str(), validate=validate.ContainsOnly(choices=DEFAULT_GENRES))
-  synopsis = fields.Str(required=True)
-  # Public domain movie? Please help us to avoid piracy
-  pdm = fields.Bool(default=True)
-  trailer_code = fields.Str(missing=None)  # Youtube trailer code
-  # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
-  language = fields.Str(validate=validate.Length(min=2, max=10))
-  # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
-  mpa_rating = fields.Str(default='PG')
-  # This uri links should be declared to IPFS ingestion
-  small_image = fields.Nested(ImageScheme)
-  medium_image = fields.Nested(ImageScheme)
-  large_image = fields.Nested(ImageScheme)
-  resource = fields.List(fields.Nested(VideoScheme))
-  date_uploaded_unix = fields.Int(required=True)
-```
+    title = fields.Str(validate=validate.Length(min=1))
+    # https://es.wikipedia.org/wiki/Internet_Movie_Database
+    imdb_code = fields.Str(validate=validate.Regexp(r'^tt[0-9]{5,10}$'))
+    rating = fields.Float(validate=validate.Range(min=0, max=DEFAULT_RATE_MAX))
+    year = fields.Int(validate=validate.Range(min=FIRST_MOVIE_YEAR_EVER, max=date.today().year + 1))
+    runtime = fields.Float(validate=validate.Range(min=SHORTEST_RUNTIME_MOVIE, max=LONGEST_RUNTIME_MOVIE))
+    genres = fields.List(fields.Str(), validate=validate.ContainsOnly(choices=DEFAULT_GENRES))
+    synopsis = fields.Str(required=True)
+    # Public domain movie? Please help us to avoid piracy
+    pdm = fields.Bool(default=False)
+    trailer_code = fields.Str(missing=None)  # Youtube trailer code
+    # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
+    language = fields.Str(validate=validate.Length(min=2, max=10))
+    # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
+    mpa_rating = fields.Str(default='PG')
+    resource = fields.Nested(ResourceScheme)
+    date_uploaded_unix = fields.Int(required=True)

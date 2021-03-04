@@ -46,6 +46,7 @@ class GenericScheme(Schema):
 class VideoScheme(GenericScheme):
     """
     Video resource definition
+    Implicit defined `route`, `index` attrs from parent.
     :type quality: Optional attribute if .m3u8 match in `index` or `uri`
     :type type: Mechanism to stream video eg: hls | torrent
     """
@@ -60,6 +61,9 @@ class ImageCollectionScheme(Schema):
 
 
 class ResourceScheme(Schema):
+    """
+    Nested resource scheme
+    """
     images = fields.Nested(ImageCollectionScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
