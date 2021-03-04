@@ -18,7 +18,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     'War' | 'Western'  
 ```
 
-### GenericScheme(Schema):
+### GenericScheme:
 
     """
     Generic abstract resource class definition
@@ -30,7 +30,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     index = fields.Str()  # File index in directory
     abs = fields.Bool(default=False)
 
-#### VideoScheme(GenericScheme)
+#### VideoScheme extends GenericScheme
     """
     Video resource definition 
     Implicit defined `route`, `index` attrs from parent.
