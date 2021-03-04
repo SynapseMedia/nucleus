@@ -4,11 +4,10 @@
 ***NOTE!*** Currently watchit-gateway supports`torrent` type in resolvers movie resources. Please see [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) for future streaming mechanisms.
 
 ## Quick Summary
-The process of evaluating the resolvers will determine the type of action to be executed in the VideoSchema |
-ImageSchema:
+The process of evaluating the resolvers will determine the type of action to be executed in the schema definition:
 
-When establishing a `cid`, the gateway just associate that hash to the metadata. If an `url` is found, the gateway must
-execute the download of the file in a directory associated with each movie and ingest it in IPFS to obtain its
+When establishing a `route` match a `cid` the gateway just associate that hash to the metadata. If an `route` match an `url` 
+the gateway must execute the download of the `file` in a directory associated with each movie and ingest it in IPFS to obtain its
 corresponding `cid` and later associate it to the movie in the metadata:
 
 **CID:**
@@ -16,42 +15,49 @@ corresponding `cid` and later associate it to the movie in the metadata:
 If your content already exists in IPFS you just have to define your scheme in resolver as follows.
 
  ```
-"small_image": {"cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
-"medium_image": {"cid": "QmYNQJoKGNHTpPTYFSh9KkDpaExgd2iuMa3aF6ytMpPda2", "index": "myimage.jpg"},
-"large_image": {"cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
-"date_uploaded_unix": 1446321498,
-"resource": [
-    {
-        "cid": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", # Example cid
-        "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.torrent
-        "quality": "720p",
-        "type": "torrent"
+
+"resource": {
+    "images": {
+        "small": {"route": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
+        "medium": {"route": "QmYNQJoKGNHTpPTYFSh9KkDpaExgd2iuMa3aF6ytMpPda2", "index": "myimage.jpg"},
+        "large": {"route": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao"}, # Absolute cid
     }
-]
+    "videos: [
+        {
+            "route": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", # Example cid
+            "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.torrent
+            "quality": "720p",
+            "type": "torrent"
+        }
+    ]
+}
 
 ```
 
-**Note:** If you do not define an `index` in `resource` collection the `cid` must be absolute. If `index` is not defined
-in `images` collection then default key `index` will be set.
+**Note:** If you do not define an `index` in `resource` collection the `route` `cid` must be absolute. 
+If `index` is not defined in `images` collection then default key `index` will be set.
 
 **URL**
 
 If your files are in local env please use uri `file://` scheme. To migrate centralized remote or local data to
-decentralized network need to define your schema in resolver as follow:
+decentralized network need to define your schema in resolver as follows:
 
 ```
-"small_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-"medium_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-"large_image": {"url":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-"date_uploaded_unix": 1446321498,
-"resource": [
-    {
-        "url": "https://movies.ssl-images-amazon.com/I/movie.torrent",
-        "index": "index.torrent", 
-        "quality": "720p",
-        "type": "torrent"
-    }
-]
+
+"resource": {
+    "images": {
+        "small": {"route":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+        "medium": {"route":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+        "large": {"route":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+    },
+    "videos": [
+        {
+            "route": "https://movies.ssl-images-amazon.com/I/movie.torrent",
+            "index": "index.torrent", 
+            "quality": "720p",
+            "type": "torrent"
+        }
+    ]
 ```
 
 **Note:** It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you
@@ -62,13 +68,12 @@ can see the `index` is used to define the name of the resulting path in the IPFS
 /{cid}/small_image.jpg
 /{cid}/medium_image.jpg
 /{cid}/large_image.jpg
-/{cid}/index.torrent
+/{cid}/{quality}/index.torrent
 
 ```
 
 **Notes**
 
-* 'url' and 'cid' are mutually exclusive
 * If 'imdb_code' cannot be found for your movies please add your custom imdb_code ex: tt{movie_id}
 
 **Caching**
