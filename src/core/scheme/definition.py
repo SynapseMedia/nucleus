@@ -47,7 +47,7 @@ class VideoScheme(GenericScheme):
     """
     Video resource definition
     Implicit defined `route`, `index` attrs from parent.
-    :type quality: Optional attribute if .m3u8 match in `index` or `uri`
+    :type quality: Screen quality definition for video
     :type type: Mechanism to stream video eg: hls | torrent
     """
     quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
