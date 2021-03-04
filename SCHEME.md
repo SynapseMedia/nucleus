@@ -3,8 +3,7 @@
 The elaboration of the schema is quite simple, it consists in populate an array with dictionaries containing the
 schematized metadata please check
 our [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py).
-See [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py) for
-full definition.
+See [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py).
 
 Some env vars used below to define schemas:
 
