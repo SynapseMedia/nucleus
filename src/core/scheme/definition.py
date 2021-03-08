@@ -32,6 +32,7 @@ class GenericScheme(Schema):
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
     :type index: This is the index file name definition
+    :type abs: Bool flag to absolute or not `route` defined
     """
     route = fields.Str(required=True)  # Could be cid | uri
     index = fields.Str()  # File index in directory
@@ -47,7 +48,7 @@ class VideoScheme(GenericScheme):
     """
     Video resource definition
     Implicit defined `route`, `index` attrs from parent.
-    :type quality: Optional attribute if .m3u8 match in `index` or `uri`
+    :type quality: Screen quality definition for video
     :type type: Mechanism to stream video eg: hls | torrent
     """
     quality = fields.Str(required=False)  # Quality ex: 720p, 1080p..

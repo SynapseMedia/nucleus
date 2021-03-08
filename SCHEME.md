@@ -1,10 +1,9 @@
 ### Scheme
 
-The elaboration of the schema is quite simple, it consists in populate an array with dictionaries containing the
-schematized metadata please check
-our [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py).
-See [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py) for
-full definition.
+We need predefined scheme to ensure the integrity of the data that is later consumed by the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
+The process to elaborate the schema is quite simple, basically consists in populate an array with dictionaries containing the
+schematized metadata as shown in this [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py).
+See [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/master/src/core/scheme/definition.py).
 
 Some env vars used below to define schemas:
 
@@ -19,28 +18,29 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     'War' | 'Western'  
 ```
 
-### GenericScheme(Schema):
+### GenericScheme:
 
     """
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
     :type index: This is the index file name definition
+    :type abs: Bool flag to absolute or not `route` defined
     """
     route = fields.Str(required=True)  # Could be cid | uri
     index = fields.Str()  # File index in directory
     abs = fields.Bool(default=False)
 
-#### VideoScheme(GenericScheme)
+#### VideoScheme extends GenericScheme
     """
     Video resource definition 
     Implicit defined `route`, `index` attrs from parent.
-    :type quality: Optional attribute if .m3u8 match in `index` or `uri`
+    :type quality: Screen quality definition for video
     :type type: Mechanism to stream video eg: hls | torrent
     """
     quality = fields.Str(required=False)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
 
-### ImageCollectionScheme(Schema):
+### ImageCollectionScheme:
 
     small = fields.Nested(GenericScheme)
     medium = fields.Nested(GenericScheme)
