@@ -18,7 +18,7 @@ FIRST_MOVIE_YEAR_EVER = 1880
 LONGEST_RUNTIME_MOVIE = 51420
 SHORTEST_RUNTIME_MOVIE = 1
 
-ALLOWED_FORMATS = ['hls', 'torrent']
+ALLOWED_STREAMING = ['hls', 'torrent']
 DEFAULT_GENRES = [
     'All', 'Action', 'Adventure', 'Animation', 'Biography',
     'Comedy', 'Crime', 'Documentary', 'Drama', 'Family',
@@ -32,7 +32,7 @@ class GenericScheme(Schema):
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
     :type index: This is the index file name definition
-    :type abs: Bool flag to absolute or not `route` defined
+    :type abs: Bool flag to absolute or not `index` defined
     """
     route = fields.Str(required=True)  # Could be cid | uri
     index = fields.Str()  # File index in directory
@@ -51,11 +51,16 @@ class VideoScheme(GenericScheme):
     :type quality: Screen quality definition for video
     :type type: Mechanism to stream video eg: hls | torrent
     """
-    quality = fields.Str(required=False)  # Quality ex: 720p, 1080p..
-    type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
+    quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
+    type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
 
 
 class ImageCollectionScheme(Schema):
+    """
+    Image collection with nested `GenericScheme`
+    Each image must comply with `route` attr
+    eg. {small:{route:...}, medium:{..}, large:{...}}
+    """
     small = fields.Nested(GenericScheme)
     medium = fields.Nested(GenericScheme)
     large = fields.Nested(GenericScheme)

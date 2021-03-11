@@ -6,7 +6,7 @@
 ## Quick Summary
 The process of evaluating the resolvers will determine the type of action to be executed in the schema definition:
 
-When establishing a `route` match a `cid` the gateway just associate that hash to the metadata. If an `route` match an `url` 
+When establishing a `route` that match a `cid` the gateway just associate that hash to the metadata. If an `route` match an `url` 
 the gateway must execute the download of the `file` in a directory associated with each movie and ingest it in IPFS to obtain its
 corresponding `cid` and later associate it to the movie in the metadata:
 

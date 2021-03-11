@@ -8,6 +8,7 @@ See [scheme definition](https://github.com/ZorrillosDev/watchit-gateway/blob/mas
 Some env vars used below to define schemas:
 
 ```
+ALLOWED_STREAMING = torrent | hls
 FIRST_MOVIE_YEAR_EVER = 1880
 LONGEST_RUNTIME_MOVIE = 51420 # Minutes
 SHORTEST_RUNTIME_MOVIE = 1 # Minutes
@@ -24,13 +25,13 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
     :type index: This is the index file name definition
-    :type abs: Bool flag to absolute or not `route` defined
+    :type abs: Bool flag to absolute or not `index` defined
     """
     route = fields.Str(required=True)  # Could be cid | uri
     index = fields.Str()  # File index in directory
     abs = fields.Bool(default=False)
 
-#### VideoScheme extends GenericScheme
+#### VideoScheme(GenericScheme)
     """
     Video resource definition 
     Implicit defined `route`, `index` attrs from parent.
@@ -38,16 +39,19 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     :type type: Mechanism to stream video eg: hls | torrent
     """
     quality = fields.Str(required=False)  # Quality ex: 720p, 1080p..
-    type = fields.Str(validate=validate.OneOf(ALLOWED_FORMATS))
+    type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
 
 ### ImageCollectionScheme:
-
+    """
+    Image collection with nested `GenericScheme`
+    Each image must comply with `route` attr
+    eg. {small:{route:...}, medium:{..}, large:{...}}
+    """
     small = fields.Nested(GenericScheme)
     medium = fields.Nested(GenericScheme)
     large = fields.Nested(GenericScheme)
 
 ### ResourceScheme
-
     images = fields.Nested(ImageCollectionScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
