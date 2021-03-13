@@ -44,9 +44,9 @@ decentralized network need to define your schema in resolver as follows:
 
 "resource": {
     "images": {
-        "small": {"route":" https://movies.example.com/images/small.jpg"},
-        "medium": {"route":" https://movies.example.com/images/medium.jpg"},
-        "large": {"route":" https://movies.example.com/images/large.jpg"},
+        "small": {"route":"https://movies.example.com/images/small.jpg"},
+        "medium": {"route":"https://movies.example.com/images/medium.jpg"},
+        "large": {"route":"https://movies.example.com/images/large.jpg"},
     },
     "videos": [
         {
@@ -70,9 +70,7 @@ can see the `index` is used to define the name of the resulting path in the IPFS
 
 ```
 
-**Notes**
-
-* If 'imdb_code' cannot be found for your movies please add your custom imdb_code ex: tt{movie_id}
+**IMPORTANT!** If 'imdb_code' cannot be found for your movies please add your custom imdb_code ex: tt{movie_id}
 
 **Caching**
 
