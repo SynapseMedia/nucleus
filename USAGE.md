@@ -98,7 +98,27 @@ REGEN_ORBITDB=False
 
 ## Run
 
-1) Copy your custom module resolver to `resolvers` directory.
-2) Start container `docker-compose up` to run migrator.
-3) After finishing the migration process you can get the orbit addresses.
-4) Copy the orbit address and use it when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
+1) Clone the repo using git command `git clone https://github.com/ZorrillosDev/watchit-gateway`
+2) Please [install docker](https://docs.docker.com/get-started/) and [docker-compose](https://docs.docker.com/compose/install/)
+3) Inside the `repo` root search for `resolvers` directory
+   ```
+   /watchit-gateway/
+   /watchit-gateway/resolvers/
+   ```
+4) Copy your custom resolver to `resolvers` directory.
+    ```
+   /watchit-gateway/
+   /watchit-gateway/resolvers/
+   /watchit-gateway/resolvers/{resolver_here}/
+   ```
+   Please check our [example](https://github.com/ZorrillosDev/watchit-gateway/tree/v0.1.0/resolvers)
+5) Start container using `docker-compose up` to start migration.
+3) Please wait to finishing the migration process then you will can get the orbit addresses. eg:
+   
+   ```
+   CID: zdpuB24EVZjCaeZcqCNP9EPXtNguqj4qV6W13QWDPPUe6RtNF
+   IPNS: QmNr4dkAbUtBXCzwYXEJX7XW8bhNwk1vwoiUYnMD8VNyS6 # Use IPNS to keep using same hash for your channel
+   ```
+4) Copy the orbit address (CID or IPNS) and use it as **Public Key** when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
+[![screenshot](assets/pk.png?raw=true)]()
+
