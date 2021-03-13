@@ -63,10 +63,10 @@ can see the `index` is used to define the name of the resulting path in the IPFS
 
 ```
 /{cid}
-/{cid}/small_image.jpg
-/{cid}/medium_image.jpg
-/{cid}/large_image.jpg
-/{cid}/{quality}/index.torrent
+/{cid}/small.jpg
+/{cid}/medium.jpg
+/{cid}/large.jpg
+/{cid}/{quality}/index.m3u8
 
 ```
 
