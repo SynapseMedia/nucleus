@@ -98,7 +98,7 @@ REGEN_ORBITDB=False
 
 ## Run
 
-1) Clone the repo using git command `git clone https://github.com/ZorrillosDev/watchit-gateway`
+1) Clone the repo using [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) command `git clone https://github.com/ZorrillosDev/watchit-gateway`
 2) Please [install docker](https://docs.docker.com/get-started/) and [docker-compose](https://docs.docker.com/compose/install/)
 3) Inside the `repo` root search for `resolvers` directory
    ```
@@ -113,12 +113,17 @@ REGEN_ORBITDB=False
    ```
    Please check our [example](https://github.com/ZorrillosDev/watchit-gateway/tree/v0.1.0/resolvers)
 5) Start container using `docker-compose up` to start migration.
-3) Please wait to finishing the migration process then you will can get the orbit addresses. eg:
+6) When `watchit_ipfs` container get started please run:
+   ```
+   docker-compose exec watchit_ipfs ipfs key gen pdm 
+   docker-compose exec watchit_ipfs ipfs key gen watchit
+   ```
+7) Please wait to finishing the migration process then you will can get the orbit addresses. eg:
    
    ```
    CID: zdpuB24EVZjCaeZcqCNP9EPXtNguqj4qV6W13QWDPPUe6RtNF
    IPNS: QmNr4dkAbUtBXCzwYXEJX7XW8bhNwk1vwoiUYnMD8VNyS6 # Use IPNS to keep using same hash for your channel
    ```
-4) Copy the orbit address (CID or IPNS) and use it as **Public Key** when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
-[![screenshot](assets/pk.png?raw=true)]()
+8) Copy the orbit address (CID or IPNS) and use it as **Public Key** when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
+   [![screenshot](assets/pk.png?raw=true)]()
 
