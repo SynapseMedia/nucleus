@@ -98,7 +98,7 @@ REGEN_ORBITDB=False
 
 ## Run
 
-1) Clone the repo using git command `git clone https://github.com/ZorrillosDev/watchit-gateway`
+1) Clone the repo using [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) command `git clone https://github.com/ZorrillosDev/watchit-gateway`
 2) Please [install docker](https://docs.docker.com/get-started/) and [docker-compose](https://docs.docker.com/compose/install/)
 3) Inside the `repo` root search for `resolvers` directory
    ```
@@ -120,5 +120,5 @@ REGEN_ORBITDB=False
    IPNS: QmNr4dkAbUtBXCzwYXEJX7XW8bhNwk1vwoiUYnMD8VNyS6 # Use IPNS to keep using same hash for your channel
    ```
 4) Copy the orbit address (CID or IPNS) and use it as **Public Key** when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
-[![screenshot](assets/pk.png?raw=true)]()
+   [![screenshot](assets/pk.png?raw=true)]()
 
