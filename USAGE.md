@@ -1,8 +1,6 @@
 
 ## Usage
 
-***NOTE!*** Currently watchit-gateway supports`torrent` type in resolvers movie resources. Please see [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) for future streaming mechanisms.
-
 ## Quick Summary
 The process of evaluating the resolvers will determine the type of action to be executed in the schema definition:
 
@@ -52,10 +50,10 @@ decentralized network need to define your schema in resolver as follows:
     },
     "videos": [
         {
-            "route": "https://movies.ssl-images-amazon.com/I/movie.torrent",
-            "index": "index.torrent", 
+            "route": "https://movies.ssl-images-amazon.com/I/420/m3u8",
+            "index": "index.m3u8", 
             "quality": "720p",
-            "type": "torrent"
+            "type": "hls"
         }
     ]
 ```
