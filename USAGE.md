@@ -1,5 +1,5 @@
 
-## Usage
+# Usage
 
 ## Quick Summary
 The process of evaluating the resolvers will determine the type of action to be executed in the schema definition:
@@ -35,7 +35,7 @@ If your content already exists in IPFS you just have to define your scheme in re
 **Note:** If you do not define an `index` in `resource` collection the `route` `cid` must be absolute. 
 If `index` is not defined in `images` collection then default key `index` will be set.
 
-**URL**
+**URL:**
 
 If your files are in local env please use uri `file://` scheme. To migrate centralized remote or local data to
 decentralized network need to define your schema in resolver as follows:
@@ -72,7 +72,7 @@ can see the `index` is used to define the name of the resulting path in the IPFS
 
 **IMPORTANT!** If 'imdb_code' cannot be found for your movies please add your custom imdb_code ex: tt{movie_id}
 
-**Caching**
+## Caching
 
 After obtaining and schematizing the metadata these clean and pre-processed meta will be stored in a "temporary
 collection cache" and in a "temporary collection cursor". The "temporary collection" keeps all the meta while
