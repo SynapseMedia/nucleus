@@ -44,13 +44,13 @@ decentralized network need to define your schema in resolver as follows:
 
 "resource": {
     "images": {
-        "small": {"route":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-        "medium": {"route":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-        "large": {"route":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+        "small": {"route":" https://movies.example.com/images/small.jpg"},
+        "medium": {"route":" https://movies.example.com/images/medium.jpg"},
+        "large": {"route":" https://movies.example.com/images/large.jpg"},
     },
     "videos": [
         {
-            "route": "https://movies.ssl-images-amazon.com/I/720.m3u8",
+            "route": "https://movies.example.com/I/720.m3u8",
             "index": "index.m3u8", 
             "quality": "720p",
             "type": "hls"
