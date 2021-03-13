@@ -45,11 +45,10 @@ if __name__ == '__main__':
 
         scheme.validator.check(merged_data, many=True)
         logger.info(f"{Log.OKGREEN}Valid scheme{Log.ENDC}")
-
         # Start to write obtained entries from src
         logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
         helper.rewrite_entries(temp_db, merged_data)  # Add data to helper db
-        logger.info(f"{Log.UNDERLINE}Entries yts indexed: {len(merged_data)}{Log.ENDC}")
+        logger.info(f"{Log.UNDERLINE}Entries indexed: {len(merged_data)}{Log.ENDC}")
 
     empty_ = empty_cache or empty_tmp
     if REFRESH_IPFS or empty_:
