@@ -120,5 +120,5 @@ REGEN_ORBITDB=False
    IPNS: QmNr4dkAbUtBXCzwYXEJX7XW8bhNwk1vwoiUYnMD8VNyS6 # Use IPNS to keep using same hash for your channel
    ```
 4) Copy the orbit address (CID or IPNS) and use it as **Public Key** when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
-
+[![screenshot](assets/pk.png?raw=true)]()
 
