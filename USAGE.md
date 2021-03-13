@@ -50,7 +50,7 @@ decentralized network need to define your schema in resolver as follows:
     },
     "videos": [
         {
-            "route": "https://movies.ssl-images-amazon.com/I/420/m3u8",
+            "route": "https://movies.ssl-images-amazon.com/I/720.m3u8",
             "index": "index.m3u8", 
             "quality": "720p",
             "type": "hls"
