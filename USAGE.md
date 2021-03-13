@@ -23,9 +23,9 @@ If your content already exists in IPFS you just have to define your scheme in re
     "videos: [
         {
             "route": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", # Example cid
-            "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.torrent
+            "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.m3u8
             "quality": "720p",
-            "type": "torrent"
+            "type": "hls"
         }
     ]
 }
@@ -50,10 +50,10 @@ decentralized network need to define your schema in resolver as follows:
     },
     "videos": [
         {
-            "route": "https://movies.example.com/I/720.m3u8",
-            "index": "index.m3u8", 
+            "route": "https://movies.example.com/I/720.torrent",
+            "index": "index.torrent", 
             "quality": "720p",
-            "type": "hls"
+            "type": "torrent"
         }
     ]
 ```
@@ -66,7 +66,7 @@ can see the `index` is used to define the name of the resulting path in the IPFS
 /{cid}/small.jpg
 /{cid}/medium.jpg
 /{cid}/large.jpg
-/{cid}/{quality}/index.m3u8
+/{cid}/{quality}/index.torrent
 
 ```
 
