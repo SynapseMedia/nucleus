@@ -33,7 +33,7 @@ def ingest_ipfs_dir(_dir: str) -> str:
     :param _dir: Directory to add to IPFS
     :return: The resulting CID
     """
-    directory = "%s/torrents/%s" % (HOME_PATH, _dir)
+    directory = "%s/resource/%s" % (HOME_PATH, _dir)
     logger.info(f"Ingesting directory: {Log.BOLD}{_dir}{Log.ENDC}")
     _hash = ipfs.add(directory, pin=True, recursive=True)
     _hash = next(item for item in _hash if item['Name'] == _dir)['Hash']

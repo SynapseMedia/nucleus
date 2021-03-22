@@ -18,7 +18,7 @@ services:
 
   watchit_migrator:
     build: .
-    image: gmena/migrate:v1.0.30
+    image: gmena/migrate:v1.0.31
     container_name: watchit_migrator
     command: python3 main.py
     links:
