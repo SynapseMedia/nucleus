@@ -91,4 +91,4 @@ class MovieScheme(Schema):
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating = fields.Str(default='PG')
     resource = fields.Nested(ResourceScheme)
-    date_uploaded_unix = fields.Int(required=True)
+    date_uploaded_unix = fields.Float(required=True)
