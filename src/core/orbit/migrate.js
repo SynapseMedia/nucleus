@@ -75,6 +75,8 @@ const logs = {
                     {...PDM && {pdm: true}}
                 ).limit(0).sort({year: 1})
 
+                // Using rawData.length in place or .count() approach because of unexpected behavior
+                // On a sharded cluster, db.collection.count() without a query predicate can result in an inaccurate count if orphaned documents exist or if a chunk migration is in progress.
                 const rawData = await cursor.toArray()
                 const size = rawData.length
                 const data = chunkGen(rawData, MAX_CHUNKS);
