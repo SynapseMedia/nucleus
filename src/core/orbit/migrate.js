@@ -70,13 +70,14 @@ const logs = {
             await client.connect(async (err) => {
 
                 // Generate cursor for all movies
-                const adminDb = client.db(DB_NAME)
-                const cursor = adminDb.collection('movies').find(
+                const tmp_db = client.db(DB_NAME)
+                const cursor = tmp_db.collection('movies').find(
                     {...PDM && {pdm: true}}
                 ).limit(0).sort({year: 1})
 
-                const size = await cursor.count();
-                const data = chunkGen(await cursor.toArray(), MAX_CHUNKS);
+                const rawData = await cursor.toArray()
+                const size = rawData.length
+                const data = chunkGen(rawData, MAX_CHUNKS);
                 logs.warn(`Migrating ${size} movies..`)
 
                 for (const chunk of data) {
@@ -95,7 +96,7 @@ const logs = {
                     );
 
                     await db.add(cid.cid.toString());
-                    logs.info(`Processed: ${index}/${size}\``);
+                    logs.info(`Processed: ${index}/${size}`);
                 }
 
                 logs.success(`CID for ${definedType}: ${dbAddressHash}`)
