@@ -56,10 +56,11 @@ def ingest_ipfs_file(uri: str, _dir: str) -> str:
     return _hash
 
 
-def ingest_ipfs_metadata(mv: dict) -> dict:
+def ingest_ipfs_metadata(mv: dict, max_retry=3) -> dict:
     """
     Loop over assets, download it and add it to IPFS
     :param mv: MovieScheme
+    :param max_retry: Max retries on fail before raise exception
     :return: Cleaned, pre-processed, structured ready schema
     """
     try:
@@ -81,7 +82,10 @@ def ingest_ipfs_metadata(mv: dict) -> dict:
         logger.info('\n')
         return clean_resources(mv)
     except Exception as e:
+        if max_retry <= 0:
+            raise OverflowError('Max retry exceeded')
+        max_retry = max_retry - 1
         logger.error(f"Retry download assets error: {e}")
         logger.warning(f"{Log.WARNING}Wait {RECURSIVE_SLEEP_REQUEST}{Log.ENDC}")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
-        return ingest_ipfs_metadata(mv)
+        return ingest_ipfs_metadata(mv, max_retry)

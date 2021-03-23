@@ -27,10 +27,13 @@ def init_ingestion(idb, wdb, movies_indexed):
     :param movies_indexed:
     """
     for x in movies_indexed:
-        _id = x['_id']  # Current id
-        ingested_data = media.ingest_ipfs_metadata(x)
-        idb.movies.insert_one(ingested_data)
-        wdb.movies.update_one({'_id': _id}, {'$set': {'updated': True}})
+        try:
+            _id = x['_id']  # Current id
+            ingested_data = media.ingest_ipfs_metadata(x)
+            idb.movies.insert_one(ingested_data)
+            wdb.movies.update_one({'_id': _id}, {'$set': {'updated': True}})
+        except OverflowError:
+            continue
     movies_indexed.close()
 
 
