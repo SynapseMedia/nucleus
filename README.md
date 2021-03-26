@@ -20,7 +20,7 @@ Watchit gateway provides simple tools for the generation and fetching of content
 ### Resolvers
 
 "A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch
-content from various sources." - @aphelionz
+content from various sources that later populate the schema." - @aphelionz
 
 Resolvers implement the logic necessary for fetch, preprocessing, cleaning and schematization of data from any available
 resource. Based on the following class abstraction we can see the methods required for the development of a resolver:
