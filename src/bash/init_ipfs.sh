@@ -10,6 +10,7 @@ docker-compose exec watchit_ipfs ipfs config Peering.Peers '
 ]' --json
 docker-compose exec watchit_ipfs ipfs config --bool Swarm.EnableRelayHop false
 docker-compose exec watchit_ipfs ipfs config --bool Swarm.EnableAutoRelay true
+#docker-compose exec watchit_ipfs ipfs config --json Experimental.FilestoreEnabled true
 ##docker-compose exec watchit_ipfs ipfs config --bool Discovery.MDNS.Enabled true
 
 
