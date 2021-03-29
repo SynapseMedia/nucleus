@@ -9,4 +9,4 @@ data/
 orbitdb/
 orbit0*/
 node_modules/
-src/core/media/torrents/**
+src/core/media/resource/**
