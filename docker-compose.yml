@@ -26,7 +26,7 @@ services:
       - "watchit_ipfs:ipfs"
     volumes:
       - .:/data/watchit
-      - /data/watchit/node_modules
+      - ./data/watchit/node_modules
     env_file:
       - .env
     depends_on:
