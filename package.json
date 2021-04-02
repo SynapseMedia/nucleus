@@ -20,8 +20,8 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "mwz": "node src/core/orbit/migrate.js -r ---key=watchit",
-    "mpdm": "node src/core/orbit/migrate.js -pr --key=pdm",
+    "all": "node src/core/orbit/migrate.js -r ---key=watchit",
+    "pdm": "node src/core/orbit/migrate.js -pr --key=pdm",
     "local": "node src/core/orbit/local.js"
   },
   "devDependencies": {
