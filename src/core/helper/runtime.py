@@ -13,8 +13,8 @@ async def call_orbit_subprocess(regen=False):
     :param regen: Regenerate db
     """
     await asyncio.gather(
-        helper.run(f"npm run mpdm -- {regen and '-g' or ''} "),
-        helper.run(f"npm run mwz -- {regen and '-g' or ''}")
+        helper.run(f"npm run pdm -- {regen and '-g' or ''} "),
+        helper.run(f"npm run all -- {regen and '-g' or ''}")
     )
 
 
