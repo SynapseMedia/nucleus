@@ -3,7 +3,7 @@ const argv = require('minimist')(process.argv.slice(2));
 
 const MAX_CHUNKS = 1000
 const ORBIT_DB_NAME = 'wt.movies.db'
-const MIGRATE_FROM_DB = argv.source || 'ipfs';
+const MIGRATE_FROM_DB = argv.tmpdb || 'ipfs';
 
 const IPFS_NODE = argv.node || 'ipfs'
 const MONGO_HOST = argv.hdb || 'mongodb' // Temporary helper db
