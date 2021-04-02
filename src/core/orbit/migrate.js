@@ -8,7 +8,7 @@ const MIGRATE_FROM_DB = argv.source || 'ipfs';
 const IPFS_NODE = argv.node || 'ipfs'
 const MONGO_HOST = argv.hdb || 'mongodb' // Temporary helper db
 
-const PDM = argv.p // Activate Public Domain Movies filter
+const SOURCE = argv.source || 'FULL' // Source to migrate from
 const RECREATE = argv.r || true // Recreate database
 const KEY = argv.key || 'watchit' // Local key used to IPNS publish
 const REGEN = argv.g || false
@@ -57,7 +57,8 @@ const logs = {
         db.events.on('peer', (p) => logs.warn(`Peer Db: ${p}`));
         // END DB
 
-        const definedType = PDM ? 'PDM' : 'FULL';
+        const definedType = SOURCE;
+        const isMixedDB = Object.is(definedType, 'FULL')
         logs.info(`Starting ${definedType} db `);
         const dbAddress = db.address.toString()
         const dbAddressHash = dbAddress.split('/')[2]
@@ -85,7 +86,7 @@ const logs = {
                 // Generate cursor for all movies
                 const tmp_db = client.db(DB_NAME)
                 const cursor = tmp_db.collection('movies').find(
-                    {...PDM && {pdm: true}}
+                    {...!isMixedDB && {link_name: definedType}}
                 ).limit(0).sort({year: 1})
 
                 // Using rawData.length in place or .count() approach because of unexpected behavior

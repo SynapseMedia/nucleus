@@ -93,6 +93,8 @@ REFRESH_IPFS=True
 REGEN_MOVIES=False
 # Create a new source directory in each migration
 REGEN_ORBITDB=False
+# Mix resources or create a new db for each
+MIXED_RESOURCES=False
 ```
 
 

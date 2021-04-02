@@ -16,6 +16,7 @@ if __name__ == '__main__':
     REFRESH_IPFS = os.environ.get('REFRESH_IPFS', 'False') == 'True'
     REGEN_MOVIES = os.environ.get('REGEN_MOVIES', 'False') == 'True'
     REGEN_ORBITDB = os.environ.get('REGEN_ORBITDB', 'False') == 'True'
+    MIXED_RESOURCES = os.environ.get('MIXED_RESOURCES', 'False') == 'True'
     FLUSH_CACHE_IPFS = os.environ.get('FLUSH_CACHE_IPFS', 'False') == 'True'
 
     logger.info('Setting mongodb')
@@ -32,9 +33,8 @@ if __name__ == '__main__':
 
     if REFRESH_MOVIES or empty_tmp:
         logger.info('Rewriting...')
-
-        # Process each resolver and merge it
         resolvers_list = resolvers.load()
+        # Process each resolver and merge it
         logger.warning(f"{Log.WARNING}Running resolvers{Log.ENDC}")
         migration_result = map(helper.runtime.results_generator, resolvers_list)
 
@@ -64,8 +64,14 @@ if __name__ == '__main__':
         }, no_cursor_timeout=True).batch_size(1000)
         helper.init_ingestion(cache_db, temp_db, migration_result)
 
+    # Add resolvers if not mixed allowed
+    resolvers_names = not MIXED_RESOURCES and list(map(
+        helper.runtime.resolvers_to_str, resolvers.load()
+    )) or None
+
     # Start node subprocess migration
     asyncio.run(helper.call_orbit_subprocess(
-        REGEN_ORBITDB,  # Regen orbit directory
+        resolvers=resolvers_names,  # Add resolvers if not mixed allowed
+        regen=REGEN_ORBITDB,  # Regen orbit directory
     ))
     exit(0)
