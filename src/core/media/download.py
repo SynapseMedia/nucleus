@@ -26,7 +26,7 @@ def download_file(uri, _dir) -> str:
     :return: Directory of stored file
     """
     session = requests.Session()
-    directory = "%s/torrents/%s" % (HOME_PATH, _dir)
+    directory = "%s/resource/%s" % (HOME_PATH, _dir)
     dirname = os.path.dirname(directory)
     file_check = Path(directory)
 

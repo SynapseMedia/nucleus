@@ -10,7 +10,7 @@ def acc_gens(generators: iter) -> list:
     :type generators: Generator[list]
     :return Reduced and merged generators results
     """
-    from_iter = itertools.chain.from_iterable(generators)
+    from_iter = itertools.chain.from_iterable(generators)  # [[], [], []] -> flatten
     return functools.reduce(operator.add, from_iter)
 
 

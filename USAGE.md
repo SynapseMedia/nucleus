@@ -92,6 +92,8 @@ REFRESH_IPFS=True
 REGEN_MOVIES=False
 # Create a new source directory in each migration
 REGEN_ORBITDB=False
+# Mix resources or create a new db for each
+MIXED_RESOURCES=False
 ```
 
 
@@ -112,17 +114,12 @@ REGEN_ORBITDB=False
    ```
    Please check our [example](https://github.com/ZorrillosDev/watchit-gateway/tree/v0.1.0/resolvers)
 5) Start container using `docker-compose up` to start migration.
-6) When `watchit_ipfs` container get started please run:
-   ```
-   docker-compose exec watchit_ipfs ipfs key gen pdm 
-   docker-compose exec watchit_ipfs ipfs key gen watchit
-   ```
-7) Please wait to finishing the migration process then you will can get the orbit addresses. eg:
+6) Please wait to finishing the migration process then you will can get the orbit addresses. eg:
    
    ```
    CID: zdpuB24EVZjCaeZcqCNP9EPXtNguqj4qV6W13QWDPPUe6RtNF
    IPNS: QmNr4dkAbUtBXCzwYXEJX7XW8bhNwk1vwoiUYnMD8VNyS6 # Use IPNS to keep using same hash for your channel
    ```
-8) Copy the orbit address (CID or IPNS) and use it as **Public Key** when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
+7) Copy the orbit address (CID or IPNS) and use it as **Public Key** when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
    [![screenshot](assets/pk.png?raw=true)]()
 

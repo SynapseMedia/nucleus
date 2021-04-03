@@ -9,6 +9,7 @@ source
 scheme.js
 resolvers
 orbit*/
+pragma.txt
 !resolvers/__init__.py
 !resolvers/dummy/dummy.py
 !resolvers/dummy/__init__.py

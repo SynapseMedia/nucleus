@@ -7,15 +7,28 @@ import asyncio
 import typing
 
 
-async def call_orbit_subprocess(regen=False):
+async def call_orbit_subprocess(resolvers=None, regen=False):
     """
     Spawn nodejs subprocess
+    :param resolvers: List of loaded resolvers
     :param regen: Regenerate db
     """
-    await asyncio.gather(
-        helper.run(f"npm run mpdm -- {regen and '-g' or ''} "),
-        helper.run(f"npm run mwz -- {regen and '-g' or ''}")
-    )
+    resolvers = resolvers or []
+    is_mixed_migration = len(resolvers) > 0
+
+    # Formulate params
+    regen_param = regen and '-g' or ''
+    command = f"npm run migrate -- {regen_param}"
+
+    # If mixed sources run each process to generate DB
+    # else run all in one process and ingest all in same DB
+    resolvers_call = is_mixed_migration and [
+        helper.run(
+            f"{command} --key={r} --source={r}"
+        ) for r in resolvers
+    ] or [helper.run(command)]
+
+    await asyncio.gather(*resolvers_call)
 
 
 def init_ingestion(idb, wdb, movies_indexed):
@@ -27,10 +40,13 @@ def init_ingestion(idb, wdb, movies_indexed):
     :param movies_indexed:
     """
     for x in movies_indexed:
-        _id = x['_id']  # Current id
-        ingested_data = media.ingest_ipfs_metadata(x)
-        idb.movies.insert_one(ingested_data)
-        wdb.movies.update_one({'_id': _id}, {'$set': {'updated': True}})
+        try:
+            _id = x['_id']  # Current id
+            ingested_data = media.ingest_ipfs_metadata(x)
+            idb.movies.insert_one(ingested_data)
+            wdb.movies.update_one({'_id': _id}, {'$set': {'updated': True}})
+        except OverflowError:
+            continue
     movies_indexed.close()
 
 
@@ -56,7 +72,16 @@ def flush_ipfs(cache_db, temp_db):
     )
 
 
-def results_generator(resolver: iter) -> typing.Generator:
+def resolvers_to_str(resolver) -> str:
+    """
+    Get names from resolvers
+    :param resolver:
+    :return:
+    """
+    return str(resolver())
+
+
+def results_generator(resolver) -> typing.Generator:
     """
     Dummy resolver generator call
     :param resolver

@@ -3,12 +3,12 @@ const argv = require('minimist')(process.argv.slice(2));
 
 const MAX_CHUNKS = 1000
 const ORBIT_DB_NAME = 'wt.movies.db'
-const MIGRATE_FROM_DB = argv.source || 'ipfs';
+const MIGRATE_FROM_DB = argv.tmpdb || 'ipfs';
 
 const IPFS_NODE = argv.node || 'ipfs'
 const MONGO_HOST = argv.hdb || 'mongodb' // Temporary helper db
 
-const PDM = argv.p // Activate PDM filter
+const SOURCE = argv.source || 'FULL' // Source to migrate from
 const RECREATE = argv.r || true // Recreate database
 const KEY = argv.key || 'watchit' // Local key used to IPNS publish
 const REGEN = argv.g || false
@@ -29,11 +29,20 @@ const logs = {
     err: (msg) => logger.err(chalk.red(msg)),
 };
 
+// List of default keys
 (async () => {
 
+        // FUNCTIONS
         const chunkGen = (_movies, l) => {
+            // Split array in chunks
             return new Array(Math.ceil(_movies.length / l)).fill(0)
                 .map((_, n) => _movies.slice(n * l, n * l + l));
+        }, ifNotExistCreateKey = async (key) => {
+            // Check if current used key exists
+            const currentList = await ipfs.key.list()
+            const existingKey = currentList.some((k) => Object.is(k.name, key))
+            if (!existingKey) return await ipfs.key.gen(key)
+            return false;
         }
 
         // Create OrbitDB instance
@@ -43,22 +52,27 @@ const logs = {
             directory: REGEN ? `./orbit${uuidv4()}` : './orbit'
         });
 
-        // DB
+        // DB init
         const db = await orbitdb.log(ORBIT_DB_NAME, DB_OPTIONS);
         db.events.on('peer', (p) => logs.warn(`Peer Db: ${p}`));
-
         // END DB
-        const definedType = PDM ? 'PDM' : 'FULL';
+
+        const definedType = SOURCE;
+        const isMixedDB = Object.is(definedType, 'FULL')
         logs.info(`Starting ${definedType} db `);
         const dbAddress = db.address.toString()
         const dbAddressHash = dbAddress.split('/')[2]
 
-        //Add provider to allow nodes connect to it
+        // Check if existing keys else create it
+        if (await ifNotExistCreateKey(KEY))
+            logs.warn(`"${KEY}" key created`)
+
+        // Add provider to allow nodes connect to it
         await consume(ipfs.dht.provide(dbAddressHash))
         const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
 
         // Start movies migration to orbit from mongo
-        let index = 0; // Keep cursor for movies id
+        let index = 0; // Keep cursor for movies unique id
         const url = `mongodb://${MONGO_HOST}`;
         const client = new MongoClient(url, {
             useUnifiedTopology: true,
@@ -70,13 +84,17 @@ const logs = {
             await client.connect(async (err) => {
 
                 // Generate cursor for all movies
-                const adminDb = client.db(DB_NAME)
-                const cursor = adminDb.collection('movies').find(
-                    {...PDM && {pdm: true}}
+                const tmp_db = client.db(DB_NAME)
+                const cursor = tmp_db.collection('movies').find(
+                    {...!isMixedDB && {group_name: definedType}}
                 ).limit(0).sort({year: 1})
 
-                const size = await cursor.count();
-                const data = chunkGen(await cursor.toArray(), MAX_CHUNKS);
+                // Using rawData.length in place or .count() approach because of unexpected behavior
+                // On a sharded cluster, db.collection.count() without a query predicate can result in an inaccurate
+                // count if orphaned documents exist or if a chunk migration is in progress.
+                const rawData = await cursor.toArray()
+                const size = rawData.length
+                const data = chunkGen(rawData, MAX_CHUNKS);
                 logs.warn(`Migrating ${size} movies..`)
 
                 for (const chunk of data) {
@@ -95,7 +113,7 @@ const logs = {
                     );
 
                     await db.add(cid.cid.toString());
-                    logs.info(`Processed: ${index}/${size}\``);
+                    logs.info(`Processed: ${index}/${size}`);
                 }
 
                 logs.success(`CID for ${definedType}: ${dbAddressHash}`)

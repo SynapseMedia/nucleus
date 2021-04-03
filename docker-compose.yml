@@ -3,7 +3,7 @@ services:
   watchit_ipfs:
     image: ipfs/go-ipfs:v0.6.0
     restart: unless-stopped
-    command: [ "daemon", "--migrate=true", "--enable-gc", "--enable-namesys-pubsub"]
+    command: [ "daemon", "--migrate=true", "--enable-gc", "--enable-namesys-pubsub" ]
     environment:
       - IPFS_PROFILE=server
       - IPFS_PATH=/ipfsdata
@@ -18,7 +18,7 @@ services:
 
   watchit_migrator:
     build: .
-    image: gmena/migrate:v1.0.30
+    image: gmena/migrate:v1.0.32
     container_name: watchit_migrator
     command: python3 main.py
     links:
@@ -26,6 +26,7 @@ services:
       - "watchit_ipfs:ipfs"
     volumes:
       - .:/data/watchit
+      - /data/watchit/node_modules
     env_file:
       - .env
     depends_on:
@@ -56,4 +57,19 @@ services:
       - 127.0.0.1:3001:3000/tcp
     volumes:
       - ./orbitdb:/orbitdb
+
+  watchit_db_monitor:
+    image: peelvalley/ipfs-cli
+    restart: unless-stopped
+    entrypoint: [ "bash" ]
+    command: [ "-c", "source /scripts/orbitdb.sh && monitor_ipns_dbs" ]
+    environment:
+      IPFS_RESOLVE_TIMEOUT: "15m"
+      IPFS_CAT_TIMEOUT: "5m"
+      ORBIT_DB_HOST: "http://orbitdb-api:3000"
+      ORBIT_DB_ENTRIES_TIMEOUT: 30000
+      IPNS_DB_NAME: "wt.movies.db"
+      DB_MONITOR_WAIT: "15m"
+      DB_MONITOR_IPNS: "QmcXoqBMhfD4bPVGbR2VhQUfhvSEsepVqcFgHNrx3Rr2b1"
+
 
