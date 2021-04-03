@@ -36,7 +36,8 @@ def ingest_ipfs_dir(_dir: str) -> str:
     directory = "%s/resource/%s" % (HOME_PATH, _dir)
     logger.info(f"Ingesting directory: {Log.BOLD}{_dir}{Log.ENDC}")
     _hash = ipfs.add(directory, pin=True, recursive=True)
-    _hash = next(item for item in _hash if item['Name'] == _dir)['Hash']
+    _hash = map(lambda x: {'size': int(x['Size']), 'hash': x['Hash']}, _hash)
+    _hash = max(_hash, key=lambda x: x['size'])['hash']
     logger.info(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
     return _hash
 
@@ -68,7 +69,7 @@ def ingest_ipfs_metadata(mv: dict, max_retry=3) -> dict:
         current_linked_name = mv.get('group_name', None)
         current_dir = current_imdb_code
         if current_linked_name:  # If linked_name add sub-dir
-            current_dir = f"{current_imdb_code}/{current_linked_name}"
+            current_dir = f"{current_linked_name}/{current_imdb_code}"
 
         # Fetch resources if needed
         mv = fetch_images_resources(mv, current_dir)
@@ -87,6 +88,7 @@ def ingest_ipfs_metadata(mv: dict, max_retry=3) -> dict:
         if max_retry <= 0:
             raise OverflowError('Max retry exceeded')
         max_retry = max_retry - 1
+        logger.info(e)
         logger.error(f"Retry download assets error: {e}")
         logger.warning(f"{Log.WARNING}Wait {RECURSIVE_SLEEP_REQUEST}{Log.ENDC}")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
