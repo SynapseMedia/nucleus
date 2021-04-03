@@ -2,7 +2,7 @@ import time
 import ipfshttpclient
 
 from src.core import Log, logger
-from .download import download_file, HOME_PATH
+from .download import HOME_PATH
 from .fetch import fetch_movie_resources, fetch_images_resources
 from .clean import clean_resources, migrate_resource_hash, migrate_image_hash
 
