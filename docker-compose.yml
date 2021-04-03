@@ -58,7 +58,7 @@ services:
     volumes:
       - ./orbitdb:/orbitdb
 
-  watchit-db-monitor:
+  watchit_db_monitor:
     image: peelvalley/ipfs-cli
     restart: unless-stopped
     entrypoint: [ "bash" ]
