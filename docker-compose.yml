@@ -62,14 +62,16 @@ services:
     image: peelvalley/ipfs-cli
     restart: unless-stopped
     entrypoint: [ "bash" ]
-    command: [ "-c", "source /scripts/orbitdb.sh && monitor_ipns_dbs" ]
+    command: [ "-c", "source /scripts/orbitdb_functions.sh && monitor_ipns_dbs" ]
     environment:
       IPFS_RESOLVE_TIMEOUT: "15m"
       IPFS_CAT_TIMEOUT: "5m"
-      ORBIT_DB_HOST: "http://orbitdb-api:3000"
+      ORBIT_DB_HOST: "http://watchit_orbitdb_api:3000"
       ORBIT_DB_ENTRIES_TIMEOUT: 30000
       IPNS_DB_NAME: "wt.movies.db"
       DB_MONITOR_WAIT: "15m"
       DB_MONITOR_IPNS: "QmcXoqBMhfD4bPVGbR2VhQUfhvSEsepVqcFgHNrx3Rr2b1"
+    depends_on:
+      - watchit_orbitdb_api
 
 
