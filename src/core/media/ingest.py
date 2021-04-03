@@ -41,17 +41,15 @@ def ingest_ipfs_dir(_dir: str) -> str:
     return _hash
 
 
-def ingest_ipfs_file(uri: str, _dir: str) -> str:
+def ingest_ipfs_file(_dir: str) -> str:
     """
     Go and conquer the world little child!!
     Add file to ipfs
-    :param uri: The link to file
     :param _dir: The tmp dir to store it
     :return: The resulting CID for file
     """
-    directory = download_file(uri, _dir)
     logger.info(f"Ingesting file: {Log.BOLD}{_dir}{Log.ENDC}")
-    _hash = ipfs.add(directory, pin=True)['Hash']
+    _hash = ipfs.add(_dir, pin=True)['Hash']
     logger.info(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
     return _hash
 
