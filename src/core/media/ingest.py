@@ -67,13 +67,17 @@ def ingest_ipfs_metadata(mv: dict, max_retry=3) -> dict:
         logger.info(f"{Log.OKBLUE}Ingesting {mv.get('imdb_code')}{Log.ENDC}")
         # Downloading files
         current_imdb_code = mv.get('imdb_code')
+        current_linked_name = mv.get('link_name', None)
+        current_dir = current_imdb_code
+        if current_linked_name:  # If linked_name add sub-dir
+            current_dir = f"{current_imdb_code}/{current_linked_name}"
 
         # Fetch resources if needed
-        mv = fetch_images_resources(mv, current_imdb_code)
-        mv = fetch_movie_resources(mv, current_imdb_code)
+        mv = fetch_images_resources(mv, current_dir)
+        mv = fetch_movie_resources(mv, current_dir)
 
         # Logs on ready ingested
-        hash_directory = ingest_ipfs_dir(current_imdb_code)
+        hash_directory = ingest_ipfs_dir(current_dir)
         migrate_resource_hash(mv, hash_directory)
         migrate_image_hash(mv, hash_directory)
 
