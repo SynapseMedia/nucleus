@@ -2,11 +2,11 @@ import cid, os
 from .download import download_file
 
 
-def fetch_movie_resources(mv, current_imdb_code) -> dict:
+def fetch_movie_resources(mv, current_dir) -> dict:
     """
     Check if resources need to be downloaded and download it
     :param mv: MovieSchema dict
-    :param current_imdb_code: Imdb code key in collection
+    :param current_dir: Imdb code key in collection
     :return: MovieSchema dict
     """
     for video in mv['resource']['videos']:
@@ -15,16 +15,16 @@ def fetch_movie_resources(mv, current_imdb_code) -> dict:
             continue
 
         video['index'] = video['index'] if 'index' in video else 'index'
-        resource_dir = '%s/%s/%s' % (current_imdb_code, video['quality'], video['index'])
+        resource_dir = '%s/%s/%s' % (current_dir, video['quality'], video['index'])
         download_file(video['route'], resource_dir)
     return mv
 
 
-def fetch_images_resources(mv, current_imdb_code) -> dict:
+def fetch_images_resources(mv, current_dir) -> dict:
     """
     Check if images need to be downloaded and download it
     :param mv: MovieSchema dict
-    :param current_imdb_code: Imdb code key in collection
+    :param current_dir: Imdb code key in collection
     :return: MovieScheme dict
     """
 
@@ -35,5 +35,5 @@ def fetch_images_resources(mv, current_imdb_code) -> dict:
             continue
 
         image['index'] = image['index'] if 'index' in image else os.path.basename(image['route'])
-        download_file(image['route'], "%s/%s" % (current_imdb_code, image['index']))
+        download_file(image['route'], "%s/%s" % (current_dir, image['index']))
     return mv
