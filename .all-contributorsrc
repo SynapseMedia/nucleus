@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "phillmac",
+      "name": "phillmac",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4534835?v=4",
+      "profile": "https://github.com/phillmac",
+      "contributions": [
+        "code",
+        "userTesting",
+        "ideas",
+        "infra"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "watchit-gateway",
+  "projectOwner": "ZorrillosDev",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
