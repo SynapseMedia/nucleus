@@ -57,12 +57,16 @@ if __name__ == '__main__':
         if FLUSH_CACHE_IPFS or empty_:
             helper.runtime.flush_ipfs(cache_db, temp_db)
 
-        # Start IPFS ingestion
         # Get stored movies data and process it
         migration_result = temp_db.movies.find({
             "updated": {'$exists': False}
         }, no_cursor_timeout=True).batch_size(1000)
-        helper.init_ingestion(cache_db, temp_db, migration_result)
+
+        # Start IPFS ingestion
+        helper.init_ingestion(
+            cache_db, temp_db,
+            migration_result
+        )
 
     # Add resolvers if not mixed allowed
     resolvers_names = not MIXED_RESOURCES and list(map(
