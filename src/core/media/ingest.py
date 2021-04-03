@@ -65,7 +65,7 @@ def ingest_ipfs_metadata(mv: dict, max_retry=3) -> dict:
         logger.info(f"{Log.OKBLUE}Ingesting {mv.get('imdb_code')}{Log.ENDC}")
         # Downloading files
         current_imdb_code = mv.get('imdb_code')
-        current_linked_name = mv.get('link_name', None)
+        current_linked_name = mv.get('group_name', None)
         current_dir = current_imdb_code
         if current_linked_name:  # If linked_name add sub-dir
             current_dir = f"{current_imdb_code}/{current_linked_name}"

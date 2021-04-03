@@ -78,8 +78,8 @@ class MovieScheme(Schema):
     title = fields.Str(validate=validate.Length(min=1))
     # if MIXED_RESOURCES=False then its needed for split dbs and keep groups for diff resources
     # Please use this name based on your resolver name defined in __str__ class method
-    # ex: link_name = str(self) in resolver
-    link_name = fields.Str(required=False)
+    # ex: group_name = str(self) in resolver
+    group_name = fields.Str(required=False)
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
     imdb_code = fields.Str(validate=validate.Regexp(r'^tt[0-9]{5,10}$'))
     rating = fields.Float(validate=validate.Range(min=0, max=DEFAULT_RATE_MAX))

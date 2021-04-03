@@ -86,7 +86,7 @@ const logs = {
                 // Generate cursor for all movies
                 const tmp_db = client.db(DB_NAME)
                 const cursor = tmp_db.collection('movies').find(
-                    {...!isMixedDB && {link_name: definedType}}
+                    {...!isMixedDB && {group_name: definedType}}
                 ).limit(0).sort({year: 1})
 
                 // Using rawData.length in place or .count() approach because of unexpected behavior

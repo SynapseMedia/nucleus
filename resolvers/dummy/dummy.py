@@ -20,8 +20,8 @@ class Dummy:
             "runtime": 105,
             # if MIXED_RESOURCES=False then its needed for split dbs and keep groups for diff resources
             # Please use this name based on your resolver name defined in __str__ class method
-            # ex: link_name = str(self) in resolver
-            "link_name": str(self),
+            # ex: group_name = str(self) in resolver
+            "group_name": str(self),
             "genres": ["Action", "Comedy", "Crime"],
             "synopsis": "Baby loves have fun",
             "trailer_code": "uIrQ9535RFo",
