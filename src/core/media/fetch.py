@@ -6,7 +6,7 @@ def fetch_movie_resources(mv, current_dir) -> dict:
     """
     Check if resources need to be downloaded and download it
     :param mv: MovieSchema dict
-    :param current_dir: Imdb code key in collection
+    :param current_dir: Storage dir
     :return: MovieSchema dict
     """
     for video in mv['resource']['videos']:
@@ -24,7 +24,7 @@ def fetch_images_resources(mv, current_dir) -> dict:
     """
     Check if images need to be downloaded and download it
     :param mv: MovieSchema dict
-    :param current_dir: Imdb code key in collection
+    :param current_dir: Storage dir
     :return: MovieScheme dict
     """
 
