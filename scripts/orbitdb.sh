@@ -143,8 +143,6 @@ function monitor_ipns_dbs () {
         return 252
     fi
 
-
-
     while true
     do
         sleep "${db_wait}" &
@@ -152,4 +150,5 @@ function monitor_ipns_dbs () {
         wait
     done
 }
+
 
