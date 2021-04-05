@@ -70,7 +70,7 @@ services:
       ORBIT_DB_ENTRIES_TIMEOUT: 30000
       IPFS_API_HOST: "watchit_ipfs"
       IPNS_DB_NAME: "wt.movies.db"
-      DB_MONITOR_WAIT: "15m"
+      DB_MONITOR_WAIT: "5m"
       DB_MONITOR_IPNS: "QmcXoqBMhfD4bPVGbR2VhQUfhvSEsepVqcFgHNrx3Rr2b1"
     depends_on:
       - watchit_orbitdb_api
