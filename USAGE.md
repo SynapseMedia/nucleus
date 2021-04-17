@@ -70,13 +70,10 @@ can see the `index` is used to define the name of the resulting path in the IPFS
 
 ```
 
-**IMPORTANT!** If 'imdb_code' cannot be found for your movies please add your custom imdb_code ex: tt{movie_id}
-
 ## Caching
 
-After obtaining and schematizing the metadata these clean and pre-processed meta will be stored in a "temporary
-collection cache" and in a "temporary collection cursor". The "temporary collection" keeps all the meta while
-"the cursor collection" keeps the already processed meta to avoid unnecessary re-processing.
+After obtaining and schematizing the metadata these clean and pre-processed meta will be stored in a "temporary cache" and in a "temporary cursor". 
+The "temporary cache" keeps all the meta while "the cursor" keeps the already processed meta to avoid unnecessary re-processing.
 
 All this meta later will then be obtained and ingested in [OrbitDB](https://orbitdb.org/).
 
