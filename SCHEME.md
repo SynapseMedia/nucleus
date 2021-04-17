@@ -62,6 +62,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     # ex: group_name = str(self) in resolver
     group_name = fields.Str(validate=validate.Length(min=2))
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
+    # IMPORTANT! If 'imdb_code' cannot be found for your movies please add your custom imdb_code ex: tt{movie_id}
     imdb_code = fields.Str(validate=validate.Regexp(r'^tt[0-9]{5,10}$'))
     rating = fields.Float(validate=validate.Range(min=0, max=DEFAULT_RATE_MAX))
     year = fields.Int(validate=validate.Range(min=FIRST_MOVIE_YEAR_EVER, max=date.today().year + 1))
