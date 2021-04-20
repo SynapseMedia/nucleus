@@ -10,10 +10,9 @@ services:
     volumes:
       - ./data/ipfs/:/ipfsdata
     ports:
-      - "80:8080"
-      - "8080:8080"
-      - "4001:4001"
-      - "4002:4002"
+      - "0.0.0.0:8080:8080"
+      - "0.0.0.0:4001:4001"
+      - "0.0.0.0:4002:4002"
       - "127.0.0.1:5001:5001"
 
   watchit_migrator:
@@ -77,4 +76,32 @@ services:
     depends_on:
       - watchit_orbitdb_api
 
+  watchit_certbot:
+    image: peelvalley/certbot
+    restart: unless-stopped
+    volumes:
+      - cert-data:/etc/letsencrypt
+      - ./config/certbot/domains:/opt/certbot/domains/
 
+  watchit_reverse_proxy:
+    image: peelvalley/proxy
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0.0:80:80"
+      - "0.0.0.0.0:443:443"
+      - "0.0.0.0.0:4002:4002"
+    volumes:
+      - ./config/reverse-proxy/conf.d.available:/etc/nginx/conf.d.available
+      - ./config/reverse-proxy/conf.d.enabled:/etc/nginx/conf.d.enabled
+      - proxy-conf:/etc/nginx/conf.d
+      - cert-data:/etc/letsencrypt
+      - proxy-cache:/cache/nginx
+
+
+volumes:
+  cert-data:
+  proxy-cache:
+  proxy-conf:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
