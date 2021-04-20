@@ -1,3 +1,2 @@
 certbot
-vps1.phillm.net
-direct.vps1.phillm.net
+watchitapp.site
