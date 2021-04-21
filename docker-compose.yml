@@ -10,7 +10,7 @@ services:
     volumes:
       - ./data/ipfs/:/ipfsdata
     ports:
-#      - "0.0.0.0:80:8080"
+      #      - "0.0.0.0:80:8080"
       - "0.0.0.0:8080:8080/tcp"
       - "0.0.0.0:4001:4001/tcp"
       - "0.0.0.0:4001:4001/udp"
@@ -89,6 +89,8 @@ services:
   watchit_reverse_proxy:
     image: peelvalley/proxy
     restart: unless-stopped
+    links:
+      - "watchit_certbot:certbot"
     ports:
       - "0.0.0.0.0:80:80"
       - "0.0.0.0.0:443:443"
