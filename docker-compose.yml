@@ -91,6 +91,7 @@ services:
     restart: unless-stopped
     links:
       - "watchit_certbot:certbot"
+      - "watchit_ipfs:ipfs"
     ports:
       - "0.0.0.0.0:80:80"
       - "0.0.0.0.0:443:443"
