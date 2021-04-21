@@ -80,6 +80,8 @@ services:
   watchit_certbot:
     image: peelvalley/certbot
     restart: unless-stopped
+    environment:
+      NOTIFY_EMAIL: 'dev@zorrillos.com'
     volumes:
       - cert-data:/etc/letsencrypt
       - ./config/certbot/domains:/opt/certbot/domains/
