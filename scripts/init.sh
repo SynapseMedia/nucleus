@@ -7,7 +7,7 @@ ipfs config Addresses.Swarm '["/ip4/0.0.0.0/tcp/4001", "/ip4/0.0.0.0/tcp/4002/ws
 ipfs config Peering.Peers "$peers" --json
 ipfs config --bool Swarm.EnableRelayHop false
 ipfs config --bool Swarm.EnableAutoRelay true
-ipfs daemon --migrate=true --enable-gc --enable-namesys-pubsub
+ipfs daemon --migrate=true --enable-gc --enable-namesys-pubsub --enable-pubsub-experiment
 
 
 
