@@ -9,6 +9,7 @@ services:
       - IPFS_PATH=/ipfsdata
     volumes:
       - ./data/ipfs/:/ipfsdata
+      - ./peering/:/peering
       - ./scripts:/scripts
     ports:
       #      - "0.0.0.0:80:8080"
