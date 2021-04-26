@@ -3,12 +3,13 @@ services:
   watchit_ipfs:
     image: ipfs/go-ipfs:v0.6.0
     restart: unless-stopped
-    command: [ "daemon", "--migrate=true", "--enable-gc", "--enable-namesys-pubsub" ]
+    entrypoint: ["/scripts/init.sh"]
     environment:
       - IPFS_PROFILE=server
       - IPFS_PATH=/ipfsdata
     volumes:
       - ./data/ipfs/:/ipfsdata
+      - ./scripts:/scripts
     ports:
       #      - "0.0.0.0:80:8080"
       - "0.0.0.0:8080:8080/tcp"
