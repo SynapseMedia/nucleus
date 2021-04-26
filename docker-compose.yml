@@ -72,7 +72,7 @@ services:
       IPFS_API_HOST: "watchit_ipfs"
       IPNS_DB_NAME: "wt.movies.db"
       DB_MONITOR_WAIT: "15m"
-      DB_MONITOR_IPNS: "QmcXoqBMhfD4bPVGbR2VhQUfhvSEsepVqcFgHNrx3Rr2b1"
+      DB_MONITOR_IPNS: "QmS9quPks7nugYR6od7VSs8iHMqsHJvNVboqQdvQ2uDHzD:"
       OPEN_FETCH_DB_CONTENTS: "TRUE"
     depends_on:
       - watchit_orbitdb_api
