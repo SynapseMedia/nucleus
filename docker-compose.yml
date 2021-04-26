@@ -2,7 +2,7 @@ version: '3'
 services:
   watchit_ipfs:
     image: ipfs/go-ipfs:v0.6.0
-    restart: unless-stopped
+    restart: always
     command: [ "daemon", "--migrate=true", "--enable-gc", "--enable-namesys-pubsub" ]
     environment:
       - IPFS_PROFILE=server
