@@ -33,7 +33,7 @@ If your content already exists in IPFS you just have to define your scheme in re
 ```
 
 **Note:** 
-* If you do not define an `index` in `resource` collection the `route` `cid` must be absolute. 
+* If you do not define an `index` in `images/videos` collection the `route` `cid` must be absolute. 
 If `index` is not defined in `images` collection then default key `index` will be set.
 * HLS supports "multiple quality resolution" in m3u8 manifest, if this is your case then use `quality:HLS` and 
 set your index pointing to your manifest eg: `index: index.m3u8`.
@@ -53,7 +53,7 @@ video/1080p.m3u8
 
 **URL ROUTE**
 
-If your files are in local env please use uri `file://` scheme. To migrate centralized remote or local data to
+To migrate centralized remote or local data to
 decentralized network need to define your schema in resolver as follows:
 
 ```
@@ -74,7 +74,9 @@ decentralized network need to define your schema in resolver as follows:
     ]
 ```
 
-**Note:** It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you
+**Note:** 
+* If your files are in local env please use uri `file://` scheme.
+* It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you
 can see the `index` is used to define the name of the resulting path in the IPFS directory.
 
 ```
