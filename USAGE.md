@@ -39,6 +39,18 @@ If `index` is not defined in `images` collection then default key `index` will b
 set your index pointing to your manifest eg: `index: index.m3u8`.
 * If you have a m3u8 for each resolution you need add it with their corresponding index  eg. `quality: 720p` and `index: 720.m3u8`.
 
+*HLS Multiple quality definition:*
+```
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:BANDWIDTH=1400000,CODECS="avc1.4d4015,mp4a.40.2",RESOLUTION=842x480,AUDIO="aac",SUBTITLES="subs"
+video/480p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=2800000,CODECS="avc1.4d4015,mp4a.40.2",RESOLUTION=1280x720,AUDIO="aac",SUBTITLES="subs"
+video/720p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=5000000,CODECS="avc1.4d4015,mp4a.40.2",RESOLUTION=1920x1080,AUDIO="aac",SUBTITLES="subs"
+video/1080p.m3u8
+```
+
 **URL:**
 
 If your files are in local env please use uri `file://` scheme. To migrate centralized remote or local data to
