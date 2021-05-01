@@ -8,7 +8,7 @@ When establishing a `route` that match a `cid` the gateway just associate that h
 the gateway must execute the download of the `file` in a directory associated with each movie and ingest it in IPFS to obtain its
 corresponding `cid` and later associate it to the movie in the metadata:
 
-**CID:**
+**CID ROUTE**
 
 If your content already exists in IPFS you just have to define your scheme in resolver as follows.
 
@@ -51,7 +51,7 @@ video/720p.m3u8
 video/1080p.m3u8
 ```
 
-**URL:**
+**URL ROUTE**
 
 If your files are in local env please use uri `file://` scheme. To migrate centralized remote or local data to
 decentralized network need to define your schema in resolver as follows:
