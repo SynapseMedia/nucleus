@@ -8,7 +8,7 @@ When establishing a `route` that match a `cid` the gateway just associate that h
 the gateway must execute the download of the `file` in a directory associated with each movie and ingest it in IPFS to obtain its
 corresponding `cid` and later associate it to the movie in the metadata:
 
-**CID:**
+**CID ROUTE**
 
 If your content already exists in IPFS you just have to define your scheme in resolver as follows.
 
@@ -32,12 +32,28 @@ If your content already exists in IPFS you just have to define your scheme in re
 
 ```
 
-**Note:** If you do not define an `index` in `resource` collection the `route` `cid` must be absolute. 
+**Note:** 
+* If you do not define an `index` in `images/videos` collection the `route` `cid` must be absolute. 
 If `index` is not defined in `images` collection then default key `index` will be set.
+* HLS supports "multiple quality resolution" in m3u8 manifest, if this is your case then use `quality:HLS` and 
+set your index pointing to your manifest eg: `index: index.m3u8`.
+* If you have a m3u8 for each resolution you need add it with their corresponding index  eg. `quality: 720p` and `index: 720.m3u8`.
 
-**URL:**
+eg. *HLS Multiple quality resolution:*
+```
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:BANDWIDTH=1400000,CODECS="avc1.4d4015,mp4a.40.2",RESOLUTION=842x480,AUDIO="aac",SUBTITLES="subs"
+video/480p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=2800000,CODECS="avc1.4d4015,mp4a.40.2",RESOLUTION=1280x720,AUDIO="aac",SUBTITLES="subs"
+video/720p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=5000000,CODECS="avc1.4d4015,mp4a.40.2",RESOLUTION=1920x1080,AUDIO="aac",SUBTITLES="subs"
+video/1080p.m3u8
+```
 
-If your files are in local env please use uri `file://` scheme. To migrate centralized remote or local data to
+**URL ROUTE**
+
+To migrate centralized remote or local data to
 decentralized network need to define your schema in resolver as follows:
 
 ```
@@ -58,7 +74,9 @@ decentralized network need to define your schema in resolver as follows:
     ]
 ```
 
-**Note:** It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you
+**Note:** 
+* If your files are in local env please use uri `file://` scheme.
+* It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you
 can see the `index` is used to define the name of the resulting path in the IPFS directory.
 
 ```
