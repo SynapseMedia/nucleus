@@ -36,8 +36,8 @@ If your content already exists in IPFS you just have to define your scheme in re
 * If you do not define an `index` in `resource` collection the `route` `cid` must be absolute. 
 If `index` is not defined in `images` collection then default key `index` will be set.
 * HLS supports multiple quality definition in m3u8 manifest, if this is your case then use `quality:HLS` and 
-set your index pointing to your manifest
-* If you have a m3u8 for each resolution you need add it with their corresponding index  eg. `quality: 720p` and `index: 720.m3u8`
+set your index pointing to your manifest eg: `index: index.m3u8`.
+* If you have a m3u8 for each resolution you need add it with their corresponding index  eg. `quality: 720p` and `index: 720.m3u8`.
 
 **URL:**
 
