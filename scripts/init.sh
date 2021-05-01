@@ -10,5 +10,3 @@ ipfs config --bool Swarm.EnableAutoRelay true
 ipfs daemon --migrate=true --enable-gc --enable-namesys-pubsub --enable-pubsub-experiment
 
 
-
-
