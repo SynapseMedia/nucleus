@@ -39,7 +39,7 @@ If `index` is not defined in `images` collection then default key `index` will b
 set your index pointing to your manifest eg: `index: index.m3u8`.
 * If you have a m3u8 for each resolution you need add it with their corresponding index  eg. `quality: 720p` and `index: 720.m3u8`.
 
-*HLS Multiple quality definition:*
+eg. *HLS Multiple quality definition:*
 ```
 #EXTM3U
 #EXT-X-VERSION:3
