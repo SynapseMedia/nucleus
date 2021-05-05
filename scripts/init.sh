@@ -10,7 +10,7 @@ ipfs config Peering.Peers "$peers" --json
 ipfs config --bool Swarm.EnableRelayHop false
 ipfs config --bool Swarm.EnableAutoRelay true
 ipfs config Swarm.ConnMgr.HighWater 160 --json
-ipfs config Swarm.ConnMgr.LowWater 80 -- json
+ipfs config Swarm.ConnMgr.LowWater 80 --json
 ipfs daemon --migrate=true --enable-gc --enable-namesys-pubsub --enable-pubsub-experiment
 
 
