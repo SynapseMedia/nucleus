@@ -8,11 +8,10 @@ services:
       - IPFS_PROFILE=server
       - IPFS_PATH=/ipfsdata
     volumes:
-      - ./data/ipfs/:/ipfsdata
+      - "${IPFS_DATA}:/ipfsdata"
       - ./peering/:/peering
       - ./scripts:/scripts
     ports:
-      #      - "0.0.0.0:80:8080"
       - "0.0.0.0:8080:8080/tcp"
       - "0.0.0.0:4001:4001/tcp"
       - "0.0.0.0:4001:4001/udp"
@@ -20,7 +19,7 @@ services:
 
   watchit_migrator:
     build: .
-    image: gmena/migrate:v1.0.32
+    image: gmena/migrate:v1.0.33
     container_name: watchit_migrator
     command: python3 main.py
     links:
@@ -29,6 +28,7 @@ services:
     volumes:
       - .:/data/watchit
       - /data/watchit/node_modules
+      - "${MULTIMEDIA_DIRECTORY}:/multimedia"
     env_file:
       - .env
     depends_on:
@@ -74,7 +74,7 @@ services:
       IPFS_API_HOST: "watchit_ipfs"
       IPNS_DB_NAME: "wt.movies.db"
       DB_MONITOR_WAIT: "15m"
-      DB_MONITOR_IPNS: "QmS9quPks7nugYR6od7VSs8iHMqsHJvNVboqQdvQ2uDHzD"
+      DB_MONITOR_IPNS: "${DB_MONITOR_CID}"
       OPEN_FETCH_DB_CONTENTS: "TRUE"
     depends_on:
       - watchit_orbitdb_api
