@@ -41,7 +41,7 @@ def fetch_images_resources(mv, current_dir) -> dict:
     :param current_dir: Storage dir
     :return: MovieScheme dict
     """
-    for _, resource in mv['resource']['images'].items():
+    for _, resource in mv['resource']['posters'].items():
         fetch_resources(
             resource,
             lambda r: '%s/%s' % (current_dir, r['index']),

@@ -2,7 +2,7 @@ import time
 import ipfshttpclient
 
 from src.core import Log, logger
-from .download import HOME_PATH
+from .download import resolve_root_dir
 from .fetch import fetch_movie_resources, fetch_images_resources
 from .clean import clean_resources, migrate_resource_hash, migrate_image_hash
 
@@ -33,8 +33,8 @@ def ingest_ipfs_dir(_dir: str) -> str:
     :param _dir: Directory to add to IPFS
     :return: The resulting CID
     """
-    directory = "%s/resource/%s" % (HOME_PATH, _dir)
-    logger.info(f"Ingesting directory: {Log.BOLD}{_dir}{Log.ENDC}")
+    directory = resolve_root_dir(_dir)
+    logger.info(f"Ingesting directory: {Log.BOLD}{directory}{Log.ENDC}")
     _hash = ipfs.add(directory, pin=True, recursive=True)
     _hash = map(lambda x: {'size': int(x['Size']), 'hash': x['Hash']}, _hash)
     _hash = max(_hash, key=lambda x: x['size'])['hash']
@@ -76,7 +76,7 @@ def ingest_ipfs_metadata(mv: dict, max_retry=3) -> dict:
         mv = fetch_movie_resources(mv, current_dir)
 
         # Logs on ready ingested
-        hash_directory = ingest_ipfs_dir(current_dir)
+        hash_directory = ingest_ipfs_dir(current_dir)  # TODO not ingest yet, until transcode
         migrate_resource_hash(mv, hash_directory)
         migrate_image_hash(mv, hash_directory)
 

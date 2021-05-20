@@ -52,7 +52,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     large = fields.Nested(MediaScheme)
 
 ### MultiMediaScheme
-    images = fields.Nested(PostersScheme)
+    posters = fields.Nested(PostersScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
 #### MovieScheme

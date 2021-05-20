@@ -74,7 +74,7 @@ class MultiMediaScheme(Schema):
     """
     Nested resource scheme
     """
-    images = fields.Nested(PostersScheme)
+    posters = fields.Nested(PostersScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
 

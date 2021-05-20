@@ -14,7 +14,7 @@ def clean_resources(mv: dict) -> dict:
     """
 
     # Clean resource route if defined
-    clean_resource(mv['resource']['images'].values())
+    clean_resource(mv['resource']['posters'].values())
     clean_resource(mv['resource']['videos'])
     return mv
 
@@ -38,6 +38,6 @@ def migrate_image_hash(mv: dict, hash_: str) -> dict:
     :param hash_: CID hash
     :return: MovieScheme with CID assoc
     """
-    for _, v in mv['resource']['images'].items():
+    for _, v in mv['resource']['posters'].items():
         v['cid'] = v.get('route') if 'abs' in v else hash_
     return mv
