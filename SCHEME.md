@@ -19,7 +19,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     'War' | 'Western'  
 ```
 
-### GenericScheme:
+### MediaScheme:
 
     """
     Generic abstract resource class definition
@@ -31,7 +31,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     index = fields.Str()  # File index in directory
     abs = fields.Bool(default=False)
 
-#### VideoScheme(GenericScheme)
+#### VideoScheme(MediaScheme)
     """
     Video resource definition 
     Implicit defined `route`, `index` attrs from parent.
@@ -41,18 +41,18 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     quality = fields.Str(required=False)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
 
-### ImageCollectionScheme:
+### ImagesScheme:
     """
-    Image collection with nested `GenericScheme`
+    Images collection with nested `MediaScheme`
     Each image must comply with `route` attr
     eg. {small:{route:...}, medium:{..}, large:{...}}
     """
-    small = fields.Nested(GenericScheme)
-    medium = fields.Nested(GenericScheme)
-    large = fields.Nested(GenericScheme)
+    small = fields.Nested(MediaScheme)
+    medium = fields.Nested(MediaScheme)
+    large = fields.Nested(MediaScheme)
 
-### ResourceScheme
-    images = fields.Nested(ImageCollectionScheme)
+### MultiMediaScheme
+    images = fields.Nested(ImagesScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
 #### MovieScheme
@@ -74,5 +74,5 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     language = fields.Str(validate=validate.Length(min=2, max=10))
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating = fields.Str(default='PG')
-    resource = fields.Nested(ResourceScheme)
+    resource = fields.Nested(MultiMediaScheme)
     date_uploaded_unix = fields.Int(required=True)
