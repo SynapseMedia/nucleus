@@ -107,12 +107,12 @@ const logs = {
                     });
 
                     //Add movie
-                    let cid = await ipfs.add(
+                    const {cid} = await ipfs.add(
                         msgpack.encode(ch),
                         {pin: true}
                     );
 
-                    await db.add(cid.cid.toString());
+                    await db.add(cid.toString());
                     logs.info(`Processed: ${index}/${size}`);
                 }
 
