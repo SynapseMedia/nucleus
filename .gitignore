@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 node_modules
 .idea
+.env
 package-lock.json
 hash
 clients
@@ -8,6 +9,7 @@ orbitdb/
 source
 scheme.js
 resolvers
+_bck/**
 orbit*/
 pragma*.txt
 !resolvers/__init__.py
