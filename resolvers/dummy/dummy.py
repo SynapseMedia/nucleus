@@ -29,15 +29,9 @@ class Dummy:
             "date_uploaded_unix": 1446321498,
             "resource": {
                 "images": {
-                    "small": {
-                        "route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"
-                    },
-                    "medium": {
-                        "route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"
-                    },
-                    "large": {
-                        "route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"
-                    },
+                    "small": {"route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+                    "medium": {"route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+                    "large": {"route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
                 },
                 "videos": [
                     {
