@@ -59,7 +59,7 @@ class VideoScheme(MediaScheme):
     type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
 
 
-class ImagesScheme(Schema):
+class PostersScheme(Schema):
     """
     Image collection with nested `MediaScheme`
     Each image must comply with `route` attr
@@ -74,7 +74,7 @@ class MultiMediaScheme(Schema):
     """
     Nested resource scheme
     """
-    images = fields.Nested(ImagesScheme)
+    images = fields.Nested(PostersScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
 

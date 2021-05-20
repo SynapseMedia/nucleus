@@ -41,7 +41,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     quality = fields.Str(required=False)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
 
-### ImagesScheme:
+### PostersScheme:
     """
     Images collection with nested `MediaScheme`
     Each image must comply with `route` attr
@@ -52,7 +52,7 @@ DEFAULT_GENRES = 'All' | 'Action' | 'Adventure' | 'Animation' |
     large = fields.Nested(MediaScheme)
 
 ### MultiMediaScheme
-    images = fields.Nested(ImagesScheme)
+    images = fields.Nested(PostersScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
 #### MovieScheme
