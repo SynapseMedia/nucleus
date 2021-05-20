@@ -9,7 +9,8 @@ ipfs config Addresses.Gateway '/ip4/0.0.0.0/tcp/8080'
 ipfs config Peering.Peers "$peers" --json
 ipfs config --bool Swarm.EnableRelayHop false
 ipfs config --bool Swarm.EnableAutoRelay true
+ipfs config --bool Swarm.DisableBandwidthMetrics true
 ipfs config Swarm.ConnMgr.HighWater 160 --json
 ipfs config Swarm.ConnMgr.LowWater 80 --json
-ipfs daemon --migrate=true --enable-gc --enable-namesys-pubsub --enable-pubsub-experiment
+ipfs daemon --migrate=true --enable-gc --enable-namesys-pubsub --enable-pubsub-experiment --routing=dhtclient
 
