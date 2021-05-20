@@ -5,6 +5,7 @@ import requests
 from pathlib import Path
 from src.core import Log, logger
 
+VALIDATE_SSL = os.environ.get('VALIDATE_SSL', 'False') == 'True'
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 HOME_PATH = ROOT_PATH
 
@@ -37,7 +38,7 @@ def download_file(uri, _dir) -> str:
 
     # Create if not exist dir
     Path(dirname).mkdir(parents=True, exist_ok=True)
-    response = session.get(uri, verify=True, stream=True, timeout=60, headers={
+    response = session.get(uri, verify=VALIDATE_SSL, stream=True, timeout=60, headers={
         'User-Agent': _agents[random.randint(0, 3)]
     })
 

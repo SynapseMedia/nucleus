@@ -3,17 +3,19 @@ services:
   watchit_ipfs:
     image: ipfs/go-ipfs:v0.6.0
     restart: unless-stopped
-    command: [ "daemon", "--migrate=true", "--enable-gc", "--enable-namesys-pubsub" ]
+    entrypoint: ["/scripts/init.sh"]
     environment:
       - IPFS_PROFILE=server
       - IPFS_PATH=/ipfsdata
     volumes:
       - ./data/ipfs/:/ipfsdata
+      - ./peering/:/peering
+      - ./scripts:/scripts
     ports:
-      - "80:8080"
-      - "8080:8080"
-      - "4001:4001"
-      - "4002:4002"
+      #      - "0.0.0.0:80:8080"
+      - "0.0.0.0:8080:8080/tcp"
+      - "0.0.0.0:4001:4001/tcp"
+      - "0.0.0.0:4001:4001/udp"
       - "127.0.0.1:5001:5001"
 
   watchit_migrator:
@@ -62,14 +64,52 @@ services:
     image: peelvalley/ipfs-cli
     restart: unless-stopped
     entrypoint: [ "bash" ]
-    command: [ "-c", "source /scripts/orbitdb.sh && monitor_ipns_dbs" ]
+    command: [ "-c", "source /scripts/orbitdb_functions.sh && monitor_ipns_dbs" ]
     environment:
       IPFS_RESOLVE_TIMEOUT: "15m"
       IPFS_CAT_TIMEOUT: "5m"
-      ORBIT_DB_HOST: "http://orbitdb-api:3000"
+      IPFS_HTTP_GATEWAY: "http://watchit_ipfs:8080"
+      ORBIT_DB_HOST: "http://watchit_orbitdb_api:3000"
       ORBIT_DB_ENTRIES_TIMEOUT: 30000
+      IPFS_API_HOST: "watchit_ipfs"
       IPNS_DB_NAME: "wt.movies.db"
       DB_MONITOR_WAIT: "15m"
-      DB_MONITOR_IPNS: "QmcXoqBMhfD4bPVGbR2VhQUfhvSEsepVqcFgHNrx3Rr2b1"
+      DB_MONITOR_IPNS: "QmS9quPks7nugYR6od7VSs8iHMqsHJvNVboqQdvQ2uDHzD"
+      OPEN_FETCH_DB_CONTENTS: "TRUE"
+    depends_on:
+      - watchit_orbitdb_api
+
+  watchit_certbot:
+    image: peelvalley/certbot
+    restart: unless-stopped
+    environment:
+      NOTIFY_EMAIL: 'dev@zorrillos.com'
+    volumes:
+      - cert-data:/etc/letsencrypt
+      - ./config/certbot/domains:/opt/certbot/domains/
+
+  watchit_reverse_proxy:
+    image: peelvalley/proxy
+    restart: unless-stopped
+    links:
+      - "watchit_certbot:certbot"
+      - "watchit_ipfs:ipfs"
+    ports:
+      - "0.0.0.0.0:80:80"
+      - "0.0.0.0.0:443:443"
+      - "0.0.0.0.0:4002:4002"
+    volumes:
+      - ./config/reverse-proxy/conf.d.available:/etc/nginx/conf.d.available
+      - ./config/reverse-proxy/conf.d.enabled:/etc/nginx/conf.d.enabled
+      - proxy-conf:/etc/nginx/conf.d
+      - cert-data:/etc/letsencrypt
+      - proxy-cache:/cache/nginx
 
 
+volumes:
+  cert-data:
+  proxy-cache:
+  proxy-conf:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
