@@ -11,5 +11,6 @@ RUN npm install && npm cache clean --force
 RUN pip3 install ipfshttpclient
 RUN pip3 install py-cid
 RUN pip3 install validators
+RUN pip3 install ffmpeg-python
 RUN pip3 install -r requeriments.txt
 
