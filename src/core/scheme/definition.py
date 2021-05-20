@@ -7,6 +7,7 @@ Exceptions:
 import cid
 import validators
 from datetime import date
+from pathlib import Path
 from marshmallow import Schema, validates, fields, validate, EXCLUDE, ValidationError
 
 DEFAULT_RATE_MAX = 10
@@ -27,7 +28,7 @@ DEFAULT_GENRES = [
 ]
 
 
-class GenericScheme(Schema):
+class MediaScheme(Schema):
     """
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
@@ -40,14 +41,17 @@ class GenericScheme(Schema):
 
     @validates('route')
     def validate_route(self, value):
-        if not cid.is_cid(value) and not validators.url(value):
+        is_path = Path(value).exists()  # Check for existing file path
+        is_cid = cid.is_cid(value)  # Check for valid cid
+        is_url = validators.url(value)  # Check for valid url
+        if not is_cid and not is_url and not is_path:
             raise ValidationError('Route must be a CID or URI')
 
 
-class VideoScheme(GenericScheme):
+class VideoScheme(MediaScheme):
     """
     Video resource definition
-    Implicit defined `route`, `index` attrs from parent.
+    Implicit inherit `route`, `index` attrs from parent.
     :type quality: Screen quality definition for video
     :type type: Mechanism to stream video eg: hls | torrent
     """
@@ -55,22 +59,22 @@ class VideoScheme(GenericScheme):
     type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
 
 
-class ImageCollectionScheme(Schema):
+class ImagesScheme(Schema):
     """
-    Image collection with nested `GenericScheme`
+    Image collection with nested `MediaScheme`
     Each image must comply with `route` attr
     eg. {small:{route:...}, medium:{..}, large:{...}}
     """
-    small = fields.Nested(GenericScheme)
-    medium = fields.Nested(GenericScheme)
-    large = fields.Nested(GenericScheme)
+    small = fields.Nested(MediaScheme)
+    medium = fields.Nested(MediaScheme)
+    large = fields.Nested(MediaScheme)
 
 
-class ResourceScheme(Schema):
+class MultiMediaScheme(Schema):
     """
     Nested resource scheme
     """
-    images = fields.Nested(ImageCollectionScheme)
+    images = fields.Nested(ImagesScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
 
@@ -92,5 +96,5 @@ class MovieScheme(Schema):
     language = fields.Str(validate=validate.Length(min=2, max=10))
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating = fields.Str(default='PG')
-    resource = fields.Nested(ResourceScheme)
+    resource = fields.Nested(MultiMediaScheme)
     date_uploaded_unix = fields.Float(required=True)
