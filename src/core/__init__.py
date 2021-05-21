@@ -36,4 +36,9 @@ class Log:
     UNDERLINE = '\033[4m'
 
 
-__all__ = ["Log", "logger"]
+def set_level(level):
+    ch.setLevel(level)
+    logger.setLevel(level)
+
+
+__all__ = ["Log", "logger", "logging", "set_level"]

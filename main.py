@@ -1,14 +1,16 @@
-import os
+import os, click, logging
 from datetime import date
-from src.core import logger, Log
 from src.core import mongo
 from src.core import helper
+from src.core import media
+from src.core import logger, Log, set_level
 import src.core.scheme as scheme
 import resolvers, asyncio
 
 __author__ = 'gmena'
 if __name__ == '__main__':
 
+    # Defaults
     DB_DATE_VERSION = date.today().strftime('%Y%m%d')
     ROOT_PROJECT = os.environ.get('PROJECT_ROOT', '/data/watchit')
 
@@ -19,6 +21,7 @@ if __name__ == '__main__':
     MIXED_RESOURCES = os.environ.get('MIXED_RESOURCES', 'False') == 'True'
     FLUSH_CACHE_IPFS = os.environ.get('FLUSH_CACHE_IPFS', 'False') == 'True'
 
+    # Initialize
     logger.info('Setting mongodb')
     logger.info("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
     logger.info('\n')
@@ -31,24 +34,36 @@ if __name__ == '__main__':
     empty_tmp = temp_db.movies.count() == 0
     empty_cache = cache_db.movies.count() == 0
 
-    if REFRESH_MOVIES or empty_tmp:
-        logger.info('Rewriting...')
-        resolvers_list = resolvers.load()
-        # Process each resolver and merge it
-        logger.warning(f"{Log.WARNING}Running resolvers{Log.ENDC}")
-        migration_result = map(helper.runtime.results_generator, resolvers_list)
+    @click.group()
+    @click.option('--debug/--no-debug', default=True)
+    def cli(debug):
+        # Overwrite log level
+        log_level = logging.DEBUG if debug else logging.NOTSET
+        set_level(log_level)
+        click.echo(f"Debug mode is {'on' if debug else 'off'}")
 
-        # Merge results from migrations
-        logger.warning(f"{Log.WARNING}Starting merge{Log.ENDC}")
-        merged_data = scheme.merge.acc_gens(migration_result)
-        logger.info(f"{Log.OKGREEN}Data merge complete{Log.ENDC}")
 
-        scheme.validator.check(merged_data, many=True)
-        logger.info(f"{Log.OKGREEN}Valid scheme{Log.ENDC}")
-        # Start to write obtained entries from src
-        logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
-        helper.rewrite_entries(temp_db, merged_data)  # Add data to helper db
-        logger.info(f"{Log.UNDERLINE}Entries indexed: {len(merged_data)}{Log.ENDC}")
+    @cli.command()
+    @cli.option('--refresh', default=REFRESH_MOVIES)
+    def resolve(refresh):
+        if refresh or empty_tmp:
+            logger.info('Rewriting...')
+            resolvers_list = resolvers.load()
+            # Process each resolver and merge it
+            logger.warning(f"{Log.WARNING}Running resolvers{Log.ENDC}")
+            resolvers_result = map(helper.runtime.results_generator, resolvers_list)
+            # Merge results from migrations
+            logger.warning(f"{Log.WARNING}Starting merge{Log.ENDC}")
+            merged_data = scheme.merge.acc_gens(resolvers_result)
+            logger.info(f"{Log.OKGREEN}Data merge complete{Log.ENDC}")
+
+            scheme.validator.check(merged_data, many=True)
+            logger.info(f"{Log.OKGREEN}Valid scheme{Log.ENDC}")
+            # Start to write obtained entries from src
+            logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
+            helper.runtime.rewrite_entries(temp_db, merged_data)  # Add data to helper db
+            logger.info(f"{Log.UNDERLINE}Entries indexed: {len(merged_data)}{Log.ENDC}")
+
 
     empty_ = empty_cache or empty_tmp
     if REFRESH_IPFS or empty_:
@@ -63,7 +78,7 @@ if __name__ == '__main__':
         }, no_cursor_timeout=True).batch_size(1000)
 
         # Start IPFS ingestion
-        helper.init_ingestion(
+        helper.runtime.init_ingestion(
             cache_db, temp_db,
             migration_result
         )

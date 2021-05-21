@@ -19,9 +19,8 @@ services:
 
   watchit_migrator:
     build: .
-    image: gmena/migrate:v1.0.33
     container_name: watchit_migrator
-    command: python3 main.py
+    command: while :; do :; done & kill -STOP $! && wait $!
     links:
       - "watchit_mongodb:mongodb"
       - "watchit_ipfs:ipfs"
