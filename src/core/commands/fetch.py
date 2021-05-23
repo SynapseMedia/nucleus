@@ -4,11 +4,12 @@ import src.core.mongo as mongo
 import src.core.media as media
 import src.core.helper as helper
 
+MAX_FAIL_RETRY = 3
 RECURSIVE_SLEEP_REQUEST = 10
 
 
 @click.command()
-@click.option('--retry')
+@click.option('--retry', default=MAX_FAIL_RETRY)
 def fetch(max_retry):
     """
     Fetch media from source stores in `tmp db` and copy them to `raw`
@@ -16,7 +17,7 @@ def fetch(max_retry):
     """
 
     # Get stored movies in tmp_db and process it
-    result = helper.cache.retrieve_not_processed(mongo.temp_db)
+    result = helper.cache.retrieve(mongo.temp_db)
     result_count = result.count()  # Total size of entries to fetch
     logger.info(f"{Log.WARNING}Fetching {result_count} results{Log.ENDC}")
 

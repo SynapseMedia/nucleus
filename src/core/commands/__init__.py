@@ -17,7 +17,11 @@ commands = OrderedDict([
     )),
     ('ingest', dict(
         module='ingest', function='ingest',
-        description='Add media ready for prod into IPFS'
+        description='Add media ready for production into IPFS'
+    )),
+    ('expose', dict(
+        module='expose', function='expose',
+        description='Publish production ready library'
     )),
     ('cache', dict(
         module='cache', function='cache',

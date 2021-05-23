@@ -23,6 +23,7 @@ def get_dbs(*dbs_list) -> tuple:
 
 # Initialize db list from name
 # tmp_db - keep current resolvers cache
+# transcode_db - transcode resources list
 # cursor_db - keep a pointer with already processed cache
 tmp_db_name = 'witth%s' % DB_DATE_VERSION if REGEN_MOVIES else 'witth'
 temp_db, transcode_db, cursor_db = get_dbs(tmp_db_name, 'transcode', 'ipfs')

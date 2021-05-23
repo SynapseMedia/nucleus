@@ -1,33 +1,8 @@
-from src.core import helper
 from src.core import Log, logger
 from pymongo.errors import BulkWriteError
 import src.core.scheme as scheme
-import asyncio
+
 import typing
-
-
-async def call_orbit_subprocess(resolvers=None, regen=False):
-    """
-    Spawn nodejs subprocess
-    :param resolvers: List of loaded resolvers
-    :param regen: Regenerate db
-    """
-    resolvers = resolvers or []
-    is_mixed_migration = len(resolvers) > 0
-
-    # Formulate params
-    regen_param = regen and '-g' or ''
-    command = f"npm run migrate -- {regen_param}"
-
-    # If mixed sources run each process to generate DB
-    # else run all in one process and ingest all in same DB
-    resolvers_call = is_mixed_migration and [
-        helper.subprocess.run(
-            f"{command} --key={r} --source={r}"
-        ) for r in resolvers
-    ] or [helper.subprocess.run(command)]
-
-    await asyncio.gather(*resolvers_call)
 
 
 def rewrite_entries(db, data):
