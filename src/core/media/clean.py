@@ -19,7 +19,7 @@ def clean_resources(mv: dict) -> dict:
     return mv
 
 
-def migrate_resource_hash(mv: dict, hash_: str) -> dict:
+def clean_resource_hash(mv: dict, hash_: str) -> dict:
     """
     Re-struct resources adding the corresponding cid
     :param mv: MovieScheme dict
@@ -31,7 +31,7 @@ def migrate_resource_hash(mv: dict, hash_: str) -> dict:
     return mv
 
 
-def migrate_image_hash(mv: dict, hash_: str) -> dict:
+def clean_image_hash(mv: dict, hash_: str) -> dict:
     """
     Re-struct image resources adding the corresponding cid
     :param mv: MovieScheme dict

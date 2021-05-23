@@ -2,7 +2,7 @@ import cid, os
 from .download import download_file
 
 
-def fetch_resources(resource, get_dir=lambda x: '', get_index=lambda x: 'index'):
+def _resources(resource, get_dir=lambda x: '', get_index=lambda x: 'index'):
     """
     Generic fetch process for resources
     :param resource:
@@ -21,7 +21,7 @@ def fetch_resources(resource, get_dir=lambda x: '', get_index=lambda x: 'index')
     download_file(resource['route'], resource_dir)
 
 
-def fetch_movie_resources(mv, current_dir) -> dict:
+def video_resources(mv, current_dir) -> dict:
     """
     Check if resources need to be downloaded and download it
     :param mv: MovieSchema dict
@@ -30,11 +30,11 @@ def fetch_movie_resources(mv, current_dir) -> dict:
     """
 
     for resource in mv['resource']['videos']:
-        fetch_resources(resource, lambda r: '%s/%s/%s' % (current_dir, r['quality'], r['index']))
+        _resources(resource, lambda r: '%s/%s/%s' % (current_dir, r['quality'], r['index']))
     return mv
 
 
-def fetch_images_resources(mv, current_dir) -> dict:
+def image_resources(mv, current_dir) -> dict:
     """
     Check if images need to be downloaded and download it
     :param mv: MovieSchema dict
@@ -42,7 +42,7 @@ def fetch_images_resources(mv, current_dir) -> dict:
     :return: MovieScheme dict
     """
     for _, resource in mv['resource']['posters'].items():
-        fetch_resources(
+        _resources(
             resource,
             lambda r: '%s/%s' % (current_dir, r['index']),
             lambda r: os.path.basename(r['route']),

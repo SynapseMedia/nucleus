@@ -3,8 +3,8 @@ import ipfshttpclient
 
 from src.core import Log, logger
 from .download import resolve_root_dir
-from .fetch import fetch_movie_resources, fetch_images_resources
-from .clean import clean_resources, migrate_resource_hash, migrate_image_hash
+from .fetch import video_resources, image_resources
+from .clean import clean_resources, clean_resource_hash, clean_image_hash
 
 __author__ = 'gmena'
 
@@ -26,7 +26,7 @@ logger.info(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}")
 logger.info('\n')
 
 
-def ingest_ipfs_dir(_dir: str) -> str:
+def ipfs_dir(_dir: str) -> str:
     """
     Go and conquer the world little child!!:
     Add directory to ipfs
@@ -42,7 +42,7 @@ def ingest_ipfs_dir(_dir: str) -> str:
     return _hash
 
 
-def ingest_ipfs_file(_dir: str) -> str:
+def ipfs_file(_dir: str) -> str:
     """
     Go and conquer the world little child!!
     Add file to ipfs
@@ -55,7 +55,7 @@ def ingest_ipfs_file(_dir: str) -> str:
     return _hash
 
 
-def ingest_ipfs_metadata(mv: dict, max_retry=3) -> dict:
+def ipfs_metadata(mv: dict, max_retry=3) -> dict:
     """
     Loop over assets, download it and add it to IPFS
     :param mv: MovieScheme
@@ -72,13 +72,13 @@ def ingest_ipfs_metadata(mv: dict, max_retry=3) -> dict:
             current_dir = f"{current_linked_name}/{current_imdb_code}"
 
         # Fetch resources if needed
-        mv = fetch_images_resources(mv, current_dir)
-        mv = fetch_movie_resources(mv, current_dir)
+        mv = image_resources(mv, current_dir)
+        mv = video_resources(mv, current_dir)
 
         # Logs on ready ingested
-        hash_directory = ingest_ipfs_dir(current_dir)  # TODO not ingest yet, until transcode
-        migrate_resource_hash(mv, hash_directory)
-        migrate_image_hash(mv, hash_directory)
+        hash_directory = ipfs_dir(current_dir)  # TODO not ingest yet, until transcode
+        clean_resource_hash(mv, hash_directory)
+        clean_image_hash(mv, hash_directory)
 
         mv['hash'] = hash_directory  # Add current hash to movie
         logger.info(f"{Log.OKGREEN}Done {mv.get('imdb_code')}{Log.ENDC}")
@@ -92,4 +92,4 @@ def ingest_ipfs_metadata(mv: dict, max_retry=3) -> dict:
         logger.error(f"Retry download assets error: {e}")
         logger.warning(f"{Log.WARNING}Wait {RECURSIVE_SLEEP_REQUEST}{Log.ENDC}")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
-        return ingest_ipfs_metadata(mv, max_retry)
+        return ipfs_metadata(mv, max_retry)

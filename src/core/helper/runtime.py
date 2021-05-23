@@ -1,5 +1,4 @@
 from src.core import helper
-from src.core import media
 from src.core import Log, logger
 from pymongo.errors import BulkWriteError
 import src.core.scheme as scheme
@@ -23,31 +22,12 @@ async def call_orbit_subprocess(resolvers=None, regen=False):
     # If mixed sources run each process to generate DB
     # else run all in one process and ingest all in same DB
     resolvers_call = is_mixed_migration and [
-        helper.run(
+        helper.subprocess.run(
             f"{command} --key={r} --source={r}"
         ) for r in resolvers
-    ] or [helper.run(command)]
+    ] or [helper.subprocess.run(command)]
 
     await asyncio.gather(*resolvers_call)
-
-
-def init_ingestion(idb, wdb, movies_indexed):
-    """
-    Start ingestion for each movie
-    Request, download and add files to ipfs then save as cache in mongo
-    :param idb: Cache ipfs db to hold cursor
-    :param wdb: Temp movies db with all movies stored from resources
-    :param movies_indexed:
-    """
-    for x in movies_indexed:
-        try:
-            _id = x['_id']  # Current id
-            ingested_data = media.ingest_ipfs_metadata(x)
-            idb.movies.insert_one(ingested_data)
-            wdb.movies.update_one({'_id': _id}, {'$set': {'updated': True}})
-        except OverflowError:
-            continue
-    movies_indexed.close()
 
 
 def rewrite_entries(db, data):

@@ -4,8 +4,8 @@ import requests
 from pathlib import Path
 from src.core import Log, logger
 
-VALIDATE_SSL = os.environ.get('VALIDATE_SSL', 'False') == 'True'
-ROOT_PATH = os.environ.get('RAW_DIRECTORY')
+VALIDATE_SSL = os.getenv('VALIDATE_SSL', 'False') == 'True'
+ROOT_PATH = os.getenv('RAW_DIRECTORY')
 
 # Session keep alive
 # http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
