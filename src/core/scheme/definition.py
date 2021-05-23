@@ -7,6 +7,7 @@ Exceptions:
 import cid
 import validators
 from datetime import date
+from pathlib import Path
 from marshmallow import Schema, validates, fields, validate, EXCLUDE, ValidationError
 
 DEFAULT_RATE_MAX = 10
@@ -27,7 +28,7 @@ DEFAULT_GENRES = [
 ]
 
 
-class GenericScheme(Schema):
+class MediaScheme(Schema):
     """
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
@@ -40,14 +41,17 @@ class GenericScheme(Schema):
 
     @validates('route')
     def validate_route(self, value):
-        if not cid.is_cid(value) and not validators.url(value):
+        is_path = Path(value).exists()  # Check for existing file path
+        is_cid = cid.is_cid(value)  # Check for valid cid
+        is_url = validators.url(value)  # Check for valid url
+        if not is_cid and not is_url and not is_path:
             raise ValidationError('Route must be a CID or URI')
 
 
-class VideoScheme(GenericScheme):
+class VideoScheme(MediaScheme):
     """
     Video resource definition
-    Implicit defined `route`, `index` attrs from parent.
+    Implicit inherit `route`, `index` attrs from parent.
     :type quality: Screen quality definition for video
     :type type: Mechanism to stream video eg: hls | torrent
     """
@@ -55,27 +59,31 @@ class VideoScheme(GenericScheme):
     type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
 
 
-class ImageCollectionScheme(Schema):
+class PostersScheme(Schema):
     """
-    Image collection with nested `GenericScheme`
+    Image collection with nested `MediaScheme`
     Each image must comply with `route` attr
     eg. {small:{route:...}, medium:{..}, large:{...}}
     """
-    small = fields.Nested(GenericScheme)
-    medium = fields.Nested(GenericScheme)
-    large = fields.Nested(GenericScheme)
+    small = fields.Nested(MediaScheme)
+    medium = fields.Nested(MediaScheme)
+    large = fields.Nested(MediaScheme)
 
 
-class ResourceScheme(Schema):
+class MultiMediaScheme(Schema):
     """
     Nested resource scheme
     """
-    images = fields.Nested(ImageCollectionScheme)
+    posters = fields.Nested(PostersScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
 
 class MovieScheme(Schema):
     title = fields.Str(validate=validate.Length(min=1))
+    # if MIXED_RESOURCES=False then its needed for split dbs and keep groups for diff resources
+    # Please use this name based on your resolver name defined in __str__ class method
+    # ex: group_name = str(self) in resolver
+    group_name = fields.Str(required=False)
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
     imdb_code = fields.Str(validate=validate.Regexp(r'^tt[0-9]{5,10}$'))
     rating = fields.Float(validate=validate.Range(min=0, max=DEFAULT_RATE_MAX))
@@ -83,12 +91,10 @@ class MovieScheme(Schema):
     runtime = fields.Float(validate=validate.Range(min=SHORTEST_RUNTIME_MOVIE, max=LONGEST_RUNTIME_MOVIE))
     genres = fields.List(fields.Str(), validate=validate.ContainsOnly(choices=DEFAULT_GENRES))
     synopsis = fields.Str(required=True)
-    # Public domain movie? Please help us to avoid piracy
-    pdm = fields.Bool(default=False)
     trailer_code = fields.Str(missing=None)  # Youtube trailer code
     # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
     language = fields.Str(validate=validate.Length(min=2, max=10))
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating = fields.Str(default='PG')
-    resource = fields.Nested(ResourceScheme)
-    date_uploaded_unix = fields.Int(required=True)
+    resource = fields.Nested(MultiMediaScheme)
+    date_uploaded_unix = fields.Float(required=True)

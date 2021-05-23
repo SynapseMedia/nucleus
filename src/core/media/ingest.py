@@ -2,7 +2,7 @@ import time
 import ipfshttpclient
 
 from src.core import Log, logger
-from .download import download_file, HOME_PATH
+from .download import resolve_root_dir
 from .fetch import fetch_movie_resources, fetch_images_resources
 from .clean import clean_resources, migrate_resource_hash, migrate_image_hash
 
@@ -33,46 +33,50 @@ def ingest_ipfs_dir(_dir: str) -> str:
     :param _dir: Directory to add to IPFS
     :return: The resulting CID
     """
-    directory = "%s/torrents/%s" % (HOME_PATH, _dir)
-    logger.info(f"Ingesting directory: {Log.BOLD}{_dir}{Log.ENDC}")
+    directory = resolve_root_dir(_dir)
+    logger.info(f"Ingesting directory: {Log.BOLD}{directory}{Log.ENDC}")
     _hash = ipfs.add(directory, pin=True, recursive=True)
-    _hash = next(item for item in _hash if item['Name'] == _dir)['Hash']
+    _hash = map(lambda x: {'size': int(x['Size']), 'hash': x['Hash']}, _hash)
+    _hash = max(_hash, key=lambda x: x['size'])['hash']
     logger.info(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
     return _hash
 
 
-def ingest_ipfs_file(uri: str, _dir: str) -> str:
+def ingest_ipfs_file(_dir: str) -> str:
     """
     Go and conquer the world little child!!
     Add file to ipfs
-    :param uri: The link to file
     :param _dir: The tmp dir to store it
     :return: The resulting CID for file
     """
-    directory = download_file(uri, _dir)
     logger.info(f"Ingesting file: {Log.BOLD}{_dir}{Log.ENDC}")
-    _hash = ipfs.add(directory, pin=True)['Hash']
+    _hash = ipfs.add(_dir, pin=True)['Hash']
     logger.info(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
     return _hash
 
 
-def ingest_ipfs_metadata(mv: dict) -> dict:
+def ingest_ipfs_metadata(mv: dict, max_retry=3) -> dict:
     """
     Loop over assets, download it and add it to IPFS
     :param mv: MovieScheme
+    :param max_retry: Max retries on fail before raise exception
     :return: Cleaned, pre-processed, structured ready schema
     """
     try:
         logger.info(f"{Log.OKBLUE}Ingesting {mv.get('imdb_code')}{Log.ENDC}")
         # Downloading files
         current_imdb_code = mv.get('imdb_code')
+        current_linked_name = mv.get('group_name', None)
+        current_dir = current_imdb_code
+        if current_linked_name:  # If linked_name add sub-dir
+            current_dir = f"{current_linked_name}/{current_imdb_code}"
 
         # Fetch resources if needed
-        mv = fetch_images_resources(mv, current_imdb_code)
-        mv = fetch_movie_resources(mv, current_imdb_code)
+        mv = fetch_images_resources(mv, current_dir)
+        mv = fetch_movie_resources(mv, current_dir)
 
         # Logs on ready ingested
-        hash_directory = ingest_ipfs_dir(current_imdb_code)
+        hash_directory = ingest_ipfs_dir(current_dir)  # TODO not ingest yet, until transcode
         migrate_resource_hash(mv, hash_directory)
         migrate_image_hash(mv, hash_directory)
 
@@ -81,7 +85,11 @@ def ingest_ipfs_metadata(mv: dict) -> dict:
         logger.info('\n')
         return clean_resources(mv)
     except Exception as e:
+        if max_retry <= 0:
+            raise OverflowError('Max retry exceeded')
+        max_retry = max_retry - 1
+        logger.info(e)
         logger.error(f"Retry download assets error: {e}")
         logger.warning(f"{Log.WARNING}Wait {RECURSIVE_SLEEP_REQUEST}{Log.ENDC}")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
-        return ingest_ipfs_metadata(mv)
+        return ingest_ipfs_metadata(mv, max_retry)

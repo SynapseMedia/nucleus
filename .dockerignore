@@ -6,7 +6,6 @@ README.md
 test.py
 hash
 data/
-orbitdb/
-orbit0*/
+orbit*/
 node_modules/
-src/core/media/torrents/**
+src/core/media/resource/**

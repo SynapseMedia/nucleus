@@ -1,0 +1,46 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "phillmac",
+      "name": "phillmac",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4534835?v=4",
+      "profile": "https://github.com/phillmac",
+      "contributions": [
+        "code",
+        "userTesting",
+        "ideas",
+        "infra"
+      ]
+    },
+    {
+      "login": "aphelionz",
+      "name": "Mark Robert Henderson",
+      "avatar_url": "https://avatars.githubusercontent.com/u/106148?v=4",
+      "profile": "http://mrh.io",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "EchedeyLR",
+      "name": "Echedenyan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/56733813?v=4",
+      "profile": "https://github.com/EchedeyLR",
+      "contributions": [
+        "infra"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "watchit-gateway",
+  "projectOwner": "ZorrillosDev",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

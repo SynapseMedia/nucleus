@@ -1,7 +1,5 @@
 
-## Usage
-
-***NOTE!*** Currently watchit-gateway supports`torrent` type in resolvers movie resources. Please see [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) for future streaming mechanisms.
+# Usage
 
 ## Quick Summary
 The process of evaluating the resolvers will determine the type of action to be executed in the schema definition:
@@ -10,7 +8,7 @@ When establishing a `route` that match a `cid` the gateway just associate that h
 the gateway must execute the download of the `file` in a directory associated with each movie and ingest it in IPFS to obtain its
 corresponding `cid` and later associate it to the movie in the metadata:
 
-**CID:**
+**CID ROUTE**
 
 If your content already exists in IPFS you just have to define your scheme in resolver as follows.
 
@@ -25,34 +23,47 @@ If your content already exists in IPFS you just have to define your scheme in re
     "videos: [
         {
             "route": "QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao", # Example cid
-            "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.torrent
+            "index": "index.m3u8", # QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao/index.m3u8
             "quality": "720p",
-            "type": "torrent"
+            "type": "hls"
         }
     ]
 }
 
 ```
 
-**Note:** If you do not define an `index` in `resource` collection the `route` `cid` must be absolute. 
+**Note:** 
+* If you do not define an `index` in `images/videos` collection the `route` `cid` must be absolute. 
 If `index` is not defined in `images` collection then default key `index` will be set.
+* HLS supports "multiple quality resolution" in m3u8 manifest, if this is your case then use `quality:HLS` and 
+set your index pointing to your manifest eg: `index: index.m3u8`.
+* If you have a m3u8 for each resolution you need add it with their corresponding index  eg. `quality: 720p` and `index: 720.m3u8`.
 
-**URL**
+eg. *HLS Multiple quality resolution:*
+```
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:BANDWIDTH=1400000,CODECS="avc1.4d4015,mp4a.40.2",RESOLUTION=842x480,video/480p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=2800000,CODECS="avc1.4d4015,mp4a.40.2",RESOLUTION=1280x720,video/720p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=5000000,CODECS="avc1.4d4015,mp4a.40.2",RESOLUTION=1920x1080,video/1080p.m3u8
+```
 
-If your files are in local env please use uri `file://` scheme. To migrate centralized remote or local data to
+**URL ROUTE**
+
+To migrate centralized remote or local data to
 decentralized network need to define your schema in resolver as follows:
 
 ```
 
 "resource": {
     "images": {
-        "small": {"route":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-        "medium": {"route":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-        "large": {"route":" https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+        "small": {"route":"https://movies.example.com/images/small.jpg"},
+        "medium": {"route":"https://movies.example.com/images/medium.jpg"},
+        "large": {"route":"https://movies.example.com/images/large.jpg"},
     },
     "videos": [
         {
-            "route": "https://movies.ssl-images-amazon.com/I/movie.torrent",
+            "route": "https://movies.example.com/I/720.torrent",
             "index": "index.torrent", 
             "quality": "720p",
             "type": "torrent"
@@ -60,27 +71,24 @@ decentralized network need to define your schema in resolver as follows:
     ]
 ```
 
-**Note:** It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you
+**Note:** 
+* If your files are in local env please use uri `file://` scheme.
+* It will result in a directory structure after having downloaded the assets and ingested them into IPFS. As you
 can see the `index` is used to define the name of the resulting path in the IPFS directory.
 
 ```
 /{cid}
-/{cid}/small_image.jpg
-/{cid}/medium_image.jpg
-/{cid}/large_image.jpg
+/{cid}/small.jpg
+/{cid}/medium.jpg
+/{cid}/large.jpg
 /{cid}/{quality}/index.torrent
 
 ```
 
-**Notes**
+## Caching
 
-* If 'imdb_code' cannot be found for your movies please add your custom imdb_code ex: tt{movie_id}
-
-**Caching**
-
-After obtaining and schematizing the metadata these clean and pre-processed meta will be stored in a "temporary
-collection cache" and in a "temporary collection cursor". The "temporary collection" keeps all the meta while
-"the cursor collection" keeps the already processed meta to avoid unnecessary re-processing.
+After obtaining and schematizing the metadata these clean and pre-processed meta will be stored in a "temporary cache" and in a "temporary cursor". 
+The "temporary cache" keeps all the meta while "the cursor" keeps the already processed meta to avoid unnecessary re-processing.
 
 All this meta later will then be obtained and ingested in [OrbitDB](https://orbitdb.org/).
 
@@ -97,12 +105,34 @@ REFRESH_IPFS=True
 REGEN_MOVIES=False
 # Create a new source directory in each migration
 REGEN_ORBITDB=False
+# Mix resources or create a new db for each
+MIXED_RESOURCES=False
 ```
 
 
 ## Run
 
-1) Copy your custom module resolver to `resolvers` directory.
-2) Start container `docker-compose up` to run migrator.
-3) After finishing the migration process you can get the orbit addresses.
-4) Copy the orbit address and use it when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
+1) Clone the repo using [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) command `git clone https://github.com/ZorrillosDev/watchit-gateway`
+2) Please [install docker](https://docs.docker.com/get-started/) and [docker-compose](https://docs.docker.com/compose/install/)
+3) Inside the `repo` root search for `resolvers` directory
+   ```
+   /watchit-gateway/
+   /watchit-gateway/resolvers/
+   ```
+4) Copy your custom resolver to `resolvers` directory.
+    ```
+   /watchit-gateway/
+   /watchit-gateway/resolvers/
+   /watchit-gateway/resolvers/{resolver_here}/
+   ```
+   Please check our [example](https://github.com/ZorrillosDev/watchit-gateway/tree/v0.1.0/resolvers)
+5) Start container using `docker-compose up` to start migration.
+6) Please wait to finishing the migration process then you will can get the orbit addresses. eg:
+   
+   ```
+   CID: zdpuB24EVZjCaeZcqCNP9EPXtNguqj4qV6W13QWDPPUe6RtNF
+   IPNS: QmNr4dkAbUtBXCzwYXEJX7XW8bhNwk1vwoiUYnMD8VNyS6 # Use IPNS to keep using same hash for your channel
+   ```
+7) Copy the orbit address (CID or IPNS) and use it as **Public Key** when starting the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
+   [![screenshot](assets/pk.png?raw=true)]()
+

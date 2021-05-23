@@ -24,15 +24,15 @@ __license__ = 'MIT'
 __copyright__ = 'Copyright 2020-2021 ZorrillosDev'
 
 
-def load():
+def load(only_str=False):
     """
-    Auto load modules in `resolvers` path
+    Find modules in `resolvers` path
     """
     for loader, name, is_pkg in pkgutil.walk_packages(__path__):
         _module = loader.find_module(name).load_module(name)
         for _, obj in inspect.getmembers(_module):
             if inspect.isclass(obj) and is_pkg:
-                yield obj
+                yield obj if not only_str else name
 
 
 __all__ = ['load']
