@@ -12,7 +12,7 @@ RECURSIVE_SLEEP_REQUEST = 10
 @click.option('--retry', default=MAX_FAIL_RETRY)
 def fetch(max_retry):
     """
-    Fetch media from source stores in `tmp db` and copy them to `raw`
+    Fetch media from source stored in `tmp db` and copy them to `raw` directory
     :return:
     """
 
