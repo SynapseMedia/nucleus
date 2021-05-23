@@ -10,7 +10,6 @@ if __name__ == '__main__':
 
     REGEN_ORBITDB = os.environ.get('REGEN_ORBITDB', 'False') == 'True'
     MIXED_RESOURCES = os.environ.get('MIXED_RESOURCES', 'False') == 'True'
-    FLUSH_CACHE_IPFS = os.environ.get('FLUSH_CACHE_IPFS', 'False') == 'True'
 
 
     @click.command(cls=commands.CLI)

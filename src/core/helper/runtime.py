@@ -43,10 +43,17 @@ def rewrite_entries(db, data):
         pass
 
 
-def flush_ipfs(cache_db, temp_db):
-    # Reset old entries and restore it
-    cache_db.movies.delete_many({})
-    temp_db.movies.update_many(
+def flush_ipfs(cursor_db, tmp_db):
+    """
+    Reset old entries and restore
+    available entries to process in tmp_db
+    :param cursor_db:
+    :param tmp_db:
+    :return:
+    """
+
+    cursor_db.movies.delete_many({})
+    tmp_db.movies.update_many(
         {"updated": True},
         {'$unset': {"updated": None}}
     )

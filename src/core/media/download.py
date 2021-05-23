@@ -5,7 +5,8 @@ from pathlib import Path
 from src.core import Log, logger
 
 VALIDATE_SSL = os.getenv('VALIDATE_SSL', 'False') == 'True'
-ROOT_PATH = os.getenv('RAW_DIRECTORY')
+RAW_PATH = os.getenv('RAW_DIRECTORY')
+PROD_PATH = os.getenv('PROD_DIRECTORY')
 
 # Session keep alive
 # http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
@@ -17,8 +18,9 @@ _agents = [
 ]
 
 
-def resolve_root_dir(_dir):
-    return "%s/%s" % (ROOT_PATH, _dir)
+def resolve_root_dir(_dir, prod=False):
+    root_dir = RAW_PATH if not prod else PROD_PATH
+    return "%s/%s" % (root_dir, _dir)
 
 
 def download_file(uri, _dir) -> str:
