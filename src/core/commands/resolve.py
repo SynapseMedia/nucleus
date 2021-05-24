@@ -4,9 +4,6 @@ import src.core.scheme as scheme
 from src.core import logger, Log
 from src.core import helper
 
-# Default - Refresh movies on each epoch?
-REFRESH_MOVIES = os.getenv('REFRESH_MOVIES', 'False') == 'True'
-
 
 @click.command()
 def resolve():
