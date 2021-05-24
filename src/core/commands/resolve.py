@@ -1,4 +1,4 @@
-import click, os, resolvers
+import click, resolvers
 import src.core.mongo as mongo
 import src.core.scheme as scheme
 from src.core import logger, Log
