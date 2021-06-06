@@ -1,6 +1,5 @@
 import os
 from pymongo import MongoClient
-from src.core import logger
 from datetime import date
 
 # Setup mongo local temp cache

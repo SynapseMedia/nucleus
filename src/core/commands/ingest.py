@@ -16,7 +16,7 @@ def ingest(flush):
     media.ingest.start_node()  # Init ipfs node
     logger.info(f"{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
     if flush or mongo.empty_tmp:  # Clean already ingested cursor
-        helper.runtime.flush_ipfs(mongo.cursor_db, mongo.temp_db)
+        helper.cache.flush_ipfs(mongo.cursor_db, mongo.temp_db)
 
     # Return available and not processed entries
     result = helper.cache.retrieve(mongo.temp_db, {"updated": {'$exists': False}})

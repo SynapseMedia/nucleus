@@ -17,7 +17,7 @@ def resolve():
 
     # Process each resolver and merge it
     logger.warning(f"{Log.WARNING}Running resolvers{Log.ENDC}")
-    resolvers_result = map(helper.runtime.results_generator, resolvers_list)
+    resolvers_result = map(helper.runtime.trigger_resolver, resolvers_list)
 
     # Merge results from migrations
     logger.warning(f"{Log.WARNING}Starting merge{Log.ENDC}")
@@ -30,5 +30,5 @@ def resolve():
 
     # Start to write obtained entries from src
     logger.info(f"{Log.OKGREEN}Inserting entries in mongo{Log.ENDC}")
-    helper.runtime.rewrite_entries(mongo.temp_db, merged_data)  # Add data to helper db
+    helper.cache.rewrite(mongo.temp_db, merged_data)  # Add data to helper db
     logger.info(f"{Log.UNDERLINE}Entries indexed: {len(merged_data)}{Log.ENDC}")
