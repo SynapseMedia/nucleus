@@ -1,5 +1,5 @@
 import cid, os
-from .download import download_file
+from .process import fetch_file
 
 
 def _resources(resource, get_dir=lambda x: '', get_index=lambda x: 'index'):
@@ -17,8 +17,9 @@ def _resources(resource, get_dir=lambda x: '', get_index=lambda x: 'index'):
 
     # If index defined keep using it else get index from param function
     resource['index'] = resource['index'] if 'index' in resource else get_index(resource)
+    resource_origin = resource['route']  # Input dir resource
     resource_dir = get_dir(resource)  # Process dir from param function
-    download_file(resource['route'], resource_dir)
+    fetch_file(resource_origin, resource_dir)
 
 
 def video_resources(mv, current_dir) -> dict:

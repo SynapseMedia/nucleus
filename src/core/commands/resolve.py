@@ -8,7 +8,7 @@ from src.core import helper
 @click.command()
 def resolve():
     """
-    Run resolvers to get metadata and store it in `tmp db`
+    Run resolvers to get metadata
     """
 
     # Force refresh or resolve tmp db empty

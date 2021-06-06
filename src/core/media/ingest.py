@@ -3,7 +3,7 @@ import ipfshttpclient
 
 import src.core.helper as helper
 from src.core import Log, logger
-from .download import resolve_root_dir
+from .process import resolve_root_dir
 from .clean import clean_resources, clean_resource_hash, clean_image_hash
 
 __author__ = 'gmena'

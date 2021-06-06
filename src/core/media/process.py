@@ -1,6 +1,7 @@
 import os
 import random
 import requests
+import shutil
 from pathlib import Path
 from src.core import Log, logger
 
@@ -23,37 +24,54 @@ def resolve_root_dir(_dir, prod=False):
     return "%s/%s" % (root_dir, _dir)
 
 
-def download_file(uri, _dir) -> str:
+def fetch_remote_file(route, directory):
     """
-    Take from the boring centralized network
-    :param uri: Link to file
-    :param _dir: Where store the file?
-    :return: Directory of stored file
+    Fetch remote media
+    :param route: URI
+    :param directory: Where store it?
+    :return:
     """
-    session = requests.Session()
-    directory = resolve_root_dir(_dir)
     dirname = os.path.dirname(directory)
-    file_check = Path(directory)
-
-    # already exists?
-    if file_check.exists():
-        logger.warning(f"{Log.WARNING}File already exists: {directory}{Log.ENDC}")
-        return directory
-
+    session = requests.Session()
     # Create if not exist dir
     Path(dirname).mkdir(parents=True, exist_ok=True)
-    response = session.get(uri, verify=VALIDATE_SSL, stream=True, timeout=60, headers={
+    response = session.get(route, verify=VALIDATE_SSL, stream=True, timeout=60, headers={
         'User-Agent': _agents[random.randint(0, 3)]
     })
 
     # Check status for response
     if response.status_code == requests.codes.ok:
-        logger.warning(f"{Log.WARNING}Trying download to: {directory}{Log.ENDC}")
+        logger.info(f"{Log.WARNING}Trying fetch to: {directory}{Log.ENDC}")
         with open(directory, "wb") as out:
             for block in response.iter_content(256):
                 if not block: break
                 out.write(block)
             out.close()
 
-    logger.info(f"{Log.OKGREEN}File stored in: {directory}{Log.ENDC}")
+        logger.info(f"{Log.OKGREEN}File stored in: {directory}{Log.ENDC}")
     return directory
+
+
+def fetch_file(_route, _dir) -> str:
+    """
+    Take from the boring centralized network
+    :param _route: File reference
+    :param _dir: Where store the file?
+    :return: Directory of stored file
+    """
+
+    directory = resolve_root_dir(_dir)
+    file_check = Path(directory)
+    route_file = Path(_route)
+
+    if route_file.is_file():
+        logger.warning(f"{Log.WARNING}Copying existing file: {_route}{Log.ENDC}")
+        shutil.copy(_route, directory)
+        return directory
+
+    # already exists?
+    if file_check.exists():
+        logger.warning(f"{Log.WARNING}File already exists: {directory}{Log.ENDC}")
+        return directory
+
+    return fetch_remote_file(_route, directory)

@@ -11,7 +11,7 @@ FLUSH_CACHE_IPFS = os.getenv('FLUSH_CACHE_IPFS', 'False') == 'True'
 @click.option('--no-cache', default=FLUSH_CACHE_IPFS)
 def ingest(flush):
     """
-    Add media ready for production into IPFS
+    Ingest media ready for production into IPFS
     """
     media.ingest.start_node()  # Init ipfs node
     logger.info(f"{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
