@@ -1,4 +1,4 @@
-import click, os, importlib
+import click, importlib
 
 # Here we're doing an explicit listing of available sub-commands.
 # But we could also gather this list automatically using any collection
