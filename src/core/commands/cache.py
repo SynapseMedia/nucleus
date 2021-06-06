@@ -5,7 +5,6 @@ import click
 def cache():
     """
     Clean cache and storage
-    :return:
     """
     pass
 

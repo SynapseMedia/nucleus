@@ -33,11 +33,6 @@ empty_tmp = temp_db.movies.count() == 0
 empty_cursor = cursor_db.movies.count() == 0
 empty_transcode = transcode_db.movies.count() == 0
 
-# Initialize
-logger.info('Setting mongodb')
-logger.info("Running %s version in %s directory" % (DB_DATE_VERSION, ROOT_PROJECT))
-logger.info('\n')
-
 # An important note about collections (and databases) in MongoDB is that they are created lazily
 # https://pymongo.readthedocs.io/en/stable/tutorial.html#making-a-connection-with-mongoclient
 __all__ = ['empty_cursor', 'empty_tmp', 'empty_transcode', 'temp_db', 'transcode_db', 'cursor_db', 'get_dbs']

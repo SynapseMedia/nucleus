@@ -4,6 +4,8 @@ services:
     image: ipfs/go-ipfs:v0.6.0
     restart: unless-stopped
     entrypoint: ["/scripts/init.sh"]
+    networks:
+      - watchit
     environment:
       - IPFS_PROFILE=server
       - IPFS_PATH=/ipfsdata
@@ -17,10 +19,11 @@ services:
       - "0.0.0.0:4001:4001/udp"
       - "127.0.0.1:5001:5001"
 
-  watchit_migrator:
+  watchit_cli:
     build: .
-    container_name: watchit_migrator
-    command: while :; do :; done & kill -STOP $! && wait $!
+    container_name: watchit_cli
+    networks:
+      - watchit
     links:
       - "watchit_mongodb:mongodb"
       - "watchit_ipfs:ipfs"
@@ -39,6 +42,8 @@ services:
     image: mongo
     container_name: watchit_mongo
     restart: unless-stopped
+    networks:
+      - watchit
     ports:
       - "27017:27017"
 
@@ -46,6 +51,8 @@ services:
     image: phillmac/orbit-db-http-api-dev:debug
     restart: unless-stopped
     command: [ "node", "--trace-warnings", "src/cli.js", "api", "--debug" ]
+    networks:
+      - watchit
     environment:
       IPFS_HOST: 'watchit_ipfs'
       ORBITDB_DIR: '/orbitdb'
@@ -64,6 +71,8 @@ services:
     restart: unless-stopped
     entrypoint: [ "bash" ]
     command: [ "-c", "source /scripts/orbitdb_functions.sh && monitor_ipns_dbs" ]
+    networks:
+      - watchit
     environment:
       IPFS_RESOLVE_TIMEOUT: "15m"
       IPFS_CAT_TIMEOUT: "5m"
@@ -81,6 +90,8 @@ services:
   watchit_certbot:
     image: peelvalley/certbot
     restart: unless-stopped
+    networks:
+      - proxy
     environment:
       NOTIFY_EMAIL: 'dev@zorrillos.com'
     volumes:
@@ -90,6 +101,9 @@ services:
   watchit_reverse_proxy:
     image: peelvalley/proxy
     restart: unless-stopped
+    networks:
+      - watchit
+      - proxy
     links:
       - "watchit_certbot:certbot"
       - "watchit_ipfs:ipfs"
@@ -104,7 +118,9 @@ services:
       - cert-data:/etc/letsencrypt
       - proxy-cache:/cache/nginx
 
-
+networks:
+  watchit:
+  proxy:
 volumes:
   cert-data:
   proxy-cache:

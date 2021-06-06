@@ -6,7 +6,7 @@ def retrieve(db, _filter=None):
     :param _filter:
     :return:
     """
-    return db.movies.find({
-        _filter or {}
-    }, no_cursor_timeout=True).batch_size(1000)
-
+    current_filter = _filter or {}
+    return db.movies.find(
+        current_filter, no_cursor_timeout=True
+    ).batch_size(1000)

@@ -9,12 +9,9 @@ MIXED_RESOURCES = os.environ.get('MIXED_RESOURCES', 'False') == 'True'
 @click.command()
 @click.option('--regen', default=REGEN_ORBITDB)
 @click.option('--mixed', default=MIXED_RESOURCES)
-def resolve(regen, mixed):
+def expose(regen, mixed):
     """
-    Run resolvers to get metadata and store it in `tmp db`
-    :param regen: Recreate orbit-db
-    :param mixed: Mix resources or create a new db for each
-    :return:
+    Publish production ready channel
     """
     # Add resolvers if not mixed allowed
     resolvers_names = not mixed and list(map(

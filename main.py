@@ -11,6 +11,5 @@ if __name__ == '__main__':
         log_level = logging.DEBUG if debug else logging.NOTSET
         click.echo(f"Debug mode is {'on' if debug else 'off'}")
         set_level(log_level)
-
-
+    cli()
     exit(0)

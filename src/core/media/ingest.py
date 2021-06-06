@@ -20,10 +20,11 @@ def start_node():
         return start_node()
 
 
-logger.info(f"{Log.OKGREEN}Starting node{Log.ENDC}")
-ipfs = start_node()  # Initialize api connection to node
-logger.info(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}")
-logger.info('\n')
+if __name__ == '__main__':
+    logger.info(f"{Log.OKGREEN}Starting node{Log.ENDC}")
+    ipfs = start_node()  # Initialize api connection to node
+    logger.info(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}")
+    logger.info('\n')
 
 
 def ipfs_dir(_dir: str) -> str:

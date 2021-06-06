@@ -9,7 +9,6 @@ from src.core import helper
 def resolve():
     """
     Run resolvers to get metadata and store it in `tmp db`
-    :return:
     """
 
     # Force refresh or resolve tmp db empty
