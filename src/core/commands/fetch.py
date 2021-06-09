@@ -44,9 +44,16 @@ def fetch(max_retry):
     result_count = result.count()  # Total size of entries to fetch
     logger.info(f"{Log.WARNING}Fetching {result_count} results{Log.ENDC}")
 
+    if result_count == 0:  # If not data to fetch
+        logger.error("No data to fetch.")
+        logger.error("Please run resolvers to get metadata and try again.")
+        logger.error("If REGEN_MOVIES is true every day a new version of metadata its generated.")
+
     # Fetch from each row in tmp db the resources
     for current_movie in result:
         try:
+            result_count = result_count - 1
+            print(result_count)
             _process_media(current_movie, max_retry)
         except OverflowError:
             continue
