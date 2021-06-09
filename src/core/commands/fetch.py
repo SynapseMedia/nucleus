@@ -52,10 +52,10 @@ def fetch(max_retry):
     # Fetch from each row in tmp db the resources
     for current_movie in result:
         try:
-            result_count = result_count - 1
-            print(result_count)
+            logger.info(f"{Log.HEADER}Pending: {result_count}{Log.ENDC}")
             _process_media(current_movie, max_retry)
         except OverflowError:
             continue
+        result_count = result_count - 1
     # Close current tmp cache db
     result.close()
