@@ -19,7 +19,7 @@ def clean_resources(mv: dict) -> dict:
     return mv
 
 
-def clean_resource_hash(mv: dict, hash_: str) -> dict:
+def clean_video_hash(mv: dict, hash_: str) -> dict:
     """
     Re-struct resources adding the corresponding cid
     :param mv: MovieScheme dict

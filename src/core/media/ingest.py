@@ -6,7 +6,7 @@ import ipfshttpclient
 import src.core.helper as helper
 from src.core import logger
 from .process import resolve_root_dir
-from .clean import clean_resources, clean_resource_hash, clean_image_hash
+from .clean import clean_resources, clean_video_hash, clean_image_hash
 
 __author__ = 'gmena'
 
@@ -62,7 +62,7 @@ def ipfs_metadata(mv: dict) -> dict:
     # Logs on ready ingested
     current_dir = helper.util.build_dir(mv)
     hash_directory = ipfs_dir(current_dir)
-    clean_resource_hash(mv, hash_directory)
+    clean_video_hash(mv, hash_directory)
     clean_image_hash(mv, hash_directory)
 
     mv['hash'] = hash_directory  # Add current hash to movie
