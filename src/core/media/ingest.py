@@ -1,8 +1,10 @@
+import os
 import time
+import errno
 import ipfshttpclient
 
 import src.core.helper as helper
-from src.core import Log, logger
+from src.core import logger
 from .process import resolve_root_dir
 from .clean import clean_resources, clean_resource_hash, clean_image_hash
 
@@ -15,16 +17,15 @@ def start_node():
     try:
         return ipfshttpclient.connect('/dns/ipfs/tcp/5001/http', session=True)
     except ipfshttpclient.exceptions.ConnectionError:
-        logger.info(f"{Log.WARNING}Waiting for node active{Log.ENDC}")
+        logger.notice(f"Waiting for node active")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
         return start_node()
 
 
-if __name__ == '__main__':
-    logger.info(f"{Log.OKGREEN}Starting node{Log.ENDC}")
-    ipfs = start_node()  # Initialize api connection to node
-    logger.info(f"{Log.OKGREEN}Node running {ipfs.id().get('ID')}{Log.ENDC}")
-    logger.info('\n')
+logger.notice(f"Starting node")
+ipfs = start_node()  # Initialize api connection to node
+logger.info(f"Node running {ipfs.id().get('ID')}")
+logger.info('\n')
 
 
 def ipfs_dir(_dir: str) -> str:
@@ -34,12 +35,19 @@ def ipfs_dir(_dir: str) -> str:
     :param _dir: Directory to add to IPFS
     :return: The resulting CID
     """
-    directory = resolve_root_dir(_dir, True)
-    logger.info(f"Ingesting directory: {Log.BOLD}{directory}{Log.ENDC}")
+    directory, path_exists = resolve_root_dir(_dir, True)
+    logger.notice(f"Ingesting directory: {directory}")
+
+    if not path_exists:  # Check if path exist if not just
+        raise FileNotFoundError(
+            errno.ENOENT, os.strerror(errno.ENOENT),
+            directory
+        )
+
     _hash = ipfs.add(directory, pin=True, recursive=True)
     _hash = map(lambda x: {'size': int(x['Size']), 'hash': x['Hash']}, _hash)
     _hash = max(_hash, key=lambda x: x['size'])['hash']
-    logger.info(f"IPFS hash: {Log.BOLD}{_hash}{Log.ENDC}")
+    logger.info(f"IPFS hash: {_hash}")
     return _hash
 
 
@@ -50,7 +58,7 @@ def ipfs_metadata(mv: dict) -> dict:
     :return: Cleaned, pre-processed, structured ready schema
     """
 
-    logger.info(f"{Log.OKBLUE}Ingesting {mv.get('imdb_code')}{Log.ENDC}")
+    logger.warning(f"Ingesting {mv.get('imdb_code')}")
     # Logs on ready ingested
     current_dir = helper.util.build_dir(mv)
     hash_directory = ipfs_dir(current_dir)
@@ -58,5 +66,5 @@ def ipfs_metadata(mv: dict) -> dict:
     clean_image_hash(mv, hash_directory)
 
     mv['hash'] = hash_directory  # Add current hash to movie
-    logger.info(f"{Log.OKGREEN}Done {mv.get('imdb_code')}\n{Log.ENDC}")
+    logger.success(f"Done {mv.get('imdb_code')}\n")
     return clean_resources(mv)
