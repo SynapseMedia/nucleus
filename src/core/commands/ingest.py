@@ -1,27 +1,33 @@
 import click, os
-from src.core import logger, Log
+from src.core import logger
 import src.core.mongo as mongo
 import src.core.helper as helper
 import src.core.media as media
+import src.core.exception as exceptions
 
 FLUSH_CACHE_IPFS = os.getenv('FLUSH_CACHE_IPFS', 'False') == 'True'
 
 
 @click.command()
 @click.option('--no-cache', default=FLUSH_CACHE_IPFS)
-def ingest(flush):
+def ingest(no_cache):
     """
     Ingest media ready for production into IPFS
     """
     media.ingest.start_node()  # Init ipfs node
-    logger.info(f"{Log.WARNING}Starting ingestion to IPFS{Log.ENDC}")
-    if flush or mongo.empty_tmp:  # Clean already ingested cursor
+    logger.warning(f"Starting ingestion to IPFS")
+    if no_cache or mongo.empty_tmp:  # Clean already ingested cursor
         helper.cache.flush_ipfs(mongo.cursor_db, mongo.temp_db)
 
     # Return available and not processed entries
     result = helper.cache.retrieve(mongo.temp_db, {"updated": {'$exists': False}})
     result_count = result.count()  # Total size of entries to fetch
-    logger.info(f"{Log.WARNING}Ingesting {result_count} results{Log.ENDC}")
+
+    if result_count == 0:  # If not data to fetch
+        raise exceptions.EmptyCache()
+
+    logger.notice(f"Ingesting {result_count} results")
+    logger.info(f"\n")
 
     # Ingest from each row in tmp db the resources
     for current_movie in result:

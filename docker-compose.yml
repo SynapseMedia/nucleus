@@ -21,6 +21,7 @@ services:
 
   watchit_cli:
     build: .
+    image: gmena/cli:v0.1.0
     container_name: watchit_cli
     networks:
       - watchit

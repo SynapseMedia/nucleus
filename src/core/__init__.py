@@ -4,41 +4,42 @@ __copyright__ = "Copyright (c) 2020 ZorrillosDev"
 __license__ = "MIT"
 
 import logging
+import verboselogs
+import coloredlogs
 
-# create logger
-logger = logging.getLogger('migrate')
-logger.setLevel(logging.DEBUG)
+coloredlogs.DEFAULT_FIELD_STYLES = {
+    'asctime': {'color': 'green'},
+    'hostname': {'color': 'magenta'},
+    'levelname': {'bold': True, 'color': 'white', 'faint': True},
+    'name': {'color': 'yellow', 'faint': True},
+    'programname': {'color': 'cyan'},
+    'username': {'color': 'yellow'}
+}
 
-# create console handler and set level to debug
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-
-# create formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-# add formatter to ch
-ch.setFormatter(formatter)
-
-# add ch to logger
-logger.addHandler(ch)
-
-
-class Log:
-    HEADER = '\033[95m'
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+coloredlogs.DEFAULT_LEVEL_STYLES = {
+    'critical': {'bold': True, 'color': 'red'},
+    'debug': {'color': 'green'},
+    'error': {'color': 'red'},
+    'info': {'color': 'white', 'faint': True},
+    'notice': {'color': 'yellow', 'faint': True},
+    'spam': {'color': 'green', 'faint': True},
+    'success': {'color': 'green'},
+    'verbose': {'color': 'blue'},
+    'warning': {'color': 'yellow'}
+}
 
 
-def set_level(level):
-    ch.setLevel(level)
-    logger.setLevel(level)
+def log_factory(name, level=logging.DEBUG):
+    # create logger
+    _logger = verboselogs.VerboseLogger(name)
+    _logger.addHandler(logging.StreamHandler())
+    _logger.setLevel(level)
+
+    fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    coloredlogs.install(level=logging.DEBUG, logger=_logger, fmt=fmt)
+    return _logger
 
 
-__all__ = ["Log", "logger", "logging", "set_level"]
+logger = log_factory('cli')
+
+__all__ = ["logger", "logging", 'log_factory']

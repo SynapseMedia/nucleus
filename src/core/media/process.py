@@ -3,13 +3,14 @@ import random
 import requests
 import shutil
 from pathlib import Path
-from src.core import Log, logger
+from src.core import logger
 
 VALIDATE_SSL = os.getenv('VALIDATE_SSL', 'False') == 'True'
 RAW_PATH = os.getenv('RAW_DIRECTORY')
 PROD_PATH = os.getenv('PROD_DIRECTORY')
 
 # Session keep alive
+session = requests.Session()
 # http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
 _agents = [
     'Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/21.0',
@@ -21,7 +22,14 @@ _agents = [
 
 def resolve_root_dir(_dir, prod=False):
     root_dir = RAW_PATH if not prod else PROD_PATH
-    return "%s/%s" % (root_dir, _dir)
+    root_dir = "%s/%s" % (root_dir, _dir)
+    path_exists = Path(root_dir).exists()
+    return root_dir, path_exists
+
+
+def make_destination_dir(_dir):
+    dirname = os.path.dirname(_dir)
+    Path(dirname).mkdir(parents=True, exist_ok=True)
 
 
 def fetch_remote_file(route, directory):
@@ -31,24 +39,28 @@ def fetch_remote_file(route, directory):
     :param directory: Where store it?
     :return:
     """
-    dirname = os.path.dirname(directory)
-    session = requests.Session()
+
     # Create if not exist dir
-    Path(dirname).mkdir(parents=True, exist_ok=True)
-    response = session.get(route, verify=VALIDATE_SSL, stream=True, timeout=60, headers={
-        'User-Agent': _agents[random.randint(0, 3)]
-    })
+    make_destination_dir(directory)
+
+    # Start http session
+    response = session.get(
+        route,  # Uri to fetch from multimedia
+        verify=VALIDATE_SSL, stream=True, timeout=60, headers={
+            'User-Agent': _agents[random.randint(0, 3)]
+        }
+    )
 
     # Check status for response
     if response.status_code == requests.codes.ok:
-        logger.info(f"{Log.WARNING}Trying fetch to: {directory}{Log.ENDC}")
+        logger.info(f"Trying fetch to: {directory}")
         with open(directory, "wb") as out:
             for block in response.iter_content(256):
                 if not block: break
                 out.write(block)
             out.close()
 
-        logger.info(f"{Log.OKGREEN}File stored in: {directory}{Log.ENDC}")
+        logger.success(f"File stored in: {directory}")
     return directory
 
 
@@ -60,18 +72,18 @@ def fetch_file(_route, _dir) -> str:
     :return: Directory of stored file
     """
 
-    directory = resolve_root_dir(_dir)
-    file_check = Path(directory)
-    route_file = Path(_route)
+    directory, path_exists = resolve_root_dir(_dir)
 
-    if route_file.is_file():
-        logger.warning(f"{Log.WARNING}Copying existing file: {_route}{Log.ENDC}")
+    # Check if route is file to copy it to prod dir
+    if Path(_route).is_file():
+        logger.notice(f"Copying existing file: {_route}")
+        make_destination_dir(directory)
         shutil.copy(_route, directory)
         return directory
 
     # already exists?
-    if file_check.exists():
-        logger.warning(f"{Log.WARNING}File already exists: {directory}{Log.ENDC}")
+    if path_exists:
+        logger.notice(f"File already exists: {directory}")
         return directory
 
     return fetch_remote_file(_route, directory)

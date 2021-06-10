@@ -1,6 +1,6 @@
 import click, logging
 import src.core.commands as commands
-from src.core import set_level
+from src.core import logger
 
 __author__ = 'gmena'
 if __name__ == '__main__':
@@ -10,6 +10,6 @@ if __name__ == '__main__':
         # Overwrite log level
         log_level = logging.DEBUG if debug else logging.NOTSET
         click.echo(f"Debug mode is {'on' if debug else 'off'}")
-        set_level(log_level)
+        logger.setLevel(log_level)
     cli()
     exit(0)

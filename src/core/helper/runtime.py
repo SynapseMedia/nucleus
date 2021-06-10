@@ -1,4 +1,4 @@
-from src.core import Log, logger
+from src.core import logger
 import src.core.scheme as scheme
 
 import typing
@@ -20,5 +20,5 @@ def trigger_resolver(resolver) -> typing.Generator:
     :returns: Iterable result
     """
     resolver = resolver()  # Init class
-    logger.info(f"{Log.WARNING}Generating migrations from {resolver}{Log.ENDC}")
+    logger.notice(f"Generating migrations from {resolver}")
     return resolver(scheme)  # Call class and start migration

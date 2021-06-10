@@ -1,8 +1,9 @@
 import click, time
-from src.core import logger, Log
+from src.core import logger
 import src.core.mongo as mongo
 import src.core.media as media
 import src.core.helper as helper
+import src.core.exception as exceptions
 
 MAX_FAIL_RETRY = 3
 RECURSIVE_SLEEP_REQUEST = 5
@@ -17,7 +18,7 @@ def _process_media(current_movie, max_retry):
     """
     try:
         # Fetch resources if needed
-        logger.info(f"{Log.HEADER}Processing: {current_movie.get('imdb_code')}{Log.ENDC}")
+        logger.warning(f"Processing: {current_movie.get('imdb_code')}")
         current_dir = helper.util.build_dir(current_movie)
         media.fetch.image_resources(current_movie, current_dir)
         media.fetch.video_resources(current_movie, current_dir)
@@ -26,9 +27,8 @@ def _process_media(current_movie, max_retry):
         if max_retry <= 0:
             raise OverflowError('Max retry exceeded')
         max_retry = max_retry - 1
-        logger.info(e)
         logger.error(f"Retry download assets error: {e}")
-        logger.warning(f"{Log.WARNING}Wait {RECURSIVE_SLEEP_REQUEST}{Log.ENDC}")
+        logger.warning(f"Wait {RECURSIVE_SLEEP_REQUEST}")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
         return _process_media(current_movie, max_retry)
 
@@ -42,20 +42,16 @@ def fetch(max_retry):
     # Get stored movies in tmp_db and process it
     result = helper.cache.retrieve(mongo.temp_db)
     result_count = result.count()  # Total size of entries to fetch
-    logger.info(f"{Log.WARNING}Fetching {result_count} results{Log.ENDC}")
 
     if result_count == 0:  # If not data to fetch
-        logger.error("No data to fetch.")
-        logger.error("Please run resolvers to get metadata and try again.")
-        logger.error("If REGEN_MOVIES is true every day a new version of metadata its generated.")
+        raise exceptions.EmptyCache()
 
+    logger.warning(f"Fetching {result_count} results")
     # Fetch from each row in tmp db the resources
     for current_movie in result:
         try:
-            logger.info(f"{Log.HEADER}Pending: {result_count}{Log.ENDC}")
             _process_media(current_movie, max_retry)
         except OverflowError:
             continue
-        result_count = result_count - 1
     # Close current tmp cache db
     result.close()
