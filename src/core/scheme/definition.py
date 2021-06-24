@@ -45,7 +45,7 @@ class MediaScheme(Schema):
         is_cid = cid.is_cid(value)  # Check for valid cid
         is_url = validators.url(value)  # Check for valid url
         if not is_cid and not is_url and not is_path:
-            raise ValidationError('Route must be a CID or URI')
+            raise ValidationError('Route must be a CID | URI | Path')
 
 
 class VideoScheme(MediaScheme):

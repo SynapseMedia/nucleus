@@ -11,13 +11,6 @@ def extract_extension(file):
     :return: string extension
     """
     _, file_extension = os.path.splitext(file)
+    file_extension = file_extension.replace('.', '')
     return file_extension
-
-
-def match_format(file, _format):
-    extracted_format = extract_extension(file)
-    is_default_format = extracted_format != _format
-
-    return
-
 
