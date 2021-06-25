@@ -17,5 +17,7 @@ RUN pip3 install python-dotenv
 RUN pip3 install ffmpeg-python
 RUN pip3 install coloredlogs
 RUN pip3 install verboselogs
+RUN pip3 install tqdm
+RUN pip3 install gevent
 RUN pip3 install -r requeriments.txt
 

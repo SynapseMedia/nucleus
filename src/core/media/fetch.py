@@ -16,8 +16,8 @@ def _resources(resource, get_dir=lambda x: '', get_index=lambda x: 'index'):
         return resource
 
     # If index defined keep using it else get index from param function
-    resource['index'] = resource['index'] if 'index' in resource else get_index(resource)
     resource_origin = resource['route']  # Input dir resource
+    resource['index'] = resource.get('index', get_index(resource))
     resource_dir = get_dir(resource)  # Process dir from param function
     fetch_file(resource_origin, resource_dir)
 
@@ -30,8 +30,11 @@ def video_resources(mv, current_dir) -> dict:
     :return: MovieSchema dict
     """
 
+    def build_dir(r):  # process output dir
+        return f"{current_dir}/{r.get('quality')}/{r.get('index')}"
+
     for resource in mv['resource']['videos']:
-        _resources(resource, lambda r: '%s/%s/%s' % (current_dir, r['quality'], r['index']))
+        _resources(resource, build_dir)
     return mv
 
 
@@ -45,7 +48,7 @@ def image_resources(mv, current_dir) -> dict:
     for _, resource in mv['resource']['posters'].items():
         _resources(
             resource,
-            lambda r: '%s/%s' % (current_dir, r['index']),
+            lambda r: f"{current_dir}/{r.get('index')}",
             lambda r: os.path.basename(r['route']),
         )
     return mv
