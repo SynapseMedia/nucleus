@@ -34,7 +34,7 @@ def to_hls(input_file, output_dir):
              .run(overwrite_output=True, capture_stdout=True, capture_stderr=True)
              )
         except ffmpeg.Error as e:
-            print(e.stderr, file=sys.stderr)
+            logger.error(e.stderr, file=sys.stderr)
             sys.exit(1)
 
     return output_dir
