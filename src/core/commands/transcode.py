@@ -59,6 +59,7 @@ def _process_videos(current_movie):
         output_dir = f"{PROD_PATH}/{imdb_code}/{video_quality}/"
         media.process.make_destination_dir(output_dir)
         media.transcode.to_hls(video_path, output_dir)
+        logger.info(f"\n")
         logger.success(f"Movie transcode done for: {output_dir}")
 
 
@@ -84,7 +85,6 @@ def transcode():
         _process_images(current_movie)  # process images copy
         logger.info(f"Transcoding videos for {movie_title}")
         _process_videos(current_movie)  # process video transcoding
-        logger.info(f"\n")
 
     # Close current tmp cache db
     result.close()
