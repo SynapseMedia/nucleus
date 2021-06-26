@@ -19,5 +19,5 @@ RUN pip3 install coloredlogs
 RUN pip3 install verboselogs
 RUN pip3 install tqdm
 RUN pip3 install gevent
-RUN pip3 install -r requeriments.txt
+RUN pip3 install -r requirements.txt
 
