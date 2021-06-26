@@ -24,11 +24,9 @@ def to_hls(input_file, output_dir):
 
     total_duration = float(ffmpeg.probe(input_file)['format']['duration'])
     with helper.transcoder.show_progress(total_duration) as socket_filename:
-        sepia_values = [.393, .769, .189, 0, .349, .686, .168, 0, .272, .534, .131]
         try:
             (ffmpeg
              .input(input_file, f=file_format)
-             .colorchannelmixer(*sepia_values)
              .output(output_dir, format=DEFAULT_FORMAT, start_number=0, hls_time=DEFAULT_HLS_TIME, hls_list_size=0)
              .global_args('-progress', 'unix://{}'.format(socket_filename))
              .run(overwrite_output=True, capture_stdout=True, capture_stderr=True)
