@@ -25,13 +25,12 @@ def get_dbs(*dbs_list) -> tuple:
 # transcode_db - transcode resources list
 # cursor_db - keep a pointer with already processed cache
 tmp_db_name = 'witth%s' % DB_DATE_VERSION if REGEN_MOVIES else 'witth'
-temp_db, transcode_db, cursor_db = get_dbs(tmp_db_name, 'transcode', 'ipfs')
+temp_db, cursor_db = get_dbs(tmp_db_name, 'ipfs')
 
 # Check for empty db
 empty_tmp = temp_db.movies.count() == 0
 empty_cursor = cursor_db.movies.count() == 0
-empty_transcode = transcode_db.movies.count() == 0
 
 # An important note about collections (and databases) in MongoDB is that they are created lazily
 # https://pymongo.readthedocs.io/en/stable/tutorial.html#making-a-connection-with-mongoclient
-__all__ = ['empty_cursor', 'empty_tmp', 'empty_transcode', 'temp_db', 'transcode_db', 'cursor_db', 'get_dbs']
+__all__ = ['empty_cursor', 'empty_tmp', 'temp_db', 'cursor_db', 'get_dbs']

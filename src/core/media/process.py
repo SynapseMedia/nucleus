@@ -20,7 +20,7 @@ _agents = [
 ]
 
 
-def resolve_root_dir(_dir, prod=False):
+def resolve_root_dir(_dir, prod=True):
     root_dir = RAW_PATH if not prod else PROD_PATH
     root_dir = "%s/%s" % (root_dir, _dir)
     path_exists = Path(root_dir).exists()

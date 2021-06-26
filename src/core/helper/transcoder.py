@@ -87,13 +87,3 @@ def show_progress(total_duration):
         with _watch_progress(handler) as socket_filename:
             yield socket_filename
 
-
-def extract_extension(file):
-    """
-    Extract file extension
-    :param file:
-    :return: string extension
-    """
-    _, file_extension = os.path.splitext(file)
-    file_extension = file_extension.replace('.', '')
-    return file_extension

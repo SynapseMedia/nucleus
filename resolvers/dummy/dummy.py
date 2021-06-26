@@ -29,15 +29,17 @@ class Dummy:
             "date_uploaded_unix": 1446321498,
             "resource": {
                 "posters": {
-                    "small": {"route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-                    "medium": {"route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
-                    "large": {"route": "https://images-na.ssl-images-amazon.com/images/I/71-i1berMyL._AC_SL1001_.jpg"},
+                    "small": {
+                        "route": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"},
+                    "medium": {
+                        "route": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"},
+                    "large": {
+                        "route": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"},
                 },
                 "videos": [
                     {
-                        "route": "QmVuR5s1enhtAK5ipvLNiqgSz8CecCkPL8GumrBE3e53gg",
+                        "route": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
                         "quality": "720p",
-                        "index": "index.m3u8",
                         "type": "hls"
                     }
                 ]

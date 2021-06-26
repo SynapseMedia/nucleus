@@ -1,10 +1,11 @@
-import ffmpeg, os, sys
+import ffmpeg, sys, os
 from src.core import logger
 from src.core import helper
 
 DEFAULT_FORMAT = 'hls'
 DEFAULT_HLS_TIME = 5
 DEFAULT_HLS_FORMAT = 'm3u8'
+DEFAULT_NEW_FILENAME = 'index.m3u8'
 
 
 def to_hls(input_file, output_dir):
@@ -15,7 +16,7 @@ def to_hls(input_file, output_dir):
     :return: new file format dir
     """
     filename = os.path.basename(input_file)
-    file_format = helper.transcoder.extract_extension(input_file)
+    file_format = helper.util.extract_extension(input_file)
     filename_cleaned = filename.replace(file_format, DEFAULT_HLS_FORMAT)
     output_dir = f"{output_dir}{filename_cleaned}"
 

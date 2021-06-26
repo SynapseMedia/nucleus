@@ -32,19 +32,14 @@ class MediaScheme(Schema):
     """
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
-    :type index: This is the index file name definition
-    :type abs: Bool flag to absolute or not `index` defined
     """
     route = fields.Str(required=True)  # Could be cid | uri
-    index = fields.Str()  # File index in directory
-    abs = fields.Bool(default=False)
 
     @validates('route')
     def validate_route(self, value):
         is_path = Path(value).exists()  # Check for existing file path
-        is_cid = cid.is_cid(value)  # Check for valid cid
         is_url = validators.url(value)  # Check for valid url
-        if not is_cid and not is_url and not is_path:
+        if not is_url and not is_path:
             raise ValidationError('Route must be a CID | URI | Path')
 
 
