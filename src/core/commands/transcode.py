@@ -1,5 +1,5 @@
 import click
-import time
+import time, os
 from src.core import logger
 import src.core.mongo as mongo
 import src.core.helper as helper
@@ -25,7 +25,17 @@ def _fetch_posters(current_movie, max_retry=MAX_FAIL_RETRY):
         imdb_code = current_movie.get('imdb_code')
         movie_title = current_movie.get('title')
         logger.warn(f"Fetching posters for {movie_title}")
-        media.fetch.image_resources(current_movie, imdb_code)
+        poster_resources = current_movie.get('resource')
+        poster_collection = poster_resources.get('posters')
+
+        for key, resource in poster_collection.items():
+            # If index defined keep using it else get index from param function
+            file_name = os.path.basename(resource['route'])
+            file_format = helper.util.extract_extension(file_name)
+            resource_origin = resource['route']  # Input dir resource
+            resource_dir = f"{imdb_code}/{key}.{file_format}"  # Process dir from param function
+            media.process.fetch_file(resource_origin, resource_dir)
+
     except Exception as e:
         if max_retry <= 0:
             raise OverflowError('Max retry exceeded')
