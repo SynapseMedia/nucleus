@@ -4,7 +4,6 @@ Exceptions:
     - If imdb_code cannot be found add your custom imdb_code ex: tt{movie_id}
     - If url its declared hash will be omitted or if hash its declared url will be omitted
 """
-import cid
 import validators
 from datetime import date
 from pathlib import Path

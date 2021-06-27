@@ -29,11 +29,10 @@ def _fetch_posters(current_movie, max_retry=MAX_FAIL_RETRY):
         poster_collection = poster_resources.get('posters')
 
         for key, resource in poster_collection.items():
-            # If index defined keep using it else get index from param function
             file_name = os.path.basename(resource['route'])
             file_format = helper.util.extract_extension(file_name)
             resource_origin = resource['route']  # Input dir resource
-            resource_dir = f"{imdb_code}/{key}.{file_format}"  # Process dir from param function
+            resource_dir = f"{imdb_code}/{key}.{file_format}"
             media.process.fetch_file(resource_origin, resource_dir)
 
     except Exception as e:
@@ -60,7 +59,6 @@ def _transcode_videos(current_movie):
     for video in video_collection:
         video_path = video.get('route')
         video_quality = video.get('quality')
-
         # Start transcoding process
         logger.warn(f"Transcoding {movie_title}:{imdb_code}:{video_quality}")
         output_dir = f"{PROD_PATH}/{imdb_code}/{video_quality}/"
