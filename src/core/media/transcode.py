@@ -1,4 +1,4 @@
-import ffmpeg, sys, os
+import ffmpeg, sys
 from src.core import logger
 from src.core import helper
 
@@ -15,24 +15,33 @@ def to_hls(input_file, output_dir):
     :param output_dir
     :return: new file format dir
     """
-    filename = os.path.basename(input_file)
     file_format = helper.util.extract_extension(input_file)
-    filename_cleaned = filename.replace(file_format, DEFAULT_HLS_FORMAT)
-    output_dir = f"{output_dir}{filename_cleaned}"
+    output_dir = f"{output_dir}{DEFAULT_NEW_FILENAME}"
 
     if file_format == DEFAULT_HLS_FORMAT:  # transcode hls from hls?
         logger.warning(f"Invalid source format {file_format}")
+
+    output_args = {}
     probe = ffmpeg.probe(input_file)
     total_duration = float(probe['format']['duration'])
+    show_progress = helper.transcode.show_progress(total_duration)
     video_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'video'), None)
-    output_args = {}
+
     if video_stream['codec_name'] == 'h264':
         output_args['vcodec'] = 'copy'
-        logger.info('vcodec copy mode enabled')
-    with helper.transcoder.show_progress(total_duration) as socket_filename:
+        logger.success('vcodec copy mode: enabled')
+
+    with show_progress as socket_filename:
         try:
             (ffmpeg.input(input_file)
-             .output(output_dir, format=DEFAULT_FORMAT, start_number=0, hls_time=DEFAULT_HLS_TIME, hls_list_size=0, **output_args)
+             .output(
+                output_dir,
+                format=DEFAULT_FORMAT,
+                start_number=0,
+                hls_time=DEFAULT_HLS_TIME,
+                hls_list_size=0,
+                **output_args
+            )
              .global_args('-progress', 'unix://{}'.format(socket_filename))
              .run(overwrite_output=True, capture_stdout=True, capture_stderr=True))
         except ffmpeg.Error as e:

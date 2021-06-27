@@ -1,5 +1,4 @@
 import os
-import mimetypes
 from tqdm import tqdm
 import contextlib
 import tempfile
@@ -8,8 +7,6 @@ import socket
 import gevent
 import gevent.monkey
 gevent.monkey.patch_all(thread=False)
-
-mimetypes.init()
 
 
 # from https://github.com/kkroening/ffmpeg-python/blob/master/examples/show_progress.py
