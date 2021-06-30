@@ -6,8 +6,8 @@ import src.core.helper as helper
 import src.core.exception as exceptions
 import src.core.media as media
 
-RAW_PATH = media.process.RAW_PATH
-PROD_PATH = media.process.PROD_PATH
+RAW_PATH = media.fetch.RAW_PATH
+PROD_PATH = media.fetch.PROD_PATH
 
 MAX_FAIL_RETRY = 3
 RECURSIVE_SLEEP_REQUEST = 5
@@ -22,18 +22,17 @@ def _fetch_posters(current_movie, max_retry=MAX_FAIL_RETRY):
     """
     try:
         # Fetch resources if needed
-        imdb_code = current_movie.get('imdb_code')
         movie_title = current_movie.get('title')
         logger.warn(f"Fetching posters for {movie_title}")
         poster_resources = current_movie.get('resource')
         poster_collection = poster_resources.get('posters')
+        # Build dir based on single or mixed resources
+        output_dir = helper.util.build_dir(current_movie)
 
         for key, resource in poster_collection.items():
-            file_name = os.path.basename(resource['route'])
-            file_format = helper.util.extract_extension(file_name)
             resource_origin = resource['route']  # Input dir resource
-            resource_dir = f"{imdb_code}/{key}.{file_format}"
-            media.process.fetch_file(resource_origin, resource_dir)
+            file_format = helper.util.extract_extension(resource_origin)
+            media.fetch.file(resource_origin, f"{output_dir}/{key}.{file_format}")
 
     except Exception as e:
         if max_retry <= 0:
@@ -55,14 +54,16 @@ def _transcode_videos(current_movie):
     imdb_code = current_movie.get('imdb_code')
     video_resources = current_movie.get('resource')
     video_collection = video_resources.get('videos')
+    # Build dir based on single or mixed resources
+    output_dir_ = helper.util.build_dir(current_movie)
 
     for video in video_collection:
         video_path = video.get('route')
         video_quality = video.get('quality')
-        # Start transcoding process
+
         logger.warn(f"Transcoding {movie_title}:{imdb_code}:{video_quality}")
-        output_dir = f"{PROD_PATH}/{imdb_code}/{video_quality}/"
-        media.process.make_destination_dir(output_dir)
+        output_dir = f"{PROD_PATH}/{output_dir_}/{video_quality}/"
+        media.fetch.make_destination_dir(output_dir)
         media.transcode.to_hls(video_path, output_dir)
         logger.success(f"New movie stored in: {output_dir}")
 

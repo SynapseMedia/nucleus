@@ -5,7 +5,8 @@ import ipfshttpclient
 
 import src.core.helper as helper
 from src.core import logger
-from .process import resolve_root_dir
+from .fetch import resolve_root_dir
+from .transcode import DEFAULT_NEW_FILENAME
 
 __author__ = 'gmena'
 
@@ -50,6 +51,27 @@ def ipfs_dir(_dir: str) -> str:
     return _hash
 
 
+def _sanitize_resource(mv: dict, _hash):
+    """
+    Re-struct resources adding the corresponding cid
+    :param mv:
+    :param _hash
+    :return:
+    """
+    videos_resource = mv['resource']['videos']
+    posters_resources = mv['resource']['posters']
+
+    for resource in videos_resource:
+        resource.update({'cid': _hash, 'index': DEFAULT_NEW_FILENAME})
+        del resource['route']
+
+    for key, resource in posters_resources.items():
+        resource_origin = resource['route']  # Input dir resource
+        file_format = helper.util.extract_extension(resource_origin)
+        resource.update({'cid': _hash, 'index': f"{key}.{file_format}"})
+        del resource['route']
+
+
 def ipfs_metadata(mv: dict) -> dict:
     """
     Loop over assets, download it and add it to IPFS
@@ -61,9 +83,7 @@ def ipfs_metadata(mv: dict) -> dict:
     # Logs on ready ingested
     current_dir = helper.util.build_dir(mv)
     hash_directory = ipfs_dir(current_dir)
-    helper.util.sanitize_resource(mv['resource']['videos'], hash_directory)
-    helper.util.sanitize_resource(mv['resource']['posters'].items(), hash_directory)
-
+    _sanitize_resource(mv, hash_directory)
     mv['hash'] = hash_directory  # Add current hash to movie
     logger.success(f"Done {mv.get('imdb_code')}\n")
     return mv

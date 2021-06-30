@@ -32,7 +32,7 @@ def make_destination_dir(_dir):
     Path(dirname).mkdir(parents=True, exist_ok=True)
 
 
-def fetch_remote_file(route, directory):
+def remote_file(route, directory):
     """
     Fetch remote media
     :param route: URI
@@ -64,7 +64,7 @@ def fetch_remote_file(route, directory):
     return directory
 
 
-def fetch_file(_route, _dir) -> str:
+def file(_route, _dir) -> str:
     """
     Take from the boring centralized network
     :param _route: File reference
@@ -86,4 +86,4 @@ def fetch_file(_route, _dir) -> str:
         logger.notice(f"File already exists: {directory}")
         return directory
 
-    return fetch_remote_file(_route, directory)
+    return remote_file(_route, directory)
