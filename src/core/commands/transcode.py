@@ -1,5 +1,5 @@
 import click
-import time, os
+import time
 from src.core import logger
 import src.core.mongo as mongo
 import src.core.helper as helper

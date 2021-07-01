@@ -1,4 +1,8 @@
-import click, logging
+import click
+import logging
+import gevent.monkey
+
+gevent.monkey.patch_all(thread=False)
 import src.core.commands as commands
 from src.core import logger
 
@@ -9,7 +13,9 @@ if __name__ == '__main__':
     def cli(debug):
         # Overwrite log level
         log_level = logging.DEBUG if debug else logging.NOTSET
-        click.echo(f"Debug mode is {'on' if debug else 'off'}")
+        logger.warning(f"Debug mode is {'on' if debug else 'off'}")
         logger.setLevel(log_level)
+
+
     cli()
     exit(0)

@@ -1,4 +1,4 @@
-import ffmpeg, sys
+import ffmpeg
 from src.core import logger
 from src.core import helper
 

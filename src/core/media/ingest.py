@@ -11,11 +11,12 @@ from .transcode import DEFAULT_NEW_FILENAME
 __author__ = 'gmena'
 
 RECURSIVE_SLEEP_REQUEST = 10
+TIMEOUT_REQUEST = 15 * 60
 
 
 def start_node():
     try:
-        return ipfshttpclient.connect('/dns/ipfs/tcp/5001/http', session=True)
+        return ipfshttpclient.connect('/dns/ipfs/tcp/5001/http', session=True, timeout=TIMEOUT_REQUEST)
     except ipfshttpclient.exceptions.ConnectionError:
         logger.notice(f"Waiting for node active")
         time.sleep(RECURSIVE_SLEEP_REQUEST)

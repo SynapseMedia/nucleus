@@ -5,8 +5,6 @@ import tempfile
 import shutil
 import socket
 import gevent
-import gevent.monkey
-gevent.monkey.patch_all(thread=False)
 
 
 # from https://github.com/kkroening/ffmpeg-python/blob/master/examples/show_progress.py
@@ -83,4 +81,3 @@ def show_progress(total_duration):
 
         with _watch_progress(handler) as socket_filename:
             yield socket_filename
-
