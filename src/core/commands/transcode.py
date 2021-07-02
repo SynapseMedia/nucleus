@@ -1,6 +1,8 @@
 import click
 import time
+import os
 from src.core import logger
+from pathlib import Path
 import src.core.mongo as mongo
 import src.core.helper as helper
 import src.core.exception as exceptions
@@ -11,6 +13,7 @@ PROD_PATH = media.fetch.PROD_PATH
 
 MAX_FAIL_RETRY = 3
 RECURSIVE_SLEEP_REQUEST = 5
+OVERWRITE_TRANSCODE_OUTPUT = os.getenv('OVERWRITE_TRANSCODE_OUTPUT', 'False') == 'True'
 
 
 def _fetch_posters(current_movie, max_retry=MAX_FAIL_RETRY):
@@ -44,7 +47,7 @@ def _fetch_posters(current_movie, max_retry=MAX_FAIL_RETRY):
         return _fetch_posters(current_movie, max_retry)
 
 
-def _transcode_videos(current_movie):
+def _transcode_videos(current_movie, overwrite):
     """
     Transcode video listed in metadata
     :param current_movie:
@@ -60,16 +63,23 @@ def _transcode_videos(current_movie):
     for video in video_collection:
         video_path = video.get('route')
         video_quality = video.get('quality')
+        output_dir = f"{PROD_PATH}/{output_dir_}/{video_quality}/"
+        output_dir = f"{output_dir}{media.transcode.DEFAULT_NEW_FILENAME}"
+
+        # Avoid overwrite existing output
+        # If path already exist or overwrite = False
+        if Path(output_dir).exists() and not overwrite:
+            return logger.warning(f"Skipping media already processed: {output_dir}")
 
         logger.warn(f"Transcoding {movie_title}:{imdb_code}:{video_quality}")
-        output_dir = f"{PROD_PATH}/{output_dir_}/{video_quality}/"
         media.fetch.make_destination_dir(output_dir)
         media.transcode.to_hls(video_path, output_dir)
         logger.success(f"New movie stored in: {output_dir}")
 
 
 @click.command()
-def transcode():
+@click.option('--overwrite', default=OVERWRITE_TRANSCODE_OUTPUT)
+def transcode(overwrite):
     """
     It transcode media defined in metadata
     """
@@ -83,10 +93,9 @@ def transcode():
     logger.warning(f"Transcoding {result_count} results")
     # Fetch from each row in tmp db the resources
     for current_movie in result:
-        # transcode video file from mp4
         logger.info(f"\n")
         _fetch_posters(current_movie)  # process images copy
-        _transcode_videos(current_movie)  # process video transcoding
+        _transcode_videos(current_movie, overwrite)  # process video transcoding
 
     # Close current tmp cache db
     result.close()

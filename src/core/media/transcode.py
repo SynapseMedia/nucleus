@@ -15,11 +15,6 @@ def to_hls(input_file, output_dir):
     :param output_dir
     :return: new file format dir
     """
-    file_format = helper.util.extract_extension(input_file)
-    output_dir = f"{output_dir}{DEFAULT_NEW_FILENAME}"
-
-    if file_format == DEFAULT_HLS_FORMAT:  # transcode hls from hls?
-        logger.warning(f"Invalid source format {file_format}")
 
     probe = ffmpeg.probe(input_file)
     total_duration = float(probe['format']['duration'])

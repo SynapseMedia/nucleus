@@ -11,7 +11,7 @@ from .transcode import DEFAULT_NEW_FILENAME
 __author__ = 'gmena'
 
 RECURSIVE_SLEEP_REQUEST = 10
-TIMEOUT_REQUEST = 20 * 60
+TIMEOUT_REQUEST = 30 * 60
 
 
 def start_node():
