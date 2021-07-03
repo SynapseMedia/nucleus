@@ -6,11 +6,26 @@ import src.core.media as media
 import src.core.exception as exceptions
 
 FLUSH_CACHE_IPFS = os.getenv('FLUSH_CACHE_IPFS', 'False') == 'True'
+AUTO_PIN_FILES = os.getenv('AUTO_PIN_FILES', 'False') == 'True'
+
+
+def _pin_files(cursor_db):
+    """
+    Pin ingested file from cursor cache db
+    :param cursor_db:
+    :return:
+    """
+    logger.warning(f"Starting pinning to IPFS")
+    entries = helper.cache.retrieve(cursor_db)
+    files_cid = map(lambda x: x['hash'], entries)
+    media.ingest.ipfs_pin_cid(files_cid)
+    entries.close()
 
 
 @click.command()
 @click.option('--no-cache', default=FLUSH_CACHE_IPFS)
-def ingest(no_cache):
+@click.option('--pin', default=AUTO_PIN_FILES)
+def ingest(no_cache, pin):
     """
     Ingest media ready for production into IPFS
     """
@@ -35,5 +50,9 @@ def ingest(no_cache):
         ingested_data = media.ingest.ipfs_metadata(current_movie)
         mongo.cursor_db.movies.insert_one(ingested_data)
         mongo.temp_db.movies.update_one({'_id': _id}, {'$set': {'updated': True}})
+        break
+
+    if pin:  # If allowed pin files
+        _pin_files(mongo.cursor_db)
 
     result.close()

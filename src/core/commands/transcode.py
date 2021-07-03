@@ -69,7 +69,8 @@ def _transcode_videos(current_movie, overwrite):
         # Avoid overwrite existing output
         # If path already exist or overwrite = False
         if Path(output_dir).exists() and not overwrite:
-            return logger.warning(f"Skipping media already processed: {output_dir}")
+            logger.warning(f"Skipping media already processed: {output_dir}")
+            continue
 
         logger.warn(f"Transcoding {movie_title}:{imdb_code}:{video_quality}")
         media.fetch.make_destination_dir(output_dir)

@@ -45,7 +45,7 @@ def ipfs_dir(_dir: str) -> str:
             directory
         )
 
-    _hash = ipfs.add(directory, pin=True, recursive=True)
+    _hash = ipfs.add(directory, recursive=True)
     _hash = map(lambda x: {'size': int(x['Size']), 'hash': x['Hash']}, _hash)
     _hash = max(_hash, key=lambda x: x['size'])['hash']
     logger.info(f"IPFS hash: {_hash}")
@@ -71,6 +71,12 @@ def _sanitize_resource(mv: dict, _hash):
         file_format = helper.util.extract_extension(resource_origin)
         resource.update({'cid': _hash, 'index': f"{key}.{file_format}"})
         del resource['route']
+
+
+def ipfs_pin_cid(cid_list):
+    for cid in cid_list:
+        logger.notice(f"Pinning cid: {cid}")
+        ipfs.pin.add(cid)
 
 
 def ipfs_metadata(mv: dict) -> dict:
