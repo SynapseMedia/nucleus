@@ -2,7 +2,7 @@ import click
 import logging
 import gevent.monkey
 
-gevent.monkey.patch_all(thread=False)
+gevent.monkey.patch_all()
 import src.core.commands as commands
 from src.core import logger
 
