@@ -12,5 +12,6 @@ ipfs config --bool Swarm.EnableAutoRelay true
 ipfs config --bool Swarm.DisableBandwidthMetrics true
 ipfs config Swarm.ConnMgr.HighWater 160 --json
 ipfs config Swarm.ConnMgr.LowWater 80 --json
-ipfs daemon --migrate=true --enable-gc --enable-namesys-pubsub --enable-pubsub-experiment --routing=dhtclient
+ipfs config Datastore.GCPeriod "72h"
+ipfs daemon --migrate=true --enable-namesys-pubsub --enable-pubsub-experiment --routing=dhtclient
 

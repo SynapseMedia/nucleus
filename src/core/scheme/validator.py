@@ -1,6 +1,6 @@
 from .definition import MovieScheme
-from src.core import Log, logger
 from marshmallow.exceptions import ValidationError
+from src.core import logger
 
 
 def check(data: list, many: bool = True, **kwargs) -> MovieScheme:
@@ -15,7 +15,7 @@ def check(data: list, many: bool = True, **kwargs) -> MovieScheme:
             many=many, **kwargs
         ).load(data)
     except ValidationError as e:
-        logger.error(f"{Log.FAIL}{e}{Log.ENDC}")
+        logger.error(f"{e}")
         exit(1)
 
 
