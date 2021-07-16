@@ -101,6 +101,7 @@ services:
 
   watchit_reverse_proxy:
     image: nginx
+    command: ['nginx', '-g', 'daemon off;']
     restart: unless-stopped
     networks:
       - watchit
