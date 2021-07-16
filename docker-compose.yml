@@ -100,7 +100,7 @@ services:
       - ./config/certbot/domains:/opt/certbot/domains/
 
   watchit_reverse_proxy:
-    image: nginx
+    image: nginx:latest
     command: ['nginx', '-g', 'daemon off;']
     restart: unless-stopped
     networks:
