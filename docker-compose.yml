@@ -100,7 +100,6 @@ services:
       - ./config/certbot/domains:/opt/certbot/domains/
 
   watchit_reverse_proxy:
-    entrypoint: ['bash']
     image: nginx:latest
     command: ['nginx', '-g', 'daemon off;']
     restart: unless-stopped
