@@ -100,7 +100,7 @@ services:
       - ./config/certbot/domains:/opt/certbot/domains/
 
   watchit_reverse_proxy:
-    image: peelvalley/proxy
+    image: nginx
     restart: unless-stopped
     networks:
       - watchit
