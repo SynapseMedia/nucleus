@@ -68,7 +68,7 @@ services:
       - ./orbitdb:/orbitdb
 
   watchit_db_monitor:
-    image: peelvalley/ipfs-cli
+    image: peelvalley/ipfs-cli:0.6.0-rc1-aa16952
     restart: unless-stopped
     entrypoint: [ "bash" ]
     command: [ "-c", "source /scripts/orbitdb_functions.sh && monitor_ipns_dbs" ]
