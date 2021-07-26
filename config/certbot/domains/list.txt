@@ -1,3 +1,4 @@
 watchitapp.site
+*.watchitapp.site
 web.watchitapp.site
 
