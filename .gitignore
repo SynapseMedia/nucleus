@@ -12,6 +12,7 @@ __pycache__/
 doc/_build/
 .idea
 .env
+.venv
 hash
 clients
 orbitdb/
@@ -27,3 +28,4 @@ scripts/torrent.sh
 !resolvers/dummy/__init__.py
 src/core/media/torrents
 data/ipfs
+data/*
