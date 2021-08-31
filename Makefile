@@ -37,6 +37,7 @@ test: check-coding-style
 test-coverage: check-coding-style test
 	$(COVERAGE) run --source=./src $(VENV)/bin/py.test
 	$(COVERAGE) report
+	$(COVERAGE) html
 test-check:
 	$(PYTEST) $(PYTHON_MODULES)
 
