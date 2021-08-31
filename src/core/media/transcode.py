@@ -20,7 +20,8 @@ def to_hls(input_file, output_dir):
     total_duration = float(probe["format"]["duration"])
     show_progress = helper.transcode.show_progress(total_duration)
     video_stream = next(
-        (stream for stream in probe["streams"] if stream["codec_type"] == "video"), None
+        (stream for stream in probe["streams"] if stream["codec_type"] == "video"),
+        None,
     )
 
     # When transcoding audio and/or video streams, ffmpeg will not begin writing into the output until it has one
@@ -45,7 +46,11 @@ def to_hls(input_file, output_dir):
                     **output_args,
                 )
                 .global_args("-progress", "unix://{}".format(socket_filename))
-                .run(overwrite_output=True, capture_stdout=True, capture_stderr=True)
+                .run(
+                    overwrite_output=True,
+                    capture_stdout=True,
+                    capture_stderr=True,
+                )
             )
         except ffmpeg.Error as e:
             print(e.stderr)

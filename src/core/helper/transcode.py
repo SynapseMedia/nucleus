@@ -18,7 +18,7 @@ def _tmpdir_scope():
         shutil.rmtree(tmpdir)
 
 
-def _do_watch_progress(filename, sock, handler):
+def _do_watch_progress(_, sock, handler):
     """Function to run in a separate gevent greenlet to read progress
     events from a unix-domain socket."""
     connection, client_address = sock.accept()

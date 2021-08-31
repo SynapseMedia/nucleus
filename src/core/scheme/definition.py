@@ -7,7 +7,7 @@ Exceptions:
 import validators
 from datetime import date
 from pathlib import Path
-from marshmallow import Schema, validates, fields, validate, EXCLUDE, ValidationError
+from marshmallow import Schema, validates, fields, validate, ValidationError
 
 DEFAULT_RATE_MAX = 10
 # Just in case according this

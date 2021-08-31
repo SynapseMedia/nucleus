@@ -94,7 +94,7 @@ def transcode(overwrite):
     logger.warning(f"Transcoding {result_count} results")
     # Fetch from each row in tmp db the resources
     for current_movie in result:
-        logger.info(f"\n")
+        logger.info("\n")
         _fetch_posters(current_movie)  # process images copy
         # process video transcoding
         _transcode_videos(current_movie, overwrite)

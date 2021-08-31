@@ -16,7 +16,7 @@ def _pin_files(cursor_db):
     :param cursor_db:
     :return:
     """
-    logger.warning(f"Starting pinning to IPFS")
+    logger.warning("Starting pinning to IPFS")
     entries = helper.cache.retrieve(cursor_db)
     files_cid = map(lambda x: x["hash"], entries)
     media.ingest.ipfs_pin_cid(files_cid)
@@ -31,7 +31,7 @@ def ingest(no_cache, pin):
     Ingest media ready for production into IPFS
     """
     media.ingest.start_node()  # Init ipfs node
-    logger.warning(f"Starting ingestion to IPFS")
+    logger.warning("Starting ingestion to IPFS")
     if no_cache or mongo.empty_tmp:  # Clean already ingested cursor
         helper.cache.flush_ipfs(mongo.cursor_db, mongo.temp_db)
 
@@ -43,7 +43,7 @@ def ingest(no_cache, pin):
         raise exceptions.EmptyCache()
 
     logger.notice(f"Ingesting {result_count} results")
-    logger.info(f"\n")
+    logger.info("\n")
 
     # Ingest from each row in tmp db the resources
     for current_movie in result:
