@@ -59,10 +59,7 @@ Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master
 
 
 ## Development
- Please make sure you have `make` installed 
- * [windows](http://gnuwin32.sourceforge.net/packages/make.htm)
- * [macos](https://formulae.brew.sh/formula/make)
- * [linux](https://www.gnu.org/software/make/)
+ Please make sure you have `make` installed. Please see instructions for [windows](http://gnuwin32.sourceforge.net/packages/make.htm) install.
 
 ### Install
 `make bootstrap` to install dependencies
