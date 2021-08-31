@@ -1,4 +1,4 @@
-# Watchit Gateway
+# Watchit Toolkit (WIP)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -65,8 +65,6 @@ See [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE
 * Check out [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) to future features.
 * Get in touch with us in [gitter](https://gitter.im/watchit-app/community).
 * For help or bugs please [create an issue](https://github.com/ZorrillosDev/watchit-gateway/issues).
-
-
 
 
 ## Contributors ✨
