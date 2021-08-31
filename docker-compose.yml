@@ -97,7 +97,7 @@ services:
       NOTIFY_EMAIL: 'dev@zorrillos.com'
     volumes:
       - cert-data:/etc/letsencrypt
-      - ./config/certbot/domains:/opt/certbot/domains/
+      - ./proxy/certbot/domains:/opt/certbot/domains/
 
   watchit-reverse-proxy:
     image: peelvalley/proxy
@@ -113,8 +113,8 @@ services:
       - "0.0.0.0.0:443:443"
       - "0.0.0.0.0:4002:4002"
     volumes:
-      - ./config/reverse-proxy/conf.d.available:/etc/nginx/conf.d.available
-      - ./config/reverse-proxy/conf.d.enabled:/etc/nginx/conf.d.enabled
+      - ./proxy/reverse-proxy/conf.d.available:/etc/nginx/conf.d.available
+      - ./proxy/reverse-proxy/conf.d.enabled:/etc/nginx/conf.d.enabled
       - proxy-conf:/etc/nginx/conf.d
       - cert-data:/etc/letsencrypt
       - proxy-cache:/cache/nginx
