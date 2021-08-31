@@ -13,6 +13,7 @@ doc/_build/
 .idea
 .env
 .venv
+.coverage
 hash
 clients
 orbitdb/
