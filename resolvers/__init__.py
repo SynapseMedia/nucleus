@@ -24,7 +24,7 @@ __license__ = 'MIT'
 __copyright__ = 'Copyright 2020-2021 ZorrillosDev'
 
 
-def load(only_str=False):
+def load():
     """
     Find modules in `resolvers` path
     """
@@ -32,7 +32,7 @@ def load(only_str=False):
         _module = loader.find_module(name).load_module(name)
         for _, obj in inspect.getmembers(_module):
             if inspect.isclass(obj) and is_pkg:
-                yield obj if not only_str else name
+                yield obj
 
 
 __all__ = ['load']

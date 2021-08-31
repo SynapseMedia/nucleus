@@ -12,6 +12,7 @@ resolvers
 _bck/**
 orbit*/
 pragma*.txt
+torrent.sh
 !resolvers/__init__.py
 !resolvers/dummy/dummy.py
 !resolvers/dummy/__init__.py

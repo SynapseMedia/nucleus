@@ -3,7 +3,7 @@ import functools
 import operator
 
 
-def acc_gens(generators: iter) -> list:
+def reduce_gens(generators: iter) -> list:
     """
     Exec and Merge accumulative generators
     :param generators: Generator yielded by __call__ method
@@ -14,4 +14,4 @@ def acc_gens(generators: iter) -> list:
     return functools.reduce(operator.add, from_iter)
 
 
-__all__ = ['acc_gens']
+__all__ = ['reduce_gens']
