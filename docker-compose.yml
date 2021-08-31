@@ -77,8 +77,8 @@ services:
     environment:
       IPFS_RESOLVE_TIMEOUT: "15m"
       IPFS_CAT_TIMEOUT: "5m"
-      IPFS_HTTP_GATEWAY: "http://watchit_ipfs:8080"
-      ORBIT_DB_HOST: "http://watchit_orbitdb_api:3000"
+      IPFS_HTTP_GATEWAY: "http://watchit-ipfs:8080"
+      ORBIT_DB_HOST: "http://watchit-orbitdb-api:3000"
       ORBIT_DB_ENTRIES_TIMEOUT: 30000
       IPFS_API_HOST: "watchit_ipfs"
       IPNS_DB_NAME: "wt.movies.db"
