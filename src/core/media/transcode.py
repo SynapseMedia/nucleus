@@ -1,6 +1,5 @@
 import ffmpeg
-from src.core import logger
-from src.core import helper
+from src.core import logger, transcode
 
 DEFAULT_FORMAT = "hls"
 DEFAULT_HLS_TIME = 5
@@ -18,7 +17,7 @@ def to_hls(input_file, output_dir):
 
     probe = ffmpeg.probe(input_file)
     total_duration = float(probe["format"]["duration"])
-    show_progress = helper.transcode.show_progress(total_duration)
+    show_progress = transcode.show_progress(total_duration)
     video_stream = next(
         (stream for stream in probe["streams"] if stream["codec_type"] == "video"),
         None,
