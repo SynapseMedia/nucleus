@@ -57,7 +57,7 @@ virtualenv-clone==0.5.4
 wcwidth==0.1.7
 webencodings==0.5.1
 flake8==3.9.2
-autopep8==1.5.7
 black==21.8b0
+coverage==5.5
 zope.event==4.5.0
 zope.interface==5.4.0
