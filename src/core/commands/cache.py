@@ -1,7 +1,7 @@
 import click
 
 
-@click.group('cache')
+@click.group("cache")
 def cache():
     """
     Clean cache and storage
@@ -9,7 +9,7 @@ def cache():
     pass
 
 
-@cache.group('flush')
+@cache.group("flush")
 def flush():
     pass
 

@@ -18,12 +18,35 @@ FIRST_MOVIE_YEAR_EVER = 1880
 LONGEST_RUNTIME_MOVIE = 51420
 SHORTEST_RUNTIME_MOVIE = 1
 
-ALLOWED_STREAMING = ['hls', 'torrent']
+ALLOWED_STREAMING = ["hls", "torrent"]
 DEFAULT_GENRES = [
-    'All', 'Action', 'Adventure', 'Animation', 'Biography',
-    'Comedy', 'Crime', 'Documentary', 'Drama', 'Family',
-    'Fantasy', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance',
-    'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western', 'News', 'Reality-TV', 'Talk-Show', 'Game-Show'
+    "All",
+    "Action",
+    "Adventure",
+    "Animation",
+    "Biography",
+    "Comedy",
+    "Crime",
+    "Documentary",
+    "Drama",
+    "Family",
+    "Fantasy",
+    "Film-Noir",
+    "History",
+    "Horror",
+    "Music",
+    "Musical",
+    "Mystery",
+    "Romance",
+    "Sci-Fi",
+    "Sport",
+    "Thriller",
+    "War",
+    "Western",
+    "News",
+    "Reality-TV",
+    "Talk-Show",
+    "Game-Show",
 ]
 
 
@@ -32,14 +55,15 @@ class MediaScheme(Schema):
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
     """
+
     route = fields.Str(required=True)  # Could be cid | uri
 
-    @validates('route')
+    @validates("route")
     def validate_route(self, value):
         is_path = Path(value).exists()  # Check for existing file path
         is_url = validators.url(value)  # Check for valid url
         if not is_url and not is_path:
-            raise ValidationError('Route must be a CID | URI | Path')
+            raise ValidationError("Route must be a CID | URI | Path")
 
 
 class VideoScheme(MediaScheme):
@@ -49,6 +73,7 @@ class VideoScheme(MediaScheme):
     :type quality: Screen quality definition for video
     :type type: Mechanism to stream video eg: hls | torrent
     """
+
     quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
 
@@ -59,6 +84,7 @@ class PostersScheme(Schema):
     Each image must comply with `route` attr
     eg. {small:{route:...}, medium:{..}, large:{...}}
     """
+
     small = fields.Nested(MediaScheme)
     medium = fields.Nested(MediaScheme)
     large = fields.Nested(MediaScheme)
@@ -68,6 +94,7 @@ class MultiMediaScheme(Schema):
     """
     Nested resource scheme
     """
+
     posters = fields.Nested(PostersScheme)
     videos = fields.List(fields.Nested(VideoScheme))
 
@@ -79,16 +106,22 @@ class MovieScheme(Schema):
     # ex: group_name = str(self) in resolver
     group_name = fields.Str(required=False)
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
-    imdb_code = fields.Str(validate=validate.Regexp(r'^tt[0-9]{5,10}$'))
+    imdb_code = fields.Str(validate=validate.Regexp(r"^tt[0-9]{5,10}$"))
     rating = fields.Float(validate=validate.Range(min=0, max=DEFAULT_RATE_MAX))
-    year = fields.Int(validate=validate.Range(min=FIRST_MOVIE_YEAR_EVER, max=date.today().year + 1))
-    runtime = fields.Float(validate=validate.Range(min=SHORTEST_RUNTIME_MOVIE, max=LONGEST_RUNTIME_MOVIE))
-    genres = fields.List(fields.Str(), validate=validate.ContainsOnly(choices=DEFAULT_GENRES))
+    year = fields.Int(
+        validate=validate.Range(min=FIRST_MOVIE_YEAR_EVER, max=date.today().year + 1)
+    )
+    runtime = fields.Float(
+        validate=validate.Range(min=SHORTEST_RUNTIME_MOVIE, max=LONGEST_RUNTIME_MOVIE)
+    )
+    genres = fields.List(
+        fields.Str(), validate=validate.ContainsOnly(choices=DEFAULT_GENRES)
+    )
     synopsis = fields.Str(required=True)
     trailer_code = fields.Str(missing=None)  # Youtube trailer code
     # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
     language = fields.Str(validate=validate.Length(min=2, max=10))
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
-    mpa_rating = fields.Str(default='PG')
+    mpa_rating = fields.Str(default="PG")
     resource = fields.Nested(MultiMediaScheme)
     date_uploaded_unix = fields.Float(required=True)

@@ -14,4 +14,4 @@ def reduce_gens(generators: iter) -> list:
     return functools.reduce(operator.add, from_iter)
 
 
-__all__ = ['reduce_gens']
+__all__ = ["reduce_gens"]
