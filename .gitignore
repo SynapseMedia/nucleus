@@ -1,8 +1,19 @@
 # Created by .ignore support plugin (hsz.mobi)
+bin/
+dist/
+build/
+wheelhouse/
 node_modules
+*.egg-info/
+*.py[co]
+__pycache__/
+.tox
+*.deb
+doc/_build/
 .idea
 .env
-package-lock.json
+.venv
+.coverage
 hash
 clients
 orbitdb/
@@ -12,9 +23,10 @@ resolvers
 _bck/**
 orbit*/
 pragma*.txt
-torrent.sh
+scripts/torrent.sh
 !resolvers/__init__.py
 !resolvers/dummy/dummy.py
 !resolvers/dummy/__init__.py
 src/core/media/torrents
 data/ipfs
+data/*

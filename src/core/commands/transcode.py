@@ -13,7 +13,7 @@ PROD_PATH = media.fetch.PROD_PATH
 
 MAX_FAIL_RETRY = 3
 RECURSIVE_SLEEP_REQUEST = 5
-OVERWRITE_TRANSCODE_OUTPUT = os.getenv('OVERWRITE_TRANSCODE_OUTPUT', 'False') == 'True'
+OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") == "True"
 
 
 def _fetch_posters(current_movie, max_retry=MAX_FAIL_RETRY):
@@ -25,21 +25,21 @@ def _fetch_posters(current_movie, max_retry=MAX_FAIL_RETRY):
     """
     try:
         # Fetch resources if needed
-        movie_title = current_movie.get('title')
+        movie_title = current_movie.get("title")
         logger.warn(f"Fetching posters for {movie_title}")
-        poster_resources = current_movie.get('resource')
-        poster_collection = poster_resources.get('posters')
+        poster_resources = current_movie.get("resource")
+        poster_collection = poster_resources.get("posters")
         # Build dir based on single or mixed resources
         output_dir = helper.util.build_dir(current_movie)
 
         for key, resource in poster_collection.items():
-            resource_origin = resource['route']  # Input dir resource
+            resource_origin = resource["route"]  # Input dir resource
             file_format = helper.util.extract_extension(resource_origin)
             media.fetch.file(resource_origin, f"{output_dir}/{key}.{file_format}")
 
     except Exception as e:
         if max_retry <= 0:
-            raise OverflowError('Max retry exceeded')
+            raise OverflowError("Max retry exceeded")
         max_retry = max_retry - 1
         logger.error(f"Retry download assets error: {e}")
         logger.warning(f"Wait {RECURSIVE_SLEEP_REQUEST}")
@@ -53,16 +53,16 @@ def _transcode_videos(current_movie, overwrite):
     :param current_movie:
     :return:
     """
-    movie_title = current_movie.get('title')
-    imdb_code = current_movie.get('imdb_code')
-    video_resources = current_movie.get('resource')
-    video_collection = video_resources.get('videos')
+    movie_title = current_movie.get("title")
+    imdb_code = current_movie.get("imdb_code")
+    video_resources = current_movie.get("resource")
+    video_collection = video_resources.get("videos")
     # Build dir based on single or mixed resources
     output_dir_ = helper.util.build_dir(current_movie)
 
     for video in video_collection:
-        video_path = video.get('route')
-        video_quality = video.get('quality')
+        video_path = video.get("route")
+        video_quality = video.get("quality")
         output_dir = f"{PROD_PATH}/{output_dir_}/{video_quality}/"
         output_dir = f"{output_dir}{media.transcode.DEFAULT_NEW_FILENAME}"
 
@@ -79,7 +79,7 @@ def _transcode_videos(current_movie, overwrite):
 
 
 @click.command()
-@click.option('--overwrite', default=OVERWRITE_TRANSCODE_OUTPUT)
+@click.option("--overwrite", default=OVERWRITE_TRANSCODE_OUTPUT)
 def transcode(overwrite):
     """
     It transcode media defined in metadata
@@ -94,9 +94,10 @@ def transcode(overwrite):
     logger.warning(f"Transcoding {result_count} results")
     # Fetch from each row in tmp db the resources
     for current_movie in result:
-        logger.info(f"\n")
+        logger.info("\n")
         _fetch_posters(current_movie)  # process images copy
-        _transcode_videos(current_movie, overwrite)  # process video transcoding
+        # process video transcoding
+        _transcode_videos(current_movie, overwrite)
 
     # Close current tmp cache db
     result.close()

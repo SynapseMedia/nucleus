@@ -11,12 +11,10 @@ def check(data: list, many: bool = True, **kwargs) -> MovieScheme:
     :return Validated schema
     """
     try:
-        return MovieScheme(
-            many=many, **kwargs
-        ).load(data)
+        return MovieScheme(many=many, **kwargs).load(data)
     except ValidationError as e:
         logger.error(f"{e}")
         exit(1)
 
 
-__all__ = ['check']
+__all__ = ["check"]

@@ -1,4 +1,5 @@
-import click, resolvers
+import click
+import resolvers
 import src.core.mongo as mongo
 import src.core.scheme as scheme
 from src.core import logger
@@ -15,18 +16,18 @@ def resolve():
     resolvers_list = resolvers.load()
 
     # Process each resolver and merge it
-    logger.warning(f"Running resolvers")
+    logger.warning("Running resolvers")
     resolvers_result = map(helper.runtime.trigger_resolver, resolvers_list)
 
     # Merge results from migrations
     merged_data = scheme.merge.reduce_gens(resolvers_result)
-    logger.notice(f"Data merge complete")
+    logger.notice("Data merge complete")
 
     # Check for valid scheme
     scheme.validator.check(merged_data, many=True)
-    logger.success(f"Validated scheme")
+    logger.success("Validated scheme")
 
     # Start to write obtained entries from src
-    logger.notice(f"Inserting entries in mongo")
+    logger.notice("Inserting entries in mongo")
     helper.cache.rewrite(mongo.temp_db, merged_data)  # Add data to helper db
-    logger.success(f"Entries indexed: {len(merged_data)}")
+    logger.success("Entries indexed: {len(merged_data)}")

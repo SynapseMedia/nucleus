@@ -1,6 +1,6 @@
 version: '3'
 services:
-  watchit_ipfs:
+  watchit-ipfs:
     image: ipfs/go-ipfs:v0.8.0
     restart: unless-stopped
     entrypoint: ["/scripts/init.sh"]
@@ -19,15 +19,15 @@ services:
       - "0.0.0.0:4001:4001/udp"
       - "127.0.0.1:5001:5001"
 
-  watchit_cli:
+  watchit-cli:
     build: .
     image: gmena/cli:v0.1.1
-    container_name: watchit_cli
+    container_name: watchit-cli
     networks:
       - watchit
     links:
-      - "watchit_mongodb:mongodb"
-      - "watchit_ipfs:ipfs"
+      - "watchit-mongodb:mongodb"
+      - "watchit-ipfs:ipfs"
     volumes:
       - .:/data/watchit
       - /data/watchit/node_modules
@@ -35,43 +35,43 @@ services:
     env_file:
       - .env
     depends_on:
-      - watchit_mongodb
-      - watchit_ipfs
-      - watchit_orbitdb_api
+      - watchit-mongodb
+      - watchit-ipfs
+      - watchit-orbitdb-api
 
-  watchit_mongodb:
+  watchit-mongodb:
     image: mongo
-    container_name: watchit_mongo
+    container_name: watchit-mongo
     restart: unless-stopped
     networks:
       - watchit
     ports:
       - "27017:27017"
 
-  watchit_orbitdb_api:
+  watchit-orbitdb-api:
     image: phillmac/orbit-db-http-api-dev:debug
     restart: unless-stopped
     command: [ "node", "--trace-warnings", "src/cli.js", "api", "--debug" ]
     networks:
       - watchit
     environment:
-      IPFS_HOST: 'watchit_ipfs'
+      IPFS_HOST: 'watchit-ipfs'
       ORBITDB_DIR: '/orbitdb'
       FORCE_HTTP1: 'true'
       ANNOUNCE_DBS: 'true'
       LOG: 'DEBUG'
     depends_on:
-      - watchit_ipfs
+      - watchit-ipfs
     ports:
       - 127.0.0.1:3001:3000/tcp
     volumes:
       - ./orbitdb:/orbitdb
 
-  watchit_db_monitor:
+  watchit-db-monitor:
     image: peelvalley/ipfs-cli
     restart: unless-stopped
     entrypoint: [ "bash" ]
-    command: [ "-c", "source /scripts/orbitdb_functions.sh && monitor_ipns_dbs" ]
+    command: [ "-c", "source /scripts/functions.sh && monitor_ipns_dbs" ]
     networks:
       - watchit
     environment:
@@ -86,9 +86,9 @@ services:
       DB_MONITOR_IPNS: "${MONITOR_CID}"
       OPEN_FETCH_DB_CONTENTS: "TRUE"
     depends_on:
-      - watchit_orbitdb_api
+      - watchit-orbitdb-api
 
-  watchit_certbot:
+  watchit-certbot:
     image: peelvalley/certbot
     restart: unless-stopped
     networks:
@@ -97,24 +97,24 @@ services:
       NOTIFY_EMAIL: 'dev@zorrillos.com'
     volumes:
       - cert-data:/etc/letsencrypt
-      - ./config/certbot/domains:/opt/certbot/domains/
+      - ./proxy/certbot/domains:/opt/certbot/domains/
 
-  watchit_reverse_proxy:
+  watchit-reverse-proxy:
     image: peelvalley/proxy
     restart: unless-stopped
     networks:
       - watchit
       - proxy
     links:
-      - "watchit_certbot:certbot"
-      - "watchit_ipfs:ipfs"
+      - "watchit-certbot:certbot"
+      - "watchit-ipfs:ipfs"
     ports:
       - "0.0.0.0.0:80:80"
       - "0.0.0.0.0:443:443"
       - "0.0.0.0.0:4002:4002"
     volumes:
-      - ./config/reverse-proxy/conf.d.available:/etc/nginx/conf.d.available
-      - ./config/reverse-proxy/conf.d.enabled:/etc/nginx/conf.d.enabled
+      - ./proxy/reverse-proxy/conf.d.available:/etc/nginx/conf.d.available
+      - ./proxy/reverse-proxy/conf.d.enabled:/etc/nginx/conf.d.enabled
       - proxy-conf:/etc/nginx/conf.d
       - cert-data:/etc/letsencrypt
       - proxy-cache:/cache/nginx

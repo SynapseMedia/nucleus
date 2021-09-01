@@ -10,10 +10,7 @@ def retrieve(db, _filter=None):
     :return:
     """
     current_filter = _filter or {}
-    return db.movies.find(
-        current_filter,
-        no_cursor_timeout=True
-    ).batch_size(1000)
+    return db.movies.find(current_filter, no_cursor_timeout=True).batch_size(1000)
 
 
 def flush_ipfs(cursor_db, tmp_db):
@@ -26,10 +23,7 @@ def flush_ipfs(cursor_db, tmp_db):
     """
 
     cursor_db.movies.delete_many({})
-    tmp_db.movies.update_many(
-        {"updated": True},
-        {'$unset': {"updated": None}}
-    )
+    tmp_db.movies.update_many({"updated": True}, {"$unset": {"updated": None}})
 
 
 def rewrite(db, data):

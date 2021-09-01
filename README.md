@@ -51,13 +51,30 @@ class Dummy:
 
 Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py)
 
-### Scheme
+### Scheme and Usage
 
-See [SCHEME.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/SCHEME.md).
+* [SCHEME.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/SCHEME.md).
 
-## Usage
+* [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md).
 
-See [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md) for full documentation.
+
+## Development
+ Please make sure you have `make` installed. Please see instructions for [windows](http://gnuwin32.sourceforge.net/packages/make.htm) install.
+
+### Install
+`make bootstrap` to install dependencies
+
+### Test
+
+In the project directory, you can run:
+
+`make test` to run code test and `make test-coverage` to check code coverage
+
+### Lint
+
+In the project directory, you can run:
+`make` to run linter or `make fix-coding-style` to fix linting
+
 
 ##  More info
 * Visit our site [watchitapp.site](http://watchitapp.site).
