@@ -2,7 +2,7 @@ import os
 import click
 import resolvers
 import asyncio
-from src.core import runtime, subprocess
+from src.core import helper
 
 # Default - Refresh movies on each epoch?
 REGEN_ORBITDB = os.environ.get("REGEN_ORBITDB", "False") == "True"
@@ -18,12 +18,14 @@ def expose(regen, mixed):
     """
     # Add resolvers if not mixed allowed
     resolvers_names = (
-        not mixed and list(map(runtime.resolvers_to_str, resolvers.load())) or None
+        not mixed
+        and list(map(helper.runtime.resolvers_to_str, resolvers.load()))
+        or None
     )
 
     # Start node subprocess migration
     asyncio.run(
-        subprocess.call_orbit(
+        helper.subprocess.call_orbit(
             resolvers=resolvers_names,  # Add resolvers if not mixed allowed
             regen=regen,  # Regen orbit directory
         )

@@ -3,7 +3,8 @@ import time
 import errno
 import ipfshttpclient
 
-from src.core import logger, util
+import src.core.helper as helper
+from src.core import logger
 from .fetch import resolve_root_dir
 from .transcode import DEFAULT_NEW_FILENAME
 
@@ -66,7 +67,7 @@ def _sanitize_resource(mv: dict, _hash):
 
     for key, resource in posters_resources.items():
         resource_origin = resource["route"]  # Input dir resource
-        file_format = util.extract_extension(resource_origin)
+        file_format = helper.util.extract_extension(resource_origin)
         resource.update({"cid": _hash, "index": f"{key}.{file_format}"})
         del resource["route"]
 
@@ -86,7 +87,7 @@ def ipfs_metadata(mv: dict) -> dict:
 
     logger.warning(f"Ingesting {mv.get('imdb_code')}")
     # Logs on ready ingested
-    current_dir = util.build_dir(mv)
+    current_dir = helper.util.build_dir(mv)
     hash_directory = ipfs_dir(current_dir)
     _sanitize_resource(mv, hash_directory)
     mv["hash"] = hash_directory  # Add current hash to movie

@@ -1,7 +1,8 @@
 import click
 import os
-from src.core import logger, cache
+from src.core import logger
 import src.core.mongo as mongo
+import src.core.helper as helper
 import src.core.media as media
 import src.core.exception as exceptions
 
@@ -16,7 +17,7 @@ def _pin_files(cursor_db):
     :return:
     """
     logger.warning("Starting pinning to IPFS")
-    entries = cache.retrieve(cursor_db)
+    entries = helper.cache.retrieve(cursor_db)
     files_cid = map(lambda x: x["hash"], entries)
     media.ingest.ipfs_pin_cid(files_cid)
     entries.close()
@@ -32,10 +33,10 @@ def ingest(no_cache, pin):
     media.ingest.start_node()  # Init ipfs node
     logger.warning("Starting ingestion to IPFS")
     if no_cache or mongo.empty_tmp:  # Clean already ingested cursor
-        cache.flush_ipfs(mongo.cursor_db, mongo.temp_db)
+        helper.cache.flush_ipfs(mongo.cursor_db, mongo.temp_db)
 
     # Return available and not processed entries
-    result = cache.retrieve(mongo.temp_db, {"updated": {"$exists": False}})
+    result = helper.cache.retrieve(mongo.temp_db, {"updated": {"$exists": False}})
     result_count = result.count()  # Total size of entries to fetch
 
     if result_count == 0:  # If not data to fetch
