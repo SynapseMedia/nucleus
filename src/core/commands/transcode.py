@@ -1,9 +1,10 @@
 import click
 import time
 import os
+from src.core import logger
 from pathlib import Path
-from src.core import logger, util, cache
 import src.core.mongo as mongo
+import src.core.helper as helper
 import src.core.exception as exceptions
 import src.core.media as media
 
@@ -29,11 +30,11 @@ def _fetch_posters(current_movie, max_retry=MAX_FAIL_RETRY):
         poster_resources = current_movie.get("resource")
         poster_collection = poster_resources.get("posters")
         # Build dir based on single or mixed resources
-        output_dir = util.build_dir(current_movie)
+        output_dir = helper.util.build_dir(current_movie)
 
         for key, resource in poster_collection.items():
             resource_origin = resource["route"]  # Input dir resource
-            file_format = util.extract_extension(resource_origin)
+            file_format = helper.util.extract_extension(resource_origin)
             media.fetch.file(resource_origin, f"{output_dir}/{key}.{file_format}")
 
     except Exception as e:
@@ -57,7 +58,7 @@ def _transcode_videos(current_movie, overwrite):
     video_resources = current_movie.get("resource")
     video_collection = video_resources.get("videos")
     # Build dir based on single or mixed resources
-    output_dir_ = util.build_dir(current_movie)
+    output_dir_ = helper.util.build_dir(current_movie)
 
     for video in video_collection:
         video_path = video.get("route")
@@ -84,7 +85,7 @@ def transcode(overwrite):
     It transcode media defined in metadata
     """
     # Get stored movies in tmp_db and process it
-    result = cache.retrieve(mongo.temp_db)
+    result = helper.cache.retrieve(mongo.temp_db)
     result_count = result.count()  # Total size of entries to fetch
 
     if result_count == 0:  # If not data to fetch
