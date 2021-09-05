@@ -1,4 +1,4 @@
-from src.core import logger
+from . import logger
 import src.core.scheme as scheme
 
 import typing

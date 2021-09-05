@@ -1,4 +1,4 @@
-from src.core import logger
+from . import logger
 import asyncio
 
 
