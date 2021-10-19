@@ -50,7 +50,33 @@ def ipfs_dir(_dir: str) -> str:
     return _hash
 
 
-def _sanitize_resource(mv: dict, _hash):
+def _add_cid_to_posters(posters, _hash):
+    """
+    Replace route => cid declared in scheme PosterScheme
+    :param posters:
+    :param _hash:
+    :return:
+    """
+    for key, resource in posters.items():
+        resource_origin = resource["route"]  # Input dir resource
+        file_format = util.extract_extension(resource_origin)
+        resource.update({"cid": _hash, "index": f"{key}.{file_format}"})
+        del resource["route"]
+
+
+def _add_cid_to_videos(videos, _hash):
+    """
+    Replace route => cid declared in scheme VideoScheme
+    :param videos:
+    :param _hash:
+    :return:
+    """
+    for resource in videos:
+        resource.update({"cid": _hash, "index": DEFAULT_NEW_FILENAME})
+        del resource["route"]
+
+
+def _add_cid_to_resource(mv: dict, _hash):
     """
     Re-struct resources adding the corresponding cid
     :param mv:
@@ -60,15 +86,8 @@ def _sanitize_resource(mv: dict, _hash):
     videos_resource = mv["resource"]["videos"]
     posters_resources = mv["resource"]["posters"]
 
-    for resource in videos_resource:
-        resource.update({"cid": _hash, "index": DEFAULT_NEW_FILENAME})
-        del resource["route"]
-
-    for key, resource in posters_resources.items():
-        resource_origin = resource["route"]  # Input dir resource
-        file_format = util.extract_extension(resource_origin)
-        resource.update({"cid": _hash, "index": f"{key}.{file_format}"})
-        del resource["route"]
+    _add_cid_to_posters(posters_resources, _hash)
+    _add_cid_to_videos(videos_resource, _hash)
 
 
 def ipfs_pin_cid(cid_list):
@@ -88,7 +107,7 @@ def ipfs_metadata(mv: dict) -> dict:
     # Logs on ready ingested
     current_dir = util.build_dir(mv)
     hash_directory = ipfs_dir(current_dir)
-    _sanitize_resource(mv, hash_directory)
+    _add_cid_to_resource(mv, hash_directory)
     mv["hash"] = hash_directory  # Add current hash to movie
     logger.success(f"Done {mv.get('imdb_code')}\n")
     return mv
