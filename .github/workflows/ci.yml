@@ -31,8 +31,8 @@ jobs:
       - uses: syphar/restore-virtualenv@v1
         id: cache-virtualenv
 
-      - run: flake8 --config=.config/flake8.ini
-      - run: black --check --diff .
+      - run: flake8 --config=.config/flake8.ini src
+      - run: black --check --diff src
 
   tests:
     needs: cache-virtualenv
