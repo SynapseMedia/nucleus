@@ -14,6 +14,5 @@ if __name__ == '__main__':
         logger.log.warning(f"Debug mode is {'on' if debug else 'off'}")
         logger.log.setLevel(log_level)
 
-
     cli()
     exit(0)
