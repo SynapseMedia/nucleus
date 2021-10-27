@@ -2,7 +2,6 @@ import os
 
 import responses
 from src.core.sdk.media import fetch
-from pathlib import Path
 
 directory = "assets/tests/watchit_.png"
 mock_local_file = directory.replace("_", "")
@@ -31,13 +30,12 @@ def test_valid_remote_file():
     """Should fetch remote file from valid URL"""
     with open("assets/tests/watchit.png", "rb") as mock_file:
         _setup_file_response_ok(mock_file)
-        result_dir = fetch.remote_file(mock_link, directory)
-        current_path = Path(result_dir)
+        current_path = fetch.remote_file(mock_link, directory)
 
-        assert result_dir
+        assert current_path
         assert str(current_path) == directory
         assert current_path.is_file()
-        os.remove(result_dir)
+        os.remove(current_path)
 
 
 def test_invalid_remote_file():
@@ -57,14 +55,11 @@ def test_copy_local_file(mocker):
             return_value=(directory, False)
         )
 
-        result_dir = fetch.file(mock_local_file, directory)
-        current_path = Path(result_dir)
-
-        assert result_dir
+        current_path = fetch.file(mock_local_file, directory)
+        assert current_path
         assert str(current_path) == directory
         assert current_path.is_file()
-
-        os.remove(result_dir)
+        os.remove(current_path)
 
 
 def test_omit_existing_file(mocker):
@@ -73,8 +68,7 @@ def test_omit_existing_file(mocker):
         _setup_file_response_ok(mock_file, body=Exception("Should not be called"))
         mocker.patch('src.core.sdk.util.resolve_root_for', return_value=(mock_local_file, True))
 
-        result_dir = fetch.file(mock_local_file, mock_local_file)
-        current_path = Path(result_dir)
-
+        current_path = fetch.file(mock_local_file, mock_local_file)
+        assert current_path
         assert str(current_path) == mock_local_file
         assert current_path.is_file()

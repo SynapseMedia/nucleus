@@ -23,9 +23,11 @@ def make_destination_dir(_dir):
     """
     Abstraction to make a dir in OS
     :param _dir: dir to create
+    :return: string new created dir
     """
     dirname = os.path.dirname(_dir)
     Path(dirname).mkdir(parents=True, exist_ok=True)
+    return dirname
 
 
 def extract_extension(file):

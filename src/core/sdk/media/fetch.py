@@ -51,10 +51,10 @@ def remote_file(route, directory):
             out.close()
 
         logger.log.success(f"File stored in: {directory}")
-        return directory
+        return Path(directory)
 
 
-def file(_route, _dir) -> str:
+def file(_route, _dir) -> Path:
     """
     Take from the boring centralized network
     :param _route: File reference
@@ -68,13 +68,13 @@ def file(_route, _dir) -> str:
     # already exists?
     if path_exists:
         logger.log.notice(f"File already exists: {directory}")
-        return directory
+        return Path(directory)
 
     # Check if route is file to copy it to prod dir
     if Path(_route).is_file():
         logger.log.notice(f"Copying existing file: {_route}")
         util.make_destination_dir(directory)
         shutil.copy(_route, directory)
-        return directory
+        return Path(directory)
 
     return remote_file(_route, directory)
