@@ -3,13 +3,13 @@ export SHELL:=/bin/bash
 PYTHON_MODULES = src
 PYTHONPATH = .
 VENV = .venv
-PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c ./conftest.py --no-header -v
-FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini
-COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
-BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
-PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python
+PYTEST = env PYTHONPATH=${PYTHONPATH} pytest -c ./conftest.py --no-header -v
+FLAKE8 = env PYTHONPATH=${PYTHONPATH} flake8 --config=.config/flake8.ini
+COVERAGE = env PYTHONPATH=${PYTHONPATH} coverage
+BLACKFIX = env PYTHONPATH=${PYTHONPATH} black
+PYTHON = env PYTHONPATH=${PYTHONPATH} python
 
-VIRTUALENV := /usr/bin/virtualenv
+VIRTUALENV := virtualenv
 REQUIREMENTS := -r requirements.txt
 
 default: check-coding-style
@@ -19,8 +19,7 @@ setup-env:
 	python -m pip install --upgrade pip
 	npm i
 venv:
-	test -d ${VENV} || ${VIRTUALENV}  -q ${VENV}
-
+	test -d ${VENV} || ${VIRTUALENV} -q ${VENV}
 
 requirements:
 	@if [ -d wheelhouse ]; then \
@@ -30,13 +29,13 @@ requirements:
 	fi
 bootstrap: requirements setup-env venv
 
-fix-coding-style: bootstrap
+fix-coding-style: setup-env venv
 	${BLACKFIX} ${PYTHON_MODULES}
 
-check-coding-style: bootstrap
+check-coding-style: setup-env venv
 	${FLAKE8} ${PYTHON_MODULES}
 
-test: bootstrap
+test: setup-env venv
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
 
 test-coverage: test
