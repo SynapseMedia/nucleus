@@ -1,9 +1,9 @@
-export SHELL:=/bin/bash
+	export SHELL:=/bin/bash
 
 PYTHON_MODULES = src
 PYTHONPATH = .
 VENV = .venv
-PYTEST = env PYTHONPATH=${PYTHONPATH} pytest -c ./conftest.py --no-header -v
+PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 pytest -c ./conftest.py --no-header -v
 FLAKE8 = env PYTHONPATH=${PYTHONPATH} flake8 --config=.config/flake8.ini
 COVERAGE = env PYTHONPATH=${PYTHONPATH} coverage
 BLACKFIX = env PYTHONPATH=${PYTHONPATH} black
@@ -15,29 +15,30 @@ REQUIREMENTS := -r requirements.txt
 default: check-coding-style
 
 setup-env:
+	pip install --upgrade pip
+	pip install virtualenv
 	virtualenv -q .venv
 
 venv:
 	test -d ${VENV} || ${VIRTUALENV} -q ${VENV}
 
+
 requirements:
-	python -m pip install --upgrade pip
 	@if [ -d wheelhouse ]; then \
 		pip install -q --no-index --find-links=wheelhouse ${REQUIREMENTS}; \
 	else \
 		pip install -q ${REQUIREMENTS}; \
 	fi
-	npm i
 
-bootstrap: requirements setup-env venv
+bootstrap: venv requirements
 
-fix-coding-style: setup-env venv
+fix-coding-style: bootstrap
 	${BLACKFIX} ${PYTHON_MODULES}
 
-check-coding-style: setup-env venv
+check-coding-style: bootstrap
 	${FLAKE8} ${PYTHON_MODULES}
 
-test: setup-env venv
+test: bootstrap
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
 
 test-coverage: test
