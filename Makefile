@@ -1,4 +1,4 @@
-	export SHELL:=/bin/bash
+export SHELL:=/bin/bash
 
 PYTHON_MODULES = src
 PYTHONPATH = .
@@ -30,7 +30,7 @@ requirements:
 	else \
 		${PIP} install -q ${REQUIREMENTS}; \
 	fi
-bootstrap: setup-env venv requirements
+bootstrap: requirements setup-env venv
 
 fix-coding-style: bootstrap
 	${BLACKFIX} ${PYTHON_MODULES}
