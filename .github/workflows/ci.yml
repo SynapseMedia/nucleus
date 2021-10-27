@@ -8,13 +8,11 @@ on:
   pull_request:
 
 jobs:
-  build:
+  cache-virtualenv:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [ 3.6, 3.7, 3.8, 3.9 ]
-  cache-virtualenv:
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v2
@@ -30,6 +28,9 @@ jobs:
   static:
     needs: cache-virtualenv
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.6, 3.7, 3.8, 3.9 ]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v2
@@ -42,6 +43,9 @@ jobs:
   tests:
     needs: cache-virtualenv
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.6, 3.7, 3.8, 3.9 ]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v2
