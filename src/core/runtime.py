@@ -20,5 +20,5 @@ def trigger_resolver(resolver) -> typing.Generator:
     :returns: Iterable result
     """
     resolver = resolver()  # Init class
-    logger.notice(f"Generating migrations from {resolver}")
+    logger.log.notice(f"Generating migrations from {resolver}")
     return resolver(scheme)  # Call class and start migration

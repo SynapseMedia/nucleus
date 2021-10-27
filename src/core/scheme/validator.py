@@ -13,7 +13,7 @@ def check(data: list, many: bool = True, **kwargs) -> MovieScheme:
     try:
         return MovieScheme(many=many, **kwargs).load(data)
     except ValidationError as e:
-        logger.error(f"{e}")
+        logger.log.error(f"{e}")
         exit(1)
 
 

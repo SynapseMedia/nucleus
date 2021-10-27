@@ -3,7 +3,7 @@ import random
 import requests
 import shutil
 from pathlib import Path
-from src.core import logger
+from src.core import logger, util
 
 VALIDATE_SSL = os.getenv("VALIDATE_SSL", "False") == "True"
 RAW_PATH = os.getenv("RAW_DIRECTORY")
@@ -20,18 +20,6 @@ _agents = [
 ]
 
 
-def resolve_root_dir(_dir, prod=True):
-    root_dir = RAW_PATH if not prod else PROD_PATH
-    root_dir = "%s/%s" % (root_dir, _dir)
-    path_exists = Path(root_dir).exists()
-    return root_dir, path_exists
-
-
-def make_destination_dir(_dir):
-    dirname = os.path.dirname(_dir)
-    Path(dirname).mkdir(parents=True, exist_ok=True)
-
-
 def remote_file(route, directory):
     """
     Fetch remote media
@@ -41,7 +29,7 @@ def remote_file(route, directory):
     """
 
     # Create if not exist dir
-    make_destination_dir(directory)
+    util.make_destination_dir(directory)
 
     # Start http session
     response = session.get(
@@ -54,7 +42,7 @@ def remote_file(route, directory):
 
     # Check status for response
     if response.status_code == requests.codes.ok:
-        logger.info(f"Trying fetch to: {directory}")
+        logger.log.info(f"Trying fetch to: {directory}")
         with open(directory, "wb") as out:
             for block in response.iter_content(256):
                 if not block:
@@ -62,7 +50,7 @@ def remote_file(route, directory):
                 out.write(block)
             out.close()
 
-        logger.success(f"File stored in: {directory}")
+        logger.log.success(f"File stored in: {directory}")
     return directory
 
 
@@ -74,18 +62,19 @@ def file(_route, _dir) -> str:
     :return: Directory of stored file
     """
 
-    directory, path_exists = resolve_root_dir(_dir)
+    # Resolve root directory for PROD
+    directory, path_exists = util.resolve_root_for(_dir)
 
     # Check if route is file to copy it to prod dir
     if Path(_route).is_file():
-        logger.notice(f"Copying existing file: {_route}")
-        make_destination_dir(directory)
+        logger.log.notice(f"Copying existing file: {_route}")
+        util.make_destination_dir(directory)
         shutil.copy(_route, directory)
         return directory
 
     # already exists?
     if path_exists:
-        logger.notice(f"File already exists: {directory}")
+        logger.log.notice(f"File already exists: {directory}")
         return directory
 
     return remote_file(_route, directory)

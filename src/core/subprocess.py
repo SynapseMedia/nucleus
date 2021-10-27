@@ -34,8 +34,8 @@ async def run(cmd):
     proc = await asyncio.create_subprocess_shell(cmd)
     stdout, stderr = await proc.communicate()
 
-    logger.info(f"[{cmd!r} exited with {proc.returncode}]")
+    logger.log.info(f"[{cmd!r} exited with {proc.returncode}]")
     if stdout:
-        logger.info(f"[stdout]\n{stdout.decode()}")
+        logger.log.info(f"[stdout]\n{stdout.decode()}")
     if stderr:
-        logger.error(f"[stderr]\n{stderr.decode()}")
+        logger.log.error(f"[stderr]\n{stderr.decode()}")

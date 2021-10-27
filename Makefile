@@ -1,4 +1,4 @@
-export SHELL:=/bin/bash
+	export SHELL:=/bin/bash
 
 PYTHON_MODULES = src
 PYTHONPATH = .
@@ -18,6 +18,8 @@ default: check-coding-style
 
 setup-env:
 	virtualenv --python=python3 -q .venv
+	python -m pip install --upgrade pip
+	npm i
 venv:
 	test -d ${VENV} || ${VIRTUALENV} -p ${DEFAULT_PYTHON} -q ${VENV}
 

@@ -71,6 +71,10 @@ def _watch_progress(handler):
 
 @contextlib.contextmanager
 def show_progress(total_duration):
+    import gevent.monkey
+
+    gevent.monkey.patch_all()
+
     """Create a unix-domain socket to watch progress and render tqdm
     progress bar."""
     with tqdm(total=round(total_duration, 2)) as bar:
