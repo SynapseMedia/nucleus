@@ -16,17 +16,19 @@ default: check-coding-style
 
 setup-env:
 	virtualenv -q .venv
-	python -m pip install --upgrade pip
-	npm i
+
 venv:
 	test -d ${VENV} || ${VIRTUALENV} -q ${VENV}
 
 requirements:
+	python -m pip install --upgrade pip
 	@if [ -d wheelhouse ]; then \
 		pip install -q --no-index --find-links=wheelhouse ${REQUIREMENTS}; \
 	else \
 		pip install -q ${REQUIREMENTS}; \
 	fi
+	npm i
+
 bootstrap: requirements setup-env venv
 
 fix-coding-style: setup-env venv
