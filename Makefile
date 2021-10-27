@@ -15,7 +15,7 @@ REQUIREMENTS := -r requirements.txt
 default: check-coding-style
 
 setup-env:
-	virtualenv --python=python3 -q .venv
+	virtualenv -q .venv
 	python -m pip install --upgrade pip
 	npm i
 venv:
