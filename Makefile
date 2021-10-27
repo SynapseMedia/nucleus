@@ -3,7 +3,7 @@
 PYTHON_MODULES = src
 PYTHONPATH = .
 VENV = .venv
-PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test
+PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c ./conftest.py --no-header -v
 FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
 BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
@@ -37,7 +37,7 @@ fix-coding-style: bootstrap
 check-coding-style: bootstrap
 	${FLAKE8} ${PYTHON_MODULES}
 test: check-coding-style
-	${PYTEST} ${PYTHON_MODULES}
+	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
 test-coverage: check-coding-style test
 	${COVERAGE} run --source=./src ${VENV}/bin/py.test
 	${COVERAGE} report

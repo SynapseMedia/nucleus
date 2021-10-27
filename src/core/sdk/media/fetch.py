@@ -51,7 +51,7 @@ def remote_file(route, directory):
             out.close()
 
         logger.log.success(f"File stored in: {directory}")
-    return directory
+        return directory
 
 
 def file(_route, _dir) -> str:
@@ -65,16 +65,16 @@ def file(_route, _dir) -> str:
     # Resolve root directory for PROD
     directory, path_exists = util.resolve_root_for(_dir)
 
+    # already exists?
+    if path_exists:
+        logger.log.notice(f"File already exists: {directory}")
+        return directory
+
     # Check if route is file to copy it to prod dir
     if Path(_route).is_file():
         logger.log.notice(f"Copying existing file: {_route}")
         util.make_destination_dir(directory)
         shutil.copy(_route, directory)
-        return directory
-
-    # already exists?
-    if path_exists:
-        logger.log.notice(f"File already exists: {directory}")
         return directory
 
     return remote_file(_route, directory)

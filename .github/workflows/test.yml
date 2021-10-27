@@ -25,5 +25,6 @@ jobs:
           pip install
       - name: Test
         run: |
+          make test
           make test-coverage
 

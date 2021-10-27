@@ -3,7 +3,7 @@ import time
 import errno
 import ipfshttpclient
 
-from src.core import logger, util
+from src.core.sdk import logger, util
 from .transcode import DEFAULT_NEW_FILENAME
 
 __author__ = "gmena"
@@ -23,10 +23,11 @@ def start_node():
         return start_node()
 
 
-logger.log.notice("Starting node")
-ipfs = start_node()  # Initialize api connection to node
-logger.log.info(f"Node running {ipfs.id().get('ID')}")
-logger.log.info("\n")
+if __name__ == "__main__":
+    logger.log.notice("Starting node")
+    ipfs = start_node()  # Initialize api connection to node
+    logger.log.info(f"Node running {ipfs.id().get('ID')}")
+    logger.log.info("\n")
 
 
 def ipfs_dir(_dir: str) -> str:

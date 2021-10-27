@@ -1,5 +1,5 @@
-from src.core import logger
-import src.core.scheme as scheme
+from src.core.sdk import logger
+import src.core.sdk.scheme as scheme
 
 import typing
 

@@ -1,6 +1,6 @@
 from .definition import MovieScheme
 from marshmallow.exceptions import ValidationError
-from src.core import logger
+from src.core.sdk import logger
 
 
 def check(data: list, many: bool = True, **kwargs) -> MovieScheme:
