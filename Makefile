@@ -3,49 +3,45 @@
 PYTHON_MODULES = src
 PYTHONPATH = .
 VENV = .venv
-PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 pytest -c ./conftest.py --no-header -v
-FLAKE8 = env PYTHONPATH=${PYTHONPATH} flake8 --config=.config/flake8.ini
-COVERAGE = env PYTHONPATH=${PYTHONPATH} coverage
-BLACKFIX = env PYTHONPATH=${PYTHONPATH} black
-PYTHON = env PYTHONPATH=${PYTHONPATH} python
+PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c ./conftest.py --no-header -v
+FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini
+COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
+BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
+PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python
+PIP = ${VENV}/bin/pip
 
-VIRTUALENV := virtualenv
+DEFAULT_PYTHON := /usr/bin/python3
+VIRTUALENV := /usr/bin/virtualenv
 REQUIREMENTS := -r requirements.txt
 
 default: check-coding-style
 
 setup-env:
-	pip install --upgrade pip
-	pip install virtualenv
-	virtualenv -q .venv
-
+	virtualenv --python=python3 -q .venv
+	python -m pip install --upgrade pip
+	npm i
 venv:
-	test -d ${VENV} || ${VIRTUALENV} -q ${VENV}
+	test -d ${VENV} || ${VIRTUALENV} -p ${DEFAULT_PYTHON} -q ${VENV}
 
 
 requirements:
 	@if [ -d wheelhouse ]; then \
-		pip install -q --no-index --find-links=wheelhouse ${REQUIREMENTS}; \
+		${PIP} install -q --no-index --find-links=wheelhouse ${REQUIREMENTS}; \
 	else \
-		pip install -q ${REQUIREMENTS}; \
+		${PIP} install -q ${REQUIREMENTS}; \
 	fi
-
 bootstrap: venv requirements
 
 fix-coding-style: bootstrap
 	${BLACKFIX} ${PYTHON_MODULES}
-
 check-coding-style: bootstrap
 	${FLAKE8} ${PYTHON_MODULES}
-
-test: bootstrap
+test: check-coding-style
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
-
-test-coverage: test
-	${COVERAGE} run --source=./src pytest
+test-coverage: check-coding-style test
+	${COVERAGE} run --source=./src ${VENV}/bin/py.test
 	${COVERAGE} report
 	${COVERAGE} html
-
 test-check:
 	${PYTEST} ${PYTHON_MODULES}
 

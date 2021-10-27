@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'v0.*.0'
+  pull_request:
+
+jobs:
+  virtualenv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
+      - uses: syphar/restore-virtualenv@v1
+        id: cache-virtualenv
+
+      - uses: syphar/restore-pip-download-cache@v1
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+      - run: pip install -r requirements.txt
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+  static:
+    needs: virtualenv
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
+      - uses: syphar/restore-virtualenv@v1
+        id: cache-virtualenv
+
+      - run: flake8 --config=.config/flake8.ini
+      - run: black --check --diff .
+
+  tests:
+    needs: virtualenv
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
+      - uses: syphar/restore-virtualenv@v1
+        id: cache-virtualenv
+
+      - run: py.test -c ./conftest.py --no-header -v
+
