@@ -9,7 +9,6 @@ COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
 BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
 PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python
 
-DEFAULT_PYTHON := /usr/bin/python3
 VIRTUALENV := /usr/bin/virtualenv
 REQUIREMENTS := -r requirements.txt
 
@@ -20,7 +19,7 @@ setup-env:
 	python -m pip install --upgrade pip
 	npm i
 venv:
-	test -d ${VENV} || ${VIRTUALENV} -p ${DEFAULT_PYTHON} -q ${VENV}
+	test -d ${VENV} || ${VIRTUALENV}  -q ${VENV}
 
 
 requirements:
