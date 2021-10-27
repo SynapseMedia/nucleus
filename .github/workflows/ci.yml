@@ -8,7 +8,7 @@ on:
   pull_request:
 
 jobs:
-  virtualenv:
+  cache-virtualenv:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -23,7 +23,7 @@ jobs:
         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
   static:
-    needs: virtualenv
+    needs: cache-virtualenv
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -35,7 +35,7 @@ jobs:
       - run: black --check --diff .
 
   tests:
-    needs: virtualenv
+    needs: cache-virtualenv
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
