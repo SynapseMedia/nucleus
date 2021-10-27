@@ -52,5 +52,5 @@ jobs:
       - uses: syphar/restore-virtualenv@v1
         id: cache-virtualenv
 
-      - run: py.test -c ./conftest.py --no-header -v
+      - run: py.test -c ./conftest.py --no-header -v --disable-pytest-warnings
 
