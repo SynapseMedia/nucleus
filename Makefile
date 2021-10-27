@@ -33,10 +33,10 @@ requirements:
 
 bootstrap: setup-env venv requirements
 
-fix-coding-style: bootstrap
+fix-coding-style:
 	${BLACKFIX} ${PYTHON_MODULES}
 
-check-coding-style: bootstrap
+check-coding-style:
 	${FLAKE8} ${PYTHON_MODULES}
 
 test:
