@@ -1,8 +1,6 @@
 import click
 import resolvers
-import src.core.mongo as mongo
-import src.core.scheme as scheme
-from src.core import logger, cache, runtime
+from src.core.sdk import logger, cache, runtime, mongo, scheme
 
 
 @click.command()

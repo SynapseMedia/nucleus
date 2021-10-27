@@ -2,7 +2,7 @@ import os
 import click
 import resolvers
 import asyncio
-from src.core import runtime, subprocess
+from src.core.sdk import runtime, subprocess
 
 # Default - Refresh movies on each epoch?
 REGEN_ORBITDB = os.environ.get("REGEN_ORBITDB", "False") == "True"

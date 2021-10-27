@@ -1,11 +1,7 @@
 import click
 
 import os
-from src.core import logger, cache
-import src.core.mongo as mongo
-import src.core.exception as exceptions
-import src.core.media as media
-
+from src.core.sdk import logger, cache, mongo, exception, media
 
 OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") == "True"
 
@@ -21,7 +17,7 @@ def transcode(overwrite):
     result_count = result.count()  # Total size of entries to fetch
 
     if result_count == 0:  # If not data to fetch
-        raise exceptions.EmptyCache()
+        raise exception.EmptyCache()
 
     logger.log.warning(f"Transcoding {result_count} results")
     # Fetch from each row in tmp db the resources

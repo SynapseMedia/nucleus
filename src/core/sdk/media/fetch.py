@@ -3,7 +3,7 @@ import random
 import requests
 import shutil
 from pathlib import Path
-from src.core import logger, util
+from src.core.sdk import logger, util
 
 VALIDATE_SSL = os.getenv("VALIDATE_SSL", "False") == "True"
 RAW_PATH = os.getenv("RAW_DIRECTORY")

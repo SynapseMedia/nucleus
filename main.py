@@ -2,7 +2,7 @@ import click
 import logging
 
 import src.core.commands as commands
-from src.core import logger
+from src.core.sdk import logger
 
 __author__ = 'gmena'
 if __name__ == '__main__':

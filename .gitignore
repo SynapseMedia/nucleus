@@ -27,6 +27,6 @@ scripts/torrent.sh
 !resolvers/__init__.py
 !resolvers/dummy/dummy.py
 !resolvers/dummy/__init__.py
-src/core/media/torrents
+src/core/sdk/media/torrents
 data/ipfs
 data/*
