@@ -30,18 +30,23 @@ requirements:
 	else \
 		${PIP} install -q ${REQUIREMENTS}; \
 	fi
+
 bootstrap: setup-env venv requirements
 
 fix-coding-style: bootstrap
 	${BLACKFIX} ${PYTHON_MODULES}
+
 check-coding-style: bootstrap
 	${FLAKE8} ${PYTHON_MODULES}
-test:  bootstrap
+
+test:
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
+
 test-coverage: test
 	${COVERAGE} run --source=./src ${VENV}/bin/py.test
 	${COVERAGE} report
 	${COVERAGE} html
+
 test-check:
 	${PYTEST} ${PYTHON_MODULES}
 
