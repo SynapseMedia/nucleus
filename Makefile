@@ -41,7 +41,7 @@ test: setup-env venv
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
 
 test-coverage: test
-	${COVERAGE} run --source=./src ${VENV}/bin/py.test
+	${COVERAGE} run --source=./src pytest
 	${COVERAGE} report
 	${COVERAGE} html
 
