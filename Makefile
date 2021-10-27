@@ -30,7 +30,7 @@ requirements:
 	else \
 		${PIP} install -q ${REQUIREMENTS}; \
 	fi
-bootstrap: venv requirements
+bootstrap: setup-env venv requirements
 
 fix-coding-style: bootstrap
 	${BLACKFIX} ${PYTHON_MODULES}
