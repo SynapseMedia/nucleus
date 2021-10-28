@@ -39,7 +39,7 @@ eg.
 }
 """
 
-from marshmallow import Schema, validates, fields, validate, ValidationError
+from marshmallow import Schema, fields, validate
 from .movies import MovieScheme
 
 ALLOWED_TYPES = ["object"]
