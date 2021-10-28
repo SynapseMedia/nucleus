@@ -18,7 +18,7 @@ FIRST_MOVIE_YEAR_EVER = 1880
 LONGEST_RUNTIME_MOVIE = 51420
 SHORTEST_RUNTIME_MOVIE = 1
 
-ALLOWED_STREAMING = ["hls", "torrent"]
+ALLOWED_STREAMING = ["hls"]
 DEFAULT_GENRES = [
     "All",
     "Action",
@@ -125,3 +125,4 @@ class MovieScheme(Schema):
     mpa_rating = fields.Str(default="PG")
     resource = fields.Nested(MultiMediaScheme)
     date_uploaded_unix = fields.Float(required=True)
+
