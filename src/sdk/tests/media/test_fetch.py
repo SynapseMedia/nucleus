@@ -1,7 +1,7 @@
 import os
 
 import responses
-from src.core.sdk.media import fetch
+from src.sdk.media import fetch
 
 directory = "assets/tests/watchit_.png"
 mock_local_file = directory.replace("_", "")

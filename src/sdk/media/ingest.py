@@ -3,7 +3,7 @@ import time
 import errno
 import ipfshttpclient
 
-from src.core.sdk import logger, util
+from .. import util, logger
 from .transcode import DEFAULT_NEW_FILENAME
 
 __author__ = "gmena"

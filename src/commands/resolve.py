@@ -1,6 +1,6 @@
 import click
 import resolvers
-from src.core.sdk import logger, cache, runtime, mongo, scheme
+from src.sdk import cache, mongo, runtime, logger, scheme
 
 
 @click.command()

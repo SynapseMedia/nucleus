@@ -1,5 +1,4 @@
-from src.core.sdk import logger
-import src.core.sdk.scheme as scheme
+from src.sdk import logger, scheme
 
 import typing
 
