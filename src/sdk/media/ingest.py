@@ -12,12 +12,18 @@ __author__ = "gmena"
 RECURSIVE_SLEEP_REQUEST = 10
 TIMEOUT_REQUEST = 30 * 60
 
+ipfs = None
+
 
 def start_node():
     try:
-        return ipfshttpclient.connect(
+        logger.log.notice("Starting node")
+        ipfs_node = ipfshttpclient.connect(
             "/dns/ipfs/tcp/5001/http", session=True, timeout=TIMEOUT_REQUEST
         )
+        logger.log.info(f"Node running {ipfs_node.id().get('ID')}")
+        logger.log.info("\n")
+        return ipfs_node
     except ipfshttpclient.exceptions.ConnectionError:
         logger.log.notice("Waiting for node active")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
@@ -25,10 +31,7 @@ def start_node():
 
 
 if __name__ == "__main__":
-    logger.log.notice("Starting node")
     ipfs = start_node()  # Initialize api connection to node
-    logger.log.info(f"Node running {ipfs.id().get('ID')}")
-    logger.log.info("\n")
 
 
 def ipfs_dir(_dir: str) -> str:
@@ -84,8 +87,8 @@ def _add_cid_to_resource(mv: MovieScheme, _hash):
     :param _hash
     :return:
     """
-    videos_resource = mv.resource.get("videos")
-    posters_resources = mv.resource.get("posters")
+    videos_resource = mv.get('resource').get("videos")
+    posters_resources = mv.get('resource').get("posters")
 
     _add_cid_to_posters(posters_resources, _hash)
     _add_cid_to_videos(videos_resource, _hash)
