@@ -46,10 +46,10 @@ from .movies import MovieScheme
 ALLOWED_TYPES = ['object']
 
 
-class MovieNFT(Schema):
-    title = fields.Str(validate=validate.Length(min=1))
-    type = fields.Str(validate=validate.OneOf(ALLOWED_TYPES))
+class MovieNFTProperties(Schema):
+    name = fields.Str(validate=validate.Length(min=1))
     image = fields.Str()
+    description = fields.Str(required=True)
     properties: fields.Nested(MovieScheme)
 
     @validates("image")
@@ -57,3 +57,9 @@ class MovieNFT(Schema):
         is_url = validators.url(value)  # Check for valid url
         if not is_url:
             raise ValidationError("Image must be a URI")
+
+
+class MovieNFT(Schema):
+    title = fields.Str(validate=validate.Length(min=1))
+    type = fields.Str(validate=validate.OneOf(ALLOWED_TYPES))
+    properties: fields.Nested(MovieNFTProperties)
