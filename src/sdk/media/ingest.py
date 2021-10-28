@@ -5,6 +5,7 @@ import ipfshttpclient
 
 from .. import util, logger
 from .transcode import DEFAULT_NEW_FILENAME
+from src.sdk.scheme.definition.movies import MovieScheme
 
 __author__ = "gmena"
 
@@ -76,15 +77,15 @@ def _add_cid_to_videos(videos, _hash):
         del resource["route"]
 
 
-def _add_cid_to_resource(mv: dict, _hash):
+def _add_cid_to_resource(mv: MovieScheme, _hash):
     """
     Re-struct resources adding the corresponding cid
     :param mv:
     :param _hash
     :return:
     """
-    videos_resource = mv["resource"]["videos"]
-    posters_resources = mv["resource"]["posters"]
+    videos_resource = mv.resource.get("videos")
+    posters_resources = mv.resource.get("posters")
 
     _add_cid_to_posters(posters_resources, _hash)
     _add_cid_to_videos(videos_resource, _hash)
@@ -96,11 +97,11 @@ def ipfs_pin_cid(cid_list):
         ipfs.pin.add(cid)
 
 
-def ipfs_metadata(mv: dict) -> dict:
+def ipfs_metadata(mv: MovieScheme) -> MovieScheme:
     """
     Loop over assets, download it and add it to IPFS
     :param mv: MovieScheme
-    :return: Cleaned, pre-processed, structured ready schema
+    :return: Cleaned, pre-processed, structured ready MovieScheme
     """
 
     logger.log.warning(f"Ingesting {mv.get('imdb_code')}")

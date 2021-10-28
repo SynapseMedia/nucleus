@@ -2,6 +2,7 @@ import os
 
 from src.sdk import util
 from pathlib import Path
+from src.sdk.scheme.definition.movies import MovieScheme
 
 custom_dir = "assets"
 directory = "tests"
@@ -41,7 +42,7 @@ def test_extract_extension_for_file():
 
 def test_build_dir_without_group():
     """Should build output/input dir based on movie scheme imdb code and not by linked name"""
-    mock_movie_scheme = {"imdb_code": "tt000", "group_name": None}
+    mock_movie_scheme = MovieScheme.load({"imdb_code": "tt000", "group_name": None})
     extension = util.build_dir(mock_movie_scheme)
     expected = mock_movie_scheme["imdb_code"]
 
@@ -50,7 +51,7 @@ def test_build_dir_without_group():
 
 def test_build_dir_with_group():
     """Should build output/input dir based on movie scheme imdb code with linked name"""
-    mock_movie_scheme = {"imdb_code": "tt000", "group_name": "test"}
+    mock_movie_scheme = MovieScheme.load({"imdb_code": "tt000", "group_name": "test"})
     extension = util.build_dir(mock_movie_scheme)
     expected = f"{mock_movie_scheme['group_name']}/{mock_movie_scheme['imdb_code']}"
 

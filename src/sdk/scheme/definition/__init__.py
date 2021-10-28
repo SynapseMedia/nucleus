@@ -1,2 +1,2 @@
-from .movies import *
-from .nft import *
+from . import movies
+from . import nft

@@ -1,6 +1,7 @@
 import click
 
 import os
+from src.sdk.scheme.validator import parse
 from src.sdk import cache, mongo, media, logger, exception
 
 OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") == "True"
@@ -21,10 +22,11 @@ def transcode(overwrite):
 
     logger.log.warning(f"Transcoding {result_count} results")
     # Fetch from each row in tmp db the resources
-    for current_movie in result:
+    for current_movie in parse(result):
         logger.log.info("\n")
-        media.transcode.posters(current_movie)  # process images copy
         # process video transcoding
+        # process images copy
+        media.transcode.posters(current_movie)
         media.transcode.videos(current_movie, overwrite)
 
     # Close current tmp cache db

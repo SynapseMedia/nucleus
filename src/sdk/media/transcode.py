@@ -12,6 +12,7 @@ from tqdm import tqdm
 from .. import logger, util
 from pathlib import Path
 from . import fetch
+from src.sdk.scheme.definition.movies import MovieScheme
 
 DEFAULT_FORMAT = "hls"
 DEFAULT_HLS_TIME = 5
@@ -87,7 +88,6 @@ def _watch_progress(handler):
 
 @contextlib.contextmanager
 def progress(total_duration):
-    gevent.monkey.patch_all()
 
     """Create a unix-domain socket to watch progress and render tqdm
     progress bar."""
@@ -104,7 +104,7 @@ def progress(total_duration):
             yield socket_filename
 
 
-def posters(current_movie, max_retry=MAX_FAIL_RETRY):
+def posters(current_movie: MovieScheme, max_retry=MAX_FAIL_RETRY):
     """
     Recursive poster fetching
     :param current_movie: MovieScheme
@@ -135,7 +135,7 @@ def posters(current_movie, max_retry=MAX_FAIL_RETRY):
         return posters(current_movie, max_retry)
 
 
-def videos(current_movie, overwrite):
+def videos(current_movie: MovieScheme, overwrite):
     """
     Transcode video listed in metadata
     :param current_movie:

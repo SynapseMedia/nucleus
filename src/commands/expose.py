@@ -18,7 +18,7 @@ def expose(regen, mixed):
     """
     # Add resolvers if not mixed allowed
     resolvers_names = (
-            not mixed and list(map(runtime.resolvers_to_str, resolvers.load())) or None
+        not mixed and list(map(runtime.resolvers_to_str, resolvers.load())) or None
     )
 
     # Start node subprocess migration
