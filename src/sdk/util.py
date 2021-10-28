@@ -7,6 +7,18 @@ RAW_PATH = os.getenv("RAW_DIRECTORY")
 PROD_PATH = os.getenv("PROD_DIRECTORY")
 
 
+def read_json(input_file: str):
+    # TODO write test
+    """
+    Create an output json file into output file with data
+    :param input_file: File dir
+    :return: json dict
+    """
+
+    with open(input_file,) as f:
+        return json.load(f)
+
+
 def write_json(output: str, data: dict):
     # TODO write test
     """
