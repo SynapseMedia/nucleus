@@ -82,7 +82,7 @@ def test_write_json():
 
 
 def test_read_json():
-    """Should write json file with defined content"""
+    """Should read json file with defined content"""
     new_dir = "assets/tests/index.json"
     json_content = {"test": "hi"}
     assert util.read_json(new_dir) == json_content
