@@ -1,3 +1,7 @@
+__copyright__ = "Copyright (c) 2020 ZorrillosDev"
+__version__ = "0.2.0"
+__license__ = "AGPL V3"
+
 import click
 import logging
 

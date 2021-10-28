@@ -1,7 +1,3 @@
-__author__ = "Geolffrey Mena (gmjun2000@gmail.com)"
-__version__ = "1.0.0"
-__copyright__ = "Copyright (c) 2020 ZorrillosDev"
-__license__ = "MIT"
 
 from . import logger
 from . import subprocess
