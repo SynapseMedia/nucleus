@@ -1,5 +1,5 @@
 """
-ERC-1155 Metadata URI JSON Schem
+ERC-1155 Metadata URI JSON Scheme
 This JSON schema is loosely based on the “ERC721 Metadata JSON Schema”,
 but includes optional formatting to allow for ID substitution by clients.
 If the string {id} exists in any JSON value, it MUST be replaced with the actual token ID,
