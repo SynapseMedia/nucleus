@@ -20,7 +20,7 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "migrate": "node src/core/sdk/orbit/migrate.js -r"
+    "migrate": "node src/sdk/orbit/migrate.js -r"
   },
   "devDependencies": {
     "fs": "0.0.1-security"

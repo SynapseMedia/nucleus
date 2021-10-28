@@ -5,8 +5,8 @@ __license__ = "AGPL V3"
 import click
 import logging
 
-import src.core.commands as commands
-from src.core.sdk import logger
+import src.commands as commands
+from src.sdk import logger
 
 __author__ = 'gmena'
 if __name__ == '__main__':

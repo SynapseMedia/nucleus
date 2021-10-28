@@ -9,7 +9,7 @@ import socket
 import tempfile
 
 from tqdm import tqdm
-from src.core.sdk import logger, util
+from .. import logger, util
 from pathlib import Path
 from . import fetch
 
@@ -87,8 +87,6 @@ def _watch_progress(handler):
 
 @contextlib.contextmanager
 def progress(total_duration):
-    import gevent.monkey
-
     gevent.monkey.patch_all()
 
     """Create a unix-domain socket to watch progress and render tqdm

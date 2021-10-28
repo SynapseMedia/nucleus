@@ -1,6 +1,6 @@
 import os
 
-from src.core.sdk import util
+from src.sdk import util
 from pathlib import Path
 
 custom_dir = "assets"
