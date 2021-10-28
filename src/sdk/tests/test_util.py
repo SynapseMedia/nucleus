@@ -52,7 +52,9 @@ def test_build_dir_without_group():
 
 def test_build_dir_with_group():
     """Should build output/input dir based on movie scheme imdb code with linked name"""
-    mock_movie_scheme = MovieScheme().load({"imdb_code": "tt0017075", "group_name": "test"}, partial=True)
+    mock_movie_scheme = MovieScheme().load(
+        {"imdb_code": "tt0017075", "group_name": "test"}, partial=True
+    )
     extension = util.build_dir(mock_movie_scheme)
     expected = f"{mock_movie_scheme['group_name']}/{mock_movie_scheme['imdb_code']}"
 
@@ -71,14 +73,16 @@ def test_make_destination_dir():
 def test_write_json():
     """Should write json file with defined content"""
     new_dir = "assets/tests/index.json"
-    json_content = {'test': 'hi'}
+    json_content = {"test": "hi"}
     new_created_dir = util.write_json(new_dir, json_content)
-    with open(new_created_dir, ) as json_file:
+    with open(
+        new_created_dir,
+    ) as json_file:
         assert json.load(json_file) == json_content
 
 
 def test_read_json():
     """Should write json file with defined content"""
     new_dir = "assets/tests/index.json"
-    json_content = {'test': 'hi'}
+    json_content = {"test": "hi"}
     assert util.read_json(new_dir) == json_content

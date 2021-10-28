@@ -50,9 +50,7 @@ def test_copy_local_file(mocker):
     """Should copy for local file and not attempt download"""
     with open("assets/tests/watchit.png", "rb") as mock_file:
         _setup_file_response_ok(mock_file, body=Exception("Should not be called"))
-        mocker.patch(
-            "src.sdk.util.resolve_root_for", return_value=(directory, False)
-        )
+        mocker.patch("src.sdk.util.resolve_root_for", return_value=(directory, False))
 
         current_path = fetch.file(mock_local_file, directory)
         assert current_path

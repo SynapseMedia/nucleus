@@ -14,7 +14,9 @@ def read_json(input_file: str):
     :return: json dict
     """
 
-    with open(input_file,) as f:
+    with open(
+        input_file,
+    ) as f:
         return json.load(f)
 
 
@@ -26,7 +28,7 @@ def write_json(output: str, data: dict):
     :return: path to file
     """
 
-    with open(output, 'w') as f:
+    with open(output, "w") as f:
         json.dump(data, f, ensure_ascii=False)
     return output
 
@@ -72,7 +74,7 @@ def build_dir(movie: MovieScheme):
     :param movie MovieSchema /scheme/definition.py
     :return:
     """
-    current_imdb_code = movie.get('imdb_code')
+    current_imdb_code = movie.get("imdb_code")
     current_linked_name = movie.get("group_name", None)
     current_dir = current_imdb_code
     if current_linked_name:  # If linked_name add sub-dir

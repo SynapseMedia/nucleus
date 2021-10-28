@@ -87,8 +87,8 @@ def _add_cid_to_resource(mv: MovieScheme, _hash):
     :param _hash
     :return:
     """
-    videos_resource = mv.get('resource').get("videos")
-    posters_resources = mv.get('resource').get("posters")
+    videos_resource = mv.get("resource").get("videos")
+    posters_resources = mv.get("resource").get("posters")
 
     _add_cid_to_posters(posters_resources, _hash)
     _add_cid_to_videos(videos_resource, _hash)
