@@ -1,3 +1,4 @@
+import json
 import os
 
 from src.sdk import util
@@ -42,7 +43,7 @@ def test_extract_extension_for_file():
 
 def test_build_dir_without_group():
     """Should build output/input dir based on movie scheme imdb code and not by linked name"""
-    mock_movie_scheme = MovieScheme.load({"imdb_code": "tt000", "group_name": None})
+    mock_movie_scheme = MovieScheme().load({"imdb_code": "tt0017075"}, partial=True)
     extension = util.build_dir(mock_movie_scheme)
     expected = mock_movie_scheme["imdb_code"]
 
@@ -51,7 +52,7 @@ def test_build_dir_without_group():
 
 def test_build_dir_with_group():
     """Should build output/input dir based on movie scheme imdb code with linked name"""
-    mock_movie_scheme = MovieScheme.load({"imdb_code": "tt000", "group_name": "test"})
+    mock_movie_scheme = MovieScheme().load({"imdb_code": "tt0017075", "group_name": "test"}, partial=True)
     extension = util.build_dir(mock_movie_scheme)
     expected = f"{mock_movie_scheme['group_name']}/{mock_movie_scheme['imdb_code']}"
 
@@ -59,8 +60,25 @@ def test_build_dir_with_group():
 
 
 def test_make_destination_dir():
+    """Should create directory"""
     new_dir = "assets/mock_test_dir/"
     new_created_dir = util.make_destination_dir(new_dir)
     expected_new_path = Path(new_created_dir)
     assert expected_new_path.exists()
     os.rmdir(new_created_dir)
+
+
+def test_write_json():
+    """Should write json file with defined content"""
+    new_dir = "assets/tests/index.json"
+    json_content = {'test': 'hi'}
+    new_created_dir = util.write_json(new_dir, json_content)
+    with open(new_created_dir, ) as json_file:
+        assert json.load(json_file) == json_content
+
+
+def test_read_json():
+    """Should write json file with defined content"""
+    new_dir = "assets/tests/index.json"
+    json_content = {'test': 'hi'}
+    assert util.read_json(new_dir) == json_content
