@@ -27,7 +27,7 @@ def write_json(output: str, data: dict):
     """
 
     with open(output, 'w') as f:
-        json.dump(data, f)
+        json.dump(data, f, ensure_ascii=False)
     return output
 
 
