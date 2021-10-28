@@ -7,6 +7,9 @@ import logging
 
 import src.commands as commands
 from src.sdk import logger
+from gevent import monkey as curious_george
+
+curious_george.patch_all(thread=False, select=False)
 
 __author__ = 'gmena'
 if __name__ == '__main__':

@@ -125,4 +125,3 @@ class MovieScheme(Schema):
     mpa_rating = fields.Str(default="PG")
     resource = fields.Nested(MultiMediaScheme)
     date_uploaded_unix = fields.Float(required=True)
-

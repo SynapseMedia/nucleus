@@ -1,9 +1,24 @@
 import os
-
+import json
 from pathlib import Path
+from src.sdk.scheme.definition.movies import MovieScheme
 
 RAW_PATH = os.getenv("RAW_DIRECTORY")
 PROD_PATH = os.getenv("PROD_DIRECTORY")
+
+
+def write_json(output: str, data: dict):
+    # TODO write test
+    """
+    Create an output json file into output file with data
+    :param output: Dir
+    :param data: dict to write
+    :return: path to file
+    """
+
+    with open(output, 'w') as f:
+        json.dump(data, f)
+    return output
 
 
 def resolve_root_for(_dir, is_prod=True):
@@ -41,13 +56,13 @@ def extract_extension(file):
     return file_extension
 
 
-def build_dir(movie: dict):
+def build_dir(movie: MovieScheme):
     """
     Build current local dir for movie
     :param movie MovieSchema /scheme/definition.py
     :return:
     """
-    current_imdb_code = movie.get("imdb_code")
+    current_imdb_code = movie.get('imdb_code')
     current_linked_name = movie.get("group_name", None)
     current_dir = current_imdb_code
     if current_linked_name:  # If linked_name add sub-dir
