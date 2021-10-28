@@ -4,14 +4,14 @@ from src.sdk import cache, mongo, media, exception
 
 
 @click.group("meta")
-def meta():
+def nft():
     """
-    Clean cache and storage
+    NFT tools
     """
     pass
 
 
-@meta.command()
+@nft.command()
 def generate():
     """Generate metadata json file for ERC1155 NFT"""
     # Return available and not processed entries

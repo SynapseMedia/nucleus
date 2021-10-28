@@ -2,14 +2,16 @@ __copyright__ = "Copyright (c) 2020 ZorrillosDev"
 __version__ = "0.2.0"
 __license__ = "AGPL V3"
 
+
+from gevent import monkey as curious_george
+curious_george.patch_all(thread=False, select=False)
+
 import click
 import logging
 
 import src.commands as commands
 from src.sdk import logger
-from gevent import monkey as curious_george
 
-curious_george.patch_all(thread=False, select=False)
 
 __author__ = 'gmena'
 if __name__ == '__main__':

@@ -8,7 +8,6 @@ PROD_PATH = os.getenv("PROD_DIRECTORY")
 
 
 def read_json(input_file: str):
-    # TODO write test
     """
     Create an output json file into output file with data
     :param input_file: File dir
@@ -20,7 +19,6 @@ def read_json(input_file: str):
 
 
 def write_json(output: str, data: dict):
-    # TODO write test
     """
     Create an output json file into output file with data
     :param output: Dir

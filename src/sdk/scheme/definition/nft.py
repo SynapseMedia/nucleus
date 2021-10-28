@@ -39,7 +39,6 @@ eg.
 }
 """
 
-import validators
 from marshmallow import Schema, validates, fields, validate, ValidationError
 from .movies import MovieScheme
 
@@ -50,30 +49,16 @@ class MovieNFTProperties(Schema):
     name = fields.Str(validate=validate.Length(min=1))
     # image = fields.Str() # TODO need an image before ingest 0.0 no CID yet
     description = fields.Str(required=True)
-    properties: fields.Nested(MovieScheme)
+    properties = fields.Nested(MovieScheme)
 
-    @validates("image")
-    def validate_image(self, value):
-        is_url = validators.url(value)  # Check for valid url
-        if not is_url:
-            raise ValidationError("Image must be a URI")
-
-    def __dict__(self, properties: MovieScheme):
-        return self.load(
-            {
-                "name": self.name,
-                "description": self.description,
-                "properties": properties,
-            }
-        )
+    # @validates("image")
+    # def validate_image(self, value):
+    #     is_url = validators.url(value)  # Check for valid url
+    #     if not is_url:
+    #         raise ValidationError("Image must be a URI")
 
 
 class MovieNFT(Schema):
     title = fields.Str(validate=validate.Length(min=1))
     type = fields.Str(validate=validate.OneOf(ALLOWED_TYPES))
-    properties: fields.Nested(MovieNFTProperties)
-
-    def __dict__(self, properties: MovieNFTProperties):
-        return self.load(
-            {"title": self.title, "type": self.type, "properties": dict(properties)}
-        )
+    properties = fields.Nested(MovieNFTProperties)
