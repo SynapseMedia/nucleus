@@ -28,7 +28,7 @@ def ingest(no_cache, pin):
     """
     Ingest media ready for production into IPFS
     """
-    media.ingest.start_node()  # Init ipfs node
+    media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
     logger.log.warning("Starting ingestion to IPFS")
     if no_cache or mongo.empty_tmp:  # Clean already ingested cursor
         cache.flush_ipfs(mongo.cursor_db, mongo.temp_db)
@@ -45,10 +45,10 @@ def ingest(no_cache, pin):
 
     # Ingest from each row in tmp db the resources
     for current_movie in parse(result):
-        _id = current_movie["_id"]  # Current id
+        _id = current_movie["imdb_code"]  # Current id
         ingested_data = media.ingest.ipfs_metadata(current_movie)
         mongo.cursor_db.movies.insert_one(ingested_data)
-        mongo.temp_db.movies.update_one({"_id": _id}, {"$set": {"updated": True}})
+        mongo.temp_db.movies.update_one({"imdb_code": _id}, {"$set": {"updated": True}})
 
     if pin:  # If allowed pin files
         _pin_files(mongo.cursor_db)
