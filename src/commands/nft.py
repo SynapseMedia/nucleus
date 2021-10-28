@@ -23,4 +23,4 @@ def generate():
 
     # Generate metadata file from each row in tmp db the resources
     for current_movie in parse(result):
-        media.nft.nft_erc1155_metadata(current_movie)
+        media.nft.erc1155_metadata(current_movie)

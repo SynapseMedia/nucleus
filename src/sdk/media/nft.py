@@ -3,7 +3,7 @@ from src.sdk.scheme.definition.nft import MovieNFTProperties, MovieNFT
 from src.sdk.scheme.definition.movies import MovieScheme
 
 
-def nft_erc1155_metadata(mv: MovieScheme):
+def erc1155_metadata(mv: MovieScheme):
     """
     Go and conquer the world little child!!:
     Add directory to ipfs
