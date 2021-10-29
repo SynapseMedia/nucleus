@@ -12,7 +12,8 @@ from tqdm import tqdm
 from .. import logger, util
 from pathlib import Path
 from . import fetch
-from src.sdk.scheme.definition.movies import MovieScheme
+from typing import Iterator
+from src.sdk.scheme.definition.movies import VideoScheme, PostersScheme
 
 DEFAULT_FORMAT = "hls"
 DEFAULT_HLS_TIME = 5
@@ -88,7 +89,6 @@ def _watch_progress(handler):
 
 @contextlib.contextmanager
 def progress(total_duration):
-
     """Create a unix-domain socket to watch progress and render tqdm
     progress bar."""
     with tqdm(total=round(total_duration, 2)) as bar:
@@ -104,24 +104,17 @@ def progress(total_duration):
             yield socket_filename
 
 
-def posters(current_movie: MovieScheme, max_retry=MAX_FAIL_RETRY):
+def posters(poster: PostersScheme, output_dir: str, max_retry=MAX_FAIL_RETRY):
     """
     Recursive poster fetching
-    :param current_movie: MovieScheme
+    :param poster: MovieScheme
+    :param output_dir: dir to store poster
     :param max_retry:
     :return:
     """
     try:
-        # Fetch resources if needed
-        movie_title = current_movie.get("title")
-        logger.log.warn(f"Fetching posters for {movie_title}")
-        poster_resources = current_movie.get("resource")
-        poster_collection = poster_resources.get("posters")
-        # Build dir based on single or mixed resources
-        output_dir = util.build_dir(current_movie)
-
-        for key, resource in poster_collection.items():
-            resource_origin = resource["route"]  # Input dir resource
+        for key, _poster in poster.iterable():
+            resource_origin = _poster.route  # Input dir resource
             file_format = util.extract_extension(resource_origin)
             fetch.file(resource_origin, f"{output_dir}/{key}.{file_format}")
 
@@ -132,27 +125,20 @@ def posters(current_movie: MovieScheme, max_retry=MAX_FAIL_RETRY):
         logger.log.error(f"Retry download assets error: {e}")
         logger.log.warning(f"Wait {RECURSIVE_SLEEP_REQUEST}")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
-        return posters(current_movie, max_retry)
+        return posters(poster, output_dir, max_retry)
 
 
-def videos(current_movie: MovieScheme, overwrite):
+def videos(video_list: Iterator[VideoScheme], output_dir_: str, overwrite):
     """
     Transcode video listed in metadata
-    :param current_movie:
+    :param video_list: VideoScheme
+    :param output_dir_: dir to store video
     :param overwrite: If true then overwrite current files
     :return:
     """
-    movie_title = current_movie.get("title")
-    imdb_code = current_movie.get("imdb_code")
-    video_resources = current_movie.get("resource")
-    video_collection = video_resources.get("videos")
-    # Build dir based on single or mixed resources
-    output_dir_ = util.build_dir(current_movie)
 
-    for video in video_collection:
-        video_path = video.get("route")
-        video_quality = video.get("quality")
-        output_dir = f"{PROD_PATH}/{output_dir_}/{video_quality}/"
+    for video in video_list:
+        output_dir = f"{PROD_PATH}/{output_dir_}/{video.quality}/"
         output_dir = f"{output_dir}{DEFAULT_NEW_FILENAME}"
 
         # Avoid overwrite existing output
@@ -161,9 +147,8 @@ def videos(current_movie: MovieScheme, overwrite):
             logger.log.warning(f"Skipping media already processed: {output_dir}")
             continue
 
-        logger.log.warn(f"Transcoding {movie_title}:{imdb_code}:{video_quality}")
         util.make_destination_dir(output_dir)
-        to_hls(video_path, output_dir)
+        to_hls(video.route, output_dir)
         logger.log.success(f"New movie stored in: {output_dir}")
 
 

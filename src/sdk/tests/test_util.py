@@ -45,7 +45,7 @@ def test_build_dir_without_group():
     """Should build output/input dir based on movie scheme imdb code and not by linked name"""
     mock_movie_scheme = MovieScheme().load({"imdb_code": "tt0017075"}, partial=True)
     extension = util.build_dir(mock_movie_scheme)
-    expected = mock_movie_scheme["imdb_code"]
+    expected = mock_movie_scheme.imdb_code
 
     assert extension == expected
 
@@ -56,7 +56,7 @@ def test_build_dir_with_group():
         {"imdb_code": "tt0017075", "group_name": "test"}, partial=True
     )
     extension = util.build_dir(mock_movie_scheme)
-    expected = f"{mock_movie_scheme['group_name']}/{mock_movie_scheme['imdb_code']}"
+    expected = f"{mock_movie_scheme.group_name}/{mock_movie_scheme.imdb_code}"
 
     assert extension == expected
 

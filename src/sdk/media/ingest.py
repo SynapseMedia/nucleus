@@ -2,10 +2,14 @@ import os
 import time
 import errno
 import ipfshttpclient
-
+from typing import Iterator
 from .. import util, logger
-from .transcode import DEFAULT_NEW_FILENAME
-from src.sdk.scheme.definition.movies import MovieScheme
+from src.sdk.scheme.definition.movies import (
+    MovieScheme,
+    VideoScheme,
+    PostersScheme,
+    MultiMediaScheme,
+)
 
 __author__ = "gmena"
 
@@ -34,7 +38,7 @@ if __name__ == "__main__":
     ipfs = start_node()  # Initialize api connection to node
 
 
-def ipfs_dir(_dir: str) -> str:
+def ipfs_add_dir(_dir: str) -> str:
     """
     Go and conquer the world little child!!:
     Add directory to ipfs
@@ -54,50 +58,61 @@ def ipfs_dir(_dir: str) -> str:
     return _hash
 
 
-def _add_cid_to_posters(posters, _hash):
+def _add_cid_to_posters(posters: PostersScheme, _hash: str) -> PostersScheme:
     """
     Replace route => cid declared in scheme PosterScheme
     :param posters:
     :param _hash:
-    :return:
+    :return: PostersScheme
     """
-    for key, resource in posters.items():
-        resource_origin = resource["route"]  # Input dir resource
-        file_format = util.extract_extension(resource_origin)
-        resource.update({"cid": _hash, "index": f"{key}.{file_format}"})
-        del resource["route"]
+
+    for key, poster in posters.iterable():
+        file_format = util.extract_extension(poster.route)
+        poster.route = _hash  # Overwrite older route
+        poster.index = f"{key}.{file_format}"  # set new cid hash
+    return posters
 
 
-def _add_cid_to_videos(videos, _hash):
+def _add_cid_to_videos(
+    videos: Iterator[VideoScheme], _hash: str
+) -> Iterator[VideoScheme]:
     """
     Replace route => cid declared in scheme VideoScheme
     :param videos:
     :param _hash:
-    :return:
+    :return: VideoScheme
     """
-    for resource in videos:
-        resource.update({"cid": _hash, "index": DEFAULT_NEW_FILENAME})
-        del resource["route"]
+
+    def _run(video: VideoScheme):
+        video.route = _hash
+        return video
+
+    return map(_run, videos)
 
 
-def _add_cid_to_resource(mv: MovieScheme, _hash):
+def _add_cid_to_resources(resource: MultiMediaScheme, _hash: str) -> MultiMediaScheme:
     """
     Re-struct resources adding the corresponding cid
-    :param mv:
+    :param resource: MultimediaScheme
     :param _hash
     :return:
     """
-    videos_resource = mv.get("resource").get("videos")
-    posters_resources = mv.get("resource").get("posters")
 
-    _add_cid_to_posters(posters_resources, _hash)
-    _add_cid_to_videos(videos_resource, _hash)
+    resource.posters = _add_cid_to_posters(resource.posters, _hash)
+    resource.videos = _add_cid_to_videos(resource.videos, _hash)
+    return resource
 
 
-def ipfs_pin_cid(cid_list):
+def ipfs_pin_cid(cid_list: iter) -> list:
+    """
+    Pin CID into IPFS node from list
+    :param cid_list: List of cids to pin
+    :return: cid list after pin
+    """
     for cid in cid_list:
         logger.log.notice(f"Pinning cid: {cid}")
         ipfs.pin.add(cid)
+    return cid_list
 
 
 def ipfs_metadata(mv: MovieScheme) -> MovieScheme:
@@ -107,11 +122,14 @@ def ipfs_metadata(mv: MovieScheme) -> MovieScheme:
     :return: Cleaned, pre-processed, structured ready MovieScheme
     """
 
-    logger.log.warning(f"Ingesting {mv.get('imdb_code')}")
+    logger.log.warning(f"Ingesting {mv.imdb_code}")
     # Logs on ready ingested
     current_dir = util.build_dir(mv)
-    hash_directory = ipfs_dir(current_dir)
-    _add_cid_to_resource(mv, hash_directory)
-    mv["hash"] = hash_directory  # Add current hash to movie
-    logger.log.success(f"Done {mv.get('imdb_code')}\n")
-    return mv
+    hash_directory = ipfs_add_dir(current_dir)
+    # Set hash by reference into posters and videos collections
+    _add_cid_to_resources(mv.resource, hash_directory)
+
+    # Add current hash to movie
+    mv.hash = hash_directory
+    logger.log.success(f"Done {mv.imdb_code}\n")
+    return MovieScheme().dump(mv)

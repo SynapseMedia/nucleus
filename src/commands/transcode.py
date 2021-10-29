@@ -1,8 +1,8 @@
 import click
 
 import os
-from src.sdk.scheme.validator import parse
-from src.sdk import cache, mongo, media, logger, exception
+from src.sdk.scheme.validator import check
+from src.sdk import cache, mongo, media, logger, exception, util
 
 OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") == "True"
 
@@ -12,6 +12,7 @@ OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") ==
 def transcode(overwrite):
     """
     It transcode media defined in metadata
+    :param overwrite: overwrite current files if exists
     """
     # Get stored movies in tmp_db and process it
     result = cache.retrieve(mongo.temp_db)
@@ -22,12 +23,14 @@ def transcode(overwrite):
 
     logger.log.warning(f"Transcoding {result_count} results")
     # Fetch from each row in tmp db the resources
-    for current_movie in parse(result):
+    for current_movie in check(result):
         logger.log.info("\n")
-        # process video transcoding
-        # process images copy
-        media.transcode.posters(current_movie)
-        media.transcode.videos(current_movie, overwrite)
+        logger.log.warn(f"Fetching posters for {current_movie.title}")
+        output_dir = util.build_dir(current_movie)
+        # process video transcoding/images copy
+        media.transcode.posters(current_movie.resource.posters, output_dir)
+        logger.log.warn(f"Transcoding {current_movie.title}:{current_movie.imdb_code}")
+        media.transcode.videos(current_movie.resource.videos, output_dir, overwrite)
 
     # Close current tmp cache db
     result.close()

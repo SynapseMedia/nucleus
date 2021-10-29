@@ -7,7 +7,7 @@ RAW_PATH = os.getenv("RAW_DIRECTORY")
 PROD_PATH = os.getenv("PROD_DIRECTORY")
 
 
-def read_json(input_file: str):
+def read_json(input_file: str) -> str:
     """
     Create an output json file into output file with data
     :param input_file: File dir
@@ -20,7 +20,7 @@ def read_json(input_file: str):
         return json.load(f)
 
 
-def write_json(output: str, data: dict):
+def write_json(output: str, data: dict) -> str:
     """
     Create an output json file into output file with data
     :param output: Dir
@@ -33,7 +33,7 @@ def write_json(output: str, data: dict):
     return output
 
 
-def resolve_root_for(_dir, is_prod=True):
+def resolve_root_for(_dir: str, is_prod: bool = True) -> [str, bool]:
     """
     Resolve root dir for PROD or RAW based on param
     :param _dir: the dir to resolve
@@ -46,7 +46,7 @@ def resolve_root_for(_dir, is_prod=True):
     return root_dir, path_exists
 
 
-def make_destination_dir(_dir):
+def make_destination_dir(_dir: str) -> str:
     """
     Abstraction to make a dir in OS
     :param _dir: dir to create
@@ -57,7 +57,7 @@ def make_destination_dir(_dir):
     return dirname
 
 
-def extract_extension(file):
+def extract_extension(file: str) -> str:
     """
     Extract file extension
     :param file:
@@ -68,14 +68,14 @@ def extract_extension(file):
     return file_extension
 
 
-def build_dir(movie: MovieScheme):
+def build_dir(movie: MovieScheme) -> str:
     """
     Build current local dir for movie
     :param movie MovieSchema /scheme/definition.py
     :return:
     """
-    current_imdb_code = movie.get("imdb_code")
-    current_linked_name = movie.get("group_name", None)
+    current_imdb_code = movie.imdb_code
+    current_linked_name = getattr(movie, "group_name", None)
     current_dir = current_imdb_code
     if current_linked_name:  # If linked_name add sub-dir
         current_dir = f"{current_linked_name}/{current_imdb_code}"

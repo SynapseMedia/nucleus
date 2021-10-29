@@ -4,10 +4,13 @@ Exceptions:
     - If imdb_code cannot be found add your custom imdb_code ex: tt{movie_id}
     - If url its declared hash will be omitted or if hash its declared url will be omitted
 """
-import validators
 from datetime import date
 from pathlib import Path
-from marshmallow import Schema, validates, fields, validate, ValidationError
+
+import validators
+from marshmallow import validates, fields, validate, ValidationError
+
+from .generic import DataObjectScheme
 
 DEFAULT_RATE_MAX = 10
 # Just in case according this
@@ -50,13 +53,14 @@ DEFAULT_GENRES = [
 ]
 
 
-class MediaScheme(Schema):
+class MediaScheme(DataObjectScheme):
     """
     Generic abstract resource class definition
     :type route: Define how to reach the resource eg: cid | uri
     """
 
     route = fields.Str(required=True)  # Could be cid | uri
+    index = fields.Str(required=False, default="index.m3u8")
 
     @validates("route")
     def validate_route(self, value):
@@ -78,7 +82,7 @@ class VideoScheme(MediaScheme):
     type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
 
 
-class PostersScheme(Schema):
+class PostersScheme(DataObjectScheme):
     """
     Image collection with nested `MediaScheme`
     Each image must comply with `route` attr
@@ -90,7 +94,7 @@ class PostersScheme(Schema):
     large = fields.Nested(MediaScheme)
 
 
-class MultiMediaScheme(Schema):
+class MultiMediaScheme(DataObjectScheme):
     """
     Nested resource scheme
     """
@@ -99,12 +103,13 @@ class MultiMediaScheme(Schema):
     videos = fields.List(fields.Nested(VideoScheme))
 
 
-class MovieScheme(Schema):
+class MovieScheme(DataObjectScheme):
     title = fields.Str(validate=validate.Length(min=1))
     # if MIXED_RESOURCES=False then its needed for split dbs and keep groups for diff resources
     # Please use this name based on your resolver name defined in __str__ class method
     # ex: group_name = str(self) in resolver
     group_name = fields.Str(required=False)
+    hash = fields.Str(require=False)
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
     imdb_code = fields.Str(validate=validate.Regexp(r"^tt[0-9]{5,10}$"))
     rating = fields.Float(validate=validate.Range(min=0, max=DEFAULT_RATE_MAX))

@@ -10,7 +10,10 @@ def retrieve(db, _filter=None):
     :return:
     """
     current_filter = _filter or {}
-    return db.movies.find(current_filter, no_cursor_timeout=True).batch_size(1000)
+    return db.movies.find(
+        current_filter,
+        # no_cursor_timeout=True
+    ).batch_size(1000)
 
 
 def flush_ipfs(cursor_db, tmp_db):

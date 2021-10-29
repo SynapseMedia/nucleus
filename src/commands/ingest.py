@@ -1,7 +1,7 @@
 import click
 import os
 
-from src.sdk.scheme.validator import parse
+from src.sdk.scheme.validator import check
 from src.sdk import cache, mongo, logger, exception, media
 
 FLUSH_CACHE_IPFS = os.getenv("FLUSH_CACHE_IPFS", "False") == "True"
@@ -44,8 +44,8 @@ def ingest(no_cache, pin):
     logger.log.info("\n")
 
     # Ingest from each row in tmp db the resources
-    for current_movie in parse(result):
-        _id = current_movie["imdb_code"]  # Current id
+    for current_movie in check(result):
+        _id = current_movie.imdb_code  # Current id
         ingested_data = media.ingest.ipfs_metadata(current_movie)
         mongo.cursor_db.movies.insert_one(ingested_data)
         mongo.temp_db.movies.update_one({"imdb_code": _id}, {"$set": {"updated": True}})
