@@ -1,6 +1,6 @@
 import click
 import resolvers
-from src.sdk import cache, mongo, runtime, logger, scheme
+from src.sdk import cache, runtime, logger, scheme
 
 
 @click.command()
@@ -26,5 +26,5 @@ def resolve():
 
     # Start to write obtained entries from src
     logger.log.notice("Inserting entries in mongo")
-    cache.rewrite(mongo.temp_db, merged_data)  # Add data to helper db
+    cache.rewrite(merged_data)  # Add data to helper db
     logger.log.success(f"Entries indexed: {len(merged_data)}")

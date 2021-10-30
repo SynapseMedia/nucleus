@@ -2,7 +2,7 @@ import click
 
 import os
 from src.sdk.scheme.validator import check
-from src.sdk import cache, mongo, media, logger, exception, util
+from src.sdk import cache, media, logger, exception, util
 
 OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") == "True"
 
@@ -15,8 +15,8 @@ def transcode(overwrite):
     :param overwrite: overwrite current files if exists
     """
     # Get stored movies in tmp_db and process it
-    result = cache.retrieve(mongo.temp_db)
-    result_count = result.count()  # Total size of entries to fetch
+    # Total size of entries to fetch
+    result, result_count = cache.retrieve()
 
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()
