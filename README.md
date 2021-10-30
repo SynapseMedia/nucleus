@@ -1,7 +1,7 @@
 # Watchit Toolkit (WIP)
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 [![Gitter](https://badges.gitter.im/watchit-app/community.svg)](https://gitter.im/watchit-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![Test](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/test.yml/badge.svg)](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/test.yml)
+[![CI](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml)
 
 ## Getting started
 * [Spawn go-ipfs node with docker](https://mrh.io/ipfs_docker/).
