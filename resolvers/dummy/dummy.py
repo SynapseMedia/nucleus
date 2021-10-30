@@ -13,7 +13,7 @@ class Dummy:
         :returns: Scheme valid object list ex: {movie1, movie2}
         :rtype Generator
         """
-        yield scheme.validator.check([{
+        yield [{
             "imdb_code": "tt00000",
             "title": "A Fork in the Road",
             "year": 2010, "rating": 6,
@@ -43,4 +43,4 @@ class Dummy:
                         "type": "hls"
                     }
                 ]
-            }}])
+            }}]
