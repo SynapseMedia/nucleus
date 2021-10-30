@@ -38,7 +38,7 @@ if __name__ == "__main__":
     ipfs = start_node()  # Initialize api connection to node
 
 
-def ipfs_add_dir(_dir: str) -> str:
+def add_dir_to_ipfs(_dir: str) -> str:
     """
     Go and conquer the world little child!!:
     Add directory to ipfs
@@ -103,7 +103,7 @@ def _add_cid_to_resources(resource: MultiMediaScheme, _hash: str) -> MultiMediaS
     return resource
 
 
-def ipfs_pin_cid(cid_list: iter) -> list:
+def pin_cid_list(cid_list: iter) -> list:
     """
     Pin CID into IPFS node from list
     :param cid_list: List of cids to pin
@@ -115,7 +115,7 @@ def ipfs_pin_cid(cid_list: iter) -> list:
     return cid_list
 
 
-def ipfs_metadata(mv: MovieScheme) -> MovieScheme:
+def to_ipfs_from(mv: MovieScheme) -> MovieScheme:
     """
     Loop over assets, download it and add it to IPFS
     :param mv: MovieScheme
@@ -125,7 +125,7 @@ def ipfs_metadata(mv: MovieScheme) -> MovieScheme:
     logger.log.warning(f"Ingesting {mv.imdb_code}")
     # Logs on ready ingested
     current_dir = util.build_dir(mv)
-    hash_directory = ipfs_add_dir(current_dir)
+    hash_directory = add_dir_to_ipfs(current_dir)
     # Set hash by reference into posters and videos collections
     _add_cid_to_resources(mv.resource, hash_directory)
 

@@ -1,6 +1,6 @@
 import click
 from src.sdk.scheme.validator import check
-from src.sdk import cache, mongo, media, exception, logger, util
+from src.sdk import cache, media, exception, logger, util
 
 
 @click.group("meta")
@@ -15,8 +15,8 @@ def nft():
 def generate():
     """Generate metadata json file for ERC1155 NFT"""
     # Return available and not processed entries
-    result = cache.retrieve(mongo.temp_db)
-    result_count = result.count()  # Total size of entries to fetch
+    # Total size of entries to fetch
+    result, result_count = cache.retrieve()
 
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()

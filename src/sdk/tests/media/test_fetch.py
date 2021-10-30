@@ -30,7 +30,7 @@ def test_valid_remote_file():
     """Should fetch remote file from valid URL"""
     with open("assets/tests/watchit.png", "rb") as mock_file:
         _setup_file_response_ok(mock_file)
-        current_path = fetch.remote_file(mock_link, directory)
+        current_path = fetch.download(mock_link, directory)
 
         assert current_path
         assert str(current_path) == directory
@@ -42,7 +42,7 @@ def test_invalid_remote_file():
     """Should fail for remote file from invalid URL"""
     responses.add(responses.GET, mock_link, status=404)
 
-    result_dir = fetch.remote_file(mock_link, directory)
+    result_dir = fetch.download(mock_link, directory)
     assert not result_dir
 
 

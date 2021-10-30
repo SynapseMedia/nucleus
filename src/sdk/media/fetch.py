@@ -20,7 +20,7 @@ _agents = [
 ]
 
 
-def remote_file(route, directory):
+def download(route, directory):
     """
     Fetch remote media
     :param route: URI
@@ -77,4 +77,4 @@ def file(_route, _dir) -> Path:
         shutil.copy(_route, directory)
         return Path(directory)
 
-    return remote_file(_route, directory)
+    return download(_route, directory)
