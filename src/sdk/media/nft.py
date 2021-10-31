@@ -75,14 +75,21 @@ def erc1155_metadata(mv: MovieScheme):
     # Overwrite resources with shorten relative path to CID
     movie_serialized = MovieScheme().dump(mv)
     movie_serialized["resource"] = _build_paths_from(mv.resource)
+    nft_properties = {
+        "name": mv.title,
+        "image": "/medium.jpg",
+        "description": mv.synopsis,
+        "properties": movie_serialized,
+        # Support for open-sea
+        "background_color": "#333",
+        "animation_url": "",
+        "youtube_url": f"https://youtube.com/{mv.trailer_code}",
+    }
+
     nft_movie = {
         "title": "WNFT Metadata",
         "type": "object",
-        "properties": {
-            "name": mv.title,
-            "description": mv.synopsis,
-            "properties": movie_serialized,
-        },
+        "properties": nft_properties,
     }
 
     return nft_movie
