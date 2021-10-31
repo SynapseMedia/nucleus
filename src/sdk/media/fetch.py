@@ -1,13 +1,10 @@
-import os
 import random
 import requests
 import shutil
 from pathlib import Path
 from .. import util, logger
+from src.sdk.constants import VALIDATE_SSL
 
-VALIDATE_SSL = os.getenv("VALIDATE_SSL", "False") == "True"
-RAW_PATH = os.getenv("RAW_DIRECTORY")
-PROD_PATH = os.getenv("PROD_DIRECTORY")
 
 # Session keep alive
 session = requests.Session()

@@ -1,10 +1,8 @@
 import click
 
-import os
 from src.sdk.scheme.validator import check
-from src.sdk import cache, media, logger, exception, util
-
-OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") == "True"
+from src.sdk import cache, media, logger, util
+from src.sdk.constants import OVERWRITE_TRANSCODE_OUTPUT
 
 
 @click.command()
@@ -16,11 +14,7 @@ def transcode(overwrite):
     """
     # Get stored movies in tmp_db and process it
     # Total size of entries to fetch
-    result, result_count = cache.retrieve()
-
-    if result_count == 0:  # If not data to fetch
-        raise exception.EmptyCache()
-
+    result, result_count = cache.retrieve_with_empty_exception()
     logger.log.warning(f"Transcoding {result_count} results")
     # Fetch from each row in tmp db the resources
     for current_movie in check(result):

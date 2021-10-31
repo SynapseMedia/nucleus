@@ -1,4 +1,5 @@
 from pymongo.errors import BulkWriteError
+from .exception import EmptyCache
 
 
 def retrieve(db=None, _filter=None):
@@ -10,6 +11,7 @@ def retrieve(db=None, _filter=None):
     :return: Cursor
     """
     from . import mongo
+
     db = db or mongo.temp_db
     current_filter = _filter or {}
     result_set = db.movies.find(
@@ -22,7 +24,22 @@ def retrieve(db=None, _filter=None):
     return result_set, result_set.count()
 
 
-def set_updated_with(_id, data):
+def retrieve_with_empty_exception(db=None, _filter=None):
+    """
+    Return all resolved entries with empty check
+    :param db: tmp_db
+    :param _filter:
+    :return: Cursor
+    :raises: EmptyCache
+    """
+    result, result_count = retrieve(db, _filter)
+    if result_count == 0:  # If not data to fetch
+        raise EmptyCache()
+
+    return result, result_count
+
+
+def set_ingested_with(_id, data):
     """
     Insert and mark entry as updated in temp_db
     :param _id: The entry id
@@ -30,21 +47,34 @@ def set_updated_with(_id, data):
     :return: data dict
     """
     from . import mongo
+
     mongo.cursor_db.movies.insert_one(data)
     mongo.temp_db.movies.update_one({"imdb_code": _id}, {"$set": {"updated": True}})
     mongo.mongo_client.close()
     return data
 
 
-def retrieve_updated():
+def ingested():
     """
     Return already processed and ingested entries
     :return: Cursor
     """
-    return retrieve(_filter={
-        # Get only not updated entries
-        "updated": {"$exists": False}
-    })
+    from . import mongo
+
+    return retrieve(mongo.cursor_db)
+
+
+def pending():
+    """
+    Return pending get ingested entries
+    :return: Cursor
+    """
+    return retrieve(
+        _filter={
+            # Get only not updated entries
+            "updated": {"$exists": False}
+        }
+    )
 
 
 def flush():
@@ -54,6 +84,7 @@ def flush():
     :return:
     """
     from . import mongo
+
     mongo.cursor_db.movies.delete_many({})
     mongo.temp_db.movies.update_many({"updated": True}, {"$unset": {"updated": None}})
     mongo.mongo_client.close()
@@ -66,6 +97,7 @@ def rewrite(data):
     """
     try:
         from . import mongo
+
         mongo.temp_db.movies.delete_many({})  # Clean all
         mongo.temp_db.movies.insert_many(data)
         mongo.mongo_client.close()

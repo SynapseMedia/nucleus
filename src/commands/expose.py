@@ -1,12 +1,8 @@
-import os
 import click
 import resolvers
 import asyncio
 from src.sdk import subprocess, runtime
-
-# Default - Refresh movies on each epoch?
-REGEN_ORBITDB = os.environ.get("REGEN_ORBITDB", "False") == "True"
-MIXED_RESOURCES = os.environ.get("MIXED_RESOURCES", "False") == "True"
+from src.sdk.constants import REGEN_ORBITDB, MIXED_RESOURCES
 
 
 @click.command()
