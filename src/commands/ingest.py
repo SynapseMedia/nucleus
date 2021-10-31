@@ -1,11 +1,7 @@
 import click
-import os
-
 from src.sdk.scheme.validator import check
 from src.sdk import cache, mongo, logger, exception, media
-
-FLUSH_CACHE_IPFS = os.getenv("FLUSH_CACHE_IPFS", "False") == "True"
-AUTO_PIN_FILES = os.getenv("AUTO_PIN_FILES", "False") == "True"
+from src.sdk.constants import FLUSH_CACHE_IPFS, AUTO_PIN_FILES
 
 
 def _pin_files():
@@ -34,7 +30,7 @@ def ingest(no_cache, pin):
 
     # Total size of entries to fetch
     # Return available and not processed entries
-    result, result_count = cache.retrieve_updated()
+    result, result_count = cache.pending()
 
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()
@@ -46,7 +42,7 @@ def ingest(no_cache, pin):
     for current_movie in check(result):
         _id = current_movie.imdb_code  # Current id
         ingested_data = media.ingest.to_ipfs_from(current_movie)
-        cache.set_updated_with(_id, ingested_data)
+        cache.set_ingested_with(_id, ingested_data)
 
     if pin:  # If allowed pin files
         _pin_files()

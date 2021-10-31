@@ -4,6 +4,7 @@ import errno
 import ipfshttpclient
 from typing import Iterator
 from .. import util, logger
+from src.sdk.constants import TIMEOUT_REQUEST, RECURSIVE_SLEEP_REQUEST
 from src.sdk.scheme.definition.movies import (
     MovieScheme,
     VideoScheme,
@@ -12,9 +13,6 @@ from src.sdk.scheme.definition.movies import (
 )
 
 __author__ = "gmena"
-
-RECURSIVE_SLEEP_REQUEST = 10
-TIMEOUT_REQUEST = 30 * 60
 
 ipfs = None
 

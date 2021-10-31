@@ -14,19 +14,16 @@ from pathlib import Path
 from . import fetch
 from typing import Iterator
 from src.sdk.scheme.definition.movies import VideoScheme, PostersScheme
-
-DEFAULT_FORMAT = "hls"
-DEFAULT_HLS_TIME = 5
-DEFAULT_HLS_FORMAT = "m3u8"
-DEFAULT_NEW_FILENAME = "index.m3u8"
-
-MAX_FAIL_RETRY = 3
-RECURSIVE_SLEEP_REQUEST = 5
-RAW_PATH = os.getenv("RAW_DIRECTORY")
-PROD_PATH = os.getenv("PROD_DIRECTORY")
+from src.sdk.constants import (
+    RECURSIVE_SLEEP_REQUEST,
+    PROD_PATH,
+    DEFAULT_NEW_FILENAME,
+    DEFAULT_FORMAT,
+    DEFAULT_HLS_TIME,
+    MAX_FAIL_RETRY,
+)
 
 
-# from
 # https://github.com/kkroening/ffmpeg-python/blob/master/examples/show_progress.py
 @contextlib.contextmanager
 def _tmpdir_scope():
