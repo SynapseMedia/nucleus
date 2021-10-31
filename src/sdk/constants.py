@@ -14,7 +14,6 @@ DEFAULT_HLS_TIME = 5
 DEFAULT_HLS_FORMAT = "m3u8"
 DEFAULT_NEW_FILENAME = "index.m3u8"
 
-
 # Ingest constants
 FLUSH_CACHE_IPFS = os.getenv("FLUSH_CACHE_IPFS", "False") == "True"
 AUTO_PIN_FILES = os.getenv("AUTO_PIN_FILES", "False") == "True"
@@ -28,5 +27,4 @@ MIXED_RESOURCES = os.environ.get("MIXED_RESOURCES", "False") == "True"
 KOVAN_PROVIDER = os.getenv("KOVAN_PROVIDER", "")
 KOVAN_ALCHEMY_API_KEY = os.getenv("KOVAN_ALCHEMY_API_KEY", "")
 KOVAN_CONTRACT_NFT = os.getenv("KOVAN_CONTRACT_NFT", "")
-
 WALLET_KEY = os.getenv("WALLET_KEY")
