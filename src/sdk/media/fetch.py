@@ -3,7 +3,7 @@ import requests
 import shutil
 from pathlib import Path
 from .. import util, logger
-from src.sdk.constants import VALIDATE_SSL
+from ..constants import VALIDATE_SSL
 
 
 # Session keep alive

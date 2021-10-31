@@ -4,8 +4,8 @@ import errno
 import ipfshttpclient
 from typing import Iterator
 from .. import util, logger
-from src.sdk.constants import TIMEOUT_REQUEST, RECURSIVE_SLEEP_REQUEST
-from src.sdk.scheme.definition.movies import (
+from ..constants import TIMEOUT_REQUEST, RECURSIVE_SLEEP_REQUEST
+from ..scheme.definition.movies import (
     MovieScheme,
     VideoScheme,
     PostersScheme,

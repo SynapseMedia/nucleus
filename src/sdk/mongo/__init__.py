@@ -1,14 +1,7 @@
-import os
 from pymongo import MongoClient
-from datetime import date
+from ..constants import MONGO_HOST, MONGO_PORT, DB_DATE_VERSION, REGEN_MOVIES
 
-# Setup mongo local temp cache
-MONGO_HOST, MONGO_PORT = ("mongodb", "27017")
 mongo_client = MongoClient(f"mongodb://{MONGO_HOST}:{MONGO_PORT}/")
-
-DB_DATE_VERSION = date.today().strftime("%Y%m%d")
-ROOT_PROJECT = os.getenv("PROJECT_ROOT")
-REGEN_MOVIES = os.getenv("REGEN_MOVIES", "False") == "True"
 
 
 def get_dbs(*dbs_list) -> tuple:

@@ -2,9 +2,7 @@ import os
 import json
 from pathlib import Path
 from src.sdk.scheme.definition.movies import MovieScheme
-
-RAW_PATH = os.getenv("RAW_DIRECTORY")
-PROD_PATH = os.getenv("PROD_DIRECTORY")
+from .constants import RAW_PATH, PROD_PATH
 
 
 def read_json(input_file: str) -> dict:

@@ -43,8 +43,8 @@ eg.
 """
 
 from src.sdk import util
-from src.sdk.media import transcode
-from src.sdk.scheme.definition.movies import MovieScheme, MultiMediaScheme
+from ..media import transcode
+from ..scheme.definition.movies import MovieScheme, MultiMediaScheme
 
 
 def _build_paths_from(resource: MultiMediaScheme):

@@ -13,8 +13,8 @@ from .. import logger, util
 from pathlib import Path
 from . import fetch
 from typing import Iterator
-from src.sdk.scheme.definition.movies import VideoScheme, PostersScheme
-from src.sdk.constants import (
+from ..scheme.definition.movies import VideoScheme, PostersScheme
+from ..constants import (
     RECURSIVE_SLEEP_REQUEST,
     PROD_PATH,
     DEFAULT_NEW_FILENAME,
