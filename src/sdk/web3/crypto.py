@@ -1,5 +1,5 @@
 import base58
-from cid import make_cid, CIDv1
+from cid import make_cid
 from web3 import Web3
 
 

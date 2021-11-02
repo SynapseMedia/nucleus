@@ -1,6 +1,6 @@
 import click
 from src.sdk.scheme.validator import check
-from src.sdk import cache, mongo, logger, exception, media
+from src.sdk import cache, logger, exception, media
 from src.sdk.constants import FLUSH_CACHE_IPFS, AUTO_PIN_FILES
 
 
@@ -25,7 +25,7 @@ def ingest(no_cache, pin):
     """
     media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
     logger.log.warning("Starting ingestion to IPFS")
-    if no_cache or mongo.empty_tmp:  # Clean already ingested cursor
+    if no_cache or cache.empty_tmp:  # Clean already ingested cursor
         cache.flush()
 
     # Total size of entries to fetch
