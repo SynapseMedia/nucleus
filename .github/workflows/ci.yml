@@ -16,7 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v2
-      - uses: syphar/restore-virtualenv@v1
         id: cache-virtualenv
 
       - uses: actions/cache@v2
@@ -26,7 +25,7 @@ jobs:
 
       - name: Install requirements
         run: |
-          pip install --upgrade --upgrade-strategy eager -r requirements.txt -e .
+          pip install --upgrade --upgrade-strategy eager -r requirements.txt
 
   static:
     needs: cache-virtualenv
