@@ -31,7 +31,6 @@ def ingest(no_cache, pin):
     # Total size of entries to fetch
     # Return available and not processed entries
     result, result_count = cache.pending()
-
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()
 
