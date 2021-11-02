@@ -4,27 +4,33 @@ from src.sdk import cache, media, exception, logger, util, web3
 
 
 @click.group("w3")
-@click.option("--provider", default="kovan")
+@click.option("--network", default="kovan")
 @click.pass_context
-def w3(ctx, provider):
+def w3(ctx, network):
     """
     NFT tools
     """
     ctx.ensure_object(dict)
-    ctx.obj["provider"] = provider
+    ctx.obj["network"] = network
 
 
 @w3.command()
 @click.pass_context
 def connection(ctx):
-    context_provider = ctx.obj["provider"]
-    _w3 = web3.factory.w3(context_provider)
+    context_network = ctx.obj["network"]
+    _w3 = web3.factory.w3(context_network)
     logger.log.success(
-        f"{context_provider} connected"
-    ) if _w3.isConnected() else logger.log.error(f"{context_provider} offline")
+        f"{context_network} connected"
+    ) if _w3.isConnected() else logger.log.error(f"{context_network} offline")
 
 
-@w3.command()
+@w3.group("nft")
+@click.pass_context
+def nft(_):
+    pass
+
+
+@nft.command()
 @click.option("--limit", default=5)
 @click.pass_context
 def batch(ctx, limit):
@@ -32,28 +38,22 @@ def batch(ctx, limit):
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()
 
-    context_provider = ctx.obj["provider"]
+    context_network = ctx.obj["network"]
     cid_list = list(map(lambda x: x["hash"], result))[:limit]
 
-    _w3 = web3.factory.w3(context_provider)
+    _w3 = web3.factory.w3(context_network)
     _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
-    web3.nft.mint_batch(_to, cid_list, context_provider)
+    web3.nft.mint_batch(_to, cid_list, context_network)
 
 
-@w3.command()
+@nft.command()
 @click.option("--cid")
 @click.pass_context
 def mint(ctx, cid):
-    context_provider = ctx.obj["provider"]
-    _w3 = web3.factory.w3(context_provider)
+    context_network = ctx.obj["network"]
+    _w3 = web3.factory.w3(context_network)
     _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
-    web3.nft.mint(_to, cid, context_provider)
-
-
-@w3.group("nft")
-@click.pass_context
-def nft(_):
-    pass
+    web3.nft.mint(_to, cid, context_network)
 
 
 @nft.command()

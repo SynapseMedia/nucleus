@@ -49,7 +49,7 @@ def add_dir_to_ipfs(_dir: str) -> str:
     if not path_exists:  # Check if path exist if not just
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), directory)
 
-    _hash = ipfs.add(directory, recursive=True)
+    _hash = ipfs.add(directory, recursive=True, cid_version=1, hash_function='blake2b-208')
     _hash = map(lambda x: {"size": int(x["Size"]), "hash": x["Hash"]}, _hash)
     _hash = max(_hash, key=lambda x: x["size"])["hash"]
     logger.log.info(f"IPFS hash: {_hash}")
