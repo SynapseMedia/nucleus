@@ -17,13 +17,10 @@ def mint(to: str, cid, chain_name="kovan"):
     _w3, contract = nft_contract(chain_name)
     owner = _w3.eth.account.privateKeyToAccount(WALLET_KEY)
     nonce = _w3.eth.getTransactionCount(owner.address)
-    # Format base16 => hex => int
-    cid = cid_to_uint256(cid)
-    logger.log.info(f"Hex: {cid}")
-    transaction = contract.functions.mint(to, cid).buildTransaction({"nonce": nonce})
 
+    cid = cid_to_uint256(cid)  # Format base16 => hex => int
+    transaction = contract.functions.mint(to, cid).buildTransaction({"nonce": nonce})
     signed_txn = _w3.eth.account.sign_transaction(transaction, private_key=WALLET_KEY)
-    logger.log.info(contract.functions.uri(cid).call())
     return _w3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
 
@@ -36,14 +33,12 @@ def mint_batch(to: str, cid_list: list, chain_name="kovan"):
     :return: eth.Transaction
     """
     _w3, contract = nft_contract(chain_name)
-
     owner = _w3.eth.account.privateKeyToAccount(WALLET_KEY)
     nonce = _w3.eth.getTransactionCount(owner.address)
-    cid_list_to_hex = [cid_to_uint256(x) for x in cid_list]
 
-    transaction = contract.functions.mintBatch(to, cid_list_to_hex).buildTransaction(
+    cid_list = [cid_to_uint256(x) for x in cid_list]  # Format base16 => hex => int
+    transaction = contract.functions.mintBatch(to, cid_list).buildTransaction(
         {"nonce": nonce}
     )
-
     signed_txn = _w3.eth.account.sign_transaction(transaction, private_key=WALLET_KEY)
     return _w3.eth.send_raw_transaction(signed_txn.rawTransaction)
