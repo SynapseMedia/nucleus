@@ -20,5 +20,5 @@ def cid_to_uint256(cid):
     """
     Encode cid to uint256
     """
-    cid_base16 = make_cid(cid).encode('base16')
-    return int("0x" + cid_base16[1:].decode('utf-8'), 0)
+    cid_base16 = make_cid(cid).encode("base16")
+    return int("0x" + cid_base16[1:].decode("utf-8"), 0)

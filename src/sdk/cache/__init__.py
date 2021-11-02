@@ -24,7 +24,9 @@ def set_ingested_with(_id, data):
     """
 
     mongo_client.cursor_db.movies.insert_one(data)
-    mongo_client.temp_db.movies.update_one({"imdb_code": _id}, {"$set": {"updated": True}})
+    mongo_client.temp_db.movies.update_one(
+        {"imdb_code": _id}, {"$set": {"updated": True}}
+    )
     mongo_client.close()
     return data
 
@@ -136,5 +138,5 @@ __all__ = [
     "pending",
     "ingested",
     "set_ingested_with",
-    "retrieve_with_empty_exception"
+    "retrieve_with_empty_exception",
 ]
