@@ -3,7 +3,7 @@ appdirs==1.4.4
 async-timeout==3.0.1
 attrs==21.2.0
 backcall==0.2.0
-base58==2.1.0
+base58==1.0.3
 bitarray==1.2.2
 black==21.8b0
 certifi==2017.11.5
@@ -37,7 +37,7 @@ humanfriendly==9.2
 idna==2.6
 iniconfig==1.1.1
 ipdb==0.10.3
-ipfshttpclient @ git+https://github.com/ipfs-shipyard/py-ipfs-http-client.git@f04ff601556f8429837eb7d4851fe02913f72f63
+ipfshttpclient @ git+https://github.com/geolffreym/py-ipfs-http-client.git@a12d66729297b801765d7bb966566e6f723281df
 ipython==6.2.1
 ipython-genutils==0.2.0
 jedi==0.11.1
@@ -46,6 +46,7 @@ lru-dict==1.1.7
 marshmallow==3.14.0
 matplotlib-inline==0.1.2
 mccabe==0.6.1
+morphys==1.0
 multiaddr==0.0.9
 multidict==5.2.0
 mypy-extensions==0.4.3
@@ -63,6 +64,10 @@ prompt-toolkit==1.0.15
 protobuf==3.19.1
 ptyprocess==0.5.2
 py==1.10.0
+py-cid==0.3.0
+py-multibase==1.0.3
+py-multicodec==0.2.1
+py-multihash==0.2.3
 pycodestyle==2.7.0
 pycparser==2.20
 pycryptodome==3.11.0
@@ -74,6 +79,7 @@ pyparsing==2.4.7
 pyrsistent==0.18.0
 pytest==6.2.4
 pytest-mock==3.6.1
+python-baseconv==1.2.2
 python-dotenv==0.18.0
 regex==2021.10.21
 requests==2.26.0
