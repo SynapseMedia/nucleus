@@ -19,11 +19,14 @@ jobs:
       - uses: syphar/restore-virtualenv@v1
         id: cache-virtualenv
 
-      - uses: syphar/restore-pip-download-cache@v1
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ hashFiles('requirements.txt') }}
 
-      - run: pip install -r requirements.txt
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      - name: Install requirements
+        run: |
+          pip install --upgrade --upgrade-strategy eager -r dev-requirements.txt -e .
 
   static:
     needs: cache-virtualenv
