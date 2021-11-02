@@ -20,9 +20,7 @@ def mint(to: str, cid, chain_name="kovan"):
     # Format base16 => hex => int
     cid = cid_to_uint256(cid)
     logger.log.info(f"Hex: {cid}")
-    transaction = contract.functions.mint(to, cid).buildTransaction(
-        {"nonce": nonce}
-    )
+    transaction = contract.functions.mint(to, cid).buildTransaction({"nonce": nonce})
 
     signed_txn = _w3.eth.account.sign_transaction(transaction, private_key=WALLET_KEY)
     logger.log.info(contract.functions.uri(cid).call())
