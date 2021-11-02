@@ -25,7 +25,7 @@ jobs:
 
       - name: Install requirements
         run: |
-          pip install --upgrade --upgrade-strategy eager -r requirements.txt
+          pip install --upgrade --upgrade-strategy eager -r requirements.txt -e .
 
   static:
     needs: cache-virtualenv
