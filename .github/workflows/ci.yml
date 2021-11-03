@@ -21,7 +21,7 @@ jobs:
         id: cache-venv
         with:
           path: ~/.cache/pip
-          key: ${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
