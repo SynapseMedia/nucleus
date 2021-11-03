@@ -15,6 +15,17 @@ def get_dbs(*dbs_list) -> tuple:
     return tuple(mongo_client[db] for db in dbs_list)
 
 
+# Initialize db list from name
+# tmp_db - keep current resolvers cache
+# cursor_db - keep a pointer with already processed cache
+tmp_db_name = "witth%s" % DB_DATE_VERSION if REGEN_MOVIES else "witth"
+temp_db, cursor_db = get_dbs(tmp_db_name, "ipfs")
+
+# Check for empty db
+empty_tmp = temp_db.movies.count() == 0
+empty_cursor = cursor_db.movies.count() == 0
+
+
 def set_ingested_with(_id, data):
     """
     Insert and mark entry as updated in temp_db
@@ -113,16 +124,6 @@ def rewrite(data):
     except BulkWriteError:
         pass
 
-
-# Initialize db list from name
-# tmp_db - keep current resolvers cache
-# cursor_db - keep a pointer with already processed cache
-tmp_db_name = "witth%s" % DB_DATE_VERSION if REGEN_MOVIES else "witth"
-temp_db, cursor_db = get_dbs(tmp_db_name, "ipfs")
-
-# Check for empty db
-empty_tmp = temp_db.movies.count() == 0
-empty_cursor = cursor_db.movies.count() == 0
 
 # An important note about collections (and databases) in MongoDB is that they are created lazily
 # https://pymongo.readthedocs.io/en/stable/tutorial.html#making-a-connection-with-mongoclient
