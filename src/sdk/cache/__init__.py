@@ -34,11 +34,11 @@ def set_ingested_with(_id, data):
     :return: data dict
     """
 
-    mongo_client.cursor_db.movies.insert_one(data)
-    mongo_client.temp_db.movies.update_one(
+    cursor_db.movies.insert_one(data)
+    temp_db.movies.update_one(
         {"imdb_code": _id}, {"$set": {"updated": True}}
     )
-    mongo_client.close()
+
     return data
 
 
@@ -59,7 +59,6 @@ def retrieve(db=None, _filter=None):
     ).batch_size(1000)
 
     # Return set + entries count
-    mongo_client.close()
     return result_set, result_set.count()
 
 
@@ -109,7 +108,6 @@ def flush():
 
     cursor_db.movies.delete_many({})
     temp_db.movies.update_many({"updated": True}, {"$unset": {"updated": None}})
-    mongo_client.close()
 
 
 def rewrite(data):
@@ -120,7 +118,6 @@ def rewrite(data):
     try:
         temp_db.movies.delete_many({})  # Clean all
         temp_db.movies.insert_many(data)
-        mongo_client.close()
     except BulkWriteError:
         pass
 
