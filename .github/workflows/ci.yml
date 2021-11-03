@@ -8,7 +8,7 @@ on:
   pull_request:
 
 jobs:
-  cache-virtualenv:
+  cache-venv:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -16,40 +16,23 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v2
-        id: cache-virtualenv
 
       - uses: actions/cache@v2
+        id: cache-venv
         with:
           path: ~/.cache/pip
           key: ${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Install requirements
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           pip install -r requirements.txt
 
-  static:
-    needs: cache-virtualenv
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ 3.6, 3.9 ]
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-python@v2
-      - uses: actions/cache@v2
-
-      - run: flake8 --config=.config/flake8.ini src
-      - run: black --check --diff src
-
-  tests:
-    needs: cache-virtualenv
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ 3.6, 3.9 ]
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-python@v2
-      - uses: actions/cache@v2
-      - run: py.test -c ./conftest.py --no-header -v --disable-pytest-warnings
-
+      - name: Static Analysis
+        run: |
+          flake8 --config=.config/flake8.ini src
+      - name: Tests
+        run: |
+          py.test -c ./conftest.py --no-header -v --disable-pytest-warnings
