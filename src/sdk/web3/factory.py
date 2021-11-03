@@ -30,5 +30,6 @@ def nft_contract(chain_name):
     abi = util.read_json("/data/watchit/abi/WNFT.json")
 
     return _w3, _w3.eth.contract(
-        address=Web3.toChecksumAddress(chain_contract_nft), abi=abi.get("abi")
+        address=Web3.toChecksumAddress(chain_contract_nft), 
+        abi=abi.get("abi")
     )
