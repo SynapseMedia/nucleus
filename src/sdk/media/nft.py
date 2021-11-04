@@ -44,6 +44,7 @@ eg.
 
 from src.sdk import util
 from ..media import transcode
+from ..constants import WALLET_PUBLIC_KEY
 from ..scheme.definition.movies import MovieScheme, MultiMediaScheme
 
 
@@ -79,11 +80,8 @@ def erc1155_metadata(mv: MovieScheme):
         "name": mv.title,
         "image": "/medium.jpg",
         "description": mv.synopsis,
+        "creator": WALLET_PUBLIC_KEY,
         "properties": movie_serialized,
-        # Support for open-sea
-        "background_color": "#333",
-        "animation_url": "",
-        "youtube_url": f"https://youtube.com/{mv.trailer_code}",
     }
 
     nft_movie = {
