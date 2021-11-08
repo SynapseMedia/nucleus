@@ -21,8 +21,8 @@ eg.
         },
         "decimals": {
             "type": "integer",
-            "description": "The number of decimal places that the token amount should display - e.g. 18, means to d
-            ivide the token amount by 1000000000000000000 to get its user representation."
+            "description": "The number of decimal places that the token amount should display - e.g. 18, means to
+            divide the token amount by 1000000000000000000 to get its user representation."
         },
         "description": {
             "type": "string",

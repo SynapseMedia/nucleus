@@ -26,7 +26,7 @@ def mint(to: str, cid, chain_name="kovan"):
     logger.log.info(f"NFT cid: {contract.functions.uri(cid).call()}")
     logger.log.info(f"TX: {tx.hex()}")
 
-    return tx.hex()
+    return tx.hex(), to, cid
 
 
 def mint_batch(to: str, cid_list: list, chain_name="kovan"):
@@ -42,10 +42,11 @@ def mint_batch(to: str, cid_list: list, chain_name="kovan"):
     nonce = _w3.eth.getTransactionCount(owner.address)
 
     cid_list = [cid_to_uint256(x) for x in cid_list]  # Format base16 => hex => int
-    transaction = contract.functions.mintBatch(to, cid_list).buildTransaction(
-        {"nonce": nonce}
-    )
+    transaction = contract.functions.mintBatch(
+        to, cid_list  # owner, cid uint256
+    ).buildTransaction({"nonce": nonce})
+
     signed_txn = _w3.eth.account.sign_transaction(transaction, private_key=WALLET_KEY)
     tx = _w3.eth.send_raw_transaction(signed_txn.rawTransaction)
     logger.log.info(f"TX: {tx.hex()}")
-    return tx.hex()
+    return tx.hex(), to, cid_list
