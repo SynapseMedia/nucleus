@@ -50,7 +50,8 @@ def add_dir_to_ipfs(_dir: str) -> str:
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), directory)
 
     _hash = ipfs.add(
-        directory, recursive=True, cid_version=1, hash_function="blake2b-208"
+        directory, recursive=True,
+        cid_version=1, hash_function="blake2b-208"
     )
     _hash = map(lambda x: {"size": int(x["Size"]), "hash": x["Hash"]}, _hash)
     _hash = max(_hash, key=lambda x: x["size"])["hash"]

@@ -10,7 +10,7 @@ def _pin_files():
     :return:
     """
     logger.log.warning("Starting pinning to IPFS")
-    entries, _ = cache.retrieve()
+    entries, _ = cache.ingested()
     files_cid = map(lambda x: x["hash"], entries)
     media.ingest.pin_cid_list(files_cid)
     entries.close()
