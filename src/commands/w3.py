@@ -43,7 +43,8 @@ def batch(ctx, limit):
 
     _w3 = web3.factory.w3(context_network)
     _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
-    web3.nft.mint_batch(_to, cid_list, context_network)
+    tx, to, cid_list = web3.nft.mint_batch(_to, cid_list, context_network)
+    cache.mint(tx, to, cid_list)
 
 
 @nft.command()
@@ -53,7 +54,8 @@ def mint(ctx, cid):
     context_network = ctx.obj["network"]
     _w3 = web3.factory.w3(context_network)
     _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
-    web3.nft.mint(_to, cid, context_network)
+    tx, to, cid = web3.nft.mint(_to, cid, context_network)
+    cache.mint(tx, to, [cid])
 
 
 @nft.command()
@@ -61,14 +63,19 @@ def generate():
     """Generate metadata json file for ERC1155 NFT"""
     # Return available and not processed entries
     # Total size of entries to fetch
+    metadata_list = []
+    metadata_list_append = metadata_list.append
     result, _ = cache.retrieve_with_empty_exception()
     # Generate metadata file from each row in tmp db the resources
     for current_movie in check(result):
         logger.log.warning(f"Processing NFT meta for {current_movie.imdb_code}")
         # Build metadata for current movie
         nft_movie_meta = media.nft.erc1155_metadata(current_movie)
+        metadata_list_append(nft_movie_meta)
         # Get directory output for current movie meta json
         current_dir = util.build_dir(current_movie)
         directory, _ = util.resolve_root_for(current_dir)
         util.write_json(f"{directory}/index.json", nft_movie_meta)
         logger.log.success(f"Written metadata for {current_movie.imdb_code}\n")
+    # Save metadata built
+    cache.rewrite_meta(metadata_list)
