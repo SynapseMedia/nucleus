@@ -1,2 +1,2 @@
-from .cache import *
-from .proxy import *
+from .cache import * # noqa
+from .proxy import * # noqa
