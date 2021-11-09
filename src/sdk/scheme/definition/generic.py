@@ -1,4 +1,4 @@
-from marshmallow import Schema, post_load, post_dump
+from marshmallow import Schema, post_load
 
 
 class DataObjectScheme(Schema):
@@ -7,12 +7,12 @@ class DataObjectScheme(Schema):
         for key in keys:
             yield key, getattr(schema_object, key)
 
-    @post_dump(pass_many=False)
-    def clean(self, data, **kwargs):
-        if "route" in data:
-            data["cid"] = data["route"]
-            del data["route"]
-        return data
+    # @post_dump(pass_many=False)
+    # def clean(self, data, **kwargs):
+    #     if "route" in data:
+    #         data["cid"] = data["route"]
+    #         del data["route"]
+    #     return data
 
     @post_load
     def to_object(self, data, **kwargs):

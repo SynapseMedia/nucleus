@@ -39,6 +39,26 @@ services:
       - watchit-ipfs
       - watchit-orbitdb-api
 
+  watchit-http:
+    build: .
+    container_name: watchit-http
+    command: [ "flask", "run", "--host=0.0.0.0" ]
+    networks:
+      - watchit
+    links:
+      - "watchit-mongodb:mongodb"
+      - "watchit-ipfs:ipfs"
+    volumes:
+      - .:/data/watchit
+    environment:
+      FLASK_ENV: 'development'
+      FLASK_APP: '/data/watchit/src/http/main.py'
+    depends_on:
+      - watchit-mongodb
+      - watchit-ipfs
+    ports:
+      - "5000:5000"
+
   watchit-mongodb:
     image: mongo
     container_name: watchit-mongo
@@ -109,9 +129,9 @@ services:
       - "watchit-certbot:certbot"
       - "watchit-ipfs:ipfs"
     ports:
-      - "0.0.0.0.0:80:80"
-      - "0.0.0.0.0:443:443"
-      - "0.0.0.0.0:4002:4002"
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"
+      - "0.0.0.0:4002:4002"
     volumes:
       - ./proxy/reverse-proxy/conf.d.available:/etc/nginx/conf.d.available
       - ./proxy/reverse-proxy/conf.d.enabled:/etc/nginx/conf.d.enabled

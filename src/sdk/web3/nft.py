@@ -18,12 +18,12 @@ def mint(to: str, cid, chain_name="kovan"):
     owner = _w3.eth.account.privateKeyToAccount(WALLET_KEY)
     nonce = _w3.eth.getTransactionCount(owner.address)
 
-    cid = cid_to_uint256(cid)  # Format base16 => hex => int
-    transaction = contract.functions.mint(to, cid).buildTransaction({"nonce": nonce})
+    _cid = cid_to_uint256(cid)  # Format base16 => hex => int
+    transaction = contract.functions.mint(to, _cid).buildTransaction({"nonce": nonce})
     signed_txn = _w3.eth.account.sign_transaction(transaction, private_key=WALLET_KEY)
     tx = _w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-    logger.log.info(f"Uint256 cid: {cid}")
-    logger.log.info(f"NFT cid: {contract.functions.uri(cid).call()}")
+    logger.log.info(f"Uint256 cid: {_cid}")
+    logger.log.info(f"NFT cid: {contract.functions.uri(_cid).call()}")
     logger.log.info(f"TX: {tx.hex()}")
 
     return tx.hex(), to, cid
