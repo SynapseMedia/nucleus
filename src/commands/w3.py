@@ -1,6 +1,7 @@
 import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, media, exception, logger, util, web3
+from src.sdk.exception import InvalidCID
 
 
 @click.group("w3")
@@ -16,7 +17,7 @@ def w3(ctx, network):
 
 @w3.command()
 @click.pass_context
-def connection(ctx):
+def status(ctx):
     context_network = ctx.obj["network"]
     _w3 = web3.factory.w3(context_network)
     logger.log.success(
@@ -48,9 +49,12 @@ def batch(ctx, limit):
 
 
 @nft.command()
-@click.option("--cid")
+@click.option("--cid", default=None)
 @click.pass_context
 def mint(ctx, cid):
+    if not cid:
+        raise InvalidCID()
+
     context_network = ctx.obj["network"]
     _w3 = web3.factory.w3(context_network)
     _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
@@ -77,5 +81,3 @@ def generate():
         directory, _ = util.resolve_root_for(current_dir)
         util.write_json(f"{directory}/index.json", nft_movie_meta)
         logger.log.success(f"Written metadata for {current_movie.imdb_code}\n")
-    # Save metadata built
-    cache.rewrite_meta(metadata_list)

@@ -28,6 +28,7 @@ eth-utils==1.10.0
 ffmpeg-python==0.2.0
 filelock==3.0.12
 flake8==3.9.2
+Flask==2.0.2
 future==0.18.2
 gevent==21.1.2
 greenlet==1.1.0
@@ -40,9 +41,12 @@ ipdb==0.10.3
 ipfshttpclient @ git+https://github.com/ipfs-shipyard/py-ipfs-http-client.git@f04ff601556f8429837eb7d4851fe02913f72f63
 ipython==6.2.1
 ipython-genutils==0.2.0
+itsdangerous==2.0.1
 jedi==0.11.1
+Jinja2==3.0.2
 jsonschema==3.2.0
 lru-dict==1.1.7
+MarkupSafe==2.0.1
 marshmallow==3.14.0
 matplotlib-inline==0.1.2
 mccabe==0.6.1
@@ -104,6 +108,7 @@ wcwidth==0.1.7
 web3==5.24.0
 webencodings==0.5.1
 websockets==9.1
+Werkzeug==2.0.2
 yarl==1.7.0
 zope.event==4.5.0
 zope.interface==5.4.0

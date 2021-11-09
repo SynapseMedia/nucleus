@@ -6,6 +6,7 @@ Exceptions:
 """
 from datetime import date
 from pathlib import Path
+from cid import is_cid
 
 import validators
 from marshmallow import validates, fields, validate, ValidationError
@@ -34,7 +35,8 @@ class MediaScheme(DataObjectScheme):
     def validate_route(self, value):
         is_path = Path(value).exists()  # Check for existing file path
         is_url = validators.url(value)  # Check for valid url
-        if not is_url and not is_path:
+
+        if not is_url and not is_path and not is_cid(value):
             raise ValidationError("Route must be a CID | URI | Path")
 
 

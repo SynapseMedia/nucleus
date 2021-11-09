@@ -33,5 +33,5 @@ def nft_contract(chain_name):
         # Contract address
         address=Web3.toChecksumAddress(chain_contract_nft),
         # Abi from contract deployed
-        abi=abi.get("abi")
+        abi=abi.get("abi"),
     )
