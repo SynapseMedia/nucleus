@@ -1,6 +1,3 @@
-from werkzeug.exceptions import HTTPException
-
-
 class EmptyCache(Exception):
     """Base class for exceptions in this module."""
 
@@ -26,6 +23,6 @@ class InvalidCID(Exception):
         super().__init__(_message)
 
 
-class InvalidRequest(HTTPException):
+class InvalidRequest(Exception):
     code = 400
     description = 'Invalid request.'
