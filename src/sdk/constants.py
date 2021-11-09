@@ -12,6 +12,9 @@ VALIDATE_SSL = os.getenv("VALIDATE_SSL", "False") == "True"
 RAW_PATH = os.getenv("RAW_DIRECTORY")
 PROD_PATH = os.getenv("PROD_DIRECTORY")
 
+# Http settings
+NODE_URI = os.getenv('NODE_URI')
+
 # Transcode constants
 OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") == "True"
 MAX_FAIL_RETRY = 3

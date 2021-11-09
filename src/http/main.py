@@ -11,10 +11,11 @@ Check out the Becoming Big section for some inspiration how to deal with that.
 """
 
 from flask import Flask
+from flask_cors import CORS
 
 
 app = Flask(__name__)
-
+cors = CORS(app)
 
 from src.http.v0 import * # noqa
 

@@ -29,6 +29,7 @@ ffmpeg-python==0.2.0
 filelock==3.0.12
 flake8==3.9.2
 Flask==2.0.2
+Flask-Cors==3.0.10
 future==0.18.2
 gevent==21.1.2
 greenlet==1.1.0
