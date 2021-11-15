@@ -1,7 +1,10 @@
-from pymongo import MongoClient
+from pymongo import MongoClient, ASCENDING, DESCENDING
 from pymongo.errors import BulkWriteError
 from ..exception import EmptyCache
 from ..constants import MONGO_HOST, MONGO_PORT, DB_DATE_VERSION, REGEN_MOVIES
+
+ASCENDING = ASCENDING
+DESCENDING = DESCENDING
 
 # An important note about collections (and databases) in MongoDB is that they are created lazily
 # https://pymongo.readthedocs.io/en/stable/tutorial.html#making-a-connection-with-mongoclient
@@ -21,21 +24,40 @@ def get_dbs(*dbs_list) -> tuple:
 # tmp_db - keep current resolvers cache
 # cursor_db - keep a pointer with already processed cache
 tmp_db_name = "witth%s" % DB_DATE_VERSION if REGEN_MOVIES else "witth"
-temp_db, cursor_db, meta_db, mint_db = get_dbs(tmp_db_name, "ipfs", "meta", "mint")
+temp_db, cursor_db, mint_db = get_dbs(tmp_db_name, "ipfs", "mint")
 
 # Check for empty db
 empty_tmp = temp_db.movies.count() == 0
 empty_cursor = cursor_db.movies.count() == 0
 empty_mint_db = mint_db.movies.count() == 0
-empty_meta_db = meta_db.movies.count() == 0
 
 
-def retrieve(db=None, _filter=None):
+def fetch(db=None, _filter=None, opts=None):
+    """
+    Return resolved entry
+    from cache tmp db
+    :param db: tmp_db
+    :param _filter:
+    :param opts:
+    :return: Cursor
+    """
+
+    db = db or temp_db
+    current_filter = _filter or {}
+    return db.movies.find_one(
+        current_filter,
+        opts
+        # no_cursor_timeout=True
+    )
+
+
+def retrieve(db=None, _filter=None, opts=None):
     """
     Return all resolved entries
     from cache tmp db
     :param db: tmp_db
     :param _filter:
+    :param opts:
     :return: Cursor
     """
 
@@ -43,6 +65,7 @@ def retrieve(db=None, _filter=None):
     current_filter = _filter or {}
     result_set = db.movies.find(
         current_filter,
+        opts
         # no_cursor_timeout=True
     ).batch_size(1000)
 
@@ -74,20 +97,18 @@ def set_ingested_with(_id, data):
     """
 
     cursor_db.movies.insert_one(data)
-    temp_db.movies.update_one(
-        {"imdb_code": _id}, {"$set": {"updated": True}}
-    )
+    temp_db.movies.update_one({"imdb_code": _id}, {"$set": {"updated": True}})
 
     return data
 
 
-def ingested():
+def ingested(_filter: dict = None, _opts: dict = None):
     """
     Return already processed and ingested entries
     :return: Cursor
     """
 
-    return retrieve(cursor_db)
+    return retrieve(cursor_db, _filter, _opts)
 
 
 def pending():
@@ -109,14 +130,13 @@ def flush():
     available entries to process in tmp_db
     :return:
     """
-    meta_db.movies.delete_many({})
     cursor_db.movies.delete_many({})
     mint_db.movies.delete_many({})
     temp_db.movies.update_many(
         # Filter processed
         {"updated": True},
         # Mark the processed as pending
-        {"$unset": {"updated": None}}
+        {"$unset": {"updated": None}},
     )
 
 
@@ -136,49 +156,20 @@ def mint(tx: str, to: str, data: list) -> list:
     """
     Insert into cache already minted entries
     """
-    zipped = [{"tx": tx, "to": to, "cid": x} for x in data]
+    zipped = [{"tx": tx, "creator": to, "cid": x} for x in data]
     mint_db.movies.insert_many(zipped)
     return data
 
 
-def minted():
+def minted(_filter: dict = None, _opts: dict = None):
     """
     Return already processed and minted entries
     :return: Cursor
     """
-    return retrieve(mint_db)
-
-
-def store_meta(meta_data: list):
-    """
-    Insert into cache metadata
-    """
-    meta_db.movies.insert_many(meta_data)
-    return meta_data
-
-
-def rewrite_meta(meta_data: list):
-    """
-    Rewrite cache metadata
-    """
-    meta_db.movies.delete_many({})
-    store_meta(meta_data)
-    return meta_data
-
-
-def meta():
-    """
-    Return already processed and minted entries
-    :return: Cursor
-    """
-    return retrieve(meta_db)
+    return retrieve(mint_db, _filter, _opts)
 
 
 __all__ = [
-    "empty_cursor",
-    "empty_tmp",
-    "temp_db",
-    "cursor_db",
     "get_dbs",
     "rewrite",
     "retrieve",
@@ -189,5 +180,6 @@ __all__ = [
     "retrieve_with_empty_exception",
     "mint",
     "minted",
-    "empty_mint_db"
+    "empty_mint_db",
+    "fetch"
 ]

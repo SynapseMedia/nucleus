@@ -35,10 +35,9 @@ def test_resolve_root_for_raw():
 
 def test_extract_extension_for_file():
     """Should extract extension from file path"""
-    extension = util.extract_extension(file)
     expected = "png"
-
-    assert extension == expected
+    assert util.extract_extension("watchit.png") == expected
+    assert util.extract_extension(file) == expected
 
 
 def test_build_dir_without_group():
