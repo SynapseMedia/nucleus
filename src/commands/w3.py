@@ -81,5 +81,3 @@ def generate():
         directory, _ = util.resolve_root_for(current_dir)
         util.write_json(f"{directory}/index.json", nft_movie_meta)
         logger.log.success(f"Written metadata for {current_movie.imdb_code}\n")
-    # Save metadata built
-    cache.rewrite_meta(metadata_list)
