@@ -31,7 +31,13 @@ def nft(_):
     pass
 
 
-@nft.command()
+@nft.group('mint')
+@click.pass_context
+def mint():
+    pass
+
+
+@mint.command()
 @click.option("--limit", default=5)
 @click.pass_context
 def batch(ctx, limit):
@@ -48,10 +54,10 @@ def batch(ctx, limit):
     cache.mint(tx, to, cid_list)
 
 
-@nft.command()
+@mint.command()
 @click.option("--cid", default=None)
 @click.pass_context
-def mint(ctx, cid):
+def single(ctx, cid):
     if not cid:
         raise InvalidCID()
 
