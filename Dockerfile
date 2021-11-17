@@ -8,6 +8,6 @@ WORKDIR $PROJECT_ROOT
 COPY . $PROJECT_ROOT
 
 # Install deps
-RUN npm install && npm cache clean --force
+RUN  npm cache clean --force && npm install
 RUN pip3 install -r requirements.txt
 

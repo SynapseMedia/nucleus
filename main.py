@@ -4,7 +4,7 @@ __license__ = "AGPL V3"
 
 
 from gevent import monkey as curious_george
-curious_george.patch_all(thread=False, select=False)
+curious_george.patch_all()
 
 import click
 import logging
@@ -19,9 +19,8 @@ if __name__ == '__main__':
     @click.option('--debug/--no-debug', default=True)
     def cli(debug):
         # Overwrite log level
-        log_level = logging.DEBUG if debug else logging.NOTSET
+        logger.log.setLevel(logging.DEBUG if debug else logging.NOTSET)
         logger.log.warning(f"Debug mode is {'on' if debug else 'off'}")
-        logger.log.setLevel(log_level)
 
     cli()
     exit(0)
