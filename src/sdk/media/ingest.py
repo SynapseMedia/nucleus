@@ -50,8 +50,10 @@ def add_dir_to_ipfs(_dir: str) -> str:
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), directory)
 
     _hash = ipfs.add(
-        directory, recursive=True, cid_version=1, hash_function="blake2b-208"
+        directory, recursive=True,
+        cid_version=1, hash_function="blake2b-208"
     )
+
     _hash = map(lambda x: {"size": int(x["Size"]), "hash": x["Hash"]}, _hash)
     _hash = max(_hash, key=lambda x: x["size"])["hash"]
     logger.log.info(f"IPFS hash: {_hash}")
@@ -74,7 +76,7 @@ def _add_cid_to_posters(posters: PostersScheme, _hash: str) -> PostersScheme:
 
 
 def _add_cid_to_videos(
-    videos: Iterator[VideoScheme], _hash: str
+        videos: Iterator[VideoScheme], _hash: str
 ) -> Iterator[VideoScheme]:
     """
     Replace route => cid declared in scheme VideoScheme
@@ -101,6 +103,18 @@ def _add_cid_to_resources(resource: MultiMediaScheme, _hash: str) -> MultiMediaS
     resource.posters = _add_cid_to_posters(resource.posters, _hash)
     resource.videos = _add_cid_to_videos(resource.videos, _hash)
     return resource
+
+
+def pin_cid_list_remote(cid_list: iter) -> list:
+    """
+    Pin CID into IPFS remote node from list
+    :param cid_list: List of cids to pin
+    :return: cid list after pin
+    """
+    for cid in cid_list:
+        logger.log.notice(f"Pinning cid: {cid}")
+        ipfs.pin.add(cid)
+    return cid_list
 
 
 def pin_cid_list(cid_list: iter) -> list:
