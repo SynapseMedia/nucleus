@@ -1,6 +1,6 @@
 import requests
 from src.sdk import logger, media
-from ..constants import (
+from src.sdk.constants import (
     VALIDATE_SSL,
     PINATA_API_SECRET,
     PINATA_API_KEY,

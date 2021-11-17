@@ -4,7 +4,7 @@ import errno
 import ipfshttpclient
 from typing import Iterator
 from .. import util, logger
-from ..cache.pinata import pin_remote
+from src.sdk.web3.storage import pin_remote
 from ..constants import TIMEOUT_REQUEST, RECURSIVE_SLEEP_REQUEST
 from ..scheme.definition.movies import (
     MovieScheme,
