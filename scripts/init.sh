@@ -13,6 +13,7 @@ ipfs config --bool Swarm.DisableBandwidthMetrics true
 ipfs config Swarm.AddrFilters "[]" --json
 ipfs config Swarm.ConnMgr.HighWater 160 --json
 ipfs config Swarm.ConnMgr.LowWater 80 --json
-ipfs config Datastore.GCPeriod "72h"
+ipfs config Datastore.GCPeriod "1h"
+ipfs config Datastore.StorageMax "30GB"
 ipfs daemon --migrate=true --enable-namesys-pubsub --enable-pubsub-experiment --routing=dhtclient
 
