@@ -51,7 +51,7 @@ def batch(ctx, limit):
     _w3 = web3.factory.w3(context_network)
     _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
     tx, to, cid_list = web3.nft.mint_batch(_to, cid_list, context_network)
-    cache.mint(tx, to, cid_list)
+    cache.mint_cid_list(tx, to, cid_list)
 
 
 @mint.command()
@@ -65,7 +65,7 @@ def single(ctx, cid):
     _w3 = web3.factory.w3(context_network)
     _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
     tx, to, cid = web3.nft.mint(_to, cid, context_network)
-    cache.mint(tx, to, [cid])
+    cache.mint_cid_list(tx, to, [cid])
 
 
 @nft.command()

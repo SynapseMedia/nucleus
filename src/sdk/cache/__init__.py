@@ -32,7 +32,7 @@ empty_cursor = cursor_db.movies.count() == 0
 empty_mint_db = mint_db.movies.count() == 0
 
 
-def fetch(db=None, _filter=None, opts=None):
+def get(db=None, _filter=None, opts=None):
     """
     Return resolved entry
     from cache tmp db
@@ -152,13 +152,13 @@ def rewrite(data):
         pass
 
 
-def mint(tx: str, to: str, data: list) -> list:
+def mint_cid_list(tx: str, to: str, cid_list: list) -> list:
     """
     Insert into cache already minted entries
     """
-    zipped = [{"tx": tx, "creator": to, "cid": x} for x in data]
+    zipped = [{"tx": tx, "creator": to, "cid": x} for x in cid_list]
     mint_db.movies.insert_many(zipped)
-    return data
+    return cid_list
 
 
 def minted(_filter: dict = None, _opts: dict = None):
@@ -178,7 +178,7 @@ __all__ = [
     "ingested",
     "set_ingested_with",
     "retrieve_with_empty_exception",
-    "mint",
+    "mint_cid_list",
     "minted",
     "empty_mint_db",
     "fetch",
