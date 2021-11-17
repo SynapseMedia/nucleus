@@ -2,7 +2,7 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, logger, exception, media
 from src.sdk.constants import FLUSH_CACHE_IPFS, AUTO_PIN_FILES
-from src.sdk.cache import check_pinata_status, pin_remote
+from src.sdk.cache.pinata import check_pinata_status, pin_remote
 
 
 def _pin_files():
@@ -13,7 +13,7 @@ def _pin_files():
     logger.log.warning("Starting pinning to IPFS")
     entries, _ = cache.ingested()
     files_cid = map(lambda x: x["hash"], entries)
-    media.ingest.pin_cid_list(files_cid)
+    media.ingest.pin_cid_list_remote(files_cid)
     entries.close()
 
 
@@ -77,7 +77,7 @@ def status(ctx):
 @edge.command()
 @click.option("--cid", default=None)
 @click.pass_context
-def pin(ctx, cid):
+def pinned(ctx, cid):
     media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
     logger.log.warning(f"Start pinning for cid: {cid}")
     edge_pinned = pin_remote(cid)
