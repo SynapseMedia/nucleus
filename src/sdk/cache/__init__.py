@@ -152,7 +152,7 @@ def rewrite(data):
         pass
 
 
-def mint_cid_list(tx: str, to: str, cid_list: list) -> list:
+def set_minted_with(tx: str, to: str, cid_list: list) -> list:
     """
     Insert into cache already minted entries
     """
@@ -178,7 +178,7 @@ __all__ = [
     "ingested",
     "set_ingested_with",
     "retrieve_with_empty_exception",
-    "mint_cid_list",
+    "set_minted_with",
     "minted",
     "empty_mint_db",
     "fetch",
