@@ -30,7 +30,8 @@ const logs = {
 };
 
 // List of default keys
-(async () => {
+// ; = ensures the preceding statement was closed
+;(async () => {
 
         // FUNCTIONS
         const chunkGen = (_movies, l) => {
