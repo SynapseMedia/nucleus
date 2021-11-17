@@ -37,12 +37,10 @@ const logs = {
             // Split array in chunks
             return new Array(Math.ceil(_movies.length / l)).fill(0)
                 .map((_, n) => _movies.slice(n * l, n * l + l));
-        }, ifNotExistCreateKey = async (key) => {
+        }, hasIPFSKey = async (key) => {
             // Check if current used key exists
             const currentList = await ipfs.key.list()
-            const existingKey = currentList.some((k) => Object.is(k.name, key))
-            if (!existingKey) return await ipfs.key.gen(key)
-            return false;
+            return currentList.some((k) => Object.is(k.name, key))
         }
 
         // Create OrbitDB instance
@@ -64,8 +62,10 @@ const logs = {
         const dbAddressHash = dbAddress.split('/')[2]
 
         // Check if existing keys else create it
-        if (await ifNotExistCreateKey(KEY))
+        if (!(await hasIPFSKey(KEY))) {
+            await ipfs.key.gen(KEY)
             logs.warn(`"${KEY}" key created`)
+        }
 
         // Add provider to allow nodes connect to it
         await consume(ipfs.dht.provide(dbAddressHash))
