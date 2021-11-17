@@ -2,6 +2,7 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, logger, exception, media
 from src.sdk.constants import FLUSH_CACHE_IPFS, AUTO_PIN_FILES
+from src.sdk.cache import check_pinata_status, pin_remote
 
 
 def _pin_files():
@@ -16,10 +17,17 @@ def _pin_files():
     entries.close()
 
 
-@click.command()
+@click.group("storage")
+@click.pass_context
+def storage(ctx):
+    pass
+
+
+@storage.command()
 @click.option("--no-cache", default=FLUSH_CACHE_IPFS)
 @click.option("--pin", default=AUTO_PIN_FILES)
-def ingest(no_cache, pin):
+@click.pass_context
+def ingest(ctx, no_cache, pin):
     """
     Ingest media ready for production into IPFS
     """
@@ -47,3 +55,31 @@ def ingest(no_cache, pin):
         _pin_files()
 
     result.close()
+
+
+@storage.group('edge')
+@click.pass_context
+def edge(ctx):
+    pass
+
+
+@edge.command()
+@click.pass_context
+def status(ctx):
+    media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
+    edge_status = check_pinata_status()
+    if edge_status:
+        logger.log.success("Edge cache: Success")
+    else:
+        logger.log.error('Edge cache: Offline')
+
+
+@edge.command()
+@click.option("--cid", default=None)
+@click.pass_context
+def pin(ctx, cid):
+    media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
+    logger.log.warning(f"Start pinning for cid: {cid}")
+    edge_pinned = pin_remote(cid)
+    logger.log.info(edge_pinned)
+
