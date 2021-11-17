@@ -14,8 +14,10 @@ def _clean_internals(entry):
     """
     del entry["properties"]["properties"]["hash"]
     del entry["properties"]["properties"]["resource"]
-    imdb_code = entry["properties"]["properties"]['imdb_code']
-    entry["properties"]["image"] = f"{NODE_URI}/proxy{entry['properties']['image']}?imdb={imdb_code}"
+    imdb_code = entry["properties"]["properties"]["imdb_code"]
+    entry["properties"][
+        "image"
+    ] = f"{NODE_URI}/proxy{entry['properties']['image']}?imdb={imdb_code}"
     return entry
 
 
@@ -31,7 +33,7 @@ def recent():
     # Parse erc1155 metadata
     # Get "in-relation" hash from ingested metadata
     metadata_for_cid, _ = ingested({"hash": {"$in": mapped_cid}})
-    metadata_for_cid.sort([('_id', DESCENDING)])  # sort descending by date
+    metadata_for_cid.sort([("_id", DESCENDING)])  # sort descending by date
 
     # Generate metadata ERC1155 for response
     movies_meta = map(erc1155_metadata, check(metadata_for_cid))

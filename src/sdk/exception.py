@@ -25,4 +25,4 @@ class InvalidCID(Exception):
 
 class InvalidRequest(Exception):
     code = 400
-    description = 'Invalid request.'
+    description = "Invalid request."

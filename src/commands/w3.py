@@ -31,7 +31,7 @@ def nft(_):
     pass
 
 
-@nft.group('mint')
+@nft.group("mint")
 @click.pass_context
 def mint():
     pass

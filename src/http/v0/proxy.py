@@ -14,6 +14,11 @@ def proxy(file):
         raise InvalidRequest()
 
     local_node_uri = f"{IPFS_NODE}:{IPFS_NODE_GATEWAY_PORT}"
-    proxy_movie = fetch(cursor_db, _filter={'imdb_code': imdb_code})
-    req = requests.get(f"{local_node_uri}/ipfs/{proxy_movie['hash']}/{file}", stream=True)
-    return Response(stream_with_context(req.iter_content(chunk_size=1024)), content_type=req.headers['content-type'])
+    proxy_movie = fetch(cursor_db, _filter={"imdb_code": imdb_code})
+    req = requests.get(
+        f"{local_node_uri}/ipfs/{proxy_movie['hash']}/{file}", stream=True
+    )
+    return Response(
+        stream_with_context(req.iter_content(chunk_size=1024)),
+        content_type=req.headers["content-type"],
+    )

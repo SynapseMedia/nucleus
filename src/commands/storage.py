@@ -57,7 +57,7 @@ def ingest(ctx, no_cache, pin):
     result.close()
 
 
-@storage.group('edge')
+@storage.group("edge")
 @click.pass_context
 def edge(ctx):
     pass
@@ -71,7 +71,7 @@ def status(ctx):
     if edge_status:
         logger.log.success("Edge cache: Success")
     else:
-        logger.log.error('Edge cache: Offline')
+        logger.log.error("Edge cache: Offline")
 
 
 @edge.command()
@@ -82,4 +82,3 @@ def pinned(ctx, cid):
     logger.log.warning(f"Start pinning for cid: {cid}")
     edge_pinned = pin_remote(cid)
     logger.log.info(edge_pinned)
-

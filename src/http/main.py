@@ -17,7 +17,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 cors = CORS(app)
 
-from src.http.v0 import * # noqa
+from src.http.v0 import *  # noqa
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

@@ -3,6 +3,7 @@ from pymongo.errors import BulkWriteError
 from ..exception import EmptyCache
 from ..constants import MONGO_HOST, MONGO_PORT, DB_DATE_VERSION, REGEN_MOVIES
 from . import pinata
+
 ASCENDING = ASCENDING
 DESCENDING = DESCENDING
 
@@ -182,5 +183,5 @@ __all__ = [
     "minted",
     "empty_mint_db",
     "pinata",
-    "fetch"
+    "fetch",
 ]

@@ -21,7 +21,7 @@ PINATA_PSA = os.getenv("PINATA_PSA")
 PINATA_SERVICE = os.getenv("PINATA_SERVICE")
 
 # Http settings
-NODE_URI = os.getenv('NODE_URI')
+NODE_URI = os.getenv("NODE_URI")
 
 # Transcode constants
 OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") == "True"
@@ -33,8 +33,8 @@ DEFAULT_HLS_FORMAT = "m3u8"
 DEFAULT_NEW_FILENAME = "index.m3u8"
 
 # Ingest constants
-IPFS_NODE = os.getenv('IPFS_NODE')
-IPFS_NODE_GATEWAY_PORT = os.getenv('IPFS_NODE_GATEWAY_PORT')
+IPFS_NODE = os.getenv("IPFS_NODE")
+IPFS_NODE_GATEWAY_PORT = os.getenv("IPFS_NODE_GATEWAY_PORT")
 FLUSH_CACHE_IPFS = os.getenv("FLUSH_CACHE_IPFS", "False") == "True"
 AUTO_PIN_FILES = os.getenv("AUTO_PIN_FILES", "False") == "True"
 TIMEOUT_REQUEST = 30 * 60
