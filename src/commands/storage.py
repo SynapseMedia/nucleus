@@ -67,8 +67,8 @@ def edge(ctx):
 @click.pass_context
 def status(ctx):
     media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
-    edge_status = check_pinata_status()
-    if edge_status:
+    is_edge_active = check_pinata_status()
+    if is_edge_active:
         logger.log.success("Edge cache: Success")
     else:
         logger.log.error("Edge cache: Offline")
