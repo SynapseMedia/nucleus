@@ -14,9 +14,18 @@ from src.sdk.constants import (
 session = requests.Session()
 
 
-def _find_service_int_list(s):
+def _find_service_in_list(service):
+    """
+    Check if "pinata" is a pin remote service in node
+    :param service: Current processed Service dic
+    :return: Tuple with value found or tuple with None (None,) || (pinata,)
+    """
     return next(
-        (i["Service"] for i in s["RemoteServices"] if i["Service"] == PINATA_SERVICE),
+        (
+            i["Service"]
+            for i in service["RemoteServices"]
+            if i["Service"] == PINATA_SERVICE
+        ),
         None,
     )
 
@@ -31,7 +40,9 @@ def valid_registered_service():
     registered_services = ipfs_api_client.request(
         "/pin/remote/service/ls", args, decoder="json"
     )
-    find_registered_service = map(_find_service_int_list, registered_services)
+
+    # Map result from registered services and search for "pinata"
+    find_registered_service = map(_find_service_in_list, registered_services)
     return PINATA_SERVICE in tuple(filter(None, find_registered_service))
 
 
