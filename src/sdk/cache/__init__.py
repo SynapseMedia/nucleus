@@ -73,7 +73,7 @@ def retrieve(db=None, _filter=None, opts=None):
     return result_set, result_set.count()
 
 
-def retrieve_with_empty_exception(db=None, _filter=None):
+def safe_retrieve(db=None, _filter=None):
     """
     Return all resolved entries with empty check
     :param db: tmp_db
@@ -88,7 +88,7 @@ def retrieve_with_empty_exception(db=None, _filter=None):
     return result, result_count
 
 
-def set_ingested_with(_id, data):
+def ingest(_id, data):
     """
     Insert and mark entry as updated in temp_db
     :param _id: The entry id
@@ -152,7 +152,7 @@ def rewrite(data):
         pass
 
 
-def set_minted_with(tx: str, to: str, cid_list: list) -> list:
+def freeze(tx: str, to: str, cid_list: list) -> list:
     """
     Insert into cache already minted entries
     """
@@ -161,7 +161,7 @@ def set_minted_with(tx: str, to: str, cid_list: list) -> list:
     return cid_list
 
 
-def minted(_filter: dict = None, _opts: dict = None):
+def frozen(_filter: dict = None, _opts: dict = None):
     """
     Return already processed and minted entries
     :return: Cursor
@@ -176,10 +176,10 @@ __all__ = [
     "flush",
     "pending",
     "ingested",
-    "set_ingested_with",
-    "retrieve_with_empty_exception",
-    "set_minted_with",
-    "minted",
+    "ingest",
+    "safe_retrieve",
+    "freeze",
+    "frozen",
     "empty_mint_db",
     "fetch",
 ]

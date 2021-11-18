@@ -14,7 +14,7 @@ def transcode(overwrite):
     """
     # Get stored movies in tmp_db and process it
     # Total size of entries to fetch
-    result, result_count = cache.retrieve_with_empty_exception()
+    result, result_count = cache.safe_retrieve()
     logger.log.warning(f"Transcoding {result_count} results")
     # Fetch from each row in tmp db the resources
     for current_movie in check(result):

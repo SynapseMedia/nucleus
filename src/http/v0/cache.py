@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from src.http.main import app
-from src.sdk.cache import minted, ingested, DESCENDING
+from src.sdk.cache import frozen, ingested, DESCENDING
 from src.sdk.media.nft import erc1155_metadata
 from src.sdk.scheme.validator import check
 from src.sdk.constants import NODE_URI
@@ -29,7 +29,7 @@ def recent():
     limit = request.args.get("limit", 6)
 
     # Get current latest minted movies
-    minted_nft, _ = minted({}, {"cid": 1, "_id": False})
+    minted_nft, _ = frozen({}, {"cid": 1, "_id": False})
     meta_data_limited = minted_nft.limit(limit)  # slice response
     mapped_cid = list(map(lambda x: x.get("cid"), meta_data_limited))
 
