@@ -12,12 +12,15 @@ def _clean_internals(entry):
     :param entry: MovieScheme dict
     :return MovieScheme dict with cleaned and sanitized fields
     """
+
+    # Clean not public data
     del entry["properties"]["properties"]["hash"]
     del entry["properties"]["properties"]["resource"]
+    # Movie imdb_code to get sanitize URI
     imdb_code = entry["properties"]["properties"]["imdb_code"]
-    entry["properties"][
-        "image"
-    ] = f"{NODE_URI}/proxy{entry['properties']['image']}?imdb={imdb_code}"
+    # Sanitize uri to get handled by proxy
+    new_image_path = f"{NODE_URI}/proxy{entry['properties']['image']}?imdb={imdb_code}"
+    entry["properties"]["image"] = new_image_path
     return entry
 
 
