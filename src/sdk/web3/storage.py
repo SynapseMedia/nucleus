@@ -1,4 +1,5 @@
 import requests
+from ipfshttpclient.exceptions import ErrorResponse
 from src.sdk import logger, media
 from src.sdk.constants import (
     VALIDATE_SSL,
@@ -56,10 +57,14 @@ def pin_remote(cid: str, **kwargs):
     if not valid_registered_service():
         register_service()
 
-    ipfs_api_client = media.ingest.ipfs.get_client()
-    args = (cid,)
-    kwargs.setdefault("opts", {"service": PINATA_SERVICE, "background": False})
-    return ipfs_api_client.request("/pin/remote/add", args, decoder="json", **kwargs)
+    try:
+        args = (cid,)
+        ipfs_api_client = media.ingest.ipfs.get_client()
+        kwargs.setdefault("opts", {"service": PINATA_SERVICE, "background": False})
+        return ipfs_api_client.request("/pin/remote/add", args, decoder="json", **kwargs)
+    except ErrorResponse:
+        logger.log.warning('Object already pinned to pinata')
+        logger.log.info('Please remove or replace existing pin object')
 
 
 def register_service():
