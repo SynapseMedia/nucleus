@@ -62,14 +62,14 @@ def pin_remote(cid: str, **kwargs):
     return ipfs_api_client.request("/pin/remote/add", args, decoder="json", **kwargs)
 
 
-def register_service(**kwargs):
+def register_service():
     """
     Register service in ipfs node
     :return: request result according to
     http://docs.ipfs.io.ipns.localhost:8080/reference/http/api/#api-v0-pin-remote-service-add
     """
     if valid_registered_service():
-        logger.log.error("Service already registered")
+        logger.log.warning("Service already registered")
         return
 
     ipfs_api_client = media.ingest.ipfs.get_client()
