@@ -49,7 +49,7 @@ def ingest(ctx, no_cache, pin):
     for current_movie in check(result):
         _id = current_movie.imdb_code  # Current id
         ingested_data = media.ingest.to_ipfs_from(current_movie)
-        cache.set_ingested_with(_id, ingested_data)
+        cache.ingest(_id, ingested_data)
 
     if pin:  # If allowed pin files
         _pin_files()
