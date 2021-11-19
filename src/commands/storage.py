@@ -2,7 +2,7 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, logger, exception, media
 from src.sdk.constants import FLUSH_CACHE_IPFS, AUTO_PIN_FILES
-from src.sdk.web3.storage import check_status, pin_remote
+from src.sdk.web3.edge import check_status, pin_remote
 
 
 def _pin_files():
