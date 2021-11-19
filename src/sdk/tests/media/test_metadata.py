@@ -63,7 +63,7 @@ expected_erc1155 = {
 # Unit tests
 @responses.activate
 def test_build_paths_from():
-    """Should fetch remote file from valid URL"""
+    """Should sanitize paths for metadata resources"""
     multimedia = MultiMediaScheme().load(input_paths)
     assert sorted(_build_paths_from(multimedia)) == sorted(built_paths)
 
@@ -71,6 +71,6 @@ def test_build_paths_from():
 # Unit tests
 @responses.activate
 def test_generate_erc1155():
-    """Should fetch remote file from valid URL"""
+    """Should generate valid erc1155 metadata"""
     mv = MovieScheme().load(input_movie())
     assert sorted(generate_erc1155(mv)) == sorted(expected_erc1155)
