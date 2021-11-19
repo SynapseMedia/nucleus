@@ -48,7 +48,7 @@ def recent():
 @app.route("/cache/creators", methods=["GET"])
 def creators():
     order_by = request.args.get("order", DESCENDING)
-    limit = request.args.get("limit", 18)
+    limit = request.args.get("limit", 6)
 
     # Get current latest minted movies
     aggregation_group = [
@@ -58,4 +58,5 @@ def creators():
     ]
 
     recent_minters = aggregated(aggregation_group)
+    recent_minters = map(lambda x: {'address': x['_id'], 'movies': x['sum']}, recent_minters)
     return jsonify(list(recent_minters))
