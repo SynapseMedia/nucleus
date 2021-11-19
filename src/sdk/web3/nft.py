@@ -1,7 +1,23 @@
-from src.sdk.constants import WALLET_KEY
+from src.sdk.constants import WALLET_KEY, WALLET_PUBLIC_KEY
 from .factory import nft_contract
 from .crypto import cid_to_uint256
 from .. import logger
+
+
+def _show_stats(_w3, tx):
+    """
+    Show generic transaction stats
+    :param _w3: Web3
+    :param tx: Transaction hex to log
+    """
+
+    tx_details = _w3.eth.get_transaction(tx)
+    logger.log.info(f"/nOwner: {WALLET_PUBLIC_KEY}")
+    logger.log.info(f"Tx Gas #: {tx_details['gas']}")
+    logger.log.info(f"Tx Gas Price #: {tx_details['gasPrice']}")
+    logger.log.info(f"Tx Block Hash: {tx_details['blockHash']}")
+    logger.log.info(f"Tx Block #: {tx_details['blockNumber']}")
+    logger.log.info(f"Tx Nonce #: {tx_details['nonce']}")
 
 
 def mint(to: str, cid, chain_name="kovan"):
@@ -13,7 +29,7 @@ def mint(to: str, cid, chain_name="kovan"):
     :return: eth.Transaction
     """
 
-    logger.log.info(f"Minting CID {cid} for {to} in {chain_name}")
+    logger.log.info(f"Minting CID {cid} in {chain_name}")
     _w3, contract = nft_contract(chain_name)
     owner = _w3.eth.account.privateKeyToAccount(WALLET_KEY)
     nonce = _w3.eth.getTransactionCount(owner.address)
@@ -22,9 +38,8 @@ def mint(to: str, cid, chain_name="kovan"):
     transaction = contract.functions.mint(to, _cid).buildTransaction({"nonce": nonce})
     signed_txn = _w3.eth.account.sign_transaction(transaction, private_key=WALLET_KEY)
     tx = _w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-    logger.log.info(f"Uint256 cid: {_cid}")
-    logger.log.info(f"NFT cid: {contract.functions.uri(_cid).call()}")
     logger.log.info(f"TX: {tx.hex()}")
+    _show_stats(_w3, tx)  # Show additional generic stats
 
     return tx.hex(), to, cid
 
@@ -41,12 +56,13 @@ def mint_batch(to: str, cid_list: list, chain_name="kovan"):
     owner = _w3.eth.account.privateKeyToAccount(WALLET_KEY)
     nonce = _w3.eth.getTransactionCount(owner.address)
 
-    cid_list = [cid_to_uint256(x) for x in cid_list]  # Format base16 => hex => int
+    _cid_list = [cid_to_uint256(x) for x in cid_list]  # Format base16 => hex => int
     transaction = contract.functions.mintBatch(
-        to, cid_list  # owner, cid uint256
+        to, _cid_list  # owner, cid uint256
     ).buildTransaction({"nonce": nonce})
 
     signed_txn = _w3.eth.account.sign_transaction(transaction, private_key=WALLET_KEY)
     tx = _w3.eth.send_raw_transaction(signed_txn.rawTransaction)
     logger.log.info(f"TX: {tx.hex()}")
+    _show_stats(_w3, tx)  # Show additional generic stats
     return tx.hex(), to, cid_list
