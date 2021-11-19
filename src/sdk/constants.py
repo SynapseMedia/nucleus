@@ -13,12 +13,14 @@ RAW_PATH = os.getenv("RAW_DIRECTORY")
 PROD_PATH = os.getenv("PROD_DIRECTORY")
 
 # Pinata settings
-PINATA_ENDPOINT = os.getenv("PINATA_ENDPOINT")
-PINATA_API_KEY = os.getenv("PINATA_API_KEY")
-PINATA_API_SECRET = os.getenv("PINATA_API_SECRET")
-PINATA_API_JWT = os.getenv("PINATA_API_JWT")
 PINATA_PSA = os.getenv("PINATA_PSA")
+PINATA_API_JWT = os.getenv("PINATA_API_JWT")
+PINATA_API_KEY = os.getenv("PINATA_API_KEY")
 PINATA_SERVICE = os.getenv("PINATA_SERVICE")
+PINATA_ENDPOINT = os.getenv("PINATA_ENDPOINT")
+PINATA_API_SECRET = os.getenv("PINATA_API_SECRET")
+# Background process for pinata pinning?
+PINATA_PIN_BACKGROUND = os.getenv("PINATA_PIN_BACKGROUND", "False") == "True"
 
 # Http settings
 NODE_URI = os.getenv("NODE_URI")
