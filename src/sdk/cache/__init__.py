@@ -105,6 +105,8 @@ def ingest(_id, data):
 def ingested(_filter: dict = None, _opts: dict = None):
     """
     Return already processed and ingested entries
+    :param _filter: filter dic
+    :param _opts: opts dic
     :return: Cursor
     """
 
@@ -155,6 +157,9 @@ def rewrite(data):
 def freeze(tx: str, to: str, cid_list: list) -> list:
     """
     Insert into cache already minted entries
+    :param tx: Transaction hash
+    :param to: Owner
+    :param cid_list: List of cid minted to cache
     """
     zipped = [{"tx": tx, "creator": to, "cid": x} for x in cid_list]
     mint_db.movies.insert_many(zipped)
@@ -164,6 +169,8 @@ def freeze(tx: str, to: str, cid_list: list) -> list:
 def frozen(_filter: dict = None, _opts: dict = None):
     """
     Return already processed and minted entries
+    :param _filter: filter dic
+    :param _opts: opts dic
     :return: Cursor
     """
     return retrieve(mint_db, _filter, _opts)
@@ -181,5 +188,5 @@ __all__ = [
     "freeze",
     "frozen",
     "empty_mint_db",
-    "fetch",
+    "get",
 ]

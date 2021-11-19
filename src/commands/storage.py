@@ -76,13 +76,13 @@ def status(ctx):
     logger.log.error("Edge cache: Offline")
 
 
-@edge.group('pin')
+@edge.group("pin")
 @click.option("--remote", default=True, is_flag=True)
 @click.pass_context
 def pin(ctx, remote):
     """Pin cid tools"""
     ctx.ensure_object(dict)
-    ctx.obj['remote'] = remote
+    ctx.obj["remote"] = remote
     pass
 
 
