@@ -1,5 +1,4 @@
 import responses
-from src.sdk.scheme.validator import check
 from src.sdk.constants import WALLET_PUBLIC_KEY
 from src.sdk.scheme.definition.movies import MovieScheme, MultiMediaScheme
 from src.sdk.media.metadata import generate_erc1155, _build_paths_from
