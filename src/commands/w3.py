@@ -8,9 +8,7 @@ from src.sdk.exception import InvalidCID
 @click.option("--network", default="kovan")
 @click.pass_context
 def w3(ctx, network):
-    """
-    NFT tools
-    """
+    """Web3 toolkit"""
     ctx.ensure_object(dict)
     ctx.obj["network"] = network
 
@@ -18,6 +16,7 @@ def w3(ctx, network):
 @w3.command()
 @click.pass_context
 def status(ctx):
+    """Check for network status"""
     context_network = ctx.obj["network"]
     _w3 = web3.factory.w3(context_network)
     logger.log.success(
@@ -28,6 +27,7 @@ def status(ctx):
 @w3.group("nft")
 @click.pass_context
 def nft(_):
+    """NFT toolkit"""
     pass
 
 
@@ -41,6 +41,10 @@ def mint():
 @click.option("--limit", default=5)
 @click.pass_context
 def batch(ctx, limit):
+    """Batch mint from ingested cache cid list \n
+    Note: Please ensure that binaries are already ingested before run this command.
+    eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> mint batch
+    """
     result, result_count = cache.ingested()
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()
@@ -58,6 +62,7 @@ def batch(ctx, limit):
 @click.option("--cid", default=None)
 @click.pass_context
 def single(ctx, cid):
+    """Mint arbitrary cid"""
     if not cid:
         raise InvalidCID()
 
@@ -70,7 +75,10 @@ def single(ctx, cid):
 
 @nft.command()
 def generate():
-    """Generate metadata json file for ERC1155 NFT"""
+    """Generate metadata json file for ERC1155 NFT \n
+    Note: Please ensure that media is already transcode before run this command.
+    eg. Resolve meta -> Transcode media -> generate
+    """
     # Return available and not processed entries
     # Total size of entries to fetch
     metadata_list = []

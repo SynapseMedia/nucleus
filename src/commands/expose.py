@@ -9,9 +9,7 @@ from src.sdk.constants import REGEN_ORBITDB, MIXED_RESOURCES
 @click.option("--regen", default=REGEN_ORBITDB)
 @click.option("--mixed", default=MIXED_RESOURCES)
 def expose(regen, mixed):
-    """
-    Publish production ready channel
-    """
+    """Publish production ready channel"""
     # Add resolvers if not mixed allowed
     resolvers_names = (
         not mixed and list(map(runtime.resolvers_to_str, resolvers.load())) or None

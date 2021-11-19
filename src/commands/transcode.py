@@ -9,8 +9,9 @@ from src.sdk.constants import OVERWRITE_TRANSCODE_OUTPUT
 @click.option("--overwrite", default=OVERWRITE_TRANSCODE_OUTPUT)
 def transcode(overwrite):
     """
-    It transcode media defined in metadata
-    :param overwrite: overwrite current files if exists
+    Transcode media defined in metadata \n
+    Note: Please ensure that metadata exists in local temp db before run this command.
+    eg. Resolve meta -> Transcode media
     """
     # Get stored movies in tmp_db and process it
     # Total size of entries to fetch
