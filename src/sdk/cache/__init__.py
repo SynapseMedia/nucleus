@@ -51,6 +51,18 @@ def get(db=None, _filter=None, opts=None):
     )
 
 
+def aggregated(pipeline, db=None):
+    """
+    Amplifier function to handle aggregation strategy
+    :param pipeline: Pipeline
+    :param db: The db to aggregate
+    https://docs.mongodb.com/v4.0/reference/method/db.collection.aggregate/
+    :return: CommandCursor, count
+    """
+    db = db or mint_db
+    return db.movies.aggregate(pipeline)
+
+
 def retrieve(db=None, _filter=None, opts=None):
     """
     Return all resolved entries
@@ -58,7 +70,7 @@ def retrieve(db=None, _filter=None, opts=None):
     :param db: tmp_db
     :param _filter:
     :param opts:
-    :return: Cursor
+    :return: Cursor, count
     """
 
     db = db or temp_db
@@ -78,7 +90,7 @@ def safe_retrieve(db=None, _filter=None):
     Return all resolved entries with empty check
     :param db: tmp_db
     :param _filter:
-    :return: Cursor
+    :return: Cursor, count
     :raises: EmptyCache
     """
     result, result_count = retrieve(db, _filter)
@@ -107,7 +119,7 @@ def ingested(_filter: dict = None, _opts: dict = None):
     Return already processed and ingested entries
     :param _filter: filter dic
     :param _opts: opts dic
-    :return: Cursor
+    :return: Cursor, count
     """
 
     return retrieve(cursor_db, _filter, _opts)
@@ -116,7 +128,7 @@ def ingested(_filter: dict = None, _opts: dict = None):
 def pending():
     """
     Return pending get ingested entries
-    :return: Cursor
+    :return: Cursor, count
     """
     return retrieve(
         _filter={
@@ -168,7 +180,7 @@ def freeze(tx: str, to: str, cid_list: list) -> list:
 
 def frozen(_filter: dict = None, _opts: dict = None):
     """
-    Return already processed and minted entries
+    Return already processed and `minted cid` entries
     :param _filter: filter dic
     :param _opts: opts dic
     :return: Cursor
@@ -189,4 +201,7 @@ __all__ = [
     "frozen",
     "empty_mint_db",
     "get",
+    'aggregated',
+    'DESCENDING',
+    'ASCENDING'
 ]
