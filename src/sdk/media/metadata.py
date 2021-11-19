@@ -66,7 +66,7 @@ def _build_paths_from(resource: MultiMediaScheme):
     }
 
 
-def erc1155_metadata(mv: MovieScheme):
+def generate_erc1155(mv: MovieScheme):
     """
     Go and conquer the world little child!!:
     Add directory to ipfs

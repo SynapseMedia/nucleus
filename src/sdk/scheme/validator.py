@@ -5,16 +5,15 @@ from .definition.movies import MovieScheme
 from .. import logger
 
 
-def check(data: list, many: bool = True, **kwargs) -> Iterator[MovieScheme]:
+def check(data: list, **kwargs) -> Iterator[MovieScheme]:
     """
     Bypass check data in scheme
     :param data: List of schemas object
-    :param many: Validate many or a single object
     :raise ValidationError
     :return Validated schema
     """
     try:
-        return MovieScheme(many=many, unknown=EXCLUDE, **kwargs).load(data)
+        return MovieScheme(many=True, unknown=EXCLUDE, **kwargs).load(data)
     except ValidationError as e:
         logger.log.error(f"{e}")
         exit(1)
