@@ -35,9 +35,6 @@ def input_movie(raw=True):
         "year": 2010,
         "rating": 6,
         "runtime": 105,
-        # if MIXED_RESOURCES=False then its needed for split dbs and keep groups for diff resources
-        # Please use this name based on your resolver name defined in __str__ class method
-        # ex: group_name = str(self) in resolver
         "group_name": "test",
         "genres": ["Action", "Comedy", "Crime"],
         "synopsis": "Baby loves have fun",
