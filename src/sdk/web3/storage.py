@@ -9,7 +9,7 @@ from src.sdk.constants import (
     PINATA_PSA,
     PINATA_SERVICE,
     PINATA_API_JWT,
-    PINATA_PIN_BACKGROUND
+    PINATA_PIN_BACKGROUND,
 )
 
 # Session keep alive
@@ -61,11 +61,15 @@ def pin_remote(cid: str, **kwargs):
     try:
         args = (cid,)
         ipfs_api_client = media.ingest.ipfs.get_client()
-        kwargs.setdefault("opts", {"service": PINATA_SERVICE, "background": PINATA_PIN_BACKGROUND})
-        return ipfs_api_client.request("/pin/remote/add", args, decoder="json", **kwargs)
+        kwargs.setdefault(
+            "opts", {"service": PINATA_SERVICE, "background": PINATA_PIN_BACKGROUND}
+        )
+        return ipfs_api_client.request(
+            "/pin/remote/add", args, decoder="json", **kwargs
+        )
     except ErrorResponse:
-        logger.log.warning('Object already pinned to pinata')
-        logger.log.warning('Please remove or replace existing pin object')
+        logger.log.warning("Object already pinned to pinata")
+        logger.log.warning("Please remove or replace existing pin object")
         logger.log.info("\n")
 
 
