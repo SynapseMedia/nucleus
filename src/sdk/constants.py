@@ -38,7 +38,6 @@ DEFAULT_NEW_FILENAME = "index.m3u8"
 IPFS_NODE = os.getenv("IPFS_NODE")
 IPFS_NODE_GATEWAY_PORT = os.getenv("IPFS_NODE_GATEWAY_PORT")
 FLUSH_CACHE_IPFS = os.getenv("FLUSH_CACHE_IPFS", "False") == "True"
-AUTO_PIN_FILES = os.getenv("AUTO_PIN_FILES", "False") == "True"
 TIMEOUT_REQUEST = 30 * 60
 
 # Export constants

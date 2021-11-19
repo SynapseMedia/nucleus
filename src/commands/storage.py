@@ -1,35 +1,40 @@
 import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, logger, exception, media
-from src.sdk.constants import FLUSH_CACHE_IPFS, AUTO_PIN_FILES
-from src.sdk.web3.storage import check_status, pin_remote
+from src.sdk.constants import FLUSH_CACHE_IPFS
+from src.sdk.web3.storage import check_status
+from src.sdk.exception import InvalidCID
 
 
-def _pin_files():
+def _pin_cid_list(cid_list, remote_strategy=True):
     """
-    Pin ingested file from cursor cache db
+    Pin ingested cid list
+    :param cid_list: List of cid to pin
+    :param remote_strategy: Pin remote or local
     :return:
     """
     logger.log.warning("Starting pinning to IPFS")
-    entries, _ = cache.ingested()
-    files_cid = map(lambda x: x["hash"], entries)
-    media.ingest.pin_cid_list_remote(files_cid)
-    entries.close()
+    if remote_strategy:
+        media.ingest.pin_cid_list_remote(cid_list)
+        exit(0)  # Success termination
+    media.ingest.pin_cid_list(cid_list)
 
 
 @click.group("storage")
 @click.pass_context
 def storage(ctx):
+    """Storage toolkit"""
     pass
 
 
 @storage.command()
-@click.option("--no-cache", default=FLUSH_CACHE_IPFS)
-@click.option("--pin", default=AUTO_PIN_FILES)
+@click.option("--no-cache", default=FLUSH_CACHE_IPFS, is_flag=True)
 @click.pass_context
-def ingest(ctx, no_cache, pin):
+def ingest(ctx, no_cache):
     """
-    Ingest media ready for production into IPFS
+    Ingest media ready for production into IPFS. \n
+    Note: Please ensure that binaries is pre-processed before run this command.
+    eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest
     """
     media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
     logger.log.warning("Starting ingestion to IPFS")
@@ -48,24 +53,21 @@ def ingest(ctx, no_cache, pin):
     # Ingest from each row in tmp db the resources
     for current_movie in check(result):
         _id = current_movie.imdb_code  # Current id
-        ingested_data = media.ingest.to_ipfs_from(current_movie)
+        ingested_data = media.ingest.ingest_to_ipfs(current_movie)
         cache.ingest(_id, ingested_data)
-
-    if pin:  # If allowed pin files
-        _pin_files()
-
-    result.close()
 
 
 @storage.group("edge")
 @click.pass_context
 def edge(ctx):
+    """Edge cache"""
     pass
 
 
 @edge.command()
 @click.pass_context
 def status(ctx):
+    """Check for edge cache status"""
     media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
     is_edge_active = check_status()
     if is_edge_active:
@@ -74,11 +76,37 @@ def status(ctx):
     logger.log.error("Edge cache: Offline")
 
 
-@edge.command()
+@edge.group('pin')
+@click.option("--remote", default=True, is_flag=True)
+@click.pass_context
+def pin(ctx, remote):
+    """Pin cid tools"""
+    ctx.ensure_object(dict)
+    ctx.obj['remote'] = remote
+    pass
+
+
+@pin.command()
 @click.option("--cid", default=None)
 @click.pass_context
-def pinned(ctx, cid):
+def single(ctx, cid):
+    """Pin arbitrary cid"""
+    if not cid:
+        raise InvalidCID()
+
     media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
     logger.log.warning(f"Start pinning for cid: {cid}")
-    edge_pinned = pin_remote(cid)
-    logger.log.info(edge_pinned)
+    _pin_cid_list([cid], ctx.obj["remote"])
+
+
+@pin.command()
+@click.pass_context
+def batch(ctx):
+    """Pin batch cid from ingested cache cid list \n
+    Note: Please ensure that binaries are already ingested before run this command.
+    eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> pin batch
+    """
+    media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
+    entries, _ = cache.ingested()  # Retrieve already ingested cid list
+    cid_list = map(lambda x: x["hash"], entries)
+    _pin_cid_list(cid_list, ctx.obj["remote"])

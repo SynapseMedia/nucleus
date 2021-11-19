@@ -6,7 +6,7 @@ from src.sdk import cache, runtime, logger, scheme
 @click.command()
 def resolve():
     """
-    Run resolvers to get metadata
+    Run resolvers to get metadata and store it into local temp cache
     """
 
     # Force refresh or resolve tmp db empty
