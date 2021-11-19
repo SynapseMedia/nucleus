@@ -5,7 +5,7 @@ from src.sdk.exception import InvalidCID
 
 
 @click.group("w3")
-@click.option("--network", default="kovan")
+@click.option("--network", default="rinkeby")
 @click.pass_context
 def w3(ctx, network):
     """Web3 toolkit"""
@@ -33,24 +33,27 @@ def nft(_):
 
 @nft.group("mint")
 @click.pass_context
-def mint():
+def mint(ctx):
     pass
 
 
 @mint.command()
-@click.option("--limit", default=5)
+@click.option("--skip", default=0)
+@click.option("--limit", default=0)
 @click.pass_context
-def batch(ctx, limit):
+def batch(ctx, skip, limit):
     """Batch mint from ingested cache cid list \n
     Note: Please ensure that binaries are already ingested before run this command.
     eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> mint batch
     """
     result, result_count = cache.ingested()
+    result = result.skip(skip).limit(limit)
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()
 
     context_network = ctx.obj["network"]
-    cid_list = list(map(lambda x: x["hash"], result))[:limit]
+    # Get hash list from ingested cursor db
+    cid_list = list(map(lambda x: x["hash"], result))
 
     _w3 = web3.factory.w3(context_network)
     _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address

@@ -100,13 +100,16 @@ def single(ctx, cid):
 
 
 @pin.command()
+@click.option("--skip", default=0)
+@click.option("--limit", default=0)
 @click.pass_context
-def batch(ctx):
+def batch(ctx, skip, limit):
     """Pin batch cid from ingested cache cid list \n
     Note: Please ensure that binaries are already ingested before run this command.
     eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> pin batch
     """
     media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
     entries, _ = cache.ingested()  # Retrieve already ingested cid list
+    entries = entries.skip(skip).limit(limit)
     cid_list = map(lambda x: x["hash"], entries)
     _pin_cid_list(cid_list, ctx.obj["remote"])
