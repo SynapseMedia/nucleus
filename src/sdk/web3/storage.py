@@ -9,13 +9,14 @@ from src.sdk.constants import (
     PINATA_PSA,
     PINATA_SERVICE,
     PINATA_API_JWT,
+    PINATA_PIN_BACKGROUND
 )
 
 # Session keep alive
 session = requests.Session()
 
 
-def _find_service_in_list(service):
+def _find_service_in_list(service: dict):
     """
     Check if "pinata" is a pin remote service in node
     :param service: Current processed Service dic
@@ -31,7 +32,7 @@ def _find_service_in_list(service):
     )
 
 
-def valid_registered_service():
+def has_valid_registered_service():
     """
     Check if pinata service is already registered
     :return: False if not registered else True
@@ -54,26 +55,27 @@ def pin_remote(cid: str, **kwargs):
     :return
     """
 
-    if not valid_registered_service():
+    if not has_valid_registered_service():
         register_service()
 
     try:
         args = (cid,)
         ipfs_api_client = media.ingest.ipfs.get_client()
-        kwargs.setdefault("opts", {"service": PINATA_SERVICE, "background": False})
+        kwargs.setdefault("opts", {"service": PINATA_SERVICE, "background": PINATA_PIN_BACKGROUND})
         return ipfs_api_client.request("/pin/remote/add", args, decoder="json", **kwargs)
     except ErrorResponse:
         logger.log.warning('Object already pinned to pinata')
-        logger.log.info('Please remove or replace existing pin object')
+        logger.log.warning('Please remove or replace existing pin object')
+        logger.log.info("\n")
 
 
 def register_service():
     """
-    Register service in ipfs node
+    Register edge service in ipfs node
     :return: request result according to
-    http://docs.ipfs.io.ipns.localhost:8080/reference/http/api/#api-v0-pin-remote-service-add
+    https://docs.ipfs.io/reference/http/api/#api-v0-pin-remote-service-add
     """
-    if valid_registered_service():
+    if has_valid_registered_service():
         logger.log.warning("Service already registered")
         return
 
@@ -83,7 +85,12 @@ def register_service():
     return ipfs_api_client.request("/pin/remote/service/add", args, decoder="json")
 
 
-def check_pinata_status():
+def check_status():
+    """
+    Ping request to check for valid auth
+    for pinata service
+    :return: True if active service else False
+    """
     # Start http session
     response = session.get(
         f"{PINATA_ENDPOINT}/data/testAuthentication",
@@ -95,4 +102,4 @@ def check_pinata_status():
     )
 
     # Check status for response
-    return response.status_code == requests.codes.ok and valid_registered_service()
+    return response.status_code == requests.codes.ok and has_valid_registered_service()

@@ -2,7 +2,7 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, logger, exception, media
 from src.sdk.constants import FLUSH_CACHE_IPFS, AUTO_PIN_FILES
-from src.sdk.web3.storage import check_pinata_status, pin_remote
+from src.sdk.web3.storage import check_status, pin_remote
 
 
 def _pin_files():
@@ -67,11 +67,11 @@ def edge(ctx):
 @click.pass_context
 def status(ctx):
     media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
-    is_edge_active = check_pinata_status()
+    is_edge_active = check_status()
     if is_edge_active:
         logger.log.success("Edge cache: Success")
-    else:
-        logger.log.error("Edge cache: Offline")
+        exit(0)  # Success termination
+    logger.log.error("Edge cache: Offline")
 
 
 @edge.command()
