@@ -1,9 +1,29 @@
 from flask import jsonify, request
 from src.http.main import app
-from src.sdk.cache import frozen, ingested, DESCENDING
+from src.sdk.cache import frozen, ingested, aggregated, DESCENDING
 from src.sdk.media.nft import erc1155_metadata
 from src.sdk.scheme.validator import check
 from src.sdk.constants import NODE_URI
+
+
+def _get_meta_from_minted(minted_nft, limit, order_by):
+    """
+    Helper function to handle minted and metadata relation
+    :param minted_nft: Mint DB collection
+    :param limit: limit result for query
+    :param order_by: order ASC or DESC. ASC = 1, DESC = -1
+    """
+    meta_data_limited = minted_nft.limit(limit)  # slice response
+    mapped_cid = list(map(lambda x: x.get("cid"), meta_data_limited))
+
+    # Parse erc1155 metadata
+    # Get "in-relation" hash from ingested metadata
+    metadata_for_cid, _ = ingested({"hash": {"$in": mapped_cid}})
+    metadata_for_cid.sort([("_id", order_by)])  # sort descending by date
+
+    # Generate metadata ERC1155 for response
+    movies_meta = map(erc1155_metadata, check(metadata_for_cid))
+    return map(_clean_internals, movies_meta)
 
 
 def _clean_internals(entry):
@@ -26,20 +46,27 @@ def _clean_internals(entry):
 
 @app.route("/cache/recent", methods=["GET"])
 def recent():
-    limit = request.args.get("limit", 6)
+    order_by = request.args.get('order', DESCENDING)
+    limit = request.args.get("limit", 10)
 
     # Get current latest minted movies
     minted_nft, _ = frozen({}, {"cid": 1, "_id": False})
-    meta_data_limited = minted_nft.limit(limit)  # slice response
-    mapped_cid = list(map(lambda x: x.get("cid"), meta_data_limited))
-
-    # Parse erc1155 metadata
-    # Get "in-relation" hash from ingested metadata
-    metadata_for_cid, _ = ingested({"hash": {"$in": mapped_cid}})
-    metadata_for_cid.sort([("_id", DESCENDING)])  # sort descending by date
-
-    # Generate metadata ERC1155 for response
-    movies_meta = map(erc1155_metadata, check(metadata_for_cid))
-    movies_meta = map(_clean_internals, movies_meta)
+    movies_meta = _get_meta_from_minted(minted_nft, limit, order_by)
 
     return jsonify(list(movies_meta))
+
+
+@app.route("/cache/creators", methods=["GET"])
+def creators():
+    order_by = request.args.get('order', DESCENDING)
+    limit = request.args.get("limit", 18)
+
+    # Get current latest minted movies
+    aggregation_group = [
+        {"$group": {"_id": "$creator", "sum": {"$sum": 1}}},
+        {"$limit": limit},
+        {"$sort": {"_id": order_by}}
+    ]
+
+    recent_minters = aggregated(aggregation_group)
+    return jsonify(list(recent_minters))
