@@ -201,7 +201,7 @@ __all__ = [
     "frozen",
     "empty_mint_db",
     "get",
-    'aggregated',
-    'DESCENDING',
-    'ASCENDING'
+    "aggregated",
+    "DESCENDING",
+    "ASCENDING",
 ]

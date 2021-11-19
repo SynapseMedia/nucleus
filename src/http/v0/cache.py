@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from src.http.main import app
 from src.sdk.cache import frozen, ingested, aggregated, DESCENDING
-from src.sdk.media.nft import erc1155_metadata
+from src.sdk.media.metadata import generate_erc1155
 from src.sdk.scheme.validator import check
 from src.sdk.constants import NODE_URI
 
@@ -26,7 +26,7 @@ def _clean_internals(entry):
 
 @app.route("/cache/recent", methods=["GET"])
 def recent():
-    order_by = request.args.get('order', DESCENDING)
+    order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 10)
 
     # Get current latest minted movies
@@ -40,21 +40,21 @@ def recent():
     metadata_for_cid.sort([("_id", order_by)])  # sort descending by date
 
     # Generate metadata ERC1155 for response
-    movies_meta = map(erc1155_metadata, check(metadata_for_cid))
+    movies_meta = map(generate_erc1155, check(metadata_for_cid))
     movies_meta = map(_clean_internals, movies_meta)
     return jsonify(list(movies_meta))
 
 
 @app.route("/cache/creators", methods=["GET"])
 def creators():
-    order_by = request.args.get('order', DESCENDING)
+    order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 18)
 
     # Get current latest minted movies
     aggregation_group = [
         {"$group": {"_id": "$creator", "sum": {"$sum": 1}}},
         {"$limit": limit},
-        {"$sort": {"_id": order_by}}
+        {"$sort": {"_id": order_by}},
     ]
 
     recent_minters = aggregated(aggregation_group)

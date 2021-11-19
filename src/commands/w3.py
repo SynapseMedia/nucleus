@@ -91,7 +91,7 @@ def generate():
     for current_movie in check(result):
         logger.log.warning(f"Processing NFT meta for {current_movie.imdb_code}")
         # Build metadata for current movie
-        nft_movie_meta = media.nft.erc1155_metadata(current_movie)
+        nft_movie_meta = media.metadata.generate_erc1155(current_movie)
         metadata_list_append(nft_movie_meta)
         # Get directory output for current movie meta json
         current_dir = util.build_dir(current_movie)

@@ -21,7 +21,7 @@ def resolve():
     logger.log.notice("Data merge complete")
 
     # Check for valid scheme
-    scheme.validator.check(merged_data, many=True)
+    scheme.validator.check(merged_data)
     logger.log.success("Validated scheme")
 
     # Start to write obtained entries from src
