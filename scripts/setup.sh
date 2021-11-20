@@ -39,4 +39,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 #sudo docker-compose exec watchit_certbot sh run.sh
+#sudo docker-compose exec watchit_certbot sh certbot certonly --authenticator standalone --preferred-challenges http --noninteractive -d web.watchitapp.site -d watchitapp.site --force-renewal
 
