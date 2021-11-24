@@ -8,7 +8,6 @@ ipfs config Addresses.Gateway '/ip4/0.0.0.0/tcp/8080'
 # shellcheck disable=SC2016
 ipfs config Peering.Peers "$peers" --json
 ipfs config Swarm.AddrFilters '[
-       "/ip4/10.0.0.0/ipcidr/8z",
        "/ip4/100.64.0.0/ipcidr/10",
        "/ip4/169.254.0.0/ipcidr/16",
        "/ip4/198.18.0.0/ipcidr/15",
