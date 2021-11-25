@@ -131,7 +131,7 @@ services:
     ports:
       - "0.0.0.0:80:80"
       - "0.0.0.0:443:443"
-      - "0.0.0.0:2053:4002"
+      - "0.0.0.0:2053:2053"
     volumes:
       - ./proxy/reverse-proxy/conf.d.available:/etc/nginx/conf.d.available
       - ./proxy/reverse-proxy/conf.d.enabled:/etc/nginx/conf.d.enabled
