@@ -20,8 +20,7 @@ apt-get install docker-ce
 #Install compose
 curl -L --fail https://github.com/docker/compose/releases/download/1.26.2/run.sh > /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
-
-#Elastic search virtual memory
+# Linux, “failed to sufficiently increase receive buffer size”
 sysctl -w vm.max_map_count=262144
 
 #Env directory
