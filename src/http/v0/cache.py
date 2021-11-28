@@ -24,7 +24,7 @@ def _clean_internals(entry):
     return entry
 
 
-@app.route("/cache/recent", methods=["GET"])
+@app.route("/v0/cache/recent", methods=["GET"])
 def recent():
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 10)
@@ -45,7 +45,7 @@ def recent():
     return jsonify(list(movies_meta))
 
 
-@app.route("/cache/creators", methods=["GET"])
+@app.route("/v0/cache/creators", methods=["GET"])
 def creators():
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 6)

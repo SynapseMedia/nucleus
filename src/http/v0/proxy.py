@@ -6,7 +6,7 @@ from src.sdk.constants import IPFS_NODE, IPFS_NODE_GATEWAY_PORT
 import requests
 
 
-@app.route("/proxy/<file>", methods=["GET"])
+@app.route("/v0/proxy/<file>", methods=["GET"])
 def proxy(file):
     """Get a object id and return assets"""
     imdb_code = request.args.get("imdb", "")
