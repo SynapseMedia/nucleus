@@ -4,7 +4,7 @@ from src.sdk.media.metadata import generate_erc1155
 from src.sdk.scheme.validator import check
 from src.sdk.constants import NODE_URI
 
-cache_ = Blueprint('cache', __name__)
+cache_ = Blueprint("cache", __name__)
 
 
 def _clean_internals(entry):
@@ -59,5 +59,7 @@ def creators():
     ]
 
     recent_minters = aggregated(aggregation_group)
-    recent_minters = map(lambda x: {'address': x['_id'], 'movies': x['sum']}, recent_minters)
+    recent_minters = map(
+        lambda x: {"address": x["_id"], "movies": x["sum"]}, recent_minters
+    )
     return jsonify(list(recent_minters))

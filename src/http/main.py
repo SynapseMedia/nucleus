@@ -19,14 +19,14 @@ app = Flask(__name__)
 cors = CORS(app)
 default_root_uri = f"/{API_VERSION}"
 # https://flask.palletsprojects.com/en/2.0.x/config/#builtin-configuration-values
-app.config['APPLICATION_ROOT'] = default_root_uri
+app.config["APPLICATION_ROOT"] = default_root_uri
 
 from src.http.v0 import *  # noqa
 
 
 def health_check(env, resp):
-    resp(b'200 OK', [(b'Content-Type', b'text/plain')])
-    return [b'Hello Watchit World']
+    resp(b"200 OK", [(b"Content-Type", b"text/plain")])
+    return [b"Hello Watchit World"]
 
 
 app.wsgi_app = DispatcherMiddleware(health_check, {default_root_uri: app.wsgi_app})
