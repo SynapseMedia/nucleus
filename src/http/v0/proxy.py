@@ -1,12 +1,13 @@
-from flask import Response, stream_with_context, request
-from src.http.main import app
+from flask import Response, stream_with_context, request, Blueprint
 from src.sdk.exception import InvalidRequest
 from src.sdk.cache import get, cursor_db
 from src.sdk.constants import IPFS_NODE, IPFS_NODE_GATEWAY_PORT
 import requests
 
+proxy_ = Blueprint('proxy', __name__)
 
-@app.route("/v0/proxy/<file>", methods=["GET"])
+
+@proxy_.route("/<file>", methods=["GET"])
 def proxy(file):
     """Get a object id and return assets"""
     imdb_code = request.args.get("imdb", "")
