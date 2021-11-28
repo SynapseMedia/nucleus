@@ -4,7 +4,7 @@ from src.sdk.cache import get, cursor_db
 from src.sdk.constants import IPFS_NODE, IPFS_NODE_GATEWAY_PORT
 import requests
 
-proxy_ = Blueprint('proxy', __name__)
+proxy_ = Blueprint("proxy", __name__)
 
 
 @proxy_.route("/<file>", methods=["GET"])

@@ -24,7 +24,7 @@ PINATA_PIN_BACKGROUND = os.getenv("PINATA_PIN_BACKGROUND", "False") == "True"
 
 # Http settings
 NODE_URI = os.getenv("NODE_URI")
-API_VERSION = os.getenv('API_VERSION')
+API_VERSION = os.getenv("API_VERSION")
 
 # Transcode constants
 OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") == "True"
