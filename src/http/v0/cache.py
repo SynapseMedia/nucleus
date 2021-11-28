@@ -1,9 +1,10 @@
-from flask import jsonify, request
-from src.http.main import app
+from flask import jsonify, request, Blueprint
 from src.sdk.cache import frozen, ingested, aggregated, DESCENDING
 from src.sdk.media.metadata import generate_erc1155
 from src.sdk.scheme.validator import check
 from src.sdk.constants import NODE_URI
+
+cache_ = Blueprint('cache', __name__)
 
 
 def _clean_internals(entry):
@@ -24,7 +25,7 @@ def _clean_internals(entry):
     return entry
 
 
-@app.route("/v0/cache/recent", methods=["GET"])
+@cache_.route("/recent", methods=["GET"])
 def recent():
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 10)
@@ -45,7 +46,7 @@ def recent():
     return jsonify(list(movies_meta))
 
 
-@app.route("/v0/cache/creators", methods=["GET"])
+@cache_.route("/creators", methods=["GET"])
 def creators():
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 6)
