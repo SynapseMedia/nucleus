@@ -26,5 +26,5 @@ def resolve():
 
     # Start to write obtained entries from src
     logger.log.notice("Inserting entries in mongo")
-    cache.rewrite(merged_data)  # Add data to helper db
+    cache.manager.rewrite(merged_data)  # Add data to helper db
     logger.log.success(f"Entries indexed: {len(merged_data)}")

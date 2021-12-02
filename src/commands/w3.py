@@ -46,7 +46,7 @@ def batch(ctx, skip, limit):
     Note: Please ensure that binaries are already ingested before run this command.
     eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> mint batch
     """
-    result, result_count = cache.ingested()
+    result, result_count = cache.ingest.frozen()
     result = result.skip(skip).limit(limit)
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()
@@ -58,7 +58,7 @@ def batch(ctx, skip, limit):
     _w3 = web3.factory.w3(context_network)
     _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
     tx, to, cid_list = web3.nft.mint_batch(_to, cid_list, context_network)
-    cache.freeze(tx, to, cid_list)
+    cache.mint.freeze(tx, to, cid_list)
 
 
 @mint.command()
@@ -73,7 +73,7 @@ def single(ctx, cid):
     _w3 = web3.factory.w3(context_network)
     _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
     tx, to, cid = web3.nft.mint(_to, cid, context_network)
-    cache.freeze(tx, to, [cid])
+    cache.mint.freeze(tx, to, [cid])
 
 
 @nft.command()
@@ -86,7 +86,7 @@ def generate():
     # Total size of entries to fetch
     metadata_list = []
     metadata_list_append = metadata_list.append
-    result, _ = cache.safe_retrieve()
+    result, _ = cache.manager.safe_retrieve()
     # Generate metadata file from each row in tmp db the resources
     for current_movie in check(result):
         logger.log.warning(f"Processing NFT meta for {current_movie.imdb_code}")

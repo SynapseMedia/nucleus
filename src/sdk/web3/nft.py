@@ -20,6 +20,19 @@ def _show_stats(_w3, tx):
     logger.log.info(f"Tx Nonce #: {tx_details['nonce']}")
 
 
+def _send_tx(_w3, tx):
+    """
+    Commit transaction to blockchain
+    :param _w3: Web3
+    :param tx: Signed transaction
+    """
+    signed_txn = _w3.eth.account.sign_transaction(tx, private_key=WALLET_KEY)
+    tx = _w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+    logger.log.info(f"TX: {tx.hex()}")
+    _show_stats(_w3, tx)  # Show additional generic stats
+    return tx
+
+
 def mint(to: str, cid, chain_name="kovan"):
     """
     Mint token to address based on cid in defined chain
@@ -34,13 +47,12 @@ def mint(to: str, cid, chain_name="kovan"):
     owner = _w3.eth.account.privateKeyToAccount(WALLET_KEY)
     nonce = _w3.eth.getTransactionCount(owner.address)
 
-    _cid = cid_to_uint256(cid)  # Format base16 => hex => int
-    transaction = contract.functions.mint(to, _cid).buildTransaction({"nonce": nonce})
-    signed_txn = _w3.eth.account.sign_transaction(transaction, private_key=WALLET_KEY)
-    tx = _w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-    logger.log.info(f"TX: {tx.hex()}")
-    _show_stats(_w3, tx)  # Show additional generic stats
+    uint256_cid = cid_to_uint256(cid)  # Format base16 => hex => int
+    transaction = contract.functions.mint(
+        to, uint256_cid  # owner, cid uint256
+    ).buildTransaction({"nonce": nonce})
 
+    tx = _send_tx(_w3, transaction)
     return tx.hex(), to, cid
 
 
@@ -56,13 +68,12 @@ def mint_batch(to: str, cid_list: list, chain_name="kovan"):
     owner = _w3.eth.account.privateKeyToAccount(WALLET_KEY)
     nonce = _w3.eth.getTransactionCount(owner.address)
 
-    _cid_list = [cid_to_uint256(x) for x in cid_list]  # Format base16 => hex => int
+    uint256_cid_list = [
+        cid_to_uint256(x) for x in cid_list
+    ]  # Format base16 => hex => int
     transaction = contract.functions.mintBatch(
-        to, _cid_list  # owner, cid uint256
+        to, uint256_cid_list  # owner, cid uint256
     ).buildTransaction({"nonce": nonce})
 
-    signed_txn = _w3.eth.account.sign_transaction(transaction, private_key=WALLET_KEY)
-    tx = _w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-    logger.log.info(f"TX: {tx.hex()}")
-    _show_stats(_w3, tx)  # Show additional generic stats
+    tx = _send_tx(_w3, transaction)
     return tx.hex(), to, cid_list
