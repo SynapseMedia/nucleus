@@ -1,6 +1,4 @@
 from pymongo import MongoClient, ASCENDING, DESCENDING
-from pymongo.errors import BulkWriteError
-from ..exception import EmptyCache
 from ..constants import MONGO_HOST, MONGO_PORT, DB_DATE_VERSION, REGEN_MOVIES
 
 ASCENDING = ASCENDING
@@ -24,184 +22,25 @@ def get_dbs(*dbs_list) -> tuple:
 # tmp_db - keep current resolvers cache
 # cursor_db - keep a pointer with already processed cache
 tmp_db_name = "witth%s" % DB_DATE_VERSION if REGEN_MOVIES else "witth"
-temp_db, cursor_db, mint_db = get_dbs(tmp_db_name, "ipfs", "mint")
+raw_db, cursor_db, mint_db = get_dbs(tmp_db_name, "ipfs", "mint")
 
 # Check for empty db
-empty_tmp = temp_db.movies.count() == 0
+empty_tmp = raw_db.movies.count() == 0
 empty_cursor = cursor_db.movies.count() == 0
 empty_mint_db = mint_db.movies.count() == 0
 
-
-def get(db=None, _filter=None, opts=None):
-    """
-    Return resolved entry
-    from cache tmp db
-    :param db: tmp_db
-    :param _filter:
-    :param opts:
-    :return: Cursor
-    """
-
-    db = db or temp_db
-    current_filter = _filter or {}
-    return db.movies.find_one(
-        current_filter,
-        opts
-        # no_cursor_timeout=True
-    )
-
-
-def aggregated(pipeline, db=None):
-    """
-    Amplifier function to handle aggregation strategy
-    :param pipeline: Pipeline
-    :param db: The db to aggregate
-    https://docs.mongodb.com/v4.0/reference/method/db.collection.aggregate/
-    :return: CommandCursor, count
-    """
-    db = db or mint_db
-    return db.movies.aggregate(pipeline)
-
-
-def retrieve(db=None, _filter=None, opts=None):
-    """
-    Return all resolved entries
-    from cache tmp db
-    :param db: tmp_db
-    :param _filter:
-    :param opts:
-    :return: Cursor, count
-    """
-
-    db = db or temp_db
-    current_filter = _filter or {}
-    result_set = db.movies.find(
-        current_filter,
-        opts
-        # no_cursor_timeout=True
-    ).batch_size(1000)
-
-    # Return set + entries count
-    return result_set, result_set.count()
-
-
-def safe_retrieve(db=None, _filter=None):
-    """
-    Return all resolved entries with empty check
-    :param db: tmp_db
-    :param _filter:
-    :return: Cursor, count
-    :raises: EmptyCache
-    """
-    result, result_count = retrieve(db, _filter)
-    if result_count == 0:  # If not data to fetch
-        raise EmptyCache()
-
-    return result, result_count
-
-
-def ingest(_id, data):
-    """
-    Insert and mark entry as updated in temp_db
-    :param _id: The entry id
-    :param data: data to store
-    :return: data dict
-    """
-
-    cursor_db.movies.insert_one(data)
-    temp_db.movies.update_one({"imdb_code": _id}, {"$set": {"updated": True}})
-
-    return data
-
-
-def ingested(_filter: dict = None, _opts: dict = None):
-    """
-    Return already processed and ingested entries
-    :param _filter: filter dic
-    :param _opts: opts dic
-    :return: Cursor, count
-    """
-
-    return retrieve(cursor_db, _filter, _opts)
-
-
-def pending():
-    """
-    Return pending get ingested entries
-    :return: Cursor, count
-    """
-    return retrieve(
-        _filter={
-            # Get only not updated entries
-            "updated": {"$exists": False}
-        }
-    )
-
-
-def flush():
-    """
-    Reset old entries and restore
-    available entries to process in tmp_db
-    :return:
-    """
-    cursor_db.movies.delete_many({})
-    mint_db.movies.delete_many({})
-    temp_db.movies.update_many(
-        # Filter processed
-        {"updated": True},
-        # Mark the processed as pending
-        {"$unset": {"updated": None}},
-    )
-
-
-def rewrite(data):
-    """
-    Just remove old data and replace it with new data in temp db
-    :param data:
-    """
-    try:
-        temp_db.movies.delete_many({})  # Clean all
-        temp_db.movies.insert_many(data)
-    except BulkWriteError:
-        pass
-
-
-def freeze(tx: str, to: str, cid_list: list) -> list:
-    """
-    Insert into cache already minted entries
-    :param tx: Transaction hash
-    :param to: Owner
-    :param cid_list: List of cid minted to cache
-    """
-    zipped = [{"tx": tx, "creator": to, "cid": x} for x in cid_list]
-    mint_db.movies.insert_many(zipped)
-    return cid_list
-
-
-def frozen(_filter: dict = None, _opts: dict = None):
-    """
-    Return already processed and `minted cid` entries
-    :param _filter: filter dic
-    :param _opts: opts dic
-    :return: Cursor
-    """
-    return retrieve(mint_db, _filter, _opts)
-
+from . import ingest
+from . import mint
+from . import manager
 
 __all__ = [
     "get_dbs",
-    "rewrite",
-    "retrieve",
-    "flush",
-    "pending",
-    "ingested",
-    "ingest",
-    "safe_retrieve",
-    "freeze",
-    "frozen",
-    "empty_mint_db",
-    "get",
-    "aggregated",
+    "cursor_db",
+    "raw_db",
+    "mint_db",
     "DESCENDING",
     "ASCENDING",
+    "ingest",
+    "mint",
+    "manager",
 ]

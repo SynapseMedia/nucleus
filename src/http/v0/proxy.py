@@ -10,7 +10,7 @@ proxy_ = Blueprint("proxy", __name__)
 @proxy_.route("/<file>", methods=["GET"])
 def proxy(file):
     """Get a object id and return assets"""
-    imdb_code = request.args.get("imdb", "")
+    imdb_code = request.args.get("id", "")
     if not imdb_code:
         raise InvalidRequest()
 

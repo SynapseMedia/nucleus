@@ -39,11 +39,11 @@ def ingest(ctx, no_cache):
     media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
     logger.log.warning("Starting ingestion to IPFS")
     if no_cache or cache.empty_tmp:  # Clean already ingested cursor
-        cache.flush()
+        cache.manager.flush()
 
     # Total size of entries to fetch
     # Return available and not processed entries
-    result, result_count = cache.pending()
+    result, result_count = cache.ingest.pending()
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()
 
@@ -54,7 +54,7 @@ def ingest(ctx, no_cache):
     for current_movie in check(result):
         _id = current_movie.imdb_code  # Current id
         ingested_data = media.ingest.ingest_to_ipfs(current_movie)
-        cache.ingest(_id, ingested_data)
+        cache.ingest.freeze(_id, ingested_data)
 
 
 @storage.group("edge")
@@ -109,7 +109,7 @@ def batch(ctx, skip, limit):
     eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> pin batch
     """
     media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
-    entries, _ = cache.ingested()  # Retrieve already ingested cid list
+    entries, _ = cache.ingest.frozen()  # Retrieve already ingested cid list
     entries = entries.skip(skip).limit(limit)
     cid_list = map(lambda x: x["hash"], entries)
     _pin_cid_list(cid_list, ctx.obj["remote"])
