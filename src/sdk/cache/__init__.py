@@ -29,9 +29,9 @@ empty_tmp = raw_db.movies.count() == 0
 empty_cursor = cursor_db.movies.count() == 0
 empty_mint_db = mint_db.movies.count() == 0
 
-from . import ingest
-from . import mint
-from . import manager
+from . import ingest # noqa
+from . import mint # noqa
+from . import manager # noqa
 
 __all__ = [
     "get_dbs",
