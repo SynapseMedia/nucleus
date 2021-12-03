@@ -23,6 +23,7 @@ def _sanitize_internals(entry):
     # Movie imdb_code to get sanitize URI
     image = entry['properties']['image']
     # Sanitize uri to get handled by proxy
+    # TODO change this approach to _id?
     movie_path = f"/{entry['tx']}/{entry['id']}"
     new_image_path = f"{NODE_URI}/{API_VERSION}/proxy{movie_path}{image}"
 

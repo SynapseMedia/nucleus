@@ -1,4 +1,4 @@
-from flask import Response, stream_with_context, request, Blueprint
+from flask import Response, stream_with_context, Blueprint
 from src.sdk.exception import InvalidRequest
 from src.sdk.cache import manager, cursor_db, mint_db
 from src.sdk.constants import IPFS_NODE, IPFS_NODE_GATEWAY_PORT
