@@ -15,21 +15,17 @@ def _sanitize_internals(entry):
     :return MovieScheme dict with cleaned and sanitized fields
     """
 
+    # Sanitize uri to get handled by proxy
+    # Set paths for assets and nav
+    entry['_id'] = str(entry['_id'])
+    entry['path'] = f"/{entry['_id']}"
+    posters = entry['resource']['posters']
+    new_image_path = f"{NODE_URI}/{API_VERSION}/proxy{entry['path']}"
+    entry["posters"] = {i: f"{new_image_path}/{v['index']}" for i, v in posters.items()}
+
     # Clean not public data
     del entry['hash']  # remove needed pre processing field
-    del entry['cid']  # remove needed association field
-    del entry["properties"]["properties"]["hash"]
-    del entry["properties"]["properties"]["resource"]
-    # Movie imdb_code to get sanitize URI
-    image = entry['properties']['image']
-    # Sanitize uri to get handled by proxy
-    # TODO change this approach to _id?
-    movie_path = f"/{entry['tx']}/{entry['id']}"
-    new_image_path = f"{NODE_URI}/{API_VERSION}/proxy{movie_path}{image}"
-
-    # Set paths for assets and nav
-    entry['properties']['path'] = movie_path
-    entry["properties"]["image"] = new_image_path
+    del entry["resource"]
     return entry
 
 
@@ -47,17 +43,7 @@ def recent():
     # Get "in-relation" hash from ingested metadata
     metadata_for_cid, _ = ingest.frozen({"hash": {"$in": tuple(mapped_cid)}})
     metadata_for_cid.sort([("_id", order_by)])  # sort descending by date
-
-    # Generate metadata ERC1155 for response
-    movies_meta = list(map(generate_erc1155, check(metadata_for_cid)))
-    # Sort to zip entries with correspondence
-    movies_meta_sorted = sorted(movies_meta, key=lambda k: k.get('hash'))
-    minted_nft_sorted = sorted(minted_nft_limited, key=lambda k: k.get('cid'))
-
-    # Zip to generate a (A1,A2) => {A} join
-    zipped_meta = zip_longest(movies_meta_sorted, minted_nft_sorted)
-    zipped_meta_chained = map(lambda x: {**x[0], **x[1]}, zipped_meta)
-    movies_meta = map(_sanitize_internals, zipped_meta_chained)
+    movies_meta = map(_sanitize_internals, metadata_for_cid)
     return jsonify(list(movies_meta))
 
 
