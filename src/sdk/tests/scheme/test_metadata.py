@@ -36,6 +36,7 @@ def input_movie(raw=True):
         "rating": 6,
         "runtime": 105,
         "group_name": "test",
+        "creator": "0xee99ceff640d37edd9cac8c7cff4ed4cd609f435",
         "genres": ["Action", "Comedy", "Crime"],
         "synopsis": "Baby loves have fun",
         "trailer_code": "uIrQ9535RFo",
