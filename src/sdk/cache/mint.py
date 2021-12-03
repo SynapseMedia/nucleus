@@ -13,7 +13,7 @@ def freeze(tx: str, to: str, cid_list: list) -> list:
     zipped = [
         {
             "tx": tx,  # transaction hash
-            "creator": to,  # owner
+            "holder": to,  # owner
             "cid": x,  # cid
             "id": str(cid_to_uint256(x)),  # uint256 id
         }

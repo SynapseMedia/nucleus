@@ -35,7 +35,7 @@ def recent():
     limit = request.args.get("limit", 10)
 
     # Get current latest minted movies
-    minted_nft, _ = mint.frozen({}, {"cid": 1, "tx": 1, "id": 1, "_id": False})
+    minted_nft, _ = mint.frozen({}, {"cid": 1, "_id": False})
     minted_nft_limited = list(minted_nft.limit(limit))  # slice response
     mapped_cid = map(lambda x: x.get("cid"), minted_nft_limited)
 

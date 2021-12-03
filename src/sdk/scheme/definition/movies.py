@@ -80,6 +80,7 @@ class MovieScheme(DataObjectScheme):
     # ex: group_name = str(self) in resolver
     group_name = fields.Str(required=False)
     hash = fields.Str(require=False)
+    creator = fields.Str(required=True)
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
     imdb_code = fields.Str(validate=validate.Regexp(r"^tt[0-9]{5,10}$"))
     price = fields.Float(validate=validate.Range(min=0), dump_default=0, required=False)
