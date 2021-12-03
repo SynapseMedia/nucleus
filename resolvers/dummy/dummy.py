@@ -16,7 +16,9 @@ class Dummy:
         yield [{
             "imdb_code": "tt00000",
             "title": "A Fork in the Road",
-            "year": 2010, "rating": 6,
+            "year": 2010,
+            "rating": 6,
+            "creator": "0xee99ceff640d37edd9cac8c7cff4ed4cd609f435",
             "runtime": 105,
             # if MIXED_RESOURCES=False then its needed for split dbs and keep groups for diff resources
             # Please use this name based on your resolver name defined in __str__ class method
