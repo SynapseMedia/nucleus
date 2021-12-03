@@ -12,7 +12,7 @@ def _show_stats(_w3, tx):
     """
 
     tx_details = _w3.eth.get_transaction(tx)
-    logger.log.info(f"/nOwner: {WALLET_PUBLIC_KEY}")
+    logger.log.info(f"Owner: {WALLET_PUBLIC_KEY}")
     logger.log.info(f"Tx Gas #: {tx_details['gas']}")
     logger.log.info(f"Tx Gas Price #: {tx_details['gasPrice']}")
     logger.log.info(f"Tx Block Hash: {tx_details['blockHash']}")
