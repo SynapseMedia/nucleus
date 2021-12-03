@@ -87,8 +87,7 @@ def generate_erc1155(mv: MovieScheme):
     nft_movie = {
         "title": "WNFT Metadata",
         "type": "object",
-        "properties": nft_properties,
-        "hash": mv.hash
+        "properties": nft_properties
     }
 
     return nft_movie
