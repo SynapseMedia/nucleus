@@ -54,7 +54,7 @@ def creators():
 
     # Get current latest minted movies
     aggregation_group = [
-        {"$group": {"_id": "$creator", "sum": {"$sum": 1}}},
+        {"$group": {"_id": "$holder", "sum": {"$sum": 1}}},
         {"$limit": limit},
         {"$sort": {"_id": order_by}},
     ]
