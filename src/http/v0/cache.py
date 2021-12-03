@@ -17,14 +17,14 @@ def _sanitize_internals(entry):
 
     # Sanitize uri to get handled by proxy
     # Set paths for assets and nav
-    entry['_id'] = str(entry['_id'])
-    entry['path'] = f"/{entry['_id']}"
-    posters = entry['resource']['posters']
+    entry["_id"] = str(entry["_id"])
+    entry["path"] = f"/{entry['_id']}"
+    posters = entry["resource"]["posters"]
     new_image_path = f"{NODE_URI}/{API_VERSION}/proxy{entry['path']}"
     entry["posters"] = {i: f"{new_image_path}/{v['index']}" for i, v in posters.items()}
 
     # Clean not public data
-    del entry['hash']  # remove needed pre processing field
+    del entry["hash"]  # remove needed pre processing field
     del entry["resource"]
     return entry
 
