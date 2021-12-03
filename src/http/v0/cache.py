@@ -24,7 +24,7 @@ def _sanitize_internals(entry):
     image = entry['properties']['image']
     # Sanitize uri to get handled by proxy
     movie_path = f"/{entry['tx']}/{entry['id']}"
-    new_image_path = f"{NODE_URI}/{API_VERSION}/proxy/{entry['tx']}/{entry['id']}{image}"
+    new_image_path = f"{NODE_URI}/{API_VERSION}/proxy{movie_path}{image}"
 
     # Set paths for assets and nav
     entry['properties']['path'] = movie_path
