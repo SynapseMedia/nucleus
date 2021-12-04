@@ -40,5 +40,5 @@ def init():
     Setup init node and share it with modules
     """
     ipfs_node = start_node()
-    remote.ipfs = ipfs_node
-    ingest.ipfs = ipfs_node
+    remote.ipfs = ipfs_node # noqa
+    ingest.ipfs = ipfs_node # noqa
