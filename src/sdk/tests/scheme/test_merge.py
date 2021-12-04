@@ -1,4 +1,4 @@
-from ...scheme.merge import reduce_gens
+from src.sdk.scheme.merge import reduce_gens
 
 
 # Unit tests

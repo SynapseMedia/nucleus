@@ -36,7 +36,7 @@ fix-coding-style: bootstrap
 	${BLACKFIX} ${PYTHON_MODULES}
 check-coding-style: bootstrap
 	${FLAKE8} ${PYTHON_MODULES}
-test: fix-coding-style
+test:
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
 test-coverage: check-coding-style test
 	${COVERAGE} run --source=./src ${VENV}/bin/py.test
