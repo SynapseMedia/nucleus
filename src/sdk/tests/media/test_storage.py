@@ -1,7 +1,7 @@
 import responses
 import pytest
 import src.sdk.media
-from src.sdk.web3.storage import check_status, has_valid_registered_service
+from src.sdk.media.storage import check_status, has_valid_registered_service
 
 PINATA_SERVICE = "pinata"
 PINATA_ENDPOINT = "https://api.pinata.cloud"
@@ -19,7 +19,7 @@ def _setup_pinata_response_ok():
 @responses.activate
 def test_check_status(mocker):
     """Should return valid status if service connected and has local registered service"""
-    mocker.patch("src.sdk.web3.storage.has_valid_registered_service", return_value=True)
+    mocker.patch("src.sdk.media.storage.has_valid_registered_service", return_value=True)
     assert check_status()
 
 
@@ -28,7 +28,7 @@ def test_check_invalid_status(mocker):
     """Should return fail status if not service connected or has local registered service"""
 
     mocker.patch(
-        "src.sdk.web3.storage.has_valid_registered_service", return_value=False
+        "src.sdk.media.storage.has_valid_registered_service", return_value=False
     )
     assert not check_status()
 
@@ -44,7 +44,7 @@ def test_has_valid_registered_service(mocker):
         def request(self, *args, **kwargs):
             return [{"RemoteServices": [{"Service": "pinata"}]}]
 
-    src.sdk.media.ingest.ipfs = Client()
+    src.sdk.media.storage.ipfs = Client()
     assert has_valid_registered_service()
 
 
@@ -59,5 +59,5 @@ def test_has_ivalid_registered_service(mocker):
         def request(self, *args, **kwargs):
             return [{"RemoteServices": []}]
 
-    src.sdk.media.ingest.ipfs = Client()
+    src.sdk.media.storage.ipfs = Client()
     assert not has_valid_registered_service()
