@@ -1,4 +1,5 @@
-import responses
+import pytest
+from marshmallow.exceptions import ValidationError
 from src.sdk.constants import WALLET_PUBLIC_KEY
 from src.sdk.scheme.definition.movies import MovieScheme, MultiMediaScheme
 from src.sdk.media.metadata import generate_erc1155, _build_paths_from
@@ -62,7 +63,6 @@ expected_erc1155 = {
 
 
 # Unit tests
-@responses.activate
 def test_build_paths_from():
     """Should sanitize paths for metadata resources"""
     multimedia = MultiMediaScheme().load(input_paths)
@@ -70,8 +70,17 @@ def test_build_paths_from():
 
 
 # Unit tests
-@responses.activate
 def test_generate_erc1155():
     """Should generate valid erc1155 metadata"""
     mv = MovieScheme().load(input_movie())
     assert sorted(generate_erc1155(mv)) == sorted(expected_erc1155)
+
+
+# Unit tests
+def test_fail_with_invalid_raw_metadata():
+    """Should fail with invalid metadata"""
+    with pytest.raises(ValidationError):
+        invalid_meta = input_movie()
+        invalid_meta["title"] = ""
+        invalid_meta["rating"] = -1
+        MovieScheme().load(invalid_meta)
