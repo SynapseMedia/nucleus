@@ -2,9 +2,9 @@ import os
 import errno
 
 from typing import Iterator
-from src.sdk.media.storage import ipfs, start_node
 from .remote import pin_remote
 from src.sdk import util, logger
+from src.sdk.media.storage import ipfs
 from src.sdk.scheme.definition.movies import (
     MovieScheme,
     VideoScheme,
@@ -13,9 +13,6 @@ from src.sdk.scheme.definition.movies import (
 )
 
 __author__ = "gmena"
-
-if not ipfs:  # avoid run node again
-    ipfs = start_node()
 
 
 def _add_cid_to_posters(posters: PostersScheme, _hash: str) -> PostersScheme:

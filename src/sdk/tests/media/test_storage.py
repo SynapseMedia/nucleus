@@ -7,8 +7,29 @@ PINATA_SERVICE = "pinata"
 PINATA_ENDPOINT = "https://api.pinata.cloud"
 
 
+# generic mocking client
+class Client:
+    def get_client(self):
+        return self
+
+    def request(self, *args, **kwargs):
+        return [{"RemoteServices": [{"Service": "pinata"}]}]
+
+
+# generic mocking client
+class FailureClient:
+    def get_client(self):
+        return self
+
+    def request(self, *args, **kwargs):
+        return [{"RemoteServices": []}]
+
+
 @pytest.fixture(autouse=True)
-def _setup_pinata_response_ok():
+def _setup_pinata_response_ok(mocker):
+    mocker.patch('src.sdk.media.storage.start_node', return_value=Client())
+    src.sdk.media.storage.init()
+
     responses.add(
         responses.GET,
         f"{PINATA_ENDPOINT}/data/testAuthentication",
@@ -26,38 +47,18 @@ def test_check_status(mocker):
 @responses.activate
 def test_check_invalid_status(mocker):
     """Should return fail status if not service connected or has local registered service"""
-
-    mocker.patch(
-        "src.sdk.media.storage.has_valid_registered_service", return_value=False
-    )
+    mocker.patch('src.sdk.media.storage.start_node', return_value=FailureClient())
+    src.sdk.media.storage.init()
     assert not check_status()
 
 
-def test_has_valid_registered_service(mocker):
+def test_has_valid_registered_service():
     """Should return valid True when has local `PINATA_SERVICE` registered service"""
-
-    # generic mocking client
-    class Client:
-        def get_client(self):
-            return self
-
-        def request(self, *args, **kwargs):
-            return [{"RemoteServices": [{"Service": "pinata"}]}]
-
-    src.sdk.media.storage.ipfs = Client()
     assert has_valid_registered_service()
 
 
 def test_has_ivalid_registered_service(mocker):
     """Should return False when has not local `PINATA_SERVICE` registered service"""
-
-    # generic mocking client
-    class Client:
-        def get_client(self):
-            return self
-
-        def request(self, *args, **kwargs):
-            return [{"RemoteServices": []}]
-
-    src.sdk.media.storage.ipfs = Client()
+    mocker.patch('src.sdk.media.storage.start_node', return_value=FailureClient())
+    src.sdk.media.storage.init()
     assert not has_valid_registered_service()
