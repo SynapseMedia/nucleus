@@ -57,7 +57,7 @@ def test_has_valid_registered_service():
     assert has_valid_registered_service()
 
 
-def test_has_ivalid_registered_service(mocker):
+def test_has_invalid_registered_service(mocker):
     """Should return False when has not local `PINATA_SERVICE` registered service"""
     mocker.patch('src.sdk.media.storage.start_node', return_value=FailureClient())
     src.sdk.media.storage.init()
