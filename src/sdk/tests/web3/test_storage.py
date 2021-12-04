@@ -27,7 +27,9 @@ def test_check_status(mocker):
 def test_check_invalid_status(mocker):
     """Should return fail status if not service connected or has local registered service"""
 
-    mocker.patch("src.sdk.web3.storage.has_valid_registered_service", return_value=False)
+    mocker.patch(
+        "src.sdk.web3.storage.has_valid_registered_service", return_value=False
+    )
     assert not check_status()
 
 
