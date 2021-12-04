@@ -2,7 +2,7 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, logger, exception, media
 from src.sdk.constants import FLUSH_CACHE_IPFS
-from src.sdk.web3.storage import check_status
+from src.sdk.media.storage import check_status
 from src.sdk.exception import InvalidCID
 
 
@@ -15,9 +15,9 @@ def _pin_cid_list(cid_list, remote_strategy=True):
     """
     logger.log.warning("Starting pinning to IPFS")
     if remote_strategy:
-        media.ingest.pin_cid_list_remote(cid_list)
+        media.storage.pin_cid_list_remote(cid_list)
         exit(0)  # Success termination
-    media.ingest.pin_cid_list(cid_list)
+    media.storage.pin_cid_list(cid_list)
 
 
 @click.group("storage")
@@ -36,7 +36,7 @@ def ingest(ctx, no_cache):
     Note: Please ensure that binaries is pre-processed before run this command.
     eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest
     """
-    media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
+    media.storage.ipfs = media.storage.start_node()  # Init ipfs node
     logger.log.warning("Starting ingestion to IPFS")
     if no_cache or cache.empty_tmp:  # Clean already ingested cursor
         cache.manager.flush()
@@ -53,7 +53,7 @@ def ingest(ctx, no_cache):
     # Ingest from each row in tmp db the resources
     for current_movie in check(result):
         _id = current_movie.imdb_code  # Current id
-        ingested_data = media.ingest.ingest_to_ipfs(current_movie)
+        ingested_data = media.storage.ingest_to_ipfs(current_movie)
         cache.ingest.freeze(_id, ingested_data)
 
 
@@ -68,7 +68,7 @@ def edge(ctx):
 @click.pass_context
 def status(ctx):
     """Check for edge cache status"""
-    media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
+    media.storage.ipfs = media.storage.start_node()  # Init ipfs node
     is_edge_active = check_status()
     if is_edge_active:
         logger.log.success("Edge cache: Success")
@@ -94,7 +94,7 @@ def single(ctx, cid):
     if not cid:
         raise InvalidCID()
 
-    media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
+    media.storage.ipfs = media.storage.start_node()  # Init ipfs node
     logger.log.warning(f"Start pinning for cid: {cid}")
     _pin_cid_list([cid], ctx.obj["remote"])
 
@@ -108,7 +108,7 @@ def batch(ctx, skip, limit):
     Note: Please ensure that binaries are already ingested before run this command.
     eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> pin batch
     """
-    media.ingest.ipfs = media.ingest.start_node()  # Init ipfs node
+    media.storage.ipfs = media.storage.start_node()  # Init ipfs node
     entries, _ = cache.ingest.frozen()  # Retrieve already ingested cid list
     entries = entries.skip(skip).limit(limit)
     cid_list = map(lambda x: x["hash"], entries)
