@@ -43,7 +43,7 @@ def has_valid_registered_service():
         "/pin/remote/service/ls", args, decoder="json"
     )
 
-    # Map result from registered services and search for "pinata"
+    # Map resulting from registered services and search for "pinata"
     find_registered_service = map(_find_service_in_list, registered_services)
     return PINATA_SERVICE in tuple(filter(None, find_registered_service))
 

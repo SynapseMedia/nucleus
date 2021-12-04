@@ -4,7 +4,6 @@ import errno
 import ipfshttpclient
 from typing import Iterator
 from .. import util, logger
-from src.sdk.web3.storage import pin_remote
 from ..constants import TIMEOUT_REQUEST, RECURSIVE_SLEEP_REQUEST
 from ..scheme.definition.movies import (
     MovieScheme,
@@ -111,6 +110,8 @@ def pin_cid_list_remote(cid_list: iter) -> list:
     :param cid_list: List of cids to pin
     :return: cid list after pin
     """
+    from src.sdk.web3.storage import pin_remote
+
     for cid in cid_list:
         logger.log.notice(f"Pinning cid to remote edge: {cid}")
         pin_remote(cid)
