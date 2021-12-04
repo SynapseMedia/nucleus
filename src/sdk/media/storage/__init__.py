@@ -5,7 +5,6 @@ import requests
 from src.sdk.constants import (
     TIMEOUT_REQUEST,
     RECURSIVE_SLEEP_REQUEST,
-
 )
 
 __author__ = "gmena"
@@ -17,6 +16,7 @@ ipfs = None
 
 def start_node():
     from src.sdk import logger
+
     try:
         logger.log.notice("Starting node")
         ipfs_node = ipfshttpclient.connect(
@@ -40,5 +40,5 @@ def init():
     Setup init node and share it with modules
     """
     ipfs_node = start_node()
-    remote.ipfs = ipfs_node # noqa
-    ingest.ipfs = ipfs_node # noqa
+    remote.ipfs = ipfs_node  # noqa
+    ingest.ipfs = ipfs_node  # noqa
