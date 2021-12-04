@@ -35,3 +35,10 @@ from .remote import *  # noqa
 from .ingest import *  # noqa
 
 
+def init():
+    """
+    Setup init node and share it with modules
+    """
+    ipfs_node = start_node()
+    remote.ipfs = ipfs_node
+    ingest.ipfs = ipfs_node

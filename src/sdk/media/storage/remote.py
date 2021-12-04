@@ -2,7 +2,7 @@ import requests
 from ipfshttpclient.exceptions import ErrorResponse
 
 from src.sdk import logger
-from src.sdk.media.storage import ipfs, session, start_node
+from src.sdk.media.storage import ipfs, session
 from src.sdk.constants import (
     VALIDATE_SSL,
     PINATA_API_SECRET,
@@ -13,9 +13,6 @@ from src.sdk.constants import (
     PINATA_API_JWT,
     PINATA_PIN_BACKGROUND,
 )
-
-if not ipfs:  # avoid run node again
-    ipfs = start_node()
 
 
 def _find_service_in_list(service: dict):
