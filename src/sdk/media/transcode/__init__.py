@@ -1,2 +1,4 @@
-from .ingest import * # noqa
-from .codecs import * # noqa
+from . import ingest  # noqa
+from . import codecs  # noqa
+
+__all__ = ["ingest", "codecs"]

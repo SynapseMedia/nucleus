@@ -43,8 +43,7 @@ eg.
 """
 
 from src.sdk import util
-from ..media import transcode
-from ..constants import WALLET_PUBLIC_KEY
+from ..constants import WALLET_PUBLIC_KEY, DEFAULT_NEW_FILENAME
 from ..scheme.definition.movies import MovieScheme, MultiMediaScheme
 
 
@@ -56,7 +55,7 @@ def _build_paths_from(resource: MultiMediaScheme):
     """
     return {
         "videos": [
-            {x.quality: f"/{x.quality}/{transcode.DEFAULT_NEW_FILENAME}"}
+            {x.quality: f"/{x.quality}/{DEFAULT_NEW_FILENAME}"}
             for x in resource.videos
         ],
         "posters": [

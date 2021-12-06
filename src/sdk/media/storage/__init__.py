@@ -31,8 +31,8 @@ def start_node():
         return start_node()
 
 
-from .remote import *  # noqa
-from .ingest import *  # noqa
+from . import remote  # noqa
+from . import ingest  # noqa
 
 
 def init():
@@ -42,3 +42,6 @@ def init():
     ipfs_node = start_node()
     remote.ipfs = ipfs_node  # noqa
     ingest.ipfs = ipfs_node  # noqa
+
+
+__all__ = ["remote", "ingest"]
