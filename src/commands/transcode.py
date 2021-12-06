@@ -23,9 +23,9 @@ def transcode(overwrite):
         logger.log.warn(f"Fetching posters for {current_movie.title}")
         output_dir = util.build_dir(current_movie)
         # process video transcoding/images copy
-        media.transcode.posters(current_movie.resource.posters, output_dir)
+        media.transcode.ingest.posters(current_movie.resource.posters, output_dir)
         logger.log.warn(f"Transcoding {current_movie.title}:{current_movie.imdb_code}")
-        media.transcode.videos(current_movie.resource.videos, output_dir, overwrite)
+        media.transcode.ingest.videos(current_movie.resource.videos, output_dir, overwrite)
 
     # Close current tmp cache db
     result.close()
