@@ -2,7 +2,6 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, logger, exception, media
 from src.sdk.constants import FLUSH_CACHE_IPFS
-from src.sdk.media.storage import check_status
 from src.sdk.exception import InvalidCID
 
 
@@ -15,9 +14,9 @@ def _pin_cid_list(cid_list, remote_strategy=True):
     """
     logger.log.warning("Starting pinning to IPFS")
     if remote_strategy:
-        media.storage.pin_cid_list_remote(cid_list)
+        media.storage.ingest.pin_cid_list_remote(cid_list)
         exit(0)  # Success termination
-    media.storage.pin_cid_list(cid_list)
+    media.storage.ingest.pin_cid_list(cid_list)
 
 
 @click.group("storage")
@@ -53,7 +52,7 @@ def ingest(ctx, no_cache):
     # Ingest from each row in tmp db the resources
     for current_movie in check(result):
         _id = current_movie.imdb_code  # Current id
-        ingested_data = media.storage.to_ipfs(current_movie)
+        ingested_data = media.storage.ingest.to_ipfs(current_movie)
         cache.ingest.freeze(_id, ingested_data)
 
 
@@ -69,7 +68,7 @@ def edge(ctx):
 def status(ctx):
     """Check for edge cache status"""
     media.storage.init()  # Init ipfs node
-    is_edge_active = check_status()
+    is_edge_active = media.storage.remote.check_status()
     if is_edge_active:
         logger.log.success("Edge cache: Success")
         exit(0)  # Success termination
