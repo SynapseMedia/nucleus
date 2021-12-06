@@ -1,4 +1,3 @@
-import ffmpeg
 import time
 
 import contextlib
@@ -8,6 +7,7 @@ import shutil
 import socket
 import tempfile
 
+from ffmpeg_streaming import Formats, Bitrate, Representation, Size
 from tqdm import tqdm
 from .. import logger, util
 from pathlib import Path
@@ -24,81 +24,17 @@ from ..constants import (
 )
 
 
-# https://github.com/kkroening/ffmpeg-python/blob/master/examples/show_progress.py
-@contextlib.contextmanager
-def _tmpdir_scope():
-    tmpdir = tempfile.mkdtemp()
-    try:
-        yield tmpdir
-    finally:
-        shutil.rmtree(tmpdir)
-
-
-def _do_watch_progress(_, sock, handler):
-    """Function to run in a separate gevent greenlet to read progress
-    events from a unix-domain socket."""
-    connection, client_address = sock.accept()
-    data = b""
-    try:
-        while True:
-            more_data = connection.recv(16)
-            if not more_data:
-                break
-            data += more_data
-            lines = data.split(b"\n")
-            for line in lines[:-1]:
-                line = line.decode()
-                parts = line.split("=")
-                key = parts[0] if len(parts) > 0 else None
-                value = parts[1] if len(parts) > 1 else None
-                handler(key, value)
-            data = lines[-1]
-    finally:
-        connection.close()
-
 
 @contextlib.contextmanager
-def _watch_progress(handler):
-    """Context manager for creating a unix-domain socket and listen for
-    ffmpeg progress events.
-    The socket filename is yielded from the context manager and the
-    socket is closed when the context manager is exited.
-    Args:
-        handler: a function to be called when progress events are
-            received; receives a ``key`` argument and ``value``
-            argument. (The example ``show_progress`` below uses tqdm)
-    Yields:
-        socket_filename: the name of the socket file.
-    """
-    with _tmpdir_scope() as tmpdir:
-        socket_filename = os.path.join(tmpdir, "sock")
-        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        with contextlib.closing(sock):
-            sock.bind(socket_filename)
-            sock.listen(1)
-            child = gevent.spawn(_do_watch_progress, socket_filename, sock, handler)
-            try:
-                yield socket_filename
-            except BaseException:
-                gevent.kill(child)
-                raise
+def progress():
+    """Render tqdm progress bar."""
+    with tqdm(total=100) as bar:
 
+        def handler(ffmpeg, duration, time_, time_left, process):
+                per = round(time_ / duration * 100)
+                bar.update(per)
 
-@contextlib.contextmanager
-def progress(total_duration):
-    """Create a unix-domain socket to watch progress and render tqdm
-    progress bar."""
-    with tqdm(total=round(total_duration, 2)) as bar:
-
-        def handler(key, value):
-            if key == "out_time_ms":
-                time = round(float(value) / 1000000.0, 2)
-                bar.update(time - bar.n)
-            elif key == "progress" and value == "end":
-                bar.update(bar.total - bar.n)
-
-        with _watch_progress(handler) as socket_filename:
-            yield socket_filename
+        yield handler
 
 
 def posters(poster: PostersScheme, output_dir: str, max_retry=MAX_FAIL_RETRY):
@@ -145,55 +81,41 @@ def videos(video_list: Iterator[VideoScheme], output_dir_: str, overwrite):
             continue
 
         util.make_destination_dir(output_dir)
-        to_hls(video.route, output_dir)
+        to_dash(video.route, video.quality,  output_dir)
         logger.log.success(f"New movie stored in: {output_dir}")
 
 
-def to_hls(input_file, output_dir):
+def get_representations(quality):
+    _144p  = Representation(Size(256, 144), Bitrate(95 * 1024, 64 * 1024))
+    _240p  = Representation(Size(426, 240), Bitrate(150 * 1024, 94 * 1024))
+    _360p  = Representation(Size(640, 360), Bitrate(276 * 1024, 128 * 1024))
+    _480p  = Representation(Size(854, 480), Bitrate(750 * 1024, 192 * 1024))
+    _720p  = Representation(Size(1280, 720), Bitrate(2048 * 1024, 320 * 1024))
+    _1080p = Representation(Size(1920, 1080), Bitrate(4096 * 1024, 320 * 1024))
+    _2k    = Representation(Size(2560, 1440), Bitrate(6144 * 1024, 320 * 1024))
+    _4k    = Representation(Size(3840, 2160), Bitrate(17408 * 1024, 320 * 1024))
+
+    return {
+        '720p':      [_144p, _240p ,_360p, _480p, _720p],
+        '1080p':     [_144p, _240p ,_360p, _480p, _720p, _1080p],
+        '2k':        [_144p, _240p ,_360p, _480p, _720p, _1080p, _2k],
+        '4k':        [_144p, _240p ,_360p, _480p, _720p, _1080p, _2k, _4k]
+    }.get(quality.lower())
+
+
+
+
+
+def to_dash(input_file, quality, output_dir):
     """
-    Transcode movie file to hls
+    Transcode movie file to dash
     :param input_file:
     :param output_dir
     :return: new file format dir
     """
-
-    probe = ffmpeg.probe(input_file)
-    total_duration = float(probe["format"]["duration"])
-    video_stream = next(
-        (stream for stream in probe["streams"] if stream["codec_type"] == "video"),
-        None,
-    )
-
-    # When transcoding audio and/or video streams, ffmpeg will not begin writing into the output until it has one
-    # packet for each such stream. While waiting for that to happen, packets for other streams are buffered.
-    # This option sets the size of this buffer, in packets, for the matching
-    # output stream.
-    output_args = {"max_muxing_queue_size": 9999}
-    if video_stream["codec_name"] == "h264":
-        output_args["vcodec"] = "copy"
-        logger.log.success("vcodec copy mode: enabled")
-
-    with progress(total_duration) as socket_filename:
-        try:
-            (
-                ffmpeg.input(input_file)
-                .output(
-                    output_dir,
-                    format=DEFAULT_FORMAT,
-                    start_number=0,
-                    hls_time=DEFAULT_HLS_TIME,
-                    hls_list_size=0,
-                    **output_args,
-                )
-                .global_args("-progress", "unix://{}".format(socket_filename))
-                .run(
-                    overwrite_output=True,
-                    capture_stdout=True,
-                    capture_stderr=True,
-                )
-            )
-        except ffmpeg.Error as e:
-            print(e.stderr)
-            logger.log.error(f"Error transcoding {input_file}")
+    with progress() as progress_handler:
+        dash = video.dash(Formats.h264())
+        dash.representations(*get_representations(quality))
+        dash.output(output_dir, monitor=progress_handler)
 
     return output_dir
