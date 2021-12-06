@@ -53,7 +53,7 @@ def ingest(ctx, no_cache):
     # Ingest from each row in tmp db the resources
     for current_movie in check(result):
         _id = current_movie.imdb_code  # Current id
-        ingested_data = media.storage.ingest_to_ipfs(current_movie)
+        ingested_data = media.storage.to_ipfs(current_movie)
         cache.ingest.freeze(_id, ingested_data)
 
 

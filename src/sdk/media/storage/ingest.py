@@ -107,7 +107,7 @@ def pin_cid_list(cid_list: iter) -> list:
     return cid_list
 
 
-def ingest_to_ipfs(mv: MovieScheme) -> MovieScheme:
+def to_ipfs(mv: MovieScheme) -> MovieScheme:
     """
     Loop over assets, download it and add it to IPFS
     :param mv: MovieScheme
