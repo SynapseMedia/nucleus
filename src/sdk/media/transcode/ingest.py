@@ -20,5 +20,5 @@ def videos(video: VideoScheme, protocol: str, output_dir: str):
         return
 
     util.make_destination_dir(output_dir)
-    protocols[protocol](video.route, video.quality, output_dir)
+    protocols[protocol](video.route, output_dir)
     logger.log.success(f"New movie stored in: {output_dir} \n")
