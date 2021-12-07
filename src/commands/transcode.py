@@ -1,5 +1,4 @@
 import click
-from typing import Iterator
 from pathlib import Path
 from src.sdk.scheme.validator import check
 from src.sdk import cache, media, logger, util
@@ -10,31 +9,31 @@ from src.sdk.constants import (
 )
 
 
-def _transcode(mv, _format, overwrite):
+def _transcode(video, protocol, output_dir, overwrite):
     """
     Transcode video listed in metadata
-    :param mv: MovieScheme
-    :param _format:
+    :param video: VideoScheme
+    :param protocol:
+    :param output_dir: dir to store transcoding video
     :param overwrite: If true then overwrite current files
     :return:
     """
-    logger.log.info("\n")
-    output_dir = util.build_dir(mv)
-    # process video transcoding
-    logger.log.warn(f"Transcoding {mv.title}:{mv.imdb_code}")
-    for video in mv.resource.videos:
-        output_dir = f"{PROD_PATH}/{output_dir}/{video.quality}/"
-        output_dir = f"{output_dir}{DEFAULT_NEW_FILENAME}"
-        # Avoid overwrite existing output
-        # If path already exist or overwrite = False
-        if Path(output_dir).exists() and not overwrite:
-            logger.log.warning(f"Skipping media already processed: {output_dir}")
-            return
 
-        media.transcode.ingest.videos(
-            video,  # Input video file path
-            output_dir  # Outpur directory
-        )
+    # process video transcoding
+    output_dir = f"{PROD_PATH}/{output_dir}/{video.quality}/"
+    output_dir = f"{output_dir}{DEFAULT_NEW_FILENAME}"
+
+    # Avoid overwrite existing output
+    # If path already exist or overwrite = False
+    if Path(output_dir).exists() and not overwrite:
+        logger.log.warning(f"Skipping media already processed: {output_dir}")
+        return
+
+    media.transcode.ingest.videos(
+        video,  # Input video file path
+        protocol,  #
+        output_dir  # Output directory
+    )
 
 
 @click.command()
@@ -64,8 +63,16 @@ def batch(ctx):
     # Total size of entries to fetch
     result, result_count = cache.manager.safe_retrieve()
     logger.log.warning(f"Transcoding {result_count} results")
+
     # Fetch from each row in tmp db the resources
     for current_movie in check(result):
-        _transcode(current_movie, 'hls', ctx.obj['overwrite'])
+        logger.log.info("\n")
+        output_dir = util.build_dir(current_movie)
+        logger.log.warn(f"Transcoding {current_movie.title}:{current_movie.imdb_code}")
+
+        # Process each video described in movie
+        for video in current_movie.resource.videos:
+            _transcode(video, 'hls', output_dir, ctx.obj['overwrite'])
+
     # Close current tmp cache db
     result.close()
