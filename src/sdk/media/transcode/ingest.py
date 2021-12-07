@@ -2,7 +2,7 @@ import time
 
 from typing import Iterator
 from pathlib import Path
-from .codecs import to_dash
+from .codecs import to_hls
 from .. import fetch
 from ... import logger, util
 from ...scheme.definition.movies import VideoScheme, PostersScheme
@@ -24,9 +24,8 @@ def posters(poster: PostersScheme, output_dir: str, max_retry=MAX_FAIL_RETRY):
     """
     try:
         for key, _poster in poster.iterable():
-            resource_origin = _poster.route  # Input dir resource
-            file_format = util.extract_extension(resource_origin)
-            fetch.file(resource_origin, f"{output_dir}/{key}.{file_format}")
+            file_format = util.extract_extension(_poster.route)
+            fetch.file(_poster.route, f"{output_dir}/{key}.{file_format}")
 
     except Exception as e:
         if max_retry <= 0:
@@ -57,6 +56,7 @@ def videos(video_list: Iterator[VideoScheme], output_dir_: str, overwrite):
             logger.log.warning(f"Skipping media already processed: {output_dir}")
             continue
 
+        # TODO switch format here
         util.make_destination_dir(output_dir)
-        to_dash(video.route, video.quality, output_dir)
+        to_hls(video.route, video.quality, output_dir)
         logger.log.success(f"New movie stored in: {output_dir}")

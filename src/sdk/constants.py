@@ -30,7 +30,11 @@ API_VERSION = os.getenv("API_VERSION")
 OVERWRITE_TRANSCODE_OUTPUT = os.getenv("OVERWRITE_TRANSCODE_OUTPUT", "False") == "True"
 MAX_FAIL_RETRY = 3
 RECURSIVE_SLEEP_REQUEST = 5
-DEFAULT_NEW_FILENAME = "dash.mpd"
+HLS_FORMAT = "hls"
+DASH_FORMAT = "dash"
+DEFAULT_NEW_FILENAME = "index.m3u8"
+HLS_NEW_FILENAME = "index.m3u8"
+DASH_NEW_FILENAME = "index.mpd"
 
 # Ingest constants
 IPFS_NODE = os.getenv("IPFS_NODE")
