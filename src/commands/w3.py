@@ -41,7 +41,7 @@ def mint(ctx):
 @click.option("--skip", default=0)
 @click.option("--limit", default=0)
 @click.pass_context
-def batch(ctx, skip, limit):
+def cached(ctx, skip, limit):
     """Batch mint from ingested cache cid list \n
     Note: Please ensure that binaries are already ingested before run this command.
     eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> mint batch
