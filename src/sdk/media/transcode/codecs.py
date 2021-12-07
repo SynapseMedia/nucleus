@@ -17,9 +17,9 @@ def progress():
 def get_representations(quality) -> list:
     """
     Return representation list based on`quality`.
-    Blocked upscale and locked downscale allowed for each defined quality.
-    @param quality:
-    @return list of representations based on requested quality
+    Blocked upscale and locked downscale allowed for each defined quality
+    :param quality:
+    :return list of representations based on requested quality
     """
     _144p = Representation(Size(256, 144), Bitrate(95 * 1024, 64 * 1024))
     _240p = Representation(Size(426, 240), Bitrate(150 * 1024, 94 * 1024))
@@ -48,8 +48,25 @@ def to_dash(input_file, quality, output_dir):
     """
     with progress() as progress_handler:
         video = input(input_file)
-        dash = video.dash(Formats.h264())
+        dash = video.dash(Formats.vp9())
         dash.representations(*get_representations(quality))
         dash.output(output_dir, monitor=progress_handler)
+
+    return output_dir
+
+
+def to_hls(input_file, quality, output_dir):
+    """
+    Transcode movie file to hls
+    :param input_file:
+    :param quality:
+    :param output_dir
+    :return: new file format dir
+    """
+    with progress() as progress_handler:
+        video = input(input_file)
+        hls = video.hls(Formats.h264())
+        hls.representations(*get_representations(quality))
+        hls.output(output_dir, monitor=progress_handler)
 
     return output_dir

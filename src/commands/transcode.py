@@ -5,9 +5,34 @@ from src.sdk import cache, media, logger, util
 from src.sdk.constants import OVERWRITE_TRANSCODE_OUTPUT
 
 
+def _transcode(mv, _format, overwrite):
+    logger.log.info("\n")
+    logger.log.warn(f"Fetching posters for {mv.title}")
+    output_dir = util.build_dir(mv)
+    # process video transcoding/images copy
+    media.transcode.ingest.posters(mv.resource.posters, output_dir)
+    logger.log.warn(f"Transcoding {mv.title}:{mv.imdb_code}")
+    media.transcode.ingest.videos(mv.resource.videos, output_dir, overwrite)
+
+
 @click.command()
+@click.group("transcode")
 @click.option("--overwrite", default=OVERWRITE_TRANSCODE_OUTPUT)
-def transcode(overwrite):
+@click.pass_context
+def transcode(ctx, overwrite):
+    """Transcode toolkit"""
+    ctx.ensure_object(dict)
+    ctx.obj["overwrite"] = overwrite
+
+
+@transcode.command()
+def single():
+    pass
+
+
+@transcode.command()
+@click.pass_context
+def batch(ctx):
     """
     Transcode media defined in metadata \n
     Note: Please ensure that metadata exists in local temp db before run this command.
@@ -19,13 +44,6 @@ def transcode(overwrite):
     logger.log.warning(f"Transcoding {result_count} results")
     # Fetch from each row in tmp db the resources
     for current_movie in check(result):
-        logger.log.info("\n")
-        logger.log.warn(f"Fetching posters for {current_movie.title}")
-        output_dir = util.build_dir(current_movie)
-        # process video transcoding/images copy
-        media.transcode.ingest.posters(current_movie.resource.posters, output_dir)
-        logger.log.warn(f"Transcoding {current_movie.title}:{current_movie.imdb_code}")
-        media.transcode.ingest.videos(current_movie.resource.videos, output_dir, overwrite)
-
+        _transcode(current_movie, 'hls', ctx.obj['overwrite'])
     # Close current tmp cache db
     result.close()
