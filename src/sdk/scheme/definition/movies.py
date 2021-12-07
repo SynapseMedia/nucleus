@@ -44,24 +44,9 @@ class VideoScheme(MediaScheme):
     """
     Video resource definition
     Implicit inherit `route`, `index` attrs from parent.
-    :type quality: Screen quality definition for video
     :type type: Mechanism to stream video eg: hls | torrent
     """
-
-    quality = fields.Str(required=True)  # Quality ex: 720p, 1080p..
     type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
-
-
-class PostersScheme(DataObjectScheme):
-    """
-    Image collection with nested `MediaScheme`
-    Each image must comply with `route` attr
-    eg. {small:{route:...}, medium:{..}, large:{...}}
-    """
-
-    small = fields.Nested(MediaScheme)
-    medium = fields.Nested(MediaScheme)
-    large = fields.Nested(MediaScheme)
 
 
 class MultiMediaScheme(DataObjectScheme):
@@ -69,8 +54,8 @@ class MultiMediaScheme(DataObjectScheme):
     Nested resource scheme
     """
 
-    posters = fields.Nested(PostersScheme)
-    videos = fields.List(fields.Nested(VideoScheme))
+    image = fields.Nested(MediaScheme)
+    video = fields.Nested(VideoScheme)
 
 
 class MovieScheme(DataObjectScheme):

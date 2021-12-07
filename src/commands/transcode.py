@@ -11,12 +11,12 @@ from src.sdk.constants import (
 )
 
 
-def _transcode(video, protocol, output_dir, overwrite):
+def _transcode(video, output_dir, protocol, overwrite):
     """
     Transcode video listed in metadata
     :param video: VideoScheme
-    :param protocol:
     :param output_dir: dir to store transcoding video
+    :param protocol: Choose live streaming protocol
     :param overwrite: If true then overwrite current files
     :return:
     """
@@ -36,7 +36,6 @@ def _transcode(video, protocol, output_dir, overwrite):
     )
 
 
-@click.command()
 @click.group("transcode")
 @click.option("--overwrite", default=OVERWRITE_TRANSCODE_OUTPUT)
 @click.option(
@@ -78,7 +77,7 @@ def cached(ctx):
 
         # Process each video described in movie
         for video in current_movie.resource.videos:
-            _transcode(video, ctx.obj["protocol"], output_dir, ctx.obj["overwrite"])
+            _transcode(video=video, output_dir=output_dir, **ctx.obj)
 
     # Close current tmp cache db
     result.close()
