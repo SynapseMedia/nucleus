@@ -1,63 +1,12 @@
 import os
 import errno
 
-from typing import Iterator
 from .remote import pin_remote
 from src.sdk import util, logger
 from src.sdk.media.storage import ipfs
-from src.sdk.scheme.definition.movies import (
-    MovieScheme,
-    VideoScheme,
-    PostersScheme,
-    MultiMediaScheme,
-)
+from src.sdk.scheme.definition.movies import MovieScheme
 
 __author__ = "gmena"
-
-
-def _add_cid_to_posters(posters: PostersScheme, _hash: str) -> PostersScheme:
-    """
-    Replace route => cid declared in scheme PosterScheme
-    :param posters:
-    :param _hash:
-    :return: PostersScheme
-    """
-
-    for key, poster in posters.iterable():
-        file_format = util.extract_extension(poster.route)
-        poster.route = _hash  # Overwrite older route
-        poster.index = f"{key}.{file_format}"  # set new cid hash
-    return posters
-
-
-def _add_cid_to_videos(
-    videos: Iterator[VideoScheme], _hash: str
-) -> Iterator[VideoScheme]:
-    """
-    Replace route => cid declared in scheme VideoScheme
-    :param videos:
-    :param _hash:
-    :return: VideoScheme
-    """
-
-    def _run(video: VideoScheme):
-        video.route = _hash
-        return video
-
-    return map(_run, videos)
-
-
-def _add_cid_to_resources(resource: MultiMediaScheme, _hash: str) -> MultiMediaScheme:
-    """
-    Re-struct resources adding the corresponding cid
-    :param resource: MultimediaScheme
-    :param _hash
-    :return:
-    """
-
-    resource.posters = _add_cid_to_posters(resource.posters, _hash)
-    resource.videos = _add_cid_to_videos(resource.videos, _hash)
-    return resource
 
 
 def add_dir_to_ipfs(_dir: str) -> str:
@@ -107,7 +56,7 @@ def pin_cid_list(cid_list: iter) -> list:
     return cid_list
 
 
-def to_ipfs(mv: MovieScheme) -> MovieScheme:
+def to_ipfs(mv: MovieScheme) -> str:
     """
     Loop over assets, download it and add it to IPFS
     :param mv: MovieScheme
@@ -117,11 +66,4 @@ def to_ipfs(mv: MovieScheme) -> MovieScheme:
     logger.log.warning(f"Ingesting {mv.imdb_code}")
     # Logs on ready ingested
     current_dir = util.build_dir(mv)
-    hash_directory = add_dir_to_ipfs(current_dir)
-    # Set hash by reference into posters and videos collections
-    _add_cid_to_resources(mv.resource, hash_directory)
-
-    # Add current hash to movie
-    mv.hash = hash_directory
-    logger.log.success(f"Done {mv.imdb_code}\n")
-    return MovieScheme().dump(mv)
+    return add_dir_to_ipfs(current_dir)
