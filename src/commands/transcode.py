@@ -5,6 +5,8 @@ from src.sdk import cache, media, logger, util
 from src.sdk.constants import (
     OVERWRITE_TRANSCODE_OUTPUT,
     PROD_PATH,
+    HLS_FORMAT,
+    DASH_FORMAT,
     DEFAULT_NEW_FILENAME,
 )
 
@@ -30,24 +32,28 @@ def _transcode(video, protocol, output_dir, overwrite):
         return
 
     media.transcode.ingest.videos(
-        video,  # Input video file path
-        protocol,  #
-        output_dir  # Output directory
+        video, protocol, output_dir  #
     )
 
 
 @click.command()
 @click.group("transcode")
 @click.option("--overwrite", default=OVERWRITE_TRANSCODE_OUTPUT)
+@click.option(
+    "--protocol", default=HLS_FORMAT, type=click.Choice([HLS_FORMAT, DASH_FORMAT])
+)
 @click.pass_context
-def transcode(ctx, overwrite):
+def transcode(ctx, overwrite, protocol):
     """Transcode toolkit"""
     ctx.ensure_object(dict)
     ctx.obj["overwrite"] = overwrite
+    ctx.obj["protocol"] = protocol
 
 
 @transcode.command()
+@click.pass_context
 def single():
+    """Transcode arbitrary cid"""
     pass
 
 
@@ -66,13 +72,13 @@ def batch(ctx):
 
     # Fetch from each row in tmp db the resources
     for current_movie in check(result):
-        logger.log.info("\n")
         output_dir = util.build_dir(current_movie)
         logger.log.warn(f"Transcoding {current_movie.title}:{current_movie.imdb_code}")
+        logger.log.info("\n")
 
         # Process each video described in movie
         for video in current_movie.resource.videos:
-            _transcode(video, 'hls', output_dir, ctx.obj['overwrite'])
+            _transcode(video, ctx.obj["protocol"], output_dir, ctx.obj["overwrite"])
 
     # Close current tmp cache db
     result.close()

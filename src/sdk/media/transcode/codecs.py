@@ -7,6 +7,7 @@ from tqdm import tqdm
 def progress():
     """Render tqdm progress bar."""
     with tqdm(total=100) as bar:
+
         def handler(ffmpeg, duration, time_, time_left, process):
             per = round(time_ / duration * 100)
             bar.update(per)
@@ -31,10 +32,10 @@ def get_representations(quality) -> list:
     _4k = Representation(Size(3840, 2160), Bitrate(17408 * 1024, 320 * 1024))
 
     return {
-        '720p': [_144p, _240p, _360p, _480p, _720p],
-        '1080p': [_144p, _240p, _360p, _480p, _720p, _1080p],
-        '2k': [_144p, _240p, _360p, _480p, _720p, _1080p, _2k],
-        '4k': [_144p, _240p, _360p, _480p, _720p, _1080p, _2k, _4k]
+        "720p": [_144p, _240p, _360p, _480p, _720p],
+        "1080p": [_144p, _240p, _360p, _480p, _720p, _1080p],
+        "2k": [_144p, _240p, _360p, _480p, _720p, _1080p, _2k],
+        "4k": [_144p, _240p, _360p, _480p, _720p, _1080p, _2k, _4k],
     }.get(quality.lower())
 
 
