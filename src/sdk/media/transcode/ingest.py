@@ -1,46 +1,30 @@
-import time
-
-from .codecs import to_hls
-from .. import fetch
 from ... import logger, util
-from ...scheme.definition.movies import VideoScheme, PostersScheme
+from .codecs import to_hls, to_dash
+from ...scheme.definition.movies import VideoScheme
 from ...constants import (
-    RECURSIVE_SLEEP_REQUEST,
-    MAX_FAIL_RETRY,
+    HLS_FORMAT,
+    DASH_FORMAT
 )
 
 
-def posters(poster: PostersScheme, output_dir: str, max_retry=MAX_FAIL_RETRY):
-    """
-    Recursive poster fetching
-    :param poster: MovieScheme
-    :param output_dir: dir to store poster
-    :param max_retry:
-    :return:
-    """
-    try:
-        for key, _poster in poster.iterable():
-            file_format = util.extract_extension(_poster.route)
-            fetch.file(_poster.route, f"{output_dir}/{key}.{file_format}")
-
-    except Exception as e:
-        if max_retry <= 0:
-            raise OverflowError("Max retry exceeded")
-        max_retry = max_retry - 1
-        logger.log.error(f"Retry download assets error: {e}")
-        logger.log.warning(f"Wait {RECURSIVE_SLEEP_REQUEST}")
-        time.sleep(RECURSIVE_SLEEP_REQUEST)
-        return posters(poster, output_dir, max_retry)
-
-
-def videos(video: VideoScheme, output_dir: str):
+def videos(video: VideoScheme, protocol: str, output_dir: str):
     """
     Transcode video listed in metadata
     :param video: VideoScheme
-    :param output_dir: dir to store video
+    :param protocol:
+    :param output_dir: dir to store transcoding video
     :return:
     """
 
+    protocols = {
+        HLS_FORMAT: to_hls,
+        DASH_FORMAT: to_dash
+    }
+
+    if protocol not in protocols:
+        logger.log.error('Invalid protocol provided. Please try using `hls` or `dash`')
+        return
+
     util.make_destination_dir(output_dir)
-    to_hls(video.route, video.quality, output_dir)
+    protocols[protocol](video.route, video.quality, output_dir)
     logger.log.success(f"New movie stored in: {output_dir}")
