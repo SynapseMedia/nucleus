@@ -37,26 +37,24 @@ def posters(poster: PostersScheme, output_dir: str, max_retry=MAX_FAIL_RETRY):
         return posters(poster, output_dir, max_retry)
 
 
-def videos(video_list: Iterator[VideoScheme], output_dir_: str, overwrite):
-    """
+def videos(video: VideoScheme, output_dir_: str, overwrite):
+    """mv.resource.video
     Transcode video listed in metadata
-    :param video_list: VideoScheme
+    :param video: VideoScheme
     :param output_dir_: dir to store video
     :param overwrite: If true then overwrite current files
     :return:
     """
 
-    for video in video_list:
-        output_dir = f"{PROD_PATH}/{output_dir_}/{video.quality}/"
-        output_dir = f"{output_dir}{DEFAULT_NEW_FILENAME}"
+    output_dir = f"{PROD_PATH}/{output_dir_}/{video.quality}/"
+    output_dir = f"{output_dir}{DEFAULT_NEW_FILENAME}"
 
-        # Avoid overwrite existing output
-        # If path already exist or overwrite = False
-        if Path(output_dir).exists() and not overwrite:
-            logger.log.warning(f"Skipping media already processed: {output_dir}")
-            continue
+    # Avoid overwrite existing output
+    # If path already exist or overwrite = False
+    if Path(output_dir).exists() and not overwrite:
+        logger.log.warning(f"Skipping media already processed: {output_dir}")
+        return
 
-        # TODO switch format here
-        util.make_destination_dir(output_dir)
-        to_hls(video.route, video.quality, output_dir)
-        logger.log.success(f"New movie stored in: {output_dir}")
+    util.make_destination_dir(output_dir)
+    to_hls(video.route, video.quality, output_dir)
+    logger.log.success(f"New movie stored in: {output_dir}")

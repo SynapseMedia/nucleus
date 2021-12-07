@@ -7,12 +7,11 @@ from src.sdk.constants import OVERWRITE_TRANSCODE_OUTPUT
 
 def _transcode(mv, _format, overwrite):
     logger.log.info("\n")
-    logger.log.warn(f"Processing posters for {mv.title}")
     output_dir = util.build_dir(mv)
-    # process video transcoding/images copy
-    media.transcode.ingest.posters(mv.resource.posters, output_dir)
+    # process video transcoding
     logger.log.warn(f"Transcoding {mv.title}:{mv.imdb_code}")
-    media.transcode.ingest.videos(mv.resource.videos, output_dir, overwrite)
+    for video in mv.resource.videos:
+        media.transcode.ingest.videos(video, output_dir, overwrite)
 
 
 @click.command()
