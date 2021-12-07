@@ -7,7 +7,7 @@ from src.sdk.constants import OVERWRITE_TRANSCODE_OUTPUT
 
 def _transcode(mv, _format, overwrite):
     logger.log.info("\n")
-    logger.log.warn(f"Fetching posters for {mv.title}")
+    logger.log.warn(f"Processing posters for {mv.title}")
     output_dir = util.build_dir(mv)
     # process video transcoding/images copy
     media.transcode.ingest.posters(mv.resource.posters, output_dir)
