@@ -59,9 +59,9 @@ def single():
 
 @transcode.command()
 @click.pass_context
-def batch(ctx):
+def cached(ctx):
     """
-    Transcode media defined in metadata \n
+    Transcode media defined in cached metadata \n
     Note: Please ensure that metadata exists in local temp db before run this command.
     eg. Resolve meta -> Transcode media
     """
