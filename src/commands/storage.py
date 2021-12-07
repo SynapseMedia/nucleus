@@ -28,7 +28,7 @@ def _add_cid_to_posters(posters: PostersScheme, _hash: str) -> PostersScheme:
 
 
 def _add_cid_to_videos(
-        videos: Iterator[VideoScheme], _hash: str
+    videos: Iterator[VideoScheme], _hash: str
 ) -> Iterator[VideoScheme]:
     """
     Replace route => cid declared in scheme VideoScheme

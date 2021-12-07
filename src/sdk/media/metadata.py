@@ -55,8 +55,7 @@ def _build_paths_from(resource: MultiMediaScheme):
     """
     return {
         "videos": [
-            {x.quality: f"/{x.quality}/{DEFAULT_NEW_FILENAME}"}
-            for x in resource.videos
+            {x.quality: f"/{x.quality}/{DEFAULT_NEW_FILENAME}"} for x in resource.videos
         ],
         "posters": [
             {k: f"/{k}.{util.extract_extension(i.route)}"}
