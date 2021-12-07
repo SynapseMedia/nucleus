@@ -34,7 +34,7 @@ def cached(ctx):
     """
     Convert/Process image static defined in cached metadata \n
     Note: Please ensure that metadata exists in local temp db before run this command.
-    eg. Resolve meta -> Static processing
+    eg. Resolve -> Static
     """
     # Get stored movies in tmp_db and process it
     # Total size of entries to fetch

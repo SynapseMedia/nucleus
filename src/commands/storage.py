@@ -161,7 +161,7 @@ def single(ctx, cid):
 def cached(ctx, skip, limit):
     """Pin batch cid from ingested cache cid list \n
     Note: Please ensure that binaries are already ingested before run this command.
-    eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> pin batch
+    eg. Resolve -> Transcode/Static -> Generate NFT metadata -> Ingest -> Pin batch
     """
     media.storage.init()  # Init ipfs node
     entries, _ = cache.ingest.frozen()  # Retrieve already ingested cid list

@@ -63,7 +63,7 @@ def cached(ctx):
     """
     Transcode media defined in cached metadata \n
     Note: Please ensure that metadata exists in local temp db before run this command.
-    eg. Resolve meta -> Transcode media
+    eg. Resolve meta -> Transcode
     """
     # Get stored movies in tmp_db and process it
     # Total size of entries to fetch
