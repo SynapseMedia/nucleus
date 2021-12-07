@@ -1,15 +1,11 @@
 import time
 
-from typing import Iterator
-from pathlib import Path
 from .codecs import to_hls
 from .. import fetch
 from ... import logger, util
 from ...scheme.definition.movies import VideoScheme, PostersScheme
 from ...constants import (
     RECURSIVE_SLEEP_REQUEST,
-    PROD_PATH,
-    DEFAULT_NEW_FILENAME,
     MAX_FAIL_RETRY,
 )
 
@@ -37,23 +33,13 @@ def posters(poster: PostersScheme, output_dir: str, max_retry=MAX_FAIL_RETRY):
         return posters(poster, output_dir, max_retry)
 
 
-def videos(video: VideoScheme, output_dir_: str, overwrite):
-    """mv.resource.video
+def videos(video: VideoScheme, output_dir: str):
+    """
     Transcode video listed in metadata
     :param video: VideoScheme
-    :param output_dir_: dir to store video
-    :param overwrite: If true then overwrite current files
+    :param output_dir: dir to store video
     :return:
     """
-
-    output_dir = f"{PROD_PATH}/{output_dir_}/{video.quality}/"
-    output_dir = f"{output_dir}{DEFAULT_NEW_FILENAME}"
-
-    # Avoid overwrite existing output
-    # If path already exist or overwrite = False
-    if Path(output_dir).exists() and not overwrite:
-        logger.log.warning(f"Skipping media already processed: {output_dir}")
-        return
 
     util.make_destination_dir(output_dir)
     to_hls(video.route, video.quality, output_dir)

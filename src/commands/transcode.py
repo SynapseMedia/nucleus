@@ -1,17 +1,40 @@
 import click
-
+from typing import Iterator
+from pathlib import Path
 from src.sdk.scheme.validator import check
 from src.sdk import cache, media, logger, util
-from src.sdk.constants import OVERWRITE_TRANSCODE_OUTPUT
+from src.sdk.constants import (
+    OVERWRITE_TRANSCODE_OUTPUT,
+    PROD_PATH,
+    DEFAULT_NEW_FILENAME,
+)
 
 
 def _transcode(mv, _format, overwrite):
+    """
+    Transcode video listed in metadata
+    :param mv: MovieScheme
+    :param _format:
+    :param overwrite: If true then overwrite current files
+    :return:
+    """
     logger.log.info("\n")
     output_dir = util.build_dir(mv)
     # process video transcoding
     logger.log.warn(f"Transcoding {mv.title}:{mv.imdb_code}")
     for video in mv.resource.videos:
-        media.transcode.ingest.videos(video, output_dir, overwrite)
+        output_dir = f"{PROD_PATH}/{output_dir}/{video.quality}/"
+        output_dir = f"{output_dir}{DEFAULT_NEW_FILENAME}"
+        # Avoid overwrite existing output
+        # If path already exist or overwrite = False
+        if Path(output_dir).exists() and not overwrite:
+            logger.log.warning(f"Skipping media already processed: {output_dir}")
+            return
+
+        media.transcode.ingest.videos(
+            video,  # Input video file path
+            output_dir  # Outpur directory
+        )
 
 
 @click.command()
