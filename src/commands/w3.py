@@ -80,7 +80,7 @@ def single(ctx, cid):
 def generate():
     """Generate metadata json file for ERC1155 NFT \n
     Note: Please ensure that media is already transcode before run this command.
-    eg. Resolve meta -> Transcode media -> generate
+    eg. Resolve meta -> Transcode/Static -> generate
     """
     # Return available and not processed entries
     # Total size of entries to fetch
