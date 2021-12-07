@@ -104,11 +104,10 @@ def ingest(ctx, no_cache):
     # Ingest from each row in tmp db the resources
     for current_movie in check(result):
         _id = current_movie.imdb_code  # Current id
-        # Set hash by reference into posters and videos collections
-        current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
-        _add_cid_to_resources(current_movie.resource, current_movie.hash)
-
         # Add current hash to movie
+        current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
+        # Set hash by reference into posters and videos collections
+        _add_cid_to_resources(current_movie.resource, current_movie.hash)
         logger.log.success(f"Done {current_movie.imdb_code}\n")
         cache.ingest.freeze(_id, MovieScheme().dump(current_movie))
 
