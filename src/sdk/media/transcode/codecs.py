@@ -1,8 +1,8 @@
+import contextlib
 from ffmpeg_streaming import Formats, FFProbe, Bitrate, Representation, Size, input
 from ...exception import InvalidVideoQuality
 from src.sdk import logger, util
-import datetime
-import sys
+from tqdm import tqdm
 
 
 class Sizes:
@@ -25,19 +25,16 @@ class BRS:
     B4k = Bitrate(17408 * 1024, 320 * 1024)
 
 
-def progress(_, duration, time_, time_left, *args, **kwargs):
+@contextlib.contextmanager
+def progress():
     """Render tqdm progress bar."""
-    sys.stdout.flush()
-    per = round(time_ / duration * 100)
-    sys.stdout.write(
-        "\rTranscoding...(%s%%) %s left [%s%s]"
-        % (
-            per,
-            datetime.timedelta(seconds=int(time_left)),
-            "#" * per,
-            "-" * (100 - per),
-        )
-    )
+
+    with tqdm(total=100) as bar:
+        def handler(ffmpeg, duration, time_, time_left, process):
+            per = round(time_ / duration * 100)
+            bar.update(per)
+
+        yield handler
 
 
 def get_reverse_quality(video):
@@ -107,9 +104,11 @@ def to_dash(input_file, output_dir):
     current_format = util.extract_extension(input_file)
     logger.log.warn(f"Transcoding {current_format} to DASH using VP9 codec")
 
-    dash = video.dash(Formats.vp8())
-    dash.representations(*get_representations(quality))
-    dash.output(output_dir, monitor=progress)
+    with progress() as progress_handler:
+        dash = video.dash(Formats.vp8())
+        dash.representations(*get_representations(quality))
+        dash.output(output_dir, monitor=progress_handler)
+
     logger.log.warn("\n")
     return output_dir
 
@@ -126,8 +125,10 @@ def to_hls(input_file, output_dir):
     current_format = util.extract_extension(input_file)
     logger.log.warn(f"Transcoding {current_format} to HLS using H264 codec")
 
-    hls = video.hls(Formats.h264(), hls_list_size=10, hls_time=5)
-    hls.representations(*get_representations(quality))
-    hls.output(output_dir, monitor=progress)
+    with progress() as progress_handler:
+        hls = video.hls(Formats.h264(), hls_list_size=10, hls_time=5)
+        hls.representations(*get_representations(quality))
+        hls.output(output_dir, monitor=progress_handler)
+
     logger.log.warn("\n")
     return output_dir
