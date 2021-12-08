@@ -8,6 +8,7 @@ from src.sdk.constants import (
     HLS_FORMAT,
     DASH_FORMAT,
     DEFAULT_NEW_FILENAME,
+    HLS_NEW_FILENAME,
 )
 
 
@@ -22,8 +23,8 @@ def _transcode(video, output_dir, protocol, overwrite):
     """
 
     # process video transcoding
-    output_dir = f"{PROD_PATH}/{output_dir}/{video.quality}/"
-    output_dir = f"{output_dir}{DEFAULT_NEW_FILENAME}"
+    output_dir = f"{PROD_PATH}/{output_dir}/video/"
+    output_dir = f"{output_dir}{HLS_NEW_FILENAME if protocol == HLS_FORMAT else DEFAULT_NEW_FILENAME}"
 
     # Avoid overwrite existing output
     # If path already exist or overwrite = False
@@ -31,9 +32,7 @@ def _transcode(video, output_dir, protocol, overwrite):
         logger.log.warning(f"Skipping media already processed: {output_dir}")
         return
 
-    media.transcode.ingest.videos(
-        video, protocol, output_dir  #
-    )
+    media.transcode.ingest.videos(video, protocol, output_dir)
 
 
 @click.group("transcode")
@@ -73,11 +72,9 @@ def cached(ctx):
     for current_movie in check(result):
         output_dir = util.build_dir(current_movie)
         logger.log.warn(f"Transcoding {current_movie.title}:{current_movie.imdb_code}")
+        # Process video detailed in movie
+        _transcode(video=current_movie.resource.video, output_dir=output_dir, **ctx.obj)
         logger.log.info("\n")
-
-        # Process each video described in movie
-        for video in current_movie.resource.videos:
-            _transcode(video=video, output_dir=output_dir, **ctx.obj)
 
     # Close current tmp cache db
     result.close()
