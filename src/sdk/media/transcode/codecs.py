@@ -110,7 +110,7 @@ def to_dash(input_file, output_dir):
     dash = video.dash(Formats.vp8())
     dash.representations(*get_representations(quality))
     dash.output(output_dir, monitor=progress)
-
+    logger.log.warn("\n")
     return output_dir
 
 
@@ -129,5 +129,5 @@ def to_hls(input_file, output_dir):
     hls = video.hls(Formats.h264(), hls_list_size=10, hls_time=5)
     hls.representations(*get_representations(quality))
     hls.output(output_dir, monitor=progress)
-
+    logger.log.warn("\n")
     return output_dir
