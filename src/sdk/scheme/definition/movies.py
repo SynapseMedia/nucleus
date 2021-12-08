@@ -13,7 +13,6 @@ from marshmallow import validates, fields, validate, ValidationError
 
 from .generic import DataObjectScheme
 from ...constants import (
-    ALLOWED_STREAMING,
     DEFAULT_RATE_MAX,
     FIRST_MOVIE_YEAR_EVER,
     LONGEST_RUNTIME_MOVIE,
