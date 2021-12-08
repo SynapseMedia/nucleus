@@ -105,7 +105,7 @@ def to_dash(input_file, output_dir):
     video = input(input_file)
     quality = get_reverse_quality(input_file)
     current_format = util.extract_extension(input_file)
-    logger.log.warn(f"Transcoding to DASH from {quality}:{current_format} using VP9 codec")
+    logger.log.warn(f"Transcoding to DASH from {current_format} using VP9 codec")
 
     dash = video.dash(Formats.vp8())
     dash.representations(*get_representations(quality))
@@ -124,7 +124,7 @@ def to_hls(input_file, output_dir):
     video = input(input_file)
     quality = get_reverse_quality(input_file)
     current_format = util.extract_extension(input_file)
-    logger.log.warn(f"Transcoding to HLS from {quality}:{current_format} using h264 codec")
+    logger.log.warn(f"Transcoding to HLS from {current_format} using H264 codec")
 
     hls = video.hls(Formats.h264(), hls_list_size=10, hls_time=5)
     hls.representations(*get_representations(quality))
