@@ -49,7 +49,7 @@ def get_reverse_quality(video):
     """
     ffprobe = FFProbe(video)
     video_size = ffprobe.video_size
-    logger.log.info(f"Current video size: {video_size}")
+    logger.log.info(f"Current video quality: {video_size}")
 
     reversal_sizes = reversed(
         (
@@ -66,7 +66,7 @@ def get_reverse_quality(video):
         (eq for res, eq in reversal_sizes if res.width <= video_size.width), None
     )
 
-    logger.log.info(f"New resolution found: {matched_new_resolution}")
+    logger.log.info(f"New quality found: {matched_new_resolution}")
     if matched_new_resolution:
         return matched_new_resolution
     raise InvalidVideoQuality()
