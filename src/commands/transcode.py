@@ -1,4 +1,5 @@
 import click
+import shutil
 from pathlib import Path
 from src.sdk.scheme.validator import check
 from src.sdk import cache, media, logger, util
@@ -23,16 +24,23 @@ def _transcode(video, output_dir, protocol, overwrite):
     """
 
     # process video transcoding
-    output_dir = f"{PROD_PATH}/{output_dir}/video/"
-    output_dir = f"{output_dir}{HLS_NEW_FILENAME if protocol == HLS_FORMAT else DEFAULT_NEW_FILENAME}"
+    root_output_dir = f"{PROD_PATH}/{output_dir}"
+    video_output_dir = f"{root_output_dir}/video/"
+    file_output_dir = f"{video_output_dir}{HLS_NEW_FILENAME if protocol == HLS_FORMAT else DEFAULT_NEW_FILENAME}"
 
     # Avoid overwrite existing output
     # If path already exist or overwrite = False
-    if Path(output_dir).exists() and not overwrite:
-        logger.log.warning(f"Skipping media already processed: {output_dir}\n")
+    if Path(file_output_dir).exists() and not overwrite:
+        logger.log.warning(f"Skipping media already processed: {file_output_dir}\n")
         return
 
-    media.transcode.ingest.videos(video, protocol, output_dir)
+    try:
+        # Transcode input movie to specified protocol. Default: hls
+        media.transcode.ingest.videos(video, protocol, file_output_dir)
+    except RuntimeError as e:
+        print(e)
+        shutil.rmtree(root_output_dir, ignore_errors=True) # Remove dir if fail
+        logger.log.error(f"Fail transcoding to {protocol}")
 
 
 @click.group("transcode")
