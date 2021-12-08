@@ -106,7 +106,7 @@ def to_dash(input_file, output_dir):
     video = input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)
     quality = get_reverse_quality(input_file)
     current_format = util.extract_extension(input_file)
-    logger.log.warn(f"Transcoding {current_format} to DASH using VP9 codec")
+    logger.log.warn(f"Transcoding {current_format} to DASH using VP8 codec")
 
     dash = video.dash(Formats.vp8())
     dash.representations(*get_representations(quality))
