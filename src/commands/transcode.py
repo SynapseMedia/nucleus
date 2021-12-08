@@ -74,7 +74,6 @@ def cached(ctx):
         logger.log.warn(f"Transcoding {current_movie.title}:{current_movie.imdb_code}")
         # Process video detailed in movie
         _transcode(video=current_movie.resource.video, output_dir=output_dir, **ctx.obj)
-        logger.log.info("\n")
 
     # Close current tmp cache db
     result.close()
