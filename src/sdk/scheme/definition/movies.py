@@ -40,22 +40,13 @@ class MediaScheme(DataObjectScheme):
             raise ValidationError("Route must be a CID | URI | Path")
 
 
-class VideoScheme(MediaScheme):
-    """
-    Video resource definition
-    Implicit inherit `route`, `index` attrs from parent.
-    :type type: Mechanism to stream video eg: hls | torrent
-    """
-    type = fields.Str(validate=validate.OneOf(ALLOWED_STREAMING))
-
-
 class MultiMediaScheme(DataObjectScheme):
     """
-    Nested resource scheme
+    Nested media scheme
     """
 
     image = fields.Nested(MediaScheme)
-    video = fields.Nested(VideoScheme)
+    video = fields.Nested(MediaScheme)
 
 
 class MovieScheme(DataObjectScheme):

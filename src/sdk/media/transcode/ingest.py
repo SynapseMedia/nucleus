@@ -1,10 +1,10 @@
 from ... import logger, util
 from .codecs import to_hls, to_dash
-from ...scheme.definition.movies import VideoScheme
+from ...scheme.definition.movies import MediaScheme
 from ...constants import HLS_FORMAT, DASH_FORMAT
 
 
-def videos(video: VideoScheme, protocol: str, output_dir: str):
+def videos(video: MediaScheme, protocol: str, output_dir: str):
     """
     Transcode video listed in metadata
     :param video: VideoScheme
