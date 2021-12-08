@@ -7,7 +7,6 @@ from src.sdk import cache, logger, exception, media, util
 from src.sdk.scheme.definition.movies import (
     MovieScheme,
     VideoScheme,
-    PostersScheme,
     MultiMediaScheme,
 )
 

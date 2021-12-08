@@ -49,7 +49,7 @@ def cached(ctx):
 
         # Process each video described in movie
         for _image in current_movie.resource.images:
-            media.static.ingest.image(_image, output_dir)
+            media.static.ingest.images(_image, output_dir)
 
     # Close current tmp cache db
     result.close()
