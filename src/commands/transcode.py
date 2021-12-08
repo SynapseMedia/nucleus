@@ -29,7 +29,7 @@ def _transcode(video, output_dir, protocol, overwrite):
     # Avoid overwrite existing output
     # If path already exist or overwrite = False
     if Path(output_dir).exists() and not overwrite:
-        logger.log.warning(f"Skipping media already processed: {output_dir}")
+        logger.log.warning(f"Skipping media already processed: {output_dir}\n")
         return
 
     media.transcode.ingest.videos(video, protocol, output_dir)
