@@ -36,9 +36,13 @@ def _transcode(video, output_dir, protocol, overwrite):
 
     try:
         # Transcode input movie to specified protocol. Default: hls
-        media.transcode.ingest.videos(video, protocol, file_output_dir)
+        media.transcode.ingest.videos(
+            video.route,  # Video path
+            protocol,  # hls vs dash
+            file_output_dir  # where store transcoded video
+        )
     except RuntimeError as e:
-        shutil.rmtree(root_output_dir, ignore_errors=True) # Remove dir if fail
+        shutil.rmtree(root_output_dir, ignore_errors=True)  # Remove dir if fail
         logger.log.error(f"Fail transcoding to {protocol}")
 
 
