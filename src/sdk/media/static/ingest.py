@@ -1,23 +1,23 @@
 import time
 
 from src.sdk.media import fetch
-from src.sdk import logger, util
-from src.sdk.scheme.definition.movies import MediaScheme
+from src.sdk import logger, util, media
 from src.sdk.constants import RECURSIVE_SLEEP_REQUEST, MAX_FAIL_RETRY
 
 
-def images(image: MediaScheme, output_dir: str, max_retry=MAX_FAIL_RETRY):
+def images(image_path: str, output_dir: str, max_retry=MAX_FAIL_RETRY):
     """
     Recursive poster fetching/copying
-    :param image: MediaScheme
+    :param image_path: input image path
     :param output_dir: dir to store poster
     :param max_retry:
     :return:
     """
     try:
-        for key, _poster in image.iterable():
-            file_format = util.extract_extension(_poster.route)
-            fetch.file(_poster.route, f"{output_dir}/{key}.{file_format}")
+        file_format = util.extract_extension(image_path)
+        input_file = f"{output_dir}/large.{file_format}"
+        fetch.file(image_path, input_file)
+        media.static.image.auto_resize_to_default(image_path, output_dir)
 
     except Exception as e:
         if max_retry <= 0:
@@ -26,4 +26,4 @@ def images(image: MediaScheme, output_dir: str, max_retry=MAX_FAIL_RETRY):
         logger.log.error(f"Retry download assets error: {e}")
         logger.log.warning(f"Wait {RECURSIVE_SLEEP_REQUEST}")
         time.sleep(RECURSIVE_SLEEP_REQUEST)
-        return images(image, output_dir, max_retry)
+        return images(image_path, output_dir, max_retry)
