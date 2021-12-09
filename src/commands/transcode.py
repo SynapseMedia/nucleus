@@ -25,7 +25,7 @@ def _transcode(video, output_dir, protocol, overwrite):
 
     # process video transcoding
     root_output_dir = f"{PROD_PATH}/{output_dir}"
-    video_output_dir = f"{root_output_dir}/video/"
+    video_output_dir = f"{root_output_dir}/movie/{protocol}/"
     file_output_dir = f"{video_output_dir}{HLS_NEW_FILENAME if protocol == HLS_FORMAT else DEFAULT_NEW_FILENAME}"
 
     # Avoid overwrite existing output
@@ -38,7 +38,6 @@ def _transcode(video, output_dir, protocol, overwrite):
         # Transcode input movie to specified protocol. Default: hls
         media.transcode.ingest.videos(video, protocol, file_output_dir)
     except RuntimeError as e:
-        print(e)
         shutil.rmtree(root_output_dir, ignore_errors=True) # Remove dir if fail
         logger.log.error(f"Fail transcoding to {protocol}")
 
