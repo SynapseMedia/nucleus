@@ -11,7 +11,7 @@ PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python
 PIP = ${VENV}/bin/pip
 
 DEFAULT_PYTHON := /usr/bin/python3
-VIRTUALENV := /usr/bin/virtualenv
+VIRTUALENV := /usr/bin/env virtualenv
 REQUIREMENTS := -r requirements.txt
 
 default: check-coding-style
