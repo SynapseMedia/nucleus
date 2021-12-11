@@ -30,3 +30,4 @@ src/.pytest_cache
 data/ipfs
 data/*
 geth
+htmlcov
