@@ -53,7 +53,7 @@ def build_paths(resource: MultiMediaScheme):
     """
     return {
         "video": MediaScheme().dump(resource.video),
-        "image": MediaScheme().dump(resource.image)
+        "image": MediaScheme().dump(resource.image),
     }
 
 

@@ -62,7 +62,9 @@ def resize_thumbnails(input_image: str, output: str, size) -> Image:
     """
 
     # Keep original requested size if `size` is Size subtype
-    size_representation = (get_representations(size) if not isinstance(size, Sizes) else size)
+    size_representation = (
+        get_representations(size) if not isinstance(size, Sizes) else size
+    )
     # Avoid pass if invalid representation or not `size` subtype
     if not size_representation and not isinstance(size, Sizes):
         raise ValueError(

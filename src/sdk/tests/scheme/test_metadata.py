@@ -9,9 +9,18 @@ mock_local_file = directory.replace("_", "")
 mock_link = "https://example.org/assets/tests/watchit.png"
 
 input_paths = {
-    "video": {"route": "QmbWqxBEKC3P8tqsKc98xmWNzrzDtRLMiMPL8wBuTGsMnR", "index": {"hls": "index.m3u8"}},
-    "image": {"route": "QmbWqxBEKC3P8tqsKc98xmWNzrzDtRLMiMPL8wBuTGsMnR",
-              "index": {"small": "/small.jpg", "medium": "/medium.jpg", "large": "/large.jpg"}},
+    "video": {
+        "route": "QmbWqxBEKC3P8tqsKc98xmWNzrzDtRLMiMPL8wBuTGsMnR",
+        "index": {"hls": "index.m3u8"},
+    },
+    "image": {
+        "route": "QmbWqxBEKC3P8tqsKc98xmWNzrzDtRLMiMPL8wBuTGsMnR",
+        "index": {
+            "small": "/small.jpg",
+            "medium": "/medium.jpg",
+            "large": "/large.jpg",
+        },
+    },
 }
 
 
