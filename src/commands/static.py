@@ -1,36 +1,29 @@
+import sys
+
 import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, media, logger, util
-from src.sdk.constants import (
-    OVERWRITE_TRANSCODE_OUTPUT,
-)
 
 
-@click.command()
 @click.group("static")
-@click.option("--overwrite", default=OVERWRITE_TRANSCODE_OUTPUT)
-@click.pass_context
-def static(ctx):
+def static():
     """Statics toolkit"""
-    ctx.ensure_object(dict)
+    pass
 
 
 @static.group("images")
-@click.pass_context
-def image():
+def images():
     """Image toolkit"""
     pass
 
 
-@image.group("ingest")
-@click.pass_context
+@images.group("ingest")
 def ingest():
     pass
 
 
 @ingest.command()
-@click.pass_context
-def cached(ctx):
+def cached():
     """
     Convert/Process image static defined in cached metadata \n
     Note: Please ensure that metadata exists in local temp db before run this command.
@@ -43,13 +36,11 @@ def cached(ctx):
 
     # Fetch from each row in tmp db the resources
     for current_movie in check(result):
+        # Process each video described in movie
         output_dir = util.build_dir(current_movie)
         logger.log.warn(f"Fetching posters for {current_movie.title}")
-        logger.log.info("\n")
-
-        # Process each video described in movie
-        for _image in current_movie.resource.images:
-            media.static.ingest.images(_image, output_dir)
+        media.static.ingest.images(image_path=current_movie.resource.image.route, output_dir=output_dir)
+        sys.stdout.write("\n")
 
     # Close current tmp cache db
     result.close()
