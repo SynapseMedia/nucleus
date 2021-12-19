@@ -56,6 +56,7 @@ def ingest(ctx, no_cache):
         # Add current hash to movie
         current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
         # Set hash by reference into posters and videos collections
+        # TODO refactor paths for resources
         logger.log.success(f"Done {current_movie.imdb_code}\n")
         cache.ingest.freeze(_id, MovieScheme().dump(current_movie))
 
