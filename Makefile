@@ -1,4 +1,4 @@
-	export SHELL:=/bin/bash
+export SHELL:=/bin/bash
 
 PYTHON_MODULES = src
 PYTHONPATH = .

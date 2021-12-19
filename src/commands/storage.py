@@ -1,59 +1,9 @@
 import click
-from typing import Iterator
 from src.sdk.scheme.validator import check
 from src.sdk.exception import InvalidCID
 from src.sdk.constants import FLUSH_CACHE_IPFS
-from src.sdk import cache, logger, exception, media, util
-from src.sdk.scheme.definition.movies import (
-    MovieScheme,
-    VideoScheme,
-    MultiMediaScheme,
-)
-
-
-def _add_cid_to_posters(posters: PostersScheme, _hash: str) -> PostersScheme:
-    """
-    Replace route => cid declared in scheme PosterScheme
-    :param posters:
-    :param _hash:
-    :return: PostersScheme
-    """
-
-    for key, poster in posters.iterable():
-        file_format = util.extract_extension(poster.route)
-        poster.route = _hash  # Overwrite older route
-        poster.index = f"{key}.{file_format}"  # set new cid hash
-    return posters
-
-
-def _add_cid_to_videos(
-    videos: Iterator[VideoScheme], _hash: str
-) -> Iterator[VideoScheme]:
-    """
-    Replace route => cid declared in scheme VideoScheme
-    :param videos:
-    :param _hash:
-    :return: VideoScheme
-    """
-
-    def _run(video: VideoScheme):
-        video.route = _hash
-        return video
-
-    return map(_run, videos)
-
-
-def _add_cid_to_resources(resource: MultiMediaScheme, _hash: str) -> MultiMediaScheme:
-    """
-    Re-struct resources adding the corresponding cid
-    :param resource: MultimediaScheme
-    :param _hash
-    :return:
-    """
-
-    resource.posters = _add_cid_to_posters(resource.posters, _hash)
-    resource.videos = _add_cid_to_videos(resource.videos, _hash)
-    return resource
+from src.sdk import cache, logger, exception, media
+from src.sdk.scheme.definition.movies import MovieScheme
 
 
 def _pin_cid_list(cid_list, remote_strategy=True):
@@ -106,7 +56,6 @@ def ingest(ctx, no_cache):
         # Add current hash to movie
         current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
         # Set hash by reference into posters and videos collections
-        _add_cid_to_resources(current_movie.resource, current_movie.hash)
         logger.log.success(f"Done {current_movie.imdb_code}\n")
         cache.ingest.freeze(_id, MovieScheme().dump(current_movie))
 
