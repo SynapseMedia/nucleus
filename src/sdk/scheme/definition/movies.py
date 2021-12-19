@@ -28,7 +28,7 @@ class MediaScheme(DataObjectScheme):
     """
 
     route = fields.Str(required=True)  # Could be cid | uri
-    index = fields.Str(required=False, default="index.m3u8")
+    index = fields.Dict(required=False)
 
     @validates("route")
     def validate_route(self, value):

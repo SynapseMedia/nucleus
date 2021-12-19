@@ -42,25 +42,18 @@ eg.
 }
 """
 
-from src.sdk import util
-from ..constants import WALLET_PUBLIC_KEY, DEFAULT_NEW_FILENAME
-from ..scheme.definition.movies import MovieScheme, MultiMediaScheme
+from ..scheme.definition.movies import MovieScheme, MultiMediaScheme, MediaScheme
 
 
-def _build_paths_from(resource: MultiMediaScheme):
+def build_paths(resource: MultiMediaScheme):
     """
     Build new valid paths for metadata
     :param resource: MultimediaScheme
     :return: MultiMediaScheme cleaned
     """
     return {
-        "videos": [
-            {x.quality: f"/{x.quality}/{DEFAULT_NEW_FILENAME}"} for x in resource.videos
-        ],
-        "posters": [
-            {k: f"/{k}.{util.extract_extension(i.route)}"}
-            for k, i in resource.posters.iterable()
-        ],
+        "video": MediaScheme().dump(resource.video),
+        "image": MediaScheme().dump(resource.image)
     }
 
 
@@ -73,12 +66,11 @@ def generate_erc1155(mv: MovieScheme):
     """
     # Overwrite resources with shorten relative path to CID
     movie_serialized = MovieScheme().dump(mv)
-    movie_serialized["resource"] = _build_paths_from(mv.resource)
+    movie_serialized["resource"] = build_paths(mv.resource)
     nft_properties = {
         "name": mv.title,
         "image": "/medium.jpg",
         "description": mv.synopsis,
-        "creator": WALLET_PUBLIC_KEY,
         "properties": movie_serialized,
     }
 
