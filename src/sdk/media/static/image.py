@@ -2,9 +2,9 @@ from PIL import Image
 from src.sdk import logger, util
 from contextlib import contextmanager
 
-SMALL = 'small'
-MEDIUM = 'medium'
-LARGE = 'large'
+SMALL = "small"
+MEDIUM = "medium"
+LARGE = "large"
 
 
 class Sizes:
@@ -53,7 +53,9 @@ def auto_resize_to_default(input_image: str, output: str):
 
     for size in {SMALL, MEDIUM, LARGE}:
         file_format = util.extract_extension(input_image)
-        yield resize_thumbnails(input_image, f"{output}/images/{size}.{file_format}", size)
+        yield resize_thumbnails(
+            input_image, f"{output}/images/{size}.{file_format}", size
+        )
 
 
 # TODO write tests
@@ -66,10 +68,14 @@ def resize_thumbnails(input_image: str, output: str, size) -> Image:
     """
 
     # Keep original requested size if `size` is Size subtype
-    size_representation = get_representations(size) if not isinstance(size, Sizes) else size
+    size_representation = (
+        get_representations(size) if not isinstance(size, Sizes) else size
+    )
     # Avoid pass if invalid representation or not `size` subtype
     if not size_representation and not isinstance(size, Sizes):
-        raise ValueError("Invalid size representation. Please provide valid one. eg: small, medium, large")
+        raise ValueError(
+            "Invalid size representation. Please provide valid one. eg: small, medium, large"
+        )
 
     with open_image(input_image) as image:
         if not image.size > Sizes.Large:
