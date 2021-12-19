@@ -88,6 +88,7 @@ def get_representations(quality) -> list:
     _4k = Representation(Sizes.Q4k, BRS.B4k)
 
     return {
+        "360p": [_360p],
         "480p": [_360p, _480p],
         "720p": [_360p, _480p, _720p],
         "1080p": [_360p, _480p, _720p, _1080p],
