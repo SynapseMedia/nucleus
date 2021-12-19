@@ -16,7 +16,7 @@ from src.sdk.constants import (
 def _transcode(video, output_dir, protocol, overwrite):
     """
     Transcode video listed in metadata
-    :param video: VideoScheme
+    :param video: MediaScheme
     :param output_dir: dir to store transcoding video
     :param protocol: Choose live streaming protocol
     :param overwrite: If true then overwrite current files
