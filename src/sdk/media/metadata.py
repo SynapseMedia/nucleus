@@ -42,19 +42,7 @@ eg.
 }
 """
 
-from ..scheme.definition.movies import MovieScheme, MultiMediaScheme, MediaScheme
-
-
-def build_paths(resource: MultiMediaScheme):
-    """
-    Build new valid paths for metadata
-    :param resource: MultimediaScheme
-    :return: MultiMediaScheme cleaned
-    """
-    return {
-        "video": MediaScheme().dump(resource.video),
-        "image": MediaScheme().dump(resource.image),
-    }
+from ..scheme.definition.movies import MovieScheme
 
 
 def generate_erc1155(mv: MovieScheme):
@@ -66,7 +54,6 @@ def generate_erc1155(mv: MovieScheme):
     """
     # Overwrite resources with shorten relative path to CID
     movie_serialized = MovieScheme().dump(mv)
-    movie_serialized["resource"] = build_paths(mv.resource)
     nft_properties = {
         "name": mv.title,
         "image": "/medium.jpg",
