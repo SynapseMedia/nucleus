@@ -42,6 +42,7 @@ eg.
 }
 """
 
+from ..util import extract_extension
 from ..scheme.definition.movies import MovieScheme
 
 
@@ -54,9 +55,10 @@ def generate_erc1155(mv: MovieScheme):
     """
     # Overwrite resources with shorten relative path to CID
     movie_serialized = MovieScheme().dump(mv)
+    file_extension = extract_extension(mv.resource.image.route)
     nft_properties = {
         "name": mv.title,
-        "image": "/medium.jpg",
+        "image": f"/images/medium.{file_extension}",
         "description": mv.synopsis,
         "properties": movie_serialized,
     }
