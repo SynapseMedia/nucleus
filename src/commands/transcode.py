@@ -5,7 +5,6 @@ from src.sdk.scheme.validator import check
 from src.sdk import cache, media, logger, util
 from src.sdk.constants import (
     OVERWRITE_TRANSCODE_OUTPUT,
-    PROD_PATH,
     HLS_FORMAT,
     DASH_FORMAT,
     DEFAULT_NEW_FILENAME,
@@ -24,7 +23,7 @@ def _transcode(video, output_dir, protocol, overwrite):
     """
 
     # process video transcoding
-    root_output_dir = f"{PROD_PATH}/{output_dir}"
+    root_output_dir, _ = util.resolve_root_for(output_dir)
     video_output_dir = f"{root_output_dir}/movie/{protocol}/"
     file_output_dir = f"{video_output_dir}{HLS_NEW_FILENAME if protocol == HLS_FORMAT else DEFAULT_NEW_FILENAME}"
 
