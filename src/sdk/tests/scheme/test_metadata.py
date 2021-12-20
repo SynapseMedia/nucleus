@@ -31,8 +31,9 @@ def input_movie(raw=True):
             "synopsis": "Baby loves have fun",
             "trailer_code": "uIrQ9535RFo",
             "language": "en",
-            "date_uploaded_unix": 1446321498.0
-        }, **({"resource": input_paths} if raw else {})
+            "date_uploaded_unix": 1446321498.0,
+        },
+        **({"resource": input_paths} if raw else {}),
     }
 
 

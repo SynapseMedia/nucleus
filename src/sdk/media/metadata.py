@@ -56,7 +56,7 @@ def generate_erc1155(mv: MovieScheme):
     # Overwrite resources with shorten relative path to CID
     movie_serialized = MovieScheme().dump(mv)
     file_extension = extract_extension(mv.resource.image.route)
-    del movie_serialized['resource']
+    del movie_serialized["resource"]
 
     nft_properties = {
         "name": mv.title,
