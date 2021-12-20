@@ -40,7 +40,8 @@ def cached():
         output_dir = util.build_dir(current_movie)
         logger.log.warn(f"Fetching posters for {current_movie.title}")
         media.static.ingest.images(
-            image_path=current_movie.resource.image.route, output_dir=output_dir
+            image_path=current_movie.resource.image.route,  # input image path
+            output_dir=output_dir  # where store new images?
         )
         sys.stdout.write("\n")
 
