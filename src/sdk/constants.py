@@ -43,7 +43,7 @@ DASH_NEW_FILENAME = "index.mpd"
 IPFS_NODE = os.getenv("IPFS_NODE")
 IPFS_NODE_GATEWAY_PORT = os.getenv("IPFS_NODE_GATEWAY_PORT")
 FLUSH_CACHE_IPFS = os.getenv("FLUSH_CACHE_IPFS", "False") == "True"
-TIMEOUT_REQUEST = 30 * 60
+TIMEOUT_REQUEST = 120 * 60
 
 # Export constants
 REGEN_ORBITDB = os.environ.get("REGEN_ORBITDB", "False") == "True"

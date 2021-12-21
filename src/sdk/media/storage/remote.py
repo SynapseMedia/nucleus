@@ -47,7 +47,7 @@ def has_valid_registered_service():
     return PINATA_SERVICE in tuple(filter(None, find_registered_service))
 
 
-def pin_remote(cid: str, **kwargs):
+def pin(cid: str, **kwargs):
     """
     Pin cid into edge pinata remote cache
     :param cid: the cid to pin
