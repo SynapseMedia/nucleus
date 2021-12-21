@@ -1,3 +1,4 @@
+import sys
 import time
 import ipfshttpclient
 import requests
@@ -20,10 +21,13 @@ def start_node():
     try:
         logger.log.notice("Starting node")
         ipfs_node = ipfshttpclient.connect(
-            "/dns/ipfs/tcp/5001/http", session=True, timeout=TIMEOUT_REQUEST
+            addr="/dns/ipfs/tcp/5001/http",
+            session=True,  # Useful for long-running client objects.
+            timeout=TIMEOUT_REQUEST,
+            base='/api/v0/'
         )
         logger.log.info(f"Node running {ipfs_node.id().get('ID')}")
-        logger.log.info("\n")
+        sys.stdout.write("\n")
         return ipfs_node
     except ipfshttpclient.exceptions.ConnectionError:
         logger.log.notice("Waiting for node active")
@@ -42,6 +46,7 @@ def init():
     ipfs_node = start_node()
     remote.ipfs = ipfs_node  # noqa
     ingest.ipfs = ipfs_node  # noqa
+    return ipfs_node
 
 
-__all__ = ["remote", "ingest"]
+__all__ = ["remote", "ingest", "ipfs", "session"]
