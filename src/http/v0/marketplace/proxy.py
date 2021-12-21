@@ -10,7 +10,7 @@ proxy_ = Blueprint("proxy", __name__)
 
 @proxy_.route("/<uid>/<file>", methods=["GET"])
 def proxy(uid, file):
-    """Get a object id and return assets"""
+    """Get an object id and return assets"""
     if not uid:
         raise InvalidRequest()
 

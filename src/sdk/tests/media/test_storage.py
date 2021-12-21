@@ -1,7 +1,7 @@
 import responses
 import pytest
 import src.sdk.media
-from src.sdk.media.storage import check_status, has_valid_registered_service
+from src.sdk.media.storage.remote import check_status, has_valid_registered_service
 
 PINATA_SERVICE = "pinata"
 PINATA_ENDPOINT = "https://api.pinata.cloud"
@@ -41,7 +41,7 @@ def _setup_pinata_response_ok(mocker):
 def test_check_status(mocker):
     """Should return valid status if service connected and has local registered service"""
     mocker.patch(
-        "src.sdk.media.storage.has_valid_registered_service", return_value=True
+        "src.sdk.media.storage.remote.has_valid_registered_service", return_value=True
     )
     assert check_status()
 

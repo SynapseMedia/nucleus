@@ -30,19 +30,11 @@ class Dummy:
             "language": "en",
             "date_uploaded_unix": 1446321498,
             "resource": {
-                "posters": {
-                    "small": {
-                        "route": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"},
-                    "medium": {
-                        "route": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"},
-                    "large": {
-                        "route": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"},
+                "image": {
+                    "route": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"
                 },
-                "videos": [
-                    {
-                        "route": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                        "quality": "720p",
-                        "type": "hls"
-                    }
-                ]
+                "video": {
+                    "route": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                }
+
             }}]

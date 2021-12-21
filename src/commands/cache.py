@@ -15,12 +15,7 @@ def flush():
 
 
 @flush.command()
-def resolved():
-    pass
-
-
-@flush.command()
-def ingested():
+def frozen():
     pass
 
 

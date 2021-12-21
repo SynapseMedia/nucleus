@@ -30,6 +30,7 @@ def log_factory(name, level=logging.DEBUG):
     _logger = verboselogs.VerboseLogger(name)
     _logger.addHandler(logging.StreamHandler())
     _logger.setLevel(level)
+    _logger.propagate = False
 
     fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     coloredlogs.install(level=logging.DEBUG, logger=_logger, fmt=fmt)

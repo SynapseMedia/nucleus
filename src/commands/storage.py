@@ -1,9 +1,9 @@
 import click
 from src.sdk.scheme.validator import check
-from src.sdk import cache, logger, exception, media
-from src.sdk.constants import FLUSH_CACHE_IPFS
-from src.sdk.media.storage import check_status
 from src.sdk.exception import InvalidCID
+from src.sdk.constants import FLUSH_CACHE_IPFS
+from src.sdk import cache, logger, exception, media
+from src.sdk.scheme.definition.movies import MovieScheme
 
 
 def _pin_cid_list(cid_list, remote_strategy=True):
@@ -15,9 +15,9 @@ def _pin_cid_list(cid_list, remote_strategy=True):
     """
     logger.log.warning("Starting pinning to IPFS")
     if remote_strategy:
-        media.storage.pin_cid_list_remote(cid_list)
+        media.storage.ingest.pin_cid_list_remote(cid_list)
         exit(0)  # Success termination
-    media.storage.pin_cid_list(cid_list)
+    media.storage.ingest.pin_cid_list(cid_list)
 
 
 @click.group("storage")
@@ -53,8 +53,12 @@ def ingest(ctx, no_cache):
     # Ingest from each row in tmp db the resources
     for current_movie in check(result):
         _id = current_movie.imdb_code  # Current id
-        ingested_data = media.storage.ingest_to_ipfs(current_movie)
-        cache.ingest.freeze(_id, ingested_data)
+        # Add current hash to movie
+        current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
+        # Set hash by reference into posters and videos collections
+        # TODO refactor paths for resources
+        logger.log.success(f"Done {current_movie.imdb_code}\n")
+        cache.ingest.freeze(_id, MovieScheme().dump(current_movie))
 
 
 @storage.group("edge")
@@ -69,7 +73,7 @@ def edge(ctx):
 def status(ctx):
     """Check for edge cache status"""
     media.storage.init()  # Init ipfs node
-    is_edge_active = check_status()
+    is_edge_active = media.storage.remote.check_status()
     if is_edge_active:
         logger.log.success("Edge cache: Success")
         exit(0)  # Success termination
@@ -103,10 +107,10 @@ def single(ctx, cid):
 @click.option("--skip", default=0)
 @click.option("--limit", default=0)
 @click.pass_context
-def batch(ctx, skip, limit):
+def cached(ctx, skip, limit):
     """Pin batch cid from ingested cache cid list \n
     Note: Please ensure that binaries are already ingested before run this command.
-    eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> pin batch
+    eg. Resolve -> Transcode/Static -> Generate NFT metadata -> Ingest -> Pin batch
     """
     media.storage.init()  # Init ipfs node
     entries, _ = cache.ingest.frozen()  # Retrieve already ingested cid list
