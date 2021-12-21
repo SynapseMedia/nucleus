@@ -1,3 +1,5 @@
+import sys
+
 import click
 from src.sdk.scheme.validator import check
 from src.sdk.exception import InvalidCID
@@ -6,37 +8,21 @@ from src.sdk import cache, logger, exception, media
 from src.sdk.scheme.definition.movies import MovieScheme
 
 
-def _pin_cid_list(cid_list, remote_strategy=True):
-    """
-    Pin ingested cid list
-    :param cid_list: List of cid to pin
-    :param remote_strategy: Pin remote or local
-    :return:
-    """
-    logger.log.warning("Starting pinning to IPFS")
-    if remote_strategy:
-        media.storage.ingest.pin_cid_list_remote(cid_list)
-        exit(0)  # Success termination
-    media.storage.ingest.pin_cid_list(cid_list)
-
-
 @click.group("storage")
-@click.pass_context
-def storage(ctx):
+def storage():
     """Storage toolkit"""
     pass
 
 
 @storage.command()
 @click.option("--no-cache", default=FLUSH_CACHE_IPFS, is_flag=True)
-@click.pass_context
-def ingest(ctx, no_cache):
+def ingest(no_cache):
     """
     Ingest media ready for production into IPFS. \n
     Note: Please ensure that binaries is pre-processed before run this command.
     eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest
     """
-    media.storage.init()  # Init ipfs node
+    ipfs_node = media.storage.init()  # Init ipfs node
     logger.log.warning("Starting ingestion to IPFS")
     if no_cache or cache.empty_tmp:  # Clean already ingested cursor
         cache.manager.flush()
@@ -48,7 +34,7 @@ def ingest(ctx, no_cache):
         raise exception.EmptyCache()
 
     logger.log.notice(f"Ingesting {result_count} results")
-    logger.log.info("\n")
+    sys.stdout.write("\n")
 
     # Ingest from each row in tmp db the resources
     for current_movie in check(result):
@@ -56,21 +42,21 @@ def ingest(ctx, no_cache):
         # Add current hash to movie
         current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
         # Set hash by reference into posters and videos collections
+        print(ipfs_node.file.ls(current_movie.hash))
+        exit()
         # TODO refactor paths for resources
         logger.log.success(f"Done {current_movie.imdb_code}\n")
         cache.ingest.freeze(_id, MovieScheme().dump(current_movie))
 
 
 @storage.group("edge")
-@click.pass_context
-def edge(ctx):
+def edge():
     """Edge cache"""
     pass
 
 
 @edge.command()
-@click.pass_context
-def status(ctx):
+def status():
     """Check for edge cache status"""
     media.storage.init()  # Init ipfs node
     is_edge_active = media.storage.remote.check_status()
@@ -100,7 +86,7 @@ def single(ctx, cid):
 
     media.storage.init()  # Init ipfs node
     logger.log.warning(f"Start pinning for cid: {cid}")
-    _pin_cid_list([cid], ctx.obj["remote"])
+    media.storage.ingest.pin_cid_list([cid], ctx.obj["remote"])
 
 
 @pin.command()
@@ -116,4 +102,6 @@ def cached(ctx, skip, limit):
     entries, _ = cache.ingest.frozen()  # Retrieve already ingested cid list
     entries = entries.skip(skip).limit(limit)
     cid_list = map(lambda x: x["hash"], entries)
-    _pin_cid_list(cid_list, ctx.obj["remote"])
+
+    logger.log.warning("Starting pinning to IPFS")
+    media.storage.ingest.pin_cid_list(cid_list, ctx.obj["remote"])
