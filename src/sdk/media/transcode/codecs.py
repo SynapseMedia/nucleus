@@ -50,7 +50,8 @@ def progress(_, duration, time_, time_left, *args, **kwargs):
     )
 
 
-def get_reverse_quality(video):
+# TODO add tests
+def get_new_video_quality(video):
     """
     Return quality from video file
     :param video: Path to video file
@@ -107,7 +108,7 @@ def to_dash(input_file, output_dir):
     :return: new file format dir
     """
     video = input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)
-    quality = get_reverse_quality(input_file)
+    quality = get_new_video_quality(input_file)
     current_format = util.extract_extension(input_file)
     logger.log.warn(f"Transcoding {current_format} to DASH using VP8 codec")
 
@@ -126,7 +127,7 @@ def to_hls(input_file, output_dir):
     :return: new file format dir
     """
     video = input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)
-    quality = get_reverse_quality(input_file)
+    quality = get_new_video_quality(input_file)
     current_format = util.extract_extension(input_file)
     logger.log.warn(f"Transcoding {current_format} to HLS using H264 codec")
 
