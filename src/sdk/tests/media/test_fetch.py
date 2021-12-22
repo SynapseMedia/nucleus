@@ -38,6 +38,7 @@ def test_valid_remote_file():
         os.remove(current_path)
 
 
+@responses.activate
 def test_invalid_remote_file():
     """Should fail for remote file from invalid URL"""
     responses.add(responses.GET, mock_link, status=404)

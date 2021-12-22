@@ -46,3 +46,6 @@ def dag_get(cid, *args):
 def get_id():
     output = exec_command("id")
     return output.get("ID")
+
+
+__all__ = ["get_id", "dag_get", "exec_command", "get_container"]

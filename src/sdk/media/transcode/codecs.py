@@ -26,6 +26,15 @@ class BRS:
     B4k = Bitrate(17408 * 1024, 320 * 1024)
 
 
+class REPR:
+    R360p = Representation(Sizes.Q360, BRS.B360)
+    R480p = Representation(Sizes.Q480, BRS.B480)
+    R720p = Representation(Sizes.Q720, BRS.B720)
+    R1080p = Representation(Sizes.Q1080, BRS.B1080)
+    R2k = Representation(Sizes.Q2k, BRS.B2k)
+    R4k = Representation(Sizes.Q4k, BRS.B4k)
+
+
 def progress(_, duration, time_, time_left, *args, **kwargs):
     """Render tqdm progress bar."""
     sys.stdout.flush()
@@ -80,20 +89,13 @@ def get_representations(quality) -> list:
     :param quality:
     :return list of representations based on requested quality
     """
-    _360p = Representation(Sizes.Q360, BRS.B360)
-    _480p = Representation(Sizes.Q480, BRS.B480)
-    _720p = Representation(Sizes.Q720, BRS.B720)
-    _1080p = Representation(Sizes.Q1080, BRS.B1080)
-    _2k = Representation(Sizes.Q2k, BRS.B2k)
-    _4k = Representation(Sizes.Q4k, BRS.B4k)
-
     return {
-        "360p": [_360p],
-        "480p": [_360p, _480p],
-        "720p": [_360p, _480p, _720p],
-        "1080p": [_360p, _480p, _720p, _1080p],
-        "2k": [_360p, _480p, _720p, _1080p, _2k],
-        "4k": [_360p, _480p, _720p, _1080p, _2k, _4k],
+        "360p": [REPR.R360p],
+        "480p": [REPR.R360p, REPR.R480p],
+        "720p": [REPR.R360p, REPR.R480p, REPR.R720p],
+        "1080p": [REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p],
+        "2k": [REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p, REPR.R2k],
+        "4k": [REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p, REPR.R2k, REPR.R4k],
     }.get(quality.lower())
 
 
