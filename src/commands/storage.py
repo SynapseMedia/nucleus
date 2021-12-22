@@ -38,7 +38,7 @@ def ingest(no_cache):
     # Ingest from each row in tmp db the resources
     for current_movie in check(result):
         _id = current_movie.imdb_code  # Current id
-        # 1 - Add current hash to movie
+        # 1 - Add ingested directory hash to movie
         # 2 - Fit scheme from dag resources paths
         # 3 - Store in cursor db current processed movie
         current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
