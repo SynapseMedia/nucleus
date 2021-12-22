@@ -62,7 +62,7 @@ def register_service():
 
     args = (PINATA_SERVICE, PINATA_PSA, PINATA_API_JWT)
     logger.log.info("Registering pinata service")
-    return exec_command(f"/pin/remote/service/add", *args)
+    return exec_command("/pin/remote/service/add", *args)
 
 
 def check_status():
