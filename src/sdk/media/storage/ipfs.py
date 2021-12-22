@@ -1,3 +1,5 @@
+import typing
+
 import docker
 import json
 from src.sdk.constants import IPFS_CONTAINER
@@ -10,7 +12,7 @@ def get_container():
     return client.containers.get(IPFS_CONTAINER)
 
 
-def exec_command(cmd, *args) -> dict:
+def exec_command(cmd, *args) -> typing.Union[dict, str]:
     """
     Send commands execution to ipfs node
     :param cmd: please provide path uri scheme eg. /pin/ls/
@@ -29,7 +31,7 @@ def exec_command(cmd, *args) -> dict:
         json_to_dict = json.loads(output)
         return json_to_dict
     except json.decoder.JSONDecodeError:
-        return output
+        return output.decode('utf-8')
 
 
 def get_id():
