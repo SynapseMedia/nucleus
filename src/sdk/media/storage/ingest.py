@@ -31,8 +31,8 @@ def add_dir_to_ipfs(_dir: str) -> str:
         "--pin=false",
         "--hash=blake2b-208",
     )
-    _hash = exec_command("add", args)
 
+    _hash = exec_command("add", *args)
     _hash = map(lambda x: {"size": int(x["Size"]), "hash": x["Hash"]}, _hash)
     _hash = max(_hash, key=lambda x: x["size"])["hash"]
     logger.log.info(f"IPFS hash: {_hash}")
