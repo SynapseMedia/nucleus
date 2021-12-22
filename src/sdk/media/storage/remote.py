@@ -38,7 +38,11 @@ def pin(cid: str, **kwargs):
         register_service()
 
     try:
-        args = (cid, f"--service={PINATA_SERVICE}", f"--background={PINATA_PIN_BACKGROUND}")
+        args = (
+            cid,
+            f"--service={PINATA_SERVICE}",
+            f"--background={PINATA_PIN_BACKGROUND}",
+        )
         return exec_command("/pin/remote/add", args)
     except ErrorResponse:
         logger.log.warning("Object already pinned to pinata")

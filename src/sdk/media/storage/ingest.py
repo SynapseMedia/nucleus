@@ -24,8 +24,14 @@ def add_dir_to_ipfs(_dir: str) -> str:
 
     # avoid pin by default /reference/http/api/#http-commands
     # hash needed to encode to bytes16 and hex
-    args = (directory, "--recursive", "--cid-version=1", "--pin=false", "--hash=blake2b-208")
-    _hash = exec_command('add', args)
+    args = (
+        directory,
+        "--recursive",
+        "--cid-version=1",
+        "--pin=false",
+        "--hash=blake2b-208",
+    )
+    _hash = exec_command("add", args)
 
     _hash = map(lambda x: {"size": int(x["Size"]), "hash": x["Hash"]}, _hash)
     _hash = max(_hash, key=lambda x: x["size"])["hash"]
@@ -40,7 +46,7 @@ def pin(cid):
     :return
     """
 
-    return exec_command('/pin/add/', cid)
+    return exec_command("/pin/add/", cid)
 
 
 def pin_cid_list(cid_list: iter, remote: bool) -> list:

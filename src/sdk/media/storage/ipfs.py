@@ -2,7 +2,7 @@ import docker
 import json
 from src.sdk.constants import IPFS_CONTAINER
 
-ipfs = 'ipfs'
+ipfs = "ipfs"
 
 
 def get_container():
@@ -17,7 +17,7 @@ def exec_command(cmd, *args) -> dict:
     based on http://docs.ipfs.io.ipns.localhost:8080/reference/cli/
     """
     container = get_container()
-    cmd = " ".join(cmd.split('/'))  # Parse path to commands
+    cmd = " ".join(cmd.split("/"))  # Parse path to commands
     arg_list = " ".join(args)
 
     _, output = container.exec_run(f"{ipfs} {cmd} {arg_list} --enc=json")
@@ -33,5 +33,5 @@ def exec_command(cmd, *args) -> dict:
 
 
 def get_id():
-    output = exec_command('id')
-    return output.get('ID')
+    output = exec_command("id")
+    return output.get("ID")
