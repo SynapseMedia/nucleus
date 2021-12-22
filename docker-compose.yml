@@ -1,21 +1,25 @@
-version: '3'
+version: '3.9'
+
+x-multimedia-volume:
+  &multimedia-volume
+  type: bind
+  source: "${RUNTIME_DIRECTORY}"
+  target: /multimedia
+
 services:
   watchit-ipfs:
     image: ipfs/go-ipfs:v0.10.0
     restart: unless-stopped
-    entrypoint: ["/scripts/init.sh"]
+    entrypoint: [ "/scripts/init.sh" ]
     networks:
       - watchit
     env_file:
       - .env
     volumes:
+      - *multimedia-volume
       - "${IPFS_DATA}:/ipfsdata"
-      - "${RUNTIME_DIRECTORY}:/multimedia"
       - ./peering/:/peering
       - ./scripts:/scripts
-    sysctls:
-      - net.core.rmem_max=2500000
-
     ports:
       - "0.0.0.0:8080:8080/tcp"
       - "0.0.0.0:4001:4001/tcp"
@@ -26,16 +30,16 @@ services:
     build: .
     image: gmena/cli:v0.1.1
     container_name: watchit-cli
-    entrypoint: ["python", "main.py"]
+    entrypoint: [ "python", "main.py" ]
     networks:
       - watchit
     links:
       - "watchit-mongodb:mongodb"
       - "watchit-ipfs:ipfs"
     volumes:
+      - *multimedia-volume
       - .:/data/watchit
       - /data/watchit/node_modules
-      - "${RUNTIME_DIRECTORY}:/multimedia"
     env_file:
       - .env
     depends_on:
