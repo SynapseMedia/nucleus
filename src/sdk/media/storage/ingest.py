@@ -23,10 +23,11 @@ def add_dir_to_ipfs(_dir: str) -> str:
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), directory)
 
     _hash = ipfs.add(
-        directory, recursive=True,
+        directory,
+        recursive=True,
         cid_version=1,
         pin=False,  # avoid pin by default /reference/http/api/#http-commands
-        hash_function="blake2b-208"  # needed to encode to bytes16 and hex
+        hash_function="blake2b-208",  # needed to encode to bytes16 and hex
     )
 
     _hash = map(lambda x: {"size": int(x["Size"]), "hash": x["Hash"]}, _hash)

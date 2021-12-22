@@ -24,7 +24,7 @@ def start_node():
             addr="/dns/ipfs/tcp/5001/http",
             session=True,  # Useful for long-running client objects.
             timeout=TIMEOUT_REQUEST,
-            base='/api/v0/'
+            base="/api/v0/",
         )
         logger.log.info(f"Node running {ipfs_node.id().get('ID')}")
         sys.stdout.write("\n")
