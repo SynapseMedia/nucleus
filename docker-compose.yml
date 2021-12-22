@@ -6,12 +6,16 @@ services:
     entrypoint: ["/scripts/init.sh"]
     networks:
       - watchit
-    environment:
-      - IPFS_PATH=/ipfsdata
+    env_file:
+      - .env
     volumes:
       - "${IPFS_DATA}:/ipfsdata"
+      - "${RUNTIME_DIRECTORY}:/multimedia"
       - ./peering/:/peering
       - ./scripts:/scripts
+    sysctls:
+      - net.core.rmem_max=2500000
+
     ports:
       - "0.0.0.0:8080:8080/tcp"
       - "0.0.0.0:4001:4001/tcp"
