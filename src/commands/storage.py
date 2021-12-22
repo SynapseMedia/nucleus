@@ -4,7 +4,7 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk.exception import InvalidCID
 from src.sdk.constants import FLUSH_CACHE_IPFS
-from src.sdk import cache, logger, exception, media
+from src.sdk import cache, logger, exception, media, scheme
 from src.sdk.scheme.definition.movies import MovieScheme
 
 
@@ -40,12 +40,11 @@ def ingest(no_cache):
         _id = current_movie.imdb_code  # Current id
         # Add current hash to movie
         current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
-        # Set hash by reference into posters and videos collections
-        print(ipfs_node.file.ls(current_movie.hash))
-        exit()
-        # TODO refactor paths for resources
-        logger.log.success(f"Done {current_movie.imdb_code}\n")
+        # Fit scheme from dag resources paths
+        current_movie.resource = scheme.util.fit_resources_from_dag(current_movie.hash)
+        # Store in cursor db current processed movie
         cache.ingest.freeze(_id, MovieScheme().dump(current_movie))
+        logger.log.success(f"Done {current_movie.imdb_code}\n")
 
 
 @storage.group("edge")

@@ -31,7 +31,16 @@ def exec_command(cmd, *args) -> typing.Union[dict, str]:
         json_to_dict = json.loads(output)
         return json_to_dict
     except json.decoder.JSONDecodeError:
-        return output.decode('utf-8')
+        return output.decode("utf-8")
+
+
+def dag_get(cid, *args):
+    """
+    Proxy dag get command to node
+    http://docs.ipfs.io.ipns.localhost:8080/reference/cli/#ipfs-dag-get
+    :param cid:
+    """
+    return exec_command("/dag/get", cid)
 
 
 def get_id():

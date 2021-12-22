@@ -34,8 +34,8 @@ def add_dir_to_ipfs(_dir: str) -> str:
     )
 
     _hash = exec_command("add", *args)
-    logger.log.info(f"IPFS hash: {_hash}")
-    return _hash
+    logger.log.info(f"IPFS hash: {_hash.strip()}")
+    return _hash.strip()
 
 
 def pin(cid):
@@ -59,6 +59,14 @@ def pin_cid_list(cid_list: iter, remote: bool) -> list:
         logger.log.notice(f"Pinning cid: {cid}")
         pin(cid) if not remote else remote_pin(cid)
     return cid_list
+
+
+def dag_get(cid):
+    """
+    Retrieve dag information from cid
+    :param cid:
+    """
+    return exec_command("/dag/get", cid)
 
 
 def to_ipfs(mv: MovieScheme) -> str:
