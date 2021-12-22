@@ -7,7 +7,6 @@ services:
     networks:
       - watchit
     environment:
-      - IPFS_PROFILE=server
       - IPFS_PATH=/ipfsdata
     volumes:
       - "${IPFS_DATA}:/ipfsdata"
