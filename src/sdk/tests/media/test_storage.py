@@ -18,24 +18,33 @@ def _setup_pinata_response_ok(mocker):
 @responses.activate
 def test_check_status(mocker):
     """Should return valid status if service connected and has local registered service"""
-    mocker.patch("src.sdk.media.storage.remote.has_valid_registered_service", return_value=True)
+    mocker.patch(
+        "src.sdk.media.storage.remote.has_valid_registered_service", return_value=True
+    )
     assert check_status()
 
 
 @responses.activate
 def test_check_invalid_status(mocker):
     """Should return fail status if not service connected or has local registered service"""
-    mocker.patch("src.sdk.media.storage.remote.has_valid_registered_service", return_value=False)
+    mocker.patch(
+        "src.sdk.media.storage.remote.has_valid_registered_service", return_value=False
+    )
     assert not check_status()
 
 
 def test_has_valid_registered_service(mocker):
     """Should return valid True when has local `PINATA_SERVICE` registered service"""
-    mocker.patch("src.sdk.media.storage.remote.exec_command", return_value={"RemoteServices": [{"Service": "pinata"}]})
+    mocker.patch(
+        "src.sdk.media.storage.remote.exec_command",
+        return_value={"RemoteServices": [{"Service": "pinata"}]},
+    )
     assert has_valid_registered_service()
 
 
 def test_has_invalid_registered_service(mocker):
     """Should return False when has not local `PINATA_SERVICE` registered service"""
-    mocker.patch("src.sdk.media.storage.remote.exec_command", return_value={"RemoteServices": []})
+    mocker.patch(
+        "src.sdk.media.storage.remote.exec_command", return_value={"RemoteServices": []}
+    )
     assert not has_valid_registered_service()
