@@ -2,7 +2,8 @@ import requests
 from ipfshttpclient.exceptions import ErrorResponse
 
 from src.sdk import logger
-from src.sdk.media.storage import ipfs, session
+from src.sdk.media.storage import session
+from src.sdk.media.storage.ipfs import exec_command
 from src.sdk.constants import (
     VALIDATE_SSL,
     PINATA_API_SECRET,
@@ -15,36 +16,15 @@ from src.sdk.constants import (
 )
 
 
-def _find_service_in_list(service: dict):
-    """
-    Check if "pinata" is a pin remote service in node
-    :param service: Current processed Service dic
-    :return: Tuple with value found or tuple with None (None,) || (pinata,)
-    """
-    return next(
-        (
-            i["Service"]
-            for i in service["RemoteServices"]
-            if i["Service"] == PINATA_SERVICE
-        ),
-        None,
-    )
-
-
 def has_valid_registered_service():
     """
     Check if pinata service is already registered
     :return: False if not registered else True
     """
-    ipfs_api_client = ipfs.get_client()
-    args = (PINATA_SERVICE, PINATA_PSA, PINATA_API_JWT)
-    registered_services = ipfs_api_client.request(
-        "/pin/remote/service/ls", args, decoder="json"
-    )
-
+    registered_services = exec_command("/pin/remote/service/ls")
+    registered_services_list = registered_services.get("RemoteServices")
     # Map resulting from registered services and search for "pinata"
-    find_registered_service = map(_find_service_in_list, registered_services)
-    return PINATA_SERVICE in tuple(filter(None, find_registered_service))
+    return any(map(lambda i: i["Service"] == PINATA_SERVICE, registered_services_list))
 
 
 def pin(cid: str, **kwargs):
@@ -58,14 +38,8 @@ def pin(cid: str, **kwargs):
         register_service()
 
     try:
-        args = (cid,)
-        ipfs_api_client = ipfs.get_client()
-        kwargs.setdefault(
-            "opts", {"service": PINATA_SERVICE, "background": PINATA_PIN_BACKGROUND}
-        )
-        return ipfs_api_client.request(
-            "/pin/remote/add", args, decoder="json", **kwargs
-        )
+        args = (cid, f"--service={PINATA_SERVICE}", f"--background={PINATA_PIN_BACKGROUND}")
+        return exec_command("/pin/remote/add", args)
     except ErrorResponse:
         logger.log.warning("Object already pinned to pinata")
         logger.log.warning("Please remove or replace existing pin object")
@@ -82,10 +56,9 @@ def register_service():
         logger.log.warning("Service already registered")
         return
 
-    ipfs_api_client = ipfs.get_client()
     args = (PINATA_SERVICE, PINATA_PSA, PINATA_API_JWT)
     logger.log.info("Registering pinata service")
-    return ipfs_api_client.request("/pin/remote/service/add", args, decoder="json")
+    return exec_command(f"/pin/remote/service/add", *args)
 
 
 def check_status():

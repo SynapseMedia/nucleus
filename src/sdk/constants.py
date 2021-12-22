@@ -41,6 +41,7 @@ DASH_NEW_FILENAME = "index.mpd"
 
 # Ingest constants
 IPFS_NODE = os.getenv("IPFS_NODE")
+IPFS_CONTAINER=os.getenv('IPFS_CONTAINER')
 IPFS_NODE_GATEWAY_PORT = os.getenv("IPFS_NODE_GATEWAY_PORT")
 FLUSH_CACHE_IPFS = os.getenv("FLUSH_CACHE_IPFS", "False") == "True"
 TIMEOUT_REQUEST = 120 * 60

@@ -9,6 +9,7 @@ x-multimedia-volume:
 services:
   watchit-ipfs:
     image: ipfs/go-ipfs:v0.10.0
+    container_name: 'watchit-ipfs'
     restart: unless-stopped
     entrypoint: [ "/scripts/init.sh" ]
     networks:
@@ -40,6 +41,7 @@ services:
       - *multimedia-volume
       - .:/data/watchit
       - /data/watchit/node_modules
+      - /var/run/docker.sock:/var/run/docker.sock
     env_file:
       - .env
     depends_on:

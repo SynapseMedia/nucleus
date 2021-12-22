@@ -1,9 +1,9 @@
 import os
 import errno
 
-from .remote import pin
 from src.sdk import util, logger
-from src.sdk.media.storage import ipfs
+from .remote import pin as remote_pin
+from src.sdk.media.storage.ipfs import exec_command
 from src.sdk.scheme.definition.movies import MovieScheme
 
 __author__ = "gmena"
@@ -22,18 +22,25 @@ def add_dir_to_ipfs(_dir: str) -> str:
     if not path_exists:  # Check if path exist if not just
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), directory)
 
-    _hash = ipfs.add(
-        directory,
-        recursive=True,
-        cid_version=1,
-        pin=False,  # avoid pin by default /reference/http/api/#http-commands
-        hash_function="blake2b-208",  # needed to encode to bytes16 and hex
-    )
+    # avoid pin by default /reference/http/api/#http-commands
+    # hash needed to encode to bytes16 and hex
+    args = (directory, "--recursive", "--cid-version=1", "--pin=false", "--hash=blake2b-208")
+    _hash = exec_command('add', args)
 
     _hash = map(lambda x: {"size": int(x["Size"]), "hash": x["Hash"]}, _hash)
     _hash = max(_hash, key=lambda x: x["size"])["hash"]
     logger.log.info(f"IPFS hash: {_hash}")
     return _hash
+
+
+def pin(cid):
+    """
+    Pin cid into local node
+    :param cid: the cid to pin
+    :return
+    """
+
+    return exec_command('/pin/add/', cid)
 
 
 def pin_cid_list(cid_list: iter, remote: bool) -> list:
@@ -45,7 +52,7 @@ def pin_cid_list(cid_list: iter, remote: bool) -> list:
     """
     for cid in cid_list:
         logger.log.notice(f"Pinning cid: {cid}")
-        ipfs.pin.add(cid) if not remote else pin(cid)
+        pin(cid) if not remote else remote_pin(cid)
     return cid_list
 
 

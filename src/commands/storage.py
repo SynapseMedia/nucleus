@@ -22,7 +22,6 @@ def ingest(no_cache):
     Note: Please ensure that binaries is pre-processed before run this command.
     eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest
     """
-    ipfs_node = media.storage.init()  # Init ipfs node
     logger.log.warning("Starting ingestion to IPFS")
     if no_cache or cache.empty_tmp:  # Clean already ingested cursor
         cache.manager.flush()
@@ -58,7 +57,6 @@ def edge():
 @edge.command()
 def status():
     """Check for edge cache status"""
-    media.storage.init()  # Init ipfs node
     is_edge_active = media.storage.remote.check_status()
     if is_edge_active:
         logger.log.success("Edge cache: Success")
@@ -84,7 +82,6 @@ def single(ctx, cid):
     if not cid:
         raise InvalidCID()
 
-    media.storage.init()  # Init ipfs node
     logger.log.warning(f"Start pinning for cid: {cid}")
     media.storage.ingest.pin_cid_list([cid], ctx.obj["remote"])
 
@@ -98,7 +95,6 @@ def cached(ctx, skip, limit):
     Note: Please ensure that binaries are already ingested before run this command.
     eg. Resolve -> Transcode/Static -> Generate NFT metadata -> Ingest -> Pin batch
     """
-    media.storage.init()  # Init ipfs node
     entries, _ = cache.ingest.frozen()  # Retrieve already ingested cid list
     entries = entries.skip(skip).limit(limit)
     cid_list = map(lambda x: x["hash"], entries)
