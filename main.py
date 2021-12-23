@@ -3,9 +3,6 @@ __version__ = "0.2.0"
 __license__ = "AGPL V3"
 
 
-from gevent import monkey as curious_george
-curious_george.patch_all()
-
 import click
 import logging
 

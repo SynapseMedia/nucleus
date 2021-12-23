@@ -30,7 +30,6 @@ flake8==3.9.2
 Flask==2.0.2
 Flask-Cors==3.0.10
 future==0.18.2
-gevent==21.1.2
 greenlet==1.1.0
 hexbytes==0.2.2
 html5lib==1.0.1
