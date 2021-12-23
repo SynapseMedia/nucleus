@@ -3,7 +3,7 @@ import errno
 
 from src.sdk import util, logger
 from .remote import pin as remote_pin
-from src.sdk.media.storage.ipfs import exec_command
+from src.sdk.media.storage.ipfs import exec_command, pin
 from src.sdk.scheme.definition.movies import MovieScheme
 
 __author__ = "gmena"
@@ -38,16 +38,6 @@ def add_dir_to_ipfs(_dir: str) -> str:
     return _hash.strip()
 
 
-def pin(cid):
-    """
-    Pin cid into local node
-    :param cid: the cid to pin
-    :return
-    """
-
-    return exec_command("/pin/add/", cid)
-
-
 def pin_cid_list(cid_list: iter, remote: bool) -> list:
     """
     Pin CID into Local/Remote node from list
@@ -59,14 +49,6 @@ def pin_cid_list(cid_list: iter, remote: bool) -> list:
         logger.log.notice(f"Pinning cid: {cid}")
         pin(cid) if not remote else remote_pin(cid)
     return cid_list
-
-
-def dag_get(cid):
-    """
-    Retrieve dag information from cid
-    :param cid:
-    """
-    return exec_command("/dag/get", cid)
 
 
 def to_ipfs(mv: MovieScheme) -> str:

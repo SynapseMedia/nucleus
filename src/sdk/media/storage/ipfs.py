@@ -46,8 +46,19 @@ def exec_command(cmd, *args) -> typing.Union[dict, str]:
         return output.decode("utf-8")
 
 
-def dag_get(cid, *args):
+def pin(cid):
     """
+    Pin cid into local node
+    :param cid: the cid to pin
+    :return
+    """
+
+    return exec_command("/pin/add/", cid)
+
+
+def dag_get(cid):
+    """
+    Retrieve dag information from cid
     Proxy dag get command to node
     http://docs.ipfs.io.ipns.localhost:8080/reference/cli/#ipfs-dag-get
     :param cid:
@@ -60,4 +71,4 @@ def get_id():
     return output.get("ID")
 
 
-__all__ = ["get_id", "dag_get", "exec_command", "get_container"]
+__all__ = ["get_id", "exec_command", "pin", "dag_get", "get_container"]
