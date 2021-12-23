@@ -2,7 +2,7 @@ import requests
 
 from src.sdk import logger
 from src.sdk.media.storage import session
-from src.sdk.exception import IpfsFailedExecution
+from src.sdk.exception import IPFSFailedExecution
 from src.sdk.media.storage.ipfs import exec_command
 from src.sdk.constants import (
     VALIDATE_SSL,
@@ -44,7 +44,7 @@ def pin(cid: str):
             f"--background={PINATA_PIN_BACKGROUND}",
         )
         return exec_command("/pin/remote/add", *args)
-    except IpfsFailedExecution:
+    except IPFSFailedExecution:
         logger.log.warning("Object already pinned to pinata")
         logger.log.warning("Please remove or replace existing pin object")
         logger.log.info("\n")

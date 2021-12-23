@@ -54,7 +54,7 @@ class InvalidImageSize(Exception):
         super().__init__(_message)
 
 
-class IpfsFailedExecution(Exception):
+class IPFSFailedExecution(Exception):
     """Base class for exceptions in this module."""
 
     def __init__(self, message=""):
