@@ -1,7 +1,8 @@
-from src.sdk.media.storage.ingest import dag_get
+from src.sdk.media.storage.ipfs import dag_get
 from .definition.movies import MultiMediaScheme
 
 
+# TODO write tests
 def fit_resources_from_dag(cid):
     """
     Process dag output to standard scheme definition to store in storage freeze
