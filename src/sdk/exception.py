@@ -54,6 +54,17 @@ class InvalidImageSize(Exception):
         super().__init__(_message)
 
 
+class IpfsFailedExecution(Exception):
+    """Base class for exceptions in this module."""
+
+    def __init__(self, message=""):
+        _message = f"""
+                Failed execution: {message}
+                """
+
+        super().__init__(_message)
+
+
 class InvalidRequest(Exception):
     code = 400
     description = "Invalid request."

@@ -1,5 +1,4 @@
 import requests
-from ipfshttpclient.exceptions import ErrorResponse
 
 from src.sdk import logger
 from src.sdk.media.storage import session
@@ -27,7 +26,7 @@ def has_valid_registered_service():
     return any(map(lambda i: i["Service"] == PINATA_SERVICE, registered_services_list))
 
 
-def pin(cid: str, **kwargs):
+def pin(cid: str):
     """
     Pin cid into edge pinata remote cache
     :param cid: the cid to pin

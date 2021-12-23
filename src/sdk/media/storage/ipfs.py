@@ -3,6 +3,7 @@ import typing
 import docker
 import json
 from src.sdk.constants import IPFS_CONTAINER
+from src.sdk.exception import IpfsFailedExecution
 
 ipfs = "ipfs"
 
@@ -22,7 +23,18 @@ def exec_command(cmd, *args) -> typing.Union[dict, str]:
     cmd = " ".join(cmd.split("/"))  # Parse path to commands
     arg_list = " ".join(args)
 
-    _, output = container.exec_run(f"{ipfs} {cmd} {arg_list} --enc=json")
+    # Command execution delegated to docker ipfs
+    code, output = container.exec_run(f"{ipfs} {cmd} {arg_list} --enc=json")
+
+    if code > 0:
+        """
+        The CLI will exit with one of the following values:
+
+        0     Successful execution.
+        1     Failed executions.
+        """
+        raise IpfsFailedExecution(output.decode('utf-8'))
+
     # If not result just keep object output standard
     if not output:
         return {}
