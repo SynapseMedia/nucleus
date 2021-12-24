@@ -19,6 +19,7 @@ services:
     volumes:
       - *multimedia-volume
       - "${IPFS_DATA}:/ipfsdata"
+      - ./monitor.txt:/monitor.txt
       - ./peering/:/peering
       - ./scripts:/scripts
     ports:
@@ -112,7 +113,7 @@ services:
       ORBIT_DB_ENTRIES_TIMEOUT: 30000
       IPFS_API_HOST: "watchit-ipfs"
       IPNS_DB_NAME: "wt.movies.db"
-      DB_MONITOR_WAIT: "15m"
+      DB_MONITOR_WAIT: "5m"
       DB_MONITOR_IPNS: "${MONITOR_CID}"
       OPEN_FETCH_DB_CONTENTS: "TRUE"
     depends_on:
