@@ -33,7 +33,7 @@ def exec_command(cmd, *args) -> typing.Union[dict, str]:
         0     Successful execution.
         1     Failed executions.
         """
-        raise IPFSFailedExecution(output.decode('utf-8'))
+        raise IPFSFailedExecution(output.decode("utf-8"))
 
     # If not result just keep object output standard
     if not output:

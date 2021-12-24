@@ -2,13 +2,11 @@ __copyright__ = "Copyright (c) 2020 ZorrillosDev"
 __version__ = "0.2.0"
 __license__ = "AGPL V3"
 
-
 import click
 import logging
 
 import src.commands as commands
 from src.sdk import logger
-
 
 __author__ = 'gmena'
 if __name__ == '__main__':
@@ -18,6 +16,7 @@ if __name__ == '__main__':
         # Overwrite log level
         logger.log.setLevel(logging.DEBUG if debug else logging.NOTSET)
         logger.log.warning(f"Debug mode is {'on' if debug else 'off'}")
+
 
     cli()
     exit(0)
