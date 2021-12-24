@@ -10,7 +10,7 @@ def fit_resources_from_dag(cid):
     :return dict
     """
     video = dag_get(f"{cid}/movie")["Links"]
-    image = dag_get(f"{cid}/images")["Links"]
+    image = dag_get(f"{cid}/image")["Links"]
 
     video_scheme = {
         "route": cid,

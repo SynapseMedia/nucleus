@@ -39,7 +39,7 @@ def input_movie(raw=True):
 
 nft_properties = {
     "name": input_movie()["title"],
-    "image": "/images/medium.jpg",
+    "image": "/image/medium.jpg",
     "description": input_movie()["synopsis"],
     "properties": input_movie(False),
 }

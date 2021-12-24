@@ -60,7 +60,7 @@ def generate_erc1155(mv: MovieScheme):
 
     nft_properties = {
         "name": mv.title,
-        "image": f"/images/medium.{file_extension}",
+        "image": f"/image/medium.{file_extension}",
         "description": mv.synopsis,
         "properties": movie_serialized,
     }
