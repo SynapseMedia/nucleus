@@ -14,7 +14,7 @@ def fit_image_resource_from_dag(cid):
     :param cid:
     """
     image = dag_get(f"{cid}/image")["Links"]
-    image_resources = {i["Name"].split(".")[0]: f"/images/{i['Name']}" for i in image}
+    image_resources = {i["Name"].split(".")[0]: f"/image/{i['Name']}" for i in image}
     return {
         "route": cid,
         "index": image_resources,
