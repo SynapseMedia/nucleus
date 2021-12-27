@@ -86,8 +86,6 @@ services:
       - watchit
     env_file:
       - .env
-    depends_on:
-      - watchit-ipfs
 
   watchit-certbot:
     image: peelvalley/certbot
