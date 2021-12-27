@@ -39,7 +39,7 @@ const logs = require('./logger')
         logs.info('Listening for updates to the database...')
         db.events.on('ready', () => logs.info("Db ready"))
         await db.load()
-        console.log(await db.db.iterator({limit: -1}).collect());
+        console.log(await db.iterator({limit: -1}).collect());
 
     }
 
