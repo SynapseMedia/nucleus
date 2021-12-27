@@ -81,7 +81,9 @@ services:
   watchit-monitor:
     build: .
     image: watchit-sdk
-    container_name: watchit-monitor"
+    container_name: watchit-monitor
+    links:
+      - "watchit-ipfs:ipfs"
     volumes:
       - .:/data/watchit
       - /data/watchit/node_modules
