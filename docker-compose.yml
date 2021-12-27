@@ -9,6 +9,7 @@ x-multimedia-volume:
 services:
   watchit-ipfs:
     image: ipfs/go-ipfs:v0.10.0
+    hostname: ipfs
     container_name: 'watchit-ipfs'
     restart: unless-stopped
     entrypoint: [ "/scripts/init.sh" ]
@@ -90,6 +91,7 @@ services:
   watchit-certbot:
     image: peelvalley/certbot
     restart: unless-stopped
+    hostname: certbot
     networks:
       - proxy
     environment:
@@ -104,9 +106,6 @@ services:
     networks:
       - watchit
       - proxy
-    links:
-      - "watchit-certbot:certbot"
-      - "watchit-ipfs:ipfs"
     ports:
       - "0.0.0.0:80:80"
       - "0.0.0.0:443:443"
