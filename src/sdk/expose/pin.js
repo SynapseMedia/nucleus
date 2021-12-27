@@ -14,39 +14,41 @@ const logs = require('./logger')
 
 // List of default keys
 // ; = ensures the preceding statement was closed
-
+;(async () => {
 // Get monitor CID from IPNS
-logs.info(`Resolving CID mapper ${MONITOR_CID}`)
-const resolvedCid = await last(ipfs.name.resolve(MONITOR_CID))
-const cid = resolvedCid.split('/').pop()
-const addressIPNSList = await last(ipfs.cat(cid))
-const addressListString = addressIPNSList.toString()
+    logs.info(`Resolving CID mapper ${MONITOR_CID}`)
+    const resolvedCid = await last(ipfs.name.resolve(MONITOR_CID))
+    const cid = resolvedCid.split('/').pop()
+    const addressIPNSList = await last(ipfs.cat(cid))
+    const addressListString = addressIPNSList.toString()
 
-for (const address of addressListString.split('\n')) {
-    if (!address) continue
+    for (const address of addressListString.split('\n')) {
+        if (!address) continue
 
-    logs.info(`Resolving address from IPNS: ${address}`)
-    const cid = await last(ipfs.name.resolve(address))
-    const cleanedCID = cid.split('/').pop()
-    const newCID = CID.parse(cleanedCID)
-    const _address = newCID.toString(base58btc)
+        logs.info(`Resolving address from IPNS: ${address}`)
+        const cid = await last(ipfs.name.resolve(address))
+        const cleanedCID = cid.split('/').pop()
+        const newCID = CID.parse(cleanedCID)
+        const _address = newCID.toString(base58btc)
 
-    logs.info(`Resolved orbit address: ${_address}`)
-    const orbitdb = await OrbitDB.createInstance(ipfs);
-    logs.info(`Opening database from ${_address}`)
-    const db = await orbitdb.open(`/orbitdb/${_address}/wt.movies.db`, {
-        sync: true,
-        replicate: true,
-        overwrite: true,
-        localOnly: false,
-    })
+        logs.info(`Resolved orbit address: ${_address}`)
+        const orbitdb = await OrbitDB.createInstance(ipfs);
+        logs.info(`Opening database from ${_address}`)
+        const db = await orbitdb.open(`/orbitdb/${_address}/wt.movies.db`, {
+            sync: true,
+            replicate: true,
+            overwrite: true,
+            localOnly: false,
+        })
 
-    logs.info('Listening for updates to the database...')
-    await db.load()
-}
+        logs.info('Listening for updates to the database...')
+        await db.load()
+    }
 
-setTimeout(() => {
-    // Force restart docker
-    logs.warn("Killing process")
-    process.exit(0)
-}, MONITOR_INTERVAL * 1000)
+    setTimeout(() => {
+        // Force restart docker
+        logs.warn("Killing process")
+        process.exit(0)
+    }, MONITOR_INTERVAL * 1000)
+
+})()
