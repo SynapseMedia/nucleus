@@ -30,7 +30,6 @@ const findProv = async (address) => {
                 }
             }
         } catch (e) {
-            logs.err('Fail finding providers')
             // pass
         }
     }
