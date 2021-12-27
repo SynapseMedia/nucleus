@@ -42,13 +42,22 @@ const logs = require('./logger')
         })
 
         logs.info('Listening for updates to the database...')
+        db.events.on('ready', () => logs.info("Db ready"))
+        db.events.on('replicated', (a, t) => logs.info(`Replicated ${t}`))
+        db.events.on('replicate.progress', (a, hash) => {
+            logs.info(`Pinning hash ${hash}`)
+            ipfs.pin.add(hash)
+        })
+
+
         await db.load()
+
     }
 
     setTimeout(() => {
         // Force restart docker
         logs.warn("Killing process")
         proc.exit(0)
-    }, MONITOR_INTERVAL * 1000)
+    }, MONITOR_INTERVAL * 60 * 1000)
 
 })()
