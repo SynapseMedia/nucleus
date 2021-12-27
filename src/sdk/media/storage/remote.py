@@ -47,7 +47,9 @@ def pin(cid: str):
         )
         return exec_command("/pin/remote/add", *args)
     except IPFSFailedExecution:
-        logger.log.warning("Object already pinned to pinata. Please remove or replace existing pin object")
+        logger.log.warning(
+            "Object already pinned to pinata. Please remove or replace existing pin object"
+        )
         sys.stdout.write("\n")
 
 
