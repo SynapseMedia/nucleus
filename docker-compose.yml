@@ -79,7 +79,7 @@ services:
     volumes:
       - .:/data/watchit
       - /data/watchit/node_modules
-    restart: unless-stopped
+    restart: always
     entrypoint: [ "node" ]
     command: [ "src/sdk/expose/pin.js" ]
     networks:
