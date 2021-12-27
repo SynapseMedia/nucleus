@@ -34,9 +34,6 @@ services:
     entrypoint: [ "python", "main.py" ]
     networks:
       - watchit
-    links:
-      - "watchit-mongodb:mongodb"
-      - "watchit-ipfs:ipfs"
     volumes:
       - *multimedia-volume
       - .:/data/watchit
@@ -55,9 +52,6 @@ services:
     command: [ "flask", "run", "--host=0.0.0.0" ]
     networks:
       - watchit
-    links:
-      - "watchit-mongodb:mongodb"
-      - "watchit-ipfs:ipfs"
     volumes:
       - .:/data/watchit
     environment:
