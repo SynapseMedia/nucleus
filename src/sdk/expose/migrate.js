@@ -1,4 +1,3 @@
-process.env.FORCE_COLOR = 1
 const argv = require('minimist')(process.argv.slice(2));
 
 const MAX_CHUNKS = 1000
@@ -13,7 +12,7 @@ const RECREATE = argv.r || true // Recreate database
 const KEY = argv.key || 'watchit' // Local key used to IPNS publish
 const REGEN = argv.g || false
 
-const chalk = require('chalk')
+
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
 const {consume} = require('streaming-iterables')
@@ -21,13 +20,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ipfs = IpfsApi.create({host: IPFS_NODE, port: '5001', protocol: 'http'});
 const msgpack = require("msgpack-lite");
 const {v4: uuidv4} = require('uuid');
-const logger = require('pino')({prettyPrint: true});
-const logs = {
-    success: (msg) => logger.info(chalk.green(msg)),
-    info: (msg) => logger.info(chalk.cyan(msg)),
-    warn: (msg) => logger.warn(chalk.yellow(msg)),
-    err: (msg) => logger.err(chalk.red(msg)),
-};
+const logs = require('./logger')
 
 // List of default keys
 // ; = ensures the preceding statement was closed

@@ -22,12 +22,12 @@ ipfs config Swarm.AddrFilters '[
        "/ip6/fe80::/ipcidr/10"
 ]' --json
 
-#ipfs config Pubsub.Router "gossipsub"
-#ipfs config Swarm.ConnMgr.HighWater 160 --json
-#ipfs config Swarm.ConnMgr.LowWater 80 --json
+
 ipfs config Datastore.GCPeriod "24h"
 ipfs config Datastore.StorageMax "1000GB"
 ipfs config Datastore.StorageGCWatermark 99 --json
+ipfs config Pubsub.Router "gossipsub"
+ipfs config --json Pubsub.Enabled true
 ipfs config --json Swarm.DisableBandwidthMetrics false
-ipfs daemon --migrate=true --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc
+ipfs daemon --migrate=true --enable-gc
 

@@ -8,7 +8,7 @@ WORKDIR $PROJECT_ROOT
 COPY . $PROJECT_ROOT
 
 # Install deps
-RUN npm install
+RUN npm install --force
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
