@@ -12,28 +12,6 @@ const ipfs = IpfsApi.create({host: IPFS_NODE, port: '5001', protocol: 'http'});
 const OrbitDB = require('orbit-db');
 const logs = require('./logger')
 
-const findProv = async (address) => {
-        try {
-            for await (const cid of ipfs.dht.findProvs(
-                address, {numProviders: 10}
-            )) {
-                logs.info('Connecting to:', cid.id)
-                // Sanitize addresses to valid multi address format
-                const multiAddressList = cid.addrs.map((m) => `${m.toString()}/p2p/${cid.id}`)
-                for (const m of multiAddressList) {
-                    try {
-                        await ipfs.swarm.connect(m, {timeout: 1000})
-                        logs.info('Connected to', m)
-                    } catch (e) {
-                        logs.warn('Cannot connect to', m)
-                    }
-                }
-            }
-        } catch (e) {
-            // pass
-        }
-    }
-
 // List of default keys
 // ; = ensures the preceding statement was closed
 ;(async () => {
@@ -56,9 +34,7 @@ const findProv = async (address) => {
         logs.info(`Resolved orbit address: ${_address}`)
         const orbitdb = await OrbitDB.createInstance(ipfs);
         logs.info(`Opening database from ${_address}`)
-        const db = await orbitdb.open(`/orbitdb/${_address}/wt.movies.db`, {
-            sync: true
-        })
+        const db = await orbitdb.open(`/orbitdb/${_address}/wt.movies.db`, {sync: true})
 
         logs.info('Listening for updates to the database...')
         db.events.on('ready', () => logs.info("Db ready"))
@@ -68,7 +44,6 @@ const findProv = async (address) => {
             ipfs.pin.add(hash)
         })
 
-        await findProv(_address)
         await db.load()
 
     }
