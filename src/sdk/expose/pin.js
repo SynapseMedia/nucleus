@@ -1,6 +1,6 @@
 process.env.FORCE_COLOR = 1
 const argv = require('minimist')(process.argv.slice(2));
-const process = require('process')
+const proc = require('process')
 const IPFS_NODE = 'ipfs'
 const MONITOR_INTERVAL = process.env.MONITOR_INTERVAL
 const MONITOR_CID = argv.monitor || process.env.MONITOR_CID
@@ -48,7 +48,7 @@ const logs = require('./logger')
     setTimeout(() => {
         // Force restart docker
         logs.warn("Killing process")
-        process.exit(0)
+        proc.exit(0)
     }, MONITOR_INTERVAL * 1000)
 
 })()
