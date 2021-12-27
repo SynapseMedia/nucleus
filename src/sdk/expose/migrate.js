@@ -38,7 +38,7 @@ const logs = require('./logger')
 
         // Create OrbitDB instance
         const DB_NAME = MIGRATE_FROM_DB;
-        const DB_OPTIONS = {overwrite: RECREATE, localOnly: false, replicate: true}
+        const DB_OPTIONS = {overwrite: RECREATE, localOnly: false, replicate: true, sync: true}
         const orbitdb = await OrbitDB.createInstance(ipfs, {
             directory: REGEN ? `./orbit${uuidv4()}` : './orbit'
         });
