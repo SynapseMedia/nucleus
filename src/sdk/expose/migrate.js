@@ -12,7 +12,6 @@ const RECREATE = argv.r || true // Recreate database
 const KEY = argv.key || 'watchit' // Local key used to IPNS publish
 const REGEN = argv.g || false
 
-
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
 const {consume} = require('streaming-iterables')

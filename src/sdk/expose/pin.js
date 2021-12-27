@@ -26,26 +26,31 @@ setInterval(async () => {
 
     for (const address of addressListString.split('\n')) {
         if (!address) continue
-        // Avoid re-open address
-        if (inProgress.has(address)) continue
-        inProgress.set(address)
 
         logs.info(`Resolving address from IPNS: ${address}`)
         const cid = await last(ipfs.name.resolve(address))
         const cleanedCID = cid.split('/').pop()
         const newCID = CID.parse(cleanedCID)
-        const addr = newCID.toString(base58btc)
-        logs.info(`Resolved orbit addressS: ${addr}`)
+        const _address = newCID.toString(base58btc)
 
+        // Avoid re-open address
+        if (inProgress.has(_address)) {
+            logs.warn(`Omitting already in process address: ${_address}`)
+            continue;
+        }
+
+        inProgress.add(_address)
+        logs.info(`Resolved orbit address: ${_address}`)
         const orbitdb = await OrbitDB.createInstance(ipfs);
-        logs.info(`Opening database from ${addr}`)
-        const db = await orbitdb.open(`/orbitdb/${addr}/wt.movies.db`, {replicate: true})
+        logs.info(`Opening database from ${_address}`)
+        const db = await orbitdb.open(`/orbitdb/${_address}/wt.movies.db`, {replicate: true})
 
         logs.info('Listening for updates to the database...')
         db.events.on('ready', () => logs.info("Db ready"))
-        db.events.on('replicated', (address, t) => logs.info(`Replicated ${t}`))
-        db.events.on('replicate.progress', (address, hash, entry, progress, have) => {
-            logs.info(entry)
+        db.events.on('replicated', (a, t) => logs.info(`Replicated ${t}`))
+        db.events.on('replicate.progress', (a, hash) => {
+            logs.info(`Pinning hash ${hash}`)
+            ipfs.pin.add(hash)
         })
     }
-}, MONITOR_INTERVAL * 60 * 1000)
+}, MONITOR_INTERVAL * 1000)
