@@ -43,7 +43,7 @@ setInterval(async () => {
         logs.info(`Resolved orbit address: ${_address}`)
         const orbitdb = await OrbitDB.createInstance(ipfs);
         logs.info(`Opening database from ${_address}`)
-        const db = await orbitdb.open(`/orbitdb/${_address}/wt.movies.db`, {replicate: true})
+        const db = await orbitdb.open(`/orbitdb/${_address}/wt.movies.db`, {sync: true, replicate: true})
 
         logs.info('Listening for updates to the database...')
         db.events.on('ready', () => logs.info("Db ready"))
