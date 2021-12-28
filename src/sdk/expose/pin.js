@@ -48,8 +48,7 @@ const logs = require('./logger')
                 const cid = e.payload.value
                 logs.info(`Pinning hash ${cid}`)
                 await consume(ipfs.get(cid));
-                await consume(ipfs.ls(e.payload.value));
-                await ipfs.pin.add(e.payload.value)
+                await consume(ipfs.pin.add(cid))
                 logs.info(`Pinned ${cid}`)
             })
         })
