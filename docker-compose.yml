@@ -8,7 +8,7 @@ x-multimedia-volume:
 
 services:
   watchit-ipfs:
-    image: ipfs/go-ipfs:v0.10.0
+    image: ipfs/go-ipfs:v0.9.0
     hostname: ipfs
     container_name: 'watchit-ipfs'
     restart: unless-stopped
