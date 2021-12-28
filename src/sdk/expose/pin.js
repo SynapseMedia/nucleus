@@ -32,7 +32,10 @@ const logs = require('./logger')
         const _address = newCID.toString(base58btc)
 
         logs.info(`Resolved orbit address: ${_address}`)
-        const orbitdb = await OrbitDB.createInstance(ipfs);
+        const orbitdb = await OrbitDB.createInstance(ipfs, {
+            directory: './orbitdb/pinner/Manifest'
+        });
+
         logs.info(`Opening database from ${_address}`)
         const db = await orbitdb.open(`/orbitdb/${_address}/wt.movies.db`, {
             replicate: true,
@@ -46,6 +49,8 @@ const logs = require('./logger')
             logs.info(`Pinning hash ${hash}`)
             ipfs.pin.add(hash)
         })
+
+        await db.load()
 
     }
 
