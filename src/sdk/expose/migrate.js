@@ -44,7 +44,7 @@ const logs = require('./logger')
         });
 
         // DB init
-        const db = await orbitdb.feed(ORBIT_DB_NAME, DB_OPTIONS);
+        const db = await orbitdb.log(ORBIT_DB_NAME, DB_OPTIONS);
         db.events.on('peer', (p) => logs.warn(`Peer Db: ${p}`));
         // END DB
 
