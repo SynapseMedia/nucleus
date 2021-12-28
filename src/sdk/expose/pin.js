@@ -42,10 +42,11 @@ const logs = require('./logger')
         })
 
         logs.info('Listening for updates to the database...')
-        db.events.on('ready', () => logs.info("Db ready"))
-        db.events.on('replicate.progress', (a, hash) => {
-            logs.info(`Pinning hash ${hash}`)
-            ipfs.pin.add(hash)
+        db.events.on('ready', () => {
+            db.iterator({limit: -1}).collect().map((e) => {
+                logs.info(`Pinning hash ${e.payload.value}`)
+                ipfs.pin.add(e.payload.value)
+            })
         })
 
         await db.load()
