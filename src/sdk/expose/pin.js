@@ -1,8 +1,8 @@
 process.env.FORCE_COLOR = 1
 const argv = require('minimist')(process.argv.slice(2));
 const proc = require('process')
-const IPFS_NODE = 'watchit-ipfs'
-const MONITOR_INTERVAL = process.env.MONITOR_INTERVAL
+const IPFS_NODE = argv.node || 'watchit-ipfs'
+const MONITOR_INTERVAL = argv.timer || process.env.MONITOR_INTERVAL
 const MONITOR_CID = argv.monitor || process.env.MONITOR_CID
 const last = require('it-last')
 const IpfsApi = require('ipfs-http-client');
@@ -35,7 +35,6 @@ const logs = require('./logger')
         const orbitdb = await OrbitDB.createInstance(ipfs);
         logs.info(`Opening database from ${_address}`)
         const db = await orbitdb.open(`/orbitdb/${_address}/wt.movies.db`, {
-            type: 'eventlog',
             replicate: true,
             overwrite: true
         })
