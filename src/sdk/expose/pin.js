@@ -50,8 +50,6 @@ const logs = require('./logger')
             ipfs.pin.add(hash)
         })
 
-        await db.load()
-
     }
 
     setTimeout(() => {
