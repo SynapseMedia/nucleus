@@ -1,6 +1,7 @@
 process.env.FORCE_COLOR = 1
 const argv = require('minimist')(process.argv.slice(2));
 const proc = require('process')
+const fetch = require('fetch')
 const IPFS_NODE = argv.node || 'watchit-ipfs'
 const IPFS_API = argv.api || "api/v0"
 const MONITOR_INTERVAL = argv.timer || process.env.MONITOR_INTERVAL
