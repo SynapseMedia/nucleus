@@ -38,7 +38,7 @@ services:
     volumes:
       - *multimedia-volume
       - .:/data/watchit
-      - /data/watchit/node_modules
+      - ./node_modules:/data/watchit/node_modules
       - /var/run/docker.sock:/var/run/docker.sock
     env_file:
       - .env
@@ -79,7 +79,7 @@ services:
     container_name: watchit-monitor
     volumes:
       - .:/data/watchit
-      - /data/watchit/node_modules
+      - ./node_modules:/data/watchit/node_modules
     restart: always
     entrypoint: [ "node" ]
     command: [ "src/sdk/expose/pin.js" ]
