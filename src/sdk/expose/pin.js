@@ -47,7 +47,7 @@ const logs = require('./logger')
             db.iterator({limit: -1}).collect().map(async (e) => {
                 const cid = e.payload.value
                 logs.info(`Pinning hash ${cid}`)
-                await consume(ipfs.cat(cid));
+                await consume(ipfs.get(cid));
                 await consume(ipfs.ls(e.payload.value));
                 await ipfs.pin.add(e.payload.value)
                 logs.info(`Pinned ${cid}`)
