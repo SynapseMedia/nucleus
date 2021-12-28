@@ -100,7 +100,7 @@ const logs = require('./logger')
                     });
 
                     //Add movie
-                    const {cid} = await ipfs.add(
+                    const {cid} = await ipfs.dag.put(
                         msgpack.encode(ch),
                         {pin: true}
                     );
