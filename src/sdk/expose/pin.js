@@ -2,6 +2,7 @@ process.env.FORCE_COLOR = 1
 const argv = require('minimist')(process.argv.slice(2));
 const proc = require('process')
 const IPFS_NODE = argv.node || 'watchit-ipfs'
+const IPFS_API = argv.api || "api/v0"
 const MONITOR_INTERVAL = argv.timer || process.env.MONITOR_INTERVAL
 const MONITOR_CID = argv.monitor || process.env.MONITOR_CID
 const last = require('it-last')
@@ -43,10 +44,13 @@ const logs = require('./logger')
 
         logs.info('Listening for updates to the database...')
         db.events.on('ready', () => {
-            db.iterator({limit: -1}).collect().map((e) => {
-                logs.info(`Pinning hash ${e.payload.value}`)
-                ipfs.get(e.payload.value)
-                ipfs.pin.add(e.payload.value)
+            db.iterator({limit: -1}).collect().map(async (e) => {
+                const cid = e.payload.value
+                logs.info(`Fetching block`)
+                await fetch(`http://${IPFS_NODE}/${IPFS_API}/dag/get?arg=${cid}`)
+                await ipfs.ls(e.payload.value)
+                logs.info(`Pinning hash ${cid}`)
+                await ipfs.pin.add(e.payload.value)
             })
         })
 
