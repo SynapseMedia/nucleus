@@ -47,10 +47,9 @@ const logs = require('./logger')
         db.events.on('ready', () => {
             db.iterator({limit: -1}).collect().map(async (e) => {
                 const cid = e.payload.value
-                logs.info(`Fetching block ${cid}`)
-                await fetch(`http://${IPFS_NODE}:8080/${IPFS_API}/dag/get?arg=${cid}`, {json: true})
-                await ipfs.ls(e.payload.value)
                 logs.info(`Pinning hash ${cid}`)
+                console.log(await ipfs.cat(cid));
+                await ipfs.ls(e.payload.value)
                 await ipfs.pin.add(e.payload.value)
             })
         })
