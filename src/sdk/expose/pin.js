@@ -37,8 +37,7 @@ const logs = require('./logger')
         const db = await orbitdb.open(`/orbitdb/${_address}/wt.movies.db`, {
             type: 'eventlog',
             replicate: true,
-            overwrite: true,
-            sync: true
+            overwrite: true
         })
 
         logs.info('Listening for updates to the database...')
