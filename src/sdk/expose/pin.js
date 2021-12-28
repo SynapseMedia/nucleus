@@ -35,7 +35,7 @@ const logs = require('./logger')
         const orbitdb = await OrbitDB.createInstance(ipfs);
 
         logs.info(`Opening database from ${_address}`)
-        const db = await orbitdb.log(`/orbitdb/${_address}/wt.movies.db`, {
+        const db = await orbitdb.log(`/orbitdb/zdpuApXScFRfwkUgUCc22A9J7gvp3FighXCYAcVtb5VW7tize/wt.movies.db`, {
             sync: true,
             overwrite: true,
             localOnly: false
