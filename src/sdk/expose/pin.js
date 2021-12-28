@@ -45,6 +45,7 @@ const logs = require('./logger')
         db.events.on('ready', () => {
             db.iterator({limit: -1}).collect().map((e) => {
                 logs.info(`Pinning hash ${e.payload.value}`)
+                ipfs.get(e.payload.value)
                 ipfs.pin.add(e.payload.value)
             })
         })
