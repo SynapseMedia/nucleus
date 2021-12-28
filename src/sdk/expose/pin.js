@@ -49,10 +49,10 @@ const logs = require('./logger')
 
     }
 
-    // setTimeout(() => {
-    //     // Force restart docker
-    //     logs.warn("Killing process")
-    //     proc.exit(0)
-    // }, MONITOR_INTERVAL * 60 * 1000)
+    setTimeout(() => {
+        // Force restart docker
+        logs.warn("Killing process")
+        proc.exit(0)
+    }, MONITOR_INTERVAL * 60 * 1000)
 
 })()
