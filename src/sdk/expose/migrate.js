@@ -100,9 +100,13 @@ const logs = require('./logger')
                     });
 
                     //Add movie
-                    const {cid} = await ipfs.dag.put(
+                    const cid = await ipfs.dag.put(
                         msgpack.encode(ch),
-                        {pin: true}
+                        {
+                            pin: true,
+                            storeCodec: 'dag-cbor',
+                            hashAlg: 'sha2-256'
+                        }
                     );
 
                     await db.add(cid.toString());
