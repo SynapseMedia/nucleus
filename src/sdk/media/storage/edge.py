@@ -53,11 +53,12 @@ def pin(cid: str):
         sys.stdout.write("\n")
 
 
-def flush():
+def flush(limit=1000):
     """
     Flush pinned entries from edge
+    :param limit: How many entries to flush?
     """
-    pinned = pin_ls()  # Get current pin list from edge service
+    pinned = pin_ls(limit)  # Get current pin list from edge service
     logger.log.info(f"Flushing {pinned.get('count')} from edge")
     for _pin in pinned.get('results'):
         _pinned = _pin.get('pin')

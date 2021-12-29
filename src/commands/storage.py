@@ -64,9 +64,10 @@ def status():
 
 
 @edge.command()
-def flush():
+@click.option("--limit", default=1000)
+def flush(limit):
     """Flush pinned cid"""
-    media.storage.edge.flush()
+    media.storage.edge.flush(limit)
 
 
 @edge.group("pin")
