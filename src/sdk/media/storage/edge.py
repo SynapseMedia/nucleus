@@ -102,7 +102,7 @@ def unpin(cid):
     return response.ok
 
 
-def pin_ls(limit=500):
+def pin_ls(limit=1000):
     """
     Request pinata pinned entries
     :param limit:
