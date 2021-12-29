@@ -86,8 +86,9 @@ def register_service():
 
 def unpin(cid):
     """
-    Request pinata pinned entries
+    Unpin pinata pinned cid
     :param cid:
+    :return boolean: True if unpinned success else False
     """
     response = session.delete(
         f"{PINATA_ENDPOINT}/pinning/unpin/{cid}",
