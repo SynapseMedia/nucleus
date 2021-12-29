@@ -61,6 +61,7 @@ const logs = require('./logger')
         }
 
         // Add provider to allow nodes connect to it
+        logs.info('Provide address over DHT')
         await consume(ipfs.dht.provide(dbAddressHash))
         const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
 
@@ -106,6 +107,7 @@ const logs = require('./logger')
                     );
 
                     await db.add(cid.toString());
+                    logs.info(`Chunk CID: ${cid.toString()}`)
                     logs.info(`Processed: ${index}/${size}`);
                 }
 
