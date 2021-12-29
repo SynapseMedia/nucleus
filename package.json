@@ -1,13 +1,13 @@
 {
   "name": "watchit-gateway",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "GPL-3.0",
   "repository": "https://github.com/ZorrillosDev/watchit-gateway",
   "author": "The team zorrillos",
   "description": "Watch movies for free",
   "dependencies": {
     "chalk": "^4.1.0",
-    "ipfs-http-client": "^55.0.0",
+    "ipfs-http-client": "^54.0.0",
     "it-last": "^1.0.6",
     "minimist": "^1.2.5",
     "mongodb": "^4.2.0",
