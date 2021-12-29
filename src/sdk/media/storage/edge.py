@@ -60,9 +60,9 @@ def flush(limit=1000):
     """
     pinned = pin_ls(limit)  # Get current pin list from edge service
     logger.log.info(f"Flushing {pinned.get('count')} from edge")
-    for _pin in pinned.get('results'):
-        _pinned = _pin.get('pin')
-        _cid = _pinned.get('cid')
+    for _pin in pinned.get("results"):
+        _pinned = _pin.get("pin")
+        _cid = _pinned.get("cid")
 
         if unpin(_cid):
             logger.log.info(f"Pin {_cid} removed from edge")
