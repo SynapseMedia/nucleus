@@ -5,8 +5,8 @@ __author__ = "gmena"
 # Session keep alive
 session = requests.Session()
 
-from . import remote  # noqa
+from . import edge  # noqa
 from . import ingest  # noqa
 
 
-__all__ = ["remote", "ingest", "session"]
+__all__ = ["edge", "ingest", "session"]

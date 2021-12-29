@@ -56,11 +56,17 @@ def edge():
 @edge.command()
 def status():
     """Check for edge cache status"""
-    is_edge_active = media.storage.remote.check_status()
+    is_edge_active = media.storage.edge.check_status()
     if is_edge_active:
         logger.log.success("Edge cache: Success")
         exit(0)  # Success termination
     logger.log.error("Edge cache: Offline")
+
+
+@edge.command()
+def flush():
+    """Flush pinned cid"""
+    media.storage.edge.flush()
 
 
 @edge.group("pin")
@@ -82,7 +88,7 @@ def single(ctx, cid):
         raise InvalidCID()
 
     logger.log.warning(f"Start pinning for cid: {cid}")
-    media.storage.ingest.pin_cid_list([cid], ctx.obj["remote"])
+    media.storage.ingest.pin_cid([cid], ctx.obj["remote"])
 
 
 @pin.command()
@@ -99,4 +105,4 @@ def cached(ctx, skip, limit):
     cid_list = map(lambda x: x["hash"], entries)
 
     logger.log.warning("Starting pinning to IPFS")
-    media.storage.ingest.pin_cid_list(cid_list, ctx.obj["remote"])
+    media.storage.ingest.pin_cid(cid_list, ctx.obj["remote"])

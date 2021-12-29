@@ -53,6 +53,22 @@ def pin(cid: str):
         sys.stdout.write("\n")
 
 
+def flush():
+    """
+    Flush pinned entries from edge
+    """
+    pinned = pin_ls()  # Get current pin list from edge service
+    logger.log.info(f"Flushing {pinned.get('count')} from edge")
+    for _pin in pinned.get('results'):
+        _pinned = _pin.get('pin')
+        _cid = _pinned.get('cid')
+
+        if unpin(_cid):
+            logger.log.info(f"Pin {_cid} removed from edge")
+            continue
+        logger.log.error(f"Fail trying to remove pin for {_cid}")
+
+
 def register_service():
     """
     Register edge service in ipfs node
@@ -66,6 +82,41 @@ def register_service():
     args = (PINATA_SERVICE, PINATA_PSA, PINATA_API_JWT)
     logger.log.info("Registering pinata service")
     return exec_command("/pin/remote/service/add", *args)
+
+
+def unpin(cid):
+    """
+    Request pinata pinned entries
+    :param cid:
+    """
+    response = session.delete(
+        f"{PINATA_ENDPOINT}/pinning/unpin/{cid}",
+        verify=VALIDATE_SSL,
+        headers={
+            "pinata_api_key": PINATA_API_KEY,
+            "pinata_secret_api_key": PINATA_API_SECRET,
+        },
+    )
+
+    return response.ok
+
+
+def pin_ls(limit=500):
+    """
+    Request pinata pinned entries
+    :param limit:
+    :return: {result: [], count: int}
+    """
+    response = session.get(
+        f"{PINATA_PSA}/pins?limit={limit}",
+        verify=VALIDATE_SSL,
+        headers={
+            "pinata_api_key": PINATA_API_KEY,
+            "pinata_secret_api_key": PINATA_API_SECRET,
+        },
+    )
+
+    return response.json()
 
 
 def check_status():

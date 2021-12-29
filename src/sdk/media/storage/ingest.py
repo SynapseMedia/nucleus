@@ -2,7 +2,7 @@ import os
 import errno
 
 from src.sdk import util, logger
-from .remote import pin as remote_pin
+from .edge import pin as remote_pin
 from src.sdk.media.storage.ipfs import exec_command, pin
 from src.sdk.scheme.definition.movies import MovieScheme
 
@@ -19,7 +19,7 @@ def add_dir_to_ipfs(_dir: str) -> str:
     directory, path_exists = util.resolve_root_for(_dir)
     logger.log.notice(f"Ingesting directory: {directory}")
 
-    if not path_exists:  # Check if path exist if not just
+    if not path_exists:  # Check if path exist if not justpin_cid_list
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), directory)
 
     # avoid pin by default /reference/http/api/#http-commands
@@ -38,7 +38,7 @@ def add_dir_to_ipfs(_dir: str) -> str:
     return _hash.strip()
 
 
-def pin_cid_list(cid_list: iter, remote: bool) -> list:
+def pin_cid(cid_list: iter, remote: bool) -> list:
     """
     Pin CID into Local/Remote node from list
     :param cid_list: List of cid to pin
