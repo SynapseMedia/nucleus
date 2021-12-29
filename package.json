@@ -7,6 +7,7 @@
   "description": "Watch movies for free",
   "dependencies": {
     "chalk": "^4.1.0",
+    "got": "^12.0.0",
     "ipfs-http-client": "^54.0.0",
     "it-last": "^1.0.6",
     "minimist": "^1.2.5",
