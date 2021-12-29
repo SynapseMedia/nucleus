@@ -23,8 +23,8 @@ ipfs config Swarm.AddrFilters '[
 ]' --json
 
 
-ipfs config Datastore.GCPeriod "24h"
-ipfs config Datastore.StorageMax "1000GB"
+ipfs config Datastore.GCPeriod "48h"
+ipfs config Datastore.StorageMax "2000GB"
 ipfs config Datastore.StorageGCWatermark 99 --json
 ipfs config Pubsub.Router "gossipsub"
 ipfs config --json Swarm.DisableBandwidthMetrics false
