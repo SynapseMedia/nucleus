@@ -1,6 +1,7 @@
 from flask import jsonify, request, Blueprint
-from src.sdk.cache import ingest, mint, manager, DESCENDING
+from src.sdk.cache import ingest, mint, manager, cursor_db, DESCENDING
 from src.sdk.constants import NODE_URI, API_VERSION
+from bson.objectid import ObjectId
 
 cache_ = Blueprint("cache", __name__)
 
@@ -17,8 +18,8 @@ def _sanitize_internals(entry):
     entry["_id"] = str(entry["_id"])
     entry["path"] = f"/{entry['_id']}"
     posters = entry["resource"]["image"]
-    new_image_path = f"{NODE_URI}/{API_VERSION}/proxy{entry['path']}"
-    entry["posters"] = {i: f"{new_image_path}/{v['index']}" for i, v in posters.items()}
+    new_image_path = f"{NODE_URI}/{API_VERSION}/marketplace/proxy{entry['path']}"
+    entry["posters"] = {i: f"{new_image_path}?arg={v}" for i, v in posters['index'].items()}
 
     # Clean not public data
     del entry["hash"]  # remove needed pre-processing field
@@ -26,7 +27,16 @@ def _sanitize_internals(entry):
     return entry
 
 
-@cache_.route("/recent", methods=["GET"])
+@cache_.route("/movie/profile", methods=["GET"])
+def movie_profile():
+    _id = request.args.get('id')
+    # Get current latest minted movies
+    minted_nft, _ = mint.frozen({}, {"cid": 1, "_id": False})
+    movie = manager.get(cursor_db, _filter={"_id": ObjectId(_id)})
+    return jsonify(_sanitize_internals(movie))
+
+
+@cache_.route("/movie/recent", methods=["GET"])
 def recent():
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 10)
@@ -44,7 +54,7 @@ def recent():
     return jsonify(list(movies_meta))
 
 
-@cache_.route("/creators", methods=["GET"])
+@cache_.route("/creator/recent", methods=["GET"])
 def creators():
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 6)

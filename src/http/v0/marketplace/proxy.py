@@ -1,4 +1,4 @@
-from flask import Response, stream_with_context, Blueprint
+from flask import Response, stream_with_context, Blueprint, request
 from bson.objectid import ObjectId
 from src.sdk.exception import InvalidRequest
 from src.sdk.cache import manager, cursor_db
@@ -8,12 +8,12 @@ import requests
 proxy_ = Blueprint("proxy", __name__)
 
 
-@proxy_.route("/<uid>/<file>", methods=["GET"])
-def proxy(uid, file):
+@proxy_.route("/<uid>", methods=["GET"])
+def proxy(uid):
     """Get an object id and return assets"""
     if not uid:
         raise InvalidRequest()
-
+    file = request.args.get('arg')
     local_node_uri = f"{IPFS_NODE}:{IPFS_NODE_GATEWAY_PORT}"
     proxy_movie = manager.get(cursor_db, _filter={"_id": ObjectId(uid)})
 
