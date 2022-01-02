@@ -7,6 +7,7 @@ node_modules
 *.egg-info/
 *.py[co]
 __pycache__/
+__pycache__/*
 .tox
 *.deb
 doc/_build/
