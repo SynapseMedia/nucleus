@@ -9,6 +9,7 @@ x-multimedia-volume:
 services:
   watchit-ipfs:
     image: ipfs/go-ipfs:v0.10.0
+    hostname: ipfs
     container_name: 'watchit-ipfs'
     restart: unless-stopped
     entrypoint: [ "/scripts/init.sh" ]
@@ -34,13 +35,10 @@ services:
     entrypoint: [ "python", "main.py" ]
     networks:
       - watchit
-    links:
-      - "watchit-mongodb:mongodb"
-      - "watchit-ipfs:ipfs"
     volumes:
       - *multimedia-volume
       - .:/data/watchit
-      - /data/watchit/node_modules
+      - ./node_modules:/data/watchit/node_modules
       - /var/run/docker.sock:/var/run/docker.sock
     env_file:
       - .env
@@ -55,9 +53,6 @@ services:
     command: [ "flask", "run", "--host=0.0.0.0" ]
     networks:
       - watchit
-    links:
-      - "watchit-mongodb:mongodb"
-      - "watchit-ipfs:ipfs"
     volumes:
       - .:/data/watchit
     environment:
@@ -72,7 +67,6 @@ services:
   watchit-mongodb:
     image: mongo
     restart: unless-stopped
-    container_name: watchit-mongo
     networks:
       - watchit
     ports:
@@ -82,24 +76,21 @@ services:
     build: .
     image: watchit-sdk
     container_name: watchit-monitor
-    links:
-      - "watchit-ipfs:ipfs"
     volumes:
       - .:/data/watchit
-      - /data/watchit/node_modules
-    restart: unless-stopped
+      - ./node_modules:/data/watchit/node_modules
+    restart: always
     entrypoint: [ "node" ]
     command: [ "src/sdk/expose/pin.js" ]
     networks:
       - watchit
     env_file:
       - .env
-    depends_on:
-      - watchit-ipfs
 
   watchit-certbot:
     image: peelvalley/certbot
     restart: unless-stopped
+    hostname: certbot
     networks:
       - proxy
     environment:
@@ -114,9 +105,6 @@ services:
     networks:
       - watchit
       - proxy
-    links:
-      - "watchit-certbot:certbot"
-      - "watchit-ipfs:ipfs"
     ports:
       - "0.0.0.0:80:80"
       - "0.0.0.0:443:443"

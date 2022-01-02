@@ -4,8 +4,8 @@ const MAX_CHUNKS = 1000
 const ORBIT_DB_NAME = 'wt.movies.db'
 const MIGRATE_FROM_DB = argv.tmpdb || 'ipfs';
 
-const IPFS_NODE = argv.node || 'ipfs'
-const MONGO_HOST = argv.hdb || 'mongodb' // Temporary helper db
+const IPFS_NODE = argv.node || 'watchit-ipfs'
+const MONGO_HOST = argv.hdb || 'watchit-mongodb' // Temporary helper db
 
 const SOURCE = argv.source || 'FULL' // Source to migrate from
 const RECREATE = argv.r || true // Recreate database
@@ -61,6 +61,7 @@ const logs = require('./logger')
         }
 
         // Add provider to allow nodes connect to it
+        logs.info('Provide address over DHT')
         await consume(ipfs.dht.provide(dbAddressHash))
         const ipns = await ipfs.name.publish(dbAddressHash, {key: KEY})
 
@@ -106,6 +107,7 @@ const logs = require('./logger')
                     );
 
                     await db.add(cid.toString());
+                    logs.info(`Chunk CID: ${cid.toString()}`)
                     logs.info(`Processed: ${index}/${size}`);
                 }
 
