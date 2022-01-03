@@ -11,7 +11,6 @@
     "it-last": "^1.0.6",
     "minimist": "^1.2.5",
     "mongodb": "^4.2.0",
-    "msgpack-lite": "^0.1.26",
     "node-rsa": "^1.0.8",
     "orbit-db": "~0.28.0",
     "pino": "^6.11.1",

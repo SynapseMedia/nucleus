@@ -17,7 +17,6 @@ const OrbitDB = require('orbit-db');
 const {consume} = require('streaming-iterables')
 const MongoClient = require('mongodb').MongoClient;
 const ipfs = IpfsApi.create({host: IPFS_NODE, port: '5001', protocol: 'http'});
-const msgpack = require("msgpack-lite");
 const {v4: uuidv4} = require('uuid');
 const logs = require('./logger')
 
@@ -99,10 +98,9 @@ const logs = require('./logger')
                         v['total'] = size;
                         return v
                     });
-
                     //Add movie
                     const {cid} = await ipfs.add(
-                        msgpack.encode(ch),
+                        Buffer.from(JSON.stringify(ch)),
                         {pin: true}
                     );
 

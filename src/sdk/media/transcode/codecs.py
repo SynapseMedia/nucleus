@@ -131,7 +131,7 @@ def to_hls(input_file, output_dir):
     current_format = util.extract_extension(input_file)
     logger.log.warn(f"Transcoding {current_format} to HLS using H264 codec")
 
-    hls = video.hls(Formats.h264(), hls_list_size=HLS_LIST_SIZE, hls_time=HLS_TIME)
+    hls = video.hls(Formats.h264())
     hls.representations(*get_representations(quality))
     hls.output(output_dir, monitor=progress)
     sys.stdout.write("\n")
