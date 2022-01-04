@@ -1,6 +1,6 @@
 from ffmpeg_streaming import Formats, FFProbe, Bitrate, Representation, Size, input
 from ...exception import InvalidVideoQuality
-from ...constants import HLS_TIME, HLS_LIST_SIZE, MAX_MUXING_QUEUE_SIZE
+from ...constants import MAX_MUXING_QUEUE_SIZE
 from src.sdk import logger, util
 import datetime
 import sys
