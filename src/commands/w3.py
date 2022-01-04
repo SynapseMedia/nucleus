@@ -76,8 +76,13 @@ def single(ctx, cid):
     cache.mint.freeze(tx, to, [cid])
 
 
-@nft.command()
+@nft.group("generate")
 def generate():
+    pass
+
+
+@generate.command()
+def erc1155():
     """Generate metadata json file for ERC1155 NFT \n
     Note: Please ensure that media is already transcode before run this command.
     eg. Resolve meta -> Transcode/Static -> generate

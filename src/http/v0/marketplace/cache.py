@@ -19,7 +19,9 @@ def _sanitize_internals(entry):
     entry["path"] = f"/{entry['_id']}"
     posters = entry["resource"]["image"]
     new_image_path = f"{NODE_URI}/{API_VERSION}/marketplace/proxy{entry['path']}"
-    entry["posters"] = {i: f"{new_image_path}?arg={v}" for i, v in posters['index'].items()}
+    entry["posters"] = {
+        i: f"{new_image_path}?arg={v}" for i, v in posters["index"].items()
+    }
 
     # Clean not public data
     del entry["hash"]  # remove needed pre-processing field
@@ -29,7 +31,7 @@ def _sanitize_internals(entry):
 
 @cache_.route("/movie/profile", methods=["GET"])
 def movie_profile():
-    _id = request.args.get('id')
+    _id = request.args.get("id")
     # Get current latest minted movies
     minted_nft, _ = mint.frozen({}, {"cid": 1, "_id": False})
     movie = manager.get(cursor_db, _filter={"_id": ObjectId(_id)})

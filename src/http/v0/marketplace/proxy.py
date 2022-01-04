@@ -13,7 +13,7 @@ def proxy(uid):
     """Get an object id and return assets"""
     if not uid:
         raise InvalidRequest()
-    file = request.args.get('arg')
+    file = request.args.get("arg")
     local_node_uri = f"{IPFS_NODE}:{IPFS_NODE_GATEWAY_PORT}"
     proxy_movie = manager.get(cursor_db, _filter={"_id": ObjectId(uid)})
 
