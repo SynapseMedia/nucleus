@@ -55,7 +55,7 @@ async function runMapper() {
 
         logs.info('Listening for updates to the database...')
         db.events.on('ready', () => iterateOverReplica(db))
-        db.events.on('replicate.progress', (address, hash) => pin(db.get(hash)))
+        db.events.on('replicate.progress', (address, hash) => hash))
         await db.load()
     }
 }
