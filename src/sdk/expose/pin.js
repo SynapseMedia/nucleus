@@ -60,10 +60,9 @@ async function runMapper() {
     }
 }
 
-let db;
 ;(async function start() {
     logs.info('Running Pinning Service')
-    db = await runMapper() // Initial mapper start
+    const db = await runMapper() // Initial mapper start
     logs.info('Setting interval')
     setInterval(async () => {
         // Force restart docker
