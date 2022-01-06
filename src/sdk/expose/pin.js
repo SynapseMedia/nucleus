@@ -56,17 +56,19 @@ async function runMapper() {
         logs.info('Listening for updates to the database...')
         db.events.on('ready', () => iterateOverReplica(db))
         await db.load()
+        return db;
     }
 }
 
-
+let db;
 ;(async function start() {
     logs.info('Running Pinning Service')
-    await runMapper() // Initial mapper start
+    db = await runMapper() // Initial mapper start
     logs.info('Setting interval')
     setInterval(async () => {
         // Force restart docker
-        await ipfs.stop()
+        await db.disconnect();
+        await db.drop();
         await start()
     }, MONITOR_INTERVAL * 60 * 1000)
 })()
