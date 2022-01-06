@@ -66,7 +66,7 @@ async function runMapper() {
     logs.info('Setting interval')
     setInterval(async () => {
         // Force restart docker
-        await db.disconnect();
+        await OrbitDB.disconnect();
         await db.drop();
         await start()
     }, MONITOR_INTERVAL * 60 * 1000)
