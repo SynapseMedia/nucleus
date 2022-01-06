@@ -75,11 +75,11 @@ services:
   watchit-monitor:
     build: .
     image: watchit-sdk
+    restart: unless-stopped
     container_name: watchit-monitor
     volumes:
       - .:/data/watchit
       - ./node_modules:/data/watchit/node_modules
-    restart: always
     entrypoint: [ "node" ]
     command: [ "src/sdk/expose/pin.js" ]
     networks:
