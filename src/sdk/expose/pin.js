@@ -56,17 +56,17 @@ async function runMapper() {
         logs.info('Listening for updates to the database...')
         db.events.on('ready', () => iterateOverReplica(db))
         await db.load()
-        return db;
+        return [db, orbitdb];
     }
 }
 
 ;(async function start() {
     logs.info('Running Pinning Service')
-    const db = await runMapper() // Initial mapper start
+    const [db, orbitdb] = await runMapper() // Initial mapper start
     logs.info('Setting interval')
     setInterval(async () => {
         // Force restart docker
-        await OrbitDB.disconnect();
+        await orbitdb.stop();
         await db.drop();
         await start()
     }, MONITOR_INTERVAL * 60 * 1000)
