@@ -7,13 +7,12 @@ const last = require('it-last')
 const IpfsApi = require('ipfs-http-client');
 const {CID} = require('ipfs-http-client')
 const {base58btc} = require('multiformats/bases/base58')
-const ipfs = IpfsApi.create({host: IPFS_NODE, port: '5001', protocol: 'http'});
 const OrbitDB = require('orbit-db');
 const logs = require('./logger')
-
 // List of default keys
 // ; = ensures the preceding statement was closed
 
+const ipfs = IpfsApi.create({host: IPFS_NODE, port: '5001', protocol: 'http'});
 const pin = async (cid) => {
     logs.info(`Fetching block ${cid}`)
     await ipfs.pin.add(cid)
@@ -67,7 +66,6 @@ async function runMapper() {
     setInterval(async () => {
         // Force restart docker
         await orbitdb.stop();
-        await db.drop();
         await start()
     }, MONITOR_INTERVAL * 60 * 1000)
 })()

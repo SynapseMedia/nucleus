@@ -1,6 +1,6 @@
 from ffmpeg_streaming import Formats, FFProbe, Bitrate, Representation, Size, input
 from ...exception import InvalidVideoQuality
-from ...constants import MAX_MUXING_QUEUE_SIZE
+from ...constants import HLS_TIME, MAX_MUXING_QUEUE_SIZE
 from src.sdk import logger, util
 import datetime
 import sys
@@ -131,7 +131,7 @@ def to_hls(input_file, output_dir):
     current_format = util.extract_extension(input_file)
     logger.log.warn(f"Transcoding {current_format} to HLS using H264 codec")
 
-    hls = video.hls(Formats.h264())
+    hls = video.hls(Formats.h264(), hls_time=HLS_TIME)
     hls.representations(*get_representations(quality))
     hls.output(output_dir, monitor=progress)
     sys.stdout.write("\n")
