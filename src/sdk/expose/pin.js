@@ -61,7 +61,7 @@ async function runMapper() {
 
 ;(async function start() {
     logs.info('Running Pinning Service')
-    const [db, orbitdb] = await runMapper() // Initial mapper start
+    const [,orbitdb] = await runMapper() // Initial mapper start
     logs.info('Setting interval')
     setInterval(async () => {
         // Force restart docker
