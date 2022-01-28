@@ -66,6 +66,7 @@ services:
 
   watchit-mongodb:
     image: mongo
+    hostname: mongo
     restart: unless-stopped
     networks:
       - watchit
