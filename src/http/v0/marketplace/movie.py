@@ -1,9 +1,42 @@
-from flask import jsonify, request, Blueprint
+from flask import jsonify, request, Blueprint, flash
 from src.sdk.cache import ingest, mint, manager, cursor_db, DESCENDING
-from src.sdk.constants import NODE_URI, API_VERSION
+from werkzeug.utils import secure_filename
+from src.sdk.exception import InvalidRequest
+from src.sdk.util import extract_extension
+from src.sdk.constants import NODE_URI, API_VERSION, ALLOWED_VIDEO_EXTENSIONS, ALLOWED_IMAGE_EXTENSIONS, UPLOAD_FOLDER
 from bson.objectid import ObjectId
 
-cache_ = Blueprint("cache", __name__)
+movie_ = Blueprint("movie", __name__)
+
+
+def _process_files(files):
+    """
+    Validate uploaded files and store it into local filesystem
+    :param files: Files
+    :return tuple: (image, video)
+    """
+    if 'image' not in files or 'video' not in files:
+        raise InvalidRequest("Not valid media to process provided")
+
+    image = files.get('image')  # Uploaded image poster
+    video = files.get('video')  # Uploaded video media file
+
+    # TODO validate image ratio
+
+    if extract_extension(image) not in ALLOWED_IMAGE_EXTENSIONS:
+        raise InvalidRequest('Invalid image format')
+    if extract_extension(video) not in ALLOWED_VIDEO_EXTENSIONS:
+        raise InvalidRequest('Invalid video format')
+
+    # Pass it a filename and it will return a secure version of it
+    # https://werkzeug.palletsprojects.com/en/2.0.x/utils/#werkzeug.utils.secure_filename
+    image_filename = secure_filename(image.filename)
+    video_filename = secure_filename(video.filename)
+    # Store files into local filesystem
+    image.save(UPLOAD_FOLDER, image_filename)
+    video.save(UPLOAD_FOLDER, video_filename)
+
+    return image, video
 
 
 def _sanitize_internals(entry):
@@ -29,8 +62,8 @@ def _sanitize_internals(entry):
     return entry
 
 
-@cache_.route("/movie/profile", methods=["GET"])
-def movie_profile():
+@movie_.route("profile", methods=["GET"])
+def profile():
     _id = request.args.get("id")
     # Get current latest minted movies
     minted_nft, _ = mint.frozen({}, {"cid": 1, "_id": False})
@@ -38,7 +71,7 @@ def movie_profile():
     return jsonify(_sanitize_internals(movie))
 
 
-@cache_.route("/movie/recent", methods=["GET"])
+@movie_.route("recent", methods=["GET"])
 def recent():
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 10)
@@ -56,20 +89,8 @@ def recent():
     return jsonify(list(movies_meta))
 
 
-@cache_.route("/creator/recent", methods=["GET"])
-def creators():
-    order_by = request.args.get("order", DESCENDING)
-    limit = request.args.get("limit", 6)
-
-    # Get current latest minted movies
-    aggregation_group = [
-        {"$group": {"_id": "$holder", "sum": {"$sum": 1}}},
-        {"$limit": limit},
-        {"$sort": {"_id": order_by}},
-    ]
-
-    recent_minters = manager.aggregated(aggregation_group)
-    recent_minters = map(
-        lambda x: {"address": x["_id"], "movies": x["sum"]}, recent_minters
-    )
-    return jsonify(list(recent_minters))
+@movie_.route("create", methods=["POST"])
+def create():
+    metadata = request.args
+    # Pre-processing uploaded files
+    image, video = _process_files(request.files)

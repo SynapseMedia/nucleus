@@ -54,6 +54,7 @@ services:
     networks:
       - watchit
     volumes:
+      - *multimedia-volume
       - .:/data/watchit
     environment:
       FLASK_ENV: 'development'
