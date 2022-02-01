@@ -12,7 +12,7 @@ Check out the Becoming Big section for some inspiration how to deal with that.
 
 from flask import Flask
 from flask_cors import CORS
-from src.sdk.constants import API_VERSION
+from src.sdk.constants import API_VERSION, UPLOAD_FOLDER
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 app = Flask(__name__)
@@ -20,6 +20,7 @@ cors = CORS(app)
 default_root_uri = f"/{API_VERSION}"
 # https://flask.palletsprojects.com/en/2.0.x/config/#builtin-configuration-values
 app.config["APPLICATION_ROOT"] = default_root_uri
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 from src.http.v0 import *  # noqa
 
