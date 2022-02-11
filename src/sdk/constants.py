@@ -25,7 +25,7 @@ PINATA_PIN_BACKGROUND = os.getenv("PINATA_PIN_BACKGROUND", "False") == "True"
 # Http settings
 NODE_URI = os.getenv("NODE_URI")
 API_VERSION = os.getenv("API_VERSION")
-UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "/multimedia/tmp/")
+UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "/multimedia/tmp")
 ALLOWED_VIDEO_EXTENSIONS = {"mp4", "webm"}
 ALLOWED_IMAGE_EXTENSIONS = {"jpeg", "png", "jpg", "gif"}
 

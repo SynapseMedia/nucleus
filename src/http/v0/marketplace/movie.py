@@ -1,3 +1,4 @@
+import os
 from flask import jsonify, request, Blueprint, flash
 from src.sdk.cache import ingest, mint, manager, cursor_db, DESCENDING
 from werkzeug.utils import secure_filename
@@ -5,7 +6,7 @@ from src.sdk.exception import InvalidRequest
 from src.sdk.util import extract_extension
 from src.sdk.constants import NODE_URI, API_VERSION, ALLOWED_VIDEO_EXTENSIONS, ALLOWED_IMAGE_EXTENSIONS, UPLOAD_FOLDER
 from bson.objectid import ObjectId
-
+from src.sdk import media
 movie_ = Blueprint("movie", __name__)
 
 
@@ -15,28 +16,30 @@ def _process_files(files):
     :param files: Files
     :return tuple: (image, video)
     """
-    if 'image' not in files or 'video' not in files:
+    print(files)
+    if 'poster' not in files or 'film' not in files:
         raise InvalidRequest("Not valid media to process provided")
 
-    image = files.get('image')  # Uploaded image poster
-    video = files.get('video')  # Uploaded video media file
-
-    # TODO validate image ratio
-
-    if extract_extension(image) not in ALLOWED_IMAGE_EXTENSIONS:
-        raise InvalidRequest('Invalid image format')
-    if extract_extension(video) not in ALLOWED_VIDEO_EXTENSIONS:
-        raise InvalidRequest('Invalid video format')
-
+    image = files.get('poster')  # Uploaded image poster
+    video = files.get('film')  # Uploaded video media file
     # Pass it a filename and it will return a secure version of it
     # https://werkzeug.palletsprojects.com/en/2.0.x/utils/#werkzeug.utils.secure_filename
     image_filename = secure_filename(image.filename)
     video_filename = secure_filename(video.filename)
-    # Store files into local filesystem
-    image.save(UPLOAD_FOLDER, image_filename)
-    video.save(UPLOAD_FOLDER, video_filename)
 
-    return image, video
+    # TODO validate image ratio
+    if extract_extension(image_filename) not in ALLOWED_IMAGE_EXTENSIONS:
+        raise InvalidRequest('Invalid image format')
+    if extract_extension(video_filename) not in ALLOWED_VIDEO_EXTENSIONS:
+        raise InvalidRequest('Invalid video format')
+
+    # Store files into local filesystem
+    image_path = os.path.join(UPLOAD_FOLDER, image_filename)
+    video_path = os.path.join(UPLOAD_FOLDER, video_filename)
+    image.save(image_path)
+    video.save(video_path)
+
+    return image_path, video_path
 
 
 def _sanitize_internals(entry):
@@ -91,6 +94,18 @@ def recent():
 
 @movie_.route("create", methods=["POST"])
 def create():
-    metadata = request.args
+    metadata = request.form
+    name = metadata.get('name')
+    description = metadata.get('description')
+    bid = metadata.get('bid')
+    trailer = metadata.get('trailer')
+
     # Pre-processing uploaded files
     image, video = _process_files(request.files)
+
+    #TODO check result
+    #TODO process image
+    #TODO process movie
+    # media.static.ingest.images()
+
+
