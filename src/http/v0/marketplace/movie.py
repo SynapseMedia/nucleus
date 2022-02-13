@@ -1,4 +1,5 @@
 import os
+import time
 from flask import jsonify, request, Blueprint, flash
 from src.sdk.cache import ingest, mint, manager, cursor_db, DESCENDING
 from werkzeug.utils import secure_filename
@@ -6,7 +7,8 @@ from src.sdk.exception import InvalidRequest
 from src.sdk.util import extract_extension
 from src.sdk.constants import NODE_URI, API_VERSION, ALLOWED_VIDEO_EXTENSIONS, ALLOWED_IMAGE_EXTENSIONS, UPLOAD_FOLDER
 from bson.objectid import ObjectId
-from src.sdk import media
+from src.sdk.scheme.validator import check
+
 movie_ = Blueprint("movie", __name__)
 
 
@@ -94,18 +96,21 @@ def recent():
 
 @movie_.route("create", methods=["POST"])
 def create():
-    metadata = request.form
-    name = metadata.get('name')
-    description = metadata.get('description')
-    bid = metadata.get('bid')
-    trailer = metadata.get('trailer')
-
+    _input = request.form
     # Pre-processing uploaded files
     image, video = _process_files(request.files)
 
-    #TODO check result
-    #TODO process image
-    #TODO process movie
+    json = [{
+        **_input,
+        **{
+            "genres": ['Action'],
+            "date_uploaded_unix": time.time()
+        }
+    }]
+
+    metadata = check(json)
+
+    # TODO check result
+    # TODO process image
+    # TODO process movie
     # media.static.ingest.images()
-
-

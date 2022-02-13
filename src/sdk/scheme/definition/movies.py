@@ -59,12 +59,14 @@ class MovieScheme(DataObjectScheme):
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
     imdb_code = fields.Str(validate=validate.Regexp(r"^tt[0-9]{5,10}$"))
     price = fields.Float(validate=validate.Range(min=0), dump_default=0, required=False)
-    rating = fields.Float(validate=validate.Range(min=0, max=DEFAULT_RATE_MAX))
+    rating = fields.Float(validate=validate.Range(min=0, max=DEFAULT_RATE_MAX), missing=0)
     year = fields.Int(
-        validate=validate.Range(min=FIRST_MOVIE_YEAR_EVER, max=date.today().year + 1)
+        validate=validate.Range(min=FIRST_MOVIE_YEAR_EVER, max=date.today().year + 1),
+        missing=date.today().year
     )
     runtime = fields.Float(
-        validate=validate.Range(min=SHORTEST_RUNTIME_MOVIE, max=LONGEST_RUNTIME_MOVIE)
+        validate=validate.Range(min=SHORTEST_RUNTIME_MOVIE, max=LONGEST_RUNTIME_MOVIE),
+        missing=0
     )
     genres = fields.List(
         fields.Str(), validate=validate.ContainsOnly(choices=DEFAULT_GENRES)
@@ -72,7 +74,7 @@ class MovieScheme(DataObjectScheme):
     synopsis = fields.Str(required=True)
     trailer_code = fields.Str(missing=None)  # Youtube trailer code
     # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
-    language = fields.Str(validate=validate.Length(min=2, max=10))
+    language = fields.Str(validate=validate.Length(min=2, max=10), missing='EN')
     # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating = fields.Str(missing="PG")
     resource = fields.Nested(MultiMediaScheme)
