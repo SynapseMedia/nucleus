@@ -92,15 +92,10 @@ def recent():
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 10)
 
-    # Get current latest minted movies
-    minted_nft, _ = mint.frozen({}, {"cid": 1, "_id": False})
-    minted_nft_limited = list(minted_nft.limit(limit))  # slice response
-    mapped_cid = map(lambda x: x.get("cid"), minted_nft_limited)
-
     # Parse erc1155 metadata
     # Get "in-relation" hash from ingested metadata
-    metadata_for_cid, _ = ingest.frozen({"hash": {"$in": tuple(mapped_cid)}})
-    metadata_for_cid.sort([("_id", order_by)])  # sort descending by date
+    metadata_for_cid, _ = ingest.frozen()
+    metadata_for_cid.sort([("date_uploaded_unix", order_by)]).limit(limit)
     movies_meta = map(_sanitize_internals, metadata_for_cid)
     return jsonify(list(movies_meta))
 
@@ -136,6 +131,6 @@ def create():
         static.boot(current_movie)
         w3.boot(current_movie)
         storage.boot(current_movie)
-
+        return jsonify(json)
     except ValidationError as e:
         pass
