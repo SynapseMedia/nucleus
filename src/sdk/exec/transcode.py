@@ -51,4 +51,6 @@ def boot(current_movie: MovieScheme, **kwargs):
     # Process video detailed in movie metadata
     output_dir = util.build_dir(current_movie)
     logger.log.warn(f"Transcoding {current_movie.title}:{current_movie.imdb_code}")
-    return _run_task(video=current_movie.resource.video, output_dir=output_dir, **kwargs)
+    return _run_task(
+        video=current_movie.resource.video, output_dir=output_dir, **kwargs
+    )
