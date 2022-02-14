@@ -1,6 +1,7 @@
 import click
 from src.sdk.scheme.validator import check
-from src.sdk import cache, media, exception, logger, util, web3
+from src.sdk import cache, exception, logger, web3
+from src.sdk.exec import w3 as w3_exec
 from src.sdk.exception import InvalidCID
 
 
@@ -89,17 +90,8 @@ def erc1155():
     """
     # Return available and not processed entries
     # Total size of entries to fetch
-    metadata_list = []
-    metadata_list_append = metadata_list.append
     result, _ = cache.manager.safe_retrieve()
     # Generate metadata file from each row in tmp db the resources
     for current_movie in check(result):
-        logger.log.warning(f"Processing NFT meta for {current_movie.imdb_code}")
-        # Build metadata for current movie
-        nft_movie_meta = media.metadata.generate_erc1155(current_movie)
-        metadata_list_append(nft_movie_meta)
-        # Get directory output for current movie meta json
-        current_dir = util.build_dir(current_movie)
-        directory, _ = util.resolve_root_for(current_dir)
-        util.write_json(f"{directory}/index.json", nft_movie_meta)
-        logger.log.success(f"Written metadata for {current_movie.imdb_code}\n")
+        w3_exec.boot(current_movie)
+

@@ -18,7 +18,7 @@ from src.sdk.constants import (
 )
 from src.sdk.scheme.validator import check
 from src.sdk.media.transcode import util
-from src.sdk.exec import transcode, static, storage
+from src.sdk.exec import transcode, static, storage, w3
 from bson.objectid import ObjectId
 
 movie_ = Blueprint("movie", __name__)
@@ -131,8 +131,10 @@ def create():
         # 2 - Process static image
         # 3 - Generate ERC1155 metadata
         # 4 - Ingest into IPFS
+        # 5 - Mint
         transcode.boot(current_movie)
         static.boot(current_movie)
+        w3.boot(current_movie)
         storage.boot(current_movie)
 
     except ValidationError as e:
