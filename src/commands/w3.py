@@ -94,4 +94,3 @@ def erc1155():
     # Generate metadata file from each row in tmp db the resources
     for current_movie in check(result):
         w3_exec.boot(current_movie)
-
