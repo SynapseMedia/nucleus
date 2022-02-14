@@ -53,4 +53,3 @@ def fit_resources_from_dag(cid):
     video = fit_video_resource_from_dag(cid)
     image = fit_image_resource_from_dag(cid)
     return MultiMediaScheme().load({"video": video, "image": image})
-

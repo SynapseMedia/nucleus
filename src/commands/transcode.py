@@ -2,11 +2,7 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, logger
 from src.sdk.exec import transcode as transcoder
-from src.sdk.constants import (
-    OVERWRITE_TRANSCODE_OUTPUT,
-    HLS_FORMAT,
-    DASH_FORMAT
-)
+from src.sdk.constants import OVERWRITE_TRANSCODE_OUTPUT, HLS_FORMAT, DASH_FORMAT
 
 
 @click.group("transcode")

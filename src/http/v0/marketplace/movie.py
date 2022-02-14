@@ -9,7 +9,13 @@ from marshmallow.exceptions import ValidationError
 
 from src.sdk.exception import InvalidRequest
 from src.sdk.util import extract_extension
-from src.sdk.constants import NODE_URI, API_VERSION, ALLOWED_VIDEO_EXTENSIONS, ALLOWED_IMAGE_EXTENSIONS, UPLOAD_FOLDER
+from src.sdk.constants import (
+    NODE_URI,
+    API_VERSION,
+    ALLOWED_VIDEO_EXTENSIONS,
+    ALLOWED_IMAGE_EXTENSIONS,
+    UPLOAD_FOLDER,
+)
 from src.sdk.scheme.validator import check
 from src.sdk.media.transcode import util
 from src.sdk.exec import transcode, static, storage
@@ -24,11 +30,11 @@ def _process_files(files):
     :param files: Files
     :return tuple: (image, video)
     """
-    if 'poster' not in files or 'film' not in files:
+    if "poster" not in files or "film" not in files:
         raise InvalidRequest("Not valid media to process provided")
 
-    image = files.get('poster')  # Uploaded image poster
-    video = files.get('film')  # Uploaded video media file
+    image = files.get("poster")  # Uploaded image poster
+    video = files.get("film")  # Uploaded video media file
     # Pass it a filename and it will return a secure version of it
     # https://werkzeug.palletsprojects.com/en/2.0.x/utils/#werkzeug.utils.secure_filename
     image_filename = secure_filename(image.filename)
@@ -36,9 +42,9 @@ def _process_files(files):
 
     # TODO validate image ratio
     if extract_extension(image_filename) not in ALLOWED_IMAGE_EXTENSIONS:
-        raise InvalidRequest('Invalid image format')
+        raise InvalidRequest("Invalid image format")
     if extract_extension(video_filename) not in ALLOWED_VIDEO_EXTENSIONS:
-        raise InvalidRequest('Invalid video format')
+        raise InvalidRequest("Invalid video format")
 
     # Store files into local filesystem
     image_path = os.path.join(UPLOAD_FOLDER, image_filename)
@@ -106,19 +112,18 @@ def create():
     image, video = _process_files(request.files)
     movie_duration, _ = util.get_duration(video)
 
-    json = [{
-        **_input,
-        **{
-            "imdb_code": f"wt{uuid.uuid4().hex}",
-            "genres": ['Action'],
-            "runtime": int(movie_duration / 60),
-            "date_uploaded_unix": time.time(),
-            "resource": {
-                "image": {"route": image},
-                "video": {"route": video}
-            }
+    json = [
+        {
+            **_input,
+            **{
+                "imdb_code": f"wt{uuid.uuid4().hex}",
+                "genres": ["Action"],
+                "runtime": int(movie_duration / 60),
+                "date_uploaded_unix": time.time(),
+                "resource": {"image": {"route": image}, "video": {"route": video}},
+            },
         }
-    }]
+    ]
 
     try:
         current_movie = list(check(json)).pop()

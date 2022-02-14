@@ -11,5 +11,5 @@ def get_duration(input_file: str) -> tuple:
     """
 
     ffprobe = FFProbe(input_file)
-    duration = float(ffprobe.format().get('duration', 0))
+    duration = float(ffprobe.format().get("duration", 0))
     return duration, datetime.timedelta(duration)
