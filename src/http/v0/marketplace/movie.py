@@ -1,13 +1,19 @@
 import os
 import time
+import uuid
+
 from flask import jsonify, request, Blueprint, flash
 from src.sdk.cache import ingest, mint, manager, cursor_db, DESCENDING
 from werkzeug.utils import secure_filename
+from marshmallow.exceptions import ValidationError
+
 from src.sdk.exception import InvalidRequest
 from src.sdk.util import extract_extension
 from src.sdk.constants import NODE_URI, API_VERSION, ALLOWED_VIDEO_EXTENSIONS, ALLOWED_IMAGE_EXTENSIONS, UPLOAD_FOLDER
-from bson.objectid import ObjectId
 from src.sdk.scheme.validator import check
+from src.sdk.media.transcode import util
+from src.sdk.exec import transcode, static, storage
+from bson.objectid import ObjectId
 
 movie_ = Blueprint("movie", __name__)
 
@@ -18,7 +24,6 @@ def _process_files(files):
     :param files: Files
     :return tuple: (image, video)
     """
-    print(files)
     if 'poster' not in files or 'film' not in files:
         raise InvalidRequest("Not valid media to process provided")
 
@@ -99,18 +104,31 @@ def create():
     _input = request.form
     # Pre-processing uploaded files
     image, video = _process_files(request.files)
+    movie_duration, _ = util.get_duration(video)
 
     json = [{
         **_input,
         **{
+            "imdb_code": f"wt{uuid.uuid4().hex}",
             "genres": ['Action'],
-            "date_uploaded_unix": time.time()
+            "runtime": int(movie_duration / 60),
+            "date_uploaded_unix": time.time(),
+            "resource": {
+                "image": {"route": image},
+                "video": {"route": video}
+            }
         }
     }]
 
-    metadata = check(json)
+    try:
+        current_movie = list(check(json)).pop()
+        # 1 - Transcode uploaded movie
+        # 2 - Process static image
+        # 3 - Generate ERC1155 metadata
+        # 4 - Ingest into IPFS
+        transcode.boot(current_movie)
+        static.boot(current_movie)
+        storage.boot(current_movie)
 
-    # TODO check result
-    # TODO process image
-    # TODO process movie
-    # media.static.ingest.images()
+    except ValidationError as e:
+        pass

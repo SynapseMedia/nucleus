@@ -4,8 +4,8 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk.exception import InvalidCID
 from src.sdk.constants import FLUSH_CACHE_IPFS
-from src.sdk import cache, logger, exception, media, scheme
-from src.sdk.scheme.definition.movies import MovieScheme
+from src.sdk import cache, logger, exception, media
+from src.sdk.exec import storage as store
 
 
 @click.group("storage")
@@ -37,14 +37,7 @@ def ingest(no_cache):
 
     # Ingest from each row in tmp db the resources
     for current_movie in check(result):
-        _id = current_movie.imdb_code  # Current id
-        # 1 - Add ingested directory hash to movie
-        # 2 - Fit scheme from dag resources paths
-        # 3 - Store in cursor db current processed movie
-        current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
-        current_movie.resource = scheme.util.fit_resources_from_dag(current_movie.hash)
-        cache.ingest.freeze(_id, MovieScheme().dump(current_movie))
-        logger.log.success(f"Done {current_movie.imdb_code}\n")
+        store.boot(current_movie)
 
 
 @storage.group("edge")

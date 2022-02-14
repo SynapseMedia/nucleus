@@ -51,7 +51,7 @@ def progress(_, duration, time_, time_left, *args, **kwargs):
 
 
 # TODO add tests
-def get_new_video_quality(video):
+def get_new_video_quality(video: str) -> str:
     """
     Return quality from video file
     :param video: Path to video file
@@ -100,11 +100,11 @@ def get_representations(quality) -> list:
     }.get(quality.lower())
 
 
-def to_dash(input_file, output_dir):
+def to_dash(input_file, output_dir) -> str:
     """
     Transcode movie file to dash
-    :param input_file:
-    :param output_dir
+    :param input_file: Current file path
+    :param output_dir: New file path
     :return: new file format dir
     """
     video = input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)
@@ -119,11 +119,11 @@ def to_dash(input_file, output_dir):
     return output_dir
 
 
-def to_hls(input_file, output_dir):
+def to_hls(input_file, output_dir) -> str:
     """
     Transcode movie file to hls
-    :param input_file:
-    :param output_dir
+    :param input_file: Current file path
+    :param output_dir: New file path
     :return: new file format dir
     """
     video = input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)

@@ -2,7 +2,8 @@ import sys
 
 import click
 from src.sdk.scheme.validator import check
-from src.sdk import cache, media, logger, util
+from src.sdk import cache, logger
+from src.sdk.exec import static as statics
 
 
 @click.group("static")
@@ -36,13 +37,7 @@ def cached():
 
     # Fetch from each row in tmp db the resources
     for current_movie in check(result):
-        # Process each video described in movie
-        output_dir = util.build_dir(current_movie)
-        logger.log.warn(f"Fetching posters for {current_movie.title}")
-        media.static.ingest.images(
-            image_path=current_movie.resource.image.route,  # input image path
-            output_dir=output_dir,  # where store new images?
-        )
+        statics.boot(current_movie)
         sys.stdout.write("\n")
 
     # Close current tmp cache db
