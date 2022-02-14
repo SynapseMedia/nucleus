@@ -57,7 +57,7 @@ class MovieScheme(DataObjectScheme):
     hash = fields.Str(require=False)
     creator = fields.Str(required=True)
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
-    imdb_code = fields.Str(validate=validate.Regexp(r"^tt[0-9]{5,10}$"))
+    imdb_code = fields.Str(validate=validate.Regexp(r"^wt[a-zA-Z0-9]{10,32}$"))
     price = fields.Float(validate=validate.Range(min=0), dump_default=0, required=False)
     rating = fields.Float(validate=validate.Range(min=0, max=DEFAULT_RATE_MAX), missing=0)
     year = fields.Int(
