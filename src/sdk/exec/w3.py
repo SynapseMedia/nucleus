@@ -15,5 +15,3 @@ def boot(current_movie: MovieScheme):
     directory, _ = util.resolve_root_for(current_dir)
     util.write_json(f"{directory}/index.json", nft_movie_meta)
     logger.log.success(f"Written metadata for {current_movie.imdb_code}\n")
-
-
