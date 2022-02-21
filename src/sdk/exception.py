@@ -48,7 +48,7 @@ class InvalidImageSize(Exception):
         _message = """
                 Invalid image size provided.
                 Master image should be at least:
-                    (width, height) = (750, 500)
+                    (width, height) = (500, 750)
                 """
 
         super().__init__(_message)

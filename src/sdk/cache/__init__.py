@@ -22,25 +22,29 @@ def get_dbs(*dbs_list) -> tuple:
 # tmp_db - keep current resolvers cache
 # cursor_db - keep a pointer with already processed cache
 tmp_db_name = "witth%s" % DB_DATE_VERSION if REGEN_MOVIES else "witth"
-raw_db, cursor_db, mint_db = get_dbs(tmp_db_name, "ipfs", "mint")
+raw_db, cursor_db, mint_db, bid_db = get_dbs(tmp_db_name, "cursor", "mint", "bid")
 
 # Check for empty db
 empty_tmp = raw_db.movies.count() == 0
 empty_cursor = cursor_db.movies.count() == 0
 empty_mint_db = mint_db.movies.count() == 0
+empty_bid_db = bid_db.movies.count() == 0
 
 from . import ingest  # noqa
 from . import mint  # noqa
 from . import manager  # noqa
+from . import bid # noqa
 
 __all__ = [
     "get_dbs",
     "cursor_db",
+    "bid_db",
     "raw_db",
     "mint_db",
     "DESCENDING",
     "ASCENDING",
     "ingest",
     "mint",
+    "bid",
     "manager",
 ]

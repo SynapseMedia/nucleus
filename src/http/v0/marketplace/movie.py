@@ -3,7 +3,7 @@ import time
 import uuid
 
 from flask import jsonify, request, Blueprint, flash
-from src.sdk.cache import ingest, mint, manager, cursor_db, DESCENDING
+from src.sdk.cache import ingest, mint, bid, manager, cursor_db, DESCENDING
 from werkzeug.utils import secure_filename
 from marshmallow.exceptions import ValidationError
 
@@ -134,3 +134,10 @@ def create():
         return jsonify(json)
     except ValidationError as e:
         pass
+
+
+@movie_.route("bid", methods=["POST"])
+def bid():
+    _id = request.args.get("id")
+    _bid = request.form.get('bid')
+

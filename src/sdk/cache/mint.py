@@ -1,6 +1,7 @@
 from src.sdk.cache import mint_db
 from src.sdk.cache.manager import retrieve
 from src.sdk.web3.crypto import cid_to_uint256
+from datetime import datetime
 
 
 def freeze(tx: str, to: str, cid_list: list) -> list:
@@ -16,6 +17,7 @@ def freeze(tx: str, to: str, cid_list: list) -> list:
             "holder": to,  # owner
             "cid": x,  # cid
             "id": str(cid_to_uint256(x)),  # uint256 id
+            "created_at": datetime.now()
         }
         for x in cid_list
     ]

@@ -65,10 +65,12 @@ def resize_thumbnails(input_image: str, output: str, size) -> Image:
     size_representation = (
         get_representations(size) if not isinstance(size, Sizes) else size
     )
+
     # Avoid pass if invalid representation or not `size` subtype
     if not size_representation and not isinstance(size, Sizes):
         raise ValueError(
-            "Invalid size representation. Please provide valid one. eg: small, medium, large"
+            "Invalid size representation. "
+            "Please provide valid one. eg: small, medium, large"
         )
 
     with open_image(input_image) as image:
