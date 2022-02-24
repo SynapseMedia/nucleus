@@ -9,6 +9,7 @@ from marshmallow.exceptions import ValidationError
 
 from src.sdk.exception import InvalidRequest
 from src.sdk.util import extract_extension
+from src.sdk.web3.crypto import cid_to_uint256
 from src.sdk.constants import (
     NODE_URI,
     API_VERSION,
@@ -64,7 +65,7 @@ def _sanitize_internals(entry):
 
     # Sanitize uri to get handled by proxy
     # Set paths for assets and nav
-    entry["_id"] = str(entry["_id"])
+    entry["uid"] = str(entry["_id"])
     entry["path"] = f"/{entry['_id']}"
     posters = entry["resource"]["image"]
     new_image_path = f"{NODE_URI}/{API_VERSION}/marketplace/proxy{entry['path']}"
@@ -73,6 +74,8 @@ def _sanitize_internals(entry):
     }
 
     # Clean not public data
+    entry['token'] = str(cid_to_uint256(entry["hash"]))
+    del entry["_id"]  # remove needed pre-processing field
     del entry["hash"]  # remove needed pre-processing field
     del entry["resource"]
     return entry
@@ -80,10 +83,10 @@ def _sanitize_internals(entry):
 
 @movie_.route("profile", methods=["GET"])
 def profile():
-    _id = request.args.get("id")
+    uid = request.args.get("id")
     # Get current latest minted movies
     minted_nft, _ = mint.frozen({}, {"cid": 1, "_id": False})
-    movie = manager.get(cursor_db, _filter={"_id": ObjectId(_id)})
+    movie = manager.get(cursor_db, _filter={"_id": ObjectId(uid)})
     return jsonify(_sanitize_internals(movie))
 
 
@@ -95,7 +98,7 @@ def recent():
     # Parse erc1155 metadata
     # Get "in-relation" hash from ingested metadata
     metadata_for_cid, _ = ingest.frozen()
-    metadata_for_cid.sort([("date_uploaded_unix", order_by)]).limit(limit)
+    metadata_for_cid = metadata_for_cid.sort([("date_uploaded_unix", order_by)]).limit(limit)
     movies_meta = map(_sanitize_internals, metadata_for_cid)
     return jsonify(list(movies_meta))
 
@@ -136,8 +139,30 @@ def create():
         pass
 
 
-@movie_.route("bid", methods=["POST"])
-def bid():
-    _id = request.args.get("id")
-    _bid = request.form.get('bid')
+@movie_.route("bid", methods=["GET", "POST"])
+def bids():
+    order_by = request.args.get("order", DESCENDING)
+    limit = request.args.get("limit", 5)
 
+    if request.method == 'POST':
+        uid = request.args.get("id")
+
+        if not uid:
+            raise InvalidRequest()
+
+        _data = request.get_json()
+        _from = _data.get('account')
+        _bid = _data.get('bid')
+
+        json = {
+            "uid": uid,
+            "account": _from,
+            "bid": _bid
+        }
+
+        bid.freeze(**json)
+        return jsonify(json)
+
+    bid_list, _ = bid.frozen({}, {"_id": False})
+    bid_list = bid_list.sort([("date_uploaded_unix", order_by)]).limit(limit)
+    return jsonify(list(bid_list))
