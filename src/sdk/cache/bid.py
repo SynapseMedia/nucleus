@@ -12,8 +12,8 @@ def freeze(account: str, bid: str, uid: str) -> dict:
     """
     zipped = {
         "bid": bid,
-        "account": account,
         "movie": uid,
+        "account": account,
         "created_at": datetime.now(),
     }
 
