@@ -18,7 +18,7 @@ input_paths = {
 def input_movie(raw=True):
     return {
         **{
-            "imdb_code": "tt00000",
+            "imdb_code": "wtt000000000",
             "title": "A Fork in the Road",
             "year": 2010,
             "rating": 6.0,
