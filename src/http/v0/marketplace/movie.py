@@ -164,5 +164,5 @@ def bids():
         return jsonify(json)
 
     bid_list, _ = bid.frozen({}, {"_id": False})
-    bid_list = bid_list.sort([("date_uploaded_unix", order_by)]).limit(limit)
+    bid_list = bid_list.sort([("created_at", order_by)]).limit(limit)
     return jsonify(list(bid_list))
