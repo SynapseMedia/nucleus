@@ -160,6 +160,6 @@ def bids():
         bid.freeze(**json)
         return jsonify(json)
 
-    bid_list, _ = bid.frozen({'imdb_code': uid}, {"_id": False})
+    bid_list, _ = bid.frozen({'movie': uid}, {"_id": False})
     bid_list = bid_list.sort([("created_at", order_by)]).limit(limit)
     return jsonify(list(bid_list))
