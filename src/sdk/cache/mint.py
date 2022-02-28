@@ -17,7 +17,7 @@ def freeze(tx: str, to: str, cid_list: list) -> list:
             "holder": to,  # owner
             "cid": x,  # cid
             "id": str(cid_to_uint256(x)),  # uint256 id
-            "created_at": datetime.now()
+            "created_at": datetime.now(),
         }
         for x in cid_list
     ]

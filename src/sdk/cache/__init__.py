@@ -33,7 +33,7 @@ empty_bid_db = bid_db.movies.count() == 0
 from . import ingest  # noqa
 from . import mint  # noqa
 from . import manager  # noqa
-from . import bid # noqa
+from . import bid  # noqa
 
 __all__ = [
     "get_dbs",

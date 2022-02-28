@@ -14,7 +14,7 @@ def freeze(account: str, bid: str, uid: str) -> dict:
         "bid": bid,
         "account": account,
         "movie": uid,
-        "created_at": datetime.now()
+        "created_at": datetime.now(),
     }
 
     bid_db.movies.insert(zipped)

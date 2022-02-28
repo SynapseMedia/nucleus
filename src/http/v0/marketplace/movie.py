@@ -74,7 +74,7 @@ def _sanitize_internals(entry):
     }
 
     # Clean not public data
-    entry['token'] = str(cid_to_uint256(entry["hash"]))
+    entry["token"] = str(cid_to_uint256(entry["hash"]))
     del entry["_id"]  # remove needed pre-processing field
     del entry["hash"]  # remove needed pre-processing field
     del entry["resource"]
@@ -98,7 +98,9 @@ def recent():
     # Parse erc1155 metadata
     # Get "in-relation" hash from ingested metadata
     metadata_for_cid, _ = ingest.frozen()
-    metadata_for_cid = metadata_for_cid.sort([("date_uploaded_unix", order_by)]).limit(limit)
+    metadata_for_cid = metadata_for_cid.sort([("date_uploaded_unix", order_by)]).limit(
+        limit
+    )
     movies_meta = map(_sanitize_internals, metadata_for_cid)
     return jsonify(list(movies_meta))
 
@@ -144,21 +146,17 @@ def bids():
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 5)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         uid = request.args.get("id")
 
         if not uid:
             raise InvalidRequest()
 
         _data = request.get_json()
-        _from = _data.get('account')
-        _bid = _data.get('bid')
+        _from = _data.get("account")
+        _bid = _data.get("bid")
 
-        json = {
-            "uid": uid,
-            "account": _from,
-            "bid": _bid
-        }
+        json = {"uid": uid, "account": _from, "bid": _bid}
 
         bid.freeze(**json)
         return jsonify(json)
