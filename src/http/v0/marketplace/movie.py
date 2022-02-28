@@ -2,7 +2,7 @@ import os
 import time
 import uuid
 
-from flask import jsonify, request, Blueprint, flash
+from flask import jsonify, request, Blueprint
 from src.sdk.cache import ingest, mint, bid, manager, cursor_db, DESCENDING
 from werkzeug.utils import secure_filename
 from marshmallow.exceptions import ValidationError
@@ -137,7 +137,7 @@ def create():
         w3.boot(current_movie)
         storage.boot(current_movie)
         return jsonify(json)
-    except ValidationError as e:
+    except ValidationError:
         pass
 
 
