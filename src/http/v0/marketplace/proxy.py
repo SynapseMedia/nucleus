@@ -1,5 +1,4 @@
 from flask import Response, stream_with_context, Blueprint, request
-from bson.objectid import ObjectId
 from src.sdk.exception import InvalidRequest
 from src.sdk.cache import manager, cursor_db
 from src.sdk.constants import IPFS_NODE, IPFS_NODE_GATEWAY_PORT
@@ -15,7 +14,7 @@ def proxy(uid):
         raise InvalidRequest()
     file = request.args.get("arg")
     local_node_uri = f"{IPFS_NODE}:{IPFS_NODE_GATEWAY_PORT}"
-    proxy_movie = manager.get(cursor_db, _filter={"_id": ObjectId(uid)})
+    proxy_movie = manager.get(cursor_db, _filter={"imdb_code":uid})
 
     # Sanitize URI to request from local IPFS gateway
     file_node_path = f"{local_node_uri}/ipfs/{proxy_movie['hash']}/{file}"

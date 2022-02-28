@@ -20,7 +20,6 @@ from src.sdk.constants import (
 from src.sdk.scheme.validator import check
 from src.sdk.media.transcode import util
 from src.sdk.exec import transcode, static, storage, w3
-from bson.objectid import ObjectId
 
 movie_ = Blueprint("movie", __name__)
 
@@ -66,7 +65,7 @@ def _sanitize_internals(entry):
     # Sanitize uri to get handled by proxy
     # Set paths for assets and nav
     entry["uid"] = str(entry["_id"])
-    entry["path"] = f"/{entry['_id']}"
+    entry["path"] = f"/{entry['imdb_code']}"
     posters = entry["resource"]["image"]
     new_image_path = f"{NODE_URI}/{API_VERSION}/marketplace/proxy{entry['path']}"
     entry["posters"] = {
@@ -86,7 +85,7 @@ def profile():
     uid = request.args.get("id")
     # Get current latest minted movies
     minted_nft, _ = mint.frozen({}, {"cid": 1, "_id": False})
-    movie = manager.get(cursor_db, _filter={"_id": ObjectId(uid)})
+    movie = manager.get(cursor_db, _filter={"imdb_code": uid})
     return jsonify(_sanitize_internals(movie))
 
 
