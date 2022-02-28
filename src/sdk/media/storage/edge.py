@@ -112,10 +112,7 @@ def pin_ls(limit=1000):
     response = session.get(
         f"{PINATA_PSA}/pins?limit={limit}",
         verify=VALIDATE_SSL,
-        headers={
-            "pinata_api_key": PINATA_API_KEY,
-            "pinata_secret_api_key": PINATA_API_SECRET,
-        },
+        headers={"Authorization": f"Bearer {PINATA_API_JWT}"},
     )
 
     return response.json()

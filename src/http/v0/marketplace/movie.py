@@ -142,11 +142,11 @@ def create():
 
 @movie_.route("bid", methods=["GET", "POST"])
 def bids():
+    uid = request.args.get("id")
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 5)
 
     if request.method == "POST":
-        uid = request.args.get("id")
 
         if not uid:
             raise InvalidRequest()
@@ -160,6 +160,6 @@ def bids():
         bid.freeze(**json)
         return jsonify(json)
 
-    bid_list, _ = bid.frozen({}, {"_id": False})
+    bid_list, _ = bid.frozen({'imdb_code': uid}, {"_id": False})
     bid_list = bid_list.sort([("created_at", order_by)]).limit(limit)
     return jsonify(list(bid_list))

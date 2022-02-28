@@ -12,9 +12,10 @@ def proxy(uid):
     """Get an object id and return assets"""
     if not uid:
         raise InvalidRequest()
+
     file = request.args.get("arg")
     local_node_uri = f"{IPFS_NODE}:{IPFS_NODE_GATEWAY_PORT}"
-    proxy_movie = manager.get(cursor_db, _filter={"imdb_code":uid})
+    proxy_movie = manager.get(cursor_db, _filter={"imdb_code": uid})
 
     # Sanitize URI to request from local IPFS gateway
     file_node_path = f"{local_node_uri}/ipfs/{proxy_movie['hash']}/{file}"

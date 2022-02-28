@@ -11,7 +11,10 @@ def freeze(uid, data):
     """
 
     cursor_db.movies.insert_one(data)
-    raw_db.movies.update_one({"imdb_code": uid}, {"$set": {"updated": True}})
+    raw_db.movies.update_one(
+        {"imdb_code": uid},
+        {"$set": {"updated": True}}
+    )
 
     return data
 
