@@ -77,3 +77,25 @@ def mint_batch(to: str, cid_list: list, chain_name="kovan"):
 
     tx = _send_tx(_w3, transaction)
     return tx.hex(), to, cid_list
+
+
+def set_holder(to: str, cid: str, chain_name="kovan"):
+    """
+    Mint batch token to address based on cid list in defined chain
+    :param to: receptor
+    :param cid: IPFS cid
+    :param chain_name: chain where mint the token
+    :return: eth.Transaction
+    """
+    _w3, contract = nft_contract(chain_name)
+    owner = _w3.eth.account.privateKeyToAccount(WALLET_KEY)
+    nonce = _w3.eth.getTransactionCount(owner.address)
+
+    uint256_cid = cid_to_uint256(cid)  # Format base16 => hex => int
+    # Format base16 => hex => int
+    transaction = contract.functions.setHolder(
+        uint256_cid, to  # cid uint256, holder
+    ).buildTransaction({"nonce": nonce})
+
+    tx = _send_tx(_w3, transaction)
+    return tx.hex(), to

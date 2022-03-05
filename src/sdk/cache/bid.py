@@ -3,21 +3,21 @@ from src.sdk.cache.manager import retrieve
 from datetime import datetime
 
 
-def freeze(account: str, bid: str, uid: str) -> dict:
+def freeze(account: str, bid: str, movie: str) -> dict:
     """
     Insert into cache bid for movie
     :param account: Bidder
     :param bid: Bid amount
-    :param uid: Movie id
+    :param movie: Movie id
     """
     zipped = {
         "bid": bid,
-        "movie": uid,
+        "movie": movie,
         "account": account,
         "created_at": datetime.now(),
     }
 
-    bid_db.movies.insert(zipped)
+    bid_db.movies.insert({**zipped})
     return zipped
 
 
