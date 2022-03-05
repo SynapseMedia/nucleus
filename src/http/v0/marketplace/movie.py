@@ -19,7 +19,7 @@ from src.sdk.constants import (
 )
 from src.sdk.scheme.validator import check
 from src.sdk.media.transcode import util
-from src.sdk.exec import transcode, static, storage, w3
+from src.sdk.exec import transcode, static, storage, w3, nft
 
 movie_ = Blueprint("movie", __name__)
 
@@ -135,6 +135,8 @@ def create():
         static.boot(current_movie)
         w3.boot(current_movie)
         storage.boot(current_movie)
+        nft.boot(current_movie)
+
         return jsonify(json)
     except ValidationError:
         pass
@@ -155,10 +157,10 @@ def bids():
         _from = _data.get("account")
         _bid = _data.get("bid")
 
-        json = {"uid": uid, "account": _from, "bid": _bid}
+        json = {"movie": uid, "account": _from, "bid": _bid}
 
-        bid.freeze(**json)
-        return jsonify(json)
+        freeze_result = bid.freeze(**json)
+        return jsonify(freeze_result)
 
     bid_list, _ = bid.frozen({"movie": uid}, {"_id": False})
     bid_list = bid_list.sort([("created_at", order_by)]).limit(limit)
