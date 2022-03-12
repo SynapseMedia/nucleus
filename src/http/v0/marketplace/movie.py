@@ -165,3 +165,18 @@ def bids():
     bid_list, _ = bid.frozen({"movie": uid}, {"_id": False})
     bid_list = bid_list.sort([("created_at", order_by)]).limit(limit)
     return jsonify(list(bid_list))
+
+
+@movie_.route("bid/flush/", methods=["POST"])
+def bids_flush():
+    uid = request.args.get("id")
+
+    if not uid:
+        raise InvalidRequest()
+
+    _data = request.get_json()
+    _from = _data.get("account")
+
+    flush_result = bid.flush({"movie": uid, "account": _from})
+    return jsonify(flush_result)
+
