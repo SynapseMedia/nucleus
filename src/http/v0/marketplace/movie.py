@@ -179,4 +179,3 @@ def bids_flush():
 
     flush_result = bid.flush({"movie": uid, "account": _from})
     return jsonify(flush_result)
-
