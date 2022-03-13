@@ -36,6 +36,6 @@ def flush(_filter: dict = None, _opts: dict = None):
     Flush bids for specified _filter and _opts
     :param _filter: filter dict
     :param _opts: _opts dict
-    
+
     """
     pass
