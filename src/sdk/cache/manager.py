@@ -71,14 +71,22 @@ def safe_retrieve(db=None, _filter=None):
     return result, result_count
 
 
-def flush():
+def flush(db=None, _filter: dict = None):
+    """
+    Flush db for specified _filter
+    :param _filter: filter dict
+    """
+    return db.movies.delete_many(_filter)
+
+
+def flush_all():
     """
     Reset old entries and restore
     available entries to process in tmp_db
     :return:
     """
-    cursor_db.movies.delete_many({})
-    mint_db.movies.delete_many({})
+    flush(cursor_db, {})
+    flush(mint_db, {})
     raw_db.movies.update_many(
         # Filter processed
         {"updated": True},

@@ -1,5 +1,5 @@
 from src.sdk.cache import bid_db
-from src.sdk.cache.manager import retrieve
+from src.sdk.cache.manager import retrieve, flush as flusher
 from datetime import datetime
 
 
@@ -31,11 +31,10 @@ def frozen(_filter: dict = None, _opts: dict = None):
     return retrieve(bid_db, _filter, _opts)
 
 
-def flush(_filter: dict = None, _opts: dict = None):
+def flush(_filter: dict = None):
     """
-    Flush bids for specified _filter and _opts
+    Flush bids for specified _filter
     :param _filter: filter dict
-    :param _opts: _opts dict
-
     """
-    pass
+    flusher(bid_db, _filter)
+    return _filter

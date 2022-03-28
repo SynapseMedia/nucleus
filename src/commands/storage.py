@@ -24,7 +24,7 @@ def ingest(no_cache):
     """
     logger.log.warning("Starting ingestion to IPFS")
     if no_cache or cache.empty_tmp:  # Clean already ingested cursor
-        cache.manager.flush()
+        cache.manager.flush_all()
 
     # Total size of entries to fetch
     # Return available and not processed entries

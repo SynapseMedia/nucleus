@@ -3,7 +3,7 @@ import time
 import uuid
 
 from flask import jsonify, request, Blueprint
-from src.sdk.cache import ingest, mint, bid, manager, cursor_db, DESCENDING
+from src.sdk.cache import ingest, manager, cursor_db, DESCENDING
 from werkzeug.utils import secure_filename
 from marshmallow.exceptions import ValidationError
 
@@ -22,6 +22,7 @@ from src.sdk.media.transcode import util
 from src.sdk.exec import transcode, static, storage, w3, nft
 
 movie_ = Blueprint("movie", __name__)
+MAX_SEARCH_RESULT = 10
 
 
 def _process_files(files):
@@ -84,7 +85,6 @@ def _sanitize_internals(entry):
 def profile():
     uid = request.args.get("id")
     # Get current latest minted movies
-    minted_nft, _ = mint.frozen({}, {"cid": 1, "_id": False})
     movie = manager.get(cursor_db, _filter={"imdb_code": uid})
     return jsonify(_sanitize_internals(movie))
 
@@ -97,23 +97,24 @@ def recent():
     # Parse erc1155 metadata
     # Get "in-relation" hash from ingested metadata
     metadata_for_cid, _ = ingest.frozen()
-    metadata_for_cid = metadata_for_cid.sort([("date_uploaded_unix", order_by)]).limit(
-        limit
-    )
+    metadata_for_cid = metadata_for_cid.sort([
+        ("date_uploaded_unix", order_by)
+    ]).limit(limit)
+
     movies_meta = map(_sanitize_internals, metadata_for_cid)
     return jsonify(list(movies_meta))
 
 
 @movie_.route("create", methods=["POST"])
 def create():
-    _input = request.form
+    input_ = request.form
     # Pre-processing uploaded files
     image, video = _process_files(request.files)
     movie_duration, _ = util.get_duration(video)
 
     json = [
         {
-            **_input,
+            **input_,
             **{
                 "imdb_code": f"wt{uuid.uuid4().hex}",
                 "genres": ["Action"],
@@ -142,40 +143,21 @@ def create():
         pass
 
 
-@movie_.route("bid", methods=["GET", "POST"])
-def bids():
-    uid = request.args.get("id")
-    order_by = request.args.get("order", DESCENDING)
-    limit = request.args.get("limit", 5)
+@movie_.route("search", methods=["POST"])
+def search():
+    input_ = request.get_json()
+    term = input_.get("term")
 
-    if request.method == "POST":
+    if not term:
+        raise InvalidRequest("Empty search")
 
-        if not uid:
-            raise InvalidRequest()
+    movies, _ = manager.retrieve(
+        cursor_db,
+        _filter={"$text": {
+            "$search": term,
+            "$caseSensitive": False,
+        }}
+    )
 
-        _data = request.get_json()
-        _from = _data.get("account")
-        _bid = _data.get("bid")
-
-        json = {"movie": uid, "account": _from, "bid": _bid}
-
-        freeze_result = bid.freeze(**json)
-        return jsonify(freeze_result)
-
-    bid_list, _ = bid.frozen({"movie": uid}, {"_id": False})
-    bid_list = bid_list.sort([("created_at", order_by)]).limit(limit)
-    return jsonify(list(bid_list))
-
-
-@movie_.route("bid/flush/", methods=["POST"])
-def bids_flush():
-    uid = request.args.get("id")
-
-    if not uid:
-        raise InvalidRequest()
-
-    _data = request.get_json()
-    _from = _data.get("account")
-
-    flush_result = bid.flush({"movie": uid, "account": _from})
-    return jsonify(flush_result)
+    movies_meta = map(_sanitize_internals, movies)
+    return jsonify(list(movies_meta))
