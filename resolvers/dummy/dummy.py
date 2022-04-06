@@ -14,7 +14,7 @@ class Dummy:
         :rtype Generator
         """
         yield [{
-            "imdb_code": "tt00000",
+            "imdb_code": "wtt00000000",
             "title": "A Fork in the Road",
             "year": 2010,
             "rating": 6,
