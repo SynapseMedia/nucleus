@@ -12,7 +12,7 @@ Check out the Becoming Big section for some inspiration how to deal with that.
 
 from flask import Flask
 from flask_cors import CORS
-from src.sdk.constants import API_VERSION, UPLOAD_FOLDER, NODE_URI
+from src.sdk.constants import API_VERSION, UPLOAD_FOLDER
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 app = Flask(__name__)

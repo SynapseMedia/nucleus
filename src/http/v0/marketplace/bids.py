@@ -1,5 +1,4 @@
 from flask import jsonify, request, Blueprint
-from flask_cors import cross_origin
 from src.sdk.cache import bid, DESCENDING
 from src.sdk.exception import InvalidRequest
 
