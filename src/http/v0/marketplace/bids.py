@@ -1,9 +1,10 @@
-
 from flask import jsonify, request, Blueprint
+from flask_cors import cross_origin
 from src.sdk.cache import bid, DESCENDING
 from src.sdk.exception import InvalidRequest
 
 bids_ = Blueprint("bids", __name__)
+
 
 @bids_.route("recent", methods=["GET"])
 def recent():
@@ -18,24 +19,24 @@ def recent():
 
 @bids_.route("create", methods=["POST"])
 def create():
-    uid = request.args.get("id")
-
-    if not uid:
-        raise InvalidRequest()
 
     data = request.get_json()
     from_ = data.get("account")
     bid_ = data.get("bid")
+    uid = data.get("id")
+
+    if not uid:
+        raise InvalidRequest()
 
     json = {"movie": uid, "account": from_, "bid": bid_}
     freeze_result = bid.freeze(**json)
     return jsonify(freeze_result)
 
-@bids_.route("flush", methods=["POST"])
+
+@bids_.route("flush", methods=["DELETE"])
 def flush():
 
-    data = request.get_json()
-    uid = data.get("id")
+    uid = request.args.get("id")
 
     if not uid:
         raise InvalidRequest()

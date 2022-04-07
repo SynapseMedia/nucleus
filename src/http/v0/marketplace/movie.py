@@ -97,9 +97,9 @@ def recent():
     # Parse erc1155 metadata
     # Get "in-relation" hash from ingested metadata
     metadata_for_cid, _ = ingest.frozen()
-    metadata_for_cid = metadata_for_cid.sort([
-        ("date_uploaded_unix", order_by)
-    ]).limit(limit)
+    metadata_for_cid = metadata_for_cid.sort([("date_uploaded_unix", order_by)]).limit(
+        limit
+    )
 
     movies_meta = map(_sanitize_internals, metadata_for_cid)
     return jsonify(list(movies_meta))
@@ -143,20 +143,22 @@ def create():
         pass
 
 
-@movie_.route("search", methods=["POST"])
+@movie_.route("search", methods=["GET"])
 def search():
-    input_ = request.get_json()
-    term = input_.get("term")
+
+    term = request.args.get("term")
 
     if not term:
         raise InvalidRequest("Empty search")
 
     movies, _ = manager.retrieve(
         cursor_db,
-        _filter={"$text": {
-            "$search": term,
-            "$caseSensitive": False,
-        }}
+        _filter={
+            "$text": {
+                "$search": term,
+                "$caseSensitive": False,
+            }
+        },
     )
 
     movies_meta = map(_sanitize_internals, movies)

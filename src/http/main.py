@@ -12,16 +12,17 @@ Check out the Becoming Big section for some inspiration how to deal with that.
 
 from flask import Flask
 from flask_cors import CORS
-from src.sdk.constants import API_VERSION, UPLOAD_FOLDER
+from src.sdk.constants import API_VERSION, UPLOAD_FOLDER, NODE_URI
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 app = Flask(__name__)
-cors = CORS(app)
+
 default_root_uri = f"/{API_VERSION}"
+
+cors = CORS(app)
 # https://flask.palletsprojects.com/en/2.0.x/config/#builtin-configuration-values
 app.config["APPLICATION_ROOT"] = default_root_uri
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
 from src.http.v0 import *  # noqa
 
 
@@ -31,5 +32,6 @@ def health_check(env, resp):
 
 
 app.wsgi_app = DispatcherMiddleware(health_check, {default_root_uri: app.wsgi_app})
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
