@@ -8,7 +8,7 @@ FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
 BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
 PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python
-PIP = ${VENV}/bin/pip
+PIP = ${VENV}/bin/pip3
 
 DEFAULT_PYTHON := /usr/bin/python3
 VIRTUALENV := /usr/bin/virtualenv
@@ -21,15 +21,16 @@ setup-env:
 	python -m pip install --upgrade pip
 	npm i
 venv:
+	${PIP} cache purge
 	test -d ${VENV} || ${VIRTUALENV} -p ${DEFAULT_PYTHON} -q ${VENV}
-
 
 requirements:
 	@if [ -d wheelhouse ]; then \
 		${PIP} install -q --no-index --find-links=wheelhouse ${REQUIREMENTS}; \
 	else \
-		${PIP} install -q ${REQUIREMENTS}; \
+		${PIP} install --no-cache-dir --force-reinstall ${REQUIREMENTS}; \
 	fi
+
 bootstrap: venv requirements
 
 fix-coding-style: bootstrap
