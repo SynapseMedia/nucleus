@@ -13,9 +13,9 @@ def w3(chain_name):
     chain_settings = chain.get_network_settings_by_name(chain_name)
     if not chain_settings:  # Fail if not supported provided
         raise ConnectionError("Invalid provider entered")
-    _w3 = Web3(chain_settings["connect"]())
-    _w3.eth.default_account = _w3.eth.account.privateKeyToAccount(WALLET_KEY).address
-    return _w3
+    w3 = Web3(chain_settings["connect"]())
+    w3.eth.default_account = w3.eth.account.privateKeyToAccount(WALLET_KEY).address
+    return w3
 
 
 def nft_contract(chain_name):
@@ -24,12 +24,12 @@ def nft_contract(chain_name):
     :param chain_name: the provider name
     :return: web3.Contract
     """
-    _w3 = w3(chain_name)
-    _chain = chain.get_network_settings_by_name(chain_name)
-    chain_contract_nft = _chain.get("nft")
+    w3 = w3(chain_name)
+    chain = chain.get_network_settings_by_name(chain_name)
+    chain_contract_nft = chain.get("nft")
     abi = util.read_json("/data/watchit/abi/WNFT.json")
 
-    return _w3, _w3.eth.contract(
+    return w3, w3.eth.contract(
         # Contract address
         address=Web3.toChecksumAddress(chain_contract_nft),
         # Abi from contract deployed

@@ -19,10 +19,20 @@ def w3(ctx, network):
 def status(ctx):
     """Check for network status"""
     context_network = ctx.obj["network"]
-    _w3 = web3.factory.w3(context_network)
+    w3 = web3.factory.w3(context_network)
     logger.log.success(
         f"{context_network} connected"
-    ) if _w3.isConnected() else logger.log.error(f"{context_network} offline")
+    ) if w3.isConnected() else logger.log.error(f"{context_network} offline")
+
+
+@w3.command()
+@click.pass_context
+@click.option("--address")
+def tx(ctx, address):
+    """Tx status"""
+    context_network = ctx.obj["network"]
+    w3 = web3.factory.w3(context_network)
+    web3.tx.status(w3, address)
 
 
 @w3.group("nft")
@@ -56,9 +66,9 @@ def cached(ctx, skip, limit):
     # Get hash list from ingested cursor db
     cid_list = list(map(lambda x: x["hash"], result))
 
-    _w3 = web3.factory.w3(context_network)
-    _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
-    tx, to, cid_list = web3.nft.mint_batch(_to, cid_list, context_network)
+    w3 = web3.factory.w3(context_network)
+    to = w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
+    tx, to, cid_list = web3.nft.mint_batch(to, cid_list, context_network)
     cache.mint.freeze(tx, to, cid_list)
 
 
@@ -71,9 +81,9 @@ def single(ctx, cid):
         raise InvalidCID()
 
     context_network = ctx.obj["network"]
-    _w3 = web3.factory.w3(context_network)
-    _to = _w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
-    tx, to, cid = web3.nft.mint(_to, cid, context_network)
+    w3 = web3.factory.w3(context_network)
+    to = w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
+    tx, to, cid = web3.nft.mint(to, cid, context_network)
     cache.mint.freeze(tx, to, [cid])
 
 
