@@ -21,7 +21,6 @@ setup-env:
 	python -m pip install --upgrade pip
 	npm i
 venv:
-	${PIP} cache purge
 	test -d ${VENV} || ${VIRTUALENV} -p ${DEFAULT_PYTHON} -q ${VENV}
 
 requirements:
@@ -31,11 +30,11 @@ requirements:
 		${PIP} install --no-cache-dir --force-reinstall ${REQUIREMENTS}; \
 	fi
 
-bootstrap: venv requirements
+bootstrap: setup-env venv requirements
 
-fix-coding-style: bootstrap
+fix-coding-style: venv
 	${BLACKFIX} ${PYTHON_MODULES}
-check-coding-style: bootstrap
+check-coding-style: venv
 	${FLAKE8} ${PYTHON_MODULES}
 test:
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
