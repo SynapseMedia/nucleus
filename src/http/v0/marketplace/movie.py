@@ -135,7 +135,9 @@ def create():
         transcode.boot(current_movie)
         static.boot(current_movie)
         w3.boot(current_movie)
+        # Add media to storage + freeze in cache
         storage.boot(current_movie)
+        # Call contract to set creator as holder
         nft.boot(current_movie)
 
         return jsonify(json)

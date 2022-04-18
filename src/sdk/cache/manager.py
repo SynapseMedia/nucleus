@@ -22,15 +22,16 @@ def get(db=None, _filter=None, opts=None):
     )
 
 
-def aggregated(pipeline, db=None):
+def aggregated(db=None, pipeline=None):
     """
     Amplifier function to handle aggregation strategy
-    :param pipeline: Pipeline
     :param db: The db to aggregate
+    :param pipeline: Pipeline
     https://docs.mongodb.com/v4.0/reference/method/db.collection.aggregate/
     :return: CommandCursor, count
     """
-    db = db or mint_db
+    db = db or cursor_db
+    pipeline = pipeline or dict()
     return db.movies.aggregate(pipeline)
 
 

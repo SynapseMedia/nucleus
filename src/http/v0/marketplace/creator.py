@@ -11,12 +11,12 @@ def creators():
 
     # Get current latest minted movies
     aggregation_group = [
-        {"$group": {"_id": "$holder", "sum": {"$sum": 1}}},
+        {"$group": {"_id": "$creator", "sum": {"$sum": 1}}},
         {"$limit": limit},
         {"$sort": {"_id": order_by}},
     ]
 
-    recent_minters = manager.aggregated(aggregation_group)
+    recent_minters = manager.aggregated(pipeline=aggregation_group)
     recent_minters = map(
         lambda x: {"address": x["_id"], "movies": x["sum"]}, recent_minters
     )
