@@ -5,14 +5,14 @@ const MONITOR_INTERVAL = argv.timer || process.env.MONITOR_INTERVAL
 const MONITOR_CID = argv.monitor || process.env.MONITOR_CID
 const last = require('it-last')
 const IpfsApi = require('ipfs-http-client');
-const {CID} = require('ipfs-http-client')
-const {base58btc} = require('multiformats/bases/base58')
+const { CID } = require('ipfs-http-client')
+const { base58btc } = require('multiformats/bases/base58')
 const OrbitDB = require('orbit-db');
 const logs = require('./logger')
 // List of default keys
 // ; = ensures the preceding statement was closed
 
-const ipfs = IpfsApi.create({host: IPFS_NODE, port: '5001', protocol: 'http'});
+const ipfs = IpfsApi.create({ host: IPFS_NODE, port: '5001', protocol: 'http' });
 const pin = async (cid) => {
     logs.info(`Fetching block ${cid}`)
     await ipfs.pin.add(cid)
@@ -20,7 +20,7 @@ const pin = async (cid) => {
 }
 
 const iterateOverReplica = async (db) => {
-    db.iterator({limit: -1}).collect().map(async (e) => {
+    db.iterator({ limit: -1 }).collect().map(async (e) => {
         await pin(e.payload.value)
     })
 }
@@ -59,11 +59,11 @@ async function runMapper() {
     }
 }
 
-;(async function start() {
+; (async function start() {
     logs.info('Running Pinning Service')
-    const [,orbitdb] = await runMapper() // Initial mapper start
+    const [, orbitdb] = await runMapper() // Initial mapper start
     logs.info('Setting interval')
-    setInterval(async () => {
+    setTimeout(() => async () => {
         // Force restart docker
         await orbitdb.stop();
         await start()

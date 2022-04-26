@@ -54,6 +54,7 @@ def mint_batch(to: str, cid_list: list, chain_name="kovan"):
     uint256_cid_list = [
         cid_to_uint256(x) for x in cid_list
     ]  # Format base16 => hex => int
+    
     transaction = contract.functions.mintBatch(
         to, uint256_cid_list  # owner, cid uint256
     ).buildTransaction({"nonce": nonce})

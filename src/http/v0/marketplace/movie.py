@@ -131,7 +131,7 @@ def create():
         # 2 - Process static image
         # 3 - Generate ERC1155 metadata
         # 4 - Ingest into IPFS
-        # 5 - Mint
+        # 5 - Set creator as holder
         transcode.boot(current_movie)
         static.boot(current_movie)
         w3.boot(current_movie)
