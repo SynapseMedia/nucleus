@@ -46,13 +46,13 @@ async function runMapper() {
         const cid = await last(ipfs.name.resolve(address))
         const cleanedCID = cid.split('/').pop()
         const newCID = CID.parse(cleanedCID)
-        const _address = newCID.toString(base58btc)
+        const orbitAddress = newCID.toString(base58btc)
 
-        logs.info(`Resolved orbit address: ${_address}`)
+        logs.info(`Resolved orbit address: ${orbitAddress}`)
         const orbitdb = await OrbitDB.createInstance(ipfs);
 
-        logs.info(`Opening database from ${_address}`)
-        const db = await orbitdb.log(`/orbitdb/${_address}/wt.movies.db`, {
+        logs.info(`Opening database from ${orbitAddress}`)
+        const db = await orbitdb.log(`/orbitdb/${orbitAddress}/wt.movies.db`, {
             sync: true,
             overwrite: true,
             localOnly: false
