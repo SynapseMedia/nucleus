@@ -29,6 +29,12 @@ async function runMapper() {
     // Get monitor CID from IPNS
     logs.info(`Resolving CID mapper ${MONITOR_CID}`)
     const resolvedCid = await last(ipfs.name.resolve(MONITOR_CID))
+
+    // Try again if fail resolving name
+    if (resolvedCid === undefined) {
+        return runMapper()
+    }
+
     const cid = resolvedCid.split('/').pop()
     const addressIPNSList = await last(ipfs.cat(cid))
     const addressListString = addressIPNSList.toString()
