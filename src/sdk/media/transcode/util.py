@@ -3,11 +3,12 @@ from ffmpeg_streaming import FFProbe
 
 
 # TODO add tests
-def get_duration(input_file: str) -> tuple:
-    """
-    Get video time duration
+def get_duration(input_file: str):
+    """Get video time duration
+
     :param input_file: input path
     :return: (duration in seconds, timedelta hour)
+    :rtype: Union[int, datetime.timedelta]
     """
 
     ffprobe = FFProbe(input_file)

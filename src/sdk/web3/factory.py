@@ -1,15 +1,16 @@
-from src.sdk import util
-from src.sdk.constants import WALLET_KEY
-
 from . import chain
+from .. import util
+from ..constants import WALLET_KEY
+
 from web3 import Web3
 
 
-def w3(chain_name):
+def w3(chain_name: str):
     """Build Web3 interface with provider settings
 
-    :param chain_name: Kovan, mainnet, rinkeby...
-    :return: Web3
+    :param chain_name: kovan, mainnet, rinkeby...
+    :return: web3 interface with provider settings
+    :rtype: web3.Web3
     """
     chain_settings = chain.get_network_settings_by_name(chain_name)
     if not chain_settings:  # Fail if not supported provided
@@ -19,11 +20,12 @@ def w3(chain_name):
     return _w3
 
 
-def nft_contract(chain_name):
+def nft_contract(chain_name: str):
     """Factory NFT contract based on provider settings
 
-    :param chain_name: Kovan, mainnet, rinkeby...
-    :return: web3.Contract
+    :param chain_name: kovan, mainnet, rinkeby...
+    :return: nft contract
+    :rtype: web3.Contract
     """
     _w3 = w3(chain_name)
     _chain = chain.get_network_settings_by_name(chain_name)

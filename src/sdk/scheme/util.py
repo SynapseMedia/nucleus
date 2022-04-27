@@ -1,6 +1,6 @@
-from src.sdk.media.storage.ipfs import dag_get
+from ..media.storage.ipfs import dag_get
 from .definition.movies import MultiMediaScheme
-from src.sdk.constants import (
+from ..constants import (
     DASH_NEW_FILENAME,
     HLS_NEW_FILENAME,
     HLS_FORMAT,
@@ -8,11 +8,12 @@ from src.sdk.constants import (
 )
 
 
-def fit_image_resource_from_dag(cid):
+def fit_image_resource_from_dag(cid: str):
     """Process dag output standard scheme for image resource
 
     :param cid: IPFS cid
     :return: Dictionary with standard scheme for image resource
+    :rtype: dict
     """
     image = dag_get(f"{cid}/image")["Links"]
     image_resources = {i["Name"].split(".")[0]: f"/image/{i['Name']}" for i in image}
@@ -22,11 +23,12 @@ def fit_image_resource_from_dag(cid):
     }
 
 
-def fit_video_resource_from_dag(cid):
+def fit_video_resource_from_dag(cid: str):
     """Process dag output standard scheme for video resource
 
     :param cid: IPFS cid
     :return: Dictionary with standard scheme for video resource
+    :rtype: dict
     """
     protocol = {
         DASH_FORMAT: DASH_NEW_FILENAME,
@@ -46,12 +48,12 @@ def fit_video_resource_from_dag(cid):
     }
 
 
-# TODO write tests
-def fit_resources_from_dag(cid):
-    """
-    Process dag output to standard scheme definition to store in storage freeze
-    :param cid: IPFS cid from where to get directories information
+def fit_resources_from_dag(cid: str):
+    """Process dag output to standard resource scheme definition
+    
+    :param cid: IPFS cid
     :return: Dictionary with standard schema resources
+    :rtype: MultiMediaScheme
     """
     video = fit_video_resource_from_dag(cid)
     image = fit_image_resource_from_dag(cid)

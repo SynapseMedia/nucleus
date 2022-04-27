@@ -19,6 +19,6 @@ def expose(regen, mixed):
     asyncio.run(
         subprocess.call_orbit(
             resolvers=resolvers_names,  # Add resolvers if not mixed allowed
-            regen=regen,  # Regen orbit directory
+            recreate=regen,  # Regen orbit directory
         )
     )

@@ -7,19 +7,13 @@ class DataObjectScheme(Schema):
         for key in keys:
             yield key, getattr(schema_object, key)
 
-    # @post_dump(pass_many=False)
-    # def clean(self, data, **kwargs):
-    #     if "route" in data:
-    #         data["cid"] = data["route"]
-    #         del data["route"]
-    #     return data
-
     @post_load
     def to_object(self, data, **kwargs):
-        """
-        Build generic Schema type from dict
+        """Build generic Schema type from dict
+
         :param data: dict with schema data
-        :return: SchemaMeta(**data)
+        :return: Schema from data
+        :rtype: marshmallow.Schema
         """
 
         attrs = data.copy()

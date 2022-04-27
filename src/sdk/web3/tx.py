@@ -1,12 +1,13 @@
-from src.sdk.constants import WALLET_PUBLIC_KEY
+from web3 import Web3, types
+from ..constants import WALLET_PUBLIC_KEY
 from .. import logger
 
 
-def status(w3, tx):
+def status(w3: Web3, tx: types.TxData):
     """Show generic transaction stats
 
-    :param w3: Web3
-    :param tx: Tx string hash
+    :param w3: web3 interface
+    :param tx: tx string hash
     """
 
     tx_details = w3.eth.get_transaction(tx)

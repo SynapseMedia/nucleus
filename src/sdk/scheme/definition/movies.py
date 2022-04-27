@@ -24,11 +24,12 @@ from ...constants import (
 class MediaScheme(DataObjectScheme):
     """
     Generic abstract resource class definition
-    :type route: Define how to reach the resource eg: cid | uri
+    :type route: Define how to reach the resource eg: cid | uri | path
+    :type index: If subpath is needed index could be set as specific file path
     """
 
     route = fields.Str(required=True)  # Could be cid | uri
-    index = fields.Dict(required=False)
+    index = fields.Dict(required=False)  # need refer to specific file path?
 
     @validates("route")
     def validate_route(self, value):
@@ -40,15 +41,15 @@ class MediaScheme(DataObjectScheme):
 
 
 class MultiMediaScheme(DataObjectScheme):
-    """
-    Nested media scheme
-    """
+    """Nested media resources"""
 
     image = fields.Nested(MediaScheme)
     video = fields.Nested(MediaScheme)
 
 
 class MovieScheme(DataObjectScheme):
+    """Movie schema standard definition"""
+
     title = fields.Str(validate=validate.Length(min=1))
     # if MIXED_RESOURCES=False then its needed for split dbs and keep groups for diff resources
     # Please use this name based on your resolver name defined in __str__ class method
