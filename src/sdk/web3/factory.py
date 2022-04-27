@@ -29,8 +29,8 @@ def nft_contract(chain_name: str):
     :rtype: web3.Contract
     """
     _w3 = w3(chain_name)
-    chain = chain.get_network_settings_by_name(chain_name)
-    chain_contract_nft = chain.get("nft")
+    _chain = chain.get_network_settings_by_name(chain_name)
+    chain_contract_nft = _chain.get("nft")
     abi = util.read_json("/data/watchit/abi/WNFT.json")
 
     return _w3, _w3.eth.contract(
