@@ -47,10 +47,10 @@ from ..scheme.definition.movies import MovieScheme
 
 
 def generate_erc1155(mv: MovieScheme):
-    """
-    Generate erc1155 metadata from scheme
+    """Generate erc1155 metadata from scheme
     :param mv: MovieScheme
     :return: Resulting metadata
+    :rtype: dict
     """
     # Overwrite resources with shorten relative path to CID
     movie_serialized = MovieScheme().dump(mv)

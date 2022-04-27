@@ -18,11 +18,11 @@ _agents = [
 
 
 def download(route, directory):
-    """
-    Fetch remote media
+    """Fetch remote media
     :param route: URI
     :param directory: Where store it?
-    :return:
+    :return: path to file directory recently downloaded
+    :rtype: pathlib.Path
     """
 
     # Create if not exist dir
@@ -51,12 +51,13 @@ def download(route, directory):
         return Path(directory)
 
 
-def file(_route, _dir) -> Path:
-    """
-    Take from the boring centralized network
-    :param _route: File reference
+def file(route, _dir):
+    """Fetch files from the given route
+
+    :param route: File route reference
     :param _dir: Where store the file?
     :return: Directory of stored file
+    :rtype: pathlib.Path
     """
 
     # Resolve root directory for PROD
@@ -68,10 +69,10 @@ def file(_route, _dir) -> Path:
         return Path(directory)
 
     # Check if route is file to copy it to prod dir
-    if Path(_route).is_file():
-        logger.log.notice(f"Copying existing file: {_route}")
+    if Path(route).is_file():
+        logger.log.notice(f"Copying existing file: {route}")
         util.make_destination_dir(directory)
-        shutil.copy(_route, directory)
+        shutil.copy(route, directory)
         return Path(directory)
 
-    return download(_route, directory)
+    return download(route, directory)
