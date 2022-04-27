@@ -70,7 +70,7 @@ def extract_extension(file: str):
 
 
 def build_dir(movie: MovieScheme):
-    """Build current local dir for movie
+    """Build current local dir path for movie
 
     :param: movie MovieSchema
     :return: resolved directory for movie

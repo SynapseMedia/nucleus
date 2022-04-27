@@ -120,8 +120,8 @@ def to_dash(input_file, output_dir) -> str:
 
 
 def to_hls(input_file, output_dir) -> str:
-    """
-    Transcode movie file to hls
+    """Transcode movie file to hls
+
     :param input_file: Current file path
     :param output_dir: New file path
     :return: new file format dir
