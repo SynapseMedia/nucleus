@@ -6,9 +6,10 @@ from web3 import Web3
 
 
 def w3(chain_name):
-    """
-    Build Web3 interface with provider settings
+    """Build Web3 interface with provider settings
+
     :param chain_name: Kovan, mainnet, rinkeby...
+    :return: Web3
     """
     chain_settings = chain.get_network_settings_by_name(chain_name)
     if not chain_settings:  # Fail if not supported provided
@@ -19,9 +20,9 @@ def w3(chain_name):
 
 
 def nft_contract(chain_name):
-    """
-    Create contract NFT configuration for provider
-    :param chain_name: the provider name
+    """Factory NFT contract based on provider settings
+
+    :param chain_name: Kovan, mainnet, rinkeby...
     :return: web3.Contract
     """
     _w3 = w3(chain_name)

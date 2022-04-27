@@ -20,7 +20,7 @@ def ingest(no_cache):
     """
     Ingest media ready for production into IPFS. \n
     Note: Please ensure that binaries is pre-processed before run this command.
-    eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest
+    eg. Resolve meta -> Static/Transcode -> Generate NFT metadata -> ingest
     """
     logger.log.warning("Starting ingestion to IPFS")
     if no_cache or cache.empty_tmp:  # Clean already ingested cursor
@@ -35,7 +35,7 @@ def ingest(no_cache):
     logger.log.notice(f"Ingesting {result_count} results")
     sys.stdout.write("\n")
 
-    # Ingest from each row in tmp db the resources
+    # Ingest/store "out the box" movie assets/metadata
     for current_movie in check(result):
         store.boot(current_movie)
 

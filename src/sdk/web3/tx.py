@@ -3,10 +3,10 @@ from .. import logger
 
 
 def status(w3, tx):
-    """
-    Show generic transaction stats
-    :param tx: Transaction hex to log
-    :param chain_name: Chain name string
+    """Show generic transaction stats
+
+    :param w3: Web3
+    :param tx: Tx string hash
     """
 
     tx_details = w3.eth.get_transaction(tx)

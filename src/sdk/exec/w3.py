@@ -13,5 +13,6 @@ def boot(current_movie: MovieScheme):
     # Get directory output for current movie meta json
     current_dir = util.build_dir(current_movie)
     directory, _ = util.resolve_root_for(current_dir)
+    # Write erc1155 to output dir
     util.write_json(f"{directory}/index.json", nft_movie_meta)
     logger.log.success(f"Written metadata for {current_movie.imdb_code}\n")

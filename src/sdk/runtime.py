@@ -1,4 +1,4 @@
-from src.sdk import logger, scheme
+from . import logger, scheme
 
 import typing
 

@@ -48,8 +48,7 @@ from ..scheme.definition.movies import MovieScheme
 
 def generate_erc1155(mv: MovieScheme):
     """
-    Go and conquer the world little child!!:
-    Add directory to ipfs
+    Generate erc1155 metadata from scheme
     :param mv: MovieScheme
     :return: Resulting metadata
     """

@@ -10,8 +10,8 @@ from src.sdk.constants import (
 
 
 def _kovan() -> Web3.HTTPProvider:
-    """
-    Return kovan pre-build Http Provider
+    """Return kovan pre-build Http Provider
+
     :return: Web2.HTTPProvider
     """
     return Web3.HTTPProvider(
@@ -21,8 +21,8 @@ def _kovan() -> Web3.HTTPProvider:
 
 
 def _rinkeby() -> Web3.HTTPProvider:
-    """
-    Return kovan pre-build Http Provider
+    """Return kovan pre-build Http Provider
+
     :return: Web2.HTTPProvider
     """
     return Web3.HTTPProvider(
@@ -32,8 +32,10 @@ def _rinkeby() -> Web3.HTTPProvider:
 
 
 def get_network_settings_by_name(provider_name: str) -> Web3.HTTPProvider:
-    """
-    Return network settings by provider name
+    """Return network settings by provider name
+
+    :param: provider_name: Name of the provider to retrieve settings
+    eg. Rinkeby, kovan, mainnet..
     """
     providers = {
         "kovan": {"connect": _kovan, "nft": KOVAN_CONTRACT_NFT},

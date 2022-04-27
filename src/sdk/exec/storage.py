@@ -13,5 +13,6 @@ def boot(current_movie: MovieScheme):
     # 3 - Store in cursor db current processed movie
     current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
     current_movie.resource = scheme.util.fit_resources_from_dag(current_movie.hash)
+    # Add ingested movie to persistent storage
     cache.ingest.freeze(_id, MovieScheme().dump(current_movie))
     logger.log.success(f"Done {current_movie.imdb_code}\n")

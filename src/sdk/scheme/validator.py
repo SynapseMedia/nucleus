@@ -6,8 +6,8 @@ from .. import logger
 
 
 def check(data: list, **kwargs) -> Iterator[MovieScheme]:
-    """
-    Bypass check data in scheme
+    """Bypass check data in scheme
+
     :param data: List of schemas object
     :raise ValidationError
     :return Validated schema

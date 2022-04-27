@@ -38,8 +38,8 @@ def aggregated(db=None, pipeline=None):
 def retrieve(db=None, _filter=None, opts=None):
     """
     Return all resolved entries
-    from cache tmp db
-    :param db: tmp_db
+    from cache raw_db
+    :param db: raw_db !default
     :param _filter:
     :param opts:
     :return: Cursor, count
@@ -60,7 +60,7 @@ def retrieve(db=None, _filter=None, opts=None):
 def safe_retrieve(db=None, _filter=None):
     """
     Return all resolved entries with empty check
-    :param db: tmp_db
+    :param db: raw_db !default
     :param _filter:
     :return: Cursor, count
     :raises: EmptyCache

@@ -9,7 +9,7 @@ def creators():
     order_by = request.args.get("order", DESCENDING)
     limit = request.args.get("limit", 6)
 
-    # Get current latest minted movies
+    # Get current latest ingested movies
     aggregation_group = [
         {"$group": {"_id": "$creator", "sum": {"$sum": 1}}},
         {"$limit": limit},
@@ -20,4 +20,5 @@ def creators():
     recent_minters = map(
         lambda x: {"address": x["_id"], "movies": x["sum"]}, recent_minters
     )
+
     return jsonify(list(recent_minters))
