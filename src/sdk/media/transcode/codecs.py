@@ -84,7 +84,7 @@ def get_new_video_quality(video: str) -> str:
 
 
 def get_representations(quality):
-    """ Return representation list based on`quality`.
+    """Return representation list based on`quality`.
     Blocked upscale and locked downscale allowed for each defined quality
     :param quality:
     :return list of representations based on requested quality

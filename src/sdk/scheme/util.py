@@ -50,7 +50,7 @@ def fit_video_resource_from_dag(cid: str):
 
 def fit_resources_from_dag(cid: str):
     """Process dag output to standard resource scheme definition
-    
+
     :param cid: IPFS cid
     :return: Dictionary with standard schema resources
     :rtype: MultiMediaScheme

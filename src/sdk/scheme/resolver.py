@@ -10,6 +10,7 @@ class Resolver:
             yield data
 
     """
+
     def __str__():
         pass
 
