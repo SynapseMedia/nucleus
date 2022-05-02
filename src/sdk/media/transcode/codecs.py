@@ -51,7 +51,7 @@ def progress(_, duration, time_, time_left, *args, **kwargs):
 
 
 # TODO add tests
-def get_new_video_quality(video: str) -> str:
+def get_new_video_quality(video: str):
     """
     Return quality from video file
     :param video: Path to video file
@@ -86,6 +86,7 @@ def get_new_video_quality(video: str) -> str:
 def get_representations(quality):
     """Return representation list based on`quality`.
     Blocked upscale and locked downscale allowed for each defined quality
+
     :param quality:
     :return list of representations based on requested quality
     :rtype: list
@@ -100,12 +101,13 @@ def get_representations(quality):
     }.get(quality.lower())
 
 
-def to_dash(input_file, output_dir) -> str:
-    """
-    Transcode movie file to dash
+def to_dash(input_file, output_dir):
+    """Transcode movie file to DASH and store file in output directory
+
     :param input_file: Current file path
     :param output_dir: New file path
     :return: new file format dir
+    :rtype: str
     """
     video = input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)
     quality = get_new_video_quality(input_file)
@@ -119,12 +121,13 @@ def to_dash(input_file, output_dir) -> str:
     return output_dir
 
 
-def to_hls(input_file, output_dir) -> str:
-    """Transcode movie file to hls
+def to_hls(input_file, output_dir):
+    """Transcode movie file to HLS and store file in output directory
 
     :param input_file: Current file path
     :param output_dir: New file path
     :return: new file format dir
+    :rtype: str
     """
     video = input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)
     quality = get_new_video_quality(input_file)

@@ -4,11 +4,11 @@ from ...constants import HLS_FORMAT, DASH_FORMAT
 
 
 def videos(video_path: str, protocol: str, output_dir: str):
-    """
-    Transcode video listed in metadata
-    :param video_path: Video file path
-    :param protocol:
-    :param output_dir: dir to store transcoding video
+    """Transcode video listed in metadata and store transcoded file in output directory
+
+    :param video_path: Video input file path
+    :param protocol: HLS_FORMAT | DASH_FORMAT
+    :param output_dir: dir where to store the transcoded video
     :return:
     """
 
