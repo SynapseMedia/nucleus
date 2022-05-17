@@ -1,6 +1,7 @@
 from ... import logger, util
-from .codecs import to_hls, to_dash
+from .codecs import get_codec
 from ...constants import HLS_FORMAT, DASH_FORMAT
+from ..exceptions import InvalidCodecExecution
 
 
 def videos(video_path: str, protocol: str, output_dir: str):
@@ -12,12 +13,13 @@ def videos(video_path: str, protocol: str, output_dir: str):
     :return:
     """
 
-    protocols = {HLS_FORMAT: to_hls, DASH_FORMAT: to_dash}
+    codec = get_codec(protocol)
 
-    if protocol not in protocols:
-        logger.log.error("Invalid protocol provided. Please try using `hls` or `dash`")
-        return
+    if not codec:
+        raise InvalidCodecExecution("Protocol %s in not supported" % protocol)
 
+    # Build output path
     util.make_destination_dir(output_dir)
-    protocols[protocol](video_path, output_dir)
+    # Execute codec function to transcode video from path
+    protocol(video_path, output_dir)
     logger.log.success(f"New movie stored in: {output_dir} \n")
