@@ -65,7 +65,6 @@ class IPFSFailedExecution(Exception):
         super().__init__(_message)
 
 
-
 class InvalidCodec(Exception):
     """Raised when an invalid codec is requested."""
 
@@ -75,6 +74,7 @@ class InvalidCodec(Exception):
                 """
 
         super().__init__(_message)
+
 
 class InvalidProvider(Exception):
     """Raised when an invalid provider is requested."""
@@ -86,6 +86,7 @@ class InvalidProvider(Exception):
 
         super().__init__(_message)
 
+
 class InvalidPrivateKey(Exception):
     """Raised when an invalid private is provided."""
 
@@ -95,7 +96,8 @@ class InvalidPrivateKey(Exception):
                 """
 
         super().__init__(_message)
-        
+
+
 class InvalidRequest(Exception):
     code = 400
     description = "Invalid request."

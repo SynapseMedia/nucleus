@@ -46,8 +46,16 @@ def get_network_settings_by_name(provider_name: str):
     """
 
     providers = {
-        KOVAN: {"connect": _kovan, "nft": KOVAN_CONTRACT_NFT, 'private_key': WALLET_KEY},
-        RINKEBY: {"connect": _rinkeby, "nft": RINKEBY_CONTRACT_NFT, 'private_key': WALLET_KEY},
+        KOVAN: {
+            "connect": _kovan,
+            "nft": KOVAN_CONTRACT_NFT,
+            "private_key": WALLET_KEY,
+        },
+        RINKEBY: {
+            "connect": _rinkeby,
+            "nft": RINKEBY_CONTRACT_NFT,
+            "private_key": WALLET_KEY,
+        },
     }
 
     # Provider not found

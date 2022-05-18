@@ -18,7 +18,7 @@ def test_w3_valid_provider():
     wrapper = w3(valid_chain)
     assert isinstance(wrapper, Web3Wrapper)
     assert isinstance(wrapper.w3, web3.Web3)
-    assert wrapper.chain == RINKEBY
+    assert wrapper.chain== RINKEBY
     assert wrapper.settings == settings
 
 

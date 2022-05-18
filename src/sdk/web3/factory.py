@@ -28,7 +28,7 @@ def account(_w3: Web3, private_key: WALLET_KEY):
     """
     if not private_key:
         raise InvalidPrivateKey()
-    
+
     return _w3.eth.account.privateKeyToAccount(private_key)
 
 

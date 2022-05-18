@@ -52,7 +52,7 @@ def pin_cid(cid_list: iter, remote: bool) -> list:
 
 
 def to_ipfs(mv: MovieScheme):
-    """Ingest movie to IPFS 
+    """Ingest movie to IPFS
 
     :param mv: MovieScheme
     :return: Cleaned, pre-processed, structured ready MovieScheme

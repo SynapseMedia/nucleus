@@ -145,7 +145,7 @@ def get_codec(protocol: str):
     """Resolve codec handler from protocol name
 
     :param protocol: HLS | DASH
-    :return: handler function for codec    
+    :return: handler function for codec
     :rtype: function
     """
     protocols = {HLS_FORMAT: to_hls, DASH_FORMAT: to_dash}
