@@ -1,5 +1,5 @@
 class EmptyCache(Exception):
-    """Base class for exceptions in this module."""
+    """Raised trying to process empty cache."""
 
     def __init__(self):
         _message = """
@@ -12,7 +12,7 @@ class EmptyCache(Exception):
 
 
 class InvalidCID(Exception):
-    """Base class for exceptions in this module."""
+    """Raised when a invalid CID is encountered."""
 
     def __init__(self):
         _message = """
@@ -24,7 +24,7 @@ class InvalidCID(Exception):
 
 
 class InvalidVideoQuality(Exception):
-    """Base class for exceptions in this module."""
+    """Raised when a invalid/not existing video quality is set."""
 
     def __init__(self):
         _message = """
@@ -42,7 +42,7 @@ class InvalidVideoQuality(Exception):
 
 
 class InvalidImageSize(Exception):
-    """Base class for exceptions in this module."""
+    """Raised if a processing image hasn't the expected ratio."""
 
     def __init__(self):
         _message = """
@@ -55,7 +55,7 @@ class InvalidImageSize(Exception):
 
 
 class IPFSFailedExecution(Exception):
-    """Base class for exceptions in this module."""
+    """Raised on IPFS command execution fail."""
 
     def __init__(self, message=""):
         _message = f"""
@@ -64,6 +64,27 @@ class IPFSFailedExecution(Exception):
 
         super().__init__(_message)
 
+
+
+class InvalidCodec(Exception):
+    """Raised when an invalid codec is requested."""
+
+    def __init__(self, message=""):
+        _message = f"""
+                Invalid codec: {message}
+                """
+
+        super().__init__(_message)
+
+class InvalidProvider(Exception):
+    """Raised when an invalid provider is requested."""
+
+    def __init__(self, message=""):
+        _message = f"""
+                Invalid provider: {message}
+                """
+
+        super().__init__(_message)
 
 class InvalidRequest(Exception):
     code = 400

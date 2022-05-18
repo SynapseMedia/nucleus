@@ -1,6 +1,6 @@
 from ffmpeg_streaming import Formats, FFProbe, Bitrate, Representation, Size, input
 from ...exception import InvalidVideoQuality
-from ...constants import HLS_TIME, MAX_MUXING_QUEUE_SIZE
+from ...constants import HLS_TIME, MAX_MUXING_QUEUE_SIZE, HLS_FORMAT, DASH_FORMAT
 from src.sdk import logger, util
 import datetime
 import sys
@@ -101,7 +101,7 @@ def get_representations(quality):
     }.get(quality.lower())
 
 
-def to_dash(input_file, output_dir):
+def to_dash(input_file: str, output_dir: str):
     """Transcode movie file to DASH and store file in output directory
 
     :param input_file: Current file path
@@ -121,7 +121,7 @@ def to_dash(input_file, output_dir):
     return output_dir
 
 
-def to_hls(input_file, output_dir):
+def to_hls(input_file: str, output_dir: str):
     """Transcode movie file to HLS and store file in output directory
 
     :param input_file: Current file path
@@ -139,3 +139,18 @@ def to_hls(input_file, output_dir):
     hls.output(output_dir, monitor=progress)
     sys.stdout.write("\n")
     return output_dir
+
+
+def get_codec(protocol: str):
+    """Resolve codec handler from protocol name
+
+    :param protocol: HLS | DASH
+    :return: handler function for codec    
+    :rtype: function
+    """
+    protocols = {HLS_FORMAT: to_hls, DASH_FORMAT: to_dash}
+
+    if protocol not in protocols:
+        logger.log.error("Invalid protocol provided. Please try using `hls` or `dash`")
+        return None
+    return protocols[protocol]

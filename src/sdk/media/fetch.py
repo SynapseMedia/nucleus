@@ -17,17 +17,17 @@ _agents = [
 ]
 
 
-def download(route, directory):
+def download(route: str, output: str):
     """Fetch remote media
 
     :param route: URI
-    :param directory: Where store it?
+    :param output: Where store it?
     :return: path to file directory recently downloaded
     :rtype: pathlib.Path
     """
 
     # Create if not exist dir
-    util.make_destination_dir(directory)
+    util.make_destination_dir(output)
 
     # Start http session
     response = session.get(
@@ -40,29 +40,29 @@ def download(route, directory):
 
     # Check status for response
     if response.status_code == requests.codes.ok:
-        logger.log.info(f"Trying fetch to: {directory}")
-        with open(directory, "wb") as out:
+        logger.log.info(f"Trying fetch to: {output}")
+        with open(output, "wb") as out:
             for block in response.iter_content(256):
                 if not block:
                     break
                 out.write(block)
             out.close()
 
-        logger.log.success(f"File stored in: {directory}")
-        return Path(directory)
+        logger.log.success(f"File stored in: {output}")
+        return Path(output)
 
 
-def file(route, _dir):
+def file(route: str, output: str):
     """Fetch files from the given route
 
     :param route: File route reference
-    :param _dir: Where store the file?
+    :param output: Where store the file?
     :return: Directory of stored file
     :rtype: pathlib.Path
     """
 
     # Resolve root directory for PROD
-    directory, path_exists = util.resolve_root_for(_dir)
+    directory, path_exists = util.resolve_root_for(output)
 
     # already exists?
     if path_exists:

@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/gmena/PycharmProjects/watchit-toolkit'
+test -d .venv || /usr/bin/virtualenv -p /usr/bin/python3 -q .venv
+env PYTHONPATH=. .venv/bin/flake8 --config=.config/flake8.ini src
+make: Leaving directory '/home/gmena/PycharmProjects/watchit-toolkit'
+ 

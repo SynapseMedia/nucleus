@@ -1,4 +1,5 @@
 from web3 import Web3
+from ..exception import InvalidProvider
 from ..constants import (
     KOVAN_PROVIDER,
     KOVAN_CONTRACT_NFT,
@@ -16,7 +17,7 @@ def _kovan():
     :rtype: Web3.HTTPProvider
     """
     return Web3.HTTPProvider(
-        # Kovan alchemy endpoiny
+        # Kovan alchemy endpoint
         f"{KOVAN_PROVIDER}/{KOVAN_ALCHEMY_API_KEY}"
     )
 
@@ -47,5 +48,6 @@ def get_network_settings_by_name(provider_name: str):
         "mainnet": None,
     }
 
-    if provider_name in providers:
-        return providers[provider_name]
+    if provider_name not in providers:
+        raise InvalidProvider("%s is not a valid provider name" % provider_name)
+    return providers[provider_name]

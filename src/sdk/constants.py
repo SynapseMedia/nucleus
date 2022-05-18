@@ -1,6 +1,7 @@
 import os
 from datetime import date
 
+PROJECT_ROOT = os.getenv("PROJECT_ROOT")
 # Setup mongo local temp cache
 MONGO_HOST, MONGO_PORT = ("mongo", "27017")
 DB_DATE_VERSION = date.today().strftime("%Y%m%d")

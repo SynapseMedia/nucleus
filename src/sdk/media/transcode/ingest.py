@@ -1,7 +1,6 @@
 from ... import logger, util
 from .codecs import get_codec
-from ...constants import HLS_FORMAT, DASH_FORMAT
-from ..exceptions import InvalidCodecExecution
+from ...exception import InvalidCodec
 
 
 def videos(video_path: str, protocol: str, output_dir: str):
@@ -16,7 +15,7 @@ def videos(video_path: str, protocol: str, output_dir: str):
     codec = get_codec(protocol)
 
     if not codec:
-        raise InvalidCodecExecution("Protocol %s in not supported" % protocol)
+        raise InvalidCodec("Protocol %s in not supported" % protocol)
 
     # Build output path
     util.make_destination_dir(output_dir)
