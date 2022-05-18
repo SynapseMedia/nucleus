@@ -7,6 +7,9 @@ from ..constants import (
     RINKEBY_PROVIDER,
     RINKEBY_ALCHEMY_API_KEY,
     RINKEBY_CONTRACT_NFT,
+    WALLET_KEY,
+    KOVAN,
+    RINKEBY,
 )
 
 
@@ -43,10 +46,11 @@ def get_network_settings_by_name(provider_name: str):
     """
 
     providers = {
-        "kovan": {"connect": _kovan, "nft": KOVAN_CONTRACT_NFT},
-        "rinkeby": {"connect": _rinkeby, "nft": RINKEBY_CONTRACT_NFT},
+        KOVAN: {"connect": _kovan, "nft": KOVAN_CONTRACT_NFT, 'private_key': WALLET_KEY},
+        RINKEBY: {"connect": _rinkeby, "nft": RINKEBY_CONTRACT_NFT, 'private_key': WALLET_KEY},
     }
 
+    # Provider not found
     if provider_name not in providers:
         raise InvalidProvider("%s is not a valid provider name" % provider_name)
     return providers[provider_name]

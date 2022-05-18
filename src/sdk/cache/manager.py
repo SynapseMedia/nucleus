@@ -1,6 +1,7 @@
 from src.sdk.cache import raw_db, mint_db, cursor_db
 from pymongo.errors import BulkWriteError
 from ..exception import EmptyCache
+from ..logger import log
 
 
 def get(db=None, _filter=None, opts=None):
@@ -105,4 +106,4 @@ def rewrite(data):
         raw_db.movies.delete_many({})  # Clean all
         raw_db.movies.insert_many(data)
     except BulkWriteError:
-        pass
+        log.error("Failed to rewrite data")

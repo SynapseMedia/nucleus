@@ -3,6 +3,7 @@ import time
 import uuid
 
 from flask import jsonify, request, Blueprint
+from src.sdk.logger import log
 from src.sdk.cache import ingest, manager, cursor_db, DESCENDING
 from werkzeug.utils import secure_filename
 from marshmallow.exceptions import ValidationError
@@ -141,8 +142,8 @@ def create():
         nft.boot(current_movie)
 
         return jsonify(json)
-    except ValidationError:
-        pass
+    except ValidationError as e:
+        log.error("Error uploading movie: %s" % e)
 
 
 @movie_.route("search", methods=["GET"])

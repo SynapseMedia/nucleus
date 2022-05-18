@@ -66,8 +66,9 @@ def cached(ctx, skip, limit):
     # Get hash list from ingested cursor db
     cid_list = list(map(lambda x: x["hash"], result))
 
+    # Wrap w3 and get account from private key
     w3 = web3.factory.w3(context_network)
-    to = w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
+    to = web3.factory.account(w3).address
     tx, to, cid_list = web3.nft.mint_batch(to, cid_list, context_network)
     cache.mint.freeze(tx, to, cid_list)
 
@@ -81,8 +82,9 @@ def single(ctx, cid):
         raise InvalidCID()
 
     context_network = ctx.obj["network"]
+    # Wrap w3 and get account from private key
     w3 = web3.factory.w3(context_network)
-    to = w3.eth.account.privateKeyToAccount(web3.factory.WALLET_KEY).address
+    to = web3.factory.account(w3).address
     tx, to, cid = web3.nft.mint(to, cid, context_network)
     cache.mint.freeze(tx, to, [cid])
 

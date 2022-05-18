@@ -86,6 +86,16 @@ class InvalidProvider(Exception):
 
         super().__init__(_message)
 
+class InvalidPrivateKey(Exception):
+    """Raised when an invalid private is provided."""
+
+    def __init__(self, message=""):
+        _message = f"""
+                Invalid wallet private key: {message}
+                """
+
+        super().__init__(_message)
+        
 class InvalidRequest(Exception):
     code = 400
     description = "Invalid request."

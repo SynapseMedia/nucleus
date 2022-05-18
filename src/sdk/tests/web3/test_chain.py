@@ -8,6 +8,7 @@ from src.sdk.constants import (
     RINKEBY_CONTRACT_NFT,
     KOVAN_CONTRACT_NFT,
     RINKEBY_ALCHEMY_API_KEY,
+    WALLET_KEY,
 )
 
 
@@ -25,8 +26,12 @@ def test_rinkeby_chain():
 
 def test_get_network_settings_by_name():
     """Should return expected network setting based on network name"""
-    kovan = {"connect": _kovan, "nft": KOVAN_CONTRACT_NFT}
-    rinkeby = {"connect": _rinkeby, "nft": RINKEBY_CONTRACT_NFT}
+    kovan = {"connect": _kovan, "nft": KOVAN_CONTRACT_NFT, "private_key": WALLET_KEY}
+    rinkeby = {
+        "connect": _rinkeby,
+        "nft": RINKEBY_CONTRACT_NFT,
+        "private_key": WALLET_KEY,
+    }
     assert get_network_settings_by_name("rinkeby") == rinkeby
     assert get_network_settings_by_name("kovan") == kovan
 

@@ -135,4 +135,5 @@ def check_status():
     )
 
     # Check status for response
-    return response.status_code == requests.codes.ok and has_valid_registered_service()
+    valid_response_code = response.status_code == requests.codes.ok
+    return valid_response_code and has_valid_registered_service()
