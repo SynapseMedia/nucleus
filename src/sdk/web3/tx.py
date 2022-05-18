@@ -3,6 +3,7 @@ from ..constants import WALLET_PUBLIC_KEY
 from .. import logger
 
 
+# TODO test this
 def status(w3: Web3, tx: types.TxData):
     """Show generic transaction stats
 

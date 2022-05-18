@@ -6,7 +6,8 @@ import web3
 
 def test_nft_contract_factory(monkeypatch):
     """Should return expected contract based on chain name"""
-    _, expected_contract = nft_contract(w3(RINKEBY), ".")
+    wrapper, expected_contract = nft_contract(w3(RINKEBY), ".")
+    assert isinstance(wrapper, Web3Wrapper)
     assert isinstance(expected_contract, web3.eth.Contract)
 
 

@@ -18,7 +18,8 @@ class Web3Wrapper:
         self.settings = settings
 
 
-def account(_w3: Web3, private_key: WALLET_KEY):
+# TODO test this
+def account(_w3: Web3, private_key: str = WALLET_KEY):
     """Returns wrapped account from private key
 
     :param web: Web3 instance
