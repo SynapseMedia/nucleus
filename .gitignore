@@ -33,3 +33,4 @@ data/*
 geth
 dump/
 dump/*
+htmlconv

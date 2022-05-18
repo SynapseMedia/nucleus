@@ -9,11 +9,12 @@ DESCENDING = DESCENDING
 mongo_client = MongoClient(f"mongodb://{MONGO_HOST}:{MONGO_PORT}/")
 
 
-def get_dbs(*dbs_list) -> tuple:
+def get_dbs(*dbs_list):
     """
     Mongo db collection initialization from list
     :param dbs_list: The collection list with given name
     :return: Mongo collection list
+    :rtype: tuple
     """
     return tuple(mongo_client[db] for db in dbs_list)
 
