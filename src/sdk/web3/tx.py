@@ -12,8 +12,8 @@ def status(w3: Web3, tx: types.TxData):
 
     tx_details = w3.eth.get_transaction(tx)
     logger.log.info(f"Owner: {WALLET_PUBLIC_KEY}")
-    logger.log.info(f"Tx Gas #: {tx_details['gas']}")
-    logger.log.info(f"Tx Gas Price #: {tx_details['gasPrice']}")
-    logger.log.info(f"Tx Block Hash: {tx_details['blockHash']}")
-    logger.log.info(f"Tx Block #: {tx_details['blockNumber']}")
-    logger.log.info(f"Tx Nonce #: {tx_details['nonce']}")
+    logger.log.info(f"Tx Gas #: {tx_details.get('gas')}")
+    logger.log.info(f"Tx Gas Price #: {tx_details.get('gasPrice')}")
+    logger.log.info(f"Tx Block Hash: {tx_details.get('blockHash')}")
+    logger.log.info(f"Tx Block #: {tx_details.get('blockNumber')}")
+    logger.log.info(f"Tx Nonce #: {tx_details.get('nonce')}")

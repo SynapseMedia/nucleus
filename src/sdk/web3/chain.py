@@ -45,7 +45,6 @@ def get_network_settings_by_name(provider_name: str):
     providers = {
         "kovan": {"connect": _kovan, "nft": KOVAN_CONTRACT_NFT},
         "rinkeby": {"connect": _rinkeby, "nft": RINKEBY_CONTRACT_NFT},
-        "mainnet": None,
     }
 
     if provider_name not in providers:

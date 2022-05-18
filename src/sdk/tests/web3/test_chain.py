@@ -1,4 +1,5 @@
 from web3 import Web3
+from src.sdk.exception import InvalidProvider
 from src.sdk.web3.chain import _kovan, _rinkeby, get_network_settings_by_name
 from src.sdk.constants import (
     KOVAN_PROVIDER,
@@ -28,4 +29,8 @@ def test_get_network_settings_by_name():
     rinkeby = {"connect": _rinkeby, "nft": RINKEBY_CONTRACT_NFT}
     assert get_network_settings_by_name("rinkeby") == rinkeby
     assert get_network_settings_by_name("kovan") == kovan
-    assert get_network_settings_by_name("invalid") is None
+
+    try:
+        get_network_settings_by_name("invalid")
+    except Exception as e:
+        assert isinstance(e, InvalidProvider)
