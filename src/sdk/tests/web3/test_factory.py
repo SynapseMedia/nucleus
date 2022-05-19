@@ -8,7 +8,7 @@ import hexbytes
 
 def test_valid_account():
     """Should return a valid Account key if valid key is provided"""
-    wallet_key = "3ee90d8549b9b0293df40346106c81bc7eac663e799d97cb872b024186e70da0"
+    wallet_key = "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f"
     wallet_account = account(wallet_key)
     expected = eth_account.Account.from_key(wallet_key)
     assert hexbytes.HexBytes("0x%s" % wallet_key) == wallet_account.key
