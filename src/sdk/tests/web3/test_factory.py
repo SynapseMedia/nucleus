@@ -25,15 +25,6 @@ def test_invalid_account():
         assert isinstance(e, InvalidPrivateKey)
 
 
-def test_invalid_account():
-    """Should return a valid Account key if valid key is provided"""
-    wallet_key = hexbytes.HexBytes(
-        "0x3ee90d8549b9b0293df40346106c81bc7eac663e799d97cb872b024186e70da0"
-    )
-    expected = eth_account.Account.from_key(wallet_key)
-    assert wallet_key == expected.key
-
-
 def test_nft_contract_factory(monkeypatch):
     """Should return expected contract based on chain name"""
     w3, expected_contract = nft_contract("rinkeby", ".")
