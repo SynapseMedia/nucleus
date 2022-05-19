@@ -7,6 +7,6 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
 
     test_fn = item.obj
-    docstring = getattr(test_fn, '__doc__')
+    docstring = getattr(test_fn, "__doc__")
     if docstring:
         report.nodeid = docstring

@@ -1,5 +1,5 @@
 from web3 import Web3, types
-from .factory import nft_contract, w3 as web3
+from .factory import nft_contract
 from .crypto import cid_to_uint256
 from ..constants import WALLET_KEY
 from .. import logger
@@ -30,7 +30,7 @@ def mint(to: str, cid: str, chain_name: str = "kovan"):
     """
 
     logger.log.info(f"Minting CID {cid} in {chain_name}")
-    w3, contract = nft_contract(web3(chain_name))
+    web3, contract = nft_contract(chain_name)
 
     # Format base16 => hex => int
     uint256_cid = cid_to_uint256(cid)
@@ -38,7 +38,7 @@ def mint(to: str, cid: str, chain_name: str = "kovan"):
         to, uint256_cid  # owner, cid uint256
     ).buildTransaction()
 
-    tx = _send_tx(w3, transaction)
+    tx = _send_tx(web3, transaction)
     return tx.hex(), to, cid
 
 
@@ -52,7 +52,7 @@ def mint_batch(to: str, cid_list: list, chain_name: str = "kovan"):
     :rtype: Union[str, str, list]
     """
 
-    w3, contract = nft_contract(web3(chain_name))
+    web3, contract = nft_contract(chain_name)
     # Format base16 => hex => int
     uint256_cid_list = [cid_to_uint256(x) for x in cid_list]
 
@@ -60,7 +60,7 @@ def mint_batch(to: str, cid_list: list, chain_name: str = "kovan"):
         to, uint256_cid_list  # owner, cid uint256
     ).buildTransaction()
 
-    tx = _send_tx(w3, transaction)
+    tx = _send_tx(web3, transaction)
     return tx.hex(), to, cid_list
 
 
@@ -73,7 +73,8 @@ def set_holder(to: str, cid: str, chain_name: str = "kovan"):
     :return: tuple with (transaction address, receptor address)
     :rtype: Union[str, str]
     """
-    w3, contract = nft_contract(web3(chain_name))
+    
+    web3, contract = nft_contract(chain_name)
     # Format base16 => hex => int
     uint256_cid = cid_to_uint256(cid)
     # Format base16 => hex => int
@@ -81,5 +82,5 @@ def set_holder(to: str, cid: str, chain_name: str = "kovan"):
         uint256_cid, to  # cid uint256, holder
     ).buildTransaction()
 
-    tx = _send_tx(w3, transaction)
+    tx = _send_tx(web3, transaction)
     return tx.hex(), to

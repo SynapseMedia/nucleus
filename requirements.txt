@@ -80,7 +80,6 @@ pyparsing==2.4.7
 pyrsistent==0.18.0
 pytest==6.2.4
 pytest-mock==3.6.1
-pytest-dotenv==0.5.2
 python-baseconv==1.2.2
 python-dotenv==0.18.0
 python-ffmpeg-video-streaming>=0.1

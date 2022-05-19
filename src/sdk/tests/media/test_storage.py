@@ -1,9 +1,7 @@
 import responses
 import pytest
 from src.sdk.media.storage.edge import check_status, has_valid_registered_service
-
-PINATA_SERVICE = "pinata"
-PINATA_ENDPOINT = "https://api.pinata.cloud"
+from src.sdk.constants import PINATA_ENDPOINT
 
 
 @pytest.fixture(autouse=True)
