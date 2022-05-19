@@ -73,7 +73,7 @@ def set_holder(to: str, cid: str, chain_name: str = "kovan"):
     :return: tuple with (transaction address, receptor address)
     :rtype: Union[str, str]
     """
-    
+
     web3, contract = nft_contract(chain_name)
     # Format base16 => hex => int
     uint256_cid = cid_to_uint256(cid)

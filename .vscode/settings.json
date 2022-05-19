@@ -4,6 +4,7 @@
         "autouse",
         "dataclass",
         "ffprobe",
+        "hexbytes",
         "hookwrapper",
         "ipfs",
         "jsonify",
