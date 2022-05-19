@@ -1,3 +1,4 @@
+import pytest
 from web3 import Web3
 from src.sdk.exception import InvalidProvider
 from src.sdk.web3.chain import _kovan, _rinkeby, get_network_settings_by_name
@@ -35,7 +36,5 @@ def test_get_network_settings_by_name():
     assert get_network_settings_by_name("rinkeby") == rinkeby
     assert get_network_settings_by_name("kovan") == kovan
 
-    try:
+    with pytest.raises(InvalidProvider):
         get_network_settings_by_name("invalid")
-    except Exception as e:
-        assert isinstance(e, InvalidProvider)

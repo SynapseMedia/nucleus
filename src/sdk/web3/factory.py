@@ -5,7 +5,6 @@ from ..exception import InvalidPrivateKey
 from dataclasses import dataclass
 from web3 import Web3
 from eth_account import Account
-from eth_keys.exceptions import ValueError
 
 
 @dataclass
@@ -38,7 +37,7 @@ def account(private_key: str = WALLET_KEY):
     try:
         return Account.from_key(private_key)
     except ValueError as e:
-        raise InvalidPrivateKey(e.message)
+        raise InvalidPrivateKey(e)
 
 
 def w3(chain_name: str):

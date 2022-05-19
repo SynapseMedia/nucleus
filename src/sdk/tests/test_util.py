@@ -1,6 +1,6 @@
 import json
 import os
-
+import pytest
 from src.sdk import util
 from pathlib import Path
 from src.sdk.scheme.definition.movies import MovieScheme
@@ -85,3 +85,10 @@ def test_read_json():
     new_dir = "assets/tests/index.json"
     json_content = {"test": "hi"}
     assert util.read_json(new_dir) == json_content
+
+
+def test_fail_read_json():
+    """Should fail reading json file with invalid file path"""
+    new_dir = "bad.json"
+    with pytest.raises(FileNotFoundError):
+        util.read_json(new_dir)

@@ -1,6 +1,7 @@
 from src.sdk.web3.factory import nft_contract, w3, account, Web3Wrapper
 from src.sdk.web3.chain import get_network_settings_by_name
 from src.sdk.exception import InvalidProvider, InvalidPrivateKey
+import pytest
 import web3
 import eth_account
 import hexbytes
@@ -18,11 +19,8 @@ def test_valid_account():
 def test_invalid_account():
     """Should return a valid Account key if valid key is provided"""
     wallet_key = "3ee90d8549b9b0293df40346106"
-
-    try:
+    with pytest.raises(InvalidPrivateKey):
         account(wallet_key)
-    except Exception as e:
-        assert isinstance(e, InvalidPrivateKey)
 
 
 def test_nft_contract_factory(monkeypatch):
@@ -53,7 +51,5 @@ def test_w3_invalid_provider():
     """Should fail on bad contract chain name"""
 
     invalid_chain = "invalid"
-    try:
+    with pytest.raises(InvalidProvider):
         w3(invalid_chain)
-    except Exception as e:
-        assert isinstance(e, InvalidProvider)
