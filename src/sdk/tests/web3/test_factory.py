@@ -1,10 +1,29 @@
-from src.sdk.web3.factory import nft_contract, w3, account, Web3Wrapper
-from src.sdk.web3.chain import get_network_settings_by_name
-from src.sdk.exception import InvalidProvider, InvalidPrivateKey
 import pytest
 import web3
 import eth_account
 import hexbytes
+from web3 import Web3
+from src.sdk.exception import InvalidProvider, InvalidPrivateKey
+from src.sdk.web3.factory import (
+    w3,
+    nft_contract,
+    account,
+    chain,
+    _kovan,
+    _rinkeby,
+    Web3Wrapper,
+    ChainWrapper,
+)
+
+from src.sdk.constants import (
+    KOVAN_PROVIDER,
+    KOVAN_ALCHEMY_API_KEY,
+    RINKEBY_PROVIDER,
+    RINKEBY_CONTRACT_NFT,
+    KOVAN_CONTRACT_NFT,
+    RINKEBY_ALCHEMY_API_KEY,
+    WALLET_KEY,
+)
 
 
 def test_valid_account():
@@ -34,7 +53,7 @@ def test_w3_valid_provider():
     """Should return valid w3 wrapper with valid provider"""
 
     valid_chain = "rinkeby"
-    settings = get_network_settings_by_name(valid_chain)
+    settings = chain(valid_chain)
     # w3 use default wallet key
     wrapper = w3(valid_chain)
     # Using default wallet key
@@ -43,8 +62,12 @@ def test_w3_valid_provider():
     assert isinstance(wrapper, Web3Wrapper)
     assert isinstance(wrapper.web3, web3.Web3)
     assert wrapper.web3.eth.default_account == expected_account
-    assert wrapper.chain == "rinkeby"
-    assert wrapper.settings == settings
+    assert wrapper.name == "rinkeby"
+    
+    assert isinstance(wrapper.chain, ChainWrapper)
+    assert wrapper.chain.nft == settings.nft
+    assert wrapper.chain.connector == settings.connector
+    assert wrapper.chain.private_key == settings.private_key
 
 
 def test_w3_invalid_provider():
@@ -53,3 +76,35 @@ def test_w3_invalid_provider():
     invalid_chain = "invalid"
     with pytest.raises(InvalidProvider):
         w3(invalid_chain)
+
+
+def test_kovan_chain():
+    """Should return expected uri for kovan network"""
+    expected_value = f"{KOVAN_PROVIDER}/{KOVAN_ALCHEMY_API_KEY}"
+    assert _kovan().endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
+
+
+def test_rinkeby_chain():
+    """Should return expected uri for rinkeby network"""
+    expected_value = f"{RINKEBY_PROVIDER}/{RINKEBY_ALCHEMY_API_KEY}"
+    assert _rinkeby().endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
+
+
+def test_chain():
+    """Should return expected network setting based on network name"""
+    kovan = ChainWrapper(_kovan, KOVAN_CONTRACT_NFT, WALLET_KEY)
+    rinkeby = ChainWrapper(_rinkeby, RINKEBY_CONTRACT_NFT, WALLET_KEY)
+    
+    assert isinstance(chain("rinkeby"), ChainWrapper)
+    assert isinstance(chain("kovan"), ChainWrapper)
+    
+    assert chain("rinkeby").connector == rinkeby.connector
+    assert chain("rinkeby").private_key == rinkeby.private_key
+    assert chain("rinkeby").nft == rinkeby.nft
+    
+    assert chain("kovan").connector == kovan.connector
+    assert chain("kovan").private_key == kovan.private_key
+    assert chain("kovan").nft == kovan.nft
+
+    with pytest.raises(InvalidProvider):
+        chain("invalid")
