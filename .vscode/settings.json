@@ -2,13 +2,16 @@
     "python.formatting.provider": "black",
     "cSpell.words": [
         "autouse",
+        "creational",
         "dataclass",
+        "ENOENT",
         "ffprobe",
         "hexbytes",
         "hookwrapper",
         "ipfs",
         "jsonify",
-        "rtype"
+        "rtype",
+        "strerror"
     ],
     "python.testing.pytestArgs": [
         "."

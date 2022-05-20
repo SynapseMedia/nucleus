@@ -1,17 +1,19 @@
-from web3 import Web3, types
-from ..constants import WALLET_PUBLIC_KEY
-from .. import logger
+from web3 import types
+from src.core.web3.factory import w3
+from src.core.constants import WALLET_PUBLIC_KEY
+from src.core import logger
 
 
 # TODO test this
-def status(w3: Web3, tx: types.TxData):
+def status(chain_id: int, tx: types.TxData):
     """Show generic transaction stats
 
-    :param w3: web3 interface
+    :param chain_id: Chain id eg. 4 -> Rinkeby
     :param tx: tx string hash
     """
-
-    tx_details = w3.eth.get_transaction(tx)
+    _w3 = w3(chain_id).web3
+    tx_details = _w3.eth.get_transaction(tx)
+    
     logger.log.info(f"Owner: {WALLET_PUBLIC_KEY}")
     logger.log.info(f"Tx Gas #: {tx_details.get('gas')}")
     logger.log.info(f"Tx Gas Price #: {tx_details.get('gasPrice')}")

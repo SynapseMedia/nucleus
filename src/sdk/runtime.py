@@ -1,5 +1,5 @@
 from .scheme.resolver import Resolver
-from . import logger, scheme
+from ..core import logger, scheme
 
 
 def resolvers_to_str(resolver: Resolver):

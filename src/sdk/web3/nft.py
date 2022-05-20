@@ -1,22 +1,6 @@
-from web3 import Web3, types
-from .factory import nft_contract
-from .crypto import cid_to_uint256
-from ..constants import WALLET_KEY
-from .. import logger
-
-
-def _send_tx(w3: Web3, tx: types.TxData):
-    """Commit transaction to blockchain
-
-    :param w3: web3 interface
-    :param tx: transaction summary
-    :return: transaction hex string
-    :rtype: str
-    """
-    signed_txn = w3.eth.account.sign_transaction(tx, private_key=WALLET_KEY)
-    tx = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-    logger.log.info(f"TX: {tx.hex()}")
-    return tx
+from src.core.web3.factory import nft_contract, transaction
+from src.core.web3.crypto import cid_to_uint256
+from src.core import logger
 
 
 def mint(to: str, cid: str, chain_id: int = 4):
@@ -30,15 +14,15 @@ def mint(to: str, cid: str, chain_id: int = 4):
     """
 
     logger.log.info(f"Minting CID {cid} in {chain_id}")
-    web3, contract = nft_contract(chain_id)
+    contract = nft_contract(chain_id)
 
     # Format base16 => hex => int
     uint256_cid = cid_to_uint256(cid)
-    transaction = contract.functions.mint(
+    tx = contract.functions.mint(
         to, uint256_cid  # owner, cid uint256
     ).buildTransaction()
 
-    tx = _send_tx(web3, transaction)
+    tx = transaction(chain_id, tx)
     return tx.hex(), to, cid
 
 
@@ -52,19 +36,19 @@ def mint_batch(to: str, cid_list: list, chain_id: int = 4):
     :rtype: Union[str, str, list]
     """
 
-    web3, contract = nft_contract(chain_id)
+    contract = nft_contract(chain_id)
     # Format base16 => hex => int
-    uint256_cid_list = [cid_to_uint256(x) for x in cid_list]
+    uint256_cid_list = map(cid_to_uint256, cid_list)
 
-    transaction = contract.functions.mintBatch(
+    tx = contract.functions.mintBatch(
         to, uint256_cid_list  # owner, cid uint256
     ).buildTransaction()
 
-    tx = _send_tx(web3, transaction)
+    tx = transaction(chain_id, tx)
     return tx.hex(), to, cid_list
 
 
-def set_holder(to: str, cid: str, chain_id:id = 4):
+def set_holder(to: str, cid: str, chain_id: id = 4):
     """Mint batch token to address based on cid list in defined chain
 
     :param to: Receptor address
@@ -74,13 +58,13 @@ def set_holder(to: str, cid: str, chain_id:id = 4):
     :rtype: Union[str, str]
     """
 
-    web3, contract = nft_contract(chain_id)
+    contract = nft_contract(chain_id)
     # Format base16 => hex => int
     uint256_cid = cid_to_uint256(cid)
     # Format base16 => hex => int
-    transaction = contract.functions.setHolder(
+    tx = contract.functions.setHolder(
         uint256_cid, to  # cid uint256, holder
     ).buildTransaction()
 
-    tx = _send_tx(web3, transaction)
+    tx = transaction(chain_id, tx)
     return tx.hex(), to

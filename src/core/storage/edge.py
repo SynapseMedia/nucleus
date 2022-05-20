@@ -1,12 +1,12 @@
 import sys
-
 import requests
 
-from src.sdk import logger
-from src.sdk.media.storage import session
-from src.sdk.exception import IPFSFailedExecution
-from src.sdk.media.storage.ipfs import exec_command
-from src.sdk.constants import (
+from . import session
+from .ipfs import exec_command
+
+from .. import logger
+from ..exception import IPFSFailedExecution
+from ..constants import (
     VALIDATE_SSL,
     PINATA_API_SECRET,
     PINATA_API_KEY,
