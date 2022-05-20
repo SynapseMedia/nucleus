@@ -1,9 +1,12 @@
-import typing
 
+import os
+import errno
 import docker
 import json
-from src.sdk.constants import IPFS_CONTAINER
-from src.sdk.exception import IPFSFailedExecution
+
+from ..constants import IPFS_CONTAINER
+from ..exception import IPFSFailedExecution
+from ..util import resolve_root_for
 
 ipfs = "ipfs"
 
@@ -13,9 +16,9 @@ def get_container():
     return client.containers.get(IPFS_CONTAINER)
 
 
-def exec_command(cmd, *args) -> typing.Union[dict, str]:
-    """
-    Send commands execution to ipfs node
+def exec_command(cmd, *args):
+    """Send commands execution to ipfs node
+    
     :param cmd: please provide path uri scheme eg. /pin/ls/
     based on http://docs.ipfs.io.ipns.localhost:8080/reference/cli/
     """
@@ -69,6 +72,32 @@ def dag_get(cid):
 def get_id():
     output = exec_command("id")
     return output.get("ID")
+
+
+def add_dir(_dir: str):
+    """Add directory to ipfs
+
+    :param _dir: Directory to add to IPFS
+    :return: The resulting CID
+    """
+    directory, path_exists = resolve_root_for(_dir)
+
+    if not path_exists:  # Check if path exist if not just pin_cid_list
+        raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), directory)
+
+    # avoid pin by default /reference/http/api/#http-commands
+    # hash needed to encode to bytes16 and hex
+    args = (
+        directory,
+        "--recursive",
+        "--quieter",
+        "--cid-version=1",
+        "--pin=false",
+        "--hash=blake2b-208",
+    )
+
+    _hash = exec_command("add", *args)
+    return _hash.strip()
 
 
 __all__ = ["get_id", "exec_command", "pin", "dag_get", "get_container"]

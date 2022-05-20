@@ -1,4 +1,4 @@
-from ..media.storage.ipfs import dag_get
+from ..storage.ipfs import dag_get
 from .definition.movies import MultiMediaScheme
 from ..constants import (
     DASH_NEW_FILENAME,
@@ -48,7 +48,7 @@ def fit_video_resource_from_dag(cid: str):
     }
 
 
-def fit_resources_from_dag(cid: str):
+def multimedia_resources_from_dag(cid: str):
     """Process dag output to standard resource scheme definition
 
     :param cid: IPFS cid

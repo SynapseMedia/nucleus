@@ -1,4 +1,4 @@
-from web3 import Web3
+from web3 import Web3, types
 from typing import Callable
 from eth_account import Account
 
@@ -66,7 +66,8 @@ class Web3Wrapper:
     @param web3: The web3 instance
     @param chain_id: The current chain id in use eg. 4 -> rinkeby
     @param chain: The settings based on chain. eg. {"connector", "name", "private_key"}
-
+    
+    In the future this class can hold a creational pattern for diff chains
     """
 
     web3: Web3
@@ -77,6 +78,22 @@ class Web3Wrapper:
         self.web3 = w3
         self.chain_id = chain_id
         self.chain = settings
+
+
+# TODO write tests.. not a factory move out
+def transaction(chain_id: int, tx: types.TxData):
+    """Commit transaction to blockchain
+
+    :param chain_id: chain where the transaction will be sent
+    :param tx: transaction summary
+    :return: transaction hex string
+    :rtype: HexBytes
+    """
+    _web3 =  w3(chain_id).web3
+    # Sign transaction with private key
+    signed_txn = _web3.eth.account.sign_transaction(tx, private_key=WALLET_KEY)
+    # Return result from commit signed transaction
+    return _web3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
 
 def chain(chain_id: int):
@@ -92,7 +109,7 @@ def chain(chain_id: int):
         RINKEBY: ChainWrapper(_rinkeby, RINKEBY_CONTRACT_NFT, WALLET_KEY),
     }
 
-    # Provider not found
+    # Provider not found from web3 import Web3, types
     if chain_id not in providers:
         raise InvalidProvider("%s is not a valid provider name" % chain_id)
     return providers[chain_id]
@@ -136,13 +153,14 @@ def w3(chain_id: int):
     return Web3Wrapper(_w3, chain_id, chain_settings)
 
 
+# TODO refactor to Contract Builder eg. NFT | ERC20
 def nft_contract(chain_id: int, abi_path: str = PROJECT_ROOT):
     """Factory NFT contract based on provider settings
 
     :param chain_id: kovan=42, rinkeby=4...
     :param abi_path: The json abi path to use for contract
     :return: w3 interface, nft contract
-    :rtype: Union[Web3, web3.eth.Contract]
+    :rtype: web3.eth.Contract
     """
 
     w3_wrapper = w3(chain_id)
@@ -160,4 +178,4 @@ def nft_contract(chain_id: int, abi_path: str = PROJECT_ROOT):
         abi=abi.get("abi"),
     )
 
-    return web3_object, contract
+    return contract

@@ -42,8 +42,8 @@ eg.
 }
 """
 
-from ..util import extract_extension
-from ..scheme.definition.movies import MovieScheme
+from src.core.util import extract_extension
+from src.core.scheme.definition.movies import MovieScheme
 
 
 def generate_erc1155(mv: MovieScheme):
