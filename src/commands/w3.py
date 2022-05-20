@@ -6,11 +6,12 @@ from src.sdk.exception import InvalidCID
 
 
 @click.group("w3")
-@click.option("--network", default="rinkeby")
+@click.option("--network", default=4)
 @click.pass_context
 def w3(ctx, network):
     """Web3 toolkit"""
     ctx.ensure_object(dict)
+    # TODO if network is string convert to chain id
     ctx.obj["network"] = network
 
 

@@ -56,8 +56,8 @@ MIXED_RESOURCES = os.environ.get("MIXED_RESOURCES", "False") == "True"
 
 # Web3 constants
 GWEI = 1000000000
-KOVAN = "kovan"
-RINKEBY = "rinkeby"
+KOVAN = 42
+RINKEBY = 4
 KOVAN_PROVIDER = os.getenv("KOVAN_PROVIDER", "")
 KOVAN_ALCHEMY_API_KEY = os.getenv("KOVAN_ALCHEMY_API_KEY", "")
 KOVAN_CONTRACT_NFT = os.getenv("KOVAN_CONTRACT_NFT", "")

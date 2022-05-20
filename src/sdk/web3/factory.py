@@ -50,60 +50,52 @@ class ChainWrapper:
     @param nft: Nft contract address for chain
 
     """
+
     connector: Callable
     private_key: str
     nft: str
 
     def __init__(self, connector, nft, private_key):
-        self.connector = connector
         self.nft = nft
+        self.connector = connector
         self.private_key = private_key
 
 
 class Web3Wrapper:
     """A class wrapper for web3 artifacts
     @param web3: The web3 instance
-    @param name: The current chain in use
+    @param chain_id: The current chain id in use eg. 4 -> rinkeby
     @param chain: The settings based on chain. eg. {"connector", "name", "private_key"}
 
     """
 
     web3: Web3
-    name: str
+    chain_id: int
     chain: ChainWrapper
 
-    def __init__(self, w3: Web3, chain: str, settings: None):
+    def __init__(self, w3: Web3, chain_id: int, settings: None):
         self.web3 = w3
-        self.name = chain
+        self.chain_id = chain_id
         self.chain = settings
 
 
-def chain(provider_name: str):
+def chain(chain_id: int):
     """Return network settings by provider name. eg. Rinkeby, kovan, mainnet..
 
-    :param: provider_name: Name of the provider to retrieve settings.
+    :param chain_id: kovan- > 42,rinkeby -> 4...
     :return: network settings based on provider name
     :rtype: Chain
     """
 
     providers = {
-        KOVAN: ChainWrapper(**{
-            "connector": _kovan,
-            "nft": KOVAN_CONTRACT_NFT,
-            "private_key": WALLET_KEY,
-        }),
-        RINKEBY: ChainWrapper(**{
-            "connector": _rinkeby,
-            "nft": RINKEBY_CONTRACT_NFT,
-            "private_key": WALLET_KEY,
-        }),
+        KOVAN: ChainWrapper(_kovan, KOVAN_CONTRACT_NFT, WALLET_KEY),
+        RINKEBY: ChainWrapper(_rinkeby, RINKEBY_CONTRACT_NFT, WALLET_KEY),
     }
 
     # Provider not found
-    if provider_name not in providers:
-        raise InvalidProvider("%s is not a valid provider name" % provider_name)
-    return providers[provider_name]
-
+    if chain_id not in providers:
+        raise InvalidProvider("%s is not a valid provider name" % chain_id)
+    return providers[chain_id]
 
 
 def account(private_key: str = WALLET_KEY):
@@ -127,32 +119,33 @@ def account(private_key: str = WALLET_KEY):
         raise InvalidPrivateKey(e)
 
 
-def w3(chain_name: str):
+def w3(chain_id: int):
     """Build Web3 interface with provider settings
 
-    :param chain_name: kovan, mainnet, rinkeby...
+    :param chain_id: kovan, mainnet, rinkeby...
     :return: web3 interface with provider settings
     :rtype: Web3Wrapper
     """
 
     # Get chain settings from chain name
-    chain_settings = chain(chain_name)
+    chain_settings = chain(chain_id)
     # Connect to provider based on chain settings
     _w3 = Web3(chain_settings.connector())
     # Set default account for current WALLET_KEY settings
     _w3.eth.default_account = account(chain_settings.private_key)
-    return Web3Wrapper(_w3, chain_name, chain_settings)
+    return Web3Wrapper(_w3, chain_id, chain_settings)
 
 
-def nft_contract(chain_name: str, abi_path: str = PROJECT_ROOT):
+def nft_contract(chain_id: int, abi_path: str = PROJECT_ROOT):
     """Factory NFT contract based on provider settings
 
-    :param chain_name: kovan, mainnet, rinkeby...
+    :param chain_id: kovan=42, rinkeby=4...
+    :param abi_path: The json abi path to use for contract
     :return: w3 interface, nft contract
     :rtype: Union[Web3, web3.eth.Contract]
     """
 
-    w3_wrapper = w3(chain_name)
+    w3_wrapper = w3(chain_id)
     # Get contract address based on chain settings
     chain_contract_nft = w3_wrapper.chain.nft
     abi = util.read_json("%s/abi/WNFT.json" % abi_path)
@@ -168,4 +161,3 @@ def nft_contract(chain_name: str, abi_path: str = PROJECT_ROOT):
     )
 
     return web3_object, contract
-

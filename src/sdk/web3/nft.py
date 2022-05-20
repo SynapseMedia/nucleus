@@ -19,18 +19,18 @@ def _send_tx(w3: Web3, tx: types.TxData):
     return tx
 
 
-def mint(to: str, cid: str, chain_name: str = "kovan"):
+def mint(to: str, cid: str, chain_id: int = 4):
     """Mint token to address based on cid in defined chain
 
     :param to: receptor
     :param cid: IPFS cid
-    :param chain_name: chain where mint the token
+    :param chain_id: Chain id eg. 4 -> Rinkeby
     :return: tuple with (transaction address, receptor address, cid)
     :rtype: Union[str, str, str]
     """
 
-    logger.log.info(f"Minting CID {cid} in {chain_name}")
-    web3, contract = nft_contract(chain_name)
+    logger.log.info(f"Minting CID {cid} in {chain_id}")
+    web3, contract = nft_contract(chain_id)
 
     # Format base16 => hex => int
     uint256_cid = cid_to_uint256(cid)
@@ -42,17 +42,17 @@ def mint(to: str, cid: str, chain_name: str = "kovan"):
     return tx.hex(), to, cid
 
 
-def mint_batch(to: str, cid_list: list, chain_name: str = "kovan"):
+def mint_batch(to: str, cid_list: list, chain_id: int = 4):
     """Mint batch token to address based on cid list in defined chain
 
     :param to: Receptor address
     :param cid_list: IPFS cid list
-    :param chain_name: Chain name eg. Rinkeby
+    :param chain_id: Chain id eg. 4 -> Rinkeby
     :return: tuple with (transaction address, receptor address, cid list)
     :rtype: Union[str, str, list]
     """
 
-    web3, contract = nft_contract(chain_name)
+    web3, contract = nft_contract(chain_id)
     # Format base16 => hex => int
     uint256_cid_list = [cid_to_uint256(x) for x in cid_list]
 
@@ -64,17 +64,17 @@ def mint_batch(to: str, cid_list: list, chain_name: str = "kovan"):
     return tx.hex(), to, cid_list
 
 
-def set_holder(to: str, cid: str, chain_name: str = "kovan"):
+def set_holder(to: str, cid: str, chain_id:id = 4):
     """Mint batch token to address based on cid list in defined chain
 
     :param to: Receptor address
     :param cid: IPFS cid
-    :param chain_name: Chain name eg. Rinkeby
+    :param chain_id: Chain id eg. 4 -> Rinkeby
     :return: tuple with (transaction address, receptor address)
     :rtype: Union[str, str]
     """
 
-    web3, contract = nft_contract(chain_name)
+    web3, contract = nft_contract(chain_id)
     # Format base16 => hex => int
     uint256_cid = cid_to_uint256(cid)
     # Format base16 => hex => int

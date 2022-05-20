@@ -44,7 +44,7 @@ def test_invalid_account():
 
 def test_nft_contract_factory(monkeypatch):
     """Should return expected contract based on chain name"""
-    w3, expected_contract = nft_contract("rinkeby", ".")
+    w3, expected_contract = nft_contract(4, ".")
     assert isinstance(expected_contract, web3.eth.Contract)
     assert isinstance(w3, web3.Web3)
 
@@ -52,7 +52,7 @@ def test_nft_contract_factory(monkeypatch):
 def test_w3_valid_provider():
     """Should return valid w3 wrapper with valid provider"""
 
-    valid_chain = "rinkeby"
+    valid_chain = 4
     settings = chain(valid_chain)
     # w3 use default wallet key
     wrapper = w3(valid_chain)
@@ -62,7 +62,7 @@ def test_w3_valid_provider():
     assert isinstance(wrapper, Web3Wrapper)
     assert isinstance(wrapper.web3, web3.Web3)
     assert wrapper.web3.eth.default_account == expected_account
-    assert wrapper.name == "rinkeby"
+    assert wrapper.chain_id == 4
     
     assert isinstance(wrapper.chain, ChainWrapper)
     assert wrapper.chain.nft == settings.nft
@@ -95,16 +95,16 @@ def test_chain():
     kovan = ChainWrapper(_kovan, KOVAN_CONTRACT_NFT, WALLET_KEY)
     rinkeby = ChainWrapper(_rinkeby, RINKEBY_CONTRACT_NFT, WALLET_KEY)
     
-    assert isinstance(chain("rinkeby"), ChainWrapper)
-    assert isinstance(chain("kovan"), ChainWrapper)
+    assert isinstance(chain(4), ChainWrapper)
+    assert isinstance(chain(42), ChainWrapper)
     
-    assert chain("rinkeby").connector == rinkeby.connector
-    assert chain("rinkeby").private_key == rinkeby.private_key
-    assert chain("rinkeby").nft == rinkeby.nft
+    assert chain(4).connector == rinkeby.connector
+    assert chain(4).private_key == rinkeby.private_key
+    assert chain(4).nft == rinkeby.nft
     
-    assert chain("kovan").connector == kovan.connector
-    assert chain("kovan").private_key == kovan.private_key
-    assert chain("kovan").nft == kovan.nft
+    assert chain(42).connector == kovan.connector
+    assert chain(42).private_key == kovan.private_key
+    assert chain(42).nft == kovan.nft
 
     with pytest.raises(InvalidProvider):
-        chain("invalid")
+        chain(0)
