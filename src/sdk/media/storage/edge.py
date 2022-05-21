@@ -2,11 +2,10 @@ import sys
 import requests
 
 from . import session
-from .ipfs import exec_command
-
-from .. import logger
-from ..exception import IPFSFailedExecution
-from ..constants import (
+from src.core import logger
+from src.core.storage import ipfs
+from src.core.exception import IPFSFailedExecution
+from src.core.constants import (
     VALIDATE_SSL,
     PINATA_API_SECRET,
     PINATA_API_KEY,
@@ -14,52 +13,45 @@ from ..constants import (
     PINATA_PSA,
     PINATA_SERVICE,
     PINATA_API_JWT,
-    PINATA_PIN_BACKGROUND,
 )
 
 
-def has_valid_registered_service():
+def has_valid_registered_service(service: str):
     """
     Check if pinata service is already registered
+    :param service: service name to check if registered
     :return: False if not registered else True
     """
-    registered_services = exec_command("/pin/remote/service/ls")
-    registered_services_list = registered_services.get("RemoteServices")
+    registered_services_list = ipfs.services()
     # Map resulting from registered services and search for "pinata"
-    return any(map(lambda i: i["Service"] == PINATA_SERVICE, registered_services_list))
+    return any(map(lambda i: i["Service"] == service, registered_services_list))
 
 
-def pin(cid: str):
+def pin(cid: str, service: str = PINATA_SERVICE):
     """
     Pin cid into edge pinata remote cache
     :param cid: the cid to pin
     :return
     """
 
-    if not has_valid_registered_service():
-        register_service()
+    if not has_valid_registered_service(service):
+        raise IPFSFailedExecution("Service %s is not registered", service)
 
     try:
-        args = (
-            cid,
-            f"--service={PINATA_SERVICE}",
-            f"--background={PINATA_PIN_BACKGROUND}",
-        )
-        return exec_command("/pin/remote/add", *args)
+        ipfs.pin_remote(cid)
     except IPFSFailedExecution:
-        logger.log.warning(
-            "Object already pinned to pinata. Please remove existing pin object"
-        )
+        logger.log.warning("Object already pinned to pinata")
         sys.stdout.write("\n")
 
 
 def flush(limit=1000):
-    """
-    Flush pinned entries from edge
+    """Flush pinned entries from edge
+    
     :param limit: How many entries to flush?
     """
     pinned = pin_ls(limit)  # Get current pin list from edge service
     logger.log.info(f"Flushing {pinned.get('count')} from edge")
+    
     for _pin in pinned.get("results"):
         _pinned = _pin.get("pin")
         _cid = _pinned.get("cid")
@@ -70,19 +62,22 @@ def flush(limit=1000):
         logger.log.error(f"Fail trying to remove pin for {_cid}")
 
 
-def register_service():
-    """
-    Register edge service in ipfs node
-    :return: request result according to
+def register_service(service: str, endpoint: str, key: str):
+    """Register edge service in ipfs node
     https://docs.ipfs.io/reference/http/api/#api-v0-pin-remote-service-add
+
+    @params service: service name
+    @params endpoint: service endpoint
+    @params key: service jwt
+    @return: ipfs execution output
+    @rtype: str
     """
-    if has_valid_registered_service():
+    if has_valid_registered_service(service):
         logger.log.warning("Service already registered")
         return
 
-    args = (PINATA_SERVICE, PINATA_PSA, PINATA_API_JWT)
     logger.log.info("Registering pinata service")
-    return exec_command("/pin/remote/service/add", *args)
+    return ipfs.register_service(service, endpoint, key)
 
 
 def unpin(cid):

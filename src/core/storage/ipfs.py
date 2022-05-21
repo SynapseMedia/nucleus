@@ -1,12 +1,18 @@
-
 import os
 import errno
 import docker
 import json
 
-from ..constants import IPFS_CONTAINER
 from ..exception import IPFSFailedExecution
 from ..util import resolve_root_for
+from ..constants import (
+    IPFS_CONTAINER,
+    PINATA_SERVICE,
+    PINATA_PIN_BACKGROUND,
+    PINATA_PSA,
+    PINATA_SERVICE,
+    PINATA_API_JWT,
+)
 
 ipfs = "ipfs"
 
@@ -18,7 +24,7 @@ def get_container():
 
 def exec_command(cmd, *args):
     """Send commands execution to ipfs node
-    
+
     :param cmd: please provide path uri scheme eg. /pin/ls/
     based on http://docs.ipfs.io.ipns.localhost:8080/reference/cli/
     """
@@ -47,6 +53,20 @@ def exec_command(cmd, *args):
         return json_to_dict
     except json.decoder.JSONDecodeError:
         return output.decode("utf-8")
+
+
+def pin_remote(cid):
+    """
+    Pin cid into edge pinata remote cache
+    :param cid: the cid to pin
+    :return
+    """
+    args = (
+        cid,
+        f"--service={PINATA_SERVICE}",
+        f"--background={PINATA_PIN_BACKGROUND}",
+    )
+    return exec_command("/pin/remote/add", *args)
 
 
 def pin(cid):
@@ -98,6 +118,28 @@ def add_dir(_dir: str):
 
     _hash = exec_command("add", *args)
     return _hash.strip()
+
+
+def services():
+    """
+    Return registered services
+    :return: False if not registered else True
+    """
+    registered_services = exec_command("/pin/remote/service/ls")
+    registered_services_list = registered_services.get("RemoteServices")
+    return registered_services_list
+
+
+def register_service(service, endpoint, key):
+    """Add service to ipfs
+    https://docs.ipfs.io/reference/http/api/#api-v0-pin-remote-service-add
+    @params service: service name
+    @params endpoint: service endpoint
+    @params key: service jwt
+    @return: ipfs execution output
+    @rtype: str
+    """
+    return exec_command("/pin/remote/service/add", *(service, endpoint, key))
 
 
 __all__ = ["get_id", "exec_command", "pin", "dag_get", "get_container"]
