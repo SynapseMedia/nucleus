@@ -66,5 +66,3 @@ def extract_extension(file: str):
     _, file_extension = os.path.splitext(file)
     file_extension = file_extension.replace(".", "")
     return file_extension
-
-

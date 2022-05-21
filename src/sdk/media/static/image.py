@@ -1,4 +1,3 @@
-
 def auto_resize_to_default(input_image: str, output: str):
     """
     Resize image and keep their aspect ratios

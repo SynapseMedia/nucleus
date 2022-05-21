@@ -46,12 +46,12 @@ def pin(cid: str, service: str = PINATA_SERVICE):
 
 def flush(limit=1000):
     """Flush pinned entries from edge
-    
+
     :param limit: How many entries to flush?
     """
     pinned = pin_ls(limit)  # Get current pin list from edge service
     logger.log.info(f"Flushing {pinned.get('count')} from edge")
-    
+
     for _pin in pinned.get("results"):
         _pinned = _pin.get("pin")
         _cid = _pinned.get("cid")

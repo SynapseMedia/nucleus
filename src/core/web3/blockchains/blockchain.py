@@ -5,12 +5,15 @@ from . import Blockchain
 
 
 class Ethereum(Blockchain):
+    """Ethereum blockchain type"""
+
     def __init__(self, chain: EVM):
         self.web3 = Web3(chain.connector())
         super().__init__(chain)
 
     def set_default_account(self, account: Account):
         self.web3.eth.default_account = account
+        return account
 
     def sign_transaction(self, tx: types.TxParams):
         return self.web3.eth.account.sign_transaction(
@@ -22,7 +25,7 @@ class Ethereum(Blockchain):
         signed_tx = self.sign_transaction(tx)
         return self.web3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
-    def build_contract(self, address, abi):
+    def contract_factory(self, address, abi):
         return self.web3.eth.contract(
             # Contract address
             address=Web3.toChecksumAddress(address),
