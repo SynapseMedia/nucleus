@@ -8,6 +8,8 @@ from ...constants import (
     RINKEBY_PROVIDER,
     RINKEBY_ALCHEMY_API_KEY,
     WALLET_KEY,
+    KOVAN_CONTRACT_NFT,
+    RINKEBY_CONTRACT_NFT,
 )
 
 
@@ -16,6 +18,8 @@ class EVM(Chain):
 
 
 class Kovan(EVM):
+    """Kovan chain type"""
+    
     def connector(self):
         """Return kovan pre-build Http Provider
 
@@ -28,8 +32,8 @@ class Kovan(EVM):
         )
 
     @property
-    def nft_contract(self):
-        pass
+    def erc1155(self):
+        return KOVAN_CONTRACT_NFT
 
     @property
     def private_key(self):
@@ -37,6 +41,8 @@ class Kovan(EVM):
 
 
 class Rinkeby(EVM):
+    """Rinkeby chain type"""
+    
     def connector(self):
         """Return rinkeby pre-build Http Provider
 
@@ -49,8 +55,8 @@ class Rinkeby(EVM):
         )
 
     @property
-    def nft_contract(self):
-        pass
+    def erc1155(self):
+        return RINKEBY_CONTRACT_NFT
 
     @property
     def private_key(self):

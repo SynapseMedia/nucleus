@@ -8,7 +8,7 @@ from ..scheme.definition.movies import MovieScheme
 
 __author__ = "gmena"
 
-#TODO move to layer 2 
+# TODO move to layer 2
 def to_ipfs(mv: MovieScheme):
     """Ingest movie to IPFS
 
@@ -23,8 +23,8 @@ def to_ipfs(mv: MovieScheme):
 
 
 def pin_cid(cid_list: iter, remote: bool):
-    """ Pin CID into Local/Remote node from list
-    
+    """Pin CID into Local/Remote node from list
+
     :param cid_list: List of cid to pin
     :param remote: Pin in remote edge node if true
     :return: cid list after pin

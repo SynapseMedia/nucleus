@@ -1,11 +1,8 @@
-from re import L
-from web3 import Web3
 from eth_account import Account
-
-from .. import util
 from ..exception import InvalidPrivateKey, InvalidProvider
-from ..constants import WALLET_KEY, KOVAN, RINKEBY
+from ..constants import WALLET_KEY, KOVAN, RINKEBY, ERC_1155
 
+from .contracts import NFT
 from .blockchains.blockchain import Ethereum
 from .blockchains.chains import Rinkeby, Kovan
 
@@ -64,8 +61,8 @@ def w3(chain_id: int):
     """Build Web3 interface with provider settings
 
     :param chain_id: kovan, mainnet, rinkeby...
-    :return: web3 interface with provider settings
-    :rtype: Web3Wrapper
+    :return: blockchain based on chain id
+    :rtype: Blockchain
     """
 
     # Get chain settings from chain name
@@ -73,34 +70,19 @@ def w3(chain_id: int):
     # Blockchain factory
     blockchain_class = blockchain(chain_id)
     # Connect to provider based on chain settings
-    blockchain = blockchain_class(chain_object)
-    blockchain.set_default_account(chain_object.private_key)
-    return blockchain
+    _blockchain = blockchain_class(chain_object)
+    _blockchain.set_default_account(chain_object.private_key)
+    return _blockchain
 
 
-# TODO refactor to Contract abstract factory eg. NFT | ERC20
-def contract(chain_id: int, abi_path: str = PROJECT_ROOT):
+def contract(chain_id: int, type: str = ERC_1155):
     """Factory NFT contract based on provider settings
 
     :param chain_id: kovan=42, rinkeby=4...
-    :param abi_path: The json abi path to use for contract
+    :param type: The contract type eg. ERC1155 | ERC20 |
     :return: w3 interface, nft contract
     :rtype: web3.eth.Contract
     """
 
-    w3_wrapper = w3(chain_id)
-    # Get contract address based on chain settings
-    chain_contract_nft = w3_wrapper.chain.nft
-    abi = util.read_json("%s/abi/WNFT.json" % abi_path)
-
-    # Web3 instance
-    web3_object = w3_wrapper.web3
-    # web3 contract factory
-    contract = web3_object.eth.contract(
-        # Contract address
-        address=Web3.toChecksumAddress(chain_contract_nft),
-        # Abi from contract deployed
-        abi=abi.get("abi"),
-    )
-
-    return contract
+    _blockchain = blockchain(chain_id)
+    return {ERC_1155: NFT(_blockchain)}.get(type)

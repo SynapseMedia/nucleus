@@ -13,7 +13,7 @@ def status(chain_id: int, tx: types.TxData):
     """
     _w3 = w3(chain_id).web3
     tx_details = _w3.eth.get_transaction(tx)
-    
+
     logger.log.info(f"Owner: {WALLET_PUBLIC_KEY}")
     logger.log.info(f"Tx Gas #: {tx_details.get('gas')}")
     logger.log.info(f"Tx Gas Price #: {tx_details.get('gasPrice')}")

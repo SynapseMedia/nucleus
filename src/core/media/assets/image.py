@@ -38,4 +38,3 @@ def get_representations(size: str):
         MEDIUM: Sizes.Medium,
         LARGE: Sizes.Large,
     }.get(size.lower())
-

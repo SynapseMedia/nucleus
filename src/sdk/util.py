@@ -1,5 +1,6 @@
 from src.core.scheme.definition.movies import MovieScheme
 
+
 def build_dir(movie: MovieScheme):
     """Build current local dir path for movie
 
