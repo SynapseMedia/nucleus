@@ -104,6 +104,8 @@ def get_representations(quality):
 def to_dash(input_file: str, output_dir: str):
     """Transcode movie file to DASH and store file in output directory
 
+    Facade function to transcode movie file to DASH
+    
     :param input_file: Current file path
     :param output_dir: New file path
     :return: new file format dir
@@ -123,7 +125,9 @@ def to_dash(input_file: str, output_dir: str):
 
 def to_hls(input_file: str, output_dir: str):
     """Transcode movie file to HLS and store file in output directory
-
+    
+    Facade function to transcode movie file to HLS
+    
     :param input_file: Current file path
     :param output_dir: New file path
     :return: new file format dir
