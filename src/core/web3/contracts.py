@@ -1,4 +1,4 @@
-from .blockchains import Contract, Blockchain
+from . import Contract, Blockchain
 from ..constants import PROJECT_ROOT
 from ..util import read_json
 

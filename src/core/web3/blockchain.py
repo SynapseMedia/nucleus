@@ -16,12 +16,12 @@ class Ethereum(Blockchain):
     @staticmethod
     def get_instance(chain: EVM):
         """Singleton method to keep an unique instance
-        
+
         :param chain: contextual chain object
         :return: Ethereum instance
         :rtype: Ethereum
         """
-        if Ethereum._instance == None:
+        if Ethereum._instance is None:
             Ethereum._instance = Ethereum(chain)
             return Ethereum._instance
         return Ethereum._instance

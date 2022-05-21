@@ -13,11 +13,10 @@ from src.core.constants import (
     PINATA_PSA,
     PINATA_SERVICE,
     PINATA_API_JWT,
+    PINATA_PIN_BACKGROUND
 )
 
 # TODO refactor edge to support different services
-
-
 def has_valid_registered_service(service: str):
     """
     Check if pinata service is already registered
@@ -39,7 +38,7 @@ def pin(cid: str, service: str = PINATA_SERVICE):
         raise IPFSFailedExecution("Service %s is not registered", service)
 
     try:
-        pin_remote(cid)
+        pin_remote(cid, PINATA_SERVICE, PINATA_PIN_BACKGROUND)
     except IPFSFailedExecution:
         logger.log.warning("Object already pinned to pinata")
         sys.stdout.write("\n")
@@ -63,7 +62,7 @@ def flush(limit=1000):
         logger.log.error(f"Fail trying to remove pin for {_cid}")
 
 
-def register_service(service: str, endpoint: str, key: str):
+def register(service: str, endpoint: str, key: str):
     """Register edge service in ipfs node
     https://docs.ipfs.io/reference/http/api/#api-v0-pin-remote-service-add
 

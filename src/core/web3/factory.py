@@ -3,8 +3,8 @@ from ..exception import InvalidPrivateKey, InvalidChain
 from ..constants import WALLET_KEY, KOVAN, RINKEBY, ERC_1155
 
 from .contracts import NFT
-from .blockchains.blockchain import Ethereum
-from .blockchains.chains import Rinkeby, Kovan
+from .blockchain import Ethereum
+from .chains import Rinkeby, Kovan
 
 
 def account(private_key: str = WALLET_KEY):
