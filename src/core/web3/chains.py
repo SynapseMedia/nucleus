@@ -1,13 +1,12 @@
 from web3 import Web3
 
 from . import Chain
-from ...constants import (
+from ..constants import (
     WALLET_KEY,
     KOVAN_PROVIDER,
     KOVAN_ALCHEMY_API_KEY,
     RINKEBY_PROVIDER,
     RINKEBY_ALCHEMY_API_KEY,
-    WALLET_KEY,
     KOVAN_CONTRACT_NFT,
     RINKEBY_CONTRACT_NFT,
 )
@@ -15,6 +14,7 @@ from ...constants import (
 
 class EVM(Chain):
     pass
+
 
 class Kovan(EVM):
     """Kovan chain type"""

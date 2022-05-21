@@ -4,8 +4,8 @@ import eth_account
 import hexbytes
 from web3 import Web3
 from src.core.web3.contracts import NFT
-from src.core.web3.blockchains.blockchain import Ethereum
-from src.core.web3.blockchains.chains import Rinkeby, Kovan
+from src.core.web3.blockchain import Ethereum
+from src.core.web3.chains import Rinkeby, Kovan
 from src.core.exception import InvalidChain, InvalidPrivateKey
 from src.core.web3.factory import w3, contract, account, chain, blockchain
 
@@ -103,7 +103,7 @@ def test_blockchain():
 
     assert isinstance(from_rinkeby, Ethereum)
     assert isinstance(from_kovan, Ethereum)
-    
+
     # Check if chain persisting
     assert isinstance(from_rinkeby.chain, Rinkeby)
     # expected equal objects

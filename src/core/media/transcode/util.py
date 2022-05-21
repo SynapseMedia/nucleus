@@ -2,6 +2,7 @@ import datetime
 from ffmpeg_streaming import FFProbe
 
 
+# TODO add test_has_valid_registered_service
 def get_duration(input_file: str):
     """Get video time duration
 

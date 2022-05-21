@@ -37,9 +37,11 @@ def fit_video_from_dag(cid: str):
 
     template_path = "/movie/%s/%s"
     video = dag_get(f"{cid}/movie")["Links"]
-    build_path = lambda v: template_path % (v['Name'], protocol.get(v['Name']))
+
     # Mapping file => path from dag response
-    video_resource = {i["Name"]: build_path(i) for i in video}
+    video_resource = {
+        i["Name"]: template_path % (i["Name"], protocol.get(i["Name"])) for i in video
+    }
 
     return {
         "route": cid,

@@ -5,14 +5,7 @@ import json
 
 from ..exception import IPFSFailedExecution
 from ..util import resolve_root_for
-from ..constants import (
-    IPFS_CONTAINER,
-    PINATA_SERVICE,
-    PINATA_PIN_BACKGROUND,
-    PINATA_PSA,
-    PINATA_SERVICE,
-    PINATA_API_JWT,
-)
+from ..constants import IPFS_CONTAINER
 
 ipfs = "ipfs"
 
@@ -55,7 +48,8 @@ def exec_command(cmd, *args):
         return output.decode("utf-8")
 
 
-def pin_remote(cid):
+# TODO write tests
+def pin_remote(cid, service: str, background: str):
     """
     Pin cid into edge pinata remote cache
     :param cid: the cid to pin
@@ -63,8 +57,8 @@ def pin_remote(cid):
     """
     args = (
         cid,
-        f"--service={PINATA_SERVICE}",
-        f"--background={PINATA_PIN_BACKGROUND}",
+        f"--service={service}",
+        f"--background={background}",
     )
     return exec_command("/pin/remote/add", *args)
 
