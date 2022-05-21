@@ -1,6 +1,6 @@
-from ..storage.ipfs import dag_get
 from .definition.movies import MultiMediaScheme
-from ..constants import (
+from src.core.storage.ipfs import dag_get
+from src.core.constants import (
     DASH_NEW_FILENAME,
     HLS_NEW_FILENAME,
     HLS_FORMAT,
@@ -8,7 +8,7 @@ from ..constants import (
 )
 
 
-def fit_image_resource_from_dag(cid: str):
+def fit_image_from_dag(cid: str):
     """Process dag output standard scheme for image resource
 
     :param cid: IPFS cid
@@ -23,7 +23,7 @@ def fit_image_resource_from_dag(cid: str):
     }
 
 
-def fit_video_resource_from_dag(cid: str):
+def fit_video_from_dag(cid: str):
     """Process dag output standard scheme for video resource
 
     :param cid: IPFS cid
@@ -35,12 +35,11 @@ def fit_video_resource_from_dag(cid: str):
         HLS_FORMAT: HLS_NEW_FILENAME,
     }
 
+    template_path = "/movie/%s/%s"
     video = dag_get(f"{cid}/movie")["Links"]
+    build_path = lambda v: template_path % (v['Name'], protocol.get(v['Name']))
     # Mapping file => path from dag response
-    video_resource = {
-        i["Name"]: f"/movie/{i['Name']}/{protocol.get(i['Name'], HLS_NEW_FILENAME)}"
-        for i in video
-    }
+    video_resource = {i["Name"]: build_path(i) for i in video}
 
     return {
         "route": cid,
@@ -55,6 +54,6 @@ def multimedia_resources_from_dag(cid: str):
     :return: Dictionary with standard schema resources
     :rtype: MultiMediaScheme
     """
-    video = fit_video_resource_from_dag(cid)
-    image = fit_image_resource_from_dag(cid)
+    video = fit_video_from_dag(cid)
+    image = fit_image_from_dag(cid)
     return MultiMediaScheme().load({"video": video, "image": image})

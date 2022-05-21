@@ -1,5 +1,5 @@
 from eth_account import Account
-from ..exception import InvalidPrivateKey, InvalidProvider
+from ..exception import InvalidPrivateKey, InvalidChain
 from ..constants import WALLET_KEY, KOVAN, RINKEBY, ERC_1155
 
 from .contracts import NFT
@@ -36,15 +36,15 @@ def chain(chain_id: int):
     :rtype: Chain
     """
 
-    providers = {
-        KOVAN: Rinkeby(),
-        RINKEBY: Kovan(),
+    chains = {
+        RINKEBY: Rinkeby(),
+        KOVAN: Kovan(),
     }
 
     # Provider not found from web3 import Web3, types
-    if chain_id not in providers:
-        raise InvalidProvider("%s is not a valid provider name" % chain_id)
-    return providers[chain_id]
+    if chain_id not in chains:
+        raise InvalidChain("%s is not a valid chain" % chain_id)
+    return chains[chain_id]
 
 
 def blockchain(chain_id: int):
@@ -54,7 +54,13 @@ def blockchain(chain_id: int):
     :return: Blockchain class
     :rtype: Blockchain
     """
-    return {KOVAN: Ethereum, RINKEBY: Ethereum}.get(chain_id, Ethereum)
+    return {
+        # Because of dicts nature both methods will be "auto executed" 
+        # Singleton helps to avoid multiple instances of this classes
+        # Another solution may be use a lambda function but probable can add extra complexity
+        KOVAN: Ethereum.get_instance(chain(chain_id)),
+        RINKEBY: Ethereum.get_instance(chain(chain_id)),
+    }.get(chain_id)
 
 
 def w3(chain_id: int):
@@ -65,13 +71,13 @@ def w3(chain_id: int):
     :rtype: Blockchain
     """
 
-    # Get chain settings from chain name
-    chain_object = chain(chain_id)
     # Blockchain factory
-    blockchain_class = blockchain(chain_id)
+    # Get chain settings from chain name
+    _blockchain = blockchain(chain_id)
+    private_key = _blockchain.chain.private_key
+    _account = account(private_key)
     # Connect to provider based on chain settings
-    _blockchain = blockchain_class(chain_object)
-    _blockchain.set_default_account(chain_object.private_key)
+    _blockchain.set_default_account(_account)
     return _blockchain
 
 

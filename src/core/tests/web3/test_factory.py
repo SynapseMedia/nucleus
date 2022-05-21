@@ -3,26 +3,17 @@ import web3
 import eth_account
 import hexbytes
 from web3 import Web3
-from src.sdk.exception import InvalidProvider, InvalidPrivateKey
-from src.sdk.web3.factory import (
-    w3,
-    nft_contract,
-    account,
-    chain,
-    _kovan,
-    _rinkeby,
-    Web3Wrapper,
-    ChainWrapper,
-)
+from src.core.web3.contracts import NFT
+from src.core.web3.blockchains.blockchain import Ethereum
+from src.core.web3.blockchains.chains import Rinkeby, Kovan
+from src.core.exception import InvalidChain, InvalidPrivateKey
+from src.core.web3.factory import w3, contract, account, chain, blockchain
 
-from src.sdk.constants import (
+from src.core.constants import (
     KOVAN_PROVIDER,
     KOVAN_ALCHEMY_API_KEY,
     RINKEBY_PROVIDER,
-    RINKEBY_CONTRACT_NFT,
-    KOVAN_CONTRACT_NFT,
     RINKEBY_ALCHEMY_API_KEY,
-    WALLET_KEY,
 )
 
 
@@ -44,67 +35,82 @@ def test_invalid_account():
 
 def test_nft_contract_factory(monkeypatch):
     """Should return expected contract based on chain name"""
-    w3, expected_contract = nft_contract(4, ".")
-    assert isinstance(expected_contract, web3.eth.Contract)
-    assert isinstance(w3, web3.Web3)
+    # Chain rinkeby and ERC1155 standard
+    expected_contract = contract(4, 1155)
+    assert isinstance(expected_contract, NFT)
+
+    with pytest.raises(InvalidChain):
+        contract(0, 1155)
 
 
 def test_w3_valid_provider():
     """Should return valid w3 wrapper with valid provider"""
 
-    valid_chain = 4
-    settings = chain(valid_chain)
-    # w3 use default wallet key
-    wrapper = w3(valid_chain)
-    # Using default wallet key
-    expected_account = account()
+    rinkeby = chain(4)
+    kovan = chain(42)
 
-    assert isinstance(wrapper, Web3Wrapper)
-    assert isinstance(wrapper.web3, web3.Web3)
-    assert wrapper.web3.eth.default_account == expected_account
-    assert wrapper.chain_id == 4
-
-    assert isinstance(wrapper.chain, ChainWrapper)
-    assert wrapper.chain.nft == settings.nft
-    assert wrapper.chain.connector == settings.connector
-    assert wrapper.chain.private_key == settings.private_key
+    assert isinstance(rinkeby, Rinkeby)
+    assert isinstance(kovan, Kovan)
 
 
 def test_w3_invalid_provider():
     """Should fail on bad contract chain name"""
 
     invalid_chain = "invalid"
-    with pytest.raises(InvalidProvider):
+    with pytest.raises(InvalidChain):
         w3(invalid_chain)
 
 
 def test_kovan_chain():
-    """Should return expected uri for kovan network"""
+    """Should return expected assets and connector for kovan network"""
+    kovan = chain(42)
+    assert isinstance(kovan.connector(), web3.HTTPProvider)
+
     expected_value = f"{KOVAN_PROVIDER}/{KOVAN_ALCHEMY_API_KEY}"
-    assert _kovan().endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
+    assert (
+        kovan.connector().endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
+    )
+    assert kovan.erc1155 == "0x0B33Fe1Bb738B7c3e981978d7E5a9f2b980853Ed"
+    assert (
+        kovan.private_key
+        == "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f"
+    )
 
 
 def test_rinkeby_chain():
-    """Should return expected uri for rinkeby network"""
+    """Should return expected assets and connector for rinkeby network"""
+    rinkeby = chain(4)
+    assert isinstance(rinkeby.connector(), web3.HTTPProvider)
+
     expected_value = f"{RINKEBY_PROVIDER}/{RINKEBY_ALCHEMY_API_KEY}"
-    assert _rinkeby().endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
+    assert (
+        rinkeby.connector().endpoint_uri
+        == Web3.HTTPProvider(expected_value).endpoint_uri
+    )
+    assert rinkeby.erc1155 == "0x58Aa6dD8aA078385496441F3ABa691d472feBaF5"
+    assert (
+        rinkeby.private_key
+        == "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f"
+    )
 
 
-def test_chain():
-    """Should return expected network setting based on network name"""
-    kovan = ChainWrapper(_kovan, KOVAN_CONTRACT_NFT, WALLET_KEY)
-    rinkeby = ChainWrapper(_rinkeby, RINKEBY_CONTRACT_NFT, WALLET_KEY)
+def test_blockchain():
+    """Should return expected blockchain based on chain id"""
+    # first object
+    from_rinkeby = blockchain(4)
+    # second object = first object
+    from_kovan = blockchain(42)
 
-    assert isinstance(chain(4), ChainWrapper)
-    assert isinstance(chain(42), ChainWrapper)
+    assert isinstance(from_rinkeby, Ethereum)
+    assert isinstance(from_kovan, Ethereum)
+    
+    # Check if chain persisting
+    assert isinstance(from_rinkeby.chain, Rinkeby)
+    # expected equal objects
+    # Singleton create a single global object
+    assert from_rinkeby == from_kovan
 
-    assert chain(4).connector == rinkeby.connector
-    assert chain(4).private_key == rinkeby.private_key
-    assert chain(4).nft == rinkeby.nft
-
-    assert chain(42).connector == kovan.connector
-    assert chain(42).private_key == kovan.private_key
-    assert chain(42).nft == kovan.nft
-
-    with pytest.raises(InvalidProvider):
-        chain(0)
+    # Expected error trying to find kovan with same object
+    # First object was created with rinkeby, second object keep same
+    with pytest.raises(AssertionError):
+        assert isinstance(from_kovan.chain, Kovan)

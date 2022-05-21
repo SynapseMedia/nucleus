@@ -1,7 +1,7 @@
 from ffmpeg_streaming import Formats, FFProbe, Bitrate, Representation, Size, input
 from ...constants import HLS_TIME, MAX_MUXING_QUEUE_SIZE, HLS_FORMAT, DASH_FORMAT
 from ...exception import InvalidVideoQuality
-from .. import logger, util
+from ... import logger, util
 import datetime
 import sys
 
@@ -141,6 +141,7 @@ def to_hls(input_file: str, output_dir: str):
     return output_dir
 
 
+# TODO write tests
 def get_codec(protocol: str):
     """Resolve codec handler from protocol name
 

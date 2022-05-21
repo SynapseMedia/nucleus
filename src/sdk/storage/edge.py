@@ -3,7 +3,7 @@ import requests
 
 from . import session
 from src.core import logger
-from src.core.storage import ipfs
+from src.core.storage.ipfs import services, pin_remote, register_service
 from src.core.exception import IPFSFailedExecution
 from src.core.constants import (
     VALIDATE_SSL,
@@ -15,6 +15,8 @@ from src.core.constants import (
     PINATA_API_JWT,
 )
 
+# TODO refactor edge to support different services
+
 
 def has_valid_registered_service(service: str):
     """
@@ -22,9 +24,8 @@ def has_valid_registered_service(service: str):
     :param service: service name to check if registered
     :return: False if not registered else True
     """
-    registered_services_list = ipfs.services()
     # Map resulting from registered services and search for "pinata"
-    return any(map(lambda i: i["Service"] == service, registered_services_list))
+    return any(map(lambda i: i["Service"] == service, services()))
 
 
 def pin(cid: str, service: str = PINATA_SERVICE):
@@ -38,7 +39,7 @@ def pin(cid: str, service: str = PINATA_SERVICE):
         raise IPFSFailedExecution("Service %s is not registered", service)
 
     try:
-        ipfs.pin_remote(cid)
+        pin_remote(cid)
     except IPFSFailedExecution:
         logger.log.warning("Object already pinned to pinata")
         sys.stdout.write("\n")
@@ -77,7 +78,7 @@ def register_service(service: str, endpoint: str, key: str):
         return
 
     logger.log.info("Registering pinata service")
-    return ipfs.register_service(service, endpoint, key)
+    return register_service(service, endpoint, key)
 
 
 def unpin(cid):
@@ -131,4 +132,4 @@ def check_status():
 
     # Check status for response
     valid_response_code = response.status_code == requests.codes.ok
-    return valid_response_code and has_valid_registered_service()
+    return valid_response_code and has_valid_registered_service(PINATA_SERVICE)

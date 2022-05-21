@@ -1,6 +1,5 @@
 from PIL import Image
 from contextlib import contextmanager
-from pathlib import Path
 
 SMALL = "small"
 MEDIUM = "medium"
@@ -8,7 +7,7 @@ LARGE = "large"
 SIZES = {SMALL, MEDIUM, LARGE}
 
 
-class Sizes:
+class Size:
     Small = (45, 67)
     Medium = (230, 345)
     Large = (500, 750)
@@ -34,7 +33,7 @@ def get_representations(size: str):
     """
 
     return {
-        SMALL: Sizes.Small,
-        MEDIUM: Sizes.Medium,
-        LARGE: Sizes.Large,
+        SMALL: Size.Small,
+        MEDIUM: Size.Medium,
+        LARGE: Size.Large,
     }.get(size.lower())

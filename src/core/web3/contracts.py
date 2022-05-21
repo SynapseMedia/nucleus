@@ -10,11 +10,13 @@ class NFT(Contract):
         self.address = blockchain.chain.erc1155
         self._contract = blockchain.contract_factory(self.address, self.abi)
         self.functions = self._contract.functions
-        super().__init__(self, blockchain)
+        super().__init__(blockchain)
 
     def __getattr__(self, name):
         return self.functions[name]
 
     @property
-    def abi(root_path: str = PROJECT_ROOT):
-        return read_json("%s/abi/WNFT.json" % root_path).get("abi")
+    def abi(self):
+        """Return abi from json for NFT contract"""
+        abi_json = read_json("%s/abi/WNFT.json" % PROJECT_ROOT)
+        return abi_json.get("abi")

@@ -7,9 +7,24 @@ from . import Blockchain
 class Ethereum(Blockchain):
     """Ethereum blockchain type"""
 
+    _instance = None
+
     def __init__(self, chain: EVM):
         self.web3 = Web3(chain.connector())
         super().__init__(chain)
+
+    @staticmethod
+    def get_instance(chain: EVM):
+        """Singleton method to keep an unique instance
+        
+        :param chain: contextual chain object
+        :return: Ethereum instance
+        :rtype: Ethereum
+        """
+        if Ethereum._instance == None:
+            Ethereum._instance = Ethereum(chain)
+            return Ethereum._instance
+        return Ethereum._instance
 
     def set_default_account(self, account: Account):
         self.web3.eth.default_account = account
