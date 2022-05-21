@@ -76,7 +76,7 @@ class InvalidCodec(Exception):
         super().__init__(_message)
 
 
-class InvalidProvider(Exception):
+class InvalidChain(Exception):
     """Raised when an invalid provider is requested."""
 
     def __init__(self, message=""):

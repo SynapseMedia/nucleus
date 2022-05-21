@@ -1,4 +1,4 @@
-from src.core.scheme.definition.movies import MovieScheme
+from src.sdk.scheme.definition.movies import MovieScheme
 
 
 def build_dir(movie: MovieScheme):

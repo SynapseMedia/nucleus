@@ -17,7 +17,7 @@ class Chain(ABC):
     @abstractmethod
     def connector(self):
         """Return the connector interface
-        
+
         Provide a connector to interact with chain.
         eg. Http | Websocket
         """
@@ -27,7 +27,7 @@ class Chain(ABC):
     @abstractmethod
     def private_key(self):
         """Return specific private key for chain
-        
+
         :return: private key
         :rtype: str
         """
@@ -36,8 +36,8 @@ class Chain(ABC):
     @property
     @abstractmethod
     def erc1155(self):
-        """Return address for deployed contract standard ERC1155 
-        
+        """Return address for deployed contract standard ERC1155
+
         :return: nft contract address
         :rtype: str
         """
@@ -63,7 +63,7 @@ class Blockchain(ABC):
     @abstractmethod
     def set_default_account(self, account: Account):
         """Set default account for blockchain operations
-        
+
         :param account: The account to subscribe
         :return: account subscribed
         :rtype: Account
@@ -71,10 +71,10 @@ class Blockchain(ABC):
         pass
 
     @abstractmethod
-    def get_contract(self):
+    def contract_factory(self):
         """Return contract for blockchain operations.
         This factory method return a prebuilt contract based on blockchain specifications.
-        
+
         :param account: The account to subscribe
         :return: Account subscribed
         :rtype: Account
@@ -84,7 +84,7 @@ class Blockchain(ABC):
     @abstractmethod
     def sign_transaction(self):
         """Sign transaction for blockchain using private key.
-        
+
         :return: Signed transaction
         :rtype: eth_account.datastructures.SignedTransaction
         """
@@ -93,7 +93,7 @@ class Blockchain(ABC):
     @abstractmethod
     def send_transaction(self):
         """Commit signed transaction to blockchain.
-        
+
         :return: Transaction hash
         :rtype: HexBytes
         """
@@ -111,6 +111,7 @@ class Contract(ABC):
             ....
 
     """
+
     def __init__(self, blockchain: Blockchain):
         self.blockchain = blockchain
         super().__init__()
@@ -119,13 +120,13 @@ class Contract(ABC):
         """Called when an attribute lookup has not found the attribute in the usual places"""
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def abi(root_path):
         """Return contract abi for contract
-        
+
         :param root_path: Where is abi.json stored?
-        :return: abi json 
+        :return: abi json
         :rtype: dict
         """
         pass

@@ -1,4 +1,4 @@
-from src.sdk.web3.crypto import to_hex, cid_to_uint256
+from src.core.web3.crypto import to_hex, cid_to_uint256
 
 
 def test_cid_to_uint256():

@@ -35,23 +35,23 @@ expected_image_output = {
 
 
 # Unit tests
-def test_fit_image_resource_from_dag(mocker):
+def test_fit_image_from_dag(mocker):
     """Should return valid image scheme fit for MediaScheme"""
 
     mocker.patch("src.sdk.scheme.util.dag_get", return_value=image_dag)
-    assert util.fit_image_resource_from_dag(cid) == expected_image_output
+    assert util.fit_image_from_dag(cid) == expected_image_output
 
 
 # Unit tests
-def test_fit_video_hls_resource_from_dag(mocker):
+def test_fit_video_hls_from_dag(mocker):
     """Should return valid video scheme fit for MediaScheme hls"""
 
     mocker.patch("src.sdk.scheme.util.dag_get", return_value=hls_dag)
-    assert util.fit_video_resource_from_dag(cid) == expected_hls_output
+    assert util.fit_video_from_dag(cid) == expected_hls_output
 
 
 # Unit tests
-def test_fit_video_dash_resource_from_dag(mocker):
+def test_fit_video_dash_from_dag(mocker):
     """Should return valid video scheme fit for MediaScheme dash"""
 
     dash_dag = {
@@ -68,37 +68,37 @@ def test_fit_video_dash_resource_from_dag(mocker):
     }
 
     mocker.patch("src.sdk.scheme.util.dag_get", return_value=dash_dag)
-    assert util.fit_video_resource_from_dag(cid) == expected_dash_output
+    assert util.fit_video_from_dag(cid) == expected_dash_output
 
 
 # Unit tests
-def test_fit_resources_from_dag(mocker):
+def test_multimedia_resources_from_dag(mocker):
     """Should return valid scheme fit for MultiMediaScheme"""
 
     mocker.patch(
-        "src.sdk.scheme.util.fit_video_resource_from_dag",
+        "src.sdk.scheme.util.fit_video_from_dag",
         return_value=expected_hls_output,
     )
     mocker.patch(
-        "src.sdk.scheme.util.fit_image_resource_from_dag",
+        "src.sdk.scheme.util.fit_image_from_dag",
         return_value=expected_image_output,
     )
 
-    assert util.fit_resources_from_dag(cid)
+    assert util.multimedia_resources_from_dag(cid)
 
 
 # Unit tests
-def test_fail_fit_resources_from_dag(mocker):
+def test_fail_multimedia_resources_from_dag(mocker):
     """Should fail with invalid scheme fit for MultiMediaScheme"""
 
     mocker.patch(
-        "src.sdk.scheme.util.fit_video_resource_from_dag",
+        "src.sdk.scheme.util.fit_video_from_dag",
         return_value=expected_hls_output.pop("route"),
     )
     mocker.patch(
-        "src.sdk.scheme.util.fit_image_resource_from_dag",
+        "src.sdk.scheme.util.fit_image_from_dag",
         return_value=expected_image_output,
     )
 
     with pytest.raises(ValidationError):
-        assert util.fit_resources_from_dag(cid)
+        assert util.multimedia_resources_from_dag(cid)

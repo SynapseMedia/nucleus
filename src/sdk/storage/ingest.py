@@ -1,14 +1,11 @@
-import os
-import errno
-
-from src.sdk import util, logger
+from src.core import util, logger
+from src.core.storage.ipfs import pin, add_dir
 from .edge import pin as remote_pin
-from .ipfs import exec_command, pin
 from ..scheme.definition.movies import MovieScheme
 
 __author__ = "gmena"
 
-# TODO move to layer 2
+
 def to_ipfs(mv: MovieScheme):
     """Ingest movie to IPFS
 
@@ -19,7 +16,7 @@ def to_ipfs(mv: MovieScheme):
     logger.log.warning(f"Ingesting {mv.imdb_code}")
     # Logs on ready ingested
     current_dir = util.build_dir(mv)
-    return add_dir_to_ipfs(current_dir)
+    return add_dir(current_dir)
 
 
 def pin_cid(cid_list: iter, remote: bool):

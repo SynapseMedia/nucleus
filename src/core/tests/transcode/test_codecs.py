@@ -1,4 +1,4 @@
-from src.sdk.media.transcode.codecs import get_representations, REPR
+from src.core.media.transcode.codecs import get_representations, REPR
 
 
 # Unit tests

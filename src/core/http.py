@@ -2,8 +2,8 @@ import random
 import requests
 import shutil
 from pathlib import Path
-from .. import util, logger
-from ..constants import VALIDATE_SSL
+from . import util, logger
+from .constants import VALIDATE_SSL
 
 
 # Session keep alive
@@ -18,7 +18,7 @@ _agents = [
 
 
 def download(route: str, output: str):
-    """Fetch remote media
+    """Download remote media
 
     :param route: URI
     :param output: Where store it?
@@ -52,7 +52,7 @@ def download(route: str, output: str):
         return Path(output)
 
 
-def file(route: str, output: str):
+def fetch(route: str, output: str):
     """Fetch files from the given route
 
     :param route: File route reference

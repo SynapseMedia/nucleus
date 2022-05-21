@@ -16,10 +16,9 @@ from ...constants import (
 class EVM(Chain):
     pass
 
-
 class Kovan(EVM):
     """Kovan chain type"""
-    
+
     def connector(self):
         """Return kovan pre-build Http Provider
 
@@ -42,7 +41,7 @@ class Kovan(EVM):
 
 class Rinkeby(EVM):
     """Rinkeby chain type"""
-    
+
     def connector(self):
         """Return rinkeby pre-build Http Provider
 
