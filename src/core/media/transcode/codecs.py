@@ -1,3 +1,4 @@
+from . import Codec
 from ffmpeg_streaming import Representation
 
 #TODO builder pattern
