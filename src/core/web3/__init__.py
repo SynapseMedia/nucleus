@@ -1,5 +1,16 @@
+from enum import Enum
 from abc import ABC, abstractmethod
 from eth_account import Account
+
+
+class ChainID(Enum):
+    Kovan = 42
+    Rinkeby = 4
+
+
+class ContractStandards(Enum):
+    ERC1155 = 1155
+    ERC20 = 20
 
 
 class Chain(ABC):
@@ -13,12 +24,16 @@ class Chain(ABC):
             ....
 
     """
-    
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
     @property
     @abstractmethod
     def id():
         """Return chain id
-        
+
         eg. Kovan -> 42, Rinkeby -> 4
         :return: integer representation for chain
         :rtype: int
@@ -47,7 +62,7 @@ class Chain(ABC):
     @property
     @abstractmethod
     def erc1155(self):
-        """Return address for deployed contract standard ERC1155
+        """Return address for deployed contract
 
         :return: nft contract address
         :rtype: str
@@ -55,7 +70,7 @@ class Chain(ABC):
         pass
 
 
-class Blockchain(ABC):
+class Network(ABC):
     """Blockchain abstract class
 
     Specify all methods needed to interact with the blockchain.
@@ -68,8 +83,12 @@ class Blockchain(ABC):
     """
 
     def __init__(self, chain: Chain):
-        self.chain = chain
         super().__init__()
+        self.chain = chain
+
+    @abstractmethod
+    def connect(self, chain: Chain):
+        pass
 
     @abstractmethod
     def set_default_account(self, account: Account):
@@ -82,7 +101,7 @@ class Blockchain(ABC):
         pass
 
     @abstractmethod
-    def create_contract(self):
+    def contract(self, address: str, abi: str):
         """Return contract for blockchain operations.
         This factory method return a prebuilt contract based on blockchain specifications.
 
@@ -123,9 +142,9 @@ class Contract(ABC):
 
     """
 
-    def __init__(self, blockchain: Blockchain):
-        self.blockchain = blockchain
+    def __init__(self, network: Network):
         super().__init__()
+        self.network = network
 
     def __getattr__(self, name):
         """Called when an attribute lookup has not found the attribute in the usual places"""

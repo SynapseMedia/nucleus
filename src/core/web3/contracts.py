@@ -1,4 +1,4 @@
-from . import Contract, Blockchain
+from . import Contract, Network
 from ..constants import PROJECT_ROOT
 from ..util import read_json
 
@@ -6,11 +6,11 @@ from ..util import read_json
 class NFT(Contract):
     """NFT contract type"""
 
-    def __init__(self, blockchain: Blockchain):
-        self.address = blockchain.chain.erc1155
-        self._contract = blockchain.create_contract(self.address, self.abi)
+    def __init__(self, network: Network):
+        super().__init__(network)
+        self.address = network.chain.erc1155
+        self._contract = network.contract(self.address, self.abi)
         self.functions = self._contract.functions
-        super().__init__(blockchain)
 
     def __getattr__(self, name):
         return self.functions[name]

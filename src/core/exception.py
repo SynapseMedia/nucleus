@@ -23,6 +23,20 @@ class InvalidCID(Exception):
         super().__init__(_message)
 
 
+class InvalidVideoProtocol(Exception):
+    """Raised when a invalid/not existing video protocol is set."""
+
+    def __init__(self):
+        _message = """
+                Invalid protocol provided. 
+                Allowed protocol from enum:
+                    Protocol.HLS
+                    Protocol.DASH
+                """
+
+        super().__init__(_message)
+
+
 class InvalidVideoQuality(Exception):
     """Raised when a invalid/not existing video quality is set."""
 
@@ -82,6 +96,17 @@ class InvalidChain(Exception):
     def __init__(self, message=""):
         _message = f"""
                 Invalid chain: {message}
+                """
+
+        super().__init__(_message)
+
+
+class InvalidBlockChain(Exception):
+    """Raised when an invalid blockchain is requested."""
+
+    def __init__(self, message=""):
+        _message = f"""
+                Not supported blockchain: {message}
                 """
 
         super().__init__(_message)

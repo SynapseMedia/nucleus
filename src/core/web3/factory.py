@@ -1,9 +1,10 @@
 from eth_account import Account
-from ..exception import InvalidPrivateKey, InvalidChain
-from ..constants import WALLET_KEY, KOVAN, RINKEBY, ERC_1155
+from ..exception import InvalidPrivateKey, InvalidChain, InvalidBlockChain
+from ..constants import WALLET_KEY
 
+from . import ChainID, Chain, ContractStandards, Network
 from .contracts import NFT
-from .blockchain import Ethereum
+from .network import Ethereum
 from .chains import Rinkeby, Kovan
 
 
@@ -28,66 +29,70 @@ def account(private_key: str = WALLET_KEY):
         raise InvalidPrivateKey(e)
 
 
-def chain(chain_id: int):
-    """Return network settings by provider name. eg. Rinkeby, kovan, mainnet..
+def chain(network: ChainID):
+    """Return chain by chain id. eg. Rinkeby, kovan, mainnet..
 
-    :param chain_id: kovan- > 42,rinkeby -> 4...
+    :param network: kovan- > 42,rinkeby -> 4...
     :return: network settings based on provider name
     :rtype: Chain
     """
 
-    chains = {
-        RINKEBY: Rinkeby(),
-        KOVAN: Kovan(),
+    networks = {
+        ChainID.RINKEBY: Rinkeby(),
+        ChainID.KOVAN: Kovan(),
     }
 
-    # Provider not found from web3 import Web3, types
-    if chain_id not in chains:
-        raise InvalidChain("%s is not a valid chain" % chain_id)
-    return chains[chain_id]
+    if network not in networks:
+        raise InvalidChain("%s is not a valid network" % network)
+    return networks[network]
 
 
-def blockchain(chain_id: int):
-    """Return a blockchain class from chain id
+def network(chain: Chain):
+    """Return a network class based on chain
 
-    :param chain_id: kovan- > 42,rinkeby -> 4
-    :return: Blockchain class
-    :rtype: Blockchain
+    :param chain: kovan- > 42,rinkeby -> 4
+    :return: Network object
+    :rtype: Network
     """
-    return {
-        # Because of dicts nature both methods will be "auto executed" 
-        # Singleton helps to avoid multiple instances of this classes
-        # Another solution may be use a lambda function but probable can add extra complexity
-        KOVAN: Ethereum.get_instance(Kovan()),
-        RINKEBY: Ethereum.get_instance(Rinkeby()),
-    }.get(chain_id)
+    allowed_networks = {
+        ChainID.KOVAN: Ethereum,
+        ChainID.RINKEBY: Ethereum,
+    }
+
+    if chain.id not in allowed_networks:
+        raise InvalidBlockChain("%s is not a valid network" % chain)
+
+    network_class = allowed_networks[chain.id]
+    return network_class(chain)
 
 
-def w3(chain_id: int):
-    """Build Web3 interface with provider settings
+def w3(chain_id: ChainID):
+    """Build a Web3 network interface based on chain id
 
-    :param chain_id: kovan, mainnet, rinkeby...
-    :return: blockchain based on chain id
-    :rtype: Blockchain
+    :param _chain_id: eg.kovan, mainnet, rinkeby...
+    :return: network based on chain id
+    :rtype: Network
     """
 
-    # Blockchain factory
+    # Blockchain builder
     # Get chain settings from chain name
-    _blockchain = blockchain(chain_id)
-    _account = account(_blockchain.chain.private_key)
+    _chain = chain(chain_id)
+    _network = network(_chain)
     # Connect to provider based on chain settings
-    _blockchain.set_default_account(_account)
-    return _blockchain
+    _account = account(_network.chain.private_key)
+    _network.set_default_account(_account)
+    # ...any method needed to config blockchain could be here...
+    return _network
 
 
-def contract(chain_id: int, type: int = ERC_1155):
+def contract(network: Network, type: ContractStandards):
     """Factory NFT contract based on provider settings
 
-    :param chain_id: kovan=42, rinkeby=4...
+    :param network: Ethereum, Algorand, etc..
     :param type: The contract type eg. ERC1155 | ERC20 |
-    :return: w3 interface, nft contract
+    :return: nft contract
     :rtype: web3.eth.Contract
     """
 
-    _blockchain = blockchain(chain_id)
-    return {ERC_1155: NFT(_blockchain)}.get(type)
+    # TODO add exception when doesnt exist contract
+    return {ContractStandards.ERC1155: NFT(network)}.get(type)

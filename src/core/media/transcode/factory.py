@@ -1,68 +1,85 @@
 from contextlib import contextmanager
-from ffmpeg_streaming import input as _input
 
-from ... import logger
 from ...constants import MAX_MUXING_QUEUE_SIZE, HLS_FORMAT, DASH_FORMAT
-from ...exception import InvalidVideoQuality
-from .util import get_video_size, get_reverse_quality
+from ...exception import InvalidVideoQuality, InvalidVideoProtocol
+from . import REPR, Quality, Sizes, Input
+from .codecs import HLS, DASH
 
 
-# TODO add tests
-def quality(input_file: str):
+def quality(input: Input):
     """Return quality from video file
 
-    :param input_file: Path to video file
-    :return video Size
+    :param input: FFmpeg interface
+    :return: quality based on video size
+    :rtype: Quality
     :throw InvalidVideoQuality
     """
-    video_size = get_video_size(input_file)
-    matched_resolution = get_reverse_quality(video_size.width)
+    video_size = input.get_video_size()
+    quality_sizes = {
+        Sizes.Q360: Quality.Q360,
+        Sizes.Q480: Quality.Q480,
+        Sizes.Q720: Quality.Q720,
+        Sizes.Q1080: Quality.Q1080,
+        Sizes.Q2k: Quality.Q2k,
+        Sizes.Q4k: Quality.Q4k,
+    }
 
-    if not matched_resolution:
+    if video_size not in quality_sizes:
         raise InvalidVideoQuality()
-    return matched_resolution
+    return quality_sizes[video_size]
 
 
-def representation(quality):
+def representation(_quality: Quality):
     """Return representation list based on`quality`.
-    Blocked upscale and locked downscale allowed for each defined quality
 
-    :param quality:
-    :return list of representations based on requested quality
-    :rtype: list
+    Blocked upscale and locked downscale allowed for each defined quality
+    :param quality: quality to match representation.
+    :return: list of representations based on requested quality
+    :rtype: tuple
     """
-    return {
-        "360p": [REPR.R360p],
-        "480p": [REPR.R360p, REPR.R480p],
-        "720p": [REPR.R360p, REPR.R480p, REPR.R720p],
-        "1080p": [REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p],
-        "2k": [REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p, REPR.R2k],
-        "4k": [REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p, REPR.R2k, REPR.R4k],
-    }.get(quality.lower())
+
+    quality_representations = {
+        Quality.Q360: (REPR.R360p),
+        Quality.Q480: (REPR.R360p, REPR.R480p),
+        Quality.Q720: (REPR.R360p, REPR.R480p, REPR.R720p),
+        Quality.Q1080: (REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p),
+        Quality.Q2k: (REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p, REPR.R2k),
+        Quality.Q4k: (
+            REPR.R360p,
+            REPR.R480p,
+            REPR.R720p,
+            REPR.R1080p,
+            REPR.R2k,
+            REPR.R4k,
+        ),
+    }
+
+    if _quality not in quality_representations:
+        raise InvalidVideoQuality()
+    return quality_representations[_quality]
 
 
 @contextmanager
 def input(input_file: str):
     """
-    Factory Video
+    Factory input FFmpeg
     :param input_image: Path to image
-    :return: Input video object
-    :rtype: Input
+    :return: FFmpeg interface
+    :rtype: FFmpeg
     """
-    yield _input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)
+    yield Input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)
 
 
-# TODO write tests
+@contextmanager
 def codec(protocol: str):
     """Resolve codec handler from protocol name
 
-    :param protocol: HLS | DASH
-    :return: handler function for codec
-    :rtype: function
+    :param protocol: expected protocol to process video eg. HLS | DASH
+    :return: Codec type based on protocol
+    :rtype: Codec
     """
-    protocols = {HLS_FORMAT: to_hls, DASH_FORMAT: to_dash}
 
+    protocols = {HLS_FORMAT: HLS, DASH_FORMAT: DASH}
     if protocol not in protocols:
-        logger.log.error("Invalid protocol provided. Please try using `hls` or `dash`")
-        return None
+        raise InvalidVideoProtocol()
     return protocols[protocol]

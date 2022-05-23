@@ -13,7 +13,7 @@ from src.core.constants import (
     PINATA_PSA,
     PINATA_SERVICE,
     PINATA_API_JWT,
-    PINATA_PIN_BACKGROUND
+    PINATA_PIN_BACKGROUND,
 )
 
 # TODO refactor edge to support different services
@@ -35,7 +35,7 @@ def pin(cid: str, service: str = PINATA_SERVICE):
     """
 
     if not has_valid_registered_service(service):
-        raise IPFSFailedExecution("Service %s is not registered", service)
+        raise IPFSFailedExecution("Service %s is not registered" % service)
 
     try:
         pin_remote(cid, PINATA_SERVICE, PINATA_PIN_BACKGROUND)

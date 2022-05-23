@@ -7,7 +7,7 @@ from src.core.web3.contracts import NFT
 from src.core.web3.blockchain import Ethereum
 from src.core.web3.chains import Rinkeby, Kovan
 from src.core.exception import InvalidChain, InvalidPrivateKey
-from src.core.web3.factory import w3, contract, account, chain, blockchain
+from src.core.web3.factory import w3, contract, account, chain, network
 
 from src.core.constants import (
     KOVAN_PROVIDER,
@@ -97,9 +97,9 @@ def test_rinkeby_chain():
 def test_blockchain():
     """Should return expected blockchain based on chain id"""
     # first object
-    from_rinkeby = blockchain(4)
+    from_rinkeby = network(4)
     # second object = first object
-    from_kovan = blockchain(42)
+    from_kovan = network(42)
 
     assert isinstance(from_rinkeby, Ethereum)
     assert isinstance(from_kovan, Ethereum)
