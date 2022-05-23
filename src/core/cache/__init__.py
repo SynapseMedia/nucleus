@@ -1,8 +1,9 @@
 from pymongo import MongoClient, ASCENDING, DESCENDING
 from ..constants import MONGO_HOST, MONGO_PORT, DB_DATE_VERSION, REGEN_MOVIES
 
-ASCENDING = ASCENDING
-DESCENDING = DESCENDING
+# Alias for ordering flags
+ASC = ASCENDING
+DESC = DESCENDING
 
 # An important note about collections (and databases) in MongoDB is that they are created lazily
 # https://pymongo.readthedocs.io/en/stable/tutorial.html#making-a-connection-with-mongoclient
@@ -20,10 +21,14 @@ def get_dbs(*dbs_list):
 
 
 # Initialize db list from name
+# `witth` is the default name for raw metadata db
+#
 # tmp_db - keep current resolvers cache
 # cursor_db - keep a pointer with already processed cache
-tmp_db_name = "witth%s" % DB_DATE_VERSION if REGEN_MOVIES else "witth"
-raw_db, cursor_db, mint_db, bid_db = get_dbs(tmp_db_name, "cursor", "mint", "bid")
+# mint_db - keep stored the current minted movies
+# bid_db - bid collection for movies
+raw_db_name = "witth%s" % DB_DATE_VERSION if REGEN_MOVIES else "witth"
+raw_db, cursor_db, mint_db, bid_db = get_dbs(raw_db_name, "cursor", "mint", "bid")
 
 # Check for empty db
 empty_tmp = raw_db.movies.count() == 0
@@ -42,8 +47,8 @@ __all__ = [
     "bid_db",
     "raw_db",
     "mint_db",
-    "DESCENDING",
-    "ASCENDING",
+    "ASC",
+    "DESC",
     "ingest",
     "mint",
     "bid",

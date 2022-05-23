@@ -80,7 +80,7 @@ def w3(chain_id: int):
     return _blockchain
 
 
-def contract(chain_id: int, type: str = ERC_1155):
+def contract(chain_id: int, type: int = ERC_1155):
     """Factory NFT contract based on provider settings
 
     :param chain_id: kovan=42, rinkeby=4...

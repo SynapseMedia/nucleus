@@ -7,8 +7,6 @@ from ...exception import InvalidVideoQuality
 from .util import get_video_size, get_reverse_quality
 
 
-
-
 # TODO add tests
 def quality(input_file: str):
     """Return quality from video file

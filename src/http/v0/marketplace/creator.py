@@ -1,12 +1,12 @@
 from flask import jsonify, request, Blueprint
-from src.sdk.cache import manager, DESCENDING
+from src.sdk.cache import manager, DESC
 
 creator_ = Blueprint("creator", __name__)
 
 
 @creator_.route("recent", methods=["GET"])
 def creators():
-    order_by = request.args.get("order", DESCENDING)
+    order_by = request.args.get("order", DESC)
     limit = request.args.get("limit", 6)
 
     # Get current latest ingested movies

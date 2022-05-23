@@ -4,7 +4,7 @@ import uuid
 
 from flask import jsonify, request, Blueprint
 from src.sdk.logger import log
-from src.sdk.cache import ingest, manager, cursor_db, DESCENDING
+from src.sdk.cache import ingest, manager, cursor_db, DESC
 from werkzeug.utils import secure_filename
 from marshmallow.exceptions import ValidationError
 
@@ -92,7 +92,7 @@ def profile():
 
 @movie_.route("recent", methods=["GET"])
 def recent():
-    order_by = request.args.get("order", DESCENDING)
+    order_by = request.args.get("order", DESC)
     limit = request.args.get("limit", 10)
 
     # Parse erc1155 metadata
