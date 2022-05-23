@@ -13,7 +13,7 @@ from src.core.constants import (
     PINATA_PSA,
     PINATA_SERVICE,
     PINATA_API_JWT,
-    PINATA_PIN_BACKGROUND
+    PINATA_PIN_BACKGROUND,
 )
 
 # TODO refactor edge to support different services
