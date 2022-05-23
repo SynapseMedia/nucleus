@@ -55,7 +55,7 @@ def blockchain(chain_id: int):
     :rtype: Blockchain
     """
     return {
-        # Because of dicts nature both methods will be "auto executed" 
+        # Because of dicts nature both methods will be "auto executed"
         # Singleton helps to avoid multiple instances of this classes
         # Another solution may be use a lambda function but probable can add extra complexity
         KOVAN: Ethereum.get_instance(chain(chain_id)),

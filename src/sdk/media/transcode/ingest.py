@@ -5,6 +5,7 @@ from src.core import logger, util
 
 # TODO Facade pattern
 
+
 def videos(video_path: str, protocol: str, output_dir: str):
     """Transcode video listed in metadata and store transcoded file in output directory
 
