@@ -12,8 +12,10 @@
         "imdb",
         "ipfs",
         "jsonify",
+        "muxing",
         "rtype",
-        "strerror"
+        "strerror",
+        "tqdm"
     ],
     "python.testing.pytestArgs": [
         "."

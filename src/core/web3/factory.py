@@ -58,8 +58,8 @@ def blockchain(chain_id: int):
         # Because of dicts nature both methods will be "auto executed" 
         # Singleton helps to avoid multiple instances of this classes
         # Another solution may be use a lambda function but probable can add extra complexity
-        KOVAN: Ethereum.get_instance(chain(chain_id)),
-        RINKEBY: Ethereum.get_instance(chain(chain_id)),
+        KOVAN: Ethereum.get_instance(Kovan()),
+        RINKEBY: Ethereum.get_instance(Rinkeby()),
     }.get(chain_id)
 
 
@@ -74,8 +74,7 @@ def w3(chain_id: int):
     # Blockchain factory
     # Get chain settings from chain name
     _blockchain = blockchain(chain_id)
-    private_key = _blockchain.chain.private_key
-    _account = account(private_key)
+    _account = account(_blockchain.chain.private_key)
     # Connect to provider based on chain settings
     _blockchain.set_default_account(_account)
     return _blockchain

@@ -77,11 +77,11 @@ class InvalidCodec(Exception):
 
 
 class InvalidChain(Exception):
-    """Raised when an invalid provider is requested."""
+    """Raised when an invalid chain is requested."""
 
     def __init__(self, message=""):
         _message = f"""
-                Invalid provider: {message}
+                Invalid chain: {message}
                 """
 
         super().__init__(_message)

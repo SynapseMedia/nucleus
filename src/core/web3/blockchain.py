@@ -40,7 +40,7 @@ class Ethereum(Blockchain):
         signed_tx = self.sign_transaction(tx)
         return self.web3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
-    def contract_factory(self, address, abi):
+    def create_contract(self, address, abi):
         return self.web3.eth.contract(
             # Contract address
             address=Web3.toChecksumAddress(address),

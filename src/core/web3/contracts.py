@@ -8,7 +8,7 @@ class NFT(Contract):
 
     def __init__(self, blockchain: Blockchain):
         self.address = blockchain.chain.erc1155
-        self._contract = blockchain.contract_factory(self.address, self.abi)
+        self._contract = blockchain.create_contract(self.address, self.abi)
         self.functions = self._contract.functions
         super().__init__(blockchain)
 

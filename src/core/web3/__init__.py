@@ -13,6 +13,17 @@ class Chain(ABC):
             ....
 
     """
+    
+    @property
+    @abstractmethod
+    def id():
+        """Return chain id
+        
+        eg. Kovan -> 42, Rinkeby -> 4
+        :return: integer representation for chain
+        :rtype: int
+        """
+        pass
 
     @abstractmethod
     def connector(self):
@@ -71,7 +82,7 @@ class Blockchain(ABC):
         pass
 
     @abstractmethod
-    def contract_factory(self):
+    def create_contract(self):
         """Return contract for blockchain operations.
         This factory method return a prebuilt contract based on blockchain specifications.
 
