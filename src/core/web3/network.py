@@ -16,7 +16,6 @@ class Ethereum(Network):
 
     def set_default_account(self, account: Account):
         self.web3.eth.default_account = account
-        return account
 
     def sign_transaction(self, tx: types.TxParams):
         return self.web3.eth.account.sign_transaction(

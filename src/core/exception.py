@@ -101,16 +101,25 @@ class InvalidChain(Exception):
         super().__init__(_message)
 
 
-class InvalidBlockChain(Exception):
-    """Raised when an invalid blockchain is requested."""
+class InvalidNetwork(Exception):
+    """Raised when an invalid network is requested."""
 
     def __init__(self, message=""):
         _message = f"""
-                Not supported blockchain: {message}
+                Not supported network: {message}
                 """
 
         super().__init__(_message)
 
+class InvalidContract(Exception):
+    """Raised when an invalid contract is requested."""
+
+    def __init__(self, message=""):
+        _message = f"""
+                Not supported contract: {message}
+                """
+
+        super().__init__(_message)
 
 class InvalidPrivateKey(Exception):
     """Raised when an invalid private is provided."""

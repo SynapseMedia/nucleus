@@ -36,10 +36,14 @@ fix-coding-style: venv
 	${BLACKFIX} ${PYTHON_MODULES}
 check-coding-style: venv
 	${FLAKE8} ${PYTHON_MODULES}
+
+test-core:
+	${PYTEST} ${PYTHON_MODULES}/core --disable-pytest-warnings
+
 test:
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
 
-test-coverage-core: check-coding-style test
+test-coverage-core: check-coding-style test-core
 	${COVERAGE} run --source=./src/core ${VENV}/bin/py.test
 	${COVERAGE} report
 

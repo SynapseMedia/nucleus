@@ -7,15 +7,13 @@ from ..exception import IPFSFailedExecution
 from ..util import resolve_root_for
 from ..constants import IPFS_CONTAINER
 
-ipfs = "ipfs"
-
 
 def get_container():
     client = docker.from_env()
     return client.containers.get(IPFS_CONTAINER)
 
 
-def exec_command(cmd, *args):
+def exec_command(cmd: str, *args):
     """Send commands execution to ipfs node
 
     :param cmd: please provide path uri scheme eg. /pin/ls/
@@ -26,7 +24,7 @@ def exec_command(cmd, *args):
     arg_list = " ".join(args)
 
     # Command execution delegated to docker ipfs
-    code, output = container.exec_run(f"{ipfs} {cmd} {arg_list} --enc=json")
+    code, output = container.exec_run(f"ipfs {cmd} {arg_list} --enc=json")
 
     if code > 0:
         """
@@ -49,7 +47,7 @@ def exec_command(cmd, *args):
 
 
 # TODO write tests
-def pin_remote(cid, service: str, background: str):
+def pin_remote(cid: str, service: str, background: str):
     """
     Pin cid into edge pinata remote cache
     :param cid: the cid to pin
@@ -63,9 +61,9 @@ def pin_remote(cid, service: str, background: str):
     return exec_command("/pin/remote/add", *args)
 
 
-def pin(cid):
-    """
-    Pin cid into local node
+def pin(cid: str):
+    """ Pin cid into local node
+    
     :param cid: the cid to pin
     :return
     """
@@ -73,9 +71,9 @@ def pin(cid):
     return exec_command("/pin/add/", cid)
 
 
-def dag_get(cid):
-    """
-    Retrieve dag information from cid
+def dag_get(cid: str):
+    """Retrieve dag information from cid
+    
     Proxy dag get command to node
     http://docs.ipfs.io.ipns.localhost:8080/reference/cli/#ipfs-dag-get
     :param cid:
@@ -84,6 +82,7 @@ def dag_get(cid):
 
 
 def get_id():
+    """Return running ipfs node id """
     output = exec_command("id")
     return output.get("ID")
 

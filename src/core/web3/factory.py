@@ -1,8 +1,8 @@
 from eth_account import Account
-from ..exception import InvalidPrivateKey, InvalidChain, InvalidBlockChain
+from ..exception import InvalidPrivateKey, InvalidChain, InvalidNetwork, InvalidContract
 from ..constants import WALLET_KEY
 
-from . import ChainID, Chain, ContractStandards, Network
+from . import ChainID, Chain, ContractStandards, Network, Contract
 from .contracts import NFT
 from .network import Ethereum
 from .chains import Rinkeby, Kovan
@@ -14,7 +14,8 @@ def account(private_key: str = WALLET_KEY):
     :param web: Web3 instance
     :param private_key: wallet key address
     :return: account object
-    :rtype: web3.Account
+    :rtype: Account
+    :raises InvalidPrivateKey
     """
     if not private_key:
         raise InvalidPrivateKey()
@@ -29,22 +30,22 @@ def account(private_key: str = WALLET_KEY):
         raise InvalidPrivateKey(e)
 
 
-def chain(network: ChainID):
+def chain(chain_id: ChainID):
     """Return chain by chain id. eg. Rinkeby, kovan, mainnet..
 
-    :param network: kovan- > 42,rinkeby -> 4...
+    :param chain_id: kovan- > 42,rinkeby -> 4...
     :return: network settings based on provider name
     :rtype: Chain
     """
 
-    networks = {
-        ChainID.RINKEBY: Rinkeby(),
-        ChainID.KOVAN: Kovan(),
+    chains = {
+        ChainID.Rinkeby: Rinkeby(),
+        ChainID.Kovan: Kovan(),
     }
 
-    if network not in networks:
-        raise InvalidChain("%s is not a valid network" % network)
-    return networks[network]
+    if chain_id not in chains:
+        raise InvalidChain("%s is not a valid network" % chain_id)
+    return chains.get(chain_id)
 
 
 def network(chain: Chain):
@@ -54,16 +55,33 @@ def network(chain: Chain):
     :return: Network object
     :rtype: Network
     """
-    allowed_networks = {
-        ChainID.KOVAN: Ethereum,
-        ChainID.RINKEBY: Ethereum,
+    networks = {
+        ChainID.Kovan: Ethereum,
+        ChainID.Rinkeby: Ethereum,
     }
 
-    if chain.id not in allowed_networks:
-        raise InvalidBlockChain("%s is not a valid network" % chain)
+    if chain.id not in networks:
+        raise InvalidNetwork("%s is not a valid network" % chain)
 
-    network_class = allowed_networks[chain.id]
+    network_class = networks.get(chain.id)
     return network_class(chain)
+
+
+def contract(network: Network, type: ContractStandards):
+    """Factory NFT contract based on provider settings
+
+    :param network: Ethereum, Algorand, etc..
+    :param type: The contract type eg. ERC1155 | ERC20 |
+    :return: nft contract
+    :rtype: Contract
+    """
+    contracts = {ContractStandards.ERC1155: NFT}
+
+    if type not in contracts:
+        raise InvalidContract("%s is not a valid contract standard" % type)
+
+    contract_class = contracts.get(type)
+    return contract_class(network)
 
 
 def w3(chain_id: ChainID):
@@ -80,19 +98,7 @@ def w3(chain_id: ChainID):
     _network = network(_chain)
     # Connect to provider based on chain settings
     _account = account(_network.chain.private_key)
+    # Build network with default account
     _network.set_default_account(_account)
     # ...any method needed to config blockchain could be here...
     return _network
-
-
-def contract(network: Network, type: ContractStandards):
-    """Factory NFT contract based on provider settings
-
-    :param network: Ethereum, Algorand, etc..
-    :param type: The contract type eg. ERC1155 | ERC20 |
-    :return: nft contract
-    :rtype: web3.eth.Contract
-    """
-
-    # TODO add exception when doesnt exist contract
-    return {ContractStandards.ERC1155: NFT(network)}.get(type)

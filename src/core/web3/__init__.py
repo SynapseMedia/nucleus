@@ -12,6 +12,9 @@ class ContractStandards(Enum):
     ERC1155 = 1155
     ERC20 = 20
 
+    def __str__(self):
+        return self.name
+
 
 class Chain(ABC):
     """Chain abstract class
@@ -152,7 +155,7 @@ class Contract(ABC):
 
     @property
     @abstractmethod
-    def abi(root_path):
+    def abi(root_path: str):
         """Return contract abi for contract
 
         :param root_path: Where is abi.json stored?

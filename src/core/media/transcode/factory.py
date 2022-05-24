@@ -1,8 +1,8 @@
 from contextlib import contextmanager
 
-from ...constants import MAX_MUXING_QUEUE_SIZE, HLS_FORMAT, DASH_FORMAT
+from ...constants import MAX_MUXING_QUEUE_SIZE
 from ...exception import InvalidVideoQuality, InvalidVideoProtocol
-from . import REPR, Quality, Sizes, Input
+from . import REPR, Quality, Sizes, Input, Protocol
 from .codecs import HLS, DASH
 
 
@@ -71,7 +71,7 @@ def input(input_file: str):
 
 
 @contextmanager
-def codec(protocol: str):
+def codec(protocol: Protocol):
     """Resolve codec handler from protocol name
 
     :param protocol: expected protocol to process video eg. HLS | DASH
@@ -79,7 +79,7 @@ def codec(protocol: str):
     :rtype: Codec
     """
 
-    protocols = {HLS_FORMAT: HLS, DASH_FORMAT: DASH}
+    protocols = {Protocol.HLS: HLS, Protocol.DASH: DASH}
     if protocol not in protocols:
         raise InvalidVideoProtocol()
     return protocols[protocol]

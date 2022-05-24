@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe
 
 
-class Protocols(Enum):
+class Protocol(Enum):
     HLS = 0
     DASH = 1
 
