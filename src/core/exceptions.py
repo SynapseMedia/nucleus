@@ -23,6 +23,20 @@ class InvalidCID(Exception):
         super().__init__(_message)
 
 
+class InvalidStreamingProtocol(Exception):
+    """Raised when a invalid/not existing video protocol is set."""
+
+    def __init__(self):
+        _message = """
+                Invalid protocol provided. 
+                Allowed protocol from enum:
+                    Protocol.HLS
+                    Protocol.DASH
+                """
+
+        super().__init__(_message)
+
+
 class InvalidVideoQuality(Exception):
     """Raised when a invalid/not existing video quality is set."""
 
@@ -77,11 +91,33 @@ class InvalidCodec(Exception):
 
 
 class InvalidChain(Exception):
-    """Raised when an invalid provider is requested."""
+    """Raised when an invalid chain is requested."""
 
     def __init__(self, message=""):
         _message = f"""
-                Invalid provider: {message}
+                Invalid chain: {message}
+                """
+
+        super().__init__(_message)
+
+
+class InvalidNetwork(Exception):
+    """Raised when an invalid network is requested."""
+
+    def __init__(self, message=""):
+        _message = f"""
+                Not supported network: {message}
+                """
+
+        super().__init__(_message)
+
+
+class InvalidContract(Exception):
+    """Raised when an invalid contract is requested."""
+
+    def __init__(self, message=""):
+        _message = f"""
+                Not supported contract: {message}
                 """
 
         super().__init__(_message)

@@ -1,5 +1,34 @@
+from enum import Enum
+from web3 import types
+from dataclasses import dataclass
 from abc import ABC, abstractmethod
 from eth_account import Account
+from web3.contract import ContractFunctions
+
+
+class ChainID(Enum):
+    Kovan = 42
+    Rinkeby = 4
+
+
+class NetworkID(Enum):
+    Ethereum = 0
+
+    def __str__(self):
+        return self.name
+
+
+class ContractID(Enum):
+    ERC1155 = 1155
+    ERC20 = 20
+
+    def __str__(self):
+        return self.name
+
+
+@dataclass
+class Transaction:
+    pass
 
 
 class Chain(ABC):
@@ -13,6 +42,21 @@ class Chain(ABC):
             ....
 
     """
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+    @property
+    @abstractmethod
+    def id():
+        """Return chain id
+
+        eg. Kovan -> 42, Rinkeby -> 4
+        :return: integer representation for chain
+        :rtype: int
+        """
+        pass
 
     @abstractmethod
     def connector(self):
@@ -36,7 +80,7 @@ class Chain(ABC):
     @property
     @abstractmethod
     def erc1155(self):
-        """Return address for deployed contract standard ERC1155
+        """Return address for deployed contract
 
         :return: nft contract address
         :rtype: str
@@ -44,21 +88,33 @@ class Chain(ABC):
         pass
 
 
-class Blockchain(ABC):
-    """Blockchain abstract class
+class Network(ABC):
+    """Network abstract class
 
     Specify all methods needed to interact with the blockchain.
     Use this class to create blockchain subtypes.
 
     Usage:
-        class Algorand(Blockchain):
+        class Algorand(Network):
             ....
 
     """
 
-    def __init__(self, chain: Chain):
-        self.chain = chain
+    chain: Chain
+
+    def __init__(self):
         super().__init__()
+        self.chain = None
+
+    @abstractmethod
+    def bind(self, chain: Chain):
+        """Assoc chain with network
+
+        :param chain: chain to connect. eg. Rinkeby, Kovan, etc..
+        :return: chain connected
+        :rtype: Chain
+        """
+        pass
 
     @abstractmethod
     def set_default_account(self, account: Account):
@@ -71,7 +127,7 @@ class Blockchain(ABC):
         pass
 
     @abstractmethod
-    def contract_factory(self):
+    def contract(self, address: str, abi: str):
         """Return contract for blockchain operations.
         This factory method return a prebuilt contract based on blockchain specifications.
 
@@ -82,7 +138,7 @@ class Blockchain(ABC):
         pass
 
     @abstractmethod
-    def sign_transaction(self):
+    def sign_transaction(self, tx):
         """Sign transaction for blockchain using private key.
 
         :return: Signed transaction
@@ -99,6 +155,16 @@ class Blockchain(ABC):
         """
         pass
 
+    @abstractmethod
+    def get_transaction(hash: types._Hash32):
+        """Return transaction summary
+
+        :param tx: transaction address
+        :return: Transaction summary
+        :rtype: TxData
+        """
+        pass
+
 
 class Contract(ABC):
     """Contract abstract class
@@ -112,17 +178,32 @@ class Contract(ABC):
 
     """
 
-    def __init__(self, blockchain: Blockchain):
-        self.blockchain = blockchain
-        super().__init__()
+    address: str
+    network: Network
+    functions: ContractFunctions
 
-    def __getattr__(self, name):
+    def __init__(self):
+        super().__init__()
+        self.network = None
+        self.functions = None
+        self.address = None
+
+    def __getattr__(self, name: str):
         """Called when an attribute lookup has not found the attribute in the usual places"""
+        pass
+
+    def connect(self, network: Network):
+        """Connect contract to network
+
+        :param network: Network to connect within
+        :return: network connected
+        :rtype: Network
+        """
         pass
 
     @property
     @abstractmethod
-    def abi(root_path):
+    def abi(root_path: str):
         """Return contract abi for contract
 
         :param root_path: Where is abi.json stored?
