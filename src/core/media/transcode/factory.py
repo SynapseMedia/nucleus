@@ -52,9 +52,9 @@ def streaming(protocol: ProtocolID):
     """Resolve protocol handler from protocol id
 
     :param protocol: expected protocol to process video eg. HLS | DASH
-    :return: Codec type based on protocol
-    :rtype: Codec
-    :raises InvalidVideoProtocol
+    :return: Streaming type based on protocol
+    :rtype: Streaming
+    :raises InvalidStreamingProtocol
     """
 
     protocols = {ProtocolID.HLS: HLS, ProtocolID.DASH: DASH}
