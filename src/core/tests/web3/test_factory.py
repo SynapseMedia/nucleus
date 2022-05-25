@@ -45,7 +45,9 @@ def test_nft_contract_factory(monkeypatch):
     network = Ethereum()
     network.bind(Rinkeby())
 
-    expected_contract = contract(network, ContractID.ERC1155)
+    expected_contract = contract(ContractID.ERC1155)
+    expected_contract.connect(network)
+    
     assert isinstance(expected_contract, NFT)
     assert isinstance(expected_contract.network, Ethereum)
 
@@ -54,7 +56,7 @@ def test_nft_invalid_contract(monkeypatch):
     """Should return error with invalid contract"""
     # Chain rinkeby and ERC1155 standard
     with pytest.raises(InvalidContract):
-        contract(0, 1155)
+        contract(1155)
 
 
 def test_kovan_chain():

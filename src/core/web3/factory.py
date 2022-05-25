@@ -73,7 +73,7 @@ def network(net: NetworkID):
     return network_class()
 
 
-def contract(network: Network, type: ContractID):
+def contract(type: ContractID):
     """Factory NFT contract based on provider settings
 
     :param network: Ethereum, Algorand, etc..
@@ -88,7 +88,4 @@ def contract(network: Network, type: ContractID):
         raise InvalidContract("%s is not a valid contract standard" % type)
 
     contract_class = contracts.get(type)
-    contract_object = contract_class()
-    # connect contract to network
-    contract_object.connect(network)
-    return contract_object
+    return contract_class()
