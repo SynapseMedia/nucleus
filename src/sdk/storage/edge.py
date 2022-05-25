@@ -4,7 +4,7 @@ import requests
 from . import session
 from src.core import logger
 from src.core.storage.ipfs import services, pin_remote, register_service
-from src.core.exception import IPFSFailedExecution
+from src.core.exceptions import IPFSFailedExecution
 from src.core.constants import (
     VALIDATE_SSL,
     PINATA_API_SECRET,
@@ -35,7 +35,7 @@ def pin(cid: str, service: str = PINATA_SERVICE):
     """
 
     if not has_valid_registered_service(service):
-        raise IPFSFailedExecution("Service %s is not registered", service)
+        raise IPFSFailedExecution("Service %s is not registered" % service)
 
     try:
         pin_remote(cid, PINATA_SERVICE, PINATA_PIN_BACKGROUND)

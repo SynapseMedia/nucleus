@@ -1,11 +1,9 @@
-from src.core.media.transcode.codecs import get_codec
-from src.core.exception import InvalidCodec
+from src.core.media.transcode.factory import get_codec
+from src.core.exceptions import InvalidCodec
 from src.core import logger, util
 
 
 # TODO Facade pattern
-
-
 def videos(video_path: str, protocol: str, output_dir: str):
     """Transcode video listed in metadata and store transcoded file in output directory
 

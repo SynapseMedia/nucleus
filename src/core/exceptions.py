@@ -91,9 +91,6 @@ class InvalidCodec(Exception):
 
 
 class InvalidChain(Exception):
-<<<<<<< HEAD:src/core/exception.py
-    """Raised when an invalid provider is requested."""
-=======
     """Raised when an invalid chain is requested."""
 
     def __init__(self, message=""):

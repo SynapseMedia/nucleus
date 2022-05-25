@@ -1,5 +1,5 @@
 from flask import jsonify, request, Blueprint
-from src.sdk.cache import bid, DESCENDING
+from src.sdk.cache import bid, DESC
 from src.sdk.exception import InvalidRequest
 
 bids_ = Blueprint("bids", __name__)
@@ -8,7 +8,7 @@ bids_ = Blueprint("bids", __name__)
 @bids_.route("recent", methods=["GET"])
 def recent():
     uid = request.args.get("id")
-    order_by = request.args.get("order", DESCENDING)
+    order_by = request.args.get("order", DESC)
     limit = request.args.get("limit", 5)
 
     bid_list, _ = bid.frozen({"movie": uid}, {"_id": False})
