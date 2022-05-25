@@ -1,4 +1,5 @@
 import pytest
+from ffmpeg_streaming._format import H264, VP9
 from src.core.exceptions import InvalidVideoQuality, InvalidStreamingProtocol
 from src.core.media.transcode import REPR, Sizes, ProtocolID
 from src.core.media.transcode.protocols import HLS, DASH
@@ -47,8 +48,10 @@ def test_streaming_protocol():
 
     with streaming(ProtocolID.HLS) as hls:
         assert isinstance(hls, HLS)
+        assert isinstance(hls.codec, H264)
     with streaming(ProtocolID.DASH) as dash:
         assert isinstance(dash, DASH)
+        assert isinstance(dash.codec, VP9)
 
 
 def test_invalid_streaming_protocol():
