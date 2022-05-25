@@ -79,8 +79,8 @@ class IPFSFailedExecution(Exception):
         super().__init__(_message)
 
 
-class InvalidCodec(Exception):
-    """Raised when an invalid codec is requested."""
+class InvalidStreamingProtocol(Exception):
+    """Raised when a invalid/not existing video protocol is set."""
 
     def __init__(self, message=""):
         _message = f"""
@@ -114,7 +114,6 @@ class InvalidNetwork(Exception):
 
 class InvalidContract(Exception):
     """Raised when an invalid contract is requested."""
->>>>>>> refactor--core/transcode:src/core/exceptions.py
 
     def __init__(self, message=""):
         _message = f"""
