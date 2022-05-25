@@ -36,6 +36,7 @@ def quality(size: Sizes):
     return quality_representations.get(size)
 
 
+# TODO write tests
 @contextmanager
 def input(input_file: str):
     """
