@@ -62,8 +62,8 @@ def pin_remote(cid: str, service: str, background: str):
 
 
 def pin(cid: str):
-    """ Pin cid into local node
-    
+    """Pin cid into local node
+
     :param cid: the cid to pin
     :return
     """
@@ -73,7 +73,7 @@ def pin(cid: str):
 
 def dag_get(cid: str):
     """Retrieve dag information from cid
-    
+
     Proxy dag get command to node
     http://docs.ipfs.io.ipns.localhost:8080/reference/cli/#ipfs-dag-get
     :param cid:
@@ -82,7 +82,7 @@ def dag_get(cid: str):
 
 
 def get_id():
-    """Return running ipfs node id """
+    """Return running ipfs node id"""
     output = exec_command("id")
     return output.get("ID")
 

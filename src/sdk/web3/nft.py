@@ -15,19 +15,17 @@ def mint(to: str, cid: str, chain_id: ChainID):
     """
 
     logger.log.info(f"Minting CID {cid} in {chain_id}")
-    
-    network = w3(chain_id) # Network from chain id
+
+    network = w3(chain_id)  # Network from chain id
     _contract = contract(network, ContractID.ERC1155)
 
     # Format base16 => hex => int
     uint256_cid = cid_to_uint256(cid)
-    
-    # Build contract transaction call
-    tx = _contract.mint(
-        to, uint256_cid  # owner, cid uint256
-    ).buildTransaction()
 
-    tx = network.send_transaction( tx)
+    # Build contract transaction call
+    tx = _contract.mint(to, uint256_cid).buildTransaction()  # owner, cid uint256
+
+    tx = network.send_transaction(tx)
     return network.get_transaction(tx.hex())
 
 

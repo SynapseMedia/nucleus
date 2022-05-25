@@ -60,6 +60,6 @@ def streaming(protocol: ProtocolID):
     protocols = {ProtocolID.HLS: HLS, ProtocolID.DASH: DASH}
     if protocol not in protocols:
         raise InvalidStreamingProtocol()
-    
+
     protocol_class = protocols.get(protocol)
     yield protocol_class()

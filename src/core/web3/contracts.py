@@ -10,12 +10,12 @@ class NFT(Contract):
     def connect(self, network: Network):
         self.network = network
         self.address = network.chain.erc1155
-        
+
         # dynamic callable function handled by attribute accessor
         _contract = network.contract(self.address, self.abi)
         self.functions = _contract.functions
         return network
-    
+
     def __getattr__(self, name):
         return self.functions[name]
 

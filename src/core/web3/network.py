@@ -32,7 +32,7 @@ class Ethereum(Network):
     # TODO return EthereumTransaction
     def get_transaction(self, hash: types._Hash32):
         """Get transaction from network
-        
+
         :param hash: Transaction hash
         :return: Transaction summary
         :rtype: EthereumTransaction

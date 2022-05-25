@@ -1,5 +1,10 @@
 from eth_account import Account
-from ..exceptions import InvalidPrivateKey, InvalidChain, InvalidNetwork, InvalidContract
+from ..exceptions import (
+    InvalidPrivateKey,
+    InvalidChain,
+    InvalidNetwork,
+    InvalidContract,
+)
 from ..constants import WALLET_KEY
 
 from . import ChainID, ContractID, Network, NetworkID
@@ -87,5 +92,3 @@ def contract(network: Network, type: ContractID):
     # connect contract to network
     contract_object.connect(network)
     return contract_object
-
-
