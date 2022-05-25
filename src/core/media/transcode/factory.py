@@ -40,9 +40,9 @@ def quality(size: Sizes):
 def input(input_file: str):
     """
     Factory input FFmpeg
-    :param input_image: Path to image
-    :return: FFmpeg interface
-    :rtype: FFmpeg
+    :param input_file: Path to video
+    :return: Input interface
+    :rtype: Input
     """
     yield Input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)
 

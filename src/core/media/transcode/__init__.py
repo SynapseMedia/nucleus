@@ -42,6 +42,7 @@ class REPR:
     R4k = Representation(Sizes.Q4k, BRS.B4k)
 
 
+# TODO add tests
 class Input:
     """Class to allow control over FFmpeg input.
 
