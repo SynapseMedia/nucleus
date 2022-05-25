@@ -47,7 +47,7 @@ def test_nft_contract_factory(monkeypatch):
 
     expected_contract = contract(ContractID.ERC1155)
     expected_contract.connect(network)
-    
+
     assert isinstance(expected_contract, NFT)
     assert isinstance(expected_contract.network, Ethereum)
 
