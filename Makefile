@@ -37,6 +37,9 @@ fix-coding-style: venv
 check-coding-style: venv
 	${FLAKE8} ${PYTHON_MODULES}
 
+test-sdk:
+	${PYTEST} ${PYTHON_MODULES}/sdk --disable-pytest-warnings
+
 test-core:
 	${PYTEST} ${PYTHON_MODULES}/core --disable-pytest-warnings
 
@@ -45,6 +48,10 @@ test:
 
 test-coverage-core: check-coding-style test-core
 	${COVERAGE} run --source=./src/core ${VENV}/bin/py.test
+	${COVERAGE} report
+
+test-coverage-sdk: test-coverage-sdk
+	${COVERAGE} run --source=./src/sdk ${VENV}/bin/py.test
 	${COVERAGE} report
 
 test-coverage: test-coverage-core

@@ -18,7 +18,7 @@ class EVM(Chain):
 
 class Kovan(EVM):
     """Kovan chain type"""
-
+    
     def __str__(self):
         return "kovan"
 
@@ -48,7 +48,7 @@ class Kovan(EVM):
 
 class Rinkeby(EVM):
     """Rinkeby chain type"""
-
+    
     def __str__(self):
         return "rinkeby"
 

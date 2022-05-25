@@ -1,6 +1,6 @@
 from pymongo.errors import BulkWriteError
 from . import raw_db, mint_db, cursor_db
-from ..exception import EmptyCache
+from ..exceptions import EmptyCache
 from ..logger import log
 
 

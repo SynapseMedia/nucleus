@@ -1,50 +1,27 @@
 from contextlib import contextmanager
 
 from ...constants import MAX_MUXING_QUEUE_SIZE
-from ...exception import InvalidVideoQuality, InvalidVideoProtocol
-from . import REPR, Quality, Sizes, Input, Protocol
-from .codecs import HLS, DASH
+from ...exceptions import InvalidVideoQuality, InvalidStreamingProtocol
+from . import REPR, Sizes, Input, ProtocolID, Sizes
+from .protocols import HLS, DASH
 
 
-def quality(input: Input):
-    """Return quality from video file
-
-    :param input: FFmpeg interface
-    :return: quality based on video size
-    :rtype: Quality
-    :throw InvalidVideoQuality
-    """
-    video_size = input.get_video_size()
-    quality_sizes = {
-        Sizes.Q360: Quality.Q360,
-        Sizes.Q480: Quality.Q480,
-        Sizes.Q720: Quality.Q720,
-        Sizes.Q1080: Quality.Q1080,
-        Sizes.Q2k: Quality.Q2k,
-        Sizes.Q4k: Quality.Q4k,
-    }
-
-    if video_size not in quality_sizes:
-        raise InvalidVideoQuality()
-    return quality_sizes[video_size]
-
-
-def representation(_quality: Quality):
-    """Return representation list based on`quality`.
+def quality(size: Sizes):
+    """Return quality list of appropriated representations based on `size`.
 
     Blocked upscale and locked downscale allowed for each defined quality
-    :param quality: quality to match representation.
-    :return: list of representations based on requested quality
+    :param size: master video size to match appropriate representation.
+    :return: list of appropriate representations based on requested quality
     :rtype: tuple
+    :raises InvalidVideoQuality
     """
 
     quality_representations = {
-        Quality.Q360: (REPR.R360p),
-        Quality.Q480: (REPR.R360p, REPR.R480p),
-        Quality.Q720: (REPR.R360p, REPR.R480p, REPR.R720p),
-        Quality.Q1080: (REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p),
-        Quality.Q2k: (REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p, REPR.R2k),
-        Quality.Q4k: (
+        Sizes.Q480: (REPR.R360p, REPR.R480p),
+        Sizes.Q720: (REPR.R360p, REPR.R480p, REPR.R720p),
+        Sizes.Q1080: (REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p),
+        Sizes.Q2k: (REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p, REPR.R2k),
+        Sizes.Q4k: (
             REPR.R360p,
             REPR.R480p,
             REPR.R720p,
@@ -54,9 +31,9 @@ def representation(_quality: Quality):
         ),
     }
 
-    if _quality not in quality_representations:
+    if size not in quality_representations:
         raise InvalidVideoQuality()
-    return quality_representations[_quality]
+    return quality_representations.get(size)
 
 
 @contextmanager
@@ -71,15 +48,18 @@ def input(input_file: str):
 
 
 @contextmanager
-def codec(protocol: Protocol):
-    """Resolve codec handler from protocol name
+def streaming(protocol: ProtocolID):
+    """Resolve protocol handler from protocol id
 
     :param protocol: expected protocol to process video eg. HLS | DASH
     :return: Codec type based on protocol
     :rtype: Codec
+    :raises InvalidVideoProtocol
     """
 
-    protocols = {Protocol.HLS: HLS, Protocol.DASH: DASH}
+    protocols = {ProtocolID.HLS: HLS, ProtocolID.DASH: DASH}
     if protocol not in protocols:
-        raise InvalidVideoProtocol()
-    return protocols[protocol]
+        raise InvalidStreamingProtocol()
+    
+    protocol_class = protocols.get(protocol)
+    yield protocol_class()

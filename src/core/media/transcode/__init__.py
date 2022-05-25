@@ -1,25 +1,16 @@
 from enum import Enum
 from datetime import datetime
+from dataclasses import dataclass
 from abc import ABC, abstractmethod
 from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe
 
 
-class Protocol(Enum):
+class ProtocolID(Enum):
     HLS = 0
     DASH = 1
 
 
-class Quality(Enum):
-    Q144 = 0
-    Q240 = 1
-    Q360 = 2
-    Q480 = 3
-    Q720 = 4
-    Q1080 = 5
-    Q2k = 6
-    Q4k = 7
-
-
+@dataclass
 class Sizes:
     Q144 = Size(256, 144)
     Q240 = Size(426, 240)
@@ -31,6 +22,7 @@ class Sizes:
     Q4k = Size(3840, 2160)
 
 
+@dataclass
 class BRS:
     B360 = Bitrate(276 * 1024, 128 * 1024)
     B480 = Bitrate(750 * 1024, 192 * 1024)
@@ -40,6 +32,7 @@ class BRS:
     B4k = Bitrate(17408 * 1024, 320 * 1024)
 
 
+@dataclass
 class REPR:
     R360p = Representation(Sizes.Q360, BRS.B360)
     R480p = Representation(Sizes.Q480, BRS.B480)
@@ -84,11 +77,7 @@ class Input:
         return duration, datetime.timedelta(duration)
 
 
-class Codec(ABC):
-    def __init__(self, input: Input):
-        super().__init__()
-        self.input = input
-
+class Streaming(ABC):
     @abstractmethod
     def set_input(self, input: Input):
         pass
@@ -99,7 +88,7 @@ class Codec(ABC):
 
     @property
     @abstractmethod
-    def format():
+    def codec():
         pass
 
     @abstractmethod

@@ -1,6 +1,9 @@
 from enum import Enum
+from web3 import types
+from dataclasses import dataclass
 from abc import ABC, abstractmethod
 from eth_account import Account
+from web3.contract import ContractFunctions
 
 
 class ChainID(Enum):
@@ -8,12 +11,24 @@ class ChainID(Enum):
     Rinkeby = 4
 
 
-class ContractStandards(Enum):
+class NetworkID(Enum):
+    Ethereum = 0
+
+    def __str__(self):
+        return self.name
+
+
+class ContractID(Enum):
     ERC1155 = 1155
     ERC20 = 20
 
     def __str__(self):
         return self.name
+
+
+@dataclass
+class Transaction:
+    pass
 
 
 class Chain(ABC):
@@ -74,23 +89,31 @@ class Chain(ABC):
 
 
 class Network(ABC):
-    """Blockchain abstract class
+    """Network abstract class
 
     Specify all methods needed to interact with the blockchain.
     Use this class to create blockchain subtypes.
 
     Usage:
-        class Algorand(Blockchain):
+        class Algorand(Network):
             ....
 
     """
 
-    def __init__(self, chain: Chain):
+    chain: Chain
+
+    def __init__(self):
         super().__init__()
-        self.chain = chain
+        self.chain = None
 
     @abstractmethod
-    def connect(self, chain: Chain):
+    def bind(self, chain: Chain):
+        """Assoc chain with network
+
+        :param chain: chain to connect. eg. Rinkeby, Kovan, etc..
+        :return: chain connected
+        :rtype: Chain
+        """
         pass
 
     @abstractmethod
@@ -115,7 +138,7 @@ class Network(ABC):
         pass
 
     @abstractmethod
-    def sign_transaction(self):
+    def sign_transaction(self, tx):
         """Sign transaction for blockchain using private key.
 
         :return: Signed transaction
@@ -132,6 +155,16 @@ class Network(ABC):
         """
         pass
 
+    @abstractmethod
+    def get_transaction(hash: types._Hash32):
+        """Return transaction summary
+
+        :param tx: transaction address
+        :return: Transaction summary
+        :rtype: TxData
+        """
+        pass
+
 
 class Contract(ABC):
     """Contract abstract class
@@ -145,12 +178,27 @@ class Contract(ABC):
 
     """
 
-    def __init__(self, network: Network):
-        super().__init__()
-        self.network = network
+    address: str
+    network: Network
+    functions: ContractFunctions
 
-    def __getattr__(self, name):
+    def __init__(self):
+        super().__init__()
+        self.network = None
+        self.functions = None
+        self.address = None
+
+    def __getattr__(self, name: str):
         """Called when an attribute lookup has not found the attribute in the usual places"""
+        pass
+
+    def connect(self, network: Network):
+        """Connect contract to network
+
+        :param network: Network to connect within
+        :return: network connected
+        :rtype: Network
+        """
         pass
 
     @property

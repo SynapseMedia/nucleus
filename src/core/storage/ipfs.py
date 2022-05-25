@@ -3,7 +3,7 @@ import errno
 import docker
 import json
 
-from ..exception import IPFSFailedExecution
+from ..exceptions import IPFSFailedExecution
 from ..util import resolve_root_for
 from ..constants import IPFS_CONTAINER
 

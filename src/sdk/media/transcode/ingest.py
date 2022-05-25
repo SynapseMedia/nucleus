@@ -1,5 +1,5 @@
 from src.core.media.transcode.factory import get_codec
-from src.core.exception import InvalidCodec
+from src.core.exceptions import InvalidCodec
 from src.core import logger, util
 
 

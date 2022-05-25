@@ -1,29 +1,34 @@
-from src.core.web3.factory import nft_contract, transaction
+from src.core.web3 import ContractID, ChainID
+from src.core.web3.factory import contract, w3
 from src.core.web3.crypto import cid_to_uint256
 from src.core import logger
 
 
-def mint(to: str, cid: str, chain_id: int = 4):
+def mint(to: str, cid: str, chain_id: ChainID):
     """Mint token to address based on cid in defined chain
 
     :param to: receptor
     :param cid: IPFS cid
     :param chain_id: Chain id eg. 4 -> Rinkeby
-    :return: tuple with (transaction address, receptor address, cid)
-    :rtype: Union[str, str, str]
+    :return: Transaction summary
+    :rtype: TxData
     """
 
     logger.log.info(f"Minting CID {cid} in {chain_id}")
-    contract = nft_contract(chain_id)
+    
+    network = w3(chain_id) # Network from chain id
+    _contract = contract(network, ContractID.ERC1155)
 
     # Format base16 => hex => int
     uint256_cid = cid_to_uint256(cid)
-    tx = contract.functions.mint(
+    
+    # Build contract transaction call
+    tx = _contract.mint(
         to, uint256_cid  # owner, cid uint256
     ).buildTransaction()
 
-    tx = transaction(chain_id, tx)
-    return tx.hex(), to, cid
+    tx = network.send_transaction( tx)
+    return network.get_transaction(tx.hex())
 
 
 def mint_batch(to: str, cid_list: list, chain_id: int = 4):
