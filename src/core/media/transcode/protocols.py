@@ -11,7 +11,7 @@ class HLS(Streaming):
         self._hls.representations(repr)
 
     @property
-    def codec():
+    def codec(self):
         return Formats.h264()
 
     def transcode(self, output_dir: str):
@@ -26,8 +26,8 @@ class DASH(Streaming):
         self._dash.representations(repr)
 
     @property
-    def codec():
-        return Formats.vp8()
+    def codec(self):
+        return Formats.vp9()
 
     def transcode(self, output_dir: str):
         self._dash.output(output_dir, monitor=progress)
