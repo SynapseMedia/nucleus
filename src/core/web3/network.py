@@ -12,7 +12,7 @@ class Ethereum(Network):
     def __init__(self, chain: EVM):
         # Connect network to chain provider
         if not isinstance(chain, EVM):
-            raise TypeError("Only EVM chains are supported")
+            raise TypeError("provided `chain` for ethereum network not supported")
         
         super().__init__(chain)
         self.web3 = Web3(chain.connector())

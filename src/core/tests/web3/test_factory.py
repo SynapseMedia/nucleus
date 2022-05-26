@@ -60,7 +60,7 @@ def test_invalid_account():
         account(wallet_key)
 
 
-def test_nft_contract_factory(monkeypatch):
+def test_nft_contract_factory():
     """Should return expected contract based on chain name"""
     # Chain rinkeby and ERC1155 standard
     chain = Rinkeby()
@@ -71,7 +71,15 @@ def test_nft_contract_factory(monkeypatch):
     assert isinstance(expected_contract.network, Ethereum)
 
 
-def test_nft_invalid_contract(monkeypatch):
+def test_nft_contract_factory_with_invalid_network():
+    """Should return expected contract based on chain name"""
+    # Chain rinkeby and ERC1155 standard
+    with pytest.raises(TypeError):
+        contract(ContractID.ERC1155, Rinkeby())
+
+
+
+def test_nft_invalid_contract():
     """Should return error with invalid contract"""
     # Chain rinkeby and ERC1155 standard
     with pytest.raises(InvalidContract):

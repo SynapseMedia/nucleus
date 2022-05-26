@@ -7,6 +7,10 @@ class NFT(Contract):
     """NFT contract type"""
 
     def __init__(self, network: Network):
+    
+        if not isinstance(network, Network):
+            raise TypeError("provided `network` must implement Network interface")
+        
         super().__init__(network)
         self.address = network.chain.erc1155
         # dynamic callable function handled by attribute accessor
