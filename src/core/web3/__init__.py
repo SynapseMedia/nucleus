@@ -1,9 +1,14 @@
+"""
+https://docs.python.org/3/library/typing.html#module-typing
+Note: The Python runtime does not enforce function and variable type annotations.
+They can be used by third party tools such as type checkers, IDEs, linters, etc.
+"""
+
 from enum import Enum
 from web3 import types
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
 from eth_account import Account
-from web3.contract import ContractFunctions
 
 
 class ChainID(Enum):
