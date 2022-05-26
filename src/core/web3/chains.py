@@ -13,10 +13,7 @@ from ..constants import (
 
 
 class EVM(Chain):
-    @abstractmethod
-    def is_ethereum_network():
-        """Only EVM chains implement this differentiating method"""
-        pass
+    pass
 
 
 class Kovan(EVM):
@@ -24,9 +21,6 @@ class Kovan(EVM):
 
     def __str__(self):
         return "kovan"
-
-    def is_ethereum_network(self):
-        return True
 
     @property
     def id(self):
@@ -62,9 +56,6 @@ class Rinkeby(EVM):
     def id(self):
         return ChainID.Rinkeby
 
-    def is_ethereum_network(self):
-            return True
-        
     def connector(self):
         """Return rinkeby pre-build Http Provider
 
