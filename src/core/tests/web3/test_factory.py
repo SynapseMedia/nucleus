@@ -5,7 +5,7 @@ import hexbytes
 from web3 import Web3
 from src.core.web3.contracts import NFT
 from src.core.web3.network import Ethereum
-from src.core.web3.chains import Rinkeby
+from src.core.web3.chains import Rinkeby, Kovan
 from src.core.web3 import ContractID, ChainID, NetworkID
 
 from src.core.web3.factory import contract, account, chain, network
@@ -42,12 +42,10 @@ def test_invalid_account():
 def test_nft_contract_factory(monkeypatch):
     """Should return expected contract based on chain name"""
     # Chain rinkeby and ERC1155 standard
-    network = Ethereum()
-    network.bind(Rinkeby())
+    chain = Rinkeby()
+    network = Ethereum(chain)
 
-    expected_contract = contract(ContractID.ERC1155)
-    expected_contract.connect(network)
-
+    expected_contract = contract(ContractID.ERC1155, network)
     assert isinstance(expected_contract, NFT)
     assert isinstance(expected_contract.network, Ethereum)
 
@@ -56,7 +54,7 @@ def test_nft_invalid_contract(monkeypatch):
     """Should return error with invalid contract"""
     # Chain rinkeby and ERC1155 standard
     with pytest.raises(InvalidContract):
-        contract(1155)
+        contract(1155, None)
 
 
 def test_kovan_chain():
@@ -93,9 +91,9 @@ def test_rinkeby_chain():
 
 
 def test_network():
-    """Should return expected network based on chain id"""
+    """Should return expected network based on network id"""
 
-    _network = network(NetworkID.Ethereum)
+    _network = network(NetworkID.Ethereum, Kovan())
     assert isinstance(_network, Ethereum)
 
 
@@ -105,4 +103,4 @@ def test_invalid_network():
     with pytest.raises(InvalidNetwork):
         # first object
         # Returned network based on chain
-        network(0)
+        network(0, None)

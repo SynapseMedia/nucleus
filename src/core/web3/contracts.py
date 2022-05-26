@@ -7,14 +7,12 @@ from ..util import read_json
 class NFT(Contract):
     """NFT contract type"""
 
-    def connect(self, network: Network):
-        self.network = network
+    def __init__(self, network: Network):
+        super().__init__(network)
         self.address = network.chain.erc1155
-
         # dynamic callable function handled by attribute accessor
         _contract = network.contract(self.address, self.abi)
         self.functions = _contract.functions
-        return network
 
     def __getattr__(self, name):
         return self.functions[name]
