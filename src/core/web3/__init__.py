@@ -100,21 +100,16 @@ class Network(ABC):
 
     """
 
-    chain: Chain
-
-    def __init__(self):
-        super().__init__()
-        self.chain = None
-
-    @abstractmethod
-    def bind(self, chain: Chain):
+    def __init__(self, chain: Chain):
         """Assoc chain with network
 
         :param chain: chain to connect. eg. Rinkeby, Kovan, etc..
         :return: chain connected
         :rtype: Chain
         """
-        pass
+
+        super().__init__()
+        self.chain = chain
 
     @abstractmethod
     def set_default_account(self, account: Account):
@@ -178,27 +173,19 @@ class Contract(ABC):
 
     """
 
-    address: str
-    network: Network
-    functions: ContractFunctions
+    def __init__(self, network: Network):
 
-    def __init__(self):
-        super().__init__()
-        self.network = None
-        self.functions = None
-        self.address = None
-
-    def __getattr__(self, name: str):
-        """Called when an attribute lookup has not found the attribute in the usual places"""
-        pass
-
-    def connect(self, network: Network):
         """Connect contract to network
 
         :param network: Network to connect within
         :return: network connected
         :rtype: Network
         """
+        super().__init__()
+        self.network = network
+
+    def __getattr__(self, name: str):
+        """Called when an attribute lookup has not found the attribute in the usual places"""
         pass
 
     @property

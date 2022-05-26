@@ -10,7 +10,7 @@ def quality(size: Sizes):
     """Return quality list of appropriated representations based on `size`.
 
     Blocked upscale and locked downscale allowed for each defined quality
-    :param size: master video size to match appropriate representation.
+    :param size: master video size to match appropriate representation
     :return: list of appropriate representations based on requested quality
     :rtype: tuple
     :raises InvalidVideoQuality
@@ -39,8 +39,8 @@ def quality(size: Sizes):
 # TODO write tests
 @contextmanager
 def input(input_file: str):
-    """
-    Factory input FFmpeg
+    """Factory input FFmpeg
+    
     :param input_file: Path to video
     :return: Input interface
     :rtype: Input

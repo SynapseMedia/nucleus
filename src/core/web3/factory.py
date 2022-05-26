@@ -7,7 +7,7 @@ from ..exceptions import (
 )
 from ..constants import WALLET_KEY
 
-from . import ChainID, ContractID, Network, NetworkID
+from . import ChainID, ContractID, Network, NetworkID, Chain
 from .contracts import NFT
 from .network import Ethereum
 from .chains import Rinkeby, Kovan
@@ -56,10 +56,11 @@ def chain(chain_id: ChainID):
     return chain_class()
 
 
-def network(net: NetworkID):
+def network(net: NetworkID, chain: Chain):
     """Return a network class based on chain
 
     :param net: Ethereum -> 0
+    :param chain: chain to bind network eg. Rinkeby
     :return: Network object
     :raises InvalidNetwork
     :rtype: Network
@@ -70,14 +71,14 @@ def network(net: NetworkID):
         raise InvalidNetwork("%s is not a valid network" % net)
 
     network_class = networks.get(net)
-    return network_class()
+    return network_class(chain)
 
 
-def contract(type: ContractID):
+def contract(type: ContractID, network: Network):
     """Factory NFT contract based on provider settings
 
-    :param network: Ethereum, Algorand, etc..
     :param type: The contract type eg. ERC1155 | ERC20 |
+    :param network: Ethereum, Algorand, etc..
     :return: nft contract
     :raises InvalidContract
     :rtype: Contract
@@ -88,4 +89,4 @@ def contract(type: ContractID):
         raise InvalidContract("%s is not a valid contract standard" % type)
 
     contract_class = contracts.get(type)
-    return contract_class()
+    return contract_class(network)
