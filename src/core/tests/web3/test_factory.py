@@ -56,7 +56,6 @@ def test_nft_invalid_contract(monkeypatch):
     with pytest.raises(InvalidContract):
         contract(1155, None)
 
-
 def test_kovan_chain():
     """Should return expected assets and connector for kovan network"""
     kovan = chain(ChainID.Kovan)

@@ -1,4 +1,3 @@
-from re import L
 from . import Contract, Network
 from ..constants import PROJECT_ROOT
 from ..util import read_json
