@@ -4,8 +4,9 @@ from ffmpeg_streaming import Representation, Formats
 
 
 class HLS(Streaming):
-    def set_input(self, input: Input):
+    def __init__(self, input: Input):
         self._hls = input.media.hls(self.codec)
+        super().__init__(input)
 
     def set_representation(self, repr: Representation):
         self._hls.representations(repr)
@@ -19,8 +20,9 @@ class HLS(Streaming):
 
 
 class DASH(Streaming):
-    def set_input(self, input: Input):
+    def __init__(self, input: Input):
         self._dash = input.media.dash(self.codec)
+        super().__init__(input)
 
     def set_representation(self, repr: Representation):
         self._dash.representations(repr)

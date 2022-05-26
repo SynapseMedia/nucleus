@@ -2,7 +2,7 @@ from contextlib import contextmanager
 
 from ...constants import MAX_MUXING_QUEUE_SIZE
 from ...exceptions import InvalidVideoQuality, InvalidStreamingProtocol
-from . import REPR, Sizes, Input, ProtocolID, Sizes
+from . import REPR, Sizes, Input, FormatID, Sizes
 from .protocols import HLS, DASH
 
 
@@ -40,7 +40,7 @@ def quality(size: Sizes):
 @contextmanager
 def input(input_file: str):
     """Factory input FFmpeg
-    
+
     :param input_file: Path to video
     :return: Input interface
     :rtype: Input
@@ -49,18 +49,19 @@ def input(input_file: str):
 
 
 @contextmanager
-def streaming(protocol: ProtocolID):
+def streaming(_format: FormatID, input: Input):
     """Resolve protocol handler from protocol id
 
-    :param protocol: expected protocol to process video eg. HLS | DASH
+    :param _format: input format to transcode
+    :param input: Input file interface
     :return: Streaming type based on protocol
     :rtype: Streaming
     :raises InvalidStreamingProtocol
     """
 
-    protocols = {ProtocolID.HLS: HLS, ProtocolID.DASH: DASH}
-    if protocol not in protocols:
+    protocols = {FormatID.Webm: DASH, FormatID.Mp4: HLS}
+    if _format not in protocols:
         raise InvalidStreamingProtocol()
 
-    protocol_class = protocols.get(protocol)
-    yield protocol_class()
+    protocol_class = protocols.get(_format)
+    yield protocol_class(input)

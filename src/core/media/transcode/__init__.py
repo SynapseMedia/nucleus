@@ -5,9 +5,9 @@ from abc import ABC, abstractmethod
 from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe
 
 
-class ProtocolID(Enum):
-    HLS = 0
-    DASH = 1
+class FormatID(Enum):
+    Webm = 0
+    Mp4 = 1
 
 
 @dataclass
@@ -79,9 +79,10 @@ class Input:
 
 
 class Streaming(ABC):
-    @abstractmethod
-    def set_input(self, input: Input):
-        pass
+    
+    def __init__(self, input: Input):
+        super().__init__()
+        self.input = input
 
     @abstractmethod
     def set_representation(self, repr: Representation):
