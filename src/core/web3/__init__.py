@@ -155,7 +155,7 @@ class Network(ABC):
 
         :param tx: transaction address
         :return: Transaction summary
-        :rtype: TxData
+        :rtype: Transaction
         """
         pass
 

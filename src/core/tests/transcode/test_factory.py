@@ -56,10 +56,10 @@ def test_invalid_quality():
 def test_streaming_protocol():
     """Should return a valid streaming protocol for a valid protocol id"""
 
-    with streaming(FormatID.Mp4, MockInput("test")) as hls:
+    with streaming(FormatID.Mp4, input=MockInput("test")) as hls:
         assert isinstance(hls, HLS)
         assert isinstance(hls.codec, H264)
-    with streaming(FormatID.Webm, MockInput("test")) as dash:
+    with streaming(FormatID.Webm, input=MockInput("test")) as dash:
         assert isinstance(dash, DASH)
         assert isinstance(dash.codec, VP9)
 
@@ -68,5 +68,9 @@ def test_invalid_streaming_protocol():
     """Should raise an exception for invalid protocol id"""
 
     with pytest.raises(InvalidStreamingProtocol):
-        with streaming(0, MockInput("fail")):
+        with streaming(0, input=MockInput("fail")):
             pass
+def test_valid_input(mocker):
+    """Should instance a valid input"""
+    mocker.patch("ffmpeg_streaming.input", return_value=MockMedia())
+    

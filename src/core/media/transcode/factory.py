@@ -39,7 +39,7 @@ def quality(size: Sizes):
 # TODO write tests
 @contextmanager
 def input(input_file: str):
-    """Factory input FFmpeg
+    """Factory ffmpeg input interface from file
 
     :param input_file: Path to video
     :return: Input interface
@@ -49,11 +49,10 @@ def input(input_file: str):
 
 
 @contextmanager
-def streaming(_format: FormatID, input: Input):
+def streaming(_format: FormatID, **kwargs):
     """Resolve protocol handler from protocol id
 
     :param _format: input format to transcode
-    :param input: Input file interface
     :return: Streaming type based on protocol
     :rtype: Streaming
     :raises InvalidStreamingProtocol
@@ -64,4 +63,4 @@ def streaming(_format: FormatID, input: Input):
         raise InvalidStreamingProtocol()
 
     protocol_class = protocols.get(_format)
-    yield protocol_class(input)
+    yield protocol_class(**kwargs)
