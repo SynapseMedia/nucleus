@@ -6,7 +6,7 @@ from eth_account.datastructures import SignedTransaction as _Signed
 from eth_typing.evm import ChecksumAddress
 from eth_typing.encoding import HexStr
 from web3.types import TxParams, TxData
-from ffmpeg_streaming import  Formats
+from ffmpeg_streaming import Formats
 
 
 # Types bridge

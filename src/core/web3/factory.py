@@ -14,7 +14,7 @@ from .chains import Rinkeby, Kovan
 from ..types import PrivateKey
 
 
-def account(private_key: PrivateKey = WALLET_KEY):
+def account(private_key: PrivateKey = WALLET_KEY) -> Account:
     """Returns wrapped account from private key
 
     :param web: Web3 instance
@@ -36,7 +36,7 @@ def account(private_key: PrivateKey = WALLET_KEY):
         raise InvalidPrivateKey(e)
 
 
-def chain(chain_id: ChainID):
+def chain(chain_id: ChainID) -> Chain:
     """Return chain by chain id. eg. Rinkeby, kovan, mainnet..
 
     :param chain_id: kovan- > 42,rinkeby -> 4...
@@ -57,7 +57,7 @@ def chain(chain_id: ChainID):
     return chain_class()
 
 
-def network(net: NetworkID, **kwargs):
+def network(net: NetworkID, **kwargs) -> Network:
     """Return a network class based on chain
 
     :param net: Ethereum -> 0
@@ -82,7 +82,7 @@ def contract(type: ContractID, **kwargs):
     :rtype: Contract
     :raises InvalidContract
     """
-    contracts:Dict[ContractID, Type[Contract]] = {ContractID.ERC1155: ERC1155}
+    contracts: Dict[ContractID, Type[Contract]] = {ContractID.ERC1155: ERC1155}
 
     if type not in contracts:
         raise InvalidContract("%s is not a valid contract standard" % type)

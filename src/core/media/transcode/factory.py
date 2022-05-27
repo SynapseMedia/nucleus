@@ -3,11 +3,11 @@ from contextlib import contextmanager
 from typing import Dict, Type
 from ...constants import MAX_MUXING_QUEUE_SIZE
 from ...exceptions import InvalidVideoQuality, InvalidStreamingProtocol
-from . import REPR, Sizes, Input, FormatID, Sizes, Size, Streaming
+from . import REPR, Sizes, Input, FormatID, Sizes, Size, Streaming, Representation
 from .protocols import HLS, DASH
 
 
-def quality(size: Size):
+def quality(size: Size) -> Representation:
     """Return quality list of appropriated representations based on `size`.
 
     Blocked upscale and locked downscale allowed for each defined quality
@@ -59,7 +59,10 @@ def streaming(_format: FormatID, **kwargs):
     :raises InvalidStreamingProtocol
     """
 
-    protocols: Dict[FormatID, Type[Streaming]] = {FormatID.Webm: DASH, FormatID.Mp4: HLS}
+    protocols: Dict[FormatID, Type[Streaming]] = {
+        FormatID.Webm: DASH,
+        FormatID.Mp4: HLS,
+    }
     if _format not in protocols:
         raise InvalidStreamingProtocol()
 
