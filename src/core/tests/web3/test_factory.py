@@ -3,7 +3,7 @@ import web3
 import eth_account
 import hexbytes
 from web3 import Web3
-from src.core.web3.contracts import NFT
+from src.core.web3.contracts import ERC1155
 from src.core.web3.network import Ethereum
 from src.core.web3.chains import Rinkeby, Kovan
 from src.core.web3 import ContractID, ChainID, NetworkID, Chain
@@ -43,7 +43,6 @@ class InvalidEVM(Chain):
         pass
 
 
-
 def test_valid_account():
     """Should return a valid Account key if valid key is provided"""
     wallet_key = "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f"
@@ -64,10 +63,10 @@ def test_nft_contract_factory():
     """Should return expected contract based on chain name"""
     # Chain rinkeby and ERC1155 standard
     chain = Rinkeby()
-    network = Ethereum(chain)
+    ethereum = Ethereum(chain)
 
-    expected_contract = contract(ContractID.ERC1155, network)
-    assert isinstance(expected_contract, NFT)
+    expected_contract = contract(ContractID.ERC1155, network=ethereum)
+    assert isinstance(expected_contract, ERC1155)
     assert isinstance(expected_contract.network, Ethereum)
 
 
@@ -75,15 +74,16 @@ def test_nft_contract_factory_with_invalid_network():
     """Should fail for invalid network"""
     # Chain rinkeby and ERC1155 standard
     with pytest.raises(TypeError):
-        contract(ContractID.ERC1155, Rinkeby())
-
+        # passing chain instance should fail
+        contract(ContractID.ERC1155, network=Rinkeby())
 
 
 def test_nft_invalid_contract():
     """Should return error with invalid contract"""
     # Chain rinkeby and ERC1155 standard
     with pytest.raises(InvalidContract):
-        contract(1155, InvalidEVM())
+        contract(1155, network=None)
+
 
 def test_kovan_chain():
     """Should return expected assets and connector for kovan network"""
@@ -121,7 +121,7 @@ def test_rinkeby_chain():
 def test_network():
     """Should return expected network based on network id"""
 
-    _network = network(NetworkID.Ethereum, Kovan())
+    _network = network(NetworkID.Ethereum, chain=Kovan())
     assert isinstance(_network, Ethereum)
 
 
@@ -130,11 +130,12 @@ def test_valid_network_with_invalid_chain():
 
     with pytest.raises(TypeError):
         # Returned network based on chain
-        network(NetworkID.Ethereum, InvalidNetwork())
+        network(NetworkID.Ethereum, chain=InvalidEVM())
+
 
 def test_invalid_network():
     """Should raise error with invalid network id"""
 
     with pytest.raises(InvalidNetwork):
         # Returned network based on chain
-        network(0, None)
+        network(0, chain=None)
