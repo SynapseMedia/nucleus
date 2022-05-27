@@ -3,7 +3,7 @@ from ..constants import PROJECT_ROOT
 from ..util import read_json
 
 
-class NFT(Contract):
+class ERC1155(Contract):
     """NFT contract type"""
 
     def __init__(self, network: Network):
