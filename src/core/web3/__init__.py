@@ -106,13 +106,7 @@ class Network(ABC):
     """
 
     def __init__(self, chain: Chain):
-        """Assoc chain with network
-
-        :param chain: chain to connect. eg. Rinkeby, Kovan, etc..
-        :return: chain connected
-        :rtype: Chain
-        """
-
+        """Assoc chain with network"""
         super().__init__()
         self.chain = chain
 
@@ -179,13 +173,7 @@ class Contract(ABC):
     """
 
     def __init__(self, network: Network):
-
-        """Connect contract to network
-
-        :param network: Network to connect within
-        :return: network connected
-        :rtype: Network
-        """
+        """Connect contract to network"""
         super().__init__()
         self.network = network
 
