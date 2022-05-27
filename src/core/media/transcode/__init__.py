@@ -1,7 +1,7 @@
 from enum import Enum
 from datetime import datetime
 from dataclasses import dataclass
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe
 
 
@@ -78,7 +78,7 @@ class Input:
         return duration, datetime.timedelta(duration)
 
 
-class Streaming(ABC):
+class Streaming(metaclass=ABCMeta):
     
     def __init__(self, input: Input):
         super().__init__()

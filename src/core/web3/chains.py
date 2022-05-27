@@ -1,5 +1,4 @@
 from web3 import Web3
-from abc import abstractmethod
 from . import Chain, ChainID
 from ..constants import (
     WALLET_KEY,
