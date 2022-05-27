@@ -79,6 +79,7 @@ class Input:
         return duration
 
 
+#TODO add docs
 class Streaming(metaclass=ABCMeta):
 
     input: Input
@@ -88,7 +89,10 @@ class Streaming(metaclass=ABCMeta):
         self.input = input
 
     @abstractmethod
-    def set_representation(self, repr: Representation):
+    def set_representation(self, repr: Representation) -> None:
+        """
+        Docs
+        """
         pass
 
     @property
@@ -97,5 +101,5 @@ class Streaming(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def transcode(self, output_dir: Directory):
+    def transcode(self, output_dir: Directory) -> None:
         pass
