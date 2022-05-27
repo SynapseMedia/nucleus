@@ -18,7 +18,7 @@ class ERC1155(Contract):
         _contract = network.contract(self.address, self.abi)
         self.functions = _contract.functions
 
-    def __getattr__(self, name: str) -> ABIFunction:
+    def __getattr__(self, name: str):
         return getattr(self.functions, name)
 
     @property
