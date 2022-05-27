@@ -1,5 +1,6 @@
 from web3 import Web3
 from . import Chain, ChainID
+from ..types import Provider, Address, PrivateKey
 from ..constants import (
     WALLET_KEY,
     KOVAN_PROVIDER,
@@ -18,14 +19,14 @@ class EVM(Chain):
 class Kovan(EVM):
     """Kovan chain type"""
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "kovan"
 
     @property
-    def id(self):
+    def id(self) -> ChainID:
         return ChainID.Kovan
 
-    def connector(self):
+    def connector(self) -> Provider:
         """Return kovan pre-build Http Provider
 
         :return: kovan provider
@@ -37,25 +38,25 @@ class Kovan(EVM):
         )
 
     @property
-    def erc1155(self):
+    def erc1155(self) -> Address:
         return KOVAN_CONTRACT_NFT
 
     @property
-    def private_key(self):
+    def private_key(self) -> PrivateKey:
         return WALLET_KEY
 
 
 class Rinkeby(EVM):
     """Rinkeby chain type"""
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "rinkeby"
 
     @property
-    def id(self):
+    def id(self) -> ChainID:
         return ChainID.Rinkeby
 
-    def connector(self):
+    def connector(self) -> Provider:
         """Return rinkeby pre-build Http Provider
 
         :return: rinkeby provider
@@ -67,9 +68,9 @@ class Rinkeby(EVM):
         )
 
     @property
-    def erc1155(self):
+    def erc1155(self) -> Address:
         return RINKEBY_CONTRACT_NFT
 
     @property
-    def private_key(self):
+    def private_key(self) -> PrivateKey:
         return WALLET_KEY

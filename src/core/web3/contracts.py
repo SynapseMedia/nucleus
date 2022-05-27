@@ -1,14 +1,11 @@
-from web3.contract import ContractFunctions
 from . import Contract, Network
+from web3.types import ABIFunction
 from ..constants import PROJECT_ROOT
 from ..util import read_json
 
 
 class ERC1155(Contract):
     """ERC1155 contract type"""
-
-    address: str
-    functions: ContractFunctions
 
     def __init__(self, network: Network):
 
@@ -21,8 +18,8 @@ class ERC1155(Contract):
         _contract = network.contract(self.address, self.abi)
         self.functions = _contract.functions
 
-    def __getattr__(self, name):
-        return self.functions[name]
+    def __getattr__(self, name: str) -> ABIFunction:
+        return getattr(self.functions, name)
 
     @property
     def abi(self):

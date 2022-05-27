@@ -1,8 +1,9 @@
 from enum import Enum
-from datetime import datetime
+from datetime import timedelta
 from dataclasses import dataclass
 from abc import ABCMeta, abstractmethod
 from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe
+from ...types import Codec, Directory
 
 
 class FormatID(Enum):
@@ -65,21 +66,23 @@ class Input:
         ffprobe = FFProbe(self.path)
         return ffprobe.video_size
 
-    def get_duration(self):
+    def get_duration(self) -> float:
         """Get video time duration
 
         :param input_file: input path
-        :return: (duration in seconds, timedelta hour)
-        :rtype: Union[float, datetime.timedelta]
+        :return: duration in seconds
+        :rtype: float
         """
 
         ffprobe = FFProbe(self.path)
         duration = float(ffprobe.format().get("duration", 0))
-        return duration, datetime.timedelta(duration)
+        return duration
 
 
 class Streaming(metaclass=ABCMeta):
-    
+
+    input: Input
+
     def __init__(self, input: Input):
         super().__init__()
         self.input = input
@@ -90,9 +93,9 @@ class Streaming(metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def codec():
+    def codec(self) -> Codec:
         pass
 
     @abstractmethod
-    def transcode(output_dir: str):
+    def transcode(self, output_dir: Directory):
         pass

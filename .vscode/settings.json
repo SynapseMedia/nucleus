@@ -20,6 +20,7 @@
     "python.testing.pytestArgs": [
         "."
     ],
+    "python.analysis.typeCheckingMode": "basic",
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.experiments.optInto": ["All"]

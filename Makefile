@@ -46,15 +46,15 @@ test-core:
 test:
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
 
-test-coverage-core: check-coding-style test-core
+test-coverage-core: test-core
 	${COVERAGE} run --source=./src/core ${VENV}/bin/py.test
 	${COVERAGE} report
 
-test-coverage-sdk: test-coverage-sdk
+test-coverage-sdk: test-sdk
 	${COVERAGE} run --source=./src/sdk ${VENV}/bin/py.test
 	${COVERAGE} report
 
-test-coverage: test-coverage-core
+test-coverage:  tesst
 	${COVERAGE} run --source=./src ${VENV}/bin/py.test
 	${COVERAGE} report
 	

@@ -1,3 +1,4 @@
+from typing import Dict, Type
 from eth_account import Account
 from ..exceptions import (
     InvalidPrivateKey,
@@ -6,14 +7,14 @@ from ..exceptions import (
     InvalidContract,
 )
 from ..constants import WALLET_KEY
-
-from . import ChainID, ContractID, NetworkID
+from . import ChainID, ContractID, NetworkID, Network, Chain, Contract
 from .contracts import ERC1155
 from .network import Ethereum
 from .chains import Rinkeby, Kovan
+from ..types import PrivateKey
 
 
-def account(private_key: str = WALLET_KEY):
+def account(private_key: PrivateKey = WALLET_KEY):
     """Returns wrapped account from private key
 
     :param web: Web3 instance
@@ -44,7 +45,7 @@ def chain(chain_id: ChainID):
     :raises InvalidChain
     """
 
-    chains = {
+    chains: Dict[ChainID, Type[Chain]] = {
         ChainID.Rinkeby: Rinkeby,
         ChainID.Kovan: Kovan,
     }
@@ -52,7 +53,7 @@ def chain(chain_id: ChainID):
     if chain_id not in chains:
         raise InvalidChain("%s is not a valid network" % chain_id)
 
-    chain_class = chains.get(chain_id)
+    chain_class = chains.get(chain_id, Rinkeby)
     return chain_class()
 
 
@@ -64,12 +65,12 @@ def network(net: NetworkID, **kwargs):
     :rtype: Network
     :raises InvalidNetwork
     """
-    networks = {NetworkID.Ethereum: Ethereum}
+    networks: Dict[NetworkID, Type[Network]] = {NetworkID.Ethereum: Ethereum}
 
     if net not in networks:
         raise InvalidNetwork("%s is not a valid network" % net)
 
-    network_class = networks.get(net)
+    network_class = networks.get(net, Ethereum)
     return network_class(**kwargs)
 
 
@@ -81,10 +82,10 @@ def contract(type: ContractID, **kwargs):
     :rtype: Contract
     :raises InvalidContract
     """
-    contracts = {ContractID.ERC1155: ERC1155}
+    contracts:Dict[ContractID, Type[Contract]] = {ContractID.ERC1155: ERC1155}
 
     if type not in contracts:
         raise InvalidContract("%s is not a valid contract standard" % type)
 
-    contract_class = contracts.get(type)
+    contract_class = contracts.get(type, ERC1155)
     return contract_class(**kwargs)
