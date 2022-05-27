@@ -19,14 +19,14 @@ class EVM(Chain):
 class Kovan(EVM):
     """Kovan chain type"""
 
-    def __str__(self) -> str:
+    def __str__(self):
         return "kovan"
 
     @property
-    def id(self) -> ChainID:
+    def id(self):
         return ChainID.Kovan
 
-    def connector(self) -> Provider:
+    def connector(self):
         """Return kovan pre-build Http Provider
 
         :return: kovan provider
@@ -38,25 +38,25 @@ class Kovan(EVM):
         )
 
     @property
-    def erc1155(self) -> Address:
+    def erc1155(self):
         return KOVAN_CONTRACT_NFT
 
     @property
-    def private_key(self) -> PrivateKey:
+    def private_key(self):
         return WALLET_KEY
 
 
 class Rinkeby(EVM):
     """Rinkeby chain type"""
 
-    def __str__(self) -> str:
+    def __str__(self):
         return "rinkeby"
 
     @property
-    def id(self) -> ChainID:
+    def id(self):
         return ChainID.Rinkeby
 
-    def connector(self) -> Provider:
+    def connector(self):
         """Return rinkeby pre-build Http Provider
 
         :return: rinkeby provider
@@ -68,9 +68,9 @@ class Rinkeby(EVM):
         )
 
     @property
-    def erc1155(self) -> Address:
+    def erc1155(self):
         return RINKEBY_CONTRACT_NFT
 
     @property
-    def private_key(self) -> PrivateKey:
+    def private_key(self):
         return WALLET_KEY
