@@ -16,7 +16,7 @@ from ..types import (
     Transaction,
     Hash,
     SignedTransaction,
-    Contract as _Contract
+    Contract as _Contract,
 )
 
 

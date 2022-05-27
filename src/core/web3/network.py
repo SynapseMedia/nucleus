@@ -1,13 +1,7 @@
 from web3 import Web3
 from .chains import EVM
 from . import Network
-from ..types import (
-    Address,
-    Request,
-    Hash,
-    Abi
-)
-
+from ..types import Address, Request, Hash, Abi
 
 
 class Ethereum(Network):
@@ -16,10 +10,10 @@ class Ethereum(Network):
     web3: Web3
 
     def __init__(self, chain: EVM):
-         # Connect network to chain provider
+        # Connect network to chain provider
         if not isinstance(chain, EVM):
             raise TypeError("provided `chain` for ethereum network not supported")
-        
+
         super().__init__(chain)
         self.web3 = Web3(chain.connector())
 
