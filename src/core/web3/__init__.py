@@ -7,7 +7,7 @@ They can be used by third party tools such as type checkers, IDEs, linters, etc.
 from enum import Enum
 from web3 import types
 from dataclasses import dataclass
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 from eth_account import Account
 
 
@@ -36,7 +36,7 @@ class Transaction:
     pass
 
 
-class Chain(ABC):
+class Chain(metaclass=ABCMeta):
     """Chain abstract class
 
     Hold/specify the artifacts/methods needed to interact with chain.
@@ -93,7 +93,7 @@ class Chain(ABC):
         pass
 
 
-class Network(ABC):
+class Network(metaclass=ABCMeta):
     """Network abstract class
 
     Specify all methods needed to interact with the blockchain.
@@ -160,7 +160,7 @@ class Network(ABC):
         pass
 
 
-class Contract(ABC):
+class Contract(metaclass=ABCMeta):
     """Contract abstract class
 
     Specify all methods needed to interact with contracts.
@@ -178,7 +178,7 @@ class Contract(ABC):
         self.network = network
 
     def __getattr__(self, name: str):
-        """Called when an attribute lookup has not found the attribute in the usual places"""
+        """Descriptor called when an attribute lookup has not found the attribute in the usual places"""
         pass
 
     @property
