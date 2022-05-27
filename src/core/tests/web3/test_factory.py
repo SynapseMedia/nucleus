@@ -72,7 +72,7 @@ def test_nft_contract_factory():
 
 
 def test_nft_contract_factory_with_invalid_network():
-    """Should return expected contract based on chain name"""
+    """Should fail for invalid network"""
     # Chain rinkeby and ERC1155 standard
     with pytest.raises(TypeError):
         contract(ContractID.ERC1155, Rinkeby())
@@ -129,7 +129,6 @@ def test_valid_network_with_invalid_chain():
     """Should raise error with valid network id and invalid chain"""
 
     with pytest.raises(TypeError):
-        # first object
         # Returned network based on chain
         network(NetworkID.Ethereum, InvalidNetwork())
 
@@ -137,6 +136,5 @@ def test_invalid_network():
     """Should raise error with invalid network id"""
 
     with pytest.raises(InvalidNetwork):
-        # first object
         # Returned network based on chain
-        network(0, InvalidNetwork())
+        network(0, None)
