@@ -39,9 +39,9 @@ def chain(chain_id: ChainID):
     """Return chain by chain id. eg. Rinkeby, kovan, mainnet..
 
     :param chain_id: kovan- > 42,rinkeby -> 4...
-    :return: network settings based on provider name
-    :raises InvalidChain
+    :return: Chain object based on chain id
     :rtype: Chain
+    :raises InvalidChain
     """
 
     chains = {
@@ -60,9 +60,9 @@ def network(net: NetworkID, **kwargs):
     """Return a network class based on chain
 
     :param net: Ethereum -> 0
-    :return: Network object
-    :raises InvalidNetwork
+    :return: Network object based on network id
     :rtype: Network
+    :raises InvalidNetwork
     """
     networks = {NetworkID.Ethereum: Ethereum}
 
@@ -77,9 +77,9 @@ def contract(type: ContractID, **kwargs):
     """Factory NFT contract based on provider settings
 
     :param type: The contract type eg. ERC1155 | ERC20 |
-    :return: nft contract
-    :raises InvalidContract
+    :return: Contract object based on type
     :rtype: Contract
+    :raises InvalidContract
     """
     contracts = {ContractID.ERC1155: ERC1155}
 
