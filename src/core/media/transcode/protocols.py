@@ -1,6 +1,7 @@
 from . import Streaming, Input
-from .util import progress
+from ._util import progress
 from ffmpeg_streaming import Representation, Formats
+from ...types import Directory
 
 
 class HLS(Streaming):
@@ -15,7 +16,7 @@ class HLS(Streaming):
     def codec(self):
         return Formats.h264()
 
-    def transcode(self, output_dir: str):
+    def transcode(self, output_dir: Directory):
         self._hls.output(output_dir, monitor=progress)
 
 
@@ -31,5 +32,5 @@ class DASH(Streaming):
     def codec(self):
         return Formats.vp9()
 
-    def transcode(self, output_dir: str):
+    def transcode(self, output_dir: Directory):
         self._dash.output(output_dir, monitor=progress)

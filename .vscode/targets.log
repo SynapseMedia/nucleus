@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue May 24 12:02:24 2022
+# Make data base, printed on Fri May 27 12:29:06 2022
 
 # Variables
 
@@ -77,7 +77,7 @@ INFOPATH = /home/linuxbrew/.linuxbrew/share/info:
 # environment
 MANAGERPID = 2030
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-6c5d9254-bce7-4545-9081-1f737383d41d.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-ce0f70a4-4657-4c80-852e-d7e7f8cedbb8.sock
 # environment
 LC_NAME = es_NI.UTF-8
 # environment
@@ -281,12 +281,21 @@ all:
 test-coverage-html: test-coverage
 #  Implicit rule search has not been done.
 #  Modification time never checked.
+ 
+make: *** No rule to make target 'all'.  Stop.
+
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 55):
+#  recipe to execute (from 'Makefile', line 62):
 	${COVERAGE} html
 	
 
 .PHONY: default venv requirements bootstrap check-coding-style test test-coverage
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+tesst:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -298,14 +307,11 @@ check-coding-style: venv
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 38):
 	${FLAKE8} ${PYTHON_MODULES}
- 
-make: *** No rule to make target 'all'.  Stop.
-
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-24 11:39:45.172323
+#  Last modified 2022-05-27 11:20:20.966115569
 #  File has been updated.
 #  Successfully updated.
 
@@ -329,15 +335,30 @@ test:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 44):
+#  recipe to execute (from 'Makefile', line 47):
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
+
+test-coverage-sdk: test-sdk
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 54):
+	${COVERAGE} run --source=./src/sdk ${VENV}/bin/py.test
+	${COVERAGE} report
 
 test-check:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 58):
+#  recipe to execute (from 'Makefile', line 65):
 	${PYTEST} ${PYTHON_MODULES}
+
+test-sdk:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 41):
+	${PYTEST} ${PYTHON_MODULES}/sdk --disable-pytest-warnings
 
 default: check-coding-style
 #  Phony target (prerequisite of .PHONY).
@@ -345,12 +366,12 @@ default: check-coding-style
 #  File does not exist.
 #  File has not been updated.
 
-test-coverage: test-coverage-core
+test-coverage: tesst
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 51):
+#  recipe to execute (from 'Makefile', line 58):
 	${COVERAGE} run --source=./src ${VENV}/bin/py.test
 	${COVERAGE} report
 	
@@ -361,11 +382,11 @@ test-coverage: test-coverage-core
 #  Modification time never checked.
 #  File has not been updated.
 
-test-coverage-core: check-coding-style test-core
+test-coverage-core: test-core
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 47):
+#  recipe to execute (from 'Makefile', line 50):
 	${COVERAGE} run --source=./src/core ${VENV}/bin/py.test
 	${COVERAGE} report
 
@@ -373,7 +394,7 @@ test-core:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 41):
+#  recipe to execute (from 'Makefile', line 44):
 	${PYTEST} ${PYTHON_MODULES}/core --disable-pytest-warnings
 
 venv:
@@ -404,19 +425,19 @@ requirements:
 	fi
 
 # files hash-table stats:
-# Load=18/1024=2%, Rehash=0, Collisions=3/46=7%
+# Load=21/1024=2%, Rehash=0, Collisions=3/49=6%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 75 / storage = 1219 B / avg = 16 B
-# current buf: size = 8162 B / used = 1219 B / count = 75 / avg = 16 B
+# strcache buffers: 1 (0) / strings = 78 / storage = 1252 B / avg = 16 B
+# current buf: size = 8162 B / used = 1252 B / count = 78 / avg = 16 B
 
-# strcache performance: lookups = 110 / hit rate = 31%
+# strcache performance: lookups = 114 / hit rate = 31%
 # hash-table stats:
-# Load=75/8192=1%, Rehash=0, Collisions=1/110=1%
-# Finished Make data base on Tue May 24 12:02:24 2022
+# Load=78/8192=1%, Rehash=0, Collisions=1/114=1%
+# Finished Make data base on Fri May 27 12:29:06 2022
 
  
