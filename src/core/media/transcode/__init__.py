@@ -1,5 +1,4 @@
 from enum import Enum
-from datetime import timedelta
 from dataclasses import dataclass
 from abc import ABCMeta, abstractmethod
 from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe
@@ -79,7 +78,7 @@ class Input:
         return duration
 
 
-#TODO add docs
+# TODO add docs
 class Streaming(metaclass=ABCMeta):
 
     input: Input
