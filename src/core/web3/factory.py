@@ -57,7 +57,7 @@ def chain(chain_id: ChainID) -> Chain:
     return chain_class()
 
 
-def network(net: NetworkID, **kwargs: TParams) -> Network:
+def network(net: NetworkID, **kwargs) -> Network:
     """Return a network class based on chain
 
     :param net: Ethereum -> 0
@@ -74,7 +74,7 @@ def network(net: NetworkID, **kwargs: TParams) -> Network:
     return network_class(**kwargs)
 
 
-def contract(type: ContractID, **kwargs: Network):
+def contract(type: ContractID, **kwargs):
     """Factory NFT contract based on provider settings
 
     :param type: The contract type eg. ERC1155 | ERC20 |
