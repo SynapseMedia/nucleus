@@ -124,4 +124,5 @@ def test_invalid_network():
         # Returned network based on chain
         network(0, chain=None)
 
-#TODO test contract subscriptable functions
+
+# TODO test contract subscriptable functions

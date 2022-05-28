@@ -2,7 +2,9 @@ from src.core.web3 import ContractID, ChainID
 from src.core.web3.factory import contract, w3
 from src.core.web3.crypto import cid_to_uint256
 from src.core import logger
+
 # TODO add NFT type that define methods
+
 
 def mint(to: str, cid: str, chain_id: ChainID):
     """Mint token to address based on cid in defined chain

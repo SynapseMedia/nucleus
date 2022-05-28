@@ -3,7 +3,7 @@ from web3.contract import ContractFunctions
 
 from .chains import EVM
 from . import Network, ProxyContract
-from ..types import Address, TxRequest, Hash, Abi
+from ..types import Address, TxCall, Hash, Abi
 
 
 class Ethereum(Network):
@@ -18,7 +18,7 @@ class Ethereum(Network):
     def set_default_account(self, account: Address):
         self.web3.eth.default_account = account
 
-    def sign_transaction(self, tx: TxRequest):
+    def sign_transaction(self, tx: TxCall):
         return self.web3.eth.account.sign_transaction(
             tx, private_key=self.chain.private_key
         )
@@ -26,7 +26,7 @@ class Ethereum(Network):
     def get_transaction(self, hash: Hash):
         return self.web3.eth.get_transaction(hash)
 
-    def send_transaction(self, tx: TxRequest):
+    def send_transaction(self, tx: TxCall):
         # Return result from commit signed transaction
         signed_tx = self.sign_transaction(tx)
         transaction = signed_tx.rawTransaction

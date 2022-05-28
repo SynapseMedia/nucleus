@@ -28,7 +28,7 @@ async def call_orbit(resolvers: List[Command], recreate: bool = False) -> None:
     process_list = (
         [run(command) for command in commands] if is_mixed_migration else [run(command)]
     )
-    
+
     await asyncio.gather(*process_list)
 
 

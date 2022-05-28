@@ -1,17 +1,18 @@
-from typing import Dict, Type
+from typing import Dict, Type, Any
 from eth_account import Account
-from ..exceptions import (
-    InvalidPrivateKey,
-    InvalidChain,
-    InvalidNetwork,
-    InvalidContract,
-)
+
 from ..constants import WALLET_KEY
 from . import ChainID, ContractID, NetworkID, Network, Chain, Contract
 from .contracts import ERC1155
 from .network import Ethereum
 from .chains import Rinkeby, Kovan
 from ..types import PrivateKey
+from ..exceptions import (
+    InvalidPrivateKey,
+    InvalidChain,
+    InvalidNetwork,
+    InvalidContract,
+)
 
 
 def account(private_key: PrivateKey = WALLET_KEY) -> Account:
@@ -33,7 +34,7 @@ def account(private_key: PrivateKey = WALLET_KEY) -> Account:
     try:
         return Account.from_key(private_key)
     except ValueError as e:
-        raise InvalidPrivateKey(e)
+        raise InvalidPrivateKey(str(e))
 
 
 def chain(chain_id: ChainID) -> Chain:
@@ -57,7 +58,7 @@ def chain(chain_id: ChainID) -> Chain:
     return chain_class()
 
 
-def network(net: NetworkID, **kwargs) -> Network:
+def network(net: NetworkID, **kwargs: Any) -> Network:
     """Return a network class based on chain
 
     :param net: Ethereum -> 0
@@ -74,7 +75,7 @@ def network(net: NetworkID, **kwargs) -> Network:
     return network_class(**kwargs)
 
 
-def contract(type: ContractID, **kwargs):
+def contract(type: ContractID, **kwargs: Any):
     """Factory NFT contract based on provider settings
 
     :param type: The contract type eg. ERC1155 | ERC20 |

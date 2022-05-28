@@ -1,6 +1,6 @@
 from hexbytes import HexBytes
 from web3.providers.base import BaseProvider
-from typing import NewType, Union, Any, Type, TypedDict, TypeVar, Protocol
+from typing import NewType, Union, Any, Type, TypedDict, TypeVar, Protocol, Dict
 from eth_account.datastructures import SignedTransaction as _Signed
 from eth_typing.evm import ChecksumAddress
 from eth_typing.encoding import HexStr
@@ -13,8 +13,8 @@ from ffmpeg_streaming import Formats  # type: ignore
 # Add providers/transaction/ types based on network lib
 # eg. BaseProvider for web3
 Primitives = Union[bytes, int, bool]
-TxRequest = Union[TxParams, TypedDict]
-Transaction = Union[TxData, TypedDict]
+TxCall = Union[TxParams, TypedDict]
+TxAnswer = Union[TxData, TypedDict]
 Address = Union[ChecksumAddress, Any]
 Provider = Union[Type[BaseProvider], Any]
 SignedTransaction = Union[_Signed, Any]
@@ -24,12 +24,14 @@ PrivateKey = Union[Address, str]
 Directory = NewType("Directory", str)
 Command = NewType("Commands", str)
 Uri = NewType("URI", str)
-Abi = NewType("Abi", dict)
+Abi = NewType("Abi", Dict[Any, Any])
 CIDStr = NewType("CIDStr", str)
 Codec = Type[Formats]
 
+# By convention var types should start with "T" followed by type name
 TFunctions = TypeVar("TFunctions", covariant=True)
 TEvents = TypeVar("TEvents", covariant=True)
+
 
 class Contract(Protocol[TFunctions]):
     @property

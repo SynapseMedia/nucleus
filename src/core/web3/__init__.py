@@ -12,8 +12,8 @@ from ..types import (
     Address,
     Provider,
     PrivateKey,
-    TxRequest,
-    Transaction,
+    TxCall,
+    TxAnswer,
     Hash,
     SignedTransaction,
     Contract as _Contract,
@@ -56,11 +56,11 @@ class ProxyContract(Generic[TFunctions]):
 
         c = Contract()
         c.mint() # Does'nt matter how the call is made underneath
-        
+
     usage:
 
         ProxyContract[TFunctions, TEvents..](Contract)
-        
+
     """
 
     interface: _Contract[TFunctions]  # Subscriptable object needed
@@ -76,6 +76,7 @@ class ProxyContract(Generic[TFunctions]):
             # By default answer with function calls
             return getattr(self.functions, name)
         return getattr(self.interface, name)
+
 
 class Chain(metaclass=ABCMeta):
     """Chain abstract class
@@ -173,7 +174,7 @@ class Network(metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def sign_transaction(self, tx: TxRequest) -> SignedTransaction:
+    def sign_transaction(self, tx: TxCall) -> SignedTransaction:
         """Sign transaction for blockchain using private key.
 
         :return: Signed transaction
@@ -182,7 +183,7 @@ class Network(metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def send_transaction(self, tx: TxRequest) -> Hash:
+    def send_transaction(self, tx: TxCall) -> Hash:
         """Commit signed transaction to blockchain.
 
         :return: Transaction hash
@@ -191,7 +192,7 @@ class Network(metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def get_transaction(self, hash: Hash) -> Transaction:
+    def get_transaction(self, hash: Hash) -> TxAnswer:
         """Return transaction summary
 
         :param tx: transaction address
@@ -222,7 +223,7 @@ class Contract(metaclass=ABCMeta):
         self.network = network
 
     @abstractmethod
-    def __getattr__(self, name: str) -> ProxyContract[Any]:
+    def __getattr__(self, name: str) -> Any:
         """Descriptor called when an attribute lookup has not found the attribute in the usual places"""
         ...
 
