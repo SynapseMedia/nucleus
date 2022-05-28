@@ -71,20 +71,9 @@ class InvalidImageSize(Exception):
 class IPFSFailedExecution(Exception):
     """Raised on IPFS command execution fail."""
 
-    def __init__(self, message=""):
+    def __init__(self, message: str = ""):
         _message = f"""
                 Failed execution: {message}
-                """
-
-        super().__init__(_message)
-
-
-class InvalidStreamingProtocol(Exception):
-    """Raised when a invalid/not existing video protocol is set."""
-
-    def __init__(self, message=""):
-        _message = f"""
-                Invalid codec: {message}
                 """
 
         super().__init__(_message)
@@ -93,7 +82,7 @@ class InvalidStreamingProtocol(Exception):
 class InvalidChain(Exception):
     """Raised when an invalid chain is requested."""
 
-    def __init__(self, message=""):
+    def __init__(self, message: str = ""):
         _message = f"""
                 Invalid chain: {message}
                 """
@@ -104,7 +93,7 @@ class InvalidChain(Exception):
 class InvalidNetwork(Exception):
     """Raised when an invalid network is requested."""
 
-    def __init__(self, message=""):
+    def __init__(self, message: str = ""):
         _message = f"""
                 Not supported network: {message}
                 """
@@ -115,7 +104,7 @@ class InvalidNetwork(Exception):
 class InvalidContract(Exception):
     """Raised when an invalid contract is requested."""
 
-    def __init__(self, message=""):
+    def __init__(self, message: str = ""):
         _message = f"""
                 Not supported contract: {message}
                 """
@@ -126,7 +115,7 @@ class InvalidContract(Exception):
 class InvalidPrivateKey(Exception):
     """Raised when an invalid private is provided."""
 
-    def __init__(self, message=""):
+    def __init__(self, message: str = ""):
         _message = f"""
                 Invalid wallet private key: {message}
                 """

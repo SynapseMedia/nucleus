@@ -1,7 +1,7 @@
 from enum import Enum
 from dataclasses import dataclass
 from abc import ABCMeta, abstractmethod
-from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe
+from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe # type: ignore
 from ...types import Codec, Directory
 
 

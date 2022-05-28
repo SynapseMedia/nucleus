@@ -18,8 +18,7 @@ default: check-coding-style
 
 setup-env:
 	virtualenv --python=python3 -q .venv
-	python -m pip install --upgrade pip
-	npm i
+	python3 -m pip install --upgrade pip
 venv:
 	test -d ${VENV} || ${VIRTUALENV} -p ${DEFAULT_PYTHON} -q ${VENV}
 
@@ -29,6 +28,8 @@ requirements:
 	else \
 		${PIP} install --no-cache-dir --force-reinstall ${REQUIREMENTS}; \
 	fi
+
+	npm i
 
 bootstrap: setup-env venv requirements
 

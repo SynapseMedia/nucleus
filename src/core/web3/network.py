@@ -1,7 +1,9 @@
 from web3 import Web3
+from web3.contract import ContractFunctions
+
 from .chains import EVM
-from . import Network
-from ..types import Address, Request, Hash, Abi
+from . import Network, ProxyContract
+from ..types import Address, TxRequest, Hash, Abi
 
 
 class Ethereum(Network):
@@ -10,18 +12,13 @@ class Ethereum(Network):
     web3: Web3
 
     def __init__(self, chain: EVM):
-        # Connect network to chain provider
-        if not isinstance(chain, EVM):
-            raise TypeError("provided `chain` for ethereum network not supported")
-
         super().__init__(chain)
         self.web3 = Web3(chain.connector())
 
     def set_default_account(self, account: Address):
         self.web3.eth.default_account = account
-        return account
 
-    def sign_transaction(self, tx: Request):
+    def sign_transaction(self, tx: TxRequest):
         return self.web3.eth.account.sign_transaction(
             tx, private_key=self.chain.private_key
         )
@@ -29,16 +26,18 @@ class Ethereum(Network):
     def get_transaction(self, hash: Hash):
         return self.web3.eth.get_transaction(hash)
 
-    def send_transaction(self, tx: Request):
+    def send_transaction(self, tx: TxRequest):
         # Return result from commit signed transaction
         signed_tx = self.sign_transaction(tx)
         transaction = signed_tx.rawTransaction
         return self.web3.eth.send_raw_transaction(transaction)
 
-    def contract(self, address: Address, abi: Abi):
-        return self.web3.eth.contract(
-            # Contract address
-            address=Web3.toChecksumAddress(address),
-            # Abi from contract deployed
-            abi=abi,
+    def build_contract(self, address: Address, abi: Abi):
+        return ProxyContract[ContractFunctions](
+            self.web3.eth.contract(
+                # Contract address
+                address=Web3.toChecksumAddress(address),
+                # Abi from contract deployed
+                abi=abi,
+            )
         )

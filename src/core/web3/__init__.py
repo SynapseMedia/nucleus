@@ -6,17 +6,18 @@ They can be used by third party tools such as type checkers, IDEs, linters, etc.
 
 from enum import Enum
 from abc import ABCMeta, abstractmethod
-from typing import Any
+from typing import Any, Generic
 from ..types import (
     Abi,
     Address,
     Provider,
     PrivateKey,
-    Request,
+    TxRequest,
     Transaction,
     Hash,
     SignedTransaction,
     Contract as _Contract,
+    TFunctions,
 )
 
 
@@ -40,6 +41,42 @@ class ContractID(Enum):
         return self.name
 
 
+class ProxyContract(Generic[TFunctions]):
+    """This class pretends to handle generically the function calls to contract
+
+    eg.
+        # Contract can be any based on lib
+        # Every network lib expose in a different way the programmatic call to functions
+
+        # using Web3
+        c = Contract()
+        c.functions.mint() <- how can we handle `mint` for any different lib?
+
+        probably we need an standard interface here?
+
+        c = Contract()
+        c.mint() # Does'nt matter how the call is made underneath
+        
+    usage:
+
+        ProxyContract[TFunctions, TEvents..](Contract)
+        
+    """
+
+    interface: _Contract[TFunctions]  # Subscriptable object needed
+    functions: TFunctions
+
+    def __init__(self, interface: _Contract[TFunctions]):
+        self.interface = interface
+        self.functions = interface.functions
+
+    def __getattr__(self, name: str):
+        """Proxy call to subscriptable interface"""
+        if not hasattr(self.interface, name):
+            # By default answer with function calls
+            return getattr(self.functions, name)
+        return getattr(self.interface, name)
+
 class Chain(metaclass=ABCMeta):
     """Chain abstract class
 
@@ -54,7 +91,7 @@ class Chain(metaclass=ABCMeta):
 
     @abstractmethod
     def __str__(self) -> str:
-        pass
+        ...
 
     @property
     @abstractmethod
@@ -65,7 +102,7 @@ class Chain(metaclass=ABCMeta):
         :return: integer representation for chain
         :rtype: ChainID
         """
-        pass
+        ...
 
     @abstractmethod
     def connector(self) -> Provider:
@@ -73,8 +110,10 @@ class Chain(metaclass=ABCMeta):
 
         Provide a connector to interact with chain.
         eg. Http | Websocket
+        :return: Provider interface to bind network
+        :rtype: Provider
         """
-        pass
+        ...
 
     @property
     @abstractmethod
@@ -82,9 +121,9 @@ class Chain(metaclass=ABCMeta):
         """Return specific private key for chain
 
         :return: private key
-        :rtype: HexAddress
+        :rtype: PrivateKey
         """
-        pass
+        ...
 
     @property
     @abstractmethod
@@ -92,9 +131,9 @@ class Chain(metaclass=ABCMeta):
         """Return address for deployed contract
 
         :return: nft contract address
-        :rtype: HexAddress
+        :rtype: Address
         """
-        pass
+        ...
 
 
 class Network(metaclass=ABCMeta):
@@ -117,43 +156,39 @@ class Network(metaclass=ABCMeta):
         self.chain = chain
 
     @abstractmethod
-    def set_default_account(self, account: Address) -> Address:
-        """Set default account for blockchain operations
-
-        :param account: The account to subscribe
-        :return: account subscribed
-        :rtype: Account
-        """
-        pass
+    def set_default_account(self, account: Address) -> None:
+        """Set default account for network operations"""
+        ...
 
     @abstractmethod
-    def contract(self, address: Address, abi: Abi) -> _Contract:
+    def build_contract(self, address: Address, abi: Abi) -> ProxyContract[Any]:
         """Return contract for blockchain operations.
         This factory method return a prebuilt contract based on blockchain specifications.
 
-        :param account: The account to subscribe
-        :return: Account subscribed
-        :rtype: Account
+        :param address: Contract address
+        :param abi: Abi dict source
+        :return: Contract interface
+        :rtype: Contract
         """
-        pass
+        ...
 
     @abstractmethod
-    def sign_transaction(self, tx: Request) -> SignedTransaction:
+    def sign_transaction(self, tx: TxRequest) -> SignedTransaction:
         """Sign transaction for blockchain using private key.
 
         :return: Signed transaction
-        :rtype: eth_account.datastructures.SignedTransaction
+        :rtype: SignedTransaction
         """
-        pass
+        ...
 
     @abstractmethod
-    def send_transaction(self, tx: Request) -> Hash:
+    def send_transaction(self, tx: TxRequest) -> Hash:
         """Commit signed transaction to blockchain.
 
         :return: Transaction hash
-        :rtype: HexBytes
+        :rtype: Hash
         """
-        pass
+        ...
 
     @abstractmethod
     def get_transaction(self, hash: Hash) -> Transaction:
@@ -163,7 +198,7 @@ class Network(metaclass=ABCMeta):
         :return: Transaction summary
         :rtype: Transaction
         """
-        pass
+        ...
 
 
 class Contract(metaclass=ABCMeta):
@@ -179,7 +214,7 @@ class Contract(metaclass=ABCMeta):
     """
 
     address: Address
-    functions: Any
+    _proxy: ProxyContract[Any]
 
     def __init__(self, network: Network):
         """Connect contract to network"""
@@ -187,9 +222,9 @@ class Contract(metaclass=ABCMeta):
         self.network = network
 
     @abstractmethod
-    def __getattr__(self, name: str) -> Any:
+    def __getattr__(self, name: str) -> ProxyContract[Any]:
         """Descriptor called when an attribute lookup has not found the attribute in the usual places"""
-        pass
+        ...
 
     @property
     @abstractmethod
@@ -198,6 +233,6 @@ class Contract(metaclass=ABCMeta):
 
         :param root_path: Where is abi.json stored?
         :return: abi json
-        :rtype: dict
+        :rtype: Abi
         """
-        pass
+        ...

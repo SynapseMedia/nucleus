@@ -3,6 +3,7 @@
     "cSpell.words": [
         "Algorand",
         "autouse",
+        "coloredlogs",
         "creational",
         "dataclass",
         "ENOENT",
@@ -12,15 +13,18 @@
         "imdb",
         "ipfs",
         "jsonify",
+        "levelname",
         "muxing",
+        "programname",
         "rtype",
         "strerror",
-        "tqdm"
+        "tqdm",
+        "verboselogs"
     ],
     "python.testing.pytestArgs": [
         "."
     ],
-    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.typeCheckingMode": "strict",
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.experiments.optInto": ["All"]

@@ -1,6 +1,6 @@
 import logging
-import verboselogs
-import coloredlogs
+import verboselogs  # type: ignore
+import coloredlogs  # type: ignore
 
 
 coloredlogs.DEFAULT_FIELD_STYLES = {
@@ -25,7 +25,7 @@ coloredlogs.DEFAULT_LEVEL_STYLES = {
 }
 
 
-def log_factory(name, level=logging.DEBUG):
+def log_factory(name: str, level: int = logging.DEBUG):
     # create logger
     _logger = verboselogs.VerboseLogger(name)
     _logger.addHandler(logging.StreamHandler())
@@ -33,7 +33,7 @@ def log_factory(name, level=logging.DEBUG):
     _logger.propagate = False
 
     fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    coloredlogs.install(level=logging.DEBUG, logger=_logger, fmt=fmt)
+    coloredlogs.install(level=logging.DEBUG, logger=_logger, fmt=fmt)  # type: ignore
     return _logger
 
 

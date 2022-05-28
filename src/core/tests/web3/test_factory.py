@@ -70,14 +70,6 @@ def test_nft_contract_factory():
     assert isinstance(expected_contract.network, Ethereum)
 
 
-def test_nft_contract_factory_with_invalid_network():
-    """Should fail for invalid network"""
-    # Chain rinkeby and ERC1155 standard
-    with pytest.raises(TypeError):
-        # passing chain instance should fail
-        contract(ContractID.ERC1155, network=Rinkeby())
-
-
 def test_nft_invalid_contract():
     """Should return error with invalid contract"""
     # Chain rinkeby and ERC1155 standard
@@ -125,17 +117,11 @@ def test_network():
     assert isinstance(_network, Ethereum)
 
 
-def test_valid_network_with_invalid_chain():
-    """Should raise error with valid network id and invalid chain"""
-
-    with pytest.raises(TypeError):
-        # Returned network based on chain
-        network(NetworkID.Ethereum, chain=InvalidEVM())
-
-
 def test_invalid_network():
     """Should raise error with invalid network id"""
 
     with pytest.raises(InvalidNetwork):
         # Returned network based on chain
         network(0, chain=None)
+
+#TODO test contract subscriptable functions

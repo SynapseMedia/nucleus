@@ -16,9 +16,9 @@ class MockInput(Input):
         self.media = MockMedia()
 
 
-class MockFFProbe:
-    pass
 
+class MockFFProbe():
+    pass
 
 def test_quality():
     """Should return a valid quality based on video size"""
@@ -75,9 +75,9 @@ def test_invalid_streaming_protocol():
         with streaming(0, input=MockInput("fail")):  # type: ignore
             pass
 
-
-# TODO finish this
+# TODO finish this        
 def test_valid_input(mocker):
     """Should instance a valid input"""
     mocker.patch("src.core.media.transcode.input", return_value=MockMedia())
     mocker.patch("src.core.media.transcode.FFProbe", return_value=MockMedia())
+    
