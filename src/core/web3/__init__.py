@@ -1,12 +1,15 @@
 """
-https://docs.python.org/3/library/typing.html#module-typing
 Note: The Python runtime does not enforce function and variable type annotations.
 They can be used by third party tools such as type checkers, IDEs, linters, etc.
+
+refs:
+- https://docs.python.org/3/library/typing.html#module-typing
+- https://peps.python.org/pep-0544/#protocol-members
 """
 
 from enum import Enum
-from abc import ABCMeta, abstractmethod
-from typing import Any, Generic
+from abc import abstractmethod
+from typing import Any, Protocol
 from ..types import (
     Abi,
     Address,
@@ -16,8 +19,7 @@ from ..types import (
     TxAnswer,
     Hash,
     SignedTransaction,
-    Contract as _Contract,
-    TFunctions,
+    Subscriptable,
 )
 
 
@@ -41,7 +43,22 @@ class ContractID(Enum):
         return self.name
 
 
-class ProxyContract(Generic[TFunctions]):
+class ProtocolContract(Protocol):
+    """Internal contracts handler should get described as follow
+
+    Any internal contract handler from any `network` lib should be wrapped in a class that implement this protocol
+    If a class includes a protocol in its MRO, the class is called an explicit subclass of the protocol.
+    If a class is a structural subtype of a protocol, it is said to implement the protocol and to be compatible with a protocol
+
+    https://peps.python.org/pep-0544/#protocol-members
+    """
+
+    @property
+    def functions(self) -> Subscriptable:
+        ...
+
+
+class ProxyContract:
     """This class pretends to handle generically the function calls to contract
 
     eg.
@@ -63,22 +80,17 @@ class ProxyContract(Generic[TFunctions]):
 
     """
 
-    interface: _Contract[TFunctions]  # Subscriptable object needed
-    functions: TFunctions
+    interface: Subscriptable  # Subscriptable object needed
 
-    def __init__(self, interface: _Contract[TFunctions]):
+    def __init__(self, interface: Subscriptable):
         self.interface = interface
-        self.functions = interface.functions
 
     def __getattr__(self, name: str):
         """Proxy call to subscriptable interface"""
-        if not hasattr(self.interface, name):
-            # By default answer with function calls
-            return getattr(self.functions, name)
         return getattr(self.interface, name)
 
 
-class Chain(metaclass=ABCMeta):
+class Chain(Protocol):
     """Chain abstract class
 
     Hold/specify the artifacts/methods needed to interact with chain.
@@ -137,7 +149,7 @@ class Chain(metaclass=ABCMeta):
         ...
 
 
-class Network(metaclass=ABCMeta):
+class Network(Protocol):
     """Network abstract class
 
     Specify all methods needed to interact with the blockchain.
@@ -162,7 +174,7 @@ class Network(metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def build_contract(self, address: Address, abi: Abi) -> ProxyContract[Any]:
+    def build_contract(self, address: Address, abi: Abi) -> ProxyContract:
         """Return contract for blockchain operations.
         This factory method return a prebuilt contract based on blockchain specifications.
 
@@ -202,7 +214,7 @@ class Network(metaclass=ABCMeta):
         ...
 
 
-class Contract(metaclass=ABCMeta):
+class Contract(Protocol):
     """Contract abstract class
 
     Specify all methods needed to interact with contracts.
@@ -215,7 +227,8 @@ class Contract(metaclass=ABCMeta):
     """
 
     address: Address
-    _proxy: ProxyContract[Any]
+    network: Network
+    _proxy: ProxyContract
 
     def __init__(self, network: Network):
         """Connect contract to network"""

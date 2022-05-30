@@ -1,4 +1,4 @@
-from cid import make_cid
+from cid import make_cid # type: ignore
 from web3 import Web3
 from ..types import Primitives, CIDStr
 
