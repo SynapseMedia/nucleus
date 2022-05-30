@@ -1,19 +1,32 @@
 import pytest
-from ffmpeg_streaming._format import H264, VP9
+from typing import Any
+from ffmpeg_streaming._format import H264, VP9  # type: ignore
+
+from src.core.types import Directory
 from src.core.exceptions import InvalidVideoQuality, InvalidStreamingProtocol
-from src.core.media.transcode import REPR, Sizes, FormatID, Input
+from src.core.media.transcode import REPR, Sizes, FormatID, Input, Size
 from src.core.media.transcode.protocols import HLS, DASH
-from src.core.media.transcode.factory import quality, streaming
+from src.core.media.transcode.factory import quality, streaming, input
 
 
 class MockMedia:
-    def __getattr__(self, name):
-        return lambda _: name
+    def __getattr__(self, name: str) -> Any:
+        return lambda _: name  # type: ignore
 
 
 class MockInput(Input):
-    def __init__(self, input: str):
+    def __init__(self, input: Directory, **options: Any):
         self.media = MockMedia()
+        self.path = input
+
+    def get_path(self) -> Directory:
+        return self.path
+
+    def get_video_size(self) -> Size:
+        return Size(100, 100)
+
+    def get_duration(self) -> float:
+        return 10.1
 
 
 class MockFFProbe:
@@ -60,10 +73,10 @@ def test_invalid_quality():
 def test_streaming_protocol():
     """Should return a valid streaming protocol for a valid protocol id"""
 
-    with streaming(FormatID.Mp4, input=MockInput("test")) as hls:
+    with streaming(FormatID.Mp4, input=MockInput(Directory("test"))) as hls:
         assert isinstance(hls, HLS)
         assert isinstance(hls.codec, H264)
-    with streaming(FormatID.Webm, input=MockInput("test")) as dash:
+    with streaming(FormatID.Webm, input=MockInput(Directory("test"))) as dash:
         assert isinstance(dash, DASH)
         assert isinstance(dash.codec, VP9)
 
@@ -76,8 +89,14 @@ def test_invalid_streaming_protocol():
             pass
 
 
-# TODO finish this
-def test_valid_input(mocker):
+def test_valid_input(mocker: Any):
     """Should instance a valid input"""
-    mocker.patch("src.core.media.transcode.input", return_value=MockMedia())
-    mocker.patch("src.core.media.transcode.FFProbe", return_value=MockMedia())
+    mocker.patch(
+        "src.core.media.transcode.factory.Input",
+        return_value=MockInput(Directory("test")),
+    )
+    with input(Directory("test")) as _input:
+        assert _input.get_video_size().width == 100
+        assert _input.get_video_size().height == 100
+        assert _input.get_path() == Directory("test")
+        assert _input.get_duration() == 10.1

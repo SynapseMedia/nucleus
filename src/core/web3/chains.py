@@ -11,11 +11,7 @@ from ..constants import (
 )
 
 
-class EVM(Chain):
-    pass
-
-
-class Kovan(EVM):
+class Kovan(Chain):
     """Kovan chain type"""
 
     def __str__(self):
@@ -45,7 +41,7 @@ class Kovan(EVM):
         return WALLET_KEY
 
 
-class Rinkeby(EVM):
+class Rinkeby(Chain):
     """Rinkeby chain type"""
 
     def __str__(self):

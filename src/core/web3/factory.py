@@ -1,40 +1,13 @@
 from typing import Dict, Type, Any
-from eth_account import Account
-
-from ..constants import WALLET_KEY
 from . import ChainID, ContractID, NetworkID, Network, Chain, Contract
 from .contracts import ERC1155
 from .network import Ethereum
 from .chains import Rinkeby, Kovan
-from ..types import PrivateKey
 from ..exceptions import (
-    InvalidPrivateKey,
     InvalidChain,
     InvalidNetwork,
     InvalidContract,
 )
-
-
-def account(private_key: PrivateKey = WALLET_KEY) -> Account:
-    """Returns wrapped account from private key
-
-    :param web: Web3 instance
-    :param private_key: wallet key address
-    :return: account object
-    :rtype: Account
-    :raises InvalidPrivateKey
-    """
-    if not private_key:
-        raise InvalidPrivateKey()
-
-    # Append hex prefix to key if not found
-    if private_key[:2] != "0x":
-        private_key = "0x%s" % private_key
-
-    try:
-        return Account.from_key(private_key)
-    except ValueError as e:
-        raise InvalidPrivateKey(str(e))
 
 
 def chain(chain_id: ChainID) -> Chain:

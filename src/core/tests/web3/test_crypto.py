@@ -1,9 +1,10 @@
 from src.core.web3.crypto import to_hex, cid_to_uint256
+from src.core.types import CidStr
 
 
 def test_cid_to_uint256():
     """Should return expected output uint256 in deterministic way from input"""
-    current_value = "bafyjvzacdk3rngktzetikg3w2gf7nxvxsq5y4t4xryzijalyazsa"
+    current_value = CidStr("bafyjvzacdk3rngktzetikg3w2gf7nxvxsq5y4t4xryzijalyazsa")
     expected_value = (
         651268735865305864933405567136027539147782079973983219801233220330061301348
     )

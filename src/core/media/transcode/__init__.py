@@ -1,8 +1,9 @@
 from enum import Enum
 from dataclasses import dataclass
-from abc import ABCMeta, abstractmethod
-from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe  # type: ignore
-from ...types import Codec, Directory
+from abc import abstractmethod
+from typing import Protocol, Any
+from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe, Format  # type: ignore
+from ...types import Directory
 
 
 class FormatID(Enum):
@@ -42,21 +43,20 @@ class REPR:
     R4k = Representation(Sizes.Q4k, BRS.B4k)
 
 
-# TODO add tests
 class Input:
     """Class to allow control over FFmpeg input.
 
     This class is designed to process one video file at a time
     """
 
-    def __init__(self, input_file: str, **options):
+    def __init__(self, input_file: Directory, **options: Any):
         self.path = input_file
         self.media = input(input_file, **options)
 
-    def get_path(self):
+    def get_path(self) -> Directory:
         return self.path
 
-    def get_video_size(self):
+    def get_video_size(self) -> Size:
         """Return video size
 
         :return: Video size from input file
@@ -79,24 +79,32 @@ class Input:
 
 
 # TODO add docs
-class Streaming(metaclass=ABCMeta):
+class Streaming(Protocol):
 
     input: Input
 
+    @abstractmethod
     def __init__(self, input: Input):
-        super().__init__()
-        self.input = input
+        ...
 
     @abstractmethod
     def set_representation(self, repr: Representation) -> None:
-        """
-        Docs
+        """Add quality representation to current input
+        : param repr: representation to be used on transcode process
+        :return: None
         """
         pass
 
     @property
     @abstractmethod
-    def codec(self) -> Codec:
+    def codec(self) -> Format:
+        """Return specific format codec based on protocol streaming
+
+        This format is selected based on performance
+        eg:
+            mp4 -> HLS -> h264 is better in performance than mp4 -> DASH -> vp9 and vice versa
+
+        """
         pass
 
     @abstractmethod

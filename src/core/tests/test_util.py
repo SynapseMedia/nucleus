@@ -3,7 +3,7 @@ import os
 import pytest
 from src.core import util
 from pathlib import Path
-from ..types import Directory
+from src.core.types import Directory
 
 custom_dir = "assets"
 directory = Directory("tests")

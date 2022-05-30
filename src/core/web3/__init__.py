@@ -43,23 +43,8 @@ class ContractID(Enum):
         return self.name
 
 
-class ProtocolContract(Protocol):
-    """Internal contracts handler should get described as follow
-
-    Any internal contract handler from any `network` lib should be wrapped in a class that implement this protocol
-    If a class includes a protocol in its MRO, the class is called an explicit subclass of the protocol.
-    If a class is a structural subtype of a protocol, it is said to implement the protocol and to be compatible with a protocol
-
-    https://peps.python.org/pep-0544/#protocol-members
-    """
-
-    @property
-    def functions(self) -> Subscriptable:
-        ...
-
-
-class ProxyContract:
-    """This class pretends to handle generically the function calls to contract
+class Proxy(Protocol):
+    """This protocol pretends to enforce generically calls to unknown methods
 
     eg.
         # Contract can be any based on lib
@@ -67,27 +52,26 @@ class ProxyContract:
 
         # using Web3
         c = Contract()
+
+        # We don't know the accessor for functions for every lib
         c.functions.mint() <- how can we handle `mint` for any different lib?
 
-        probably we need an standard interface here?
+        # So...
+        # probably we need an standard interface here?
 
         c = Contract()
         c.mint() # Does'nt matter how the call is made underneath
 
-    usage:
-
-        ProxyContract[TFunctions, TEvents..](Contract)
-
     """
 
-    interface: Subscriptable  # Subscriptable object needed
+    @abstractmethod
+    def __init__(self, interface: Any):
+        ...
 
-    def __init__(self, interface: Subscriptable):
-        self.interface = interface
-
-    def __getattr__(self, name: str):
+    @abstractmethod
+    def __getattr__(self, name: str) -> Subscriptable:
         """Proxy call to subscriptable interface"""
-        return getattr(self.interface, name)
+        ...
 
 
 class Chain(Protocol):
@@ -163,18 +147,22 @@ class Network(Protocol):
 
     chain: Chain
 
+    @abstractmethod
     def __init__(self, chain: Chain):
         """Assoc chain with network"""
-        super().__init__()
-        self.chain = chain
-
-    @abstractmethod
-    def set_default_account(self, account: Address) -> None:
-        """Set default account for network operations"""
         ...
 
     @abstractmethod
-    def build_contract(self, address: Address, abi: Abi) -> ProxyContract:
+    def set_default_account(self, private_key: PrivateKey) -> None:
+        """Set default account for network operations
+
+        :param private_key: wallet key address
+        :raises InvalidPrivateKey
+        """
+        ...
+
+    @abstractmethod
+    def contract_factory(self, address: Address, abi: Abi) -> Proxy:
         """Return contract for blockchain operations.
         This factory method return a prebuilt contract based on blockchain specifications.
 
@@ -228,12 +216,12 @@ class Contract(Protocol):
 
     address: Address
     network: Network
-    _proxy: ProxyContract
+    _proxy: Proxy
 
+    @abstractmethod
     def __init__(self, network: Network):
         """Connect contract to network"""
-        super().__init__()
-        self.network = network
+        ...
 
     @abstractmethod
     def __getattr__(self, name: str) -> Any:

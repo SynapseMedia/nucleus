@@ -1,14 +1,13 @@
 import pytest
 import web3
 import eth_account
-import hexbytes
 from web3 import Web3
 from src.core.web3.contracts import ERC1155
 from src.core.web3.network import Ethereum
 from src.core.web3.chains import Rinkeby, Kovan
-from src.core.web3 import ContractID, ChainID, NetworkID, Chain
+from src.core.web3 import ContractID, ChainID, NetworkID
 
-from src.core.web3.factory import contract, account, chain, network
+from src.core.web3.factory import contract, chain, network
 from src.core.constants import (
     KOVAN_PROVIDER,
     KOVAN_ALCHEMY_API_KEY,
@@ -17,15 +16,14 @@ from src.core.constants import (
 )
 
 from src.core.exceptions import (
-    InvalidPrivateKey,
     InvalidContract,
     InvalidNetwork,
 )
 
 
-class InvalidEVM(Chain):
+class InvalidEVM:
     def __str__(self):
-        pass
+        return "fake"
 
     @property
     def id(self):
@@ -43,20 +41,14 @@ class InvalidEVM(Chain):
         pass
 
 
-def test_valid_account():
+def test_valid_account_for_network():
     """Should return a valid Account key if valid key is provided"""
     wallet_key = "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f"
-    wallet_account = account(wallet_key)
+    _network = network(NetworkID.Ethereum, chain=Kovan())
+    _network.set_default_account(wallet_key)
+
     expected = eth_account.Account.from_key(wallet_key)
-    assert hexbytes.HexBytes("0x%s" % wallet_key) == wallet_account.key
-    assert wallet_account == expected
-
-
-def test_invalid_account():
-    """Should return a valid Account key if valid key is provided"""
-    wallet_key = "3ee90d8549b9b0293df40346106"
-    with pytest.raises(InvalidPrivateKey):
-        account(wallet_key)
+    assert _network.web3.eth.default_account == expected  # type: ignore
 
 
 def test_nft_contract_factory():
@@ -74,7 +66,7 @@ def test_nft_invalid_contract():
     """Should return error with invalid contract"""
     # Chain rinkeby and ERC1155 standard
     with pytest.raises(InvalidContract):
-        contract(1155, network=None)
+        contract(1155, network=None)  # type: ignore
 
 
 def test_kovan_chain():
@@ -84,7 +76,7 @@ def test_kovan_chain():
 
     expected_value = f"{KOVAN_PROVIDER}/{KOVAN_ALCHEMY_API_KEY}"
     assert (
-        kovan.connector().endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
+        kovan.connector().endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri  # type: ignore
     )
     assert kovan.erc1155 == "0x0B33Fe1Bb738B7c3e981978d7E5a9f2b980853Ed"
     assert (
@@ -100,7 +92,7 @@ def test_rinkeby_chain():
 
     expected_value = f"{RINKEBY_PROVIDER}/{RINKEBY_ALCHEMY_API_KEY}"
     assert (
-        rinkeby.connector().endpoint_uri
+        rinkeby.connector().endpoint_uri  # type: ignore
         == Web3.HTTPProvider(expected_value).endpoint_uri
     )
     assert rinkeby.erc1155 == "0x58Aa6dD8aA078385496441F3ABa691d472feBaF5"
@@ -122,7 +114,7 @@ def test_invalid_network():
 
     with pytest.raises(InvalidNetwork):
         # Returned network based on chain
-        network(0, chain=None)
+        network(0, chain=None)  # type: ignore
 
 
 # TODO test contract subscriptable functions

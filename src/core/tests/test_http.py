@@ -2,7 +2,7 @@ import os
 
 import responses
 from typing import Any
-from ..types import Directory, Uri
+from src.core.types import Directory, Uri
 from src.core.http import download, fetch
 
 directory = Directory("assets/tests/watchit_.png")

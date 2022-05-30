@@ -2,7 +2,7 @@ import sys
 import datetime
 
 
-def progress(_, duration, time_, time_left, *args, **kwargs):
+def progress(_, duration: int, time_: int, time_left: int):
     """Render tqdm progress bar."""
     sys.stdout.flush()
     per = round(time_ / duration * 100)

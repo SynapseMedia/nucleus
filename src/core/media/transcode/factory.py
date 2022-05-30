@@ -1,13 +1,14 @@
 from contextlib import contextmanager
+from typing import Dict, Type, Sequence, Any, Iterator
 
-from typing import Dict, Type
+from ...types import Directory
 from ...constants import MAX_MUXING_QUEUE_SIZE
 from ...exceptions import InvalidVideoQuality, InvalidStreamingProtocol
-from . import REPR, Sizes, Input, FormatID, Sizes, Size, Streaming, Representation
+from . import REPR, Sizes, Input, FormatID, Size, Streaming, Representation
 from .protocols import HLS, DASH
 
 
-def quality(size: Size) -> Representation:
+def quality(size: Size) -> Sequence[Representation]:
     """Return quality list of appropriated representations based on `size`.
 
     Blocked upscale and locked downscale allowed for each defined quality
@@ -17,7 +18,7 @@ def quality(size: Size) -> Representation:
     :raises InvalidVideoQuality
     """
 
-    quality_representations = {
+    quality_representations: Dict[Size, Sequence[Representation]] = {
         Sizes.Q480: (REPR.R360p, REPR.R480p),
         Sizes.Q720: (REPR.R360p, REPR.R480p, REPR.R720p),
         Sizes.Q1080: (REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p),
@@ -34,12 +35,11 @@ def quality(size: Size) -> Representation:
 
     if size not in quality_representations:
         raise InvalidVideoQuality()
-    return quality_representations.get(size)
+    return quality_representations[size]
 
 
-# TODO write tests
 @contextmanager
-def input(input_file: str):
+def input(input_file: Directory):
     """Factory ffmpeg input interface from file
 
     :param input_file: Path to video
@@ -50,7 +50,7 @@ def input(input_file: str):
 
 
 @contextmanager
-def streaming(_format: FormatID, **kwargs):
+def streaming(_format: FormatID, **kwargs: Any) -> Iterator[Streaming]:
     """Resolve protocol handler from protocol id
 
     :param _format: input format to transcode
