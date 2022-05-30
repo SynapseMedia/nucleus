@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ 3.6, 3.9 ]
+        python-version: [ 3.10 ]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v2
@@ -29,13 +29,11 @@ jobs:
 
       - name: Install requirements
 #        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          pip install -r requirements.txt
+        run: make bootstrap
 
       - name: Static Analysis
-        run: |
-          flake8 --config=.config/flake8.ini src
+        run: make check-coding-style
 
       - name: Tests
         run: |
-          py.test -c ./conftest.py --no-header -v --disable-pytest-warnings
+          make test
