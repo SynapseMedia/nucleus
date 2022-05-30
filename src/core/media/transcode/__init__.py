@@ -78,7 +78,6 @@ class Input:
         return duration
 
 
-# TODO add docs
 class Streaming(Protocol):
 
     input: Input
@@ -109,4 +108,9 @@ class Streaming(Protocol):
 
     @abstractmethod
     def transcode(self, output_dir: Directory) -> None:
+        """Start transcoding process based on conf
+        
+        :param output_dir: Directory where to write output
+        :return: None
+        """
         pass

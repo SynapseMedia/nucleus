@@ -48,7 +48,7 @@ def network(net: NetworkID, **kwargs: Any) -> Network:
     return network_class(**kwargs)
 
 
-def contract(type: ContractID, **kwargs: Any):
+def contract(type: ContractID, **kwargs: Any) -> Contract:
     """Factory NFT contract based on provider settings
 
     :param type: The contract type eg. ERC1155 | ERC20 |

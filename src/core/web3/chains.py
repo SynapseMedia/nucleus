@@ -1,5 +1,6 @@
 from web3 import Web3
 from . import Chain, ChainID
+from ..types import Provider, Address, PrivateKey
 from ..constants import (
     WALLET_KEY,
     KOVAN_PROVIDER,

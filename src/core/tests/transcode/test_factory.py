@@ -28,7 +28,6 @@ class MockInput(Input):
     def get_duration(self) -> float:
         return 10.1
 
-
 class MockFFProbe:
     pass
 
@@ -91,10 +90,7 @@ def test_invalid_streaming_protocol():
 
 def test_valid_input(mocker: Any):
     """Should instance a valid input"""
-    mocker.patch(
-        "src.core.media.transcode.factory.Input",
-        return_value=MockInput(Directory("test")),
-    )
+    mocker.patch("src.core.media.transcode.factory.Input", return_value=MockInput(Directory("test")))
     with input(Directory("test")) as _input:
         assert _input.get_video_size().width == 100
         assert _input.get_video_size().height == 100

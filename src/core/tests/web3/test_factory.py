@@ -109,6 +109,14 @@ def test_network():
     assert isinstance(_network, Ethereum)
 
 
+def test_valid_network_with_invalid_chain():
+    """Should raise error with valid network id and invalid chain"""
+
+    with pytest.raises(TypeError):
+        # Returned network based on chain
+        network(NetworkID.Ethereum, chain=InvalidEVM())
+
+
 def test_invalid_network():
     """Should raise error with invalid network id"""
 
@@ -117,4 +125,3 @@ def test_invalid_network():
         network(0, chain=None)  # type: ignore
 
 
-# TODO test contract subscriptable functions
