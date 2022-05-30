@@ -46,7 +46,7 @@ class REPR:
 class Input:
     """Class to allow control over FFmpeg input.
 
-    This class is designed to process one video file at a time
+    This class is designed to process one video file at time
     """
 
     def __init__(self, input_file: Directory, **options: Any):
@@ -92,7 +92,7 @@ class Streaming(Protocol):
         : param repr: representation to be used on transcode process
         :return: None
         """
-        pass
+        ...
 
     @property
     @abstractmethod
@@ -104,7 +104,7 @@ class Streaming(Protocol):
             mp4 -> HLS -> h264 is better in performance than mp4 -> DASH -> vp9 and vice versa
 
         """
-        pass
+        ...
 
     @abstractmethod
     def transcode(self, output_dir: Directory) -> None:
@@ -113,4 +113,4 @@ class Streaming(Protocol):
         :param output_dir: Directory where to write output
         :return: None
         """
-        pass
+        ...
