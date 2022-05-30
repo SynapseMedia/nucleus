@@ -1,6 +1,5 @@
 from hexbytes import HexBytes
 from web3.providers.base import BaseProvider
-from ffmpeg_streaming import Format  # type: ignore
 from typing import (
     NewType,
     Union,

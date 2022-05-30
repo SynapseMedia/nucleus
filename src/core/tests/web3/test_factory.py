@@ -123,5 +123,3 @@ def test_invalid_network():
     with pytest.raises(InvalidNetwork):
         # Returned network based on chain
         network(0, chain=None)  # type: ignore
-
-

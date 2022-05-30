@@ -1,6 +1,6 @@
 from . import Streaming, Input
 from ._util import progress  # type: ignore
-from ffmpeg_streaming import Representation, Formats, Format  # type: ignore
+from ffmpeg_streaming import Representation, Formats  # type: ignore
 from ...types import Directory
 
 
