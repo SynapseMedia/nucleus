@@ -95,7 +95,7 @@ class InvalidNetwork(Exception):
 
     def __init__(self, message: str = ""):
         _message = f"""
-                Not supported network: {message}
+                Unsupported network: {message}
                 """
 
         super().__init__(_message)
@@ -106,7 +106,7 @@ class InvalidContract(Exception):
 
     def __init__(self, message: str = ""):
         _message = f"""
-                Not supported contract: {message}
+                Unsupported contract: {message}
                 """
 
         super().__init__(_message)
