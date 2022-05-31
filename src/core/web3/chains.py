@@ -1,5 +1,7 @@
-from web3 import Web3
-from . import Chain, ChainID, ProviderAdapter
+from web3.providers.rpc import HTTPProvider
+
+from . import Chain, ChainID, Provider
+from ..types import Endpoint
 from ..constants import (
     WALLET_KEY,
     KOVAN_PROVIDER,
@@ -11,12 +13,18 @@ from ..constants import (
 )
 
 
-class WebProviderAdapter(ProviderAdapter):
-    def __init__(self, adapter: Web3.HTTPProvider):
-        self.adapter = adapter
+class Web3HTTPProviderAdapter(Provider):
+    """Explicitly declaring implementation
+
+    refs:
+        - https://peps.python.org/pep-0544/#defining-a-protocol
+        - https://www.geeksforgeeks.org/adapter-method-python-design-patterns/
+    """
 
     def __call__(self):
-        return self.adapter
+        def __connect(endpoint: Endpoint):
+            return HTTPProvider(endpoint)
+        return __connect
 
 
 class Kovan(Chain):
@@ -30,16 +38,18 @@ class Kovan(Chain):
         return ChainID.Kovan
 
     @property
-    def connector(self):
+    def endpoint(self) -> Endpoint:
+        return f"{KOVAN_PROVIDER}/{KOVAN_ALCHEMY_API_KEY}"
+
+    @property
+    def provider(self):
         """Return kovan pre-build Http Provider
 
         :return: kovan provider
         :rtype: Web3.HTTPProvider
         """
-        return Web3.HTTPProvider(
-            # Kovan alchemy endpoint
-            f"{KOVAN_PROVIDER}/{KOVAN_ALCHEMY_API_KEY}"
-        )
+
+        return Web3HTTPProviderAdapter()
 
     @property
     def erc1155(self):
@@ -60,16 +70,18 @@ class Rinkeby(Chain):
     def id(self):
         return ChainID.Rinkeby
 
-    def connector(self):
+    @property
+    def endpoint(self) -> Endpoint:
+        return f"{RINKEBY_PROVIDER}/{RINKEBY_ALCHEMY_API_KEY}"
+
+    @property
+    def provider(self):
         """Return rinkeby pre-build Http Provider
 
         :return: rinkeby provider
         :rtype: Web3.HTTPProvider
         """
-        return Web3.HTTPProvider(
-            # Rinkeby alchemy endpoint
-            f"{RINKEBY_PROVIDER}/{RINKEBY_ALCHEMY_API_KEY}"
-        )
+        return Web3HTTPProviderAdapter()
 
     @property
     def erc1155(self):

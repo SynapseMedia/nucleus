@@ -2,7 +2,7 @@ import pytest
 import web3
 import eth_account
 from web3 import Web3
-from web3.providers.base import BaseProvider
+from src.core.types import Connector
 from src.core.web3.contracts import ERC1155
 from src.core.web3.network import Ethereum
 from src.core.web3.chains import Rinkeby, Kovan
@@ -27,10 +27,15 @@ class InvalidEVM:
         return "fake"
 
     @property
+    def endpoint(self):
+        return ""
+
+    @property
     def id(self):
         pass
 
-    def connector(self):
+    @property
+    def provider(self):
         pass
 
     @property
@@ -73,12 +78,12 @@ def test_nft_invalid_contract():
 def test_kovan_chain():
     """Should return expected assets and connector for kovan network"""
     kovan = chain(ChainID.Kovan)
-    assert isinstance(kovan.connector(), web3.HTTPProvider)
+    connector: Connector = kovan.provider()
+    provider = connector(kovan.endpoint)
+    assert isinstance(provider, web3.HTTPProvider)
 
     expected_value = f"{KOVAN_PROVIDER}/{KOVAN_ALCHEMY_API_KEY}"
-    connector: BaseProvider = kovan.connector()
-    
-    assert connector.endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
+    assert provider.endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
     assert kovan.erc1155 == "0x0B33Fe1Bb738B7c3e981978d7E5a9f2b980853Ed"
     assert (
         kovan.private_key
@@ -89,11 +94,13 @@ def test_kovan_chain():
 def test_rinkeby_chain():
     """Should return expected assets and connector for rinkeby network"""
     rinkeby = chain(ChainID.Rinkeby)
-    assert isinstance(rinkeby.connector(), web3.HTTPProvider)
+    connector: Connector = rinkeby.provider()
+    provider = connector(rinkeby.endpoint)
+    assert isinstance(provider, web3.HTTPProvider)
 
     expected_value = f"{RINKEBY_PROVIDER}/{RINKEBY_ALCHEMY_API_KEY}"
     assert (
-        rinkeby.connector().endpoint_uri  # type: ignore
+        provider.endpoint_uri  # type: ignore
         == Web3.HTTPProvider(expected_value).endpoint_uri
     )
     assert rinkeby.erc1155 == "0x58Aa6dD8aA078385496441F3ABa691d472feBaF5"

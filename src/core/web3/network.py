@@ -1,10 +1,9 @@
 from web3 import Web3
 from web3.contract import Contract
 from eth_typing.evm import Hash32
-
 from eth_account import Account
 from . import Network, Chain, Proxy
-from ..types import Address, TxCall, Hash, Abi, PrivateKey
+from ..types import Address, TxCall, Hash, Abi, PrivateKey, Connector
 from ..exceptions import InvalidPrivateKey
 
 
@@ -23,9 +22,11 @@ class Ethereum(Network):
 
     web3: Web3
     chain: Chain
+    connector: Connector
 
     def __init__(self, chain: Chain):
-        self.web3 = Web3(chain.connector())
+        self.connector = chain.provider()
+        self.web3 = Web3(self.connector(chain.endpoint))
         self.chain = chain
 
     def set_default_account(self, private_key: PrivateKey):

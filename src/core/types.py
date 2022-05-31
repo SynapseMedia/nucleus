@@ -3,7 +3,6 @@ Note: The Python runtime does not enforce function and variable type annotations
 They can be used by third party tools such as type checkers, IDEs, linters, etc.
 """
 from hexbytes import HexBytes
-from web3.providers.base import BaseProvider
 from typing import (
     NewType,
     Union,
@@ -13,6 +12,7 @@ from typing import (
     Dict,
     NamedTuple,
     TypedDict,
+    Callable
 )
 
 
@@ -30,7 +30,6 @@ TxAnswer = Union[NamedTuple, TypedDict]
 # Aliases
 Hash = Union[HexBytes, Hash32]
 Address = Union[HexStr, str]
-Provider = Union[BaseProvider, Any]
 PrivateKey = Union[Address, int]
 
 SignedTransaction = NewType("SignedTransaction", NamedTuple)
@@ -41,6 +40,7 @@ Abi = NewType("Abi", Dict[Any, Any])
 
 CidStr = NewType("CIDStr", str)
 Endpoint = Union[Uri, str]
+Connector = Callable[[Endpoint], Any]
 
 # By convention var types should start with "T" followed by type name
 T = TypeVar("T")
