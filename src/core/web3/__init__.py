@@ -57,6 +57,7 @@ class Provider(Protocol):
     Usage: 
         class Web3HTTPProviderAdapter(Provider):
             def __call__(self):
+                ...any logic here
                 def __connect(endpoint: Endpoint):
                     return HTTPProvider(endpoint)
                 return __connect
@@ -64,6 +65,7 @@ class Provider(Protocol):
         
         class AlgorandProviderAdapter(Provider):
             def __call__(self):
+                ...any logic here
                 def __connect(endpoint: Endpoint):
                     return algod.AlgodClient(endpoint)
                 return __connect
