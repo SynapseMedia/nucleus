@@ -31,6 +31,9 @@ jobs:
 #        if: steps.cache.outputs.cache-hit != 'true'
         run: make bootstrap
 
+      - name: pytypes checker
+        uses: theahura/pytypes-action@main
+
       - name: Static Analysis
         run: make check-coding-style
 
