@@ -1,5 +1,5 @@
 from web3 import Web3
-from . import Chain, ChainID
+from . import Chain, ChainID, ProviderAdapter
 from ..constants import (
     WALLET_KEY,
     KOVAN_PROVIDER,
@@ -9,6 +9,14 @@ from ..constants import (
     KOVAN_CONTRACT_NFT,
     RINKEBY_CONTRACT_NFT,
 )
+
+
+class WebProviderAdapter(ProviderAdapter):
+    def __init__(self, adapter: Web3.HTTPProvider):
+        self.adapter = adapter
+
+    def __call__(self):
+        return self.adapter
 
 
 class Kovan(Chain):
@@ -21,6 +29,7 @@ class Kovan(Chain):
     def id(self):
         return ChainID.Kovan
 
+    @property
     def connector(self):
         """Return kovan pre-build Http Provider
 

@@ -9,14 +9,14 @@ refs:
 
 from enum import Enum
 from abc import abstractmethod
-from typing import Any, Protocol
+from typing import Any, Protocol, Callable
 from ..types import (
     Abi,
     Address,
-    Provider,
     PrivateKey,
     TxCall,
     TxAnswer,
+    T,
     Hash,
     SignedTransaction,
     Subscriptable,
@@ -43,6 +43,14 @@ class ContractID(Enum):
         return self.name
 
 
+class ProviderAdapter(Protocol):
+    def __init__(self, provider: Any):
+        ...
+
+    def __call__(self) -> Callable[..., Any]:
+        ...
+
+
 class Proxy(Protocol):
     """This protocol pretends to enforce generically calls to unknown methods
 
@@ -57,7 +65,7 @@ class Proxy(Protocol):
         c.functions.mint() <- how can we handle `mint` for any different lib?
 
         # So...
-        # probably we need an standard interface here?
+        # probably we need an standard interface here to delegate calls?
 
         c = Contract()
         c.mint() # Does'nt matter how the call is made underneath
@@ -66,11 +74,36 @@ class Proxy(Protocol):
 
     @abstractmethod
     def __init__(self, interface: Any):
+        """Interface may be anything but MUST expose a subscriptable object to handle it"""
         ...
 
     @abstractmethod
     def __getattr__(self, name: str) -> Subscriptable:
-        """Proxy call to subscriptable interface"""
+        """Control behavior for when a user attempts to access an attribute that doesn't exist
+
+        This method proxies/delegate the call to low level lib subscriptable object 
+        
+        eg.
+            # Example with web3 lib
+            class Web3Functions:
+                def __getattr__(self, name):
+                    # Here the low level lib handle the function call to contract
+
+            # Underneath core lib web3
+            class Web3Contract:
+                functions = Web3Functions <- this is now an subscriptable object
+
+            # Our proxy is an subscriptable object too
+            contract = CustomContract(Proxy)
+            
+            # In a transitive approach we delegate the call to our `favorite lib` using our "CustomContract"
+            contract.[myMethod]() <- this is not an existing method in our contract so we delegate the call to our lib contract functions
+            
+           
+        :return: default subscriptable object
+        :rtype: Subscriptable
+
+        """
         ...
 
 
@@ -101,8 +134,9 @@ class Chain(Protocol):
         """
         ...
 
+    @property
     @abstractmethod
-    def connector(self) -> Provider:
+    def connector(self) -> ProviderAdapter:
         """Return the connector interface
 
         Provide a connector to interact with chain.

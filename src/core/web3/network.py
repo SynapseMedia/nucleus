@@ -3,7 +3,7 @@ from web3.contract import Contract
 from eth_typing.evm import Hash32
 
 from eth_account import Account
-from . import Network, Proxy, Chain
+from . import Network, Chain, Proxy
 from ..types import Address, TxCall, Hash, Abi, PrivateKey
 from ..exceptions import InvalidPrivateKey
 

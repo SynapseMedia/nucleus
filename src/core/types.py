@@ -40,6 +40,7 @@ Uri = NewType("URI", str)
 Abi = NewType("Abi", Dict[Any, Any])
 
 CidStr = NewType("CIDStr", str)
+Endpoint = Union[Uri, str]
 
 # By convention var types should start with "T" followed by type name
 T = TypeVar("T")
