@@ -14,7 +14,7 @@ from ..constants import (
 
 
 class Web3HTTPProviderAdapter(Provider):
-    """Explicitly declaring implementation
+    """Explicitly http provider implementation
 
     refs:
         - https://peps.python.org/pep-0544/#defining-a-protocol
@@ -22,7 +22,7 @@ class Web3HTTPProviderAdapter(Provider):
     """
 
     def __call__(self):
-        def __connect(endpoint: Endpoint):
+        def __connect(endpoint: Endpoint) -> HTTPProvider:
             return HTTPProvider(endpoint)
         return __connect
 

@@ -45,9 +45,46 @@ class ContractID(Enum):
 
 
 class Provider(Protocol):
+    """ This protocol enforce adapter usage for Lib connectors and Chains
+    
+    We don't know how each lib handle their connection to providers or endpoints for each networks
+        - for web3 lib we have HTTP, ICP, Websocket
+        - for algorand we can use AlgoClient to connect a node
+        
+    This probably cause an issue for standard usage, if we use an adapter we can wrap an existing 
+    class with a new interface that we know.
+    
+    Usage: 
+        class Web3HTTPProviderAdapter(Provider):
+            def __call__(self):
+                def __connect(endpoint: Endpoint):
+                    return HTTPProvider(endpoint)
+                return __connect
+
+        
+        class AlgorandProviderAdapter(Provider):
+            def __call__(self):
+                def __connect(endpoint: Endpoint):
+                    return algod.AlgodClient(endpoint)
+                return __connect
+                
+                
+        class AnyOtherProviderAdapter(Provider):
+            def __call__(self):
+                def __connect(endpoint: Endpoint):
+                    # Build here the connector logic
+                return __connect
+    """
     
     @abstractmethod
     def __call__(cls) -> Connector:
+        """Call take build/setup the connector and return a callable or function
+        
+        This method will ensure that always we get the same interface for use in each corresponding network
+        
+        :return: Connector is a callable Callable[Endpoint, ExpectedConnector]
+        :rtype: Connector
+        """
         ...
 
 
