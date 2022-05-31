@@ -77,6 +77,7 @@ def test_kovan_chain():
 
     expected_value = f"{KOVAN_PROVIDER}/{KOVAN_ALCHEMY_API_KEY}"
     connector: BaseProvider = kovan.connector()
+    
     assert connector.endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
     assert kovan.erc1155 == "0x0B33Fe1Bb738B7c3e981978d7E5a9f2b980853Ed"
     assert (
