@@ -3,6 +3,7 @@ export SHELL:=/bin/bash
 PYTHON_MODULES = src
 PYTHONPATH = .
 VENV = .venv
+PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pytype
 PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini --no-header -v 
 FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
@@ -38,13 +39,23 @@ fix-coding-style: venv
 check-coding-style: venv
 	${FLAKE8} ${PYTHON_MODULES}
 
-test-sdk:
+check-typing-sdk: venv
+	${PYTYPE} ${PYTHON_MODULES}/sdk
+
+check-typing-core: venv
+	${PYTYPE} ${PYTHON_MODULES}/core
+
+check-typing: venv
+	${PYTYPE} ${PYTHON_MODULES}
+
+
+test-sdk: venv
 	${PYTEST} ${PYTHON_MODULES}/sdk --disable-pytest-warnings
 
-test-core:
+test-core: venv
 	${PYTEST} ${PYTHON_MODULES}/core --disable-pytest-warnings
 
-test:
+test: venv
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
 
 test-coverage-core: test-core

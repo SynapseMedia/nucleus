@@ -13,6 +13,7 @@ __pycache__/*
 doc/_build/
 .idea
 .env
+.pytype
 .venv
 .coverage
 hash

@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ '3.8', '3.9', '3.10' ]
+        python-version: [ 3.8, 3.9, 3 ]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v3
@@ -31,12 +31,12 @@ jobs:
 #        if: steps.cache.outputs.cache-hit != 'true'
         run: pip3 install virtualenv
 
-      - name: Boostrap
+      - name: Bootstrap
 #        if: steps.cache.outputs.cache-hit != 'true'
         run: make bootstrap
 
-      - name: pytypes checker
-        uses: theahura/pytypes-action@main
+      - name: Type checker
+        run: make check-typing
 
       - name: Static Analysis
         run: make check-coding-style
