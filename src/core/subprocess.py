@@ -36,7 +36,7 @@ async def run(cmd: Command) -> Process:
     """Start an async subprocess cmd
 
     :param cmd: command to exec
-    :return: None since is just a subprocess call
+    :return: subprocess asyncio shell
     :rtype: Process
     """
     proc = await asyncio.create_subprocess_shell(cmd)

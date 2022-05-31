@@ -2,6 +2,7 @@ import pytest
 import web3
 import eth_account
 from web3 import Web3
+from web3.providers.base import BaseProvider
 from src.core.web3.contracts import ERC1155
 from src.core.web3.network import Ethereum
 from src.core.web3.chains import Rinkeby, Kovan
@@ -75,9 +76,8 @@ def test_kovan_chain():
     assert isinstance(kovan.connector(), web3.HTTPProvider)
 
     expected_value = f"{KOVAN_PROVIDER}/{KOVAN_ALCHEMY_API_KEY}"
-    assert (
-        kovan.connector().endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri  # type: ignore
-    )
+    connector: BaseProvider = kovan.connector()
+    assert connector.endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
     assert kovan.erc1155 == "0x0B33Fe1Bb738B7c3e981978d7E5a9f2b980853Ed"
     assert (
         kovan.private_key

@@ -1,10 +1,13 @@
+"""
+Note: The Python runtime does not enforce function and variable type annotations. 
+They can be used by third party tools such as type checkers, IDEs, linters, etc.
+"""
 from hexbytes import HexBytes
 from web3.providers.base import BaseProvider
 from typing import (
     NewType,
     Union,
     Any,
-    Type,
     TypeVar,
     Protocol,
     Dict,
@@ -27,7 +30,7 @@ TxAnswer = Union[NamedTuple, TypedDict]
 # Aliases
 Hash = Union[HexBytes, Hash32]
 Address = Union[HexStr, str]
-Provider = Union[Type[BaseProvider], Any]
+Provider = Union[BaseProvider, Any]
 PrivateKey = Union[Address, int]
 
 SignedTransaction = NewType("SignedTransaction", NamedTuple)

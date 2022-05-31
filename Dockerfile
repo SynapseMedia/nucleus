@@ -1,5 +1,5 @@
 # https://docs.docker.com/develop/develop-images/multistage-build/
-FROM python:3.9
+FROM python:3.10
 LABEL maintainer ="watchit"
 RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg
 
