@@ -27,9 +27,9 @@ jobs:
 #          restore-keys: |
 #            ${{ runner.os }}-pip-
 
-      - name: Install requirements
+      - name: Install virtualenv
 #        if: steps.cache.outputs.cache-hit != 'true'
-        run: make requirements
+        run: pip3 install virtualenv
 
       - name: Boostrap
 #        if: steps.cache.outputs.cache-hit != 'true'
