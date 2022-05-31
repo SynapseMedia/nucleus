@@ -29,7 +29,11 @@ jobs:
 
       - name: Install requirements
 #        if: steps.cache.outputs.cache-hit != 'true'
-        run: make bootstrap
+        run: make requirements
+
+      - name: Boostrap
+#        if: steps.cache.outputs.cache-hit != 'true'
+        run: make boostrap
 
       - name: pytypes checker
         uses: theahura/pytypes-action@main
