@@ -1,4 +1,6 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -6,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri May 27 12:29:06 2022
+# Make data base, printed on Wed Jun  1 13:36:17 2022
 
 # Variables
 
@@ -20,7 +22,7 @@ GNUMAKEFLAGS :=
 DESKTOP_SESSION = ubuntu
 # default
 .SHELLFLAGS := -c
-# makefile (from 'Makefile', line 6)
+# makefile (from 'Makefile', line 7)
 PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini --no-header -v 
 # environment
 XDG_SESSION_CLASS = user
@@ -28,11 +30,13 @@ XDG_SESSION_CLASS = user
 XDG_SESSION_TYPE = x11
 # environment
 VSCODE_LOG_NATIVE = false
+# makefile (from 'Makefile', line 6)
+PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pytype --config pytype.cfg
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
 IM_CONFIG_PHASE = 1
-# makefile (from 'Makefile', line 13)
+# makefile (from 'Makefile', line 14)
 DEFAULT_PYTHON := /usr/bin/python3
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
@@ -60,7 +64,7 @@ MAKEFILE_LIST :=  Makefile
 @F = $(notdir $@)
 # environment
 GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
-# makefile (from 'Makefile', line 11)
+# makefile (from 'Makefile', line 12)
 PIP = ${VENV}/bin/pip3
 # environment
 USERNAME = gmena
@@ -77,7 +81,7 @@ INFOPATH = /home/linuxbrew/.linuxbrew/share/info:
 # environment
 MANAGERPID = 2030
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-ce0f70a4-4657-4c80-852e-d7e7f8cedbb8.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-e8ab13b3-2848-4983-99fe-91ddeb05503b.sock
 # environment
 LC_NAME = es_NI.UTF-8
 # environment
@@ -126,9 +130,9 @@ SSH_AGENT_PID = 2418
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
 GTK_MODULES = gail:atk-bridge
-# makefile (from 'Makefile', line 8)
+# makefile (from 'Makefile', line 9)
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
-# makefile (from 'Makefile', line 10)
+# makefile (from 'Makefile', line 11)
 PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python
 # environment
 MANPATH = /home/linuxbrew/.linuxbrew/share/man:
@@ -182,11 +186,11 @@ VENV = .venv
 LC_TELEPHONE = es_NI.UTF-8
 # default
 MAKE_COMMAND := make
-# makefile (from 'Makefile', line 9)
+# makefile (from 'Makefile', line 10)
 BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
 # default
 .VARIABLES := 
-# makefile (from 'Makefile', line 14)
+# makefile (from 'Makefile', line 15)
 VIRTUALENV := /usr/bin/virtualenv
 # automatic
 *F = $(notdir $*)
@@ -216,7 +220,7 @@ LC_PAPER = es_NI.UTF-8
 HOMEBREW_REPOSITORY = /home/linuxbrew/.linuxbrew/Homebrew
 # environment
 QT_ACCESSIBILITY = 1
-# makefile (from 'Makefile', line 7)
+# makefile (from 'Makefile', line 8)
 FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini
 # default
 MAKEFILES := 
@@ -242,7 +246,7 @@ WINDOWPATH = 2
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
 # environment
 LC_IDENTIFICATION = es_NI.UTF-8
-# makefile (from 'Makefile', line 15)
+# makefile (from 'Makefile', line 16)
 REQUIREMENTS := -r requirements.txt
 # default
 .RECIPEPREFIX := 
@@ -253,7 +257,7 @@ LANG = C
 # environment
 VSCODE_PID = 1107691
 # variable set hash-table stats:
-# Load=121/1024=12%, Rehash=0, Collisions=21/147=14%
+# Load=122/1024=12%, Rehash=0, Collisions=21/148=14%
 
 # Pattern-specific Variable Values
 
@@ -261,9 +265,9 @@ VSCODE_PID = 1107691
 
 # Directories
 
-# . (device 66311, inode 20447741): 56 files, no impossibilities.
+# . (device 66311, inode 20447741): 58 files, no impossibilities.
 
-# 56 files, no impossibilities in 1 directories.
+# 58 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -281,11 +285,8 @@ all:
 test-coverage-html: test-coverage
 #  Implicit rule search has not been done.
 #  Modification time never checked.
- 
-make: *** No rule to make target 'all'.  Stop.
-
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 62):
+#  recipe to execute (from 'Makefile', line 74):
 	${COVERAGE} html
 	
 
@@ -300,18 +301,19 @@ tesst:
 #  Modification time never checked.
 #  File has not been updated.
 
+ 
 check-coding-style: venv
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 38):
+#  recipe to execute (from 'Makefile', line 40):
 	${FLAKE8} ${PYTHON_MODULES}
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-27 11:20:20.966115569
+#  Last modified 2022-05-31 17:09:35.564944773
 #  File has been updated.
 #  Successfully updated.
 
@@ -319,10 +321,9 @@ setup-env:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 20):
+#  recipe to execute (from 'Makefile', line 21):
 	virtualenv --python=python3 -q .venv
-	python -m pip install --upgrade pip
-	npm i
+	python3 -m pip install --upgrade pip
 
 bootstrap: setup-env venv requirements
 #  Phony target (prerequisite of .PHONY).
@@ -330,19 +331,19 @@ bootstrap: setup-env venv requirements
 #  File does not exist.
 #  File has not been updated.
 
-test:
+test: venv
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 47):
+#  recipe to execute (from 'Makefile', line 59):
 	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
 
 test-coverage-sdk: test-sdk
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 54):
+#  recipe to execute (from 'Makefile', line 66):
 	${COVERAGE} run --source=./src/sdk ${VENV}/bin/py.test
 	${COVERAGE} report
 
@@ -350,14 +351,21 @@ test-check:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 65):
+#  recipe to execute (from 'Makefile', line 77):
 	${PYTEST} ${PYTHON_MODULES}
 
-test-sdk:
+check-typing: venv
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 41):
+#  recipe to execute (from 'Makefile', line 49):
+	${PYTYPE} ${PYTHON_MODULES}
+
+test-sdk: venv
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 53):
 	${PYTEST} ${PYTHON_MODULES}/sdk --disable-pytest-warnings
 
 default: check-coding-style
@@ -371,7 +379,7 @@ test-coverage: tesst
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 58):
+#  recipe to execute (from 'Makefile', line 70):
 	${COVERAGE} run --source=./src ${VENV}/bin/py.test
 	${COVERAGE} report
 	
@@ -386,15 +394,22 @@ test-coverage-core: test-core
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 50):
+#  recipe to execute (from 'Makefile', line 62):
 	${COVERAGE} run --source=./src/core ${VENV}/bin/py.test
 	${COVERAGE} report
 
-test-core:
+check-typing-sdk: venv
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 44):
+#  recipe to execute (from 'Makefile', line 43):
+	${PYTYPE} ${PYTHON_MODULES}/sdk
+
+test-core: venv
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 56):
 	${PYTEST} ${PYTHON_MODULES}/core --disable-pytest-warnings
 
 venv:
@@ -409,8 +424,15 @@ fix-coding-style: venv
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 36):
+#  recipe to execute (from 'Makefile', line 38):
 	${BLACKFIX} ${PYTHON_MODULES}
+
+check-typing-core: venv
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 46):
+	${PYTYPE} ${PYTHON_MODULES}/core
 
 requirements:
 #  Phony target (prerequisite of .PHONY).
@@ -423,21 +445,22 @@ requirements:
 	else \
 		${PIP} install --no-cache-dir --force-reinstall ${REQUIREMENTS}; \
 	fi
+	npm i
 
 # files hash-table stats:
-# Load=21/1024=2%, Rehash=0, Collisions=3/49=6%
+# Load=24/1024=2%, Rehash=0, Collisions=3/58=5%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 78 / storage = 1252 B / avg = 16 B
-# current buf: size = 8162 B / used = 1252 B / count = 78 / avg = 16 B
+# strcache buffers: 1 (0) / strings = 83 / storage = 1319 B / avg = 15 B
+# current buf: size = 8162 B / used = 1319 B / count = 83 / avg = 15 B
 
-# strcache performance: lookups = 114 / hit rate = 31%
+# strcache performance: lookups = 128 / hit rate = 35%
 # hash-table stats:
-# Load=78/8192=1%, Rehash=0, Collisions=1/114=1%
-# Finished Make data base on Fri May 27 12:29:06 2022
+# Load=83/8192=1%, Rehash=0, Collisions=1/128=1%
+# Finished Make data base on Wed Jun  1 13:36:17 2022
 
  

@@ -73,7 +73,7 @@ def safe_retrieve(db=None, _filter=None):
     return result, result_count
 
 
-def flush(db=None, _filter: dict = None):
+def flush(db=None, _filter: dict):
     """
     Flush db for specified _filter
     :param _filter: filter dict

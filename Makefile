@@ -3,7 +3,7 @@ export SHELL:=/bin/bash
 PYTHON_MODULES = src
 PYTHONPATH = .
 VENV = .venv
-PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pytype
+PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pytype --config pytype.cfg
 PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini --no-header -v 
 FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage

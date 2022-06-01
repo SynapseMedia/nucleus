@@ -5,10 +5,11 @@ They can be used by third party tools such as type checkers, IDEs, linters, etc.
 refs:
 - https://docs.python.org/3/library/typing.html#module-typing
 - https://peps.python.org/pep-0544/#protocol-members
+- https://google.github.io/pytype/errors.html#bad-return-type
 """
 
 from enum import Enum
-from abc import abstractmethod
+from abc import ABCMeta, abstractmethod
 from typing import Any, Protocol
 from ..types import (
     Abi,
@@ -44,7 +45,7 @@ class ContractID(Enum):
         return self.name
 
 
-class Provider(Protocol):
+class Provider(Protocol , metaclass=ABCMeta):
     """ This protocol enforce adapter usage for Lib connectors and Chains
     
     We don't know how each lib handle their connection to providers or endpoints for each networks
@@ -90,7 +91,7 @@ class Provider(Protocol):
         ...
 
 
-class Proxy(Subscriptable):
+class Proxy(Subscriptable, metaclass=ABCMeta):
     """This protocol pretends to enforce generically calls to unknown methods
 
     eg.
@@ -115,7 +116,7 @@ class Proxy(Subscriptable):
     def __init__(self, interface: Any):
         """Interface may be anything but MUST expose a subscriptable object to handle it"""
         ...
-
+        
     @abstractmethod
     def __getattr__(self, name: str) -> Subscriptable:
         """Control behavior for when a user attempts to access an attribute that doesn't exist
@@ -154,7 +155,7 @@ class Proxy(Subscriptable):
         ...
 
 
-class Chain(Protocol):
+class Chain(Protocol, metaclass=ABCMeta):
     """Chain abstract class
 
     Hold/specify the artifacts/methods needed to interact with chain.
@@ -224,7 +225,7 @@ class Chain(Protocol):
         ...
 
 
-class Network(Protocol):
+class Network(Protocol, metaclass=ABCMeta):
     """Network abstract class
 
     Specify all methods needed to interact with the blockchain.
