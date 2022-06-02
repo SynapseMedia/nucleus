@@ -9,12 +9,13 @@ from eth_account import Account
 
 @dataclass
 class Web3Wrapper:
-    """ A data class to wrap web3 artifacts
+    """A data class to wrap web3 artifacts
     @param web3: The web3 instance
     @param chain: The current chain in use
     @param settings: The settings based on chain. eg. {"connector", "name", "private_key"}
-    
+
     """
+
     web3: Web3
     chain: str
     settings: dict
