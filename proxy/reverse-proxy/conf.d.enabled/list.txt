@@ -1,3 +1,2 @@
 certbot
-watchitapp.site
 watchit.movie
