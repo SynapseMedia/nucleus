@@ -1,4 +1,3 @@
-watchitapp.site
-web.watchitapp.site
-marketplace.watchitapp.site
-
+watchit.movie
+web.watchit.movie
+marketplace.watchit.movie
