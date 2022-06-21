@@ -32,7 +32,7 @@ class Subprocess(Command):
         if stderr:
             logger.log.error(f"[stderr]\n{stderr.decode()}")
         return proc
-    
+
 
 async def migrate(sources: Tuple[str], recreate: bool = False) -> None:
     """Spawn nodejs subprocess
@@ -42,7 +42,7 @@ async def migrate(sources: Tuple[str], recreate: bool = False) -> None:
     :return: None since is just a subprocess call
     :rtype: None
     """
-    
+
     # Formulate params
     recreate_param = recreate and "-g" or ""
     commands = map(

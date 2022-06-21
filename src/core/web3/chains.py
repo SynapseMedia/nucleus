@@ -24,6 +24,7 @@ class Web3HTTPProviderAdapter(Provider):
     def __call__(self):
         def __connect(endpoint: Endpoint) -> HTTPProvider:
             return HTTPProvider(endpoint)
+
         return __connect
 
 

@@ -79,4 +79,4 @@ def test_invalid_pin_local(mocker: Any):
         "src.core.storage.pin.CLI", return_value=MockFailingCLI(expected_issue)
     )
     with pytest.raises(IPFSFailedExecution):
-        remote(duplicated_cid, 'pinata', True)
+        remote(duplicated_cid, "pinata", True)

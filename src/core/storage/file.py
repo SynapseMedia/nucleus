@@ -1,5 +1,3 @@
-
-
 # def add_dir(_dir: Directory) -> Hash:
 #     """Add directory to ipfs
 
@@ -24,4 +22,3 @@
 
 #     _hash = exec_command("add", *args)
 #     return Hash(_hash.strip())
-

@@ -1,6 +1,6 @@
 # def services():
 #     """Return registered services
-    
+
 #     :return: False if not registered else True
 #     """
 #     registered_services = exec_command("/pin/remote/service/ls")
@@ -11,7 +11,7 @@
 # def register_service(service, endpoint, key) -> str:
 #     """Add service to ipfs
 #     https://docs.ipfs.io/reference/http/api/#api-v0-pin-remote-service-add
-    
+
 #     :params service: service name
 #     :params endpoint: service endpoint
 #     :params key: service jwt

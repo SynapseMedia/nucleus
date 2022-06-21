@@ -34,5 +34,5 @@ def local(cid: str) -> PinLocal:
     # Exec command and get output
     exec = CLI("/pin/add/", cid)
     output = exec().get("result")
-    
+
     return PinLocal(pins=output.get("Pins"))

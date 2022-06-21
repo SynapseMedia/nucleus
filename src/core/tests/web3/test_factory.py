@@ -99,10 +99,7 @@ def test_rinkeby_chain():
     assert isinstance(provider, web3.HTTPProvider)
 
     expected_value = f"{RINKEBY_PROVIDER}/{RINKEBY_ALCHEMY_API_KEY}"
-    assert (
-        provider.endpoint_uri  
-        == Web3.HTTPProvider(expected_value).endpoint_uri
-    )
+    assert provider.endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
     assert rinkeby.erc1155 == "0x58Aa6dD8aA078385496441F3ABa691d472feBaF5"
     assert (
         rinkeby.private_key
