@@ -1,9 +1,9 @@
 from contextlib import contextmanager
 from typing import Dict, Type, Sequence, Any, Iterator
 
-from ...types import Directory
-from ...constants import MAX_MUXING_QUEUE_SIZE
-from ...exceptions import InvalidVideoQuality, InvalidStreamingProtocol
+from ..types import Directory
+from ..constants import MAX_MUXING_QUEUE_SIZE
+from ..exceptions import InvalidVideoQuality, InvalidStreamingProtocol
 from . import REPR, Sizes, Input, FormatID, Size, Streaming, Representation
 from .protocols import HLS, DASH
 

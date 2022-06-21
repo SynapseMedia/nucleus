@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jun  2 06:31:10 2022
+# Make data base, printed on Mon Jun 20 11:43:17 2022
 
 # Variables
 
@@ -29,7 +29,7 @@ XDG_SESSION_TYPE = x11
 # environment
 VSCODE_LOG_NATIVE = false
 # makefile (from 'Makefile', line 6)
-PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pytype --config pytype.cfg
+PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pyright 
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
@@ -79,7 +79,7 @@ INFOPATH = /home/linuxbrew/.linuxbrew/share/info:
 # environment
 MANAGERPID = 2030
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-cd5ea602-1d17-405f-8a73-7207f4a40b13.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-118ee068-4927-4d1b-978a-40388e718478.sock
 # environment
 LC_NAME = es_NI.UTF-8
 # environment
@@ -111,7 +111,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 1107691
+GIO_LAUNCHED_DESKTOP_FILE_PID = 3515681
 # automatic
 %F = $(notdir $%)
 # environment
@@ -141,7 +141,7 @@ HOME = /home/gmena
 # environment
 HOMEBREW_CELLAR = /home/linuxbrew/.linuxbrew/Cellar
 # environment
-VSCODE_CODE_CACHE_PATH = /home/gmena/.config/Code/CachedData/57fd6d0195bb9b9d1b49f6da5db789060795de47
+VSCODE_CODE_CACHE_PATH = /home/gmena/.config/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
 # environment
 LOGNAME = gmena
 # environment
@@ -193,7 +193,7 @@ VIRTUALENV := /usr/bin/virtualenv
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-114bb07b-1.67.0-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-114bb07b-1.68.1-main.sock
 # makefile (from 'Makefile', line 4)
 PYTHONPATH = .
 # makefile
@@ -253,7 +253,7 @@ LC_ADDRESS = es_NI.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 1107691
+VSCODE_PID = 3515681
 # variable set hash-table stats:
 # Load=122/1024=12%, Rehash=0, Collisions=21/148=14%
 
@@ -263,9 +263,9 @@ VSCODE_PID = 1107691
 
 # Directories
 
-# . (device 66311, inode 20447741): 58 files, no impossibilities.
+# . (device 66311, inode 20447741): 57 files, no impossibilities.
 
-# 58 files, no impossibilities in 1 directories.
+# 57 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -293,15 +293,6 @@ test-coverage-html: test-coverage
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-tesst:
-#  Implicit rule search has not been done.
- 
-make: *** No rule to make target 'all'.  Stop.
-
-#  Modification time never checked.
-#  File has not been updated.
-
 check-coding-style: venv
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
@@ -313,7 +304,10 @@ check-coding-style: venv
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-01 13:37:05.156038979
+ 
+make: *** No rule to make target 'all'.  Stop.
+
+#  Last modified 2022-06-18 10:16:54.819460947
 #  File has been updated.
 #  Successfully updated.
 
@@ -374,7 +368,7 @@ default: check-coding-style
 #  File does not exist.
 #  File has not been updated.
 
-test-coverage: tesst
+test-coverage: test
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
@@ -448,19 +442,19 @@ requirements:
 	npm i
 
 # files hash-table stats:
-# Load=24/1024=2%, Rehash=0, Collisions=3/58=5%
+# Load=23/1024=2%, Rehash=0, Collisions=3/57=5%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 83 / storage = 1319 B / avg = 15 B
-# current buf: size = 8162 B / used = 1319 B / count = 83 / avg = 15 B
+# strcache buffers: 1 (0) / strings = 81 / storage = 1305 B / avg = 16 B
+# current buf: size = 8162 B / used = 1305 B / count = 81 / avg = 16 B
 
-# strcache performance: lookups = 128 / hit rate = 35%
+# strcache performance: lookups = 127 / hit rate = 36%
 # hash-table stats:
-# Load=83/8192=1%, Rehash=0, Collisions=1/128=1%
-# Finished Make data base on Thu Jun  2 06:31:10 2022
+# Load=81/8192=1%, Rehash=0, Collisions=1/127=1%
+# Finished Make data base on Mon Jun 20 11:43:17 2022
 
  

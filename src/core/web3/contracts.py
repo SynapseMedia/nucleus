@@ -24,4 +24,4 @@ class ERC1155(Contract):
     def abi(self):
         """Return abi from json for NFT contract"""
         abi_json = read_json(Directory("%s/abi/WNFT.json" % PROJECT_ROOT))
-        return abi_json.get("abi")
+        return abi_json["abi"]

@@ -3,7 +3,7 @@ export SHELL:=/bin/bash
 PYTHON_MODULES = src
 PYTHONPATH = .
 VENV = .venv
-PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pytype --config pytype.cfg
+PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pyright 
 PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini --no-header -v 
 FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
@@ -66,7 +66,7 @@ test-coverage-sdk: test-sdk
 	${COVERAGE} run --source=./src/sdk ${VENV}/bin/py.test
 	${COVERAGE} report
 
-test-coverage:  tesst
+test-coverage:  test
 	${COVERAGE} run --source=./src ${VENV}/bin/py.test
 	${COVERAGE} report
 	

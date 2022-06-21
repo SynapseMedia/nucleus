@@ -1,50 +1,56 @@
+import asyncio
+from typing import Tuple, Sequence
+from asyncio.subprocess import Process
+
 from . import logger
 from .types import Command
-from typing import List
-from asyncio.subprocess import Process
-import asyncio
 
 
-async def call_orbit(resolvers: List[Command], recreate: bool = False) -> None:
+class Subprocess(Command):
+    cmd: str
+    args: str
+
+    def __init__(self, cmd: str, *args: Sequence[str]):
+        self.cmd = cmd
+        self.args = " ".join(*args)
+
+    def __str__(self) -> str:
+        return f"npm run {self.cmd} -- {self.args} --enc=json"
+
+    async def __call__(self) -> Process:
+        """Start an async subprocess cmd
+
+        :param cmd: command to exec
+        :return: subprocess asyncio shell
+        :rtype: Process
+        """
+        proc = await asyncio.create_subprocess_shell(str(self))
+        stdout, stderr = await proc.communicate()
+
+        if stdout:
+            logger.log.info(f"[stdout]\n{stdout.decode()}")
+        if stderr:
+            logger.log.error(f"[stderr]\n{stderr.decode()}")
+        return proc
+    
+
+async def migrate(sources: Tuple[str], recreate: bool = False) -> None:
     """Spawn nodejs subprocess
 
-    :param resolvers: list of loaded resolvers
-    :param recreate: if recreate=True new orbit repo is created else use existing
+    :param sources: list of sources to migrate into orbit
+    :param recreate: if recreate equal True new orbit repo is created else use existing
     :return: None since is just a subprocess call
     :rtype: None
     """
-    resolvers = resolvers or []
-    is_mixed_migration = len(resolvers) > 0
-
+    
     # Formulate params
     recreate_param = recreate and "-g" or ""
-    command = Command(f"npm run migrate -- {recreate_param}")  # Single command
-    commands = [
-        Command(f"{command} --key={r} --source={r}") for r in resolvers
-    ]  # multiple commands
-
-    # If mixed sources run each process to generate DB
-    # else run all in one process and ingest all in same DB
-    process_list = (
-        [run(command) for command in commands] if is_mixed_migration else [run(command)]
+    commands = map(
+        lambda r: Subprocess(
+            "migrate", (recreate_param, f"--key={r}", f"--source={r}")
+        ),
+        sources,
     )
 
+    process_list = [command() for command in commands]
     await asyncio.gather(*process_list)
-
-
-async def run(cmd: Command) -> Process:
-    """Start an async subprocess cmd
-
-    :param cmd: command to exec
-    :return: subprocess asyncio shell
-    :rtype: Process
-    """
-    proc = await asyncio.create_subprocess_shell(cmd)
-    stdout, stderr = await proc.communicate()
-
-    logger.log.info(f"[{cmd!r} exited with {proc.returncode}]")
-    if stdout:
-        logger.log.info(f"[stdout]\n{stdout.decode()}")
-    if stderr:
-        logger.log.error(f"[stderr]\n{stderr.decode()}")
-    return proc

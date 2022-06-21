@@ -1,6 +1,6 @@
 from cid import make_cid  # type: ignore
 from web3 import Web3
-from ..types import Primitives, CidStr
+from ..types import Primitives, CIDStr
 
 
 def to_hex(_input: Primitives):
@@ -13,7 +13,7 @@ def to_hex(_input: Primitives):
     return Web3.toHex(_input)
 
 
-def cid_to_uint256(cid: CidStr):
+def cid_to_uint256(cid: CIDStr):
     """Encode cid to uint256
 
     :param cid: IPFS cid

@@ -1,7 +1,8 @@
+from ffmpeg_streaming import Representation, Formats  # type: ignore
+
 from . import Streaming, Input
 from ._util import progress  # type: ignore
-from ffmpeg_streaming import Representation, Formats  # type: ignore
-from ...types import Directory
+from ..types import Directory
 
 
 class HLS(Streaming):

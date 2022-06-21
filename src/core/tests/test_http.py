@@ -2,12 +2,12 @@ import os
 
 import responses
 from typing import Any
-from src.core.types import Directory, Uri
+from src.core.types import Directory, URI
 from src.core.http import download, fetch
 
 directory = Directory("assets/tests/watchit_.png")
 mock_local_file = Directory(directory.replace("_", ""))
-mock_link = Uri("https://example.org/assets/tests/watchit.png")
+mock_link = URI("https://example.org/assets/tests/watchit.png")
 
 
 def _setup_file_response_ok(mock_file: Any, **kwargs: Any):
@@ -55,7 +55,7 @@ def test_copy_local_file(mocker: Any):
         _setup_file_response_ok(mock_file, body=Exception("Should not be called"))
         mocker.patch("src.core.util.resolve_root_for", return_value=(directory, False))
 
-        current_path = fetch(Uri(mock_local_file), directory)
+        current_path = fetch(URI(mock_local_file), directory)
         assert current_path
         assert str(current_path) == directory
         assert current_path.is_file()
@@ -70,7 +70,7 @@ def test_omit_existing_file(mocker: Any):
             "src.core.util.resolve_root_for", return_value=(mock_local_file, True)
         )
 
-        current_path = fetch(Uri(mock_local_file), mock_local_file)
+        current_path = fetch(URI(mock_local_file), mock_local_file)
         assert current_path
         assert str(current_path) == mock_local_file
         assert current_path.is_file()

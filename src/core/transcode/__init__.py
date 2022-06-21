@@ -1,9 +1,9 @@
 from enum import Enum
 from dataclasses import dataclass
-from abc import abstractmethod
+from abc import abstractmethod, ABCMeta
 from typing import Protocol, Any
 from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe, Format  # type: ignore
-from ...types import Directory
+from ..types import Directory
 
 
 class FormatID(Enum):
@@ -11,7 +11,7 @@ class FormatID(Enum):
     Mp4 = 1
 
 
-@dataclass
+@dataclass(frozen=True)
 class Sizes:
     Q144 = Size(256, 144)
     Q240 = Size(426, 240)
@@ -23,7 +23,7 @@ class Sizes:
     Q4k = Size(3840, 2160)
 
 
-@dataclass
+@dataclass(frozen=True)
 class BRS:
     B360 = Bitrate(276 * 1024, 128 * 1024)
     B480 = Bitrate(750 * 1024, 192 * 1024)
@@ -33,7 +33,7 @@ class BRS:
     B4k = Bitrate(17408 * 1024, 320 * 1024)
 
 
-@dataclass
+@dataclass(frozen=True)
 class REPR:
     R360p = Representation(Sizes.Q360, BRS.B360)
     R480p = Representation(Sizes.Q480, BRS.B480)
@@ -78,7 +78,7 @@ class Input:
         return duration
 
 
-class Streaming(Protocol):
+class Streaming(Protocol, metaclass=ABCMeta):
 
     input: Input
 

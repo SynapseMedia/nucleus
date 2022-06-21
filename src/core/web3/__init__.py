@@ -294,7 +294,7 @@ class Network(Protocol, metaclass=ABCMeta):
         ...
 
 
-class Contract(Protocol):
+class Contract(Protocol, metaclass=ABCMeta):
     """Contract abstract class
 
     Specify all methods needed to interact with contracts.

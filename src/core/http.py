@@ -4,7 +4,7 @@ import shutil
 from pathlib import Path
 from . import util, logger
 from .constants import VALIDATE_SSL
-from .types import Directory, Uri
+from .types import Directory, URI
 
 
 # Session keep alive
@@ -18,7 +18,7 @@ _agents = [
 ]
 
 
-def download(route: Uri, output: Directory):
+def download(route: URI, output: Directory):
     """Download remote media
 
     :param route: URI
@@ -53,7 +53,7 @@ def download(route: Uri, output: Directory):
         return Path(output)
 
 
-def fetch(route: Uri, output: Directory):
+def fetch(route: URI, output: Directory):
     """Fetch files from the given route
 
     :param route: File route reference

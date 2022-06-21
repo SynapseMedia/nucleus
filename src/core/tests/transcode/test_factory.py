@@ -4,9 +4,9 @@ from ffmpeg_streaming._format import H264, VP9  # type: ignore
 
 from src.core.types import Directory
 from src.core.exceptions import InvalidVideoQuality, InvalidStreamingProtocol
-from src.core.media.transcode import REPR, Sizes, FormatID, Input, Size
-from src.core.media.transcode.protocols import HLS, DASH
-from src.core.media.transcode.factory import quality, streaming, input
+from src.core.transcode import REPR, Sizes, FormatID, Input, Size
+from src.core.transcode.protocols import HLS, DASH
+from src.core.transcode.factory import quality, streaming, input
 
 
 class MockMedia:
@@ -90,7 +90,7 @@ def test_invalid_streaming_protocol():
 
 def test_valid_input(mocker: Any):
     """Should instance a valid input"""
-    mocker.patch("src.core.media.transcode.factory.Input", return_value=MockInput(Directory("test")))
+    mocker.patch("src.core.transcode.factory.Input", return_value=MockInput(Directory("test")))
     with input(Directory("test")) as _input:
         assert _input.get_video_size().width == 100
         assert _input.get_video_size().height == 100

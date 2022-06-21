@@ -1,6 +1,6 @@
 from pathlib import Path
 from src.core import logger, util
-from src.core.media.assets.factory import input, representation, Size, SIZES
+from src.core.media.assets.factory import image, representation, Size, SIZES
 
 
 def auto_resize_to_default(input_image: str, output: str):
@@ -32,7 +32,7 @@ def resize_thumbnails(input_image: str, output: str, size):
             "Invalid size representation. "
             "Please provide valid one. eg: small, medium, large"
         )
-    with input(input_image) as image:
+    with image(input_image) as image:
 
         # Exists path to image and has not default original size
         if Path(output).exists() and image.size == size_representation:
