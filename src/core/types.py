@@ -43,8 +43,8 @@ SignedTransaction = NewType("SignedTransaction", NamedTuple)
 
 # ipfs types
 ExecResult = TypedDict("ExecResult", {"result": Any})
-PinRemote = TypedDict("PinRemote", {"status": str, "cid": str, "name": str})
-PinLocal = TypedDict("PinLocal", {"pins": List[str]})
+RemotePin = TypedDict("PinRemote", {"status": str, "cid": str, "name": str})
+Pin = TypedDict("PinLocal", {"pins": List[str]})
 
 
 class Subscriptable(Protocol):
