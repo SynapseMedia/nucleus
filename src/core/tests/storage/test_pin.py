@@ -26,7 +26,6 @@ def test_pin_local(mocker: Any):
 
         def __call__(self):
             return {"result": {"Pins": expected_pins}}
-            ...
 
     mocker.patch("src.core.storage.pin.CLI", return_value=MockCLI())
     pins = local("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1")
