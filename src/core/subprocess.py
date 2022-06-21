@@ -20,7 +20,6 @@ class Subprocess(Command):
     async def __call__(self) -> Process:
         """Start an async subprocess cmd
 
-        :param cmd: command to exec
         :return: subprocess asyncio shell
         :rtype: Process
         """
