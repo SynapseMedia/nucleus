@@ -46,7 +46,6 @@ def test_pin_remote(mocker: Any):
 
         def __call__(self):
             return {"result": expected_result}
-            ...
 
     mocker.patch("src.core.storage.pin.CLI", return_value=MockCLI())
     pins = remote("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1", "pinata", True)
