@@ -2,7 +2,7 @@ from enum import Enum
 from dataclasses import dataclass
 from abc import abstractmethod, ABCMeta
 from typing import Protocol, Any
-from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe, Format  # type: ignore
+from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe, Format, Input as FFmpegInput  # type: ignore
 from ..types import Directory
 
 
@@ -49,12 +49,15 @@ class Input:
     This class is designed to process one video file at time
     """
 
+    _path: Directory
+    _media: FFmpegInput
+
     def __init__(self, input_file: Directory, **options: Any):
-        self.path = input_file
-        self.media = input(input_file, **options)
+        self._path = input_file
+        self._media = input(input_file, **options)
 
     def get_path(self) -> Directory:
-        return self.path
+        return self._path
 
     def get_video_size(self) -> Size:
         """Return video size
@@ -62,7 +65,7 @@ class Input:
         :return: Video size from input file
         :rtype: Size
         """
-        ffprobe = FFProbe(self.path)
+        ffprobe = FFProbe(self._path)
         return ffprobe.video_size
 
     def get_duration(self) -> float:
@@ -73,14 +76,14 @@ class Input:
         :rtype: float
         """
 
-        ffprobe = FFProbe(self.path)
+        ffprobe = FFProbe(self._path)
         duration = float(ffprobe.format().get("duration", 0))
         return duration
 
 
 class Streaming(Protocol, metaclass=ABCMeta):
 
-    input: Input
+    _input: Input
 
     @abstractmethod
     def __init__(self, input: Input):

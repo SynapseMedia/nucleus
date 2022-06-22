@@ -16,11 +16,11 @@ class MockMedia:
 
 class MockInput(Input):
     def __init__(self, input: Directory, **options: Any):
-        self.media = MockMedia()
-        self.path = input
+        self._media = MockMedia()
+        self._path = input
 
     def get_path(self) -> Directory:
-        return self.path
+        return self._path
 
     def get_video_size(self) -> Size:
         return Size(100, 100)
