@@ -41,10 +41,21 @@ TxCall = Union[NamedTuple, TypedDict]
 TxAnswer = Union[NamedTuple, TypedDict]
 SignedTransaction = NewType("SignedTransaction", NamedTuple)
 
-# ipfs types
-ExecResult = TypedDict("ExecResult", {"result": Any})
-RemotePin = TypedDict("PinRemote", {"status": str, "cid": str, "name": str})
-Pin = TypedDict("PinLocal", {"pins": List[str]})
+# ipfs types based on CLI output
+# ref: docs.ipfs.io/reference/cli/#ipfs
+# Exec contains standard output for ipfs commands
+# keeps the output in
+Exec = TypedDict("Exec", {"output": Any})
+Pin = TypedDict("Pin", {"pins": List[str]})
+
+
+class Edge(TypedDict):
+    cid: str
+    status: str
+    name: str
+
+
+# Dag = TypedDict("Dag", {"data":})
 
 
 class Subscriptable(Protocol):

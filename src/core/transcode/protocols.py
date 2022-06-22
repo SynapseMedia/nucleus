@@ -10,7 +10,7 @@ class HLS(Streaming):
 
     def __init__(self, input: Input):
         self.input = input
-        self._hls = input.media.hls(self.codec)  # type: ignore
+        self._hls = input._media.hls(self.codec)  # type: ignore
 
     def set_representation(self, repr: Representation):
         self._hls.representations(repr)
@@ -28,7 +28,7 @@ class DASH(Streaming):
 
     def __init__(self, input: Input):
         self.input = input
-        self._dash = input.media.dash(self.codec)  # type: ignore
+        self._dash = input._media.dash(self.codec)  # type: ignore
 
     def set_representation(self, repr: Representation):
         self._dash.representations(repr)

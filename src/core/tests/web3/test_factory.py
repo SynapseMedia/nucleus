@@ -65,7 +65,7 @@ def test_nft_contract_factory():
 
     expected_contract = contract(ContractID.ERC1155, network=ethereum)
     assert isinstance(expected_contract, ERC1155)
-    assert isinstance(expected_contract.network, Ethereum)
+    assert isinstance(expected_contract._network, Ethereum)
 
 
 def test_nft_invalid_contract():

@@ -237,7 +237,7 @@ class Network(Protocol, metaclass=ABCMeta):
 
     """
 
-    chain: Chain
+    _chain: Chain
 
     @abstractmethod
     def __init__(self, chain: Chain):
@@ -306,8 +306,8 @@ class Contract(Protocol, metaclass=ABCMeta):
 
     """
 
-    address: Address
-    network: Network
+    _address: Address
+    _network: Network
     _proxy: Proxy
 
     @abstractmethod
