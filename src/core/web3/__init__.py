@@ -10,19 +10,18 @@ refs:
 
 from enum import Enum
 from abc import ABCMeta, abstractmethod
-from typing import Any, Protocol
-from ..types import (
-    Abi,
-    Address,
-    PrivateKey,
-    TxCall,
-    TxAnswer,
-    Hash,
-    SignedTransaction,
-    Subscriptable,
-    Endpoint,
-    Connector,
-)
+from hexbytes import HexBytes
+from typing import Any, Protocol, Union, NewType, TypedDict, NamedTuple, Dict, Callable
+from ..types import Subscriptable, Endpoint, HexStr, Hash32
+
+Address = Union[HexStr, str]
+Abi = NewType("Abi", Dict[Any, Any])
+Connector = Callable[[Endpoint], Any]
+Hash = Union[HexBytes, Hash32]
+PrivateKey = Union[Address, int]
+TxCall = Union[NamedTuple, TypedDict]
+TxAnswer = Union[NamedTuple, TypedDict]
+SignedTransaction = NewType("SignedTransaction", NamedTuple)
 
 
 class ChainID(Enum):
@@ -244,6 +243,11 @@ class Network(Protocol, metaclass=ABCMeta):
         """Assoc chain with network"""
         ...
 
+    @property
+    @abstractmethod
+    def chain(self) -> Chain:
+        ...
+
     @abstractmethod
     def set_default_account(self, private_key: PrivateKey) -> None:
         """Set default account for network operations
@@ -254,7 +258,7 @@ class Network(Protocol, metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def contract_factory(self, address: Address, abi: Abi) -> Proxy:
+    def contract(self, address: Address, abi: Abi) -> Proxy:
         """Return contract for blockchain operations.
         This factory method return a prebuilt contract based on blockchain specifications.
 
@@ -307,7 +311,6 @@ class Contract(Protocol, metaclass=ABCMeta):
     """
 
     _address: Address
-    _network: Network
     _proxy: Proxy
 
     @abstractmethod

@@ -6,18 +6,12 @@ Note: The Python runtime does not enforce function and variable type annotations
 They can be used by third party tools such as type checkers, IDEs, linters, etc.
 """
 from abc import ABCMeta, abstractmethod
-from hexbytes import HexBytes
 from typing import (
     NewType,
     Union,
     Any,
     Protocol,
-    Dict,
-    NamedTuple,
-    TypedDict,
-    Callable,
     Tuple,
-    List,
 )
 
 
@@ -25,37 +19,10 @@ HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
 
+CIDStr = str
 Directory = NewType("Directory", str)
 URI = NewType("URI", str)
-# Command = NewType("Commands", str)
-CIDStr = NewType("CIDStr", str)
 Endpoint = Union[URI, str]
-
-# web3 types
-Address = Union[HexStr, str]
-Abi = NewType("Abi", Dict[Any, Any])
-Connector = Callable[[Endpoint], Any]
-Hash = Union[HexBytes, Hash32]
-PrivateKey = Union[Address, int]
-TxCall = Union[NamedTuple, TypedDict]
-TxAnswer = Union[NamedTuple, TypedDict]
-SignedTransaction = NewType("SignedTransaction", NamedTuple)
-
-# ipfs types based on CLI output
-# ref: docs.ipfs.io/reference/cli/#ipfs
-# Exec contains standard output for ipfs commands
-# keeps the output in
-Exec = TypedDict("Exec", {"output": Any})
-Pin = TypedDict("Pin", {"pins": List[str]})
-
-
-class Edge(TypedDict):
-    cid: str
-    status: str
-    name: str
-
-
-# Dag = TypedDict("Dag", {"data":})
 
 
 class Subscriptable(Protocol):

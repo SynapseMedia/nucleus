@@ -1,10 +1,38 @@
 import json
 import docker  # type: ignore
-from typing import Sequence
+from typing import Sequence, TypedDict, Any, Optional, Mapping, Literal, Iterator
 
 from ..constants import IPFS_CONTAINER
-from ..types import Exec, Command, Container
+from ..types import Command, Container
 from ..exceptions import IPFSFailedExecution
+
+Service = Literal["pinata"]
+
+# Exec contains standardize output for ipfs commands.
+# An issue here is that ipfs returns different encodings for
+# each command, sometimes could be a string and later probably we get a json object
+# so using "output" could be fine to expect always the same field to process.
+# eg. output = exec.get("output")
+# ref: docs.ipfs.io/reference/cli/#ipfs
+Exec = TypedDict("Exec", {"output": Any})
+Pin = TypedDict("Pin", {"pins": Sequence[str]})
+
+
+class Edge(TypedDict):
+    cid: str
+    status: str
+    name: str
+
+
+class DagLink(TypedDict):
+    Name: Optional[str]
+    Hash: Mapping[str, str]
+    Tsize: int
+
+
+class Dag(TypedDict):
+    data: Mapping[str, Mapping[str, str]]
+    links: Iterator[DagLink]
 
 
 def get_container() -> Container:
@@ -53,6 +81,6 @@ class CLI(Command):
 
         try:
             json_to_dict = json.loads(output)
-            return Exec(result=json_to_dict)
+            return Exec(output=json_to_dict)
         except json.decoder.JSONDecodeError:
-            return Exec(result=output.decode("utf-8"))
+            return Exec(output=output.decode("utf-8"))

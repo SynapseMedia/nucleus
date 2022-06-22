@@ -1,11 +1,20 @@
-from ..types import Edge, Pin
-from . import CLI
+from ..types import CIDStr
+from . import CLI, Dag, DagLink
 
-def dag_get(cid: str):
+
+def get(cid: CIDStr) -> Dag:
     """Retrieve dag information from cid
 
     Proxy dag get command to node
-    http://docs.ipfs.io.ipns.localhost:8080/reference/cli/#ipfs-dag-get
-    :param cid:
+    https://docs.ipfs.io/reference/cli/#ipfs-dag-get
+    :param cid: cid to retrieve from dag
+    :return: Dag representation objects
+    :rtype: Dag
     """
-    return exec_command("/dag/get", cid)
+
+    # Exec command and get output
+    exec = CLI("/dag/get", cid)
+    output = exec().get("output")
+    links = map(lambda l: DagLink(**l), output.get("Links"))
+
+    return Dag(data=output.get("Data"), links=links)

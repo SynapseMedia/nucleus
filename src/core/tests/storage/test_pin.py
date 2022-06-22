@@ -1,6 +1,7 @@
 import pytest
 from typing import Any
-from src.core.storage.pin import local, remote, Pin, Edge
+from src.core.storage import Pin, Edge
+from src.core.storage.pin import local, remote
 from src.core.exceptions import IPFSFailedExecution
 
 
@@ -25,10 +26,12 @@ def test_pin_local(mocker: Any):
         args: str
 
         def __call__(self):
-            return {"result": {"Pins": expected_pins}}
+            return {"output": {"Pins": expected_pins}}
 
     mocker.patch("src.core.storage.pin.CLI", return_value=MockCLI())
     pins = local("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1")
+    
+    assert pins.get("pins") == expected_pins
     assert pins == Pin(pins=expected_pins)
 
 
@@ -45,10 +48,14 @@ def test_pin_remote(mocker: Any):
         args: str
 
         def __call__(self):
-            return {"result": expected_result}
+            return {"output": expected_result}
 
     mocker.patch("src.core.storage.pin.CLI", return_value=MockCLI())
     pins = remote("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1", "pinata", True)
+    
+    assert expected_result["Status"] == pins["status"]
+    assert expected_result["Cid"] == pins["cid"]
+    assert expected_result["Name"] == pins["name"]
     assert pins == Edge(
         status=expected_result["Status"],
         cid=expected_result["Cid"],

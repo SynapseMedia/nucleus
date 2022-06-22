@@ -4,7 +4,7 @@ PYTHON_MODULES = src
 PYTHONPATH = .
 VENV = .venv
 PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pyright 
-PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini --no-header -v 
+PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini --no-header --durations=5 --disable-pytest-warnings -v  
 FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
 BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
@@ -50,13 +50,13 @@ check-typing: venv
 
 
 test-sdk: venv
-	${PYTEST} ${PYTHON_MODULES}/sdk --disable-pytest-warnings
+	${PYTEST} ${PYTHON_MODULES}/sdk
 
 test-core: venv
-	${PYTEST} ${PYTHON_MODULES}/core --disable-pytest-warnings
+	${PYTEST} ${PYTHON_MODULES}/core  
 
 test: venv
-	${PYTEST} ${PYTHON_MODULES} --disable-pytest-warnings
+	${PYTEST} ${PYTHON_MODULES} 
 
 test-coverage-core: test-core
 	${COVERAGE} run --source=./src/core ${VENV}/bin/py.test

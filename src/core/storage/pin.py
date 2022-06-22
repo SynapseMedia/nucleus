@@ -1,8 +1,8 @@
-from ..types import Edge, Pin
-from . import CLI
+from ..types import CIDStr
+from . import CLI, Edge, Pin, Service
 
 
-def remote(cid: str, service: str, background: bool) -> Edge:
+def remote(cid: CIDStr, service: Service, background: bool) -> Edge:
     """Pin cid into edge pinata remote cache
 
     http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
@@ -10,7 +10,7 @@ def remote(cid: str, service: str, background: bool) -> Edge:
     :param service: name of remote service
     :background: run pinning on background
     :return: ipfs output for remote pin
-    :rtype: PinRemote
+    :rtype: Edge
     """
     args = (
         cid,
@@ -29,15 +29,15 @@ def remote(cid: str, service: str, background: bool) -> Edge:
     )
 
 
-def local(cid: str) -> Pin:
+def local(cid: CIDStr) -> Pin:
     """Pin cid into local node
 
     http://docs.ipfs.io/reference/cli/#ipfs-pin
     :param cid: the cid to pin
     :return: ipfs output for ipfs local pin
+    :rtype: Pin
     """
     # Exec command and get output
     exec = CLI("/pin/add/", cid)
     output = exec().get("output")
-
     return Pin(pins=output.get("Pins"))

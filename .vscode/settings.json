@@ -19,6 +19,7 @@
         "rtype",
         "strerror",
         "tqdm",
+        "Tsize",
         "verboselogs"
     ],
     "python.testing.pytestArgs": [

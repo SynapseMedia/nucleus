@@ -2,8 +2,7 @@ from web3 import Web3
 from web3.contract import Contract
 from eth_typing.evm import Hash32
 from eth_account import Account
-from . import Network, Chain, Proxy
-from ..types import Address, TxCall, Hash, Abi, PrivateKey, Connector
+from . import Network, Chain, Proxy, Address, TxCall, Hash, Abi, PrivateKey, Connector
 from ..exceptions import InvalidPrivateKey
 
 
@@ -29,6 +28,10 @@ class Ethereum(Network):
         self._web3 = Web3(self._connector(chain.endpoint))
         self._chain = chain
 
+    @property
+    def chain(self):
+        return self._chain
+
     def set_default_account(self, private_key: PrivateKey):
         try:
             account = Account.from_key(private_key)
@@ -51,7 +54,7 @@ class Ethereum(Network):
         transaction = signed_tx.rawTransaction
         return self._web3.eth.send_raw_transaction(transaction)
 
-    def contract_factory(self, address: Address, abi: Abi):
+    def contract(self, address: Address, abi: Abi):
         return ProxyWeb3Contract(
             self._web3.eth.contract(
                 # Contract address
