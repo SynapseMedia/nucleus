@@ -5,7 +5,6 @@ from . import CLI, Dag, DagLink
 def get(cid: CIDStr) -> Dag:
     """Retrieve dag information from cid
 
-    Proxy dag get command to node
     Output:
         {
             "Data": {"/": {"bytes": "CAIY1qEQIICAECDWIQ"}},
