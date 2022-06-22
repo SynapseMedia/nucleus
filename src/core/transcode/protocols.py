@@ -1,12 +1,12 @@
 from ffmpeg_streaming import Representation, Formats  # type: ignore
 
-from . import Streaming, Input
 from ._util import progress  # type: ignore
+from . import Streaming, Input
 from ..types import Directory
 
 
 class HLS(Streaming):
-    input: Input
+    _input: Input
 
     def __init__(self, input: Input):
         self.input = input
@@ -24,7 +24,7 @@ class HLS(Streaming):
 
 
 class DASH(Streaming):
-    input: Input
+    _input: Input
 
     def __init__(self, input: Input):
         self.input = input

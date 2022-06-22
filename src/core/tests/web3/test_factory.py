@@ -2,11 +2,10 @@ import pytest
 import web3
 import eth_account
 from web3 import Web3
-from src.core.types import Connector
 from src.core.web3.contracts import ERC1155
 from src.core.web3.network import Ethereum
 from src.core.web3.chains import Rinkeby, Kovan
-from src.core.web3 import ContractID, ChainID, NetworkID
+from src.core.web3 import ContractID, ChainID, NetworkID, Connector
 
 from src.core.web3.factory import contract, chain, network
 from src.core.constants import (
@@ -54,7 +53,7 @@ def test_valid_account_for_network():
     _network.set_default_account(wallet_key)
 
     expected = eth_account.Account.from_key(wallet_key)
-    assert _network.web3.eth.default_account == expected  # type: ignore
+    assert _network._web3.eth.default_account == expected  # type: ignore
 
 
 def test_nft_contract_factory():
@@ -65,7 +64,6 @@ def test_nft_contract_factory():
 
     expected_contract = contract(ContractID.ERC1155, network=ethereum)
     assert isinstance(expected_contract, ERC1155)
-    assert isinstance(expected_contract._network, Ethereum)
 
 
 def test_nft_invalid_contract():

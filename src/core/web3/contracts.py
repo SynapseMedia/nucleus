@@ -1,21 +1,18 @@
-from . import Contract, Network, Proxy
+from . import Contract, Network, Proxy, Address
 from ..constants import PROJECT_ROOT
 from ..util import read_json
-from ..types import Directory, Address
+from ..types import Directory
 
 
 class ERC1155(Contract):
     """ERC1155 contract type"""
 
     _address: Address
-    _network: Network
     _proxy: Proxy
 
     def __init__(self, network: Network):
-        self._network = network
-        self._address = network._chain.erc1155
-        # dynamic callable function handled by attribute accessor
-        self._proxy = network.contract_factory(self._address, self.abi)
+        self._address = network.chain.erc1155
+        self._proxy = network.contract(self._address, self.abi)
 
     def __getattr__(self, name: str):
         return getattr(self._proxy, name)

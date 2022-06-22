@@ -1,5 +1,5 @@
 import asyncio
-from typing import Tuple, Sequence
+from typing import Sequence
 from asyncio.subprocess import Process
 
 from . import logger
@@ -33,7 +33,7 @@ class Subprocess(Command):
         return proc
 
 
-async def migrate(sources: Tuple[str], recreate: bool = False) -> None:
+async def migrate(sources: Sequence[str], recreate: bool = False) -> None:
     """Spawn nodejs subprocess
 
     :param sources: list of sources to migrate into orbit
