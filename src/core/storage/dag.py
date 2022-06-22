@@ -6,6 +6,18 @@ def get(cid: CIDStr) -> Dag:
     """Retrieve dag information from cid
 
     Proxy dag get command to node
+    Output:
+        {
+            "Data": {"/": {"bytes": "CAIY1qEQIICAECDWIQ"}},
+            "Links": [
+                {
+                    "Hash": {"/": "QmRoo28ogKQ6ds3jk9x7X7x3sjTs2yTMu5vHUPxLN8vinU"},
+                    "Name": "",
+                    "Tsize": 262158,
+                },
+            ],
+        }
+        
     https://docs.ipfs.io/reference/cli/#ipfs-dag-get
     :param cid: cid to retrieve from dag
     :return: Dag representation objects
