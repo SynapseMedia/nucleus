@@ -26,6 +26,7 @@ def get(cid: CIDStr) -> Dag:
     # Exec command and get output
     exec = CLI("/dag/get", cid)
     output = exec().get("output")
+    
+    data = output.get("Data")
     links = map(lambda l: DagLink(**l), output.get("Links"))
-
-    return Dag(data=output.get("Data"), links=links)
+    return Dag(data=data, links=links)
