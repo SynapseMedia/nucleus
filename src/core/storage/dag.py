@@ -16,7 +16,7 @@ def get(cid: CIDStr) -> Dag:
                 },
             ],
         }
-        
+
     https://docs.ipfs.io/reference/cli/#ipfs-dag-get
     :param cid: cid to retrieve from dag
     :return: Dag representation objects
@@ -26,7 +26,18 @@ def get(cid: CIDStr) -> Dag:
     # Exec command and get output
     exec = CLI("/dag/get", cid)
     output = exec().get("output")
-    
+
     data = output.get("Data")
-    links = map(lambda l: DagLink(**l), output.get("Links"))
+    raw_links = output.get("Links")
+
+    # map iterator for nested links
+    links = map(
+        lambda l: DagLink(
+            name=l.get("Name"),
+            hash=l.get("Hash"),
+            tsize=l.get("Tsize"),
+        ),
+        raw_links,
+    )
+
     return Dag(data=data, links=links)

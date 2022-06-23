@@ -25,9 +25,9 @@ class Edge(TypedDict):
 
 
 class DagLink(TypedDict):
-    Name: Optional[str]
-    Hash: Mapping[str, str]
-    Tsize: int
+    name: Optional[str]
+    hash: Mapping[str, str]
+    tsize: int
 
 
 class Dag(TypedDict):
