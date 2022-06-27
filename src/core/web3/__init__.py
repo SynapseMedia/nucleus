@@ -16,7 +16,6 @@ from ..types import Subscriptable, Endpoint, HexStr, Hash
 Address = Union[HexStr, str]
 Abi = NewType("Abi", Dict[Any, Any])
 Connector = Callable[[Endpoint], Any]
-
 PrivateKey = Union[Address, int]
 TxCall = Union[NamedTuple, TypedDict]
 TxAnswer = Union[NamedTuple, TypedDict]
