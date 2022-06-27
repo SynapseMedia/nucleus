@@ -28,7 +28,14 @@ def test_dag_get(mocker: Any):
     mocker.patch("src.core.storage.dag.CLI", return_value=MockCLI())
     dag_get = get("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1")
     assert dag_get.get("data") == expected_dag.get("Data")
-    assert list(dag_get.get("links")) == expected_dag.get("Links")
+    
+    for i, link in enumerate(dag_get.get("links")):
+        expected_links = expected_dag["Links"]
+        expected_link = expected_links[i]  # type: ignore
+        
+        assert link.get("name") == expected_link["Name"]
+        assert link.get("hash") == expected_link.get("Hash")
+        assert link.get("tsize") == expected_link.get("Tsize")
 
 
 

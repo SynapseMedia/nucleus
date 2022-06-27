@@ -10,14 +10,13 @@ refs:
 
 from enum import Enum
 from abc import ABCMeta, abstractmethod
-from hexbytes import HexBytes
 from typing import Any, Protocol, Union, NewType, TypedDict, NamedTuple, Dict, Callable
-from ..types import Subscriptable, Endpoint, HexStr, Hash32
+from ..types import Subscriptable, Endpoint, HexStr, Hash
 
 Address = Union[HexStr, str]
 Abi = NewType("Abi", Dict[Any, Any])
 Connector = Callable[[Endpoint], Any]
-Hash = Union[HexBytes, Hash32]
+
 PrivateKey = Union[Address, int]
 TxCall = Union[NamedTuple, TypedDict]
 TxAnswer = Union[NamedTuple, TypedDict]

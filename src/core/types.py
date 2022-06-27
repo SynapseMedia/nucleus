@@ -5,6 +5,7 @@ Use this `types` to handle global standard type definition
 Note: The Python runtime does not enforce function and variable type annotations. 
 They can be used by third party tools such as type checkers, IDEs, linters, etc.
 """
+from hexbytes import HexBytes
 from abc import ABCMeta, abstractmethod
 from typing import (
     NewType,
@@ -18,9 +19,10 @@ from typing import (
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
+Hash = Union[HexBytes, Hash32, str]
 
 CIDStr = str
-Directory = NewType("Directory", str)
+Directory = str
 URI = NewType("URI", str)
 Endpoint = Union[URI, str]
 
