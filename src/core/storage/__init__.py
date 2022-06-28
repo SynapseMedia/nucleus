@@ -6,16 +6,10 @@ from ..constants import IPFS_CONTAINER
 from ..types import Command, Container
 from ..exceptions import IPFSFailedExecution
 
-Service = Literal["pinata"]
-
-# Exec contains standardize output for ipfs commands.
-# An issue here is that ipfs returns different encodings for
-# each command, sometimes could be a string and later probably we get a json object
-# so using "output" could be fine to expect always the same field to process.
-# eg. output = exec.get("output")
-# ref: docs.ipfs.io/reference/cli/#ipfs
-Exec = TypedDict("Exec", {"output": Any})
-Pin = TypedDict("Pin", {"pins": Sequence[str]})
+class EdgeService(TypedDict, total=False):
+    service: str
+    endpoint: str
+    key: Optional[str]
 
 
 class Edge(TypedDict):
@@ -24,7 +18,7 @@ class Edge(TypedDict):
     name: str
 
 
-class DagLink(TypedDict):
+class DagLink(TypedDict, total=False):
     name: Optional[str]
     hash: Mapping[str, str]
     tsize: int
@@ -33,6 +27,17 @@ class DagLink(TypedDict):
 class Dag(TypedDict):
     data: Mapping[str, Mapping[str, str]]
     links: Iterator[DagLink]
+
+
+Service = Literal["pinata"]
+# Exec type contains standardize output for ipfs commands.
+# An issue here is that ipfs returns different encodings for each command, sometimes could be a string and later probably we get a json object,
+# so using "output" could be fine to expect always the same field to process.
+# eg. output = exec.get("output")
+# ref: docs.ipfs.io/reference/cli/#ipfs
+Exec = TypedDict("Exec", {"output": Any})
+Pin = TypedDict("Pin", {"pins": Sequence[str]})
+EdgeServices = TypedDict("Services", {"remote": Iterator[EdgeService]})
 
 
 def get_container() -> Container:

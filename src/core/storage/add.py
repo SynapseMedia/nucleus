@@ -7,11 +7,12 @@ from . import CLI
 
 def directory(path: Directory) -> CIDStr:
     """Add directory to ipfs
-
     ref: https://docs.ipfs.io/reference/cli/#ipfs-add
+    
     :param _dir: Directory to add to IPFS
     :return: The resulting CID
     :rtype: CIDStr
+    :raises IPFSFailedExecution
     """
     directory, path_exists = resolve_root_for(path)
 
