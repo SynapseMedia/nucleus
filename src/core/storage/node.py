@@ -1,4 +1,8 @@
-# def get_id():
-#     """Return running ipfs node id"""
-#     output = exec_command("id")
-#     return output.get("ID")
+from ..types import ID
+from . import CLI
+
+def id() -> ID:
+    """Return running ipfs node id"""
+    exec = CLI("/id")
+    output = exec().get("output")
+    return output.get("ID")

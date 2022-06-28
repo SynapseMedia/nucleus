@@ -21,6 +21,7 @@ Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32, str]
 
+ID = str
 CIDStr = str
 Directory = str
 URI = NewType("URI", str)
