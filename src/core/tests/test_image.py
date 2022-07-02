@@ -2,12 +2,14 @@ import pytest
 from src.core.image import input, Size
 from src.core.exceptions import InvalidImageSize
 
+
 def test_sizes():
     """Should contains valid image sizes"""
-    
-    assert Size.Small ==    (45, 67)
+
+    assert Size.Small == (45, 67)
     assert Size.Medium == (230, 345)
     assert Size.Large == (500, 750)
+
 
 def test_valid_input():
     """Should success for valid input image"""
