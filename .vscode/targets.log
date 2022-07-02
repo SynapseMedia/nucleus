@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jun 24 13:12:37 2022
+# Make data base, printed on Thu Jun 30 20:53:09 2022
 
 # Variables
 
@@ -81,7 +79,7 @@ INFOPATH = /home/linuxbrew/.linuxbrew/share/info:
 # environment
 MANAGERPID = 2030
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-b5a03077-41af-4e38-98b6-094103fc24f7.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-eabbc0e8-5d17-4a9f-8bdf-17ffb6e77f1f.sock
 # environment
 LC_NAME = es_NI.UTF-8
 # environment
@@ -280,7 +278,6 @@ all:
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
- 
 #  File has not been updated.
 
 test-coverage-html: test-coverage
@@ -290,6 +287,9 @@ test-coverage-html: test-coverage
 #  recipe to execute (from 'Makefile', line 74):
 	${COVERAGE} html
 	
+
+ 
+make: *** No rule to make target 'all'.  Stop.
 
 .PHONY: default venv requirements bootstrap check-coding-style test test-coverage
 #  Implicit rule search has not been done.
@@ -307,7 +307,7 @@ check-coding-style: venv
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-22 16:45:41.908581697
+#  Last modified 2022-06-27 11:02:54.522137897
 #  File has been updated.
 #  Successfully updated.
 
@@ -455,6 +455,6 @@ requirements:
 # strcache performance: lookups = 127 / hit rate = 36%
 # hash-table stats:
 # Load=81/8192=1%, Rehash=0, Collisions=1/127=1%
-# Finished Make data base on Fri Jun 24 13:12:37 2022
+# Finished Make data base on Thu Jun 30 20:53:09 2022
 
  

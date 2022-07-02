@@ -16,7 +16,7 @@ class MockMedia:
 
 class MockInput(Input):
     def __init__(self, input: Directory, **options: Any):
-        self._media = MockMedia()
+        self._media = MockMedia()  # type: ignore
         self._path = input
 
     def get_path(self) -> Directory:

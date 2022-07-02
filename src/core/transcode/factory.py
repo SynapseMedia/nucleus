@@ -39,7 +39,7 @@ def quality(size: Size) -> Sequence[Representation]:
 
 
 @contextmanager
-def input(input_file: Directory):
+def input(input_file: Directory) -> Iterator[Input]:
     """Factory ffmpeg input interface from file
 
     :param input_file: Path to video
@@ -63,6 +63,7 @@ def streaming(_format: FormatID, **kwargs: Any) -> Iterator[Streaming]:
         FormatID.Webm: DASH,
         FormatID.Mp4: HLS,
     }
+    
     if _format not in protocols:
         raise InvalidStreamingProtocol()
 

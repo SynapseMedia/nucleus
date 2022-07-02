@@ -39,11 +39,13 @@ mypy-extensions==0.4.3
 netaddr==0.8.0
 networkx==2.8.2
 ninja==1.10.2.3
+nodeenv==1.6.0
 packaging==21.3
 parsimonious==0.8.1
 parso==0.1.1
 pathspec==0.9.0
 pickleshare==0.7.4
+Pillow==9.2.0
 platformdirs==2.5.2
 pluggy==1.0.0
 protobuf==3.20.1
@@ -58,6 +60,7 @@ pycryptodome==3.14.1
 pyflakes==2.4.0
 Pygments==2.2.0
 pyparsing==3.0.9
+pyright==1.1.254
 pyrsistent==0.18.1
 pytest==7.1.2
 pytest-dotenv==0.5.2
