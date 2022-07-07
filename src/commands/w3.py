@@ -22,7 +22,7 @@ def status(ctx):
     w3 = web3.factory.w3(context_network)
     logger.log.success(
         f"{context_network} connected"
-    ) if w3.isConnected() else logger.log.error(f"{context_network} offline")
+    ) if w3.web3.isConnected() else logger.log.error(f"{context_network} offline")
 
 
 @w3.command()
