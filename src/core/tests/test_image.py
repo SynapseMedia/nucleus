@@ -20,7 +20,7 @@ def test_valid_input():
 
 
 def test_invalid_255x255_input():
-    """Should fail image image input 255x255 is less than master 500x750 size"""
+    """Should fail image input 255x255 since is less than master 500x750 size"""
 
     with pytest.raises(InvalidImageSize):
         with input("src/core/tests/data/255x255.jpg"):
