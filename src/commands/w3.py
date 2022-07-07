@@ -2,6 +2,7 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk import cache, exception, logger, web3
 from src.sdk.exec import w3 as w3_exec
+from src.sdk.constants import WALLET_KEY
 from src.sdk.exception import InvalidCID
 
 
@@ -68,7 +69,7 @@ def cached(ctx, skip, limit):
 
     # Wrap w3 and get account from private key
     w3 = web3.factory.w3(context_network)
-    to = web3.factory.account(w3).address
+    to = web3.factory.account(WALLET_KEY).address
     tx, to, cid_list = web3.nft.mint_batch(to, cid_list, context_network)
     cache.mint.freeze(tx, to, cid_list)
 
