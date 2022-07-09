@@ -68,7 +68,6 @@ def cached(ctx, skip, limit):
     cid_list = list(map(lambda x: x["hash"], result))
 
     # Wrap w3 and get account from private key
-    w3 = web3.factory.w3(context_network)
     to = web3.factory.account(WALLET_KEY).address
     tx, to, cid_list = web3.nft.mint_batch(to, cid_list, context_network)
     cache.mint.freeze(tx, to, cid_list)

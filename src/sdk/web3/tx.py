@@ -11,7 +11,7 @@ def status(w3: Web3, tx: types.TxData):
     :param tx: tx string hash
     """
 
-    tx_details = w3.eth.get_transaction(tx)
+    tx_details = w3.web3.eth.get_transaction(tx)
     logger.log.info(f"Owner: {WALLET_PUBLIC_KEY}")
     logger.log.info(f"Tx Gas #: {tx_details.get('gas')}")
     logger.log.info(f"Tx Gas Price #: {tx_details.get('gasPrice')}")

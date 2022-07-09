@@ -1,5 +1,5 @@
 from web3 import Web3, types
-from .factory import nft_contract
+from .factory import nft_contract, account
 from .crypto import cid_to_uint256
 from ..constants import WALLET_KEY
 from .. import logger
@@ -13,6 +13,7 @@ def _send_tx(w3: Web3, tx: types.TxData):
     :return: transaction hex string
     :rtype: str
     """
+
     signed_txn = w3.eth.account.sign_transaction(tx, private_key=WALLET_KEY)
     tx = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
     logger.log.info(f"TX: {tx.hex()}")
@@ -55,10 +56,11 @@ def mint_batch(to: str, cid_list: list, chain_name: str = "kovan"):
     web3, contract = nft_contract(chain_name)
     # Format base16 => hex => int
     uint256_cid_list = [cid_to_uint256(x) for x in cid_list]
+    nonce = web3.eth.getTransactionCount(to)
 
     transaction = contract.functions.mintBatch(
         to, uint256_cid_list  # owner, cid uint256
-    ).buildTransaction()
+    ).buildTransaction({"nonce":nonce})
 
     tx = _send_tx(web3, transaction)
     return tx.hex(), to, cid_list

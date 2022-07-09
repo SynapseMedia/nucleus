@@ -4,6 +4,7 @@ from ..constants import WALLET_KEY, PROJECT_ROOT
 from ..exception import InvalidPrivateKey
 from dataclasses import dataclass
 from web3 import Web3
+from web3.middleware import geth_poa_middleware
 from eth_account import Account
 
 
@@ -37,10 +38,6 @@ def account(private_key: str = WALLET_KEY):
     if not private_key:
         raise InvalidPrivateKey()
 
-    # Append hex prefix to key if not found
-    if private_key[:2] != "0x":
-        private_key = "0x%s" % private_key
-
     try:
         return Account.from_key(private_key)
     except ValueError as e:
@@ -59,8 +56,9 @@ def w3(chain_name: str):
     chain_settings = chain.get_network_settings_by_name(chain_name)
     # Connect to provider based on chain settings
     _w3 = Web3(chain_settings.get("connect")())
+    _w3.middleware_onion.inject(geth_poa_middleware, layer=0)
     # Set default account for current WALLET_KEY settings
-    _w3.eth.default_account = account(chain_settings.get("private_key"))
+    _w3.eth.default_account = account(chain_settings.get("private_key")).address
     return Web3Wrapper(_w3, chain_name, chain_settings)
 
 
