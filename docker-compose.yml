@@ -48,6 +48,7 @@ services:
 
   watchit-http:
     build: .
+    hostname: api
     image: watchit-sdk
     container_name: watchit-http
     command: [ "flask", "run", "--host=0.0.0.0" ]
