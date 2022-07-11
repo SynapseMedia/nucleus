@@ -1,3 +1,2 @@
 certbot
 watchit.movie
-api.watchit.movie
