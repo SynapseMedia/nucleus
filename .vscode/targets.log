@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed May 18 10:35:19 2022
+# Make data base, printed on Mon Jul 11 14:29:01 2022
 
 # Variables
 
@@ -23,7 +23,7 @@ DESKTOP_SESSION = ubuntu
 # default
 .SHELLFLAGS := -c
 # makefile (from 'Makefile', line 6)
-PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c ./conftest.py --no-header -v
+PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c ./conftest.py --no-header -v 
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -79,7 +79,7 @@ INFOPATH = /home/linuxbrew/.linuxbrew/share/info:
 # environment
 MANAGERPID = 2030
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-79e055cb-7c68-41e1-8a7e-c1f31bcb02d9.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-0891c6d5-a5a7-4d4b-ac74-829db2b73c96.sock
 # environment
 LC_NAME = es_NI.UTF-8
 # environment
@@ -87,7 +87,7 @@ VSCODE_CWD = /home/gmena
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/gmena/golang/go/bin:/home/gmena/.cargo/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/gmena/.local/bin:/home/gmena/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin:/usr/local/go/bin
+PATH = /home/gmena/golang/go/bin:/home/gmena/.cargo/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/gmena/.local/bin:/home/gmena/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin:/usr/local/go/bin:/home/gmena/.local/share/JetBrains/Toolbox/scripts
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
@@ -111,7 +111,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 1254771
+GIO_LAUNCHED_DESKTOP_FILE_PID = 3950511
 # automatic
 %F = $(notdir $%)
 # environment
@@ -141,7 +141,7 @@ HOME = /home/gmena
 # environment
 HOMEBREW_CELLAR = /home/linuxbrew/.linuxbrew/Cellar
 # environment
-VSCODE_CODE_CACHE_PATH = /home/gmena/.config/Code/CachedData/57fd6d0195bb9b9d1b49f6da5db789060795de47
+VSCODE_CODE_CACHE_PATH = /home/gmena/.config/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
 # environment
 LOGNAME = gmena
 # environment
@@ -193,7 +193,7 @@ VIRTUALENV := /usr/bin/virtualenv
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-114bb07b-1.67.0-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-114bb07b-1.68.1-main.sock
 # makefile (from 'Makefile', line 4)
 PYTHONPATH = .
 # makefile
@@ -253,7 +253,7 @@ LC_ADDRESS = es_NI.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 1254771
+VSCODE_PID = 3950511
 # variable set hash-table stats:
 # Load=121/1024=12%, Rehash=0, Collisions=21/147=14%
 
@@ -263,9 +263,9 @@ VSCODE_PID = 1254771
 
 # Directories
 
-# . (device 66311, inode 20447741): 55 files, no impossibilities.
+# . (device 66311, inode 20447741): 57 files, no impossibilities.
 
-# 55 files, no impossibilities in 1 directories.
+# 57 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -283,7 +283,6 @@ all:
 .PHONY: default venv requirements bootstrap check-coding-style test test-coverage
 #  Implicit rule search has not been done.
 #  Modification time never checked.
- 
 #  File has not been updated.
 
 check-coding-style: venv
@@ -297,7 +296,8 @@ check-coding-style: venv
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-04-14 11:49:08.114611235
+ 
+#  Last modified 2022-07-07 13:04:06.112623195
 #  File has been updated.
 #  Successfully updated.
 
@@ -388,12 +388,12 @@ requirements:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 71 / storage = 1162 B / avg = 16 B
-# current buf: size = 8162 B / used = 1162 B / count = 71 / avg = 16 B
+# strcache buffers: 1 (0) / strings = 73 / storage = 1250 B / avg = 17 B
+# current buf: size = 8162 B / used = 1250 B / count = 73 / avg = 17 B
 
-# strcache performance: lookups = 101 / hit rate = 29%
+# strcache performance: lookups = 103 / hit rate = 29%
 # hash-table stats:
-# Load=71/8192=1%, Rehash=0, Collisions=1/101=1%
-# Finished Make data base on Wed May 18 10:35:19 2022
+# Load=73/8192=1%, Rehash=0, Collisions=1/103=1%
+# Finished Make data base on Mon Jul 11 14:29:01 2022
 
  
