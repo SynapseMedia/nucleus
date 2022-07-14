@@ -1,4 +1,4 @@
-from src.core import util, logger
+from src.core import json, logger
 from src.core.storage.ipfs import pin, add_dir
 from .edge import pin as remote_pin
 from ..scheme.definition.movies import MovieScheme
@@ -15,7 +15,7 @@ def to_ipfs(mv: MovieScheme):
 
     logger.log.warning(f"Ingesting {mv.imdb_code}")
     # Logs on ready ingested
-    current_dir = util.build_dir(mv)
+    current_dir = json.build_dir(mv)
     return add_dir(current_dir)
 
 

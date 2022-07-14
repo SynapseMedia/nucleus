@@ -45,8 +45,7 @@ class Ethereum(Network):
         )
 
     def get_transaction(self, hash: Hash):
-        assertion_hash = Hash32(hash)
-        return self._web3.eth.get_transaction(assertion_hash)
+        return self._web3.eth.get_transaction(Hash32(hash))
 
     def send_transaction(self, tx: TxCall):
         # Return result from commit signed transaction

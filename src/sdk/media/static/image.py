@@ -1,5 +1,5 @@
 from pathlib import Path
-from src.core import logger, util
+from src.core import json, logger
 from src.core.media.assets.factory import image, representation, Size, SIZES
 
 
@@ -10,7 +10,7 @@ def auto_resize_to_default(input_image: str, output: str):
     :param output: Where store the resized image
     """
     for size in SIZES:
-        file_format = util.extract_extension(input_image)
+        file_format = json.extract_extension(input_image)
         yield resize_thumbnails(input_image, f"{output}/{size}.{file_format}", size)
 
 

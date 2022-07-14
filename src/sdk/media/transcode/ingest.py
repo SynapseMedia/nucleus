@@ -1,6 +1,6 @@
 from src.core.media.transcode.factory import get_codec
 from src.core.exceptions import InvalidCodec
-from src.core import logger, util
+from src.core import json, logger
 
 
 # TODO Facade pattern
@@ -19,7 +19,7 @@ def videos(video_path: str, protocol: str, output_dir: str):
         raise InvalidCodec("Protocol %s in not supported" % protocol)
 
     # Build output path
-    util.make_destination_dir(output_dir)
+    json.make(output_dir)
     # Execute codec function to transcode video from path
     protocol(video_path, output_dir)
     logger.log.success(f"New movie stored in: {output_dir} \n")

@@ -25,6 +25,7 @@ SignedTransaction = NewType("SignedTransaction", NamedTuple)
 class ChainID(Enum):
     Kovan = 42
     Rinkeby = 4
+    Goerli = 6
 
 
 class NetworkID(Enum):

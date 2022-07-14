@@ -1,7 +1,7 @@
 import time
 
 from src.core.http import fetch
-from src.core import logger, util
+from src.core import json, logger
 from src.core.constants import RECURSIVE_SLEEP_REQUEST, MAX_FAIL_RETRY
 from .image import auto_resize_to_default
 
@@ -15,8 +15,8 @@ def images(image_path: str, output_dir: str, max_retry=MAX_FAIL_RETRY):
     :return:
     """
     try:
-        file_format = util.extract_extension(image_path)
-        root_output_dir, _ = util.resolve_root_for(output_dir)
+        file_format = json.extract_extension(image_path)
+        root_output_dir, _ = json.resolve(output_dir)
         input_image = fetch(image_path, f"{output_dir}/image/large.{file_format}")
 
         # try to fetch image if URL
