@@ -1,9 +1,8 @@
 import asyncio
-from typing import Sequence
-from asyncio.subprocess import Process
+import src.core.logger as logger
+import asyncio.subprocess as sub
 
-from . import logger
-from .types import Command
+from src.core.types import Command, Sequence
 
 
 class Subprocess(Command):
@@ -17,7 +16,7 @@ class Subprocess(Command):
     def __str__(self) -> str:
         return f"npm run {self.cmd} -- {self.args} --enc=json"
 
-    async def __call__(self) -> Process:
+    async def __call__(self) -> sub.Process:
         """Start an async subprocess cmd
 
         :return: subprocess asyncio shell

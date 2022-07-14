@@ -6,8 +6,8 @@ from src.core.web3.network import Ethereum
 from src.core.web3.chains import Rinkeby, Goerli
 from src.core.web3.crypto import to_hex, cid_to_uint256
 
-from src.core.web3 import Connector
 from src.core.types import CIDStr
+from src.core.web3.types import Connector
 from src.core.constants import (
     GOERLI_PROVIDER,
     GOERLI_ALCHEMY_API_KEY,

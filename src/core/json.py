@@ -1,7 +1,6 @@
 import json
-from typing import Dict, Any
 
-from .types import Directory
+from src.core.types import Directory, Any, Dict
 
 
 def read(input_file: Directory) -> Dict[Any, Any]:

@@ -1,10 +1,11 @@
-from contextlib import contextmanager
-from typing import Dict, Sequence, Iterator
+import contextlib
+import src.core.exceptions as exceptions
 
-from ..types import Directory
-from ..constants import MAX_MUXING_QUEUE_SIZE
-from ..exceptions import InvalidVideoQuality
-from . import REPR, Sizes, Input, Size, Representation
+from src.core.types import Directory, Dict, Sequence, Iterator
+from src.core.constants import MAX_MUXING_QUEUE_SIZE
+
+# package types
+from .types import REPR, Sizes, Input, Size, Representation
 
 
 def quality(size: Size) -> Sequence[Representation]:
@@ -33,11 +34,11 @@ def quality(size: Size) -> Sequence[Representation]:
     }
 
     if size not in quality_representations:
-        raise InvalidVideoQuality()
+        raise exceptions.InvalidVideoQuality()
     return quality_representations[size]
 
 
-@contextmanager
+@contextlib.contextmanager
 def input(input_file: Directory) -> Iterator[Input]:
     """Factory ffmpeg input interface from file
 

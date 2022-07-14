@@ -1,10 +1,10 @@
 import os
-from datetime import date
+import datetime
 
 PROJECT_ROOT = os.getenv("PROJECT_ROOT")
 # Setup mongo local temp cache
 MONGO_HOST, MONGO_PORT = ("mongo", "27017")
-DB_DATE_VERSION = date.today().strftime("%Y%m%d")
+DB_DATE_VERSION = datetime.date.today().strftime("%Y%m%d")
 ROOT_PROJECT = os.getenv("PROJECT_ROOT")
 REGEN_MOVIES = os.getenv("REGEN_MOVIES", "False") == "True"
 

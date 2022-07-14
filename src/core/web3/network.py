@@ -1,9 +1,22 @@
+import eth_account as eth
+import src.core.exceptions as exceptions
+
 from web3 import Web3
 from web3.contract import Contract
 from eth_typing.evm import Hash32
-from eth_account import Account
-from . import Network, Chain, Proxy, Address, TxCall, Hash, Abi, PrivateKey, Connector
-from ..exceptions import InvalidPrivateKey
+
+# package types
+from .types import (
+    Network,
+    Chain,
+    Proxy,
+    Address,
+    TxCall,
+    Hash,
+    Abi,
+    PrivateKey,
+    Connector,
+)
 
 
 class ProxyWeb3Contract(Proxy):
@@ -34,10 +47,10 @@ class Ethereum(Network):
 
     def set_default_account(self, private_key: PrivateKey):
         try:
-            account = Account.from_key(private_key)
+            account = eth.Account.from_key(private_key)
             self._web3.eth.default_account = account
         except ValueError as e:
-            raise InvalidPrivateKey(str(e))
+            raise exceptions.InvalidPrivateKey(str(e))
 
     def sign_transaction(self, tx: TxCall):
         return self._web3.eth.account.sign_transaction(

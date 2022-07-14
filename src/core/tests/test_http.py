@@ -1,6 +1,8 @@
 import os
-
+import pytest
+import requests
 import responses
+
 from typing import Any
 from src.core.types import Directory, URI
 from src.core.http import download, fetch
@@ -44,9 +46,9 @@ def test_valid_remote_file():
 def test_invalid_remote_file():
     """Should fail for remote file from invalid URL"""
     responses.add(responses.GET, mock_link, status=404)
+    with pytest.raises(requests.exceptions.HTTPError): 
+        download(mock_link, directory)
 
-    result_dir = download(mock_link, directory)
-    assert not result_dir
 
 
 def test_copy_local_file(mocker: Any):

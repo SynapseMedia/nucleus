@@ -17,7 +17,7 @@ def test_add(mocker: Any):
     """Should return a valid cid for valid dir"""
 
     mocker.patch("src.core.storage.add.CLI", return_value=MockCLI())
-    mocker.patch("src.core.storage.add.resolve", return_value=("/test/dir", True))
+    mocker.patch("src.core.storage.add.files.resolve", return_value=("/test/dir", True))
     add_directory = directory("/test/dir")
     assert add_directory == expected_hash
 
@@ -25,6 +25,6 @@ def test_add(mocker: Any):
 def test_invalid_add(mocker: Any):
     """Should raise error for invalid directory"""
     mocker.patch("src.core.storage.add.CLI", return_value=MockCLI())
-    mocker.patch("src.core.storage.add.resolve", return_value=(None, False))
+    mocker.patch("src.core.storage.add.files.resolve", return_value=(None, False))
     with pytest.raises(FileNotFoundError):
         directory("/not/exist/dir")

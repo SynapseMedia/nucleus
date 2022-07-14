@@ -1,22 +1,22 @@
 import os
+import pathlib
 
-from pathlib import Path
-from .types import Directory
-from typing import Tuple
-from .constants import RAW_PATH, PROD_PATH
+from src.core.types import Tuple, Directory
+from src.core.constants import PROD_PATH, RAW_PATH
 
 
 def resolve(_dir: Directory, is_prod: bool = True) -> Tuple[Directory, bool]:
-    """Resolve root dir for PROD or RAW based on param
+    """Resolve root dir for PROD or RAW based on 'is_prod' param
 
     :param _dir: the dir to resolve
     :param is_prod: determine how resolved the dir
     :return: tuple with root_dir and path_exists
     :rtype: str, bool
     """
-    root_dir = RAW_PATH if not is_prod else PROD_PATH
-    root_dir = "%s/%s" % (root_dir, _dir)
-    path_exists = Path(root_dir).exists()
+    target_path = RAW_PATH if not is_prod else PROD_PATH
+    root_dir = "%s/%s" % (target_path, _dir)
+
+    path_exists = pathlib.Path(root_dir).exists()
     return Directory(root_dir), path_exists
 
 
@@ -28,7 +28,7 @@ def make(_dir: Directory) -> Directory:
     :rtype: str
     """
     dirname = os.path.dirname(_dir)
-    Path(dirname).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(dirname).mkdir(parents=True, exist_ok=True)
     return Directory(dirname)
 
 

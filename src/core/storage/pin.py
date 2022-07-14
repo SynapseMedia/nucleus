@@ -1,5 +1,5 @@
-from ..types import CIDStr
-from . import CLI, Edge, Pin, Service
+from src.core.types import CIDStr
+from .types import CLI, Edge, Pin, Service
 
 
 def remote(cid: CIDStr, service: Service, background: bool) -> Edge:
