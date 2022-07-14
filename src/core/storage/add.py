@@ -2,7 +2,7 @@ import errno
 import os
 
 from ..types import CIDStr, Directory
-from ..util import resolve_root_for
+from ..files import resolve
 from . import CLI
 
 def directory(path: Directory) -> CIDStr:
@@ -14,15 +14,15 @@ def directory(path: Directory) -> CIDStr:
     :rtype: CIDStr
     :raises IPFSFailedExecution
     """
-    directory, path_exists = resolve_root_for(path)
+    path, path_exists = resolve(path)
 
     if not path_exists:  # Check if path exist if not just pin_cid_list
-        raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), directory)
+        raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), path)
 
     # no pin by default
     # blake2b-208 hash func to encode to bytes16 and hex
     args = (
-        directory,
+        path,
         "--recursive",
         "--quieter",
         "--cid-version=1",

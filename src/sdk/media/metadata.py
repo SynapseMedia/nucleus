@@ -42,7 +42,7 @@ eg.
 }
 """
 
-from src.core.util import extract_extension
+from src.core.json import extract_extension
 from src.sdk.scheme.definition.movies import MovieScheme
 
 

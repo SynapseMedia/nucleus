@@ -2,7 +2,8 @@ import random
 import requests
 import shutil
 from pathlib import Path
-from . import util, logger
+
+from . import files, logger
 from .constants import VALIDATE_SSL
 from .types import Directory, URI
 
@@ -28,7 +29,7 @@ def download(route: URI, output: Directory):
     """
 
     # Create if not exist dir
-    util.make_destination_dir(output)
+    files.make(output)
 
     # Start http session
     response = session.get(
@@ -63,18 +64,18 @@ def fetch(route: URI, output: Directory):
     """
 
     # Resolve root directory for PROD
-    directory, path_exists = util.resolve_root_for(output)
+    path, path_exists = files.resolve(output)
 
     # already exists?
     if path_exists:
-        logger.log.notice(f"File already exists: {directory}")  # type: ignore
-        return Path(directory)
+        logger.log.notice(f"File already exists: {path}")  # type: ignore
+        return Path(path)
 
     # Check if route is file to copy it to prod dir
     if Path(route).is_file():
         logger.log.notice(f"Copying existing file: {route}")  # type: ignore
-        util.make_destination_dir(directory)
-        shutil.copy(route, directory)
-        return Path(directory)
+        files.make(path)
+        shutil.copy(route, path)
+        return Path(path)
 
-    return download(route, directory)
+    return download(route, path)

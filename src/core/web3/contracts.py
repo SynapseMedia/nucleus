@@ -1,6 +1,6 @@
 from . import Contract, Network, Proxy, Address
 from ..constants import PROJECT_ROOT
-from ..util import read_json
+from ..json import read
 from ..types import Directory
 
 
@@ -20,5 +20,5 @@ class ERC1155(Contract):
     @property
     def abi(self):
         """Return abi from json for NFT contract"""
-        abi_json = read_json(Directory("%s/abi/WNFT.json" % PROJECT_ROOT))
+        abi_json = read(Directory("%s/abi/WNFT.json" % PROJECT_ROOT))
         return abi_json["abi"]

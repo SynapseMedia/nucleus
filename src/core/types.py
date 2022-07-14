@@ -19,7 +19,7 @@ from typing import (
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
-Hash = Union[HexBytes, Hash32, str]
+Hash = Union[HexBytes, Hash32]
 
 ID = str
 CIDStr = str

@@ -53,7 +53,7 @@ def test_copy_local_file(mocker: Any):
     """Should copy for local file and not attempt download"""
     with open("assets/tests/watchit.png", "rb") as mock_file:
         _setup_file_response_ok(mock_file, body=Exception("Should not be called"))
-        mocker.patch("src.core.util.resolve_root_for", return_value=(directory, False))
+        mocker.patch("src.core.files.resolve", return_value=(directory, False))
 
         current_path = fetch(URI(mock_local_file), directory)
         assert current_path
@@ -67,7 +67,7 @@ def test_omit_existing_file(mocker: Any):
     with open("assets/tests/watchit.png", "rb") as mock_file:
         _setup_file_response_ok(mock_file, body=Exception("Should not be called"))
         mocker.patch(
-            "src.core.util.resolve_root_for", return_value=(mock_local_file, True)
+            "src.core.files.resolve", return_value=(mock_local_file, True)
         )
 
         current_path = fetch(URI(mock_local_file), mock_local_file)

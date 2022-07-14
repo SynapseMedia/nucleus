@@ -1,4 +1,3 @@
-from enum import Enum
 from dataclasses import dataclass
 from abc import abstractmethod, ABCMeta
 from typing import Protocol, Any
@@ -6,11 +5,6 @@ from typing import Protocol, Any
 from ffmpeg_streaming._input import Input as FFInput  # type: ignore
 from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe, Format  # type: ignore
 from ..types import Directory
-
-
-class FormatID(Enum):
-    Webm = 0
-    Mp4 = 1
 
 
 @dataclass(frozen=True)

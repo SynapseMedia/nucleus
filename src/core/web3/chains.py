@@ -4,11 +4,11 @@ from . import Chain, ChainID, Provider
 from ..types import Endpoint
 from ..constants import (
     WALLET_KEY,
-    KOVAN_PROVIDER,
-    KOVAN_ALCHEMY_API_KEY,
+    GOERLI_PROVIDER,
+    GOERLI_ALCHEMY_API_KEY,
     RINKEBY_PROVIDER,
     RINKEBY_ALCHEMY_API_KEY,
-    KOVAN_CONTRACT_NFT,
+    GOERLI_CONTRACT_NFT,
     RINKEBY_CONTRACT_NFT,
 )
 
@@ -28,25 +28,25 @@ class Web3HTTPProviderAdapter(Provider):
         return __connect
 
 
-class Kovan(Chain):
-    """Kovan chain type"""
+class Goerli(Chain):
+    """Goerli chain type"""
 
     def __str__(self):
-        return "kovan"
+        return "goerli"
 
     @property
     def id(self):
-        return ChainID.Kovan
+        return ChainID.Goerli
 
     @property
     def endpoint(self) -> Endpoint:
-        return f"{KOVAN_PROVIDER}/{KOVAN_ALCHEMY_API_KEY}"
+        return f"{GOERLI_PROVIDER}/{GOERLI_ALCHEMY_API_KEY}"
 
     @property
     def provider(self):
-        """Return kovan pre-build Http Provider
+        """Return goerli pre-build Http Provider
 
-        :return: kovan provider
+        :return: goerli provider
         :rtype: Web3.HTTPProvider
         """
 
@@ -54,7 +54,7 @@ class Kovan(Chain):
 
     @property
     def erc1155(self):
-        return KOVAN_CONTRACT_NFT
+        return GOERLI_CONTRACT_NFT
 
     @property
     def private_key(self):
