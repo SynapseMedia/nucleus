@@ -1,8 +1,26 @@
-from ffmpeg_streaming import Representation, Formats  # type: ignore
+import sys
+import datetime
 
-from ._out import progress  # type: ignore
-from . import Streaming, Input
-from ..types import Directory
+from ffmpeg_streaming import Representation, Formats  # type: ignore
+from src.core.types import Directory
+
+# package types
+from .types import Streaming, Input
+
+
+def output(_, duration: int, time_: int, time_left: int):
+    """Render tqdm progress bar."""
+    sys.stdout.flush()
+    per = round(time_ / duration * 100)
+    sys.stdout.write(
+        "\rTranscoding...(%s%%) %s left [%s%s]"
+        % (
+            per,
+            datetime.timedelta(seconds=int(time_left)),
+            "#" * per,
+            "-" * (100 - per),
+        )
+    )
 
 
 class HLS(Streaming):
@@ -20,7 +38,7 @@ class HLS(Streaming):
         return Formats.h264()  # type: ignore
 
     def transcode(self, output_dir: Directory):
-        self._hls.output(output_dir, monitor=progress)
+        self._hls.output(output_dir, monitor=output)
 
 
 class DASH(Streaming):
@@ -38,4 +56,4 @@ class DASH(Streaming):
         return Formats.vp9()  # type: ignore
 
     def transcode(self, output_dir: Directory):
-        self._dash.output(output_dir, monitor=progress)
+        self._dash.output(output_dir, monitor=output)

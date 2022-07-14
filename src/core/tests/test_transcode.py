@@ -4,7 +4,7 @@ from ffmpeg_streaming._format import H264, VP9  # type: ignore
 
 from src.core.types import Directory
 from src.core.exceptions import InvalidVideoQuality
-from src.core.transcode import REPR, Sizes, Input, Size
+from src.core.transcode.types import REPR, Sizes, Input, Size
 from src.core.transcode.protocols import HLS, DASH
 from src.core.transcode.ffmpeg import quality, input
 

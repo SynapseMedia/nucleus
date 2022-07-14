@@ -1,5 +1,5 @@
-from ..types import CIDStr
-from . import CLI, Dag, DagLink
+from src.core.types import CIDStr
+from .types import CLI, Dag, DagLink
 
 
 def get(cid: CIDStr) -> Dag:

@@ -1,9 +1,9 @@
-import errno
 import os
+import errno
+import src.core.files as files
 
-from ..types import CIDStr, Directory
-from ..files import resolve
-from . import CLI
+from src.core.types import CIDStr, Directory
+from .types import CLI
 
 def directory(path: Directory) -> CIDStr:
     """Add directory to ipfs
@@ -14,7 +14,7 @@ def directory(path: Directory) -> CIDStr:
     :rtype: CIDStr
     :raises IPFSFailedExecution
     """
-    path, path_exists = resolve(path)
+    path, path_exists = files.resolve(path)
 
     if not path_exists:  # Check if path exist if not just pin_cid_list
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), path)
