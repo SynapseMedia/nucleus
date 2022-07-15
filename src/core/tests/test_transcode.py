@@ -86,7 +86,7 @@ def test_dash_protocol():
 def test_valid_input(mocker: Any):
     """Should instance a valid input"""
     mocker.patch(
-        "src.core.transcode.ffmpeg.Input", return_value=MockInput(Directory("test"))
+        "src.core.transcode.ffmpeg.VideoInput", return_value=MockInput(Directory("test"))
     )
     with input(Directory("test")) as _input:
         assert _input.get_video_size().width == 100

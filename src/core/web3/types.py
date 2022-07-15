@@ -10,8 +10,20 @@ refs:
 
 from enum import Enum
 from abc import ABCMeta, abstractmethod
-from typing import Any, Protocol, Union, NewType, TypedDict, NamedTuple, Dict, Callable
-from src.core.types import Subscriptable, Endpoint, HexStr, Hash
+from src.core.types import (
+    Subscriptable,
+    Endpoint,
+    HexStr,
+    Hash,
+    Any,
+    Protocol,
+    Union,
+    NewType,
+    TypedDict,
+    NamedTuple,
+    Dict,
+    Callable,
+)
 
 Address = Union[HexStr, str]
 Abi = NewType("Abi", Dict[Any, Any])
