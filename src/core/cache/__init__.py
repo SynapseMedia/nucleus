@@ -5,6 +5,7 @@ from src.core.constants import PROJECT_ROOT, DB_NAME
 database_path = f"{PROJECT_ROOT}/{DB_NAME}"
 connection = sqlite3.connect(database_path)
 
+
 cursor = connection.cursor()
 cursor.execute(
     """

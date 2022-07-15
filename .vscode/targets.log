@@ -1,4 +1,6 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -6,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jun 30 20:53:09 2022
+# Make data base, printed on Fri Jul 15 17:26:17 2022
 
 # Variables
 
@@ -53,7 +55,7 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 # environment
 _ = /usr/share/code/code
 # environment
-JOURNAL_STREAM = 8:53925
+JOURNAL_STREAM = 8:63631
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile (from 'Makefile', line 1)
@@ -77,9 +79,9 @@ VSCODE_VERBOSE_LOGGING = true
 # environment
 INFOPATH = /home/linuxbrew/.linuxbrew/share/info:
 # environment
-MANAGERPID = 2030
+MANAGERPID = 1804
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-eabbc0e8-5d17-4a9f-8bdf-17ffb6e77f1f.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-7fd5a204-483c-4fb5-b671-861e56f532a8.sock
 # environment
 LC_NAME = es_NI.UTF-8
 # environment
@@ -87,13 +89,13 @@ VSCODE_CWD = /home/gmena
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/gmena/golang/go/bin:/home/gmena/.cargo/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/gmena/.local/bin:/home/gmena/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin:/usr/local/go/bin
+PATH = /home/gmena/go/bin:/home/gmena/.cargo/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/gmena/.local/bin:/home/gmena/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin:/usr/local/go/bin:/home/gmena/.local/share/JetBrains/Toolbox/scripts:/home/gmena/.local/share/JetBrains/Toolbox/scripts
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-SESSION_MANAGER = local/gmena-ThinkPad-P70:@/tmp/.ICE-unix/2453,unix/gmena-ThinkPad-P70:/tmp/.ICE-unix/2453
+SESSION_MANAGER = local/gmena-ThinkPad-P70:@/tmp/.ICE-unix/3936,unix/gmena-ThinkPad-P70:/tmp/.ICE-unix/3936
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -103,7 +105,7 @@ VSCODE_LOG_STACK = false
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = b05d88ab21bb486e92ba72cee5cbad46
+INVOCATION_ID = bcf6ca6bcd6b4889a85d4d7ccb71525e
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -111,7 +113,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 3515681
+GIO_LAUNCHED_DESKTOP_FILE_PID = 9199
 # automatic
 %F = $(notdir $%)
 # environment
@@ -123,7 +125,7 @@ PWD = /home/gmena/PycharmProjects/watchit-toolkit
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 2418
+SSH_AGENT_PID = 3856
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -253,7 +255,7 @@ LC_ADDRESS = es_NI.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 3515681
+VSCODE_PID = 9199
 # variable set hash-table stats:
 # Load=122/1024=12%, Rehash=0, Collisions=21/148=14%
 
@@ -263,9 +265,9 @@ VSCODE_PID = 3515681
 
 # Directories
 
-# . (device 66311, inode 20447741): 57 files, no impossibilities.
+# . (device 66311, inode 20447741): 59 files, no impossibilities.
 
-# 57 files, no impossibilities in 1 directories.
+# 59 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -288,15 +290,13 @@ test-coverage-html: test-coverage
 	${COVERAGE} html
 	
 
- 
-make: *** No rule to make target 'all'.  Stop.
-
 .PHONY: default venv requirements bootstrap check-coding-style test test-coverage
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 check-coding-style: venv
+ 
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
@@ -307,7 +307,7 @@ check-coding-style: venv
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-27 11:02:54.522137897
+#  Last modified 2022-07-14 12:22:44.381528052
 #  File has been updated.
 #  Successfully updated.
 
@@ -449,12 +449,12 @@ requirements:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 81 / storage = 1305 B / avg = 16 B
-# current buf: size = 8162 B / used = 1305 B / count = 81 / avg = 16 B
+# strcache buffers: 1 (0) / strings = 83 / storage = 1389 B / avg = 16 B
+# current buf: size = 8162 B / used = 1389 B / count = 83 / avg = 16 B
 
-# strcache performance: lookups = 127 / hit rate = 36%
+# strcache performance: lookups = 129 / hit rate = 35%
 # hash-table stats:
-# Load=81/8192=1%, Rehash=0, Collisions=1/127=1%
-# Finished Make data base on Thu Jun 30 20:53:09 2022
+# Load=83/8192=1%, Rehash=0, Collisions=1/129=1%
+# Finished Make data base on Fri Jul 15 17:26:17 2022
 
  
