@@ -7,11 +7,10 @@ from src.core.types import Directory, Dict, Sequence, Iterator, Any
 from src.core.constants import MAX_MUXING_QUEUE_SIZE
 
 # package types
-from .types import REPR, Sizes, Size, Representation
+from .types import REPR, Sizes, Size, Representation, Input
 
 
-
-class Input:
+class VideoInput:
     """Protocol to give control over FFmpeg input.
 
     This class is designed to process one video file at time
@@ -92,7 +91,7 @@ def input(input_file: Directory, **options: Any) -> Iterator[Input]:
     :return: Input interface
     :rtype: Input
     """
-    yield Input(
+    yield VideoInput(
         input_file,  # file to process
         max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE,
         **options
