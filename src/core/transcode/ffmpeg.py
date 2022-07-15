@@ -92,7 +92,7 @@ def input(input_file: Directory, **options: Any) -> Iterator[Input]:
     :rtype: Input
     """
     yield VideoInput(
-        input_file,  # file to process
+        input_file,  # file path to process
         max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE,
         **options
     )
