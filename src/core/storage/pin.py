@@ -1,18 +1,20 @@
 from src.core.types import CIDStr
-from .types import CLI, Edge, Pin, Service
+
+from .types import Edge, Pin, Service
+from .ipfs import CLI
 
 
 def remote(cid: CIDStr, service: Service, background: bool) -> Edge:
     """Pin cid into edge pinata remote cache
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
-    
+
     Output:
         {
             "Status": "queued",
             "Cid": "QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1",
             "Name": ""
         }
-        
+
 
     :param cid: the cid to pin
     :param service: name of remote service
@@ -46,7 +48,7 @@ def local(cid: CIDStr) -> Pin:
         {
             "Pins":["QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1"]
         }
-        
+
     :param cid: the cid to pin
     :return: ipfs output for ipfs local pin
     :rtype: Pin

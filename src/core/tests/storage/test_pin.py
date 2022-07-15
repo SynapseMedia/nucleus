@@ -1,6 +1,6 @@
 import pytest
 from typing import Any
-from src.core.storage import Pin, Edge
+from src.core.storage.types import Pin, Edge
 from src.core.storage.pin import local, remote
 from src.core.exceptions import IPFSFailedExecution
 

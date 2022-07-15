@@ -1,15 +1,14 @@
 import os
 import datetime
 
-PROJECT_ROOT = os.getenv("PROJECT_ROOT")
-# Setup mongo local temp cache
-MONGO_HOST, MONGO_PORT = ("mongo", "27017")
-DB_DATE_VERSION = datetime.date.today().strftime("%Y%m%d")
-ROOT_PROJECT = os.getenv("PROJECT_ROOT")
-REGEN_MOVIES = os.getenv("REGEN_MOVIES", "False") == "True"
 
-# Fetching constants
-VALIDATE_SSL = os.getenv("VALIDATE_SSL", "False") == "True"
+DB_NAME = os.getenv('DB_NAME')
+DB_DATE_VERSION = datetime.date.today().strftime("%Y%m%d")
+REGENERATE_MOVIES = os.getenv("REGENERATE_MOVIES", "False") == "True"
+MIXED_RESOURCES = os.environ.get("MIXED_RESOURCES", "False") == "True"
+
+PROJECT_ROOT = os.getenv("PROJECT_ROOT")
+RUNTIME_DIRECTORY = os.getenv("RUNTIME_DIRECTORY")
 RAW_PATH = os.getenv("RAW_DIRECTORY")
 PROD_PATH = os.getenv("PROD_DIRECTORY")
 
@@ -26,6 +25,7 @@ PINATA_PIN_BACKGROUND = os.getenv("PINATA_PIN_BACKGROUND", "False") == "True"
 # Http settings
 NODE_URI = os.getenv("NODE_URI")
 API_VERSION = os.getenv("API_VERSION")
+VALIDATE_SSL = os.getenv("VALIDATE_SSL", "False") == "True"
 UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "/multimedia/tmp")
 ALLOWED_VIDEO_EXTENSIONS = {"mp4", "webm"}
 ALLOWED_IMAGE_EXTENSIONS = {"jpeg", "png", "jpg", "gif"}
@@ -47,10 +47,6 @@ IPFS_CONTAINER = os.getenv("IPFS_CONTAINER")
 IPFS_NODE_GATEWAY_PORT = os.getenv("IPFS_NODE_GATEWAY_PORT")
 FLUSH_CACHE_IPFS = os.getenv("FLUSH_CACHE_IPFS", "False") == "True"
 TIMEOUT_REQUEST = 120 * 60
-
-# Export constants
-REGEN_ORBITDB = os.environ.get("REGEN_ORBITDB", "False") == "True"
-MIXED_RESOURCES = os.environ.get("MIXED_RESOURCES", "False") == "True"
 
 # Web3 constants
 GWEI = 1000000000

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from abc import abstractmethod, ABCMeta
 from ffmpeg_streaming._input import Input as FFInput  # type: ignore
-from ffmpeg_streaming import Bitrate, Representation, Size, input, FFProbe, Format  # type: ignore
+from ffmpeg_streaming import Bitrate, Representation, Size, Format  # type: ignore
 from src.core.types import Directory, Protocol, Any
 
 
@@ -37,21 +37,25 @@ class REPR:
     R4k = Representation(Sizes.Q4k, BRS.B4k)
 
 
-class Input:
-    """Class to allow control over FFmpeg input.
+class Input(Protocol, metaclass=ABCMeta):
+    """Protocol to give control over FFmpeg input.
 
     This class is designed to process one video file at time
     """
 
-    _path: Directory
     _media: FFInput
 
+    @abstractmethod
     def __init__(self, input_file: Directory, **options: Any):
-        self._path = input_file
-        self._media = input(input_file, **options)
+        ...
 
     def get_path(self) -> Directory:
-        return self._path
+        """Return current input directory
+
+        :return: Directory string representation
+        :rtype: Directory
+        """
+        ...
 
     def get_video_size(self) -> Size:
         """Return video size
@@ -59,8 +63,7 @@ class Input:
         :return: Video size from input file
         :rtype: Size
         """
-        ffprobe = FFProbe(self._path)
-        return ffprobe.video_size
+        ...
 
     def get_duration(self) -> float:
         """Get video time duration
@@ -69,10 +72,7 @@ class Input:
         :return: duration in seconds
         :rtype: float
         """
-
-        ffprobe = FFProbe(self._path)
-        duration = float(ffprobe.format().get("duration", 0))
-        return duration
+        ...
 
 
 class Streaming(Protocol, metaclass=ABCMeta):

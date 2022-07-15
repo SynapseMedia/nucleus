@@ -31,16 +31,6 @@ class Subscriptable(Protocol):
         ...
 
 
-class Container(Protocol, metaclass=ABCMeta):
-    """
-    Docker container abstraction adapted from docker lib
-    """
-
-    @abstractmethod
-    def exec_run(self, cmd: str) -> Tuple[bool, bytes]:
-        ...
-
-
 class Command(Protocol, metaclass=ABCMeta):
     """
     Interface definition for command execution.

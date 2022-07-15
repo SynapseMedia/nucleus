@@ -1,6 +1,6 @@
 import pytest
 from typing import Any
-from src.core.storage import EdgeService, EdgeServices
+from src.core.storage.types import EdgeService, EdgeServices
 from src.core.storage.services import services, register
 from src.core.exceptions import IPFSFailedExecution
 

@@ -1,4 +1,5 @@
-from .types import CLI, EdgeServices, EdgeService
+from .ipfs import CLI
+from .types import EdgeServices, EdgeService
 
 
 def services() -> EdgeServices:

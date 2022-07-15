@@ -1,11 +1,57 @@
 import contextlib
 import src.core.exceptions as exceptions
 
-from src.core.types import Directory, Dict, Sequence, Iterator
+from ffmpeg_streaming._input import Input as FFInput  # type: ignore
+from ffmpeg_streaming import Size, input as ffinput, FFProbe  # type: ignore
+from src.core.types import Directory, Dict, Sequence, Iterator, Any
 from src.core.constants import MAX_MUXING_QUEUE_SIZE
 
 # package types
-from .types import REPR, Sizes, Input, Size, Representation
+from .types import REPR, Sizes, Size, Representation
+
+
+
+class Input:
+    """Protocol to give control over FFmpeg input.
+
+    This class is designed to process one video file at time
+    """
+
+    _media: FFInput
+    _path: Directory
+
+    def __init__(self, input_file: Directory, **options: Any):
+        self._path = input_file
+        self._media = ffinput(input_file, **options)
+
+    def get_path(self) -> Directory:
+        """Return current input directory
+
+        :return: Directory string representation
+        :rtype: Directory
+        """
+        return self._path
+
+    def get_video_size(self) -> Size:
+        """Return video size
+
+        :return: Video size from input file
+        :rtype: Size
+        """
+        ffprobe = FFProbe(self._path)
+        return ffprobe.video_size
+
+    def get_duration(self) -> float:
+        """Get video time duration
+
+        :param input_file: input path
+        :return: duration in seconds
+        :rtype: float
+        """
+
+        ffprobe = FFProbe(self._path)
+        duration = float(ffprobe.format().get("duration", 0))
+        return duration
 
 
 def quality(size: Size) -> Sequence[Representation]:
@@ -39,11 +85,15 @@ def quality(size: Size) -> Sequence[Representation]:
 
 
 @contextlib.contextmanager
-def input(input_file: Directory) -> Iterator[Input]:
+def input(input_file: Directory, **options: Any) -> Iterator[Input]:
     """Factory ffmpeg input interface from file
 
     :param input_file: Path to video
     :return: Input interface
     :rtype: Input
     """
-    yield Input(input_file, max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE)
+    yield Input(
+        input_file,  # file to process
+        max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE,
+        **options
+    )
