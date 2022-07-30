@@ -32,7 +32,7 @@ def directory(path: Directory) -> CIDStr:
     
     # Exec command and get output
     exec = CLI("/add", *args)
-    _hash = exec().get("output")
+    hash_ = exec().get("output")
     
     # Cleaned returned cid
-    return _hash.strip()
+    return hash_.strip()
