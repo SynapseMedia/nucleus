@@ -1,7 +1,7 @@
 import pytest
 from typing import Any
 from src.core.storage.types import Service, Services
-from src.core.storage.service import service, register
+from src.core.storage.service import ls, register
 from src.core.exceptions import IPFSFailedExecution
 
 PATH_CLI_PATCH = "src.core.storage.service.CLI"
@@ -63,7 +63,7 @@ def test_services(mocker: Any):
             return {"output": {"RemoteServices": expected_services}}
 
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
-    registered_services = service()
+    registered_services = ls()
     services_iter = map(
         lambda x: Service(service=x["Service"], endpoint=x["ApiEndpoint"], key=None),
         expected_services,
