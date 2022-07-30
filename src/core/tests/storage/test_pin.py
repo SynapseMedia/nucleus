@@ -1,6 +1,6 @@
 import pytest
 from typing import Any
-from src.core.storage.types import LocalPin, RemotePin, Service, Sequence
+from src.core.storage.types import LocalPin, RemotePin, Service
 from src.core.storage.pin import local, remote
 from src.core.exceptions import IPFSFailedExecution
 
@@ -10,41 +10,6 @@ MockService = Service(
     endpoint="http://localhost",
     key="abc123",
 )
-
-
-class MockEdge:
-    _service: Service
-
-    def __init__(self, service: Service):
-        ...
-
-    @property
-    def name(self) -> str:
-        return "pinata"
-
-    def pin(self, cid: str) -> RemotePin:
-        ...
-
-    @property
-    def background_mode(self) -> bool:
-        ...
-
-    @property
-    def is_registered(self) -> bool:
-        ...
-
-    @property
-    def status(self) -> bool:
-        ...
-
-    def ls(self, limit: int) -> Sequence[RemotePin]:
-        ...
-
-    def unpin(self, cid: str) -> bool:
-        ...
-
-    def flush(self, limit: int) -> int:
-        ...
 
 
 class MockFailingCLI:
@@ -94,7 +59,7 @@ def test_pin_remote(mocker: Any):
 
     mocker.patch("src.core.storage.pin.CLI", return_value=MockCLI())
     cid_to_pin = "QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1"
-    pins = remote(cid_to_pin, MockEdge(MockService))
+    pins = remote(cid_to_pin, MockService)
 
     assert expected_result["Status"] == pins["status"]
     assert expected_result["Cid"] == pins["cid"]
@@ -127,4 +92,4 @@ def test_invalid_pin_local(mocker: Any):
         "src.core.storage.pin.CLI", return_value=MockFailingCLI(expected_issue)
     )
     with pytest.raises(IPFSFailedExecution):
-        remote(duplicated_cid, MockEdge(MockService))
+        remote(duplicated_cid, MockService)
