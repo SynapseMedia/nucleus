@@ -6,6 +6,7 @@ from src.core.exceptions import IPFSFailedExecution
 
 PATH_CLI_PATCH = "src.core.storage.service.CLI"
 
+
 class MockFailingCLI:
     msg: str
 
@@ -64,14 +65,10 @@ def test_services(mocker: Any):
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
     registered_services = service()
     services_iter = map(
-        lambda x: Service(
-            service=x["Service"],
-            endpoint=x["ApiEndpoint"],
-            key=None
-        ),
+        lambda x: Service(service=x["Service"], endpoint=x["ApiEndpoint"], key=None),
         expected_services,
     )
-    
+
     assert list(registered_services["remote"]) == list(
         Services(remote=services_iter)["remote"]
     )
@@ -80,18 +77,13 @@ def test_services(mocker: Any):
 def test_invalid_register_service(mocker: Any):
     """Should raise error for already registered service"""
     register_service = Service(
-        **{
-            "service": "edge",
-            "endpoint": "http://localhost",
-            "key": "abc123",
-        }
+        service="edge",
+        endpoint="http://localhost",
+        key="abc123",
     )
 
     # Simulating an error returned by ipfs invalid service
     expected_issue = "Error: service already present"
-    mocker.patch(
-        PATH_CLI_PATCH, return_value=MockFailingCLI(expected_issue)
-    )
+    mocker.patch(PATH_CLI_PATCH, return_value=MockFailingCLI(expected_issue))
     with pytest.raises(IPFSFailedExecution):
         register(register_service)
-
