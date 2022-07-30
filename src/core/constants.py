@@ -2,7 +2,7 @@ import os
 import datetime
 
 
-DB_NAME = os.getenv('DB_NAME')
+DB_NAME = os.getenv("DB_NAME")
 DB_DATE_VERSION = datetime.date.today().strftime("%Y%m%d")
 REGENERATE_MOVIES = os.getenv("REGENERATE_MOVIES", "False") == "True"
 MIXED_RESOURCES = os.environ.get("MIXED_RESOURCES", "False") == "True"
@@ -11,6 +11,10 @@ PROJECT_ROOT = os.getenv("PROJECT_ROOT")
 RUNTIME_DIRECTORY = os.getenv("RUNTIME_DIRECTORY")
 RAW_PATH = os.getenv("RAW_DIRECTORY")
 PROD_PATH = os.getenv("PROD_DIRECTORY")
+
+
+# Edge cache settings
+DEFAULT_EDGE_SERVICE = os.getenv("DEFAULT_EDGE_SERVICE", "pinata")
 
 # Pinata settings
 PINATA_PSA = os.getenv("PINATA_PSA")

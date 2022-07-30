@@ -8,7 +8,7 @@ PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini
 FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
 BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
-PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python
+PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python3
 PIP = ${VENV}/bin/pip3
 
 DEFAULT_PYTHON := /usr/bin/python3

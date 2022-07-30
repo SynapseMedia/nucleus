@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jul 15 17:26:17 2022
+# Make data base, printed on Fri Jul 29 10:09:22 2022
 
 # Variables
 
@@ -28,8 +26,6 @@ PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini
 XDG_SESSION_CLASS = user
 # environment
 XDG_SESSION_TYPE = x11
-# environment
-VSCODE_LOG_NATIVE = false
 # makefile (from 'Makefile', line 6)
 PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pyright 
 # automatic
@@ -55,7 +51,7 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 # environment
 _ = /usr/share/code/code
 # environment
-JOURNAL_STREAM = 8:63631
+JOURNAL_STREAM = 8:60764
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile (from 'Makefile', line 1)
@@ -75,13 +71,9 @@ XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/d
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
-VSCODE_VERBOSE_LOGGING = true
-# environment
 INFOPATH = /home/linuxbrew/.linuxbrew/share/info:
 # environment
-MANAGERPID = 1804
-# environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-7fd5a204-483c-4fb5-b671-861e56f532a8.sock
+MANAGERPID = 2131
 # environment
 LC_NAME = es_NI.UTF-8
 # environment
@@ -95,17 +87,15 @@ GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-SESSION_MANAGER = local/gmena-ThinkPad-P70:@/tmp/.ICE-unix/3936,unix/gmena-ThinkPad-P70:/tmp/.ICE-unix/3936
+SESSION_MANAGER = local/gmena-ThinkPad-P70:@/tmp/.ICE-unix/2677,unix/gmena-ThinkPad-P70:/tmp/.ICE-unix/2677
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
 XDG_MENU_PREFIX = gnome-
 # environment
-VSCODE_LOG_STACK = false
-# environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = bcf6ca6bcd6b4889a85d4d7ccb71525e
+INVOCATION_ID = 2dc8ff02b1fe42ca89dfc998ab70cb97
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -113,19 +103,17 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 9199
+GIO_LAUNCHED_DESKTOP_FILE_PID = 5481
 # automatic
 %F = $(notdir $%)
 # environment
 DISPLAY = :0
 # environment
-VSCODE_PIPE_LOGGING = true
-# environment
 PWD = /home/gmena/PycharmProjects/watchit-toolkit
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 3856
+SSH_AGENT_PID = 2642
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -143,7 +131,7 @@ HOME = /home/gmena
 # environment
 HOMEBREW_CELLAR = /home/linuxbrew/.linuxbrew/Cellar
 # environment
-VSCODE_CODE_CACHE_PATH = /home/gmena/.config/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
+VSCODE_CODE_CACHE_PATH = /home/gmena/.config/Code/CachedData/3b889b090b5ad5793f524b5d1d39fda662b96a2a
 # environment
 LOGNAME = gmena
 # environment
@@ -195,7 +183,7 @@ VIRTUALENV := /usr/bin/virtualenv
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-114bb07b-1.68.1-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-114bb07b-1.69.2-main.sock
 # makefile (from 'Makefile', line 4)
 PYTHONPATH = .
 # makefile
@@ -255,9 +243,9 @@ LC_ADDRESS = es_NI.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 9199
+VSCODE_PID = 5481
 # variable set hash-table stats:
-# Load=122/1024=12%, Rehash=0, Collisions=21/148=14%
+# Load=117/1024=11%, Rehash=0, Collisions=21/143=15%
 
 # Pattern-specific Variable Values
 
@@ -265,9 +253,9 @@ VSCODE_PID = 9199
 
 # Directories
 
-# . (device 66311, inode 20447741): 59 files, no impossibilities.
+# . (device 66311, inode 20447741): 56 files, no impossibilities.
 
-# 59 files, no impossibilities in 1 directories.
+# 56 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -295,8 +283,10 @@ test-coverage-html: test-coverage
 #  Modification time never checked.
 #  File has not been updated.
 
-check-coding-style: venv
  
+make: *** No rule to make target 'all'.  Stop.
+
+check-coding-style: venv
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
@@ -307,7 +297,7 @@ check-coding-style: venv
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-14 12:22:44.381528052
+#  Last modified 2022-07-26 21:16:12.464886068
 #  File has been updated.
 #  Successfully updated.
 
@@ -449,12 +439,12 @@ requirements:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 83 / storage = 1389 B / avg = 16 B
-# current buf: size = 8162 B / used = 1389 B / count = 83 / avg = 16 B
+# strcache buffers: 1 (0) / strings = 80 / storage = 1227 B / avg = 15 B
+# current buf: size = 8162 B / used = 1227 B / count = 80 / avg = 15 B
 
-# strcache performance: lookups = 129 / hit rate = 35%
+# strcache performance: lookups = 126 / hit rate = 36%
 # hash-table stats:
-# Load=83/8192=1%, Rehash=0, Collisions=1/129=1%
-# Finished Make data base on Fri Jul 15 17:26:17 2022
+# Load=80/8192=1%, Rehash=0, Collisions=1/126=1%
+# Finished Make data base on Fri Jul 29 10:09:22 2022
 
  

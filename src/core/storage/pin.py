@@ -1,10 +1,10 @@
 from src.core.types import CIDStr
 
-from .types import Edge, Pin, Service
+from .types import RemotePin, LocalPin, Edge
 from .ipfs import CLI
 
 
-def remote(cid: CIDStr, service: Service, background: bool) -> Edge:
+def remote(cid: CIDStr, service: Edge) -> RemotePin:
     """Pin cid into edge pinata remote cache
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
 
@@ -18,29 +18,28 @@ def remote(cid: CIDStr, service: Service, background: bool) -> Edge:
 
     :param cid: the cid to pin
     :param service: name of remote service
-    :background: run pinning on background
     :return: ipfs output for remote pin
-    :rtype: Edge
+    :rtype: RemotePin
     :raises IPFSFailedExecution
     """
     args = (
         cid,
-        f"--service={service}",
-        f"--background={background}",
+        f"--service={service.name}",
+        f"--background={service.background_mode}",
     )
 
     # Exec command and get output
     exec = CLI("/pin/remote/add", args)
     output = exec().get("output")
 
-    return Edge(
+    return RemotePin(
         status=output.get("Status"),  # status: queue using background
         cid=output.get("Cid"),  # resulting cid
         name=output.get("Name"),  # named pin
     )
 
 
-def local(cid: CIDStr) -> Pin:
+def local(cid: CIDStr) -> LocalPin:
     """Pin cid into local node
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin
 
@@ -51,10 +50,10 @@ def local(cid: CIDStr) -> Pin:
 
     :param cid: the cid to pin
     :return: ipfs output for ipfs local pin
-    :rtype: Pin
+    :rtype: LocalPin
     :raises IPFSFailedExecution
     """
     # Exec command and get output
     exec = CLI("/pin/add/", cid)
     output = exec().get("output")
-    return Pin(pins=output.get("Pins"))
+    return LocalPin(pins=output.get("Pins"))
