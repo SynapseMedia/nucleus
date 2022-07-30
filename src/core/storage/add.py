@@ -12,7 +12,7 @@ def directory(path: Directory) -> CIDStr:
     :param _dir: Directory to add to IPFS
     :return: The resulting CID
     :rtype: CIDStr
-    :raises IPFSFailedExecution
+    :raises IPFSFailedExecution, FileNotFoundError
     """
     path, path_exists = files.resolve(path)
 
