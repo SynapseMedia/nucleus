@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS movies (
 -- Schema for movies_movie_genre join table.
 CREATE TABLE IF NOT EXISTS movies_movie_genre (
     movie_genre_id INTEGER PRIMARY KEY,
-    genre_id INTEGER PRIMARY KEY,
+    genre_id INTEGER NOT NULL,
     movie_id INTEGER NOT NULL,
     FOREIGN_KEY(movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE,
     FOREIGN_KEY(genre_id) REFERENCES movies_genres (genre_id) ON DELETE CASCADE
