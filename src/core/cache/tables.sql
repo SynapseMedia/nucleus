@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS movies_genres (
 -- Schema table definition for movies_resources.
 CREATE TABLE IF NOT EXISTS movies_resources (
     movie_id INTEGER NOT NULL,
-    -- sqlite does not support ENUM types, so should be handled in code
+    -- sqlite does not support ENUM types, so should be handled in code. eg: video=1, images=2.
     type INTEGER,
     -- Where the resource is stored?
     route TEXT,
