@@ -1,8 +1,6 @@
 -- Tables schema definition for watchit cache storage.
 -- ref: https://www.sqlstyle.guide/
-/* 
- Schema table definition for movies.
- */
+-- Schema table definition for movies.
 CREATE TABLE IF NOT EXISTS movies (
     movie_id INTEGER PRIMARY KEY,
     -- imdb code is adopted from IMB movies site to handle an alpha-numeric id
@@ -20,26 +18,20 @@ CREATE TABLE IF NOT EXISTS movies (
     trailer_code TEXT,
     date_uploaded REAL
 );
-/* 
- Schema for movies_genre_movies join table.
- */
+-- Schema for movies_genre_movies join table.
 CREATE TABLE IF NOT EXISTS movies_movie_genre (
     genre_id INTEGER PRIMARY KEY,
     movie_id INTEGER NOT NULL,
     FOREIGN_KEY(movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE,
     FOREIGN_KEY(genre_id) REFERENCES movies_genres (genre_id) ON DELETE CASCADE
 );
-/* 
- Schema table definition for movies_genres.
- */
+-- Schema table definition for movies_genres.
 CREATE TABLE IF NOT EXISTS movies_genres (
     genre_id INTEGER PRIMARY KEY,
     genre TEXT,
     FOREIGN_KEY(movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE
 );
-/* 
- Schema table definition for movies_resources.
- */
+-- Schema table definition for movies_resources.
 CREATE TABLE IF NOT EXISTS movies_resources (
     movie_id INTEGER NOT NULL,
     -- sqlite does not support ENUM types, so should be handled in code
