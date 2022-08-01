@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS movies (
     trailer_code TEXT,
     date_uploaded REAL
 );
--- Schema for movies_genre_movies join table.
+-- Schema for movies_movie_genre join table.
 CREATE TABLE IF NOT EXISTS movies_movie_genre (
     genre_id INTEGER PRIMARY KEY,
     movie_id INTEGER NOT NULL,
