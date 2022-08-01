@@ -2,7 +2,7 @@ from .ipfs import CLI
 from .types import Services, Service
 
 
-def service() -> Services:
+def ls() -> Services:
     """Return registered services
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-service-ls
 

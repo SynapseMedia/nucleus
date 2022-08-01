@@ -1,10 +1,10 @@
 from src.core.types import CIDStr
 
-from .types import RemotePin, LocalPin, Edge
+from .types import RemotePin, LocalPin, Service
 from .ipfs import CLI
 
 
-def remote(cid: CIDStr, service: Edge) -> RemotePin:
+def remote(cid: CIDStr, service: Service, background: bool = True) -> RemotePin:
     """Pin cid into edge pinata remote cache
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
 
@@ -17,16 +17,16 @@ def remote(cid: CIDStr, service: Edge) -> RemotePin:
 
 
     :param cid: the cid to pin
-    :param service: name of remote service
+    :param service: Service settings
+    :param background: Run pin process in background mode
     :return: ipfs output for remote pin
     :rtype: RemotePin
     :raises IPFSFailedExecution
     """
-    args = (
-        cid,
-        f"--service={service.name}",
-        f"--background={service.background_mode}",
-    )
+
+    service_name = "--service=%s" % service["service"]
+    background_mode = f"--background={background}"
+    args = (cid, service_name, background_mode)
 
     # Exec command and get output
     exec = CLI("/pin/remote/add", args)

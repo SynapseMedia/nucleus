@@ -1,8 +1,15 @@
 import pytest
 from typing import Any
-from src.core.storage.types import LocalPin, RemotePin
+from src.core.storage.types import LocalPin, RemotePin, Service
 from src.core.storage.pin import local, remote
 from src.core.exceptions import IPFSFailedExecution
+
+
+MockService = Service(
+    service="edge",
+    endpoint="http://localhost",
+    key="abc123",
+)
 
 
 class MockFailingCLI:
@@ -30,7 +37,7 @@ def test_pin_local(mocker: Any):
 
     mocker.patch("src.core.storage.pin.CLI", return_value=MockCLI())
     pins = local("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1")
-    
+
     assert pins.get("pins") == expected_pins
     assert pins == LocalPin(pins=expected_pins)
 
@@ -49,10 +56,11 @@ def test_pin_remote(mocker: Any):
 
         def __call__(self):
             return {"output": expected_result}
-    
+
     mocker.patch("src.core.storage.pin.CLI", return_value=MockCLI())
-    pins = remote("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1", "pinata")
-    
+    cid_to_pin = "QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1"
+    pins = remote(cid_to_pin, MockService)
+
     assert expected_result["Status"] == pins["status"]
     assert expected_result["Cid"] == pins["cid"]
     assert expected_result["Name"] == pins["name"]
@@ -84,4 +92,4 @@ def test_invalid_pin_local(mocker: Any):
         "src.core.storage.pin.CLI", return_value=MockFailingCLI(expected_issue)
     )
     with pytest.raises(IPFSFailedExecution):
-        remote(duplicated_cid, "pinata", True)
+        remote(duplicated_cid, MockService)
