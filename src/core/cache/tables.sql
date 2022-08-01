@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS movies_movie_genre (
 CREATE TABLE IF NOT EXISTS movies_genres (
     genre_id INTEGER PRIMARY KEY,
     genre TEXT,
-    FOREIGN_KEY(movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE
 );
 -- Schema table definition for movies_resources.
 CREATE TABLE IF NOT EXISTS movies_resources (
