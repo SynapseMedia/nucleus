@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jul 29 10:09:22 2022
+# Make data base, printed on Mon Aug  1 09:16:43 2022
 
 # Variables
 
@@ -103,7 +103,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 5481
+GIO_LAUNCHED_DESKTOP_FILE_PID = 570533
 # automatic
 %F = $(notdir $%)
 # environment
@@ -121,7 +121,7 @@ GTK_MODULES = gail:atk-bridge
 # makefile (from 'Makefile', line 9)
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
 # makefile (from 'Makefile', line 11)
-PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python
+PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python3
 # environment
 MANPATH = /home/linuxbrew/.linuxbrew/share/man:
 # environment
@@ -243,7 +243,7 @@ LC_ADDRESS = es_NI.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 5481
+VSCODE_PID = 570533
 # variable set hash-table stats:
 # Load=117/1024=11%, Rehash=0, Collisions=21/143=15%
 
@@ -283,11 +283,11 @@ test-coverage-html: test-coverage
 #  Modification time never checked.
 #  File has not been updated.
 
+check-coding-style: venv
+#  Phony target (prerequisite of .PHONY).
  
 make: *** No rule to make target 'all'.  Stop.
 
-check-coding-style: venv
-#  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
@@ -297,7 +297,7 @@ check-coding-style: venv
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-26 21:16:12.464886068
+#  Last modified 2022-07-30 10:14:50.769285222
 #  File has been updated.
 #  Successfully updated.
 
@@ -445,6 +445,6 @@ requirements:
 # strcache performance: lookups = 126 / hit rate = 36%
 # hash-table stats:
 # Load=80/8192=1%, Rehash=0, Collisions=1/126=1%
-# Finished Make data base on Fri Jul 29 10:09:22 2022
+# Finished Make data base on Mon Aug  1 09:16:43 2022
 
  

@@ -7,13 +7,6 @@ connection = sqlite3.connect(database_path)
 
 
 cursor = connection.cursor()
-cursor.execute(
-    """
-      CREATE TABLE stocks
-               (date text, trans text, symbol text, qty real, price real)         
-    """
-)
-
 
 # from pymongo import MongoClient, ASCENDING, DESCENDING
 # from ..constants import MONGO_HOST, MONGO_PORT, DB_DATE_VERSION, REGENERATE_MOVIES
