@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS movies (
 );
 -- Schema for movies_movie_genre join table.
 CREATE TABLE IF NOT EXISTS movies_movie_genre (
+    movie_genre_id INTEGER PRIMARY KEY,
     genre_id INTEGER PRIMARY KEY,
     movie_id INTEGER NOT NULL,
     FOREIGN_KEY(movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE,
@@ -32,6 +33,7 @@ CREATE TABLE IF NOT EXISTS movies_genres (
 );
 -- Schema table definition for movies_resources.
 CREATE TABLE IF NOT EXISTS movies_resources (
+    resource_id INTEGER PRIMARY KEY,
     movie_id INTEGER NOT NULL,
     -- sqlite does not support ENUM types, so should be handled in code. eg: video=1, images=2.
     type INTEGER,
