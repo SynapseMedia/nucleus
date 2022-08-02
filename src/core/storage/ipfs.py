@@ -33,7 +33,7 @@ class CLI(Command):
 
         :return: Output dict from command. ref: https://docs.ipfs.io/reference/cli/
         :raises IPFSFailedExecution
-        :rtype: Output
+        :rtype: Exec
         """
         container = get_container()
         code, output = container.exec_run(str(self))
