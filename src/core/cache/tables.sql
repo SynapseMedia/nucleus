@@ -18,9 +18,10 @@ CREATE TABLE IF NOT EXISTS movies (
     trailer_code TEXT,
     date_uploaded REAL
 );
--- Schema for movies_genre_movies join table.
+-- Schema for movies_movie_genre join table.
 CREATE TABLE IF NOT EXISTS movies_movie_genre (
-    genre_id INTEGER PRIMARY KEY,
+    movie_genre_id INTEGER PRIMARY KEY,
+    genre_id INTEGER NOT NULL,
     movie_id INTEGER NOT NULL,
     FOREIGN_KEY(movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE,
     FOREIGN_KEY(genre_id) REFERENCES movies_genres (genre_id) ON DELETE CASCADE
@@ -28,10 +29,11 @@ CREATE TABLE IF NOT EXISTS movies_movie_genre (
 -- Schema table definition for movies_genres.
 CREATE TABLE IF NOT EXISTS movies_genres (
     genre_id INTEGER PRIMARY KEY,
-    genre TEXT,
+    genre KEY TEXT NOT NULL,
 );
 -- Schema table definition for movies_resources.
 CREATE TABLE IF NOT EXISTS movies_resources (
+    resource_id INTEGER PRIMARY KEY,
     movie_id INTEGER NOT NULL,
     -- sqlite does not support ENUM types, so should be handled in code. eg: video=1, images=2.
     type INTEGER,
@@ -39,5 +41,3 @@ CREATE TABLE IF NOT EXISTS movies_resources (
     route TEXT,
     FOREIGN_KEY(movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE
 );
--- Each group CAN have differents imdb_code entries.
-CREATE UNIQUE INDEX IF NOT EXISTS idx_imdb_code ON movies(imdb_code, group_name);
