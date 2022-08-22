@@ -106,7 +106,7 @@ class Proxy(Subscriptable, metaclass=ABCMeta):
 
     eg.
         # Contract can be any based on lib
-        # Every network lib expose in a different way the programmatic call to functions
+        # Every network lib expose in a different way the programmatic call to functions.
 
         # using Web3
         c = Contract()

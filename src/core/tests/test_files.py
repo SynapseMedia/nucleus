@@ -1,12 +1,43 @@
 import os
-from pathlib import Path
+import re
+import pytest
 
+from pathlib import Path
 from src.core import files
 from src.core.types import Directory
 
 _custom_dir = "assets"
 _directory = Directory("tests")
 _file = Directory(f"{_directory}/watchit.png")
+
+
+def test_valid_read_file():
+    """Should return a valid file content with valid directory"""
+    with files.read("LICENSE") as content:
+        pattern = "GNU AFFERO GENERAL PUBLIC LICENSE"
+        assert content is not None
+        assert re.search(pattern, content)
+
+
+def test_invalid_read_file():
+    """Should raise FileNotFoundError exception with invalid directory"""
+    with pytest.raises(FileNotFoundError):
+        with files.read("NOT_EXIST"):
+            ...
+
+
+# Unit tests
+def test_exists_file():
+    """Should return True for valid path"""
+    existing_file = files.exists("LICENSE")
+    assert existing_file == True
+
+
+# Unit tests
+def test_exists_invalid_file():
+    """Should return False for invalid path"""
+    existing_file = files.exists("INVALID")
+    assert existing_file == False
 
 
 # Unit tests
@@ -39,7 +70,6 @@ def test_make_destination_dir():
     expected_new_path = Path(new_created_dir)
     assert expected_new_path.exists()
     os.rmdir(new_created_dir)
-
 
 
 def test_extract_extension_for_file():
