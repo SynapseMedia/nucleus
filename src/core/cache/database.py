@@ -28,3 +28,18 @@ def connection(db_path: str = DEFAULT_DB) -> Iterator[Connection]:
     connection = sqlite3.connect(db_path)
     logger.log.info(f"Connecting to {db_path}")
     yield connection
+
+
+def is_open(conn: Connection) -> bool:
+    """Check if connection is open.
+
+    :param conn: connection to check
+    :return: True if connection is open or False otherwise
+    :rtype: bool
+    """
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1")
+        return cursor is not None
+    except Exception:
+        return False

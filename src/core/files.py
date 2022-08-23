@@ -9,6 +9,7 @@ from src.core.constants import PROD_PATH, RAW_PATH
 @contextlib.contextmanager
 def read(_dir: str) -> Iterator[str]:
     """Return file content.
+    If file is not found, exception is raised.
 
     :param _dir: file path
     :return: file content

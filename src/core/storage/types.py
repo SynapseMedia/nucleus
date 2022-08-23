@@ -48,9 +48,7 @@ class RemotePin(TypedDict):
 
 
 class Container(Protocol, metaclass=ABCMeta):
-    """
-    Docker container abstraction adapted from docker lib
-    """
+    """Docker container abstraction adapted from docker lib"""
 
     @abstractmethod
     def exec_run(self, cmd: str) -> Tuple[bool, bytes]:
@@ -59,6 +57,13 @@ class Container(Protocol, metaclass=ABCMeta):
 
 # Available edge services supported
 class Edge(Protocol, metaclass=ABCMeta):
+    """Edge provides an standard facade interface to handle services in IPFS.
+    For each edge service methods should be defined and encapsulate with any needed logic to simplify the usage.
+
+    Each edge service represent a remote cache service like 'pinata', 'filebase' or any service that support remote pinning service.
+    ref: https://docs.ipfs.tech/reference/kubo/cli/#ipfs-pin-remote-service
+    """
+
     _service: Service
 
     @abstractmethod
@@ -68,6 +73,7 @@ class Edge(Protocol, metaclass=ABCMeta):
     @property
     @abstractmethod
     def name(self) -> str:
+        """Return service name from name attribute in Service"""
         ...
 
     @abstractmethod

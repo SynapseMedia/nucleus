@@ -9,9 +9,6 @@ T = TypeVar("T")
 P = ParamSpec("P")
 
 
-# TODO test decorators
-
-
 def connected(f: Callable[..., T]) -> Callable[..., T]:
     """connected decorate a method call with database.
 
@@ -26,6 +23,7 @@ def connected(f: Callable[..., T]) -> Callable[..., T]:
         with connection() as conn:
             # Get connection a pass it to func call
             return f(conn, *args, **kwargs)
+
     # Return wrapper function
     return _wrapper
 

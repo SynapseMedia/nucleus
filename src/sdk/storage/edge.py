@@ -16,6 +16,14 @@ from src.core.constants import (
     PINATA_PIN_BACKGROUND,
 )
 
+
+# from .types import EdgeService
+# TODO: create pinata and filebase providers here
+# TODO this probably should be in sdk upper abstraction level
+
+# class Pinata(EdgeService):
+#     ...
+
 # TODO refactor edge to support different services
 def has_valid_registered_service(service: str):
     """
