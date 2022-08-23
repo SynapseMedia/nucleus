@@ -30,6 +30,7 @@ def test_atomic_rollback():
 
     with pytest.raises(Exception):
         @atomic
+        # TODO mock rollback called times
         def to_decorate_with_atomic(conn: Connection):
             # Should pass the current connection to db
             raise Exception("failing")
