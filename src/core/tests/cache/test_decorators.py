@@ -41,7 +41,6 @@ def test_atomic_rollback():
             def to_decorate_with_atomic(_):
                 # Should pass the current connection to db
                 raise Exception("fail")
-                ...
 
             to_decorate_with_atomic()
             _roll.assert_called()  # type: ignore

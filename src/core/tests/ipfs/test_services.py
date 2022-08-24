@@ -39,7 +39,7 @@ def test_register_service(mocker: Any):
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
     registered_service = register(register_service)
 
-    assert registered_service == registered_service
+    assert registered_service == register_service
 
 
 def test_services(mocker: Any):
