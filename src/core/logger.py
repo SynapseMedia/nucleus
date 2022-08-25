@@ -27,14 +27,14 @@ coloredlogs.DEFAULT_LEVEL_STYLES = {
 
 def log_factory(name: str, level: int = logging.DEBUG):
     # create logger
-    _logger = verboselogs.VerboseLogger(name)
-    _logger.addHandler(logging.StreamHandler())
-    _logger.setLevel(level)
-    _logger.propagate = False
+    logger = verboselogs.VerboseLogger(name)
+    logger.addHandler(logging.StreamHandler())
+    logger.setLevel(level)
+    logger.propagate = False
 
     fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    coloredlogs.install(level=logging.DEBUG, logger=_logger, fmt=fmt)  # type: ignore
-    return _logger
+    coloredlogs.install(level=logging.DEBUG, logger=logger, fmt=fmt)  # type: ignore
+    return logger
 
 
 log = log_factory("cli")

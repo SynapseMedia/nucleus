@@ -1,7 +1,7 @@
 from src.core.types import CIDStr
 
 from .types import RemotePin, LocalPin
-from .ipfs import CLI
+from .cmd import CLI
 
 
 def remote(cid: CIDStr, registered_service: str) -> RemotePin:

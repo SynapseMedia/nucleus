@@ -23,9 +23,9 @@ def read(_dir: str) -> Iterator[str]:
     if not path_exists:  # Check if path exist if not just pin_cid_list
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), _dir)
 
-    with open(_dir) as _file:
-        content = _file.read()
-        _file.close()  # don't leak a file descriptor
+    with open(_dir) as file_:
+        content = file_.read()
+        file_.close()  # don't leak a file descriptor
         yield content
 
 

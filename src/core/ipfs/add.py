@@ -3,7 +3,7 @@ import errno
 import src.core.files as files
 
 from src.core.types import CIDStr, Directory
-from .ipfs import CLI
+from .cmd import CLI
 
 
 def directory(path: Directory) -> CIDStr:

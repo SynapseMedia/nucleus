@@ -1,4 +1,4 @@
-from .ipfs import CLI
+from .cmd import CLI
 from .types import Services, Service
 
 

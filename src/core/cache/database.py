@@ -13,6 +13,8 @@ DESC = -1
 
 # Default connection sqlite3 file dir
 DEFAULT_DB = f"{PROJECT_ROOT}/{DB_NAME}"
+TABLES_SCRIPT = f"{PROJECT_ROOT}/src/core/cache/tables.sql"
+INDEX_SCRIPT = f"{PROJECT_ROOT}/src/core/cache/indexes.sql"
 
 
 @contextlib.contextmanager

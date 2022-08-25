@@ -11,7 +11,7 @@ from src.core.types import URI, Directory
 # Session keep alive
 session = requests.Session()
 # http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
-_agents = [
+agents = [
     "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/21.0",
     "Mozilla/5.0 (Windows NT x.y; rv:10.0) Gecko/20100101 Firefox/10.0",
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
@@ -38,7 +38,7 @@ def download(route: URI, output: Directory) -> pathlib.Path:
         stream=True,
         timeout=60,
         verify=VALIDATE_SSL,
-        headers={"User-Agent": _agents[random.randint(0, 3)]},
+        headers={"User-Agent": agents[random.randint(0, 3)]},
     )
 
     # Check status for response
