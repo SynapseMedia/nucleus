@@ -35,7 +35,7 @@ def atomic(f: Callable[..., T]) -> Callable[..., T]:
     :param f: This function should contain any query or transaction to db.
     :returns: Wrapper function
     :rtype: TFunc
-    :raises sqlite3.OperationalError
+    :raises sqlite3.OperationalError:
     """
 
     @wraps(f)

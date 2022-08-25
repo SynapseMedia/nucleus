@@ -32,7 +32,7 @@ class CLI(Command):
         """Execute built command in container
 
         :return: Output dict from command. ref: https://docs.ipfs.io/reference/cli/
-        :raises IPFSFailedExecution
+        :raises IPFSFailedExecution:
         :rtype: Output
         """
         container = get_container()

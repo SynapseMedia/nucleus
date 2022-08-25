@@ -264,7 +264,7 @@ class Network(Protocol, metaclass=ABCMeta):
         """Set default account for network operations
 
         :param private_key: wallet key address
-        :raises InvalidPrivateKey
+        :raises InvalidPrivateKey: 
         """
         ...
 

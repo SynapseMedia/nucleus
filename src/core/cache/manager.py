@@ -74,7 +74,7 @@
 #     Flush db for specified _filter
 #     :param _filter: filter dict
 #     """
-#     return db.movies.delete_many(_filter)
+#     return db.movies.delete_many(filter_)
 
 
 # def flush_all():

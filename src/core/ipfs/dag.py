@@ -22,7 +22,7 @@ def get(cid: CIDStr) -> Dag:
     :param cid: cid to retrieve from dag
     :return: Dag representation objects
     :rtype: Dag
-    :raises IPFSFailedExecution
+    :raises IPFSFailedExecution:
     """
 
     # Exec command and get output

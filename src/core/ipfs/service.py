@@ -16,7 +16,7 @@ def ls() -> Services:
 
     :return: Registered services
     :rtype: EdgeServices
-    :raises IPFSFailedExecution
+    :raises IPFSFailedExecution: 
     """
 
     exec = CLI("/pin/remote/service/ls")
@@ -37,7 +37,8 @@ def register(service: Service) -> Service:
 
     :params service: to register service
     :return: reflected param service
-    :raises IPFSFailedExecution
+    :rtype: Service
+    :raises IPFSFailedExecution: 
     """
 
     # Using ignore here because this is an issue with python typing

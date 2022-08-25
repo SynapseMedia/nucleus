@@ -10,9 +10,7 @@ def read(input_file: Directory) -> Dict[Any, Any]:
     :return: json dict
     :rtype: dict
     """
-    with open(
-        input_file,
-    ) as f:
+    with open(input_file) as f:
         return json.load(f)
 
 

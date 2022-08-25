@@ -44,20 +44,20 @@ class InvalidEVM:
 def test_valid_account_for_network():
     """Should return a valid Account key if valid key is provided"""
     wallet_key = "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f"
-    _chain = Goerli()
-    _network = Ethereum(_chain)
-    _network.set_default_account(wallet_key)
+    chain = Goerli()
+    network = Ethereum(chain)
+    network.set_default_account(wallet_key)
 
     expected = eth_account.Account.from_key(wallet_key)
-    assert _network._web3.eth.default_account == expected  # type: ignore
+    assert network._web3.eth.default_account == expected  # type: ignore
 
 
 def test_nft_contract_factory():
     """Should return expected contract based on chain name"""
     # Chain rinkeby and ERC1155 standard
-    _chain = Rinkeby()
-    _network = Ethereum(_chain)
-    expected_contract = ERC1155(_network)
+    chain = Rinkeby()
+    network = Ethereum(chain)
+    expected_contract = ERC1155(network)
     assert isinstance(expected_contract, ERC1155)
 
 

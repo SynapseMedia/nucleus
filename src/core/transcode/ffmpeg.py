@@ -60,10 +60,11 @@ def quality(size: Size) -> Sequence[Representation]:
     :param size: master video size to match appropriate representation
     :return: list of appropriate representations based on requested quality
     :rtype: tuple
-    :raises InvalidVideoQuality
+    :raises InvalidVideoQuality: if size not match any allowed representations
     """
 
-    quality_representations: Dict[Size, Sequence[Representation]] = {
+    # Video quality representations allowed by size
+    representations: Dict[Size, Sequence[Representation]] = {
         Sizes.Q480: (REPR.R360p, REPR.R480p),
         Sizes.Q720: (REPR.R360p, REPR.R480p, REPR.R720p),
         Sizes.Q1080: (REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p),
@@ -78,9 +79,9 @@ def quality(size: Size) -> Sequence[Representation]:
         ),
     }
 
-    if size not in quality_representations:
+    if size not in representations:
         raise exceptions.InvalidVideoQuality()
-    return quality_representations[size]
+    return representations[size]
 
 
 @contextlib.contextmanager

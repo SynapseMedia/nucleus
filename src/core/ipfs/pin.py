@@ -21,7 +21,7 @@ def remote(cid: CIDStr, registered_service: str) -> RemotePin:
     :param registered_service: name of registered service
     :return: ipfs output for remote pin
     :rtype: RemotePin
-    :raises IPFSFailedExecution
+    :raises IPFSFailedExecution:
     """
 
     service = "--service=%s" % registered_service
@@ -51,7 +51,7 @@ def local(cid: CIDStr) -> LocalPin:
     :param cid: the cid to pin
     :return: ipfs output for ipfs local pin
     :rtype: LocalPin
-    :raises IPFSFailedExecution
+    :raises IPFSFailedExecution: 
     """
     # Exec command and get output
     exec = CLI("/pin/add/", cid)

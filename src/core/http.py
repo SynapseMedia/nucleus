@@ -26,7 +26,7 @@ def download(route: URI, output: Directory) -> pathlib.Path:
     :param output: Where store it?
     :return: path to file directory recently downloaded
     :rtype: pathlib.Path
-    :raises InvalidImageSize
+    :raises InvalidImageSize:
     """
 
     # Create if not exist dir
