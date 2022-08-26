@@ -11,14 +11,6 @@ from src.core.types import URI, Directory
 
 # Session keep alive
 session = requests.Session()
-# http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
-agents = [
-    "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/21.0",
-    "Mozilla/5.0 (Windows NT x.y; rv:10.0) Gecko/20100101 Firefox/10.0",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A",
-]
-
 
 def download(route: URI, output: Directory) -> pathlib.Path:
     """Download remote media
@@ -39,7 +31,6 @@ def download(route: URI, output: Directory) -> pathlib.Path:
         stream=True,
         timeout=60,
         verify=VALIDATE_SSL,
-        headers={"User-Agent": agents[random.randint(0, 3)]},
     )
 
     # Check status for response
