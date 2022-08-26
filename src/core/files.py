@@ -12,10 +12,10 @@ def read(dir_: str) -> Iterator[str]:
     """Return file content.
     If file is not found, exception is raised.
 
-    :param _dir: file path
+    :param dir_: file path
     :return: file content
     :rtype: str
-    :raises FileNotFoundError:
+    :raises FileNotFoundError: if file does not exist
     """
 
     # Lets ensure that the database file exists
@@ -23,16 +23,16 @@ def read(dir_: str) -> Iterator[str]:
     if not path_exists:  # Check if path exist if not just pin_cid_list
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), dir_)
 
-    with open(dir_) as file_:
-        content = file_.read()
-        file_.close()  # don't leak a file descriptor
+    with open(dir_) as file:
+        content = file.read()
+        file.close()  # don't leak a file descriptor
         yield content
 
 
 def exists(dir_: Directory) -> bool:
     """Check if a path exists in the given directory
 
-    :param _dir: Directory to check
+    :param dir_: Directory to check
     :return: True if the path exists
     :rtype: bool
     """
@@ -43,7 +43,7 @@ def exists(dir_: Directory) -> bool:
 def resolve(dir_: Directory, is_prod: bool = True) -> Tuple[Directory, bool]:
     """Resolve root dir for runtime directory PROD or RAW based on 'is_prod' param
 
-    :param _dir: the dir to resolve
+    :param dir_: the dir to resolve
     :param is_prod: determine how resolved the dir
     :return: tuple with root_dir and path_exists
     :rtype: str, bool
@@ -58,7 +58,7 @@ def resolve(dir_: Directory, is_prod: bool = True) -> Tuple[Directory, bool]:
 def make(dir_: Directory) -> Directory:
     """Abstraction to make a dir in OS
 
-    :param _dir: dir to create
+    :param dir_: dir to create
     :return: string new created dir
     :rtype: str
     """
@@ -74,6 +74,7 @@ def extension(file: Directory) -> str:
     :return: extension
     :rtype: str
     """
+    
     _, file_extension = os.path.splitext(file)
     file_extension = file_extension.replace(".", "")
     return file_extension

@@ -30,10 +30,11 @@ class CLI(Command):
 
     def __call__(self) -> Exec:
         """Execute built command in container
-
-        :return: Output dict from command. ref: https://docs.ipfs.io/reference/cli/
-        :raises IPFSFailedExecution:
-        :rtype: Output
+        https://docs.ipfs.io/reference/cli/
+        
+        :return: Output dict from command. 
+        :rtype: Exec
+        :raises IPFSFailedExecution: if empty output returned or failing execution
         """
         container = get_container()
         code, output = container.exec_run(str(self))

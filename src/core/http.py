@@ -4,6 +4,7 @@ import shutil
 import pathlib
 import src.core.files as files
 import src.core.logger as logger
+import requests.exceptions as exceptions
 
 from src.core.constants import VALIDATE_SSL
 from src.core.types import URI, Directory
@@ -26,7 +27,7 @@ def download(route: URI, output: Directory) -> pathlib.Path:
     :param output: Where store it?
     :return: path to file directory recently downloaded
     :rtype: pathlib.Path
-    :raises InvalidImageSize:
+    :raises exceptions.HTTPError: if fail requesting download route URI
     """
 
     # Create if not exist dir
@@ -43,7 +44,7 @@ def download(route: URI, output: Directory) -> pathlib.Path:
 
     # Check status for response
     if response.status_code != requests.codes.ok:
-        raise requests.exceptions.HTTPError()
+        raise exceptions.HTTPError()
 
     logger.log.info(f"Trying fetch to: {output}")
     with open(output, "wb") as out:
