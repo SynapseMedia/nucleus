@@ -1,26 +1,48 @@
-# Watchit Toolkit (WIP)
+# Watchit Toolkit
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 [![Gitter](https://badges.gitter.im/watchit-app/community.svg)](https://gitter.im/watchit-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![CI](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml)
 
-## Getting started
-* [Spawn go-ipfs node with docker](https://mrh.io/ipfs_docker/).
-* [How to spawn an IPFS node in Node.js](https://mrh.io/2018-01-24-pushing-limits-ipfs-orbitdb/).
-* For private networks [How to spawn an IPFS private node and generate swarm key](https://mrh.io/ipfs-private-networks/).
+> Node, SDK, CLI and REST API for Watchit.
 
-## Quick summary
-***NOTE!*** The gateway is **alpha-stage** software. It means watchit-gateway hasn't been security audited and programming APIs and data formats can still change.
+***NOTE!*** The toolkit is **alpha-stage** software. It means toolkit hasn't been security audited and programming APIs and data formats can still change.
 
-The watchit gateway is an interface or micro framework for the migration of content to IPFS and the distribution of
-metadata through [OrbitDB](https://orbitdb.org/).
+Toolkit its a low level compilation of "toolchain" for Watchit environment.
+It includes:
 
-Watchit gateway adds migrated data to the metastore (orbitdb) which is distributed in a predefined scheme to
-ensure the integrity of the data that is later consumed by the [dapp](https://github.com/ZorrillosDev/watchit-desktop).
-Watchit gateway provides simple tools for the generation and fetching of content.
+- metadata resolvers
+- static image processing
+- video transcoding
+- multimedia storage
+- metadata distribution
+- web3 instruments
 
+## Summary
+
+The toolkit as "toolchain" proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:
+
+- Resolve: obtaining the raw metadata of movies
+- Multimedia processing: video transcoding and image processing
+- Schematization: metadata standard schematization eg. ERC1155 metadata
+- Storage: structured storage in the IPFS decentralized network
+- Blockchain: mint movies to web3 as NFT
+- Expose: distribution of metadata through [OrbitDB](https://orbitdb.org/)
+
+## Node
+
+Toolkit itself exposes a node that powers the Watchit network through distributed storage, metadata resolution, reward system and access controls.
+
+.. Continuar aqui
+
+## Terms and Concepts
+
+Pending
+### Distribution Vault
+Pending
 ### Resolvers
 
-"A _resolver_ is a set of instructions, expressed as a Python class. A _gateway_ will execute a resolver to fetch
+"A *resolver* is a set of instructions, expressed as a Python class. A *gateway* will execute a resolver to fetch
 content from various sources that later populate the schema." - @aphelionz
 
 Resolvers implement the logic necessary for fetch, preprocessing, cleaning and schematization of data from any available
@@ -38,7 +60,6 @@ class Dummy:
        """
         Returned meta should be valid scheme
         Process your data and populate scheme struct
-        src/core/scheme/definition.py
         
         :param scheme: MovieScheme object
         :returns: Scheme valid object list ex: {movie1, movie2}
@@ -49,17 +70,17 @@ class Dummy:
 
 Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py)
 
-### Scheme and Usage
+### Usage
 
-* [SCHEME.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/SCHEME.md).
-
-* [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md).
+- [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md).
 
 
 ## Development
+
  Please make sure you have `make` installed. Please see instructions for [windows](http://gnuwin32.sourceforge.net/packages/make.htm) install.
 
 ### Install
+
 `make bootstrap` to install dependencies
 
 ### Test
@@ -73,14 +94,13 @@ In the project directory, you can run:
 In the project directory, you can run:
 `make` to run linter or `make fix-coding-style` to fix linting
 
+## More info
 
-##  More info
-* Visit our site [watchitapp.site](http://watchitapp.site).
-* Read our post in [dev.to](https://dev.to/geolffreym/watchit-2b88).
-* Check out [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) to future features.
-* Get in touch with us in [gitter](https://gitter.im/watchit-app/community).
-* For help or bugs please [create an issue](https://github.com/ZorrillosDev/watchit-gateway/issues).
-
+- Visit our site [watchitapp.site](http://watchitapp.site).
+- Read our post in [dev.to](https://dev.to/geolffreym/watchit-2b88).
+- Check out [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) to future features.
+- Get in touch with us in [gitter](https://gitter.im/watchit-app/community).
+- For help or bugs please [create an issue](https://github.com/ZorrillosDev/watchit-gateway/issues).
 
 ## Contributors ✨
 

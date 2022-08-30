@@ -1,15 +1,12 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.3
- 
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Aug 21 10:49:37 2022
+# Make data base, printed on Fri Aug 26 14:59:03 2022
 
 # Variables
 
@@ -28,7 +25,6 @@ GJS_DEBUG_OUTPUT = stderr
 # environment
 LC_NAME = es_NI.UTF-8
 # environment
- 
 LC_NUMERIC = es_NI.UTF-8
 # environment
 VSCODE_CWD = /home/gmena
@@ -101,7 +97,7 @@ MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 5426
+VSCODE_PID = 1170206
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -127,7 +123,6 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
- 
 GNOME_DESKTOP_SESSION_ID = this-is-deprecated
 # environment
 INFOPATH = /home/linuxbrew/.linuxbrew/share/info:
@@ -183,7 +178,6 @@ LOGNAME = gmena
 GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
 # makefile
 .DEFAULT_GOAL := default
- 
 # environment
 SYSTEMD_EXEC_PID = 2607
 # environment
@@ -203,7 +197,7 @@ HOMEBREW_CELLAR = /home/linuxbrew/.linuxbrew/Cellar
 # environment
 LC_MEASUREMENT = es_NI.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 5426
+GIO_LAUNCHED_DESKTOP_FILE_PID = 1170206
 # makefile (from 'Makefile', line 4)
 PYTHONPATH = .
 # environment
@@ -254,7 +248,6 @@ GDMSESSION = ubuntu
 LC_IDENTIFICATION = es_NI.UTF-8
 # variable set hash-table stats:
 # Load=118/1024=12%, Rehash=0, Collisions=10/149=7%
- 
 
 # Pattern-specific Variable Values
 
@@ -262,9 +255,9 @@ LC_IDENTIFICATION = es_NI.UTF-8
 
 # Directories
 
-# . (device 66311, inode 20447741): 56 files, no impossibilities.
+# . (device 66311, inode 20447741): 57 files, no impossibilities.
 
-# 56 files, no impossibilities in 1 directories.
+# 57 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -285,6 +278,9 @@ test-coverage: test
 venv:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
+ 
+make: *** No rule to make target 'all'.  Stop.
+
 #  File does not exist.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 24):
@@ -445,12 +441,12 @@ test-coverage-html: test-coverage
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 80 / storage = 1227 B / avg = 15 B
-# current buf: size = 8162 B / used = 1227 B / count = 80 / avg = 15 B
+# strcache buffers: 1 (0) / strings = 81 / storage = 1238 B / avg = 15 B
+# current buf: size = 8162 B / used = 1238 B / count = 81 / avg = 15 B
 
-# strcache performance: lookups = 126 / hit rate = 36%
+# strcache performance: lookups = 127 / hit rate = 36%
 # hash-table stats:
-# Load=80/8192=1%, Rehash=0, Collisions=0/126=0%
-# Finished Make data base on Sun Aug 21 10:49:37 2022
+# Load=81/8192=1%, Rehash=0, Collisions=0/127=0%
+# Finished Make data base on Fri Aug 26 14:59:03 2022
 
  
