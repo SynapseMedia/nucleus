@@ -14,7 +14,7 @@ def connected(f: Callable[..., T]) -> Callable[..., T]:
 
     :param f: A function to execute in wrapper
     :returns: Wrapper function
-    :rtype: TFunc
+    :rtype: Callable[..., T]
     """
 
     @wraps(f)
@@ -34,7 +34,7 @@ def atomic(f: Callable[..., T]) -> Callable[..., T]:
 
     :param f: This function should contain any query or transaction to db.
     :returns: Wrapper function
-    :rtype: TFunc
+    :rtype: Callable[..., T]
     :raises sqlite3.OperationalError: if database transaction fail
     """
 
