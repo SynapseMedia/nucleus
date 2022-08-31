@@ -1,4 +1,4 @@
-from .ipfs import CLI
+from .cmd import CLI
 from .types import Services, Service
 
 
@@ -16,7 +16,7 @@ def ls() -> Services:
 
     :return: Registered services
     :rtype: EdgeServices
-    :raises IPFSFailedExecution
+    :raises IPFSFailedExecution: if ipfs cmd execution fail
     """
 
     exec = CLI("/pin/remote/service/ls")
@@ -33,11 +33,12 @@ def ls() -> Services:
 
 def register(service: Service) -> Service:
     """Add service to ipfs
-    https://docs.ipfs.io/reference/http/api/#api-v0-pin-remote-service-add
+    ref: https://docs.ipfs.tech/reference/kubo/cli/#ipfs-pin-remote-add
 
     :params service: to register service
     :return: reflected param service
-    :raises IPFSFailedExecution
+    :rtype: Service
+    :raises IPFSFailedExecution: if service is already registered
     """
 
     # Using ignore here because this is an issue with python typing

@@ -7,8 +7,9 @@ They can be used by third party tools such as type checkers, IDEs, linters, etc.
 """
 from hexbytes import HexBytes
 from abc import ABCMeta, abstractmethod
+
 # "inherit" from global typing
-from typing import * # type: ignore
+from typing import *  # type: ignore
 
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)

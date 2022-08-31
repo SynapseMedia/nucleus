@@ -1,5 +1,5 @@
 from src.core.types import ID
-from .ipfs import CLI
+from .cmd import CLI
 
 def id() -> ID:
     """Return running ipfs node id"""

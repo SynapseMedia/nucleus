@@ -3,20 +3,22 @@ import errno
 import src.core.files as files
 
 from src.core.types import CIDStr, Directory
-from .ipfs import CLI
+from .cmd import CLI
+
 
 def directory(path: Directory) -> CIDStr:
     """Add directory to ipfs
     ref: https://docs.ipfs.io/reference/cli/#ipfs-add
-    
-    :param _dir: Directory to add to IPFS
+
+    :param path: Directory to add to IPFS
     :return: The resulting CID
     :rtype: CIDStr
-    :raises IPFSFailedExecution, FileNotFoundError
+    :raises IPFSFailedExecution: if ipfs cmd execution fail
+    :raises FileNotFoundError: if path does not exist
     """
-    path, path_exists = files.resolve(path)
 
-    if not path_exists:  # Check if path exist if not just pin_cid_list
+    path, path_exists = files.resolve(path)
+    if not path_exists:  # Check if path exist if not raise error
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), path)
 
     # no pin by default
@@ -29,10 +31,10 @@ def directory(path: Directory) -> CIDStr:
         "--pin=false",
         "--hash=blake2b-208",
     )
-    
+
     # Exec command and get output
     exec = CLI("/add", *args)
     hash_ = exec().get("output")
-    
+
     # Cleaned returned cid
     return hash_.strip()

@@ -1,6 +1,6 @@
 import pytest
 from typing import Any
-from src.core.storage.dag import get
+from src.core.ipfs.dag import get
 from src.core.exceptions import IPFSFailedExecution
 
 
@@ -25,23 +25,22 @@ def test_dag_get(mocker: Any):
         def __call__(self):
             return {"output": expected_dag}
 
-    mocker.patch("src.core.storage.dag.CLI", return_value=MockCLI())
+    mocker.patch("src.core.ipfs.dag.CLI", return_value=MockCLI())
     dag_get = get("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1")
     assert dag_get.get("data") == expected_dag.get("Data")
-    
+
     for i, link in enumerate(dag_get.get("links")):
         expected_links = expected_dag["Links"]
         expected_link = expected_links[i]  # type: ignore
-        
+
         assert link.get("name") == expected_link["Name"]
         assert link.get("hash") == expected_link.get("Hash")
         assert link.get("tsize") == expected_link.get("Tsize")
 
 
-
 def test_invalid_dag_get(mocker: Any):
     """Should raise error for invalid dag get cid"""
-    
+
     class MockFailingCLI:
         msg: str
 
@@ -55,8 +54,6 @@ def test_invalid_dag_get(mocker: Any):
     duplicated_cid = "abcde"
     # Simulating an error returned by ipfs invalid cid
     expected_issue = 'Error: invalid path "QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt": selected encoding not supported'
-    mocker.patch(
-        "src.core.storage.dag.CLI", return_value=MockFailingCLI(expected_issue)
-    )
+    mocker.patch("src.core.ipfs.dag.CLI", return_value=MockFailingCLI(expected_issue))
     with pytest.raises(IPFSFailedExecution):
         get(duplicated_cid)

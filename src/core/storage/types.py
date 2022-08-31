@@ -1,64 +1,16 @@
 from abc import ABCMeta, abstractmethod
-from src.core.types import (
-    Sequence,
-    TypedDict,
-    Any,
-    Optional,
-    Mapping,
-    Iterator,
-    Protocol,
-    Tuple,
-    Endpoint,
-)
-
-
-class Service(TypedDict):
-    service: str
-    endpoint: Endpoint
-    key: Optional[str]
-
-
-class DagLink(TypedDict):
-    name: Optional[str]
-    hash: Mapping[str, str]
-    tsize: int
-
-
-class Dag(TypedDict):
-    data: Mapping[str, Mapping[str, str]]
-    links: Iterator[DagLink]
-
-
-# Exec type contains standardize output for ipfs commands.
-# An issue here is that ipfs returns different encodings for each command, sometimes could be a string and later probably we get a json object,
-# so using "output" could be fine to expect always the same field to process.
-# eg. output = exec.get("output")
-# ref: docs.ipfs.io/reference/cli/#ipfs
-Exec = TypedDict("Exec", {"output": Any})
-Services = TypedDict("Services", {"remote": Iterator[Service]})
-
-# Pin types
-LocalPin = TypedDict("Pin", {"pins": Sequence[str]})
-
-
-class RemotePin(TypedDict):
-    cid: str
-    status: str
-    name: str
-
-
-class Container(Protocol, metaclass=ABCMeta):
-    """
-    Docker container abstraction adapted from docker lib
-    """
-
-    @abstractmethod
-    def exec_run(self, cmd: str) -> Tuple[bool, bytes]:
-        ...
-
+from src.core.types import Sequence, Protocol
+from src.core.ipfs.types import Service, RemotePin
 
 # Available edge services supported
 class Edge(Protocol, metaclass=ABCMeta):
+    """Edge provides an standard facade interface to handle services in IPFS.
+    For each edge service methods should be defined and encapsulate with any needed logic to simplify the usage.
+
+    Each edge service represent a remote cache service like 'pinata', 'filebase' or any service that support remote pinning service.
+    ref: https://docs.ipfs.tech/reference/kubo/cli/#ipfs-pin-remote-service
+    """
+
     _service: Service
 
     @abstractmethod
@@ -68,6 +20,7 @@ class Edge(Protocol, metaclass=ABCMeta):
     @property
     @abstractmethod
     def name(self) -> str:
+        """Return service name from name attribute in Service"""
         ...
 
     @abstractmethod

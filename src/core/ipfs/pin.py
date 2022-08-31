@@ -1,11 +1,12 @@
 from src.core.types import CIDStr
 
-from .types import RemotePin, LocalPin, Service
-from .ipfs import CLI
+from .types import RemotePin, LocalPin
+from .cmd import CLI
 
 
-def remote(cid: CIDStr, service: Service, background: bool = True) -> RemotePin:
-    """Pin cid into edge pinata remote cache
+def remote(cid: CIDStr, registered_service: str) -> RemotePin:
+    """Pin cid into remote service.
+    Service should be already registered otherwise raise IPFSFailedExecution.
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
 
     Output:
@@ -17,16 +18,15 @@ def remote(cid: CIDStr, service: Service, background: bool = True) -> RemotePin:
 
 
     :param cid: the cid to pin
-    :param service: Service settings
-    :param background: Run pin process in background mode
+    :param registered_service: name of registered service
     :return: ipfs output for remote pin
     :rtype: RemotePin
-    :raises IPFSFailedExecution
+    :raises IPFSFailedExecution: if cid already pinned or remote service fail
     """
 
-    service_name = "--service=%s" % service["service"]
-    background_mode = f"--background={background}"
-    args = (cid, service_name, background_mode)
+    service = "--service=%s" % registered_service
+    background_mode = f"--background={True}"
+    args = (cid, service, background_mode)
 
     # Exec command and get output
     exec = CLI("/pin/remote/add", args)
@@ -51,7 +51,7 @@ def local(cid: CIDStr) -> LocalPin:
     :param cid: the cid to pin
     :return: ipfs output for ipfs local pin
     :rtype: LocalPin
-    :raises IPFSFailedExecution
+    :raises IPFSFailedExecution: if ipfs cmd execution fail
     """
     # Exec command and get output
     exec = CLI("/pin/add/", cid)

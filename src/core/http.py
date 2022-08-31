@@ -1,22 +1,15 @@
-import random
 import requests
 import shutil
 import pathlib
 import src.core.files as files
 import src.core.logger as logger
+import requests.exceptions as exceptions
 
 from src.core.constants import VALIDATE_SSL
 from src.core.types import URI, Directory
 
 # Session keep alive
 session = requests.Session()
-# http://docs.python-requests.org/en/master/user/advanced/#request-and-response-objects
-_agents = [
-    "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/21.0",
-    "Mozilla/5.0 (Windows NT x.y; rv:10.0) Gecko/20100101 Firefox/10.0",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A",
-]
 
 
 def download(route: URI, output: Directory) -> pathlib.Path:
@@ -26,7 +19,7 @@ def download(route: URI, output: Directory) -> pathlib.Path:
     :param output: Where store it?
     :return: path to file directory recently downloaded
     :rtype: pathlib.Path
-    :raises InvalidImageSize
+    :raises exceptions.HTTPError: if fail requesting download route URI
     """
 
     # Create if not exist dir
@@ -38,12 +31,11 @@ def download(route: URI, output: Directory) -> pathlib.Path:
         stream=True,
         timeout=60,
         verify=VALIDATE_SSL,
-        headers={"User-Agent": _agents[random.randint(0, 3)]},
     )
 
     # Check status for response
     if response.status_code != requests.codes.ok:
-        raise requests.exceptions.HTTPError()
+        raise exceptions.HTTPError()
 
     logger.log.info(f"Trying fetch to: {output}")
     with open(output, "wb") as out:

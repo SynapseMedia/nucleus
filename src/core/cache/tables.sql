@@ -1,3 +1,4 @@
+PRAGMA foreign_keys = ON;
 -- Tables schema definition for watchit cache storage.
 -- ref: https://www.sqlstyle.guide/
 -- Schema table definition for movies.
@@ -18,18 +19,18 @@ CREATE TABLE IF NOT EXISTS movies (
     trailer_code TEXT,
     date_uploaded REAL
 );
+-- Schema table definition for movies_genres.
+CREATE TABLE IF NOT EXISTS movies_genres (
+    genre_id INTEGER PRIMARY KEY,
+    genre KEY TEXT NOT NULL,
+);
 -- Schema for movies_movie_genre join table.
 CREATE TABLE IF NOT EXISTS movies_movie_genre (
     movie_genre_id INTEGER PRIMARY KEY,
     genre_id INTEGER NOT NULL,
     movie_id INTEGER NOT NULL,
-    FOREIGN_KEY(movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE,
-    FOREIGN_KEY(genre_id) REFERENCES movies_genres (genre_id) ON DELETE CASCADE
-);
--- Schema table definition for movies_genres.
-CREATE TABLE IF NOT EXISTS movies_genres (
-    genre_id INTEGER PRIMARY KEY,
-    genre KEY TEXT NOT NULL,
+    fk_movie FOREIGN_KEY movie_id REFERENCES movies (movie_id) ON DELETE CASCADE,
+    fk_genre FOREIGN_KEY genre_id REFERENCES movies_genres (genre_id) ON DELETE CASCADE
 );
 -- Schema table definition for movies_resources.
 CREATE TABLE IF NOT EXISTS movies_resources (
@@ -39,7 +40,5 @@ CREATE TABLE IF NOT EXISTS movies_resources (
     type INTEGER,
     -- Where the resource is stored?
     route TEXT,
-    FOREIGN_KEY(movie_id) REFERENCES movies (movie_id) ON DELETE CASCADE
+    fk_movie FOREIGN_KEY movie_id REFERENCES movies (movie_id) ON DELETE CASCADE
 );
--- Each group CAN have differents imdb_code entries.
-CREATE UNIQUE INDEX IF NOT EXISTS idx_imdb_code ON movies(imdb_code, group_name);

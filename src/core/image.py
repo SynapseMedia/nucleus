@@ -19,7 +19,7 @@ def input(input_image: Directory) -> Iterator[PIL.Image]:
     :param input_image: Path to image
     :return: PIL Image object
     :rtype: Image
-    :raises InvalidImageSize
+    :raises InvalidImageSize: if the image ratio is invalid
     """
 
     with PIL.open(input_image) as image:
@@ -35,3 +35,4 @@ def input(input_image: Directory) -> Iterator[PIL.Image]:
             raise exceptions.InvalidImageSize()
 
         yield image
+    

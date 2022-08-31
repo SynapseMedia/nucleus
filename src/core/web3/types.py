@@ -106,7 +106,7 @@ class Proxy(Subscriptable, metaclass=ABCMeta):
 
     eg.
         # Contract can be any based on lib
-        # Every network lib expose in a different way the programmatic call to functions
+        # Every network lib expose in a different way the programmatic call to functions.
 
         # using Web3
         c = Contract()
@@ -264,7 +264,7 @@ class Network(Protocol, metaclass=ABCMeta):
         """Set default account for network operations
 
         :param private_key: wallet key address
-        :raises InvalidPrivateKey
+        :raises InvalidPrivateKey: if invalid key is provided 
         """
         ...
 

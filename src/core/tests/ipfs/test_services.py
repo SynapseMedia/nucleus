@@ -1,10 +1,10 @@
 import pytest
 from typing import Any
-from src.core.storage.types import Service, Services
-from src.core.storage.service import ls, register
+from src.core.ipfs.types import Service, Services
+from src.core.ipfs.service import ls, register
 from src.core.exceptions import IPFSFailedExecution
 
-PATH_CLI_PATCH = "src.core.storage.service.CLI"
+PATH_CLI_PATCH = "src.core.ipfs.service.CLI"
 
 
 class MockFailingCLI:
@@ -39,7 +39,7 @@ def test_register_service(mocker: Any):
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
     registered_service = register(register_service)
 
-    assert registered_service == registered_service
+    assert registered_service == register_service
 
 
 def test_services(mocker: Any):

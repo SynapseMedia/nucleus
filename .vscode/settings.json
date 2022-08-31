@@ -30,5 +30,16 @@
     "python.analysis.typeCheckingMode": "strict",
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
-    "python.experiments.optInto": ["All"]
+    "python.experiments.optInto": [
+        "All"
+    ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "watchit.db",
+            "database": "${workspaceFolder:watchit-toolkit}/watchit.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
 }

@@ -1,15 +1,8 @@
 import pytest
 from typing import Any
-from src.core.storage.types import LocalPin, RemotePin, Service
-from src.core.storage.pin import local, remote
+from src.core.ipfs.types import LocalPin, RemotePin
+from src.core.ipfs.pin import local, remote
 from src.core.exceptions import IPFSFailedExecution
-
-
-MockService = Service(
-    service="edge",
-    endpoint="http://localhost",
-    key="abc123",
-)
 
 
 class MockFailingCLI:
@@ -35,7 +28,7 @@ def test_pin_local(mocker: Any):
         def __call__(self):
             return {"output": {"Pins": expected_pins}}
 
-    mocker.patch("src.core.storage.pin.CLI", return_value=MockCLI())
+    mocker.patch("src.core.ipfs.pin.CLI", return_value=MockCLI())
     pins = local("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1")
 
     assert pins.get("pins") == expected_pins
@@ -57,9 +50,9 @@ def test_pin_remote(mocker: Any):
         def __call__(self):
             return {"output": expected_result}
 
-    mocker.patch("src.core.storage.pin.CLI", return_value=MockCLI())
+    mocker.patch("src.core.ipfs.pin.CLI", return_value=MockCLI())
     cid_to_pin = "QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1"
-    pins = remote(cid_to_pin, MockService)
+    pins = remote(cid_to_pin, "edge")
 
     assert expected_result["Status"] == pins["status"]
     assert expected_result["Cid"] == pins["cid"]
@@ -76,9 +69,7 @@ def test_invalid_pin_remote(mocker: Any):
     invalid_cid = "abcde"
     # Simulating an error returned by ipfs invalid cid
     expected_issue = 'Error: invalid path "abcde": selected encoding not supported'
-    mocker.patch(
-        "src.core.storage.pin.CLI", return_value=MockFailingCLI(expected_issue)
-    )
+    mocker.patch("src.core.ipfs.pin.CLI", return_value=MockFailingCLI(expected_issue))
     with pytest.raises(IPFSFailedExecution):
         local(invalid_cid)
 
@@ -88,8 +79,6 @@ def test_invalid_pin_local(mocker: Any):
     duplicated_cid = "abcde"
     # Simulating an error returned by ipfs invalid cid
     expected_issue = 'Error: reason: "DUPLICATE_OBJECT", details: "Object already pinned to pinata. Please remove or replace existing pin object."'
-    mocker.patch(
-        "src.core.storage.pin.CLI", return_value=MockFailingCLI(expected_issue)
-    )
+    mocker.patch("src.core.ipfs.pin.CLI", return_value=MockFailingCLI(expected_issue))
     with pytest.raises(IPFSFailedExecution):
-        remote(duplicated_cid, MockService)
+        remote(duplicated_cid, "edge")
