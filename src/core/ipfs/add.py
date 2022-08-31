@@ -18,7 +18,7 @@ def directory(path: Directory) -> CIDStr:
     """
 
     path, path_exists = files.resolve(path)
-    if not path_exists:  # Check if path exist if not just pin_cid_list
+    if not path_exists:  # Check if path exist if not raise error
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), path)
 
     # no pin by default

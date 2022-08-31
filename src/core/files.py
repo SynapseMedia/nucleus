@@ -20,7 +20,7 @@ def read(dir_: str) -> Iterator[str]:
 
     # Lets ensure that the database file exists
     path_exists = exists(dir_)
-    if not path_exists:  # Check if path exist if not just pin_cid_list
+    if not path_exists:  # Check if path exist if not raise error
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), dir_)
 
     with open(dir_) as file:
