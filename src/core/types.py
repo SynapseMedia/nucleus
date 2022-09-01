@@ -23,9 +23,10 @@ URI = NewType("URI", str)
 Endpoint = Union[URI, str]
 
 
-class Subscriptable(Protocol):
+class Accessor(Protocol):
     """
-    Subscriptable definition to enforce dynamic properties accessor
+    Accessor definition to enforce dynamic properties.
+    You can define behavior for when a user attempts to access an attribute that doesn't exist.
     """
 
     def __getattr__(self, name: str) -> Any:
@@ -34,16 +35,15 @@ class Subscriptable(Protocol):
 
 class Command(Protocol, metaclass=ABCMeta):
     """
-    Interface definition for command execution.
+    Command specify needed methods for commands execution.
     """
 
     @abstractmethod
     def __call__(self) -> Any:
         """
-        Call exec command execution based on params.
-        Define your call using sandbox param.
+        Call exec the command.
+        Each command procedure should be implemented here.
 
-        :param sandbox: pass the executor to call or where the command will run
         :return: Any data returned by command executor
         :rtype: Any
         """

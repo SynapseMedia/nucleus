@@ -11,7 +11,7 @@ refs:
 from enum import Enum
 from abc import ABCMeta, abstractmethod
 from src.core.types import (
-    Subscriptable,
+    Accessor,
     Endpoint,
     HexStr,
     Hash,
@@ -101,7 +101,7 @@ class Provider(Protocol, metaclass=ABCMeta):
         ...
 
 
-class Proxy(Subscriptable, metaclass=ABCMeta):
+class Proxy(Accessor, metaclass=ABCMeta):
     """This protocol pretends to enforce generically calls to unknown methods
 
     eg.
@@ -128,7 +128,7 @@ class Proxy(Subscriptable, metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def __getattr__(self, name: str) -> Subscriptable:
+    def __getattr__(self, name: str) -> Accessor:
         """Control behavior for when a user attempts to access an attribute that doesn't exist
 
         This method proxies/delegate the call to low level lib subscriptable object
