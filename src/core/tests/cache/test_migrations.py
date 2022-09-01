@@ -21,7 +21,7 @@ def test_migrate_tables():
 
 
 def test_migrate_indexes():
-    """Should run migration for expected tables"""
+    """Should run migration for expected indexes"""
     conn_ = indexes()  # Run indexes migration
     # check if index exists after migration
     response = conn_.execute("SELECT name FROM sqlite_master")
