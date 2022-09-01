@@ -23,7 +23,7 @@ def read(dir_: str) -> Iterator[str]:
     if not path_exists:  # Check if path exist if not raise error
         raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), dir_)
 
-    with open(dir_) as file:
+    with open(dir_, 'r') as file:
         content = file.read()
         file.close()  # don't leak a file descriptor
         yield content

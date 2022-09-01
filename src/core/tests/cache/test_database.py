@@ -10,7 +10,7 @@ def test_is_open_ok_for_opened_connection():
         assert is_open(conn) == True
 
 
-def test_is_open_fail_for_opened_connection(mocker: Any):
+def test_is_open_fail_for_closed_connection(mocker: Any):
     """Should return False for valid opened connection"""
     with patch("src.core.cache.database.sqlite3") as mock:
         mock.connect().cursor.return_value = None  # type: ignore
