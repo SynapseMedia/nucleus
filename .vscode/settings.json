@@ -7,6 +7,7 @@
         "creational",
         "dataclass",
         "ENOENT",
+        "executescript",
         "ffinput",
         "ffprobe",
         "hexbytes",

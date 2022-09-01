@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS movies (
 -- Schema table definition for movies_genres.
 CREATE TABLE IF NOT EXISTS movies_genres (
     genre_id INTEGER PRIMARY KEY,
-    genre KEY TEXT NOT NULL,
+    genre KEY TEXT NOT NULL
 );
 -- Schema for movies_movie_genre join table.
 CREATE TABLE IF NOT EXISTS movies_movie_genre (

@@ -8,14 +8,10 @@ from .database import Connection, TABLES_SCRIPT, INDEX_SCRIPT
 def tables(conn: Connection):
     with files.read(TABLES_SCRIPT) as schema:
         conn.executescript(schema)
-
+    return conn
 
 @connected
 def indexes(conn: Connection):
     with files.read(INDEX_SCRIPT) as index:
         conn.executescript(index)
-
-
-@connected
-def verify(conn: Connection):
-    ...
+    return conn
