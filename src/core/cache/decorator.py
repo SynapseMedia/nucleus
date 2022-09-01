@@ -10,7 +10,7 @@ P = ParamSpec("P")
 
 
 def connected(f: Callable[..., T]) -> Callable[..., T]:
-    """connected decorate a method call with database.
+    """Decorate a method call with database.
 
     :param f: A function to execute in wrapper
     :returns: Wrapper function
@@ -29,7 +29,7 @@ def connected(f: Callable[..., T]) -> Callable[..., T]:
 
 
 def atomic(f: Callable[..., T]) -> Callable[..., T]:
-    """atomic decorate executions to database.
+    """Decorate executions made to database.
     This method enhance the execution of queries/transactions to database adding extra atomic capabilities.
 
     :param f: This function should contain any query or transaction to db.
