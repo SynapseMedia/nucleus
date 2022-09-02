@@ -36,8 +36,8 @@ jobs:
 #        if: steps.cache.outputs.cache-hit != 'true'
         run: make bootstrap
 
-      - name: Type checker
-        run: make check-typing
+      # - name: Type checker
+      #   run: make check-typing
 
       - name: Static Analysis
         run: make check-coding-style
