@@ -3,6 +3,7 @@ import datetime
 
 
 DB_NAME = os.getenv("DB_NAME")
+DB_ISOLATION = os.getenv("DB_ISOLATION")
 DB_DATE_VERSION = datetime.date.today().strftime("%Y%m%d")
 REGENERATE_MOVIES = os.getenv("REGENERATE_MOVIES", "False") == "True"
 MIXED_RESOURCES = os.environ.get("MIXED_RESOURCES", "False") == "True"

@@ -1,4 +1,5 @@
 import cid  # type: ignore
+
 from web3 import Web3
 from src.core.types import Primitives, HexStr, CIDStr
 
