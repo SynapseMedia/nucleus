@@ -36,7 +36,10 @@ get("SELECT name from Movie WHERE id = (?)", 1)
 
 
 class Atomic(ContextDecorator):
-    """A base class that enables a context manager to also be used as a decorator."""
+    """A base class that enables a context manager to also be used as a decorator.
+    
+    ref: https://docs.python.org/3/library/contextlib.html
+    """
 
     conn: Connection
 
