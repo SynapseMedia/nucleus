@@ -5,9 +5,10 @@ from .database import Connection, TABLES_SCRIPT, INDEX_SCRIPT
 
 
 @connected
-def tables(conn: Connection):
+def tables(conn: Connection) -> Connection:
     """Attempt to migrate tables from script file
     
+    :param conn: The out of the box connection to database
     :rtype: Connection
     :return: Connection object
     :raises sqlite3.OperationalError: if migration fails
@@ -18,9 +19,10 @@ def tables(conn: Connection):
     return conn
 
 @connected
-def indexes(conn: Connection):
+def indexes(conn: Connection) -> Connection:
     """Attempt to migrate indexes from script file
     
+    :param conn: The out of the box connection to database
     :rtype: Connection
     :return: Connection object
     :raises sqlite3.OperationalError: if migration fails

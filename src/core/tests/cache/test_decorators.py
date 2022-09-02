@@ -1,6 +1,6 @@
 import pytest
 from mock import patch
-from src.core.cache.database import Connection, is_open
+from src.core.cache.database import Connection, is_open, connection
 from src.core.cache.decorator import connected, atomic
 
 
@@ -13,6 +13,18 @@ def test_connected():
         assert is_open(conn) == True
 
     to_decorate_with_connection()
+
+
+def test_connected_override_connection():
+    """Should start connection for decorated function and pass connection as param"""
+    override_connection = connection()
+    
+    @connected
+    def to_decorate_with_connection(conn: Connection):
+        # Should pass the current connection to db
+        assert conn == override_connection
+
+    to_decorate_with_connection(conn=override_connection)
 
 
 def test_atomic():
