@@ -6,7 +6,6 @@ from .database import Connection
 from .types import Query
 
 
-
 @connected
 def exec(conn: Connection, q: Query, *args: Sequence[str]) -> Cursor:
     """Execute a query in database connection
