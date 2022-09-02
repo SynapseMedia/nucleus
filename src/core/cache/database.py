@@ -40,7 +40,8 @@ def connection(db_path: str = DEFAULT_DB, **kwargs: Any) -> Iterator[Connection]
     :rtype: Connection
     """
     # Explicit is better than implicit
-    yield connect(db_path, **kwargs)
+    conn = connect(db_path, **kwargs)
+    yield conn
 
 
 def is_open(conn: Connection) -> bool:
