@@ -44,4 +44,4 @@ jobs:
 
       - name: Tests
         run: |
-          make test
+          make test-core
