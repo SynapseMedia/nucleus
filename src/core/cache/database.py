@@ -1,9 +1,8 @@
 import sqlite3
-import contextlib
 import src.core.logger as logger
 
 from sqlite3 import Connection
-from src.core.types import Iterator, Any
+from src.core.types import Any
 from src.core.constants import PROJECT_ROOT, DB_NAME, DB_ISOLATION
 
 
@@ -30,18 +29,6 @@ def connect(db_path: str = DEFAULT_DB, **kwargs: Any):
     connection = sqlite3.connect(db_path, **kwargs)
     logger.log.info(f"Connecting to {db_path}")
     return connection
-
-@contextlib.contextmanager
-def connection(db_path: str = DEFAULT_DB, **kwargs: Any) -> Iterator[Connection]:
-    """Context db connection
-
-    :param db_path: sqlite file path
-    :return: connection to database
-    :rtype: Connection
-    """
-    # Explicit is better than implicit
-    conn = connect(db_path, **kwargs)
-    yield conn
 
 
 def is_open(conn: Connection) -> bool:
