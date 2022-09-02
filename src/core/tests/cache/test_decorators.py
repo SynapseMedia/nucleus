@@ -16,7 +16,7 @@ def test_connected():
 
 
 def test_connected_override_connection():
-    """Should start connection for decorated function and pass connection as param"""
+    """Should override passed connection as param for decorated function"""
     override_connection = connection()
     
     @connected

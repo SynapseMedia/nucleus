@@ -18,6 +18,7 @@ Example of usage:
 1) using with context:
 
 with atomic() as c:
+    # override connection using `conn` kwarg 
     name = get(conn=c, "SELECT name from Movie WHERE id = (?)", 1)
     upsert(conn=c, "INSERT INTO Movie VALUES(?)", name)
 
@@ -29,6 +30,10 @@ def transaction(c):
     upsert(conn=c, "INSERT INTO Movie VALUES(?)", name)
 
 3) using decorated simple pre-connected method:
+
+@connected
+def get(conn, query, params):
+    ...
 
 get("SELECT name from Movie WHERE id = (?)", 1)
     
