@@ -83,8 +83,7 @@ def connected(f: Callable[..., T]) -> Callable[..., T]:
 
     @wraps(f)
     def _wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
-        # Start connection with default database
-        # override of connection
+        # override of connection if kwarg passed else start connection with default database
         conn = kwargs.pop("conn", connect())
         # Get connection a pass it to func call
         return f(conn, *args, **kwargs)
