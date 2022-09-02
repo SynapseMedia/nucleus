@@ -1,6 +1,6 @@
 import pytest
 from mock import patch
-from src.core.cache.database import Connection, is_open, connection
+from src.core.cache.database import Connection, is_open, connect
 from src.core.cache.decorator import connected, atomic
 
 
@@ -17,7 +17,7 @@ def test_connected():
 
 def test_connected_override_connection():
     """Should override passed connection as param for decorated function"""
-    override_connection = connection()
+    override_connection = connect()
     
     @connected
     def to_decorate_with_connection(conn: Connection):
