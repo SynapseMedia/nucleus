@@ -19,15 +19,15 @@ Example of usage:
 
 with atomic() as c:
     # override connection using `conn` kwarg 
-    name = get(conn=c, "SELECT name from Movie WHERE id = (?)", 1)
-    upsert(conn=c, "INSERT INTO Movie VALUES(?)", name)
+    name = get("SELECT name from Movie WHERE id = (?)", 1, conn=c)
+    exec("INSERT INTO Movie VALUES(?)", name, conn=c)
 
 2) using atomic decorator:
 
 @atomic
 def transaction(c):
-    name = get(conn=c, "SELECT name from Movie WHERE id = (?)", 1)
-    upsert(conn=c, "INSERT INTO Movie VALUES(?)", name)
+    name = get("SELECT name from Movie WHERE id = (?)", 1, conn=c)
+    exec("INSERT INTO Movie VALUES(?)", name, conn=c)
 
 3) using decorated simple pre-connected method:
 
@@ -42,7 +42,7 @@ get("SELECT name from Movie WHERE id = (?)", 1)
 
 class Atomic(ContextDecorator):
     """A base class that enables a context manager to also be used as a decorator.
-    
+
     ref: https://docs.python.org/3/library/contextlib.html
     """
 

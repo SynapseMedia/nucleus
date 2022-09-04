@@ -1,5 +1,5 @@
 from src.core.cache import cursor_db, raw_db
-from src.core.cache.manager import retrieve
+from src.sdk.cache.manager import retrieve
 
 
 def freeze(uid, data):
