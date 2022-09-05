@@ -4,7 +4,7 @@ import src.core.exceptions as exceptions
 from ffmpeg_streaming._input import Input as FFInput  # type: ignore
 from ffmpeg_streaming import Size, input as ffinput, FFProbe  # type: ignore
 from src.core.types import Directory, Dict, Sequence, Iterator, Any
-from src.core.constants import MAX_MUXING_QUEUE_SIZE
+from .constants import MAX_MUXING_QUEUE_SIZE
 
 # package types
 from .types import REPR, Sizes, Size, Representation, Input

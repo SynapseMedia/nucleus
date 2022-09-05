@@ -6,7 +6,11 @@ from contextlib import ContextDecorator
 # ref: https://docs.python.org/es/3/library/functools.html
 from functools import wraps
 from src.core.types import ParamSpec, TypeVar, Callable, Any, Optional
-from .database import connect, Connection, ISOLATION_LEVEL
+
+from .constants import DB_ISOLATION_LEVEL
+from .database import connect
+from .types import Connection
+
 
 T = TypeVar("T")
 P = ParamSpec("P")
@@ -51,7 +55,7 @@ class Atomic(ContextDecorator):
     def __enter__(self):
         # Set connection with isolation level to turn off auto commit
         # ref: https://docs.python.org/3.4/library/sqlite3.html#sqlite3.Connection.isolation_level
-        self.conn = connect(isolation_level=ISOLATION_LEVEL)
+        self.conn = connect(isolation_level=DB_ISOLATION_LEVEL)
         return self.conn
 
     def __call__(self, f: Callable[..., T]) -> Callable[..., T]:

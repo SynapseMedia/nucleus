@@ -1,6 +1,8 @@
 from web3.providers.rpc import HTTPProvider
 from src.core.types import Endpoint
-from src.core.constants import (
+
+from .types import Chain, ChainID, Provider
+from .constants import (
     WALLET_KEY,
     GOERLI_PROVIDER,
     GOERLI_ALCHEMY_API_KEY,
@@ -9,9 +11,6 @@ from src.core.constants import (
     GOERLI_CONTRACT_NFT,
     RINKEBY_CONTRACT_NFT,
 )
-
-# package types
-from .types import Chain, ChainID, Provider
 
 
 class Web3HTTPProviderAdapter(Provider):

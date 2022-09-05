@@ -1,12 +1,10 @@
-from sqlite3 import Cursor, Row
+import src.core.cache as cache
+
 from src.core.types import Sequence, List
-
-from ...core.cache.decorator import connected
-from ...core.cache.database import Connection
-from ..scheme.types import Query
+from src.core.cache.types import Connection, Cursor, Row, Query
 
 
-@connected
+@cache.connected
 def _run(conn: Connection, q: Query, *args: Sequence[str]) -> Cursor:
     """Execute a custom query in database connection.
 
@@ -20,7 +18,7 @@ def _run(conn: Connection, q: Query, *args: Sequence[str]) -> Cursor:
     return cursor.execute(q, *args)
 
 
-@connected
+@cache.connected
 def get(conn: Connection, q: Query, *args: Sequence[str]) -> Row:
     """Return one resolved entry
 
@@ -33,7 +31,7 @@ def get(conn: Connection, q: Query, *args: Sequence[str]) -> Row:
     return res.fetchone()
 
 
-@connected
+@cache.connected
 def all(conn: Connection, q: Query, *args: Sequence[str]) -> List[Row]:
     """Return all resolved entries
 
@@ -46,7 +44,7 @@ def all(conn: Connection, q: Query, *args: Sequence[str]) -> List[Row]:
     return res.fetchall()
 
 
-@connected
+@cache.connected
 def exec(conn: Connection, q: Query, *args: Sequence[str]) -> bool:
     """Execute INSERT, UPDATE, DELETE, and REPLACE operations in the database.
 

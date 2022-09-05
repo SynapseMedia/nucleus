@@ -4,7 +4,7 @@ import uuid
 
 from flask import jsonify, request, Blueprint
 from src.sdk.logger import log
-from src.sdk.cache import ingest, manager, cursor_db, DESC
+from src.sdk.cache import manager, cursor_db, DESC, storage
 from werkzeug.utils import secure_filename
 from marshmallow.exceptions import ValidationError
 
@@ -97,7 +97,7 @@ def recent():
 
     # Parse erc1155 metadata
     # Get "in-relation" hash from ingested metadata
-    metadata_for_cid, _ = ingest.frozen()
+    metadata_for_cid, _ = storage.frozen()
     metadata_for_cid = metadata_for_cid.sort([("date_uploaded_unix", order_by)]).limit(
         limit
     )

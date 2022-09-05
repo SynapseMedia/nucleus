@@ -1,0 +1,12 @@
+import os
+import datetime
+from src.core.constants import PROJECT_ROOT
+
+
+# Sqlite Cache settings
+DB_NAME = os.getenv("DB_NAME")
+DB_DEFAULT = f"{PROJECT_ROOT}/{DB_NAME}"
+DB_ISOLATION_LEVEL = os.getenv("DB_ISOLATION")
+DB_DATE_VERSION = datetime.date.today().strftime("%Y%m%d")
+DB_TABLES_SCRIPT = f"{PROJECT_ROOT}/src/core/cache/tables.sql"
+DB_INDEX_SCRIPT = f"{PROJECT_ROOT}/src/core/cache/indexes.sql"

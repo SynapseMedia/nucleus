@@ -1,14 +1,20 @@
-from src.core.cache import cursor_db, raw_db
-from src.sdk.cache.manager import retrieve
+
+import src.core.cache as cache
+
+from src.core.cache.types import Connection
+from .manager import all
 
 
-def freeze(uid, data):
+@cache.atomic
+def freeze(connuid, data):
     """
     Insert and mark entry as updated in raw_db
     :param uid: The entry id
     :param data: data to store
     :return: data dict
     """
+    
+    
 
     cursor_db.movies.insert_one(data)
     raw_db.movies.update_one({"imdb_code": uid}, {"$set": {"updated": True}})

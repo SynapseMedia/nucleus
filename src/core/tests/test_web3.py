@@ -8,7 +8,7 @@ from src.core.web3.crypto import to_hex, cid_to_uint256
 
 from src.core.types import CIDStr
 from src.core.web3.types import Connector
-from src.core.constants import (
+from src.core.web3.constants import (
     GOERLI_PROVIDER,
     GOERLI_ALCHEMY_API_KEY,
     RINKEBY_PROVIDER,

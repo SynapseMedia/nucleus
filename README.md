@@ -8,38 +8,49 @@
 
 ***NOTE!*** The toolkit is **alpha-stage** software. It means toolkit hasn't been security audited and programming APIs and data formats can still change.
 
+The design so far contains 3 layers of abstraction:
+
+1. **The Core**: "The building block" packages here are intended to have minimal or no dependencies, those that have dependencies will be with the same internal packages and as far as possible they will be utility packages.
+
+2. **The SDK**: Exposes the API to the client at the programming level to use core functions in a safe and conformant way.
+
+3. **The CLI and HTTP API**: These make use of the sdk to form the services.
+
 Toolkit its a low level compilation of "toolchain" for Watchit environment.
 It includes:
 
-- metadata resolvers
-- static image processing
-- video transcoding
-- multimedia storage
-- metadata distribution
-- web3 instruments
+- Metadata resolvers
+- Static image processing
+- Video transcoding
+- Multimedia storage
+- Metadata distribution
+- Web3 instruments
 
 ## Summary
 
 The toolkit as "toolchain" proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:
 
-- Resolve: obtaining the raw metadata of movies
-- Multimedia processing: video transcoding and image processing
-- Schematization: metadata standard schematization eg. ERC1155 metadata
-- Storage: structured storage in the IPFS decentralized network
-- Blockchain: mint movies to web3 as NFT
-- Expose: distribution of metadata through [OrbitDB](https://orbitdb.org/)
+1. **Resolve**: obtaining the raw metadata of movies
+2. **Multimedia processing**: video transcoding and image processing
+3. **Schematization**: metadata standard schematization eg. ERC1155 metadata
+4. **Storage**: structured storage in the IPFS decentralized network
+5. **Blockchain**: mint movies to web3 as NFT
+6. **Expose**: distribution of metadata through [OrbitDB](https://orbitdb.org/)
 
 ## Node
 
 Toolkit itself exposes a node that powers the Watchit network through distributed storage, metadata resolution, reward system and access controls.
 
-.. Continuar aqui
+...
 
 ## Terms and Concepts
 
 Pending
+
 ### Distribution Vault
+
 Pending
+
 ### Resolvers
 
 "A *resolver* is a set of instructions, expressed as a Python class. A *gateway* will execute a resolver to fetch
@@ -73,7 +84,6 @@ Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master
 ### Usage
 
 - [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md).
-
 
 ## Development
 

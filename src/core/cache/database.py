@@ -2,23 +2,18 @@ import sqlite3
 import contextlib
 import src.core.logger as logger
 
-from sqlite3 import Connection
 from src.core.types import Iterator, Any
-from src.core.constants import PROJECT_ROOT, DB_NAME, DB_ISOLATION
+
+from .constants import DB_DEFAULT
+from .types import Connection
 
 
 # Alias for ordering flags
 ASC = 1
 DESC = -1
 
-# Default connection sqlite3 file dir
-ISOLATION_LEVEL = DB_ISOLATION
-DEFAULT_DB = f"{PROJECT_ROOT}/{DB_NAME}"
-TABLES_SCRIPT = f"{PROJECT_ROOT}/src/core/cache/tables.sql"
-INDEX_SCRIPT = f"{PROJECT_ROOT}/src/core/cache/indexes.sql"
 
-
-def connect(db_path: str = DEFAULT_DB, **kwargs: Any):
+def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
     """Db connection factory
     If path is not found, a new database file is created.
 
@@ -31,8 +26,9 @@ def connect(db_path: str = DEFAULT_DB, **kwargs: Any):
     logger.log.info(f"Connecting to {db_path}")
     return connection
 
+
 @contextlib.contextmanager
-def connection(db_path: str = DEFAULT_DB, **kwargs: Any) -> Iterator[Connection]:
+def connection(db_path: str = DB_DEFAULT, **kwargs: Any) -> Iterator[Connection]:
     """Context db connection
 
     :param db_path: sqlite file path

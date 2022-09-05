@@ -3,7 +3,8 @@ import docker  # type: ignore
 import src.core.exceptions as exceptions
 
 from src.core.types import Command
-from src.core.constants import IPFS_CONTAINER
+
+from .constants import IPFS_CONTAINER
 from .types import Sequence, Exec, Container
 
 
