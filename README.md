@@ -28,10 +28,10 @@ It includes:
 
 ## Summary
 
-The toolkit as "toolchain" proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:
+The toolkit proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:
 
 1. **Resolve**: obtaining the raw metadata of movies
-2. **Multimedia processing**: video transcoding and image processing
+2. **Processing**: video transcoding and image processing
 3. **Schematization**: metadata standard schematization eg. ERC1155 metadata
 4. **Storage**: structured storage in the IPFS decentralized network
 5. **Blockchain**: mint movies to web3 as NFT
