@@ -27,7 +27,7 @@ def connect(db_path: str = DEFAULT_DB, **kwargs: Any):
     :rtype: Connection
     """
     # Explicit is better than implicit
-    connection = sqlite3.connect(db_path, **kwargs, **kwargs)
+    connection = sqlite3.connect(db_path, **kwargs)
     logger.log.info(f"Connecting to {db_path}")
     return connection
 
