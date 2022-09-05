@@ -3,7 +3,7 @@ from src.core.types import Sequence, List
 
 from ...core.cache.decorator import connected
 from ...core.cache.database import Connection
-from ...core.cache.types import Query
+from ..scheme.types import Query
 
 
 @connected
