@@ -1,6 +1,7 @@
 import eth_account as eth
 import src.core.exceptions as exceptions
 
+# Convention for importing types
 from web3 import Web3
 from web3.contract import Contract
 from eth_typing.evm import Hash32

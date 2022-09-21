@@ -1,5 +1,6 @@
 import cid  # type: ignore
 
+# Convention for importing types
 from web3 import Web3
 from src.core.types import Primitives, HexStr, CIDStr
 

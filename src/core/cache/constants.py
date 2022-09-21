@@ -1,5 +1,7 @@
 import os
 import datetime
+
+# Convention for importing constants
 from src.core.constants import PROJECT_ROOT
 
 

@@ -1,5 +1,6 @@
 import src.core.cache as cache
 
+# Convention for importing types
 from src.core.types import Sequence, List
 from src.core.cache.types import Connection, Cursor, Row, Query
 

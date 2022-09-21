@@ -1,5 +1,5 @@
 import json
-
+# Convention for importing types
 from src.core.types import Directory, Any, Dict
 
 

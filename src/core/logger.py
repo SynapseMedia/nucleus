@@ -37,6 +37,7 @@ def log_factory(name: str, level: int = logging.DEBUG):
     return logger
 
 
-log = log_factory("cli")
-
+log = log_factory("core")
+sdk = log_factory("sdk")
+cli = log_factory("cli")
 __all__ = ["log", "logging", "log_factory"]

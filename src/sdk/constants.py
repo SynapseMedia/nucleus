@@ -1,5 +1,5 @@
-
 import os
+
 # Edge cache settings
 DEFAULT_EDGE_SERVICE = os.getenv("DEFAULT_EDGE_SERVICE", "pinata")
 
@@ -28,35 +28,3 @@ DEFAULT_RATE_MAX = 10
 # https://en.wikipedia.org/wiki/List_of_longest_films
 # https://en.wikipedia.org/wiki/Fresh_Guacamole
 FIRST_MOVIE_YEAR_EVER = 1880
-LONGEST_RUNTIME_MOVIE = 51420
-SHORTEST_RUNTIME_MOVIE = 1
-
-DEFAULT_GENRES = [
-    "All",
-    "Action",
-    "Adventure",
-    "Animation",
-    "Biography",
-    "Comedy",
-    "Crime",
-    "Documentary",
-    "Drama",
-    "Family",
-    "Fantasy",
-    "Film-Noir",
-    "History",
-    "Horror",
-    "Music",
-    "Musical",
-    "Mystery",
-    "Romance",
-    "Sci-Fi",
-    "Sport",
-    "Thriller",
-    "War",
-    "Western",
-    "News",
-    "Reality-TV",
-    "Talk-Show",
-    "Game-Show",
-]

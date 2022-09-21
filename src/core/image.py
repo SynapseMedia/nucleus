@@ -1,18 +1,20 @@
+import dataclasses
+import contextlib
 import PIL.Image as PIL
 import src.core.exceptions as exceptions
 
-from dataclasses import dataclass
-from contextlib import contextmanager
+# Convention for importing types
 from src.core.types import Directory, Iterator
 
-@dataclass(frozen=True)
+
+@dataclasses.dataclass(frozen=True)
 class Size:
     Small = (45, 67)
     Medium = (230, 345)
     Large = (500, 750)
 
 
-@contextmanager
+@contextlib.contextmanager
 def input(input_image: Directory) -> Iterator[PIL.Image]:
     """
     Factory Image
@@ -35,4 +37,3 @@ def input(input_image: Directory) -> Iterator[PIL.Image]:
             raise exceptions.InvalidImageSize()
 
         yield image
-    
