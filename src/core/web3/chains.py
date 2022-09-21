@@ -1,6 +1,6 @@
+# Convention for importing types and constants
 from web3.providers.rpc import HTTPProvider
 from src.core.types import Endpoint
-
 from .types import Chain, ChainID, Provider
 from .constants import (
     WALLET_KEY,

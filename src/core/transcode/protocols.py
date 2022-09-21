@@ -1,9 +1,9 @@
 import sys
 import datetime
 
+# Convention for importing types
 from ffmpeg_streaming import Representation, Formats  # type: ignore
 from src.core.types import Directory
-
 from .types import Streaming, Input
 
 
