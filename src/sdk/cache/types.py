@@ -7,9 +7,13 @@ In addition, this metadata is used for marshalling process.
 import re
 import pydantic
 import datetime
+import validators  # type: ignore
+import cid  # type: ignore
+import pathlib
 
 # Convention for importing constants
 from src.sdk.constants import DEFAULT_RATE_MAX, FIRST_MOVIE_YEAR_EVER
+from .constants import VIDEO_RESOURCE, IMAGE_RESOURCE
 
 
 @pydantic.dataclasses.dataclass
@@ -17,7 +21,29 @@ class MoviesResources:
     route: str
     type: int
 
-    # TODO validate type and route
+    @pydantic.validator("type")
+    def valid_type(self, v: int):
+        if v not in [VIDEO_RESOURCE, IMAGE_RESOURCE]:
+            raise ValueError(
+                """
+                Invalid resource type.
+                Allowed types:
+                    - VIDEO = 1
+                    - IMAGE = 0
+                """
+            )
+        return v
+
+    @pydantic.validator("route")
+    def valid_route(cls, v: str):
+        is_path = pathlib.Path(v).exists()  # type: ignore
+        is_url = bool(validators.url(v))  # type: ignore
+        is_cid = bool(cid.is_cid(v))  # type: ignore
+
+        if not is_url and not is_path and not is_cid:
+            raise ValueError("Route must be a CID | URI | Path")
+
+        return v
 
 
 @pydantic.dataclasses.dataclass
