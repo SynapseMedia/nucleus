@@ -14,10 +14,27 @@ class Size:
     Large = (500, 750)
 
 
+def _invalid(image: PIL.Image) -> bool:
+    """Validate ratio for image
+
+    :param image: Image to validate
+    :return: True if image is valid, False otherwise
+    :rtype: bool
+    """
+    # input ratio size
+    w, h = image.size
+    # ratio height should be major than width
+    is_height_less_than_width = h < w
+    # input image is smaller than "master"
+    is_input_less_than_master = any(x < y for x, y in zip(image.size, Size.Large))
+    # Invalid image ratio height should be major than width
+    return is_height_less_than_width or is_input_less_than_master
+
+
 @contextlib.contextmanager
 def input(input_image: Directory) -> Iterator[PIL.Image]:
-    """
-    Factory Image
+    """Factory Image
+
     :param input_image: Path to image
     :return: PIL Image object
     :rtype: Image
@@ -25,15 +42,7 @@ def input(input_image: Directory) -> Iterator[PIL.Image]:
     """
 
     with PIL.open(input_image) as image:
-        # input ratio size
-        w, h = image.size
-        # ratio height should be major than width
-        is_h_less_than_w = h < w
-        # input image is smaller than "master"
-        is_input_less_than_master = any(x < y for x, y in zip(image.size, Size.Large))
-
-        if is_h_less_than_w or is_input_less_than_master:
+        if _invalid(image):
             # Invalid image ratio height should be major than width
             raise exceptions.InvalidImageSize()
-
         yield image
