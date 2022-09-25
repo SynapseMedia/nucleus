@@ -30,7 +30,7 @@ It includes:
 
 The toolkit proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:
 
-1. **Harvesting**: obtaining the movies raw metadata
+1. **Harvesting**: collect movies metadata
 2. **Processing**: video transcoding and image processing
 3. **Schematization**: metadata standard schematization eg. ERC1155 metadata
 4. **Storage**: structured storage in the IPFS decentralized network
