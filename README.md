@@ -19,7 +19,7 @@ The design so far contains 3 layers of abstraction:
 Toolkit its a low level compilation of "toolchain" for Watchit environment.
 It includes:
 
-- Metadata resolvers
+- Metadata harvesting
 - Static image processing
 - Video transcoding
 - Multimedia storage
