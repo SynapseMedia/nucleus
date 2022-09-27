@@ -3,11 +3,10 @@ PRAGMA foreign_keys = ON;
 -- ref: https://www.sqlstyle.guide/
 -- Schema table definition for movies.
 CREATE TABLE IF NOT EXISTS movies (
-    movie_id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     -- imdb code is adopted from IMB movies site to handle an alpha-numeric id
     imdb_code TEXT KEY DESC,
     title TEXT KEY DESC,
-    group_name TEXT KEY,
     -- creator key itself is a public key from blockchain network
     creator_key TEXT,
     mpa_rating TEXT,
@@ -21,12 +20,12 @@ CREATE TABLE IF NOT EXISTS movies (
 );
 -- Schema table definition for movies_genres.
 CREATE TABLE IF NOT EXISTS movies_genres (
-    genre_id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     genre KEY TEXT NOT NULL
 );
 -- Schema for movies_movie_genre join table.
 CREATE TABLE IF NOT EXISTS movies_movie_genre (
-    movie_genre_id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     genre_id INTEGER NOT NULL,
     movie_id INTEGER NOT NULL,
     fk_movie FOREIGN_KEY movie_id REFERENCES movies (movie_id) ON DELETE CASCADE,
@@ -34,7 +33,7 @@ CREATE TABLE IF NOT EXISTS movies_movie_genre (
 );
 -- Schema table definition for movies_resources.
 CREATE TABLE IF NOT EXISTS movies_resources (
-    resource_id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     movie_id INTEGER NOT NULL,
     -- sqlite does not support ENUM types, so should be handled in code. eg: video=1, images=2.
     type INTEGER,
