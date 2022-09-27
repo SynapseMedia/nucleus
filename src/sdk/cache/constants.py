@@ -1,2 +1,9 @@
 IMAGE_RESOURCE = 0
 VIDEO_RESOURCE = 1
+
+# Scheme constants
+DEFAULT_RATE_MAX = 10
+FIRST_MOVIE_YEAR_EVER = 1880
+
+# Query constants
+INSERT_MOVIE = "INSERT INTO movies VALUES(?)"

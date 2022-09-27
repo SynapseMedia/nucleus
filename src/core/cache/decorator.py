@@ -2,11 +2,9 @@ import src.core.logger as logger
 
 # ref: https://docs.python.org/3/library/contextlib.html
 from contextlib import ContextDecorator
-
 # ref: https://docs.python.org/es/3/library/functools.html
 from functools import wraps
 from src.core.types import ParamSpec, TypeVar, Callable, Any, Optional
-
 from .constants import DB_ISOLATION_LEVEL
 from .database import connect
 from .types import Connection

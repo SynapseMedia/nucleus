@@ -4,7 +4,7 @@ class EmptyCache(Exception):
     def __init__(self):
         message = """
             No data to fetch.
-            Please run resolvers to get metadata and try again.
+            Please harvest metadata and try again.
             If REGENERATE_MOVIES is true a new dated version of metadata its generated.
             """
 
