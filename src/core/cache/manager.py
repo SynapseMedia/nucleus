@@ -60,6 +60,7 @@ def exec(conn: Connection, q: Query, *args: Sequence[str]) -> bool:
     # ref: https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor
     return cursor.rowcount > 0
 
+
 @connected
 def batch(conn: Connection, q: Query, *args: Sequence[str]) -> int:
     """Execute batch operations in the database.
