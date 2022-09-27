@@ -3,14 +3,8 @@ import contextlib
 import src.core.logger as logger
 
 from src.core.types import Iterator, Any
-
 from .constants import DB_DEFAULT
 from .types import Connection
-
-
-# Alias for ordering flags
-ASC = 1
-DESC = -1
 
 
 def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
@@ -52,3 +46,6 @@ def is_open(conn: Connection) -> bool:
         return cursor is not None
     except Exception:
         return False
+
+
+__all__ = ["connect", "connection", "is_open"]

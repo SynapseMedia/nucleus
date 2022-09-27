@@ -15,16 +15,7 @@ PINATA_PIN_BACKGROUND = os.getenv("PINATA_PIN_BACKGROUND", "False") == "True"
 
 # Http settings
 NODE_URI = os.getenv("NODE_URI")
-API_VERSION = os.getenv("API_VERSION")
 VALIDATE_SSL = os.getenv("VALIDATE_SSL", "False") == "True"
-UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "/multimedia/tmp")
 ALLOWED_VIDEO_EXTENSIONS = {"mp4", "webm"}
 ALLOWED_IMAGE_EXTENSIONS = {"jpeg", "png", "jpg", "gif"}
 
-# Scheme constants
-DEFAULT_RATE_MAX = 10
-# Just in case according this
-# https://en.wikipedia.org/wiki/1870s_in_film
-# https://en.wikipedia.org/wiki/List_of_longest_films
-# https://en.wikipedia.org/wiki/Fresh_Guacamole
-FIRST_MOVIE_YEAR_EVER = 1880

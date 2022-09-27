@@ -1,11 +1,13 @@
 import src.core.cache as cache
 
+from src.core.cache import Connection
 from src.core.types import List
+from .constants import INSERT_MOVIE
 from .types import Movies
 
 
 @cache.atomic
-def freeze(data: List[Movies]):
+def freeze(conn: Connection, data: List[Movies]) -> bool:
     """Insert movies in metadata cache.
 
     :param data: list of movies to store
@@ -13,7 +15,10 @@ def freeze(data: List[Movies]):
     :rtype: bool
     """
 
-    pass
+    insert = map(lambda x: tuple(x.dict().values()), data)
+    # TODO insert the resources and genres here too
+    inserted = cache.batch(conn, INSERT_MOVIE, *insert)
+    return inserted > 0
 
 
 def frozen() -> List[Movies]:
@@ -22,4 +27,3 @@ def frozen() -> List[Movies]:
     :rtype: List[Movies]
     """
     pass
-

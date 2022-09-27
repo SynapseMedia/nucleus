@@ -12,12 +12,17 @@ import cid  # type: ignore
 import pathlib
 
 # Convention for importing constants
-from src.sdk.constants import DEFAULT_RATE_MAX, FIRST_MOVIE_YEAR_EVER
-from .constants import VIDEO_RESOURCE, IMAGE_RESOURCE
+from .constants import (
+    DEFAULT_RATE_MAX,
+    FIRST_MOVIE_YEAR_EVER,
+    VIDEO_RESOURCE,
+    IMAGE_RESOURCE,
+)
 
 
-@pydantic.dataclasses.dataclass
-class MoviesResources:
+class MovieResources(pydantic.BaseModel):
+    """MovieResources define the multimedia resources needed to play/display movie"""
+
     route: str
     type: int
 
@@ -46,8 +51,7 @@ class MoviesResources:
         return v
 
 
-@pydantic.dataclasses.dataclass
-class Movies:
+class Movies(pydantic.BaseModel):
     """Movies define needed fields for standard movie schema."""
 
     title: str
@@ -70,6 +74,8 @@ class Movies:
     trailer_link: str
     date_uploaded: float
     genres: list[str]
+    # Add movie multimedia resources
+    resources: list[MovieResources]
 
     @pydantic.validator("imdb_code")
     def imdb_valid_format(cls, v: str):

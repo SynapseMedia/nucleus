@@ -32,3 +32,6 @@ def indexes(conn: Connection) -> Connection:
     with files.read(DB_INDEX_SCRIPT) as index:
         conn.executescript(index)
     return conn
+
+
+__all__ = ["tables", "indexes"]
