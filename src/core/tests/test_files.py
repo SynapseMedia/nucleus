@@ -30,14 +30,14 @@ def test_invalid_read_file():
 def test_exists_file():
     """Should return True for valid path"""
     existing_file = files.exists("LICENSE")
-    assert existing_file == True
+    assert existing_file is True
 
 
 # Unit tests
 def test_exists_invalid_file():
     """Should return False for invalid path"""
     existing_file = files.exists("INVALID")
-    assert existing_file == False
+    assert existing_file is False
 
 
 # Unit tests

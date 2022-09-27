@@ -5,7 +5,7 @@ PYTHONPATH = .
 VENV = .venv
 PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pyright 
 PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini --no-header --durations=5 --disable-pytest-warnings -v  
-FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini
+FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=.config/flake8.ini 
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
 BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
 PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python3

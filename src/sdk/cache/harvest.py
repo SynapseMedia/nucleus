@@ -1,7 +1,7 @@
 import src.core.cache as cache
 
-from src.core.cache import Connection
 from src.core.types import List
+from src.core.cache.types import Connection
 from .constants import INSERT_MOVIE
 from .types import Movies
 

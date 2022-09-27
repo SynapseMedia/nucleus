@@ -39,8 +39,8 @@ jobs:
       # - name: Type checker
       #   run: make check-typing
 
-      - name: Static Analysis
-        run: make check-coding-style
+      # - name: Static Analysis
+      #   run: make check-coding-style
 
       - name: Tests
         run: |

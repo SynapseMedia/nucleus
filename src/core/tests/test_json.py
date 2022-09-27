@@ -1,7 +1,7 @@
 import json as JSON
 import pytest
 
-from src.core import json 
+from src.core import json
 from src.core.types import Directory
 
 

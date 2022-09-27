@@ -2,6 +2,7 @@ import src.core.logger as logger
 
 # ref: https://docs.python.org/3/library/contextlib.html
 from contextlib import ContextDecorator
+
 # ref: https://docs.python.org/es/3/library/functools.html
 from functools import wraps
 from src.core.types import ParamSpec, TypeVar, Callable, Any, Optional
@@ -38,7 +39,6 @@ def get(conn, query, params):
     ...
 
 get("SELECT name from Movie WHERE id = (?)", 1)
-    
 """
 
 
@@ -116,3 +116,6 @@ def atomic(f: Optional[Callable[..., Any]] = None) -> Any:
         return Atomic()(f)
     # If atomic is called as context manager
     return Atomic()
+
+
+__all__ = ["connected", "atomic"]

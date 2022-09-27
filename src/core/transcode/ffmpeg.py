@@ -3,7 +3,7 @@ import src.core.exceptions as exceptions
 
 # Convention for importing types and constants
 from ffmpeg_streaming._input import Input as FFInput  # type: ignore
-from ffmpeg_streaming import Size, input as ffinput, FFProbe  # type: ignore
+from ffmpeg_streaming import input as ffinput, FFProbe  # type: ignore
 from src.core.types import Directory, Dict, Sequence, Iterator, Any
 from .constants import MAX_MUXING_QUEUE_SIZE
 

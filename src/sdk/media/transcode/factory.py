@@ -12,7 +12,7 @@ def streaming(_format: FormatID, **kwargs: Any) -> Iterator[Streaming]:
         FormatID.Webm: DASH,
         FormatID.Mp4: HLS,
     }
-    
+
     if _format not in protocols:
         raise InvalidStreamingProtocol()
 
