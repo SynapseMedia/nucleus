@@ -18,4 +18,3 @@ NODE_URI = os.getenv("NODE_URI")
 VALIDATE_SSL = os.getenv("VALIDATE_SSL", "False") == "True"
 ALLOWED_VIDEO_EXTENSIONS = {"mp4", "webm"}
 ALLOWED_IMAGE_EXTENSIONS = {"jpeg", "png", "jpg", "gif"}
-

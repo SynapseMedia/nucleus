@@ -66,15 +66,6 @@ services:
     ports:
       - "5000:5000"
 
-  watchit-mongodb:
-    image: mongo
-    hostname: mongo
-    restart: unless-stopped
-    networks:
-      - watchit
-    ports:
-      - "27017:27017"
-
   watchit-monitor:
     build: .
     image: watchit-sdk

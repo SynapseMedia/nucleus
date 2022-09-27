@@ -93,7 +93,6 @@ def test_rinkeby_chain():
     )
 
 
-
 def test_cid_to_uint256():
     """Should return expected output uint256 in deterministic way from input"""
     current_value = CIDStr("bafyjvzacdk3rngktzetikg3w2gf7nxvxsq5y4t4xryzijalyazsa")

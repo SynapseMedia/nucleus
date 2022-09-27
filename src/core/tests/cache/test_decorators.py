@@ -10,7 +10,7 @@ def test_connected():
     @connected
     def to_decorate_with_connection(conn: Connection):
         # Should pass the current connection to db
-        assert is_open(conn) == True
+        assert is_open(conn) is True
 
     to_decorate_with_connection()
 
@@ -18,7 +18,7 @@ def test_connected():
 def test_connected_override_connection():
     """Should override passed connection as param for decorated function"""
     override_connection = connect()
-    
+
     @connected
     def to_decorate_with_connection(conn: Connection):
         # Should pass the current connection to db
@@ -30,8 +30,8 @@ def test_connected_override_connection():
 def test_atomic():
     """Should run statements in transactional atomic mode"""
     with patch("src.core.cache.database.sqlite3") as mock:
-        mock.connect().execute().fetchone.return_value = (1,) # type: ignore
-        _commit = mock.connect().commit  # type: ignore 
+        mock.connect().execute().fetchone.return_value = (1,)  # type: ignore
+        _commit = mock.connect().commit  # type: ignore
 
         @atomic
         def to_decorate_with_atomic(conn: Connection):

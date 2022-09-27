@@ -46,9 +46,8 @@ def test_valid_remote_file():
 def test_invalid_remote_file():
     """Should fail for remote file from invalid URL"""
     responses.add(responses.GET, mock_link, status=404)
-    with pytest.raises(requests.exceptions.HTTPError): 
+    with pytest.raises(requests.exceptions.HTTPError):
         download(mock_link, directory)
-
 
 
 def test_copy_local_file(mocker: Any):
@@ -68,9 +67,7 @@ def test_omit_existing_file(mocker: Any):
     """Should omit copy for local file and download attempt if file exist in destination directory"""
     with open("assets/tests/watchit.png", "rb") as mock_file:
         _setup_file_response_ok(mock_file, body=Exception("Should not be called"))
-        mocker.patch(
-            "src.core.files.resolve", return_value=(mock_local_file, True)
-        )
+        mocker.patch("src.core.files.resolve", return_value=(mock_local_file, True))
 
         current_path = fetch(URI(mock_local_file), mock_local_file)
         assert current_path
