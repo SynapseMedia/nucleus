@@ -15,6 +15,8 @@ def freeze(conn: Connection, data: List[Movies]) -> bool:
     :rtype: bool
     """
 
+    
+    
     insert = map(lambda x: tuple(x.dict().values()), data)
     # TODO insert the resources and genres here too
     inserted = cache.batch(conn, INSERT_MOVIE, *insert)
