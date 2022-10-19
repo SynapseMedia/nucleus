@@ -47,8 +47,7 @@ The information shared between the nodes will be the assets and movies added to 
 
 The nodes will also be facilitators of metadata for the network, each node will have a process that will "pin" with lists of metadata from the different participants in the network (this metadata will be previously encrypted) that will be obtained through the Distribution contract.
 
-It is worth noting that the IPFS nodes running within the network will be "upgraded" nodes to implement all the features described above. Any suggestion or improvement please create an issue.
-...
+It is worth noting that the IPFS nodes running within the network will be "upgraded" nodes to implement all the features described above. Any suggestion or improvement please submit an issue.
 
 ## Terms and Concepts
 
@@ -58,12 +57,11 @@ Pending
 
 Pending
 
-### Resolvers
+### Harvesting
 
-"A *resolver* is a set of instructions, expressed as a Python class. A *gateway* will execute a resolver to fetch
-content from various sources that later populate the schema." - @aphelionz
+""The *harvest* process consists of a set of instructions, expressed as a Python class. The toolkit will execute the instructions expressed in those classes to obtain content that then populates the metadata schema." - @aphelionz
 
-Resolvers implement the logic necessary for fetch, preprocessing, cleaning and schematization of data from any available
+Harvest resolvers implement the logic necessary for fetch, preprocessing, cleaning and schematization of data from any available
 resource. Based on the following class abstraction we can see the methods required for the development of a resolver:
 
 ~~~~
@@ -94,30 +92,22 @@ Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master
 
 ## Development
 
- Please make sure you have `make` installed. Please see instructions for [windows](http://gnuwin32.sourceforge.net/packages/make.htm) install.
+Some available capabilities for dev support:
 
-### Install
+- **Install**: `make bootstrap`
+- **Tests**: `make test`
+- **Coverage**: `make coverage`
+- **Lint**: `make code-fmt`
+- **Lint Fix**: `make fix-coding-style`
 
-`make bootstrap` to install dependencies
-
-### Test
-
-In the project directory, you can run:
-
-`make test` to run code test and `make test-coverage` to check code coverage
-
-### Lint
-
-In the project directory, you can run:
-`make` to run linter or `make fix-coding-style` to fix linting
+Note: Please check [Makefile](https://github.com/geolffreym/watchit-toolkit/Makefile) for more capabilities.  
 
 ## More info
 
-- Visit our site [watchitapp.site](http://watchitapp.site).
+- Visit our site [watchitapp.site](http://watchit.movie).
 - Read our post in [dev.to](https://dev.to/geolffreym/watchit-2b88).
-- Check out [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) to future features.
 - Get in touch with us in [gitter](https://gitter.im/watchit-app/community).
-- For help or bugs please [create an issue](https://github.com/ZorrillosDev/watchit-gateway/issues).
+- For help or bugs please [create an issue](https://github.com/ZorrillosDev/watchit-toolkit/issues).
 
 ## Contributors ✨
 

@@ -43,7 +43,6 @@ services:
     env_file:
       - .env
     depends_on:
-      - watchit-mongodb
       - watchit-ipfs
 
   watchit-http:
@@ -61,7 +60,6 @@ services:
       FLASK_ENV: 'development'
       FLASK_APP: '/data/watchit/src/http/main.py'
     depends_on:
-      - watchit-mongodb
       - watchit-ipfs
     ports:
       - "5000:5000"

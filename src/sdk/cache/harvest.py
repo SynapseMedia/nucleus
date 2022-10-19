@@ -1,5 +1,6 @@
 import src.core.cache as cache
 
+# Convention for importing constants and types
 from src.core.types import List
 from src.core.cache.types import Connection
 from .constants import INSERT_MOVIE
@@ -15,9 +16,10 @@ def freeze(conn: Connection, data: List[Movies]) -> bool:
     :rtype: bool
     """
 
-    insert = map(lambda x: tuple(x.dict().values()), data)
-    # TODO insert the resources and genres here too
-    inserted = cache.batch(conn, INSERT_MOVIE, *insert)
+    # TODO here need to split resources first
+    movie = map(lambda x: x.dict(exclude={"resources"}).values(), data)
+    resources = ... # use it to store resources
+    inserted = cache.batch(conn, INSERT_MOVIE, *movie)
     return inserted > 0
 
 

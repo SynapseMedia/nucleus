@@ -6,7 +6,6 @@ from .types import Connection, Cursor, Row, Query
 from .decorator import connected
 
 
-@connected
 def _run(conn: Connection, q: Query, *args: Sequence[str]) -> Cursor:
     """Execute a custom query in database connection.
 
@@ -29,8 +28,8 @@ def get(conn: Connection, q: Query, *args: Sequence[str]) -> Row:
     :return: Return an object matching the given query
     """
 
-    res = _run(conn, q, *args)
-    return res.fetchone()
+    cursor = _run(conn, q, *args)
+    return cursor.fetchone()
 
 
 @connected
@@ -42,8 +41,8 @@ def all(conn: Connection, q: Query, *args: Sequence[str]) -> List[Row]:
     :return: Return a list of objects matching the given query
     """
 
-    res = _run(conn, q, *args)
-    return res.fetchall()
+    cursor = _run(conn, q, *args)
+    return cursor.fetchall()
 
 
 @connected
@@ -62,6 +61,7 @@ def exec(conn: Connection, q: Query, *args: Sequence[str]) -> bool:
     return cursor.rowcount > 0
 
 
+@connected
 def batch(conn: Connection, q: Query, *args: Sequence[str]) -> int:
     """Execute batch operations in the database.
 

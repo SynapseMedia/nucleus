@@ -1,5 +1,5 @@
 from src.core.types import Any
-from src.core.cache.migrate import Connection, tables, indexes
+from src.core.cache.migrate import Connection, tables  # , indexes
 
 
 def get_sqlite_master(conn: Connection) -> Any:
@@ -25,9 +25,9 @@ def test_migrate_tables():
     assert matched_result == expected_tables
 
 
-def test_migrate_indexes():
-    """Should run migration for expected indexes"""
-    conn = indexes()  # Run indexes migration
-    # check if index exists after migration
-    migration_result = get_sqlite_master(conn)
-    assert ("idx_imdb_code",) in set(migration_result)
+# def test_migrate_indexes():
+#     """Should run migration for expected indexes"""
+#     conn = indexes()  # Run indexes migration
+#     # check if index exists after migration
+#     migration_result = get_sqlite_master(conn)
+#     assert ("idx_imdb_code",) in set(migration_result)

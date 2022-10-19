@@ -12,7 +12,7 @@
     "minimist": "^1.2.5",
     "mongodb": "^4.2.0",
     "node-rsa": "^1.0.8",
-    "orbit-db": "~0.28.0",
+    "orbit-db": "~0.28.7",
     "pino": "^6.11.1",
     "pino-pretty": "^4.5.0",
     "secp256k1": "^3.8.0",
