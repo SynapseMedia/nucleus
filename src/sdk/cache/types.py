@@ -53,7 +53,6 @@ class MovieResources(pydantic.BaseModel):
 
 class Movies(pydantic.BaseModel):
     """Movies define needed fields for standard movie schema."""
-
     title: str
     # imdb code is adopted from IMB movies site to handle an alpha-numeric id
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
@@ -63,7 +62,7 @@ class Movies(pydantic.BaseModel):
     # # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating: str
     # price could be set as initial price for movie.
-    # This price will be will be used for "monetization" purpose
+    # This price will be used for "monetization" purpose
     price: float
     rating: float
     runtime: float

@@ -128,7 +128,7 @@ class Proxy(Accessor, metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def __getattr__(self, name: str) -> Accessor:
+    def __getattr__(self, name: str) -> Callable[[Any], Any]:
         """Control behavior for when a user attempts to access an attribute that doesn't exist
 
         This method proxies/delegate the call to low level lib subscriptable object
@@ -150,16 +150,16 @@ class Proxy(Accessor, metaclass=ABCMeta):
 
         Usage:
             class ProxyWeb3Contract(Proxy):
-                interface: Contract
+                _interface: Contract
 
                 def __init__(self, interface: Contract):
-                    self.interface = interface
+                    self._interface = interface
 
                 def __getattr__(self, name: str):
-                    return getattr(self.interface.functions, name)
+                    return getattr(self._interface.functions, name)
 
-        :return: default subscriptable object
-        :rtype: Subscriptable
+        :return: expected method to call in contract
+        :rtype: Callable[[Any], Any]
 
         """
         ...

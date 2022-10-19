@@ -19,7 +19,7 @@ The design so far contains 3 layers of abstraction:
 Toolkit its a low level compilation of "toolchain" for Watchit environment.
 It includes:
 
-- Metadata resolvers
+- Metadata harvesting
 - Static image processing
 - Video transcoding
 - Multimedia storage
@@ -30,7 +30,7 @@ It includes:
 
 The toolkit proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:
 
-1. **Resolve**: obtaining the raw metadata of movies
+1. **Harvesting**: collect movies metadata
 2. **Processing**: video transcoding and image processing
 3. **Schematization**: metadata standard schematization eg. ERC1155 metadata
 4. **Storage**: structured storage in the IPFS decentralized network
@@ -39,9 +39,15 @@ The toolkit proposes a sequence of steps (pipeline) for the processing and decen
 
 ## Node
 
-Toolkit itself exposes a node that powers the Watchit network through distributed storage, metadata resolution, reward system and access controls.
+In a Nutshell Toolkit itself exposes a node that powers the Watchit network through distributed storage, metadata resolution, reward system and access controls.
 
-...
+The nodes will be rewarded through the IPFS "bitswap" which will determine the amount of data and bandwidth provided by each participant, based on this WVT will be granted for use in the watchit network.
+
+The information shared between the nodes will be the assets and movies added to IPFS within the watchit network, it is important to note that this data will not be stored by default and only those that are requested from the network or those with which you want to feed your node to increase your rewards since the more data you have to share the more rewards you will get.
+
+The nodes will also be facilitators of metadata for the network, each node will have a process that will "pin" with lists of metadata from the different participants in the network (this metadata will be previously encrypted) that will be obtained through the Distribution contract.
+
+It is worth noting that the IPFS nodes running within the network will be "upgraded" nodes to implement all the features described above. Any suggestion or improvement please submit an issue.
 
 ## Terms and Concepts
 
@@ -51,12 +57,11 @@ Pending
 
 Pending
 
-### Resolvers
+### Harvesting
 
-"A *resolver* is a set of instructions, expressed as a Python class. A *gateway* will execute a resolver to fetch
-content from various sources that later populate the schema." - @aphelionz
+""The *harvest* process consists of a set of instructions, expressed as a Python class. The toolkit will execute the instructions expressed in those classes to obtain content that then populates the metadata schema." - @aphelionz
 
-Resolvers implement the logic necessary for fetch, preprocessing, cleaning and schematization of data from any available
+Harvest resolvers implement the logic necessary for fetch, preprocessing, cleaning and schematization of data from any available
 resource. Based on the following class abstraction we can see the methods required for the development of a resolver:
 
 ~~~~
@@ -87,30 +92,22 @@ Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master
 
 ## Development
 
- Please make sure you have `make` installed. Please see instructions for [windows](http://gnuwin32.sourceforge.net/packages/make.htm) install.
+Some available capabilities for dev support:
 
-### Install
+- **Install**: `make bootstrap`
+- **Tests**: `make test`
+- **Coverage**: `make coverage`
+- **Lint**: `make code-fmt`
+- **Lint Fix**: `make fix-coding-style`
 
-`make bootstrap` to install dependencies
-
-### Test
-
-In the project directory, you can run:
-
-`make test` to run code test and `make test-coverage` to check code coverage
-
-### Lint
-
-In the project directory, you can run:
-`make` to run linter or `make fix-coding-style` to fix linting
+Note: Please check [Makefile](https://github.com/geolffreym/watchit-toolkit/Makefile) for more capabilities.  
 
 ## More info
 
-- Visit our site [watchitapp.site](http://watchitapp.site).
+- Visit our site [watchitapp.site](http://watchit.movie).
 - Read our post in [dev.to](https://dev.to/geolffreym/watchit-2b88).
-- Check out [the roadmap](https://github.com/ZorrillosDev/watchit-gateway/projects/1) to future features.
 - Get in touch with us in [gitter](https://gitter.im/watchit-app/community).
-- For help or bugs please [create an issue](https://github.com/ZorrillosDev/watchit-gateway/issues).
+- For help or bugs please [create an issue](https://github.com/ZorrillosDev/watchit-toolkit/issues).
 
 ## Contributors ✨
 
