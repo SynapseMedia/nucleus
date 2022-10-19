@@ -37,7 +37,9 @@ The toolkit proposes a sequence of steps (pipeline) for the processing and decen
 5. **Blockchain**: mint movies to web3 as NFT
 6. **Expose**: distribution of metadata through [OrbitDB](https://orbitdb.org/)
 
-## Node
+## Terms and Concepts
+
+### Node
 
 In a Nutshell Toolkit itself exposes a node that powers the Watchit network through distributed storage, metadata resolution, reward system and access controls.
 
@@ -48,14 +50,6 @@ The information shared between the nodes will be the assets and movies added to 
 The nodes will also be facilitators of metadata for the network, each node will have a process that will "pin" with lists of metadata from the different participants in the network (this metadata will be previously encrypted) that will be obtained through the Distribution contract.
 
 It is worth noting that the IPFS nodes running within the network will be "upgraded" nodes to implement all the features described above. Any suggestion or improvement please submit an issue.
-
-## Terms and Concepts
-
-Pending
-
-### Distribution Vault
-
-Pending
 
 ### Harvesting
 
@@ -86,9 +80,11 @@ class Dummy:
 
 Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py)
 
-### Usage
+## Usage
 
-- [USAGE.md](https://github.com/ZorrillosDev/watchit-gateway/blob/master/USAGE.md).
+- [SDK]()
+- [CLI]()
+- [API]()
 
 ## Development
 
