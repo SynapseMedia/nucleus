@@ -20,8 +20,7 @@ Toolkit its a low level compilation of "toolchain" for Watchit environment.
 It includes:
 
 - Metadata harvesting
-- Static image processing
-- Video transcoding
+- Multimedia processing
 - Multimedia storage
 - Metadata distribution
 - Web3 instruments
