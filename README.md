@@ -48,8 +48,6 @@ The information shared between the nodes will be the assets and movies added to 
 
 The nodes will also be facilitators of metadata for the network, each node will have a process that will "pin" with lists of metadata from the different participants in the network (this metadata will be previously encrypted) that will be obtained through the Distribution contract.
 
-It is worth noting that the IPFS nodes running within the network will be "upgraded" nodes to implement all the features described above.
-
 ### Harvesting
 
 "The *harvest* process consists of a set of instructions, expressed as a Python class. The toolkit will execute the instructions expressed in those classes to obtain content that then populates the metadata schema." - @aphelionz
