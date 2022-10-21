@@ -6,8 +6,8 @@ from pathlib import Path
 from src.core import files
 from src.core.types import Directory
 
-custom_dir = "assets"
-directory = Directory("tests")
+custom_dir = "src/core/tests"
+directory = Directory("fixture")
 image = Directory(f"{directory}/watchit.png")
 
 
@@ -47,7 +47,7 @@ def test_resolve_root_for_prod():
     result_dir = files.resolve(directory, is_prod=True)
     # (Path expected result for prod, if path exists  = True)
     expected = ("%s/%s" % (files.PROD_PATH, directory), True)
-
+    
     assert result_dir == expected
 
 
