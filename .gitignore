@@ -23,6 +23,10 @@ source
 scheme.js
 resolvers
 _bck/**
+_build/
+_static/
+_templates/
+.pytest_cache
 orbit*/
 pragma*.txt
 src/.pytest_cache
