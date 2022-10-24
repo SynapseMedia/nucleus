@@ -30,6 +30,7 @@
     "python.testing.pytestArgs": [
         "."
     ],
+    "autoDocstring.docstringFormat": "sphinx",
     "python.analysis.typeCheckingMode": "strict",
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,

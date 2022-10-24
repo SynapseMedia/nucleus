@@ -18,11 +18,6 @@ class Dummy:
 import inspect
 import pkgutil
 
-__title__ = 'watchit'
-__version__ = '0.1.0'
-__license__ = 'MIT'
-__copyright__ = 'Copyright 2020-2021 ZorrillosDev'
-
 
 def load():
     """
@@ -35,4 +30,4 @@ def load():
                 yield obj
 
 
-__all__ = ['load']
+__all__ = ["load"]
