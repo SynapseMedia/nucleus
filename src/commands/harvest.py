@@ -1,5 +1,5 @@
 import click
-import resolvers
+import collectors
 from src.sdk import cache, runtime, logger, scheme
 
 
@@ -10,7 +10,7 @@ def resolve():
     """
 
     # Force refresh or resolve tmp db empty
-    resolvers_list = resolvers.load()
+    resolvers_list = collectors.load()
 
     # Process each resolver and merge it
     logger.log.warning("Running resolvers")
