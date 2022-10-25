@@ -97,7 +97,7 @@ Note: Please check [Makefile](https://github.com/geolffreym/watchit-toolkit/Make
 
 ## More info
 
-- Visit our site [watchitapp.site](http://watchit.movie).
+- Visit our site [watchit.movie](http://watchit.movie).
 - Read our post in [dev.to](https://dev.to/geolffreym/watchit-2b88).
 - Get in touch with us in [gitter](https://gitter.im/watchit-app/community).
 - For help or bugs please [create an issue](https://github.com/ZorrillosDev/watchit-toolkit/issues).
