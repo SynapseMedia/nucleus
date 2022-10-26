@@ -3,7 +3,7 @@ from src.core.image import input, Size
 from src.core.exceptions import InvalidImageSize
 
 
-root_dir = "src/core/tests/fixture/"
+root_dir = "src/tests/core/fixture/"
 image_dir_771 = f"{root_dir}771x900.jpg"
 image_dir_255 = f"{root_dir}255x255.jpg"
 image_dir_638 = f"{root_dir}638x400.jpg"

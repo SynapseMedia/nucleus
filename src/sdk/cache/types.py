@@ -5,6 +5,7 @@ All processed data is later used in the creation of standard metadata (ERC-1155,
 In addition, this metadata is used for marshalling process.
 """
 import re
+import time
 import pydantic
 import datetime
 import validators  # type: ignore
@@ -12,6 +13,7 @@ import cid  # type: ignore
 import pathlib
 
 # Convention for importing constants
+from src.core.types import Optional, List
 from .constants import (
     DEFAULT_RATE_MAX,
     FIRST_MOVIE_YEAR_EVER,
@@ -20,14 +22,14 @@ from .constants import (
 )
 
 
-class MovieResources(pydantic.BaseModel):
-    """MovieResources define the multimedia resources needed to play/display movie"""
+class Media(pydantic.BaseModel):
+    """Media define needed field for the multimedia assets schema."""
 
     route: str
     type: int
 
     @pydantic.validator("type")
-    def valid_type(self, v: int):
+    def valid_type(cls, v: int):
         if v not in [VIDEO_RESOURCE, IMAGE_RESOURCE]:
             raise ValueError(
                 """
@@ -51,8 +53,9 @@ class MovieResources(pydantic.BaseModel):
         return v
 
 
-class Movies(pydantic.BaseModel):
+class Movie(pydantic.BaseModel):
     """Movies define needed fields for standard movie schema."""
+
     title: str
     # imdb code is adopted from IMB movies site to handle an alpha-numeric id
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
@@ -61,20 +64,25 @@ class Movies(pydantic.BaseModel):
     creator_key: str
     # # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
     mpa_rating: str
-    # price could be set as initial price for movie.
-    # This price will be used for "monetization" purpose
-    price: float
     rating: float
     runtime: float
-    release_year: int
     synopsis: str
+    release_year: int
     # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
-    speech_language: str
-    trailer_link: str
-    date_uploaded: float
     genres: list[str]
+    speech_language: str
+    publish_date: Optional[float] = None
+    trailer_link: Optional[str] = None
     # Add movie multimedia resources
-    resources: list[MovieResources]
+    resources: list[Media] = []
+
+    @pydantic.validator("genres")
+    def serialize_gender(cls, v: List[str]):
+        return ", ".join(v)
+
+    @pydantic.validator("publish_date", pre=True, always=True)
+    def publish_date_default(cls, v: float):
+        return v or time.time()
 
     @pydantic.validator("imdb_code")
     def imdb_valid_format(cls, v: str):
@@ -104,17 +112,6 @@ class Movies(pydantic.BaseModel):
     @pydantic.validator("mpa_rating", pre=True, always=True)
     def mpa_rating_default(cls, v: str):
         return v or "PG"
-
-    @pydantic.validator("price")
-    def min_price_value(cls, v: float):
-        assert v >= 0, (
-            """
-            Invalid price value: %s.
-            Price should be greater than zero.
-            """
-            % v
-        )
-        return v
 
     @pydantic.validator("release_year")
     def year_range(cls, v: float):

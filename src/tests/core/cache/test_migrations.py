@@ -15,8 +15,6 @@ def test_migrate_tables():
     expected_tables = set(
         (
             ("movies",),
-            ("movies_genres",),
-            ("movies_movie_genre",),
             ("movies_resources",),
         )
     )

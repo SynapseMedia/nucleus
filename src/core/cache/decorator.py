@@ -15,33 +15,6 @@ T = TypeVar("T")
 P = ParamSpec("P")
 
 
-"""
-Example of usage:
-
-1) using with context:
-
-with atomic() as c:
-    # override connection using `conn` kwarg 
-    name = get("SELECT name from Movie WHERE id = (?)", 1, conn=c)
-    exec("INSERT INTO Movie VALUES(?)", name, conn=c)
-
-2) using atomic decorator:
-
-@atomic
-def transaction(c):
-    name = get("SELECT name from Movie WHERE id = (?)", 1, conn=c)
-    exec("INSERT INTO Movie VALUES(?)", name, conn=c)
-
-3) using decorated simple pre-connected method:
-
-@connected
-def get(conn, query, params):
-    ...
-
-get("SELECT name from Movie WHERE id = (?)", 1)
-"""
-
-
 class Atomic(ContextDecorator):
     """A base class that enables a context manager to also be used as a decorator.
 
@@ -49,17 +22,21 @@ class Atomic(ContextDecorator):
     """
 
     conn: Connection
+    auto_close: bool
 
     def __enter__(self):
         # Set connection with isolation level to turn off auto commit
         # ref: https://docs.python.org/3.4/library/sqlite3.html#sqlite3.Connection.isolation_level
         self.conn = connect(isolation_level=DB_ISOLATION_LEVEL)
+        self.auto_close = True  # close connection after execution?
         return self.conn
 
     def __call__(self, f: Callable[..., T]) -> Callable[..., T]:
         @wraps(f)
         def _wrapper(*args: Any, **kwargs: Any):
             with self._recreate_cm():  # type: ignore
+                self.auto_close = kwargs.pop("auto_close", True)
+                self.conn = kwargs.pop("conn", self.conn)
                 return f(self.conn, *args, **kwargs)
 
         return _wrapper
@@ -69,6 +46,7 @@ class Atomic(ContextDecorator):
         try:
             # If context execution goes fine return results
             self.conn.commit()
+            logger.log.info("Commit completed")
         except Exception as e:
             # In case of any issue we should rollback
             self.conn.rollback()
@@ -80,7 +58,9 @@ class Atomic(ContextDecorator):
             raise
         finally:
             # After everything is done we should commit transactions and close the connection.
-            self.conn.close()
+            if self.auto_close:
+                self.conn.close()
+            pass
 
 
 def connected(f: Callable[..., T]) -> Callable[..., T]:

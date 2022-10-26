@@ -7,7 +7,7 @@ from typing import Any
 from src.core.types import Directory, URI
 from src.core.http import download, fetch
 
-new_file_directory = Directory("src/core/tests/fixture/watchit_.png")
+new_file_directory = Directory("src/tests/core/fixture/watchit_.png")
 mock_local_file = Directory(new_file_directory.replace("_", ""))
 mock_link = URI("https://example.org/assets/tests/watchit.png")
 

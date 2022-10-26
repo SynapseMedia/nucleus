@@ -40,41 +40,16 @@ fix-coding-style: venv
 	${BLACKFIX} ${PYTHON_MODULES}
 check-coding-style: venv
 	${FLAKE8} ${PYTHON_MODULES}
-
-check-typing-sdk: venv
-	${PYTYPE} ${PYTHON_MODULES}/sdk
-
-check-typing-core: venv
-	${PYTYPE} ${PYTHON_MODULES}/core
-
 check-typing: venv
-	${PYTYPE} ${PYTHON_MODULES}
-
-
-test-sdk: venv
-	${PYTEST} ${PYTHON_MODULES}/sdk
-
-test-core: venv
-	${PYTEST} ${PYTHON_MODULES}/core  
-
+	${PYTYPE} ${PYTHON_MODULES}/$(filter-out $@,$(MAKECMDGOALS))
 test: venv
-	${PYTEST} ${PYTHON_MODULES} 
-
-test-coverage-core: test-core
-	${COVERAGE} run --source=./src/core ${VENV}/bin/py.test
-	${COVERAGE} report
-
-test-coverage-sdk: test-sdk
-	${COVERAGE} run --source=./src/sdk ${VENV}/bin/py.test
-	${COVERAGE} report
+	${PYTEST} ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
 
 test-coverage:  test
 	${COVERAGE} run --source=./src ${VENV}/bin/py.test
 	${COVERAGE} report
-	
 test-coverage-html: test-coverage
 	${COVERAGE} html
-	
 test-check:
 	${PYTEST} ${PYTHON_MODULES}
 
@@ -93,9 +68,7 @@ BUILDDIR      = build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile
-
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+html:
+	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
