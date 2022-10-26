@@ -4,7 +4,7 @@ import pytest
 from src.core import json
 from src.core.types import Directory
 
-file_dir = "src/core/tests/fixture/index.json"
+file_dir = "src/tests/core/fixture/index.json"
 
 def test_write_json():
     """Should write json file with defined content"""

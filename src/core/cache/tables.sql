@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS movies (
     imdb_code TEXT KEY DESC,
     title TEXT KEY DESC,
     -- creator key itself is a public key from blockchain network
+    genres TEXT,
     creator_key TEXT,
     mpa_rating TEXT,
     rating REAL,
@@ -15,21 +16,8 @@ CREATE TABLE IF NOT EXISTS movies (
     release_year INTEGER,
     synopsis TEXT,
     speech_language TEXT,
-    trailer_code TEXT,
-    date_uploaded REAL
-);
--- Schema table definition for movies_genres.
-CREATE TABLE IF NOT EXISTS movies_genres (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    genre KEY TEXT NOT NULL
-);
--- Schema for movies_movie_genre join table.
-CREATE TABLE IF NOT EXISTS movies_movie_genre (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    genre_id INTEGER NOT NULL,
-    movie_id INTEGER NOT NULL,
-    fk_movie FOREIGN_KEY movie_id REFERENCES movies (movie_id) ON DELETE CASCADE,
-    fk_genre FOREIGN_KEY genre_id REFERENCES movies_genres (genre_id) ON DELETE CASCADE
+    trailer_link TEXT,
+    publish_date REAL
 );
 -- Schema table definition for movies_resources.
 CREATE TABLE IF NOT EXISTS movies_resources (

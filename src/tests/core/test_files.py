@@ -6,7 +6,7 @@ from pathlib import Path
 from src.core import files
 from src.core.types import Directory
 
-custom_dir = "src/core/tests"
+custom_dir = "src/tests/core"
 directory = Directory("fixture")
 image = Directory(f"{directory}/watchit.png")
 
