@@ -27,6 +27,7 @@ class Atomic(ContextDecorator):
     def __enter__(self):
         # Set connection with isolation level to turn off auto commit
         # ref: https://docs.python.org/3.4/library/sqlite3.html#sqlite3.Connection.isolation_level
+        logger.log.info("Starting query execution")
         self.conn = connect(isolation_level=DB_ISOLATION_LEVEL)
         self.auto_close = True  # close connection after execution?
         return self.conn
@@ -58,8 +59,7 @@ class Atomic(ContextDecorator):
             raise
         finally:
             # After everything is done we should commit transactions and close the connection.
-            if self.auto_close:
-                self.conn.close()
+            self.conn.close()
             pass
 
 
@@ -73,10 +73,8 @@ def connected(f: Callable[..., T]) -> Callable[..., T]:
 
     @wraps(f)
     def _wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
-        # override of connection if kwarg passed else start connection with default database
-        conn = kwargs.pop("conn", connect())
         # Get connection a pass it to func call
-        return f(conn, *args, **kwargs)
+        return f(connect(), *args, **kwargs)
 
     # Return wrapper function
     return _wrapper
