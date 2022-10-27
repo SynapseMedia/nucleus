@@ -46,7 +46,7 @@ class CoreModel(pydantic.BaseModel):
 
     @property
     @abstractmethod
-    def _mutate(self, **kwargs: Any) -> str:
+    def _mutate(self) -> str:
         ...
 
     @property
