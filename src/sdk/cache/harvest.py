@@ -2,32 +2,8 @@ import src.core.cache as cache
 
 # Convention for importing constants and types
 from src.core.types import List
-from src.core.cache.types import Connection, Cursor, Query
-from .constants import INSERT_MOVIE
-from .types import Movie, Media
-
-
-def _query_from_media(media: Media):
-    pass
-
-def _query_from_movie(movie: Movie) -> Query:
-    """Build a query based on movie
-    
-    :param movie: The movie to build query
-    :return: Query ready to exec
-    :rtype: Query
-    
-    """
-    dict_movie = movie.dict(exclude={"resources"})
-    movie_fields = ",".join(dict_movie.keys())
-    # We generate a list of "?" to populate the query values
-    # ref: https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.execute
-    escaped_values = ",".join(["?" for _ in range(len(dict_movie))])
-    
-    # Build query based on movie input data
-    query = INSERT_MOVIE % (movie_fields, escaped_values)
-    values =  dict_movie.values()
-    return Query(query, list(values))
+from src.core.cache.types import Connection, Cursor, Field
+from .types import Movie
 
 
 @cache.atomic
@@ -40,26 +16,25 @@ def freeze(conn: Connection, movie: Movie) -> bool:
     """
 
     # Build query based on movie input data
-    query = _query_from_movie(movie)
-    cursor: Cursor = cache.exec(query, conn=conn)
-    movie_id = cursor.lastrowid
+    query = movie.write(exclude={"resources"})
+    cursor: Cursor = conn.execute(query.sql, query.values)
 
-    resources: List[Media]  = movie.resources
-    resources_map = map(lambda x: [movie_id, *dict(x).values()], resources)
-
-
-    # TODO insert here resources after get the exec id
-    # resources = 
-
-    # resources = ... # use it to store resources
-    # inserted = cache.batch(conn, INSERT_MOVIE, *movie)
-    # return inserted > 0
-    return False
+    # Movie + resources association
+    movie_resources = movie.resources
+    movie_field = Field("movie_id", cursor.lastrowid)
+    movie_queries = map(lambda x: x.aggregate(movie_field).write(), movie_resources)
+    
+    # run movie resource queries
+    expected_resources = len(movie_resources)
+    cursors = map(lambda x: conn.execute(x.sql, x.values), movie_queries)
+    batch_success = map(lambda c: c.rowcount == expected_resources, cursors)
+    return all(batch_success)
 
 
 def frozen() -> List[Movie]:
     """Return already stored movies
+
     :return: List of movies
     :rtype: List[Movies]
     """
-    pass
+    return []

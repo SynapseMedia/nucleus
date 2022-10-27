@@ -26,6 +26,20 @@ def setup_database():
         );
         """
     )
+    
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS movies_resources (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            movie_id INTEGER NOT NULL,
+            -- sqlite does not support ENUM types, so should be handled in code. eg: video=1, images=2.
+            type INTEGER,
+            -- Where the resource is stored?
+            route TEXT,
+            fk_movie FOREIGN_KEY movie_id REFERENCES movies (movie_id) ON DELETE CASCADE
+        );
+        """
+    )
 
     yield conn
 

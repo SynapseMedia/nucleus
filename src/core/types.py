@@ -23,20 +23,38 @@ URI = NewType("URI", str)
 Endpoint = Union[URI, str]
 
 
-class Accessor(Protocol):
+class Printable(Protocol, metaclass=ABCMeta):
+    """Printable abstraction to enforce implement string representation methods."""
+
+    @abstractmethod
+    def __str__(self) -> str:
+        """
+        Human readable string representation for abstraction.
+        """
+        ...
+
+
+class Accessor(Protocol, metaclass=ABCMeta):
     """
-    Accessor definition to enforce dynamic properties.
+    Accessor abstraction to enforce dynamic properties.
     You can define behavior for when a user attempts to access an attribute that doesn't exist.
     """
 
+    @abstractmethod
     def __getattr__(self, name: str) -> Any:
+        """
+        Dynamic access to an attribute.
+        Here should be handled the logic for dynamic attribute access.
+
+        :param name: The name of the attribute
+        :return: Any data processed using the attribute
+        :rtype: Any
+        """
         ...
 
 
 class Command(Protocol, metaclass=ABCMeta):
-    """
-    Command specify needed methods for commands execution.
-    """
+    """Command specify needed methods for commands execution."""
 
     @abstractmethod
     def __call__(self) -> Any:

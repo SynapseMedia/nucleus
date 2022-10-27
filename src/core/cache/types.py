@@ -6,7 +6,12 @@ from src.core.types import NamedTuple, Sequence, Any
 # ref: https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.execute
 class Query(NamedTuple):
     sql: str  # placeholder query template
-    values: Sequence[Any] = [] # bounded values for template
+    values: Sequence[Any] = []  # bounded values for template
+
+
+class Field(NamedTuple):
+    name: str  # field name
+    value: Any  # field content
 
 
 __all__ = ["Connection", "Cursor", "Row", "Query"]

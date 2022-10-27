@@ -38,18 +38,24 @@ bootstrap: setup-env venv requirements
 
 fix-coding-style: venv
 	${BLACKFIX} ${PYTHON_MODULES}
+
 check-coding-style: venv
 	${FLAKE8} ${PYTHON_MODULES}
+
 check-typing: venv
-	${PYTYPE} ${PYTHON_MODULES}/$(filter-out $@,$(MAKECMDGOALS))
+	${PYTYPE} ${PYTHON_MODULES}/
+
 test: venv
 	${PYTEST} ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
 
-test-coverage:  test
+test-coverage: 
+	${PYTEST} ${PYTHON_MODULES}/tests/
 	${COVERAGE} run --source=./src ${VENV}/bin/py.test
 	${COVERAGE} report
+
 test-coverage-html: test-coverage
 	${COVERAGE} html
+
 test-check:
 	${PYTEST} ${PYTHON_MODULES}
 

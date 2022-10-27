@@ -12,21 +12,103 @@ import validators  # type: ignore
 import cid  # type: ignore
 import pathlib
 
+from abc import abstractmethod
+
 # Convention for importing constants
-from src.core.types import Optional, List
+from src.core.types import Optional, List, Any, Literal
+from src.core.cache.types import Query, Field
+
+# Exception for relative internal importing
 from .constants import (
     DEFAULT_RATE_MAX,
     FIRST_MOVIE_YEAR_EVER,
     VIDEO_RESOURCE,
     IMAGE_RESOURCE,
+    INSERT_MOVIE,
+    INSERT_RESOURCES,
 )
 
 
-class Media(pydantic.BaseModel):
+# Allowed actions to execute in cache
+# eg. model.write() or model.read()
+Action = Literal["write", "read"]
+
+
+class CoreModel(pydantic.BaseModel):
+    """Extending base model to handle query building"""
+
+    class Config:
+        sql: str
+        action: Action
+
+    def __str__(self) -> str:
+        return self.Config.sql
+
+    @property
+    @abstractmethod
+    def _mutate(self, **kwargs: Any) -> str:
+        ...
+
+    @property
+    @abstractmethod
+    def _retrieve(self) -> str:
+        ...
+
+    def __getattr__(self, name: Action):
+        """Return sql based on action
+
+        :param name: action name
+        :return: Corresponding sql to action
+        :rtype: str
+        """
+        self.Config.action = name
+        self.Config.sql = {
+            "write": self._mutate,
+            "read": self._retrieve,
+        }.get(name, self._mutate)
+
+        return self
+
+    def aggregate(self, field: Field):
+        """Dynamic aggregate field to model
+
+        :param field: The field to bind
+        :return: self
+        :rtype: self
+        """
+        setattr(self, field.name, field.value)
+        return self
+
+    def __call__(self, **kwargs: Any) -> Query:
+        """Build a query based on movie model
+
+        :return: A query based on movie model
+        :rtype: Query
+        """
+
+        model_dict = self.dict(**kwargs)
+        resources_fields = ",".join(model_dict.keys())
+        escaped_values = ",".join(["?" for _ in range(len(model_dict))])
+
+        # Build query based on input model
+        values = model_dict.values()
+        sql = str(self) % (resources_fields, escaped_values)
+        return Query(sql, list(values))
+
+
+class Media(CoreModel, extra=pydantic.Extra.allow):
     """Media define needed field for the multimedia assets schema."""
 
     route: str
     type: int
+
+    @property
+    def _mutate(self) -> str:
+        return INSERT_RESOURCES
+
+    @property
+    def _retrieve(self) -> str:
+        return ""
 
     @pydantic.validator("type")
     def valid_type(cls, v: int):
@@ -53,7 +135,7 @@ class Media(pydantic.BaseModel):
         return v
 
 
-class Movie(pydantic.BaseModel):
+class Movie(CoreModel):
     """Movies define needed fields for standard movie schema."""
 
     title: str
@@ -75,6 +157,14 @@ class Movie(pydantic.BaseModel):
     trailer_link: Optional[str] = None
     # Add movie multimedia resources
     resources: list[Media] = []
+
+    @property
+    def _mutate(self) -> str:
+        return INSERT_MOVIE
+
+    @property
+    def _retrieve(self) -> str:
+        return ""
 
     @pydantic.validator("genres")
     def serialize_gender(cls, v: List[str]):
