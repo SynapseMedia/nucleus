@@ -29,7 +29,6 @@ class Atomic(ContextDecorator):
         # ref: https://docs.python.org/3.4/library/sqlite3.html#sqlite3.Connection.isolation_level
         logger.log.info("Starting query execution")
         self.conn = connect(isolation_level=DB_ISOLATION_LEVEL)
-        self.auto_close = True  # close connection after execution?
         return self.conn
 
     def __call__(self, f: Callable[..., T]) -> Callable[..., T]:
@@ -38,7 +37,6 @@ class Atomic(ContextDecorator):
             with self._recreate_cm():  # type: ignore
                 # Get extra settings passed to decorator
                 self.auto_close = kwargs.pop('auto_close', self.auto_close)
-                self.conn = kwargs.pop("conn", self.conn)
                 return f(self.conn, *args, **kwargs)
 
         return _wrapper
