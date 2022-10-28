@@ -55,7 +55,7 @@ class CoreModel(pydantic.BaseModel):
         ...
 
     def __getattr__(self, name: Action):
-        """Return sql based on action", ".join(v)
+        """Return sql based on action
 
         :param name: action name
         :return: Corresponding sql to action
