@@ -2,7 +2,7 @@ import src.core.cache as cache
 
 # Convention for importing constants and types
 from src.core.types import List
-from src.core.cache.types import Connection, Cursor, Field
+from src.core.cache.types import Connection, Cursor, Query
 from .types import Movie
 
 
@@ -16,19 +16,9 @@ def freeze(conn: Connection, movie: Movie) -> bool:
     """
 
     # Build query based on movie input data
-    query = movie.write(exclude={"resources"})
+    query: Query = movie.create.write()
     cursor: Cursor = conn.execute(query.sql, query.values)
-
-    # Movie + resources association
-    movie_resources = movie.resources
-    movie_field = Field("movie_id", cursor.lastrowid)
-    movie_queries = map(lambda x: x.aggregate(movie_field).write(), movie_resources)
-    
-    # run movie resource queries
-    expected_resources = len(movie_resources)
-    cursors = map(lambda x: conn.execute(x.sql, x.values), movie_queries)
-    batch_success = map(lambda c: c.rowcount == expected_resources, cursors)
-    return all(batch_success)
+    return cursor.rowcount > 0
 
 
 def frozen() -> List[Movie]:
@@ -37,4 +27,5 @@ def frozen() -> List[Movie]:
     :return: List of movies
     :rtype: List[Movies]
     """
+    # TODO yield here movies
     return []

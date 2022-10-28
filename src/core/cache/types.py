@@ -9,9 +9,4 @@ class Query(NamedTuple):
     values: Sequence[Any] = []  # bounded values for template
 
 
-class Field(NamedTuple):
-    name: str  # field name
-    value: Any  # field content
-
-
 __all__ = ["Connection", "Cursor", "Row", "Query"]

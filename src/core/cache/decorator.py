@@ -22,6 +22,7 @@ class Atomic(ContextDecorator):
     """
 
     conn: Connection
+    auto_close: bool = True
 
     def __enter__(self):
         # Set connection with isolation level to turn off auto commit
@@ -34,6 +35,8 @@ class Atomic(ContextDecorator):
         @wraps(f)
         def _wrapper(*args: Any, **kwargs: Any):
             with self._recreate_cm():  # type: ignore
+                # Get extra settings passed to decorator
+                self.auto_close = kwargs.pop('auto_close', self.auto_close)
                 return f(self.conn, *args, **kwargs)
 
         return _wrapper
@@ -54,9 +57,9 @@ class Atomic(ContextDecorator):
             # It then acts the same as if you used raise with the most recent exception type, value and traceback.
             raise
         finally:
-            # After everything is done we should commit transactions and close the connection.
-            self.conn.close()
-            pass
+            if self.auto_close:
+                # After everything is done we should commit transactions and close the connection.
+                self.conn.close()
 
 
 def connected(f: Callable[..., T]) -> Callable[..., T]:

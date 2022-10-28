@@ -6,6 +6,7 @@ In addition, this metadata is used for marshalling process.
 """
 import re
 import time
+import json
 import pydantic
 import datetime
 import validators  # type: ignore
@@ -16,7 +17,7 @@ from abc import abstractmethod
 
 # Convention for importing constants
 from src.core.types import Optional, List, Any, Literal
-from src.core.cache.types import Query, Field
+from src.core.cache.types import Query
 
 # Exception for relative internal importing
 from .constants import (
@@ -31,7 +32,7 @@ from .constants import (
 
 # Allowed actions to execute in cache
 # eg. model.write() or model.read()
-Action = Literal["write", "read"]
+Action = Literal["create", "fetch"]
 
 
 class CoreModel(pydantic.BaseModel):
@@ -39,47 +40,35 @@ class CoreModel(pydantic.BaseModel):
 
     class Config:
         sql: str
-        action: Action
 
     def __str__(self) -> str:
         return self.Config.sql
 
     @property
     @abstractmethod
-    def _mutate(self) -> str:
+    def _create(self) -> str:
         ...
 
     @property
     @abstractmethod
-    def _retrieve(self) -> str:
+    def _fetch(self) -> str:
         ...
 
     def __getattr__(self, name: Action):
-        """Return sql based on action
+        """Return sql based on action", ".join(v)
 
         :param name: action name
         :return: Corresponding sql to action
         :rtype: str
         """
-        self.Config.action = name
         self.Config.sql = {
-            "write": self._mutate,
-            "read": self._retrieve,
-        }.get(name, self._mutate)
+            "create": self._create,
+            "fetch": self._fetch,
+        }.get(name, self._create)
 
         return self
 
-    def aggregate(self, field: Field):
-        """Dynamic aggregate field to model
-
-        :param field: The field to bind
-        :return: self
-        :rtype: self
-        """
-        setattr(self, field.name, field.value)
-        return self
-
-    def __call__(self, **kwargs: Any) -> Query:
+    def write(self, **kwargs: Any) -> Query:
         """Build a query based on movie model
 
         :return: A query based on movie model
@@ -103,11 +92,11 @@ class Media(CoreModel, extra=pydantic.Extra.allow):
     type: int
 
     @property
-    def _mutate(self) -> str:
+    def _create(self) -> str:
         return INSERT_RESOURCES
 
     @property
-    def _retrieve(self) -> str:
+    def _fetch(self) -> str:
         return ""
 
     @pydantic.validator("type")
@@ -159,15 +148,19 @@ class Movie(CoreModel):
     resources: list[Media] = []
 
     @property
-    def _mutate(self) -> str:
+    def _create(self) -> str:
         return INSERT_MOVIE
 
     @property
-    def _retrieve(self) -> str:
+    def _fetch(self) -> str:
         return ""
 
+    @pydantic.validator("resources")
+    def serialize_resources(cls, v: List[Media]):
+        return json.dumps(list(map(lambda x: x.dict(), v)))
+
     @pydantic.validator("genres")
-    def serialize_gender(cls, v: List[str]):
+    def serialize_genres(cls, v: List[str]):
         return ", ".join(v)
 
     @pydantic.validator("publish_date", pre=True, always=True)

@@ -1,6 +1,7 @@
 import pytest
 import sqlite3
 
+
 @pytest.fixture(scope="session")
 def setup_database():
     """Fixture to set up the in-memory database with test data"""
@@ -22,24 +23,10 @@ def setup_database():
             genres TEXT,
             speech_language TEXT,
             trailer_link TEXT,
-            publish_date REAL
-        );
-        """
-    )
-    
-    conn.execute(
-        """
-        CREATE TABLE IF NOT EXISTS movies_resources (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            movie_id INTEGER NOT NULL,
-            -- sqlite does not support ENUM types, so should be handled in code. eg: video=1, images=2.
-            type INTEGER,
-            -- Where the resource is stored?
-            route TEXT,
-            fk_movie FOREIGN_KEY movie_id REFERENCES movies (movie_id) ON DELETE CASCADE
+            publish_date REAL,
+            resources TEXT
         );
         """
     )
 
     yield conn
-

@@ -18,14 +18,5 @@ CREATE TABLE IF NOT EXISTS movies (
     speech_language TEXT,
     trailer_link TEXT,
     publish_date REAL
-);
--- Schema table definition for movies_resources.
-CREATE TABLE IF NOT EXISTS movies_resources (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    movie_id INTEGER NOT NULL,
-    -- sqlite does not support ENUM types, so should be handled in code. eg: video=1, images=2.
-    type INTEGER,
-    -- Where the resource is stored?
-    route TEXT,
-    fk_movie FOREIGN_KEY movie_id REFERENCES movies (movie_id) ON DELETE CASCADE
+    resources TEXT
 );
