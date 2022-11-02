@@ -18,7 +18,7 @@ from .constants import INSERT_MOVIE, FETCH_MOVIE
 Action = Literal["mutation", "query"]
 
 
-def query_required(f: Callable[..., Any]) -> Any:
+def _query_required(f: Callable[..., Any]) -> Any:
     """Decorate required previously query built
 
     :param f: A function to execute in wrapper
@@ -80,7 +80,7 @@ class CoreModel(pydantic.BaseModel):
         model.Config.query = Query(sql)
         return model
 
-    @query_required
+    @_query_required
     def filter(self, condition: Condition):
         """Filter query adding extra conditions to conditions
 
@@ -102,7 +102,7 @@ class CoreModel(pydantic.BaseModel):
         self.Config.query = q
         return self
 
-    @query_required
+    @_query_required
     def fetch(self) -> Iterator[Any]:
         """Exec query and fetch data from database.
         The result of fetch its handled by query build process.
