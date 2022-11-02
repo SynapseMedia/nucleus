@@ -123,10 +123,10 @@ class CoreModel(pydantic.BaseModel):
 
         with cache.connected() as conn:
             q = self.Config.query
-            exec = conn.execute(q.sql, q.params)
-            rows = exec.fetchall()  # raw data
+            response = conn.execute(q.sql, q.params)
+            rows = response.fetchall()  # raw data
             # Get fields from query and join with result to build model
-            fields = tuple(map(_map_fields, exec.description))
+            fields = tuple(map(_map_fields, response.description))
             return map(_map_result, rows)
 
     def save(self, **kwargs: Any) -> bool:
