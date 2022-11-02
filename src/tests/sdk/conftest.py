@@ -1,5 +1,5 @@
 import pytest
-from src.sdk.cache.types import Movie, Media
+from src.sdk.cache.models import Movie, Media
 from src.sdk.cache.constants import IMAGE_RESOURCE
 
 example_path = "src/tests/core/fixture/watchit.png"

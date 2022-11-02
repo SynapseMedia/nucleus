@@ -2,7 +2,7 @@ import pytest
 import sqlite3
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def setup_database():
     """Fixture to set up the in-memory database with test data"""
     conn = sqlite3.connect(":memory:")
