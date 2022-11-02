@@ -1,10 +1,8 @@
 import src.core.logger as logger
-
-# ref: https://docs.python.org/3/library/contextlib.html
-from contextlib import ContextDecorator
+import functools
+import contextlib
 
 # ref: https://docs.python.org/es/3/library/functools.html
-from functools import wraps
 from src.core.types import ParamSpec, TypeVar, Callable, Any, Optional
 from .constants import DB_ISOLATION_LEVEL
 from .database import connect
@@ -15,7 +13,7 @@ T = TypeVar("T")
 P = ParamSpec("P")
 
 
-class Atomic(ContextDecorator):
+class Atomic(contextlib.ContextDecorator):
     """A base class that enables a context manager to also be used as a decorator.
 
     ref: https://docs.python.org/3/library/contextlib.html
@@ -23,6 +21,9 @@ class Atomic(ContextDecorator):
 
     conn: Connection
     auto_close: bool = True
+
+    def __init__(self, auto_close: bool = False):
+        self.auto_close = auto_close
 
     def __enter__(self):
         # Set connection with isolation level to turn off auto commit
@@ -32,11 +33,11 @@ class Atomic(ContextDecorator):
         return self.conn
 
     def __call__(self, f: Callable[..., T]) -> Callable[..., T]:
-        @wraps(f)
+        @functools.wraps(f)
         def _wrapper(*args: Any, **kwargs: Any):
             with self._recreate_cm():  # type: ignore
                 # Get extra settings passed to decorator
-                self.auto_close = kwargs.pop('auto_close', self.auto_close)
+                self.auto_close = kwargs.pop("auto_close", self.auto_close)
                 return f(self.conn, *args, **kwargs)
 
         return _wrapper
@@ -62,7 +63,7 @@ class Atomic(ContextDecorator):
                 self.conn.close()
 
 
-def connected(f: Callable[..., T]) -> Callable[..., T]:
+def connected(f: Optional[Callable[..., Any]] = None) -> Any:
     """Decorate a method call with database.
 
     :param f: A function to execute in wrapper
@@ -70,8 +71,11 @@ def connected(f: Callable[..., T]) -> Callable[..., T]:
     :rtype: Callable[..., T]
     """
 
-    @wraps(f)
-    def _wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
+    if not callable(f):
+        return Atomic()
+
+    @functools.wraps(f)
+    def _wrapper(*args: P.args, **kwargs: P.kwargs) -> Any:
         # Get connection a pass it to func call
         return f(connect(), *args, **kwargs)
 
@@ -79,7 +83,7 @@ def connected(f: Callable[..., T]) -> Callable[..., T]:
     return _wrapper
 
 
-def atomic(f: Optional[Callable[..., Any]] = None) -> Any:
+def atomic(f: Optional[Callable[..., Any]] = None, **kwargs: Any) -> Any:
     """Decorate executions made to database.
     This method enhance the execution of queries/transactions to database adding extra atomic capabilities.
 
@@ -92,7 +96,7 @@ def atomic(f: Optional[Callable[..., Any]] = None) -> Any:
         # If atomic is called as decorator
         return Atomic()(f)
     # If atomic is called as context manager
-    return Atomic()
+    return Atomic(**kwargs)
 
 
 __all__ = ["connected", "atomic"]

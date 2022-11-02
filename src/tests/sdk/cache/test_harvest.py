@@ -1,16 +1,15 @@
 from mock import patch
-from src.core.types import Any
-from src.sdk.cache.types import Movie
-from src.sdk.cache.harvest import freeze
+from src.core.types import Any, List
+from src.sdk.cache.models import Movie
 
 
-def test_freeze(mock_movie: Movie, setup_database: Any):
+def test_movie_freeze(mock_movie: Movie, setup_database: Any):
 
     """Should return True for valid opened connection"""
     with patch("src.core.cache.database.sqlite3") as mock:
         conn = setup_database
         mock.connect.return_value = conn  # type: ignore
-        stored = freeze(mock_movie, auto_close=False)
+        stored = mock_movie.mutation.save()
 
         movie_dict = mock_movie.dict()
         expected_rows = tuple(movie_dict.values())
@@ -22,3 +21,18 @@ def test_freeze(mock_movie: Movie, setup_database: Any):
 
         assert rows[0] == expected_rows
         assert stored == True
+
+
+def test_movie_frozen(mock_movie: Movie, setup_database: Any):
+    with patch("src.core.cache.database.sqlite3") as mock:
+        conn = setup_database
+        mock.connect.return_value = conn  # type: ignore
+
+        # store a movie
+        mock_movie.mutation.save()
+        movies: List[Movie] = list(Movie.query.fetch())
+        assert movies == [mock_movie]
+
+
+# TODO test filter
+# TODO test conditions

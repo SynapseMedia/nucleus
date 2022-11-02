@@ -1,7 +1,13 @@
 from mock import patch
 from src.core.types import Any
 from src.core.files import exists
+from src.core.cache.types import Condition
 from src.core.cache.database import connection, DB_DEFAULT, is_open
+
+
+def test_condition_type():
+    condition = Condition(["a", "b", "c"])
+    assert str(condition) == "WHERE a = ? AND b = ? AND c = ?"
 
 
 def test_is_open_ok_for_opened_connection():
