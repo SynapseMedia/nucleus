@@ -79,7 +79,7 @@ class CoreModel(pydantic.BaseModel):
             rows = response.fetchall()  # raw data
             return rows[0]
 
-    def save(self, **kwargs: Any) -> bool:
+    def save(self) -> bool:
         """Exec insertion into database using built query
 
         :raises exceptions.InvalidMutation: If not query builtin
