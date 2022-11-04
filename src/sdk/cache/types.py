@@ -22,7 +22,7 @@ class MediaType(enum.Enum):
 
 
 class CoreModel(pydantic.BaseModel):
-    """Model based SQL builder"""
+    """Model based SQL manager"""
 
     class Config:
         query: str = FETCH_MOVIE
