@@ -46,5 +46,3 @@ def test_movie_get_frozen(mock_movie: Movie, setup_database: Any):
         assert movies == mock_movie
 
 
-# TODO test filter
-# TODO test conditions
