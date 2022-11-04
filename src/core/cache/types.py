@@ -18,4 +18,4 @@ class Condition(NamedTuple):
         return sql % " AND ".join(sql_fields)
 
 
-__all__ = ["Connection", "Cursor", "Row", "Query"]
+__all__ = ["Connection", "Cursor", "Row", "Query", "Condition"]

@@ -1,44 +1,27 @@
 import re
 import time
-import json
+import ast
 import pydantic
 import datetime
 import validators  # type: ignore
 import cid  # type: ignore
 import pathlib
+import sqlite3
 
 # Convention for importing types/constants
 # Convention for relative internal import
-from src.core.types import Optional, List
-from .types import CoreModel
+from src.core.types import Optional, List, Any
+from .types import CoreModel, MediaType
 
 # Exception for relative internal importing
-from .constants import (
-    DEFAULT_RATE_MAX,
-    FIRST_MOVIE_YEAR_EVER,
-    VIDEO_RESOURCE,
-    IMAGE_RESOURCE,
-)
+from .constants import DEFAULT_RATE_MAX, FIRST_MOVIE_YEAR_EVER
 
 
-class Media(pydantic.BaseModel):
+class Media(CoreModel):
     """Media define needed field for the multimedia assets schema."""
 
     route: str
-    type: int
-
-    @pydantic.validator("type")
-    def valid_type(cls, v: int):
-        if v not in [VIDEO_RESOURCE, IMAGE_RESOURCE]:
-            raise ValueError(
-                """
-                Invalid resource type.
-                Allowed types:
-                    - VIDEO = 1
-                    - IMAGE = 0
-                """
-            )
-        return v
+    type: MediaType
 
     @pydantic.validator("route")
     def valid_route(cls, v: str):
@@ -70,30 +53,30 @@ class Movie(CoreModel):
     # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
     genres: list[str]
     speech_language: str
-    publish_date: Optional[float] = None
-    trailer_link: Optional[str] = None
+    publish_date: Optional[float] = 0
+    trailer_link: Optional[str] = ""
     # Add movie multimedia resources
     resources: list[Media] = []
 
     @pydantic.validator("resources", pre=True)
-    def serialize_resources_pre(cls, v: str):
-        if type(v) == str:
-            return json.loads(v)
+    def serialize_resources_pre(cls, v: Any):
+        """Pre serialize media to object"""
+        if type(v) is bytes:
+            parsed = ast.literal_eval(v.decode())
+            instances = map(lambda x: Media(**x), parsed)
+            return list(instances)
         return v
 
     @pydantic.validator("genres", pre=True)
-    def serialize_genres_pre(cls, v: str):
-        if type(v) == str:
-            return v.split(",")
+    def serialize_genres_pre(cls, v: Any):
+        if type(v) is bytes:
+            decoded = v.decode()
+            return decoded.split(",")
         return v
-
-    @pydantic.validator("resources")
-    def serialize_resources(cls, v: List[Media]):
-        return json.dumps(list(map(lambda x: x.dict(), v)))
 
     @pydantic.validator("genres")
     def serialize_genres(cls, v: List[str]):
-        return ", ".join(v)
+        return ",".join(v)
 
     @pydantic.validator("publish_date", pre=True, always=True)
     def publish_date_default(cls, v: float):
@@ -151,3 +134,17 @@ class Movie(CoreModel):
                 """
             )
         return v
+
+
+def _build_movie(s: str) -> Any:
+    """Convert data from sqlite to Movie model
+    
+    #ref: https://docs.python.org/3/library/sqlite3.html#how-to-write-adaptable-objects
+    """
+    values = list(s.split(b";"))  # type: ignore
+    fields = Movie.__fields__.keys()
+    params = dict(zip(fields, values))  # type: ignore
+    return Movie(**params)
+
+
+sqlite3.register_converter("movie", _build_movie)  # type: ignore

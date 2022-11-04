@@ -1,13 +1,17 @@
 import pytest
 from src.sdk.cache.models import Movie, Media
-from src.sdk.cache.constants import IMAGE_RESOURCE
+from src.sdk.cache import MediaType
 
 example_path = "src/tests/core/fixture/watchit.png"
+
 
 @pytest.fixture
 def mock_movie():
     """Fixture to provide a mocking for movie"""
-    resource = Media(route=example_path, type=IMAGE_RESOURCE)
+    resource = Media(
+        route=example_path,
+        type=MediaType.IMAGE,
+    )
 
     return Movie(
         title="Test",

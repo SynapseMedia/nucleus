@@ -3,85 +3,46 @@ Scheme definition for movies.
 Each scheme here defined help us to keep a standard for runtime processing of movies. 
 All processed data is later used in the creation of standard metadata (ERC-1155, ..), pipeline cache, marshalling, etc; 
 """
-
+import sqlite3
 import pydantic
 import src.core.cache as cache
-import src.sdk.exceptions as exceptions
-import functools
+import enum
 
 # Convention for importing constants
-from src.core.types import Any, Literal, Iterator, Callable
-from src.core.cache.types import Query, Cursor, Condition
+from src.core.types import Any, Iterator
+from src.core.cache.types import Cursor, Condition
 from .constants import INSERT_MOVIE, FETCH_MOVIE
 
-# Allowed actions to execute in cache
-Action = Literal["mutation", "query"]
 
+class MediaType(enum.Enum):
+    """Any resource type should be listed here"""
 
-def _query_required(f: Callable[..., Any]) -> Any:
-    """Decorate required previously query built
-
-    :param f: A function to execute in wrapper
-    :returns: Wrapper function
-    :rtype: Callable[..., T]
-    """
-
-    @functools.wraps(f)
-    def _wrapper(self: Any, *args: Any, **kwargs: Any) -> Any:
-        if not self.Config.query:
-            raise exceptions.InvalidQuery()
-
-        # Get connection a pass it to func call
-        return f(self, *args, *kwargs)
-
-    # Return wrapper function
-    return _wrapper
+    IMAGE = 0
+    VIDEO = 1
 
 
 class CoreModel(pydantic.BaseModel):
     """Model based SQL builder"""
 
     class Config:
-        sql: str
-        query: Query
+        query: str = FETCH_MOVIE
+        mutation: str = INSERT_MOVIE
+        use_enum_values = True
+        validate_assignment = True
 
-    @property
-    def mutation(self):
-        """Build a mutation based on model
-
-        :return: self
-        :rtype: Self
+    def __conform__(self, protocol: sqlite3.PrepareProtocol):
+        """Sqlite3 adapter
+        ref: https://docs.python.org/3/library/sqlite3.html#sqlite3-adapters
         """
+        if protocol is sqlite3.PrepareProtocol:
+            raw_fields = self.dict().values()
+            map_fields = map(str, raw_fields)
+            return ";".join(map_fields)
 
-        model_dict = self.dict()
-        values = model_dict.values()
-        fields = ",".join(model_dict.keys())
-        fields_range = range(len(model_dict))
-        escaped_values = ",".join(map(lambda _: "?", fields_range))
-
-        # Build query based on input model
-        sql: str = INSERT_MOVIE % (fields, escaped_values)
-        self.Config.query = Query(sql, list(values))
-        return self
+    # def batch():
 
     @classmethod
-    @property
-    def query(cls):
-        """Build a query based on model
-
-        :return self
-        :rtype: Self
-        """
-        model = cls.construct()
-        fields = model.__fields__.keys()
-        resources_fields = ",".join(fields)
-
-        sql = FETCH_MOVIE % resources_fields
-        model.Config.query = Query(sql)
-        return model
-
-    @_query_required
-    def filter(self, condition: Condition):
+    def filter(cls, condition: Condition):
         """Filter query adding extra conditions to conditions
 
         :param condition: Condition to append to query
@@ -90,44 +51,33 @@ class CoreModel(pydantic.BaseModel):
         :rtype: Self
         """
 
-        # chained query
-        sql = self.Config.query.sql
-        # get fields defined in condition
-        model_dict = self.dict(include={*condition.fields})
-        # concat base query with condition
-        with_condition = f"{sql} {condition}"
-        condition_values = model_dict.values()
-        # rebuild chained query 
-        q: Query = Query(with_condition, list(condition_values))
-        self.Config.query = q
-        return self
+        ...
 
-    @_query_required
-    def fetch(self) -> Iterator[Any]:
-        """Exec query and fetch data from database.
-        The result of fetch its handled by query build process.
-        eg. model.filter(...).fetch()
+    @classmethod
+    def get(cls) -> Any:
+        """Exec query and fetch one entry from database.
 
-        :raises exceptions.InvalidQuery: If not previous  query builtin
-        :return: List of movies
-        :rtype: List[Movies]
+        :return: Any derived model
+        :rtype: Any
         """
 
-        def _map_fields(f: Any):
-            # ref: https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.description
-            return f[0]  # first element is the column name
+        with cache.connected() as conn:
+            response = conn.execute(cls.Config.query)
+            rows = response.fetchone()  # raw data
+            return rows[0]
 
-        def _map_result(x: Any):
-            params = dict(zip(fields, x))
-            return self.construct(**params)
+    @classmethod
+    def fetch(cls) -> Iterator[Any]:
+        """Exec query and fetch a list of data from database.
+
+        :return: Any list of derived model
+        :rtype: Iterator[Any]
+        """
 
         with cache.connected() as conn:
-            q = self.Config.query
-            response = conn.execute(q.sql, q.params)
+            response = conn.execute(cls.Config.query)
             rows = response.fetchall()  # raw data
-            # Get fields from query and join with result to build model
-            fields = tuple(map(_map_fields, response.description))
-            return map(_map_result, rows)
+            return rows[0]
 
     def save(self, **kwargs: Any) -> bool:
         """Exec insertion into database using built query
@@ -137,10 +87,7 @@ class CoreModel(pydantic.BaseModel):
         :rtype: bool
         """
 
-        if not self.Config.query:
-            raise exceptions.InvalidMutation()
-
         with cache.connected() as conn:
-            q: Query = self.Config.query
-            cursor: Cursor = conn.execute(q.sql, q.params)
+            # q: Query = self.Config.query
+            cursor: Cursor = conn.execute(self.Config.mutation, (self,))
             return cursor.rowcount > 0

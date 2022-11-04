@@ -1,37 +1,49 @@
 from mock import patch
 from src.core.types import Any, List
-from src.sdk.cache.models import Movie
+from src.sdk.cache import Movie
 
 
 def test_movie_freeze(mock_movie: Movie, setup_database: Any):
-
-    """Should return True for valid opened connection"""
+    """Should commit a valid mutation of movies"""
     with patch("src.core.cache.database.sqlite3") as mock:
         conn = setup_database
         mock.connect.return_value = conn  # type: ignore
-        stored = mock_movie.mutation.save()
-
-        movie_dict = mock_movie.dict()
-        expected_rows = tuple(movie_dict.values())
-        expected_keys = ",".join(movie_dict.keys())
+        # eg. Movie(...).save()
+        stored = mock_movie.save()
 
         cursor = conn.cursor()
-        query = cursor.execute("SELECT %s FROM movies" % expected_keys)
-        rows = query.fetchall()
+        query = cursor.execute("SELECT m FROM movies")
+        rows = query.fetchone()
 
-        assert rows[0] == expected_rows
+        assert rows[0] == mock_movie
         assert stored == True
 
 
-def test_movie_frozen(mock_movie: Movie, setup_database: Any):
+def test_movie_fetch_frozen(mock_movie: Movie, setup_database: Any):
+    """Should query a valid fetch of movies"""
     with patch("src.core.cache.database.sqlite3") as mock:
         conn = setup_database
         mock.connect.return_value = conn  # type: ignore
 
         # store a movie
-        mock_movie.mutation.save()
-        movies: List[Movie] = list(Movie.query.fetch())
-        assert movies == [mock_movie]
+        mock_movie.save()
+        expected = [mock_movie]
+        result = Movie.fetch()
+        movies: List[Movie] = list(result)
+        assert movies == expected
+
+
+def test_movie_get_frozen(mock_movie: Movie, setup_database: Any):
+    """Should query a valid get of a movie"""
+    with patch("src.core.cache.database.sqlite3") as mock:
+        conn = setup_database
+        mock.connect.return_value = conn  # type: ignore
+
+        # store a movie
+        mock_movie.save()
+        result = Movie.get()
+        movies: Movie = result
+        assert movies == mock_movie
 
 
 # TODO test filter
