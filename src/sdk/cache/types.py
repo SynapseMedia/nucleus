@@ -67,7 +67,7 @@ class CoreModel(pydantic.BaseModel):
             return rows[0]
 
     @classmethod
-    def fetch(cls) -> Iterator[Any]:
+    def all(cls) -> Iterator[Any]:
         """Exec query and fetch a list of data from database.
 
         :return: Any list of derived model

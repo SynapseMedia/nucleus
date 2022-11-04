@@ -28,7 +28,7 @@ def test_movie_fetch_frozen(mock_movie: Movie, setup_database: Any):
         # store a movie
         mock_movie.save()
         expected = [mock_movie]
-        result = Movie.fetch()
+        result = Movie.all()
         movies: List[Movie] = list(result)
         assert movies == expected
 
