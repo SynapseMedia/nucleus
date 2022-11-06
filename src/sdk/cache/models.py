@@ -141,7 +141,7 @@ def _build_movie(s: str) -> Any:
     ref: https://docs.python.org/3/library/sqlite3.html#how-to-write-adaptable-objects
 
     :param s: data from database
-    :return: Movie instance with data from db
+    :return: Movie instanced with data from db
     :rtype: Movie
     """
     values = list(s.split(b";"))  # type: ignore
