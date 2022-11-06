@@ -157,4 +157,3 @@ Consult the parameter detect_types of connect() for information regarding how ty
 Note: typename and the name of the type in your query are matched case-insensitively.
 """
 sqlite3.register_converter("movie", _convert_movie)  # type: ignore
-
