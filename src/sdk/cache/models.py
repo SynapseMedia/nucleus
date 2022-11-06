@@ -138,8 +138,11 @@ class Movie(CoreModel):
 
 def _build_movie(s: str) -> Any:
     """Convert data from sqlite to Movie model
-    
-    #ref: https://docs.python.org/3/library/sqlite3.html#how-to-write-adaptable-objects
+    ref: https://docs.python.org/3/library/sqlite3.html#how-to-write-adaptable-objects
+
+    :param s: data from database
+    :return: Movie instance with data from db
+    :rtype: Movie
     """
     values = list(s.split(b";"))  # type: ignore
     fields = Movie.__fields__.keys()
