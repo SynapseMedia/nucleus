@@ -136,7 +136,7 @@ class Movie(CoreModel):
         return v
 
 
-def _build_movie(s: str) -> Any:
+def _convert_movie(s: str) -> Any:
     """Convert data from sqlite to Movie model
     ref: https://docs.python.org/3/library/sqlite3.html#how-to-write-adaptable-objects
 
@@ -150,4 +150,11 @@ def _build_movie(s: str) -> Any:
     return Movie(**params)
 
 
-sqlite3.register_converter("movie", _build_movie)  # type: ignore
+"""
+Register the converter callable to convert SQLite objects of type typename into a Python object of a specific type. 
+The converter is invoked for all SQLite values of type typename; it is passed a bytes object and should return an object of the desired Python type. 
+Consult the parameter detect_types of connect() for information regarding how type detection works.
+Note: typename and the name of the type in your query are matched case-insensitively.
+"""
+sqlite3.register_converter("movie", _convert_movie)  # type: ignore
+
