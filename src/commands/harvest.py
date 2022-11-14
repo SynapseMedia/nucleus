@@ -1,7 +1,7 @@
 import click
 import collectors
 from src.sdk import cache, logger, scheme
-from src.sdk.harvest import runtime
+from src.sdk import runtime
 
 
 @click.command()

@@ -1,5 +1,6 @@
 import os
 
+
 # Edge cache settings
 DEFAULT_EDGE_SERVICE = os.getenv("DEFAULT_EDGE_SERVICE", "pinata")
 

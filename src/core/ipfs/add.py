@@ -1,7 +1,3 @@
-import os
-import errno
-import src.core.files as files
-
 from src.core.types import CIDStr, Directory
 from .cmd import CLI
 
@@ -14,13 +10,7 @@ def directory(path: Directory) -> CIDStr:
     :return: The resulting CID
     :rtype: CIDStr
     :raises IPFSFailedExecution: if ipfs cmd execution fail
-    :raises FileNotFoundError: if path does not exist
     """
-
-    path, path_exists = files.resolve(path)
-    if not path_exists:  # Check if path exist if not raise error
-        raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), path)
-
     # no pin by default
     # blake2b-208 hash func to encode to bytes16 and hex
     args = (

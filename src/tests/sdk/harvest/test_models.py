@@ -2,7 +2,8 @@ from mock import patch
 from src.core.types import Any, List
 from src.sdk.harvest import Movie
 
-
+# TODO test filter
+# TODO test bulk save
 def test_movie_freeze(mock_movie: Movie, setup_database: Any):
     """Should commit a valid mutation of movies"""
     with patch("src.core.cache.database.sqlite3") as mock:

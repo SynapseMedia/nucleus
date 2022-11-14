@@ -17,7 +17,7 @@ from .constants import DEFAULT_RATE_MAX, FIRST_MOVIE_YEAR_EVER
 from .types import CoreModel, MediaType
 
 
-class Media(CoreModel):
+class MultiMedia(CoreModel):
     """Media define needed field for the multimedia assets schema."""
 
     route: str
@@ -56,14 +56,14 @@ class Movie(CoreModel):
     publish_date: Optional[float] = 0
     trailer_link: Optional[str] = ""
     # Add movie multimedia resources
-    resources: list[Media] = []
+    resources: list[MultiMedia] = []
 
     @pydantic.validator("resources", pre=True)
     def serialize_resources_pre(cls, v: Any):
         """Pre serialize media to object"""
         if type(v) is bytes:
             parsed = ast.literal_eval(v.decode())
-            instances = map(lambda x: Media(**x), parsed)
+            instances = map(lambda x: MultiMedia(**x), parsed)
             return list(instances)
         return v
 

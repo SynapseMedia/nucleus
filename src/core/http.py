@@ -1,7 +1,6 @@
 import requests
-import shutil
 import pathlib
-import src.core.files as files
+import src.core.fs as fs
 import src.core.logger as logger
 import requests.exceptions as exceptions
 
@@ -23,7 +22,7 @@ def download(route: URI, output: Directory) -> pathlib.Path:
     """
 
     # Create if not exist dir
-    files.make(output)
+    fs.make(output)
 
     # Start http session
     response = session.get(
@@ -47,30 +46,3 @@ def download(route: URI, output: Directory) -> pathlib.Path:
 
     logger.log.success(f"File stored in: {output}")  # type: ignore
     return pathlib.Path(output)
-
-
-def fetch(route: URI, output: Directory) -> pathlib.Path:
-    """Fetch files from the given route
-
-    :param route: File route reference
-    :param output: Where store the file?
-    :return: Directory of stored file
-    :rtype: pathlib.Path
-    """
-
-    # Resolve root directory for PROD
-    path, path_exists = files.resolve(output)
-
-    # path already exists?
-    if path_exists:
-        logger.log.notice(f"File already exists: {path}")  # type: ignore
-        return pathlib.Path(path)
-
-    # Check if route is file path and exists in host to copy it to prod dir
-    if pathlib.Path(route).is_file():
-        logger.log.notice(f"Copying existing file: {route}")  # type: ignore
-        files.make(path)  # make thr path if doesn't exists
-        shutil.copy(route, path)  # copy the file to recently created directory
-        return pathlib.Path(path)
-
-    return download(route, path)

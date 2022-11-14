@@ -1,4 +1,4 @@
-import src.core.files as files
+import src.core.fs as fs
 import src.core.cache.database as database
 
 from mock import patch
@@ -30,4 +30,4 @@ def test_valid_connection_for_valid_file():
     """Should instance a valid connection with valid input file db"""
     with database.connection(DB_DEFAULT) as conn:
         assert conn.cursor() is not None
-        assert files.exists(DB_DEFAULT) is True
+        assert fs.exists(DB_DEFAULT) is True
