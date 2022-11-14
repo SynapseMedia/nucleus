@@ -11,6 +11,7 @@ from src.core.types import URI, Directory
 # Session keep alive
 session = requests.Session()
 
+
 def download(route: URI, output: Directory) -> pathlib.Path:
     """Download remote media
 
