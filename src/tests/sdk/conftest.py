@@ -1,5 +1,5 @@
 import pytest
-from src.sdk.harvest.models import Movie, MultiMedia
+from src.sdk.harvest.models import Movie, Media
 from src.sdk.harvest import MediaType
 
 example_path = "src/tests/core/fixture/watchit.png"
@@ -8,7 +8,7 @@ example_path = "src/tests/core/fixture/watchit.png"
 @pytest.fixture
 def mock_movie():
     """Fixture to provide a mocking for movie"""
-    resource = MultiMedia(
+    resource = Media(
         route=example_path,
         type=MediaType.IMAGE,
     )

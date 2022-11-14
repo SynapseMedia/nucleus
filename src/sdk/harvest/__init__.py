@@ -1,9 +1,9 @@
-from .models import Movie, MultiMedia
+from .models import Movie, Media
 from .types import MediaType, Collector
 
 __all__ = [
     "Movie",
-    "MultiMedia",
+    "Media",
     "MediaType",
     "Collector"
 ]

@@ -1,6 +1,6 @@
 import os
 import responses
-import src.sdk.harvest.multimedia as multimedia
+import src.sdk.harvest.media as media
 
 from src.core.types import Directory, URI, Any
 
@@ -34,7 +34,7 @@ def test_copy_local_file(mocker: Any):
     with open(mock_local_file, "rb") as mock_file:
         _setup_file_response_ok(mock_file, body=Exception("Should not be called"))
 
-        current_path = multimedia.fetch(URI(mock_local_file), new_file_directory)
+        current_path = media.fetch(URI(mock_local_file), new_file_directory)
         assert current_path
         assert str(current_path) == new_file_directory
         assert current_path.is_file()
@@ -46,30 +46,28 @@ def test_omit_existing_file(mocker: Any):
     with open(mock_local_file, "rb") as mock_file:
         _setup_file_response_ok(mock_file, body=Exception("Should not be called"))
 
-        current_path = multimedia.fetch(URI(mock_local_file), mock_local_file)
+        current_path = media.fetch(URI(mock_local_file), mock_local_file)
         assert current_path
         assert str(current_path) == mock_local_file
         assert current_path.is_file()
 
 
-# Unit tests
 def test_resolve_root_for_prod():
     """Should resolve PROD_DIR for param is_prod = True"""
-    multimedia.PROD_PATH = custom_dir
-    result_dir = multimedia.resolve(directory, is_prod=True)
+    media.PROD_PATH = custom_dir
+    result_dir = media.resolve(directory, is_prod=True)
     # (Path expected result for prod, if path exists  = True)
-    expected = ("%s/%s" % (multimedia.PROD_PATH, directory), True)
+    expected = ("%s/%s" % (media.PROD_PATH, directory), True)
 
     assert result_dir == expected
 
 
-# Unit tests
 def test_resolve_root_for_raw():
     """Should resolve RAW_DIR for param is_prod = False"""
-    multimedia.RAW_PATH = custom_dir
-    multimedia.PROD_PATH = "prod"  # just to be sure that this is not called
-    result_dir = multimedia.resolve(directory, is_prod=False)
+    media.RAW_PATH = custom_dir
+    media.PROD_PATH = "prod"  # just to be sure that this is not called
+    result_dir = media.resolve(directory, is_prod=False)
     # (Path expected for raw, if path exists = True)
-    expected = ("%s/%s" % (multimedia.RAW_PATH, directory), True)
+    expected = ("%s/%s" % (media.RAW_PATH, directory), True)
 
     assert result_dir == expected

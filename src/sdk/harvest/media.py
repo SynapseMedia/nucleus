@@ -1,8 +1,8 @@
 import shutil
 import pathlib
 import src.core.fs as fs
-import src.core.logger as logger
 import src.core.http as http
+import src.core.logger as logger
 
 from src.core.types import URI, Tuple, Directory
 from .constants import PROD_PATH, RAW_PATH
@@ -36,7 +36,7 @@ def fetch(route: URI, output: Directory) -> pathlib.Path:
 
     # path already exists?
     if pathlib.Path(output).exists():
-        logger.log.notice(f"File already exists: {path}")  # type: ignore
+        logger.log.notice(f"File already exists: {output}")  # type: ignore
         return pathlib.Path(output)
 
     # Check if route is file path and exists in host to copy it to prod dir
