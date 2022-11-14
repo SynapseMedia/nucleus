@@ -14,7 +14,7 @@ class Size:
     Large = (500, 750)
 
 
-def _invalid(image: PIL.Image) -> bool:
+def invalid(image: PIL.Image) -> bool:
     """Validate ratio for image
 
     :param image: Image to validate
@@ -42,7 +42,7 @@ def input(input_image: Directory) -> Iterator[PIL.Image]:
     """
 
     with PIL.open(input_image) as image:
-        if _invalid(image):
+        if invalid(image):
             # Invalid image ratio height should be major than width
             raise exceptions.InvalidImageSize()
         yield image
