@@ -1,6 +1,6 @@
 import click
 from src.sdk.scheme.validator import check
-from src.sdk import cache, logger
+from src.sdk import harvest, logger
 from src.sdk.exec import transcode as transcoder
 from src.sdk.constants import OVERWRITE_TRANSCODE_OUTPUT, HLS_FORMAT, DASH_FORMAT
 
@@ -35,7 +35,7 @@ def cached(ctx):
     """
     # Get stored movies in tmp_db and process it
     # Total size of entries to fetch
-    result, result_count = cache.manager.safe_retrieve()
+    result, result_count = harvest.manager.safe_retrieve()
     logger.log.warning(f"Transcoding {result_count} results")
 
     # Fetch from each row in tmp db the resources

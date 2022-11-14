@@ -1,9 +1,9 @@
 import os
 import re
 import pytest
+import src.core.files as files
 
 from pathlib import Path
-from src.core import files
 from src.core.types import Directory
 
 custom_dir = "src/tests/core"

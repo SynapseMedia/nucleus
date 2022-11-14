@@ -1,6 +1,6 @@
 from flask import Response, stream_with_context, Blueprint, request
 from src.sdk.exception import InvalidRequest
-from src.sdk.cache import manager, cursor_db
+from src.sdk.harvest import manager, cursor_db
 from src.sdk.constants import IPFS_NODE, IPFS_NODE_GATEWAY_PORT
 import requests
 

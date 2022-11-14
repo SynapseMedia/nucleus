@@ -1,8 +1,8 @@
-import src.core.logger as logger
+# ref: https://docs.python.org/es/3/library/functools.html
 import functools
 import contextlib
+import src.core.logger as logger
 
-# ref: https://docs.python.org/es/3/library/functools.html
 from src.core.types import ParamSpec, TypeVar, Callable, Any, Optional
 from .constants import DB_ISOLATION_LEVEL
 from .database import connect

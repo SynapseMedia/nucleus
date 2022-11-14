@@ -1,7 +1,7 @@
-import json as JSON
 import pytest
+import json as JSON
+import src.core.json as json
 
-from src.core import json
 from src.core.types import Directory
 
 file_dir = "src/tests/core/fixture/index.json"

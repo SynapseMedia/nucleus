@@ -1,6 +1,6 @@
 import pytest
-from src.sdk.cache.models import Movie, Media
-from src.sdk.cache import MediaType
+from src.sdk.harvest.models import Movie, Media
+from src.sdk.harvest import MediaType
 
 example_path = "src/tests/core/fixture/watchit.png"
 

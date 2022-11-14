@@ -1,16 +1,18 @@
 import pytest
+import src.core.cache.database as database
+import src.core.cache.decorator as decorator
+
 from mock import patch
-from src.core.cache.database import Connection, is_open
-from src.core.cache.decorator import connected, atomic
+from src.core.cache.database import Connection
 
 
 def test_connected():
     """Should start connection for decorated function and pass connection as param"""
 
-    @connected
+    @decorator.connected
     def to_decorate_with_connection(conn: Connection):
         # Should pass the current connection to db
-        assert is_open(conn) is True
+        assert database.is_open(conn) is True
 
     to_decorate_with_connection()
 
@@ -21,7 +23,7 @@ def test_atomic():
         mock.connect().execute().fetchone.return_value = (1,)  # type: ignore
         _commit = mock.connect().commit  # type: ignore
 
-        @atomic
+        @decorator.atomic
         def to_decorate_with_atomic(conn: Connection):
             # Should pass the current connection to db
             assert conn.execute("SELECT 1").fetchone() == (1,)
@@ -37,7 +39,7 @@ def test_atomic_rollback():
 
         with pytest.raises(Exception):
 
-            @atomic
+            @decorator.atomic
             def to_decorate_with_atomic(_):
                 # Should pass the current connection to db
                 raise Exception("fail")

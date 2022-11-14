@@ -1,5 +1,6 @@
-from typing import Any
-from src.core.ipfs.node import id
+import src.core.ipfs.node as node
+
+from src.core.types import Any
 
 
 def test_node_id(mocker: Any):
@@ -22,4 +23,4 @@ def test_node_id(mocker: Any):
             }
 
     mocker.patch("src.core.ipfs.node.CLI", return_value=MockCLI())
-    assert id() == "12D3KooWAsERf3AYJZ8XkGPK4svfEzoy3x8uM16H6PKzamNkppgp"
+    assert node.id() == "12D3KooWAsERf3AYJZ8XkGPK4svfEzoy3x8uM16H6PKzamNkppgp"

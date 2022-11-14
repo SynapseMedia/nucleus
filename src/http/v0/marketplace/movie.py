@@ -4,7 +4,7 @@ import uuid
 
 from flask import jsonify, request, Blueprint
 from src.sdk.logger import log
-from src.sdk.cache import manager, cursor_db, DESC, storage
+from src.sdk.harvest import manager, cursor_db, DESC, storage
 from werkzeug.utils import secure_filename
 from marshmallow.exceptions import ValidationError
 

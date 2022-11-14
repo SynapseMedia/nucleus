@@ -1,8 +1,9 @@
 import pytest
-from typing import Any
+import src.core.ipfs.service as service
+import src.core.exceptions as exceptions
+
 from src.core.ipfs.types import Service, Services
-from src.core.ipfs.service import ls, register
-from src.core.exceptions import IPFSFailedExecution
+from src.core.types import Any
 
 PATH_CLI_PATCH = "src.core.ipfs.service.CLI"
 
@@ -15,7 +16,7 @@ class MockFailingCLI:
 
     def __call__(self):
         # Check for raising error for any resulting fail
-        raise IPFSFailedExecution(self.msg)
+        raise exceptions.IPFSFailedExecution(self.msg)
 
 
 def test_register_service(mocker: Any):
@@ -37,7 +38,7 @@ def test_register_service(mocker: Any):
             return {"output": None}
 
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
-    registered_service = register(register_service)
+    registered_service = service.register(register_service)
 
     assert registered_service == register_service
 
@@ -63,7 +64,7 @@ def test_services(mocker: Any):
             return {"output": {"RemoteServices": expected_services}}
 
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
-    registered_services = ls()
+    registered_services = service.ls()
     services_iter = map(
         lambda x: Service(service=x["Service"], endpoint=x["ApiEndpoint"], key=None),
         expected_services,
@@ -85,5 +86,5 @@ def test_invalid_register_service(mocker: Any):
     # Simulating an error returned by ipfs invalid service
     expected_issue = "Error: service already present"
     mocker.patch(PATH_CLI_PATCH, return_value=MockFailingCLI(expected_issue))
-    with pytest.raises(IPFSFailedExecution):
-        register(register_service)
+    with pytest.raises(exceptions.IPFSFailedExecution):
+        service.register(register_service)

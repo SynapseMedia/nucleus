@@ -1,5 +1,5 @@
 from src.sdk.scheme.definition.movies import MovieScheme
-from src.sdk import cache, logger, media, scheme
+from src.sdk import harvest, logger, media, scheme
 
 
 def boot(current_movie: MovieScheme):
@@ -14,5 +14,5 @@ def boot(current_movie: MovieScheme):
     current_movie.hash = media.storage.ingest.to_ipfs(current_movie)
     current_movie.resource = scheme.util.fit_resources_from_dag(current_movie.hash)
     # Add ingested movie to persistent storage
-    cache.ingest.freeze(_id, MovieScheme().dump(current_movie))
+    harvest.ingest.freeze(_id, MovieScheme().dump(current_movie))
     logger.log.success(f"Done {current_movie.imdb_code}\n")

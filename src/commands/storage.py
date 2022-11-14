@@ -4,7 +4,7 @@ import click
 from src.sdk.scheme.validator import check
 from src.sdk.exception import InvalidCID
 from src.sdk.constants import FLUSH_CACHE_IPFS
-from src.sdk import cache, logger, exception, media
+from src.sdk import harvest, logger, exception, media
 from src.sdk.exec import storage as store
 
 
@@ -23,12 +23,12 @@ def ingest(no_cache):
     eg. Resolve meta -> Static/Transcode -> Generate NFT metadata -> ingest
     """
     logger.log.warning("Starting ingestion to IPFS")
-    if no_cache or cache.empty_tmp:  # Clean already ingested cursor
-        cache.manager.flush_all()
+    if no_cache or harvest.empty_tmp:  # Clean already ingested cursor
+        harvest.manager.flush_all()
 
     # Total size of entries to fetch
     # Return available and not processed entries
-    result, result_count = cache.ingest.pending()
+    result, result_count = harvest.ingest.pending()
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()
 
@@ -94,7 +94,7 @@ def cached(ctx, skip, limit):
     Note: Please ensure that binaries are already ingested before run this command.
     eg. Resolve -> Transcode/Static -> Generate NFT metadata -> Ingest -> Pin batch
     """
-    entries, _ = cache.ingest.frozen()  # Retrieve already ingested cid list
+    entries, _ = harvest.ingest.frozen()  # Retrieve already ingested cid list
     entries = entries.skip(skip).limit(limit)
     cid_list = map(lambda x: x["hash"], entries)
 

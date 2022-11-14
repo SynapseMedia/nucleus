@@ -1,5 +1,5 @@
 from flask import jsonify, request, Blueprint
-from src.sdk.cache import bid, DESC
+from src.sdk.harvest import bid, DESC
 from src.sdk.exception import InvalidRequest
 
 bids_ = Blueprint("bids", __name__)

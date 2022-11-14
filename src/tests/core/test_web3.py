@@ -1,10 +1,11 @@
 import web3
 import eth_account
+import src.core.web3.crypto as crypto
+
 from web3 import Web3
 from src.core.web3.contracts import ERC1155
 from src.core.web3.network import Ethereum
 from src.core.web3.chains import Rinkeby, Goerli
-from src.core.web3.crypto import to_hex, cid_to_uint256
 
 from src.core.types import CIDStr
 from src.core.web3.types import Connector
@@ -99,7 +100,7 @@ def test_cid_to_uint256():
     expected_value = (
         651268735865305864933405567136027539147782079973983219801233220330061301348
     )
-    assert cid_to_uint256(current_value) == expected_value
+    assert crypto.cid_to_uint256(current_value) == expected_value
 
 
 def test_to_hex():
@@ -109,4 +110,4 @@ def test_to_hex():
         "0x626166796a767a6163646b33726e676b747a6574696b673"
         "377326766376e787678737135793474347872797a696a616c79617a7361"
     )
-    assert to_hex(current_value.encode()) == expected_value
+    assert crypto.to_hex(current_value.encode()) == expected_value

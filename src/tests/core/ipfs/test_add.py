@@ -1,6 +1,7 @@
 import pytest
-from typing import Any
-from src.core.ipfs.add import directory
+import src.core.ipfs.add as add
+
+from  src.core.types import Any
 
 expected_hash = "QmRoo28ogKQ6ds3jk9x7X7x3sjTs2yTMu5vHUPxLN8vinU"
 
@@ -18,7 +19,7 @@ def test_add(mocker: Any):
 
     mocker.patch("src.core.ipfs.add.CLI", return_value=MockCLI())
     mocker.patch("src.core.ipfs.add.files.resolve", return_value=("/test/dir", True))
-    add_directory = directory("/test/dir")
+    add_directory = add.directory("/test/dir")
     assert add_directory == expected_hash
 
 
@@ -27,4 +28,4 @@ def test_invalid_add(mocker: Any):
     mocker.patch("src.core.ipfs.add.CLI", return_value=MockCLI())
     mocker.patch("src.core.ipfs.add.files.resolve", return_value=(None, False))
     with pytest.raises(FileNotFoundError):
-        directory("/not/exist/dir")
+        add.directory("/not/exist/dir")

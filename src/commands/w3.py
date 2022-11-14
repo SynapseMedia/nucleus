@@ -1,6 +1,6 @@
 import click
 from src.sdk.scheme.validator import check
-from src.sdk import cache, exception, logger, web3
+from src.sdk import harvest, exception, logger, web3
 from src.sdk.exec import w3 as w3_exec
 from src.sdk.exception import InvalidCID
 
@@ -58,7 +58,7 @@ def cached(ctx, skip, limit):
     Note: Please ensure that binaries are already ingested before run this command.
     eg. Resolve meta -> Transcode media -> Generate NFT metadata -> ingest -> mint batch
     """
-    result, result_count = cache.ingest.frozen()
+    result, result_count = harvest.ingest.frozen()
     result = result.skip(skip).limit(limit)
     if result_count == 0:  # If not data to fetch
         raise exception.EmptyCache()
@@ -71,7 +71,7 @@ def cached(ctx, skip, limit):
     w3 = web3.factory.w3(context_network)
     to = web3.factory.account(w3).address
     tx, to, cid_list = web3.nft.mint_batch(to, cid_list, context_network)
-    cache.mint.freeze(tx, to, cid_list)
+    harvest.mint.freeze(tx, to, cid_list)
 
 
 @mint.command()
@@ -87,7 +87,7 @@ def single(ctx, cid):
     w3 = web3.factory.w3(context_network)
     to = web3.factory.account(w3).address
     tx, to, cid = web3.nft.mint(to, cid, context_network)
-    cache.mint.freeze(tx, to, [cid])
+    harvest.mint.freeze(tx, to, [cid])
 
 
 @nft.group("generate")
@@ -103,7 +103,7 @@ def erc1155():
     """
     # Return available and not processed entries
     # Total size of entries to fetch
-    result, _ = cache.manager.safe_retrieve()
+    result, _ = harvest.manager.safe_retrieve()
     # Generate metadata file from each row in tmp db the resources
     for current_movie in check(result):
         w3_exec.boot(current_movie)

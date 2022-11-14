@@ -1,11 +1,11 @@
 import pytest
+import src.core.exceptions as exceptions
+import src.core.transcode.ffmpeg as ffmpeg
 
 from ffmpeg_streaming._format import H264, VP9  # type: ignore
 from src.core.types import Directory, Any
-from src.core.exceptions import InvalidVideoQuality
 from src.core.transcode.types import REPR, Sizes, Input, Size
 from src.core.transcode.protocols import HLS, DASH
-from src.core.transcode.ffmpeg import quality, input
 
 
 class MockMedia:
@@ -46,7 +46,7 @@ def test_quality():
     }
 
     for size, high in sizes.items():
-        representation = quality(size)
+        representation = ffmpeg.quality(size)
         # Expect always  the higher quality = size
         # expect always the lower quality = R360p
         higher = representation[-1]  # type: ignore
@@ -65,8 +65,8 @@ def test_invalid_quality():
     }
 
     for size in sizes:
-        with pytest.raises(InvalidVideoQuality):
-            quality(size)
+        with pytest.raises(exceptions.InvalidVideoQuality):
+            ffmpeg.quality(size)
 
 
 def test_hls_protocol():
@@ -89,7 +89,7 @@ def test_valid_input(mocker: Any):
         "src.core.transcode.ffmpeg.VideoInput",
         return_value=MockInput(Directory("test")),
     )
-    with input(Directory("test")) as _input:
+    with ffmpeg.input(Directory("test")) as _input:
         assert _input.get_video_size().width == 100
         assert _input.get_video_size().height == 100
         assert _input.get_path() == Directory("test")

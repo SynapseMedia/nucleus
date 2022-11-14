@@ -1,8 +1,9 @@
 import click
 import collectors
 import asyncio
-from src.sdk import subprocess, runtime
+from src.sdk import subprocess
 from src.sdk.constants import REGEN_ORBITDB, MIXED_RESOURCES
+from src.sdk.harvest import runtime
 
 
 @click.command()
