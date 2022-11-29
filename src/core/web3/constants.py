@@ -1,7 +1,10 @@
 import os
+from src.core.constants import ROOT_DIR
 
 # Web3 constants
+
 GWEI = 1000000000
+NFT_ABI_PATH = f"{ROOT_DIR}/abi/WNFT.json"
 WALLET_KEY = os.getenv("WALLET_KEY", "")
 WALLET_PUBLIC_KEY = os.getenv("WALLET_PUBLIC_KEY")
 
@@ -12,3 +15,4 @@ GOERLI_CONTRACT_NFT = os.getenv("GOERLI_CONTRACT_NFT", "")
 RINKEBY_PROVIDER = os.getenv("RINKEBY_PROVIDER", "")
 RINKEBY_ALCHEMY_API_KEY = os.getenv("RINKEBY_ALCHEMY_API_KEY", "")
 RINKEBY_CONTRACT_NFT = os.getenv("RINKEBY_CONTRACT_NFT", "")
+

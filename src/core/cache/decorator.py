@@ -20,10 +20,6 @@ class Atomic(contextlib.ContextDecorator):
     """
 
     conn: Connection
-    auto_close: bool = True
-
-    def __init__(self, auto_close: bool = False):
-        self.auto_close = auto_close
 
     def __enter__(self):
         # Set connection with isolation level to turn off auto commit
@@ -37,9 +33,7 @@ class Atomic(contextlib.ContextDecorator):
         def _wrapper(*args: Any, **kwargs: Any):
             with self._recreate_cm():  # type: ignore
                 # Get extra settings passed to decorator
-                self.auto_close = kwargs.pop("auto_close", self.auto_close)
                 return f(self.conn, *args, **kwargs)
-
         return _wrapper
 
     def __exit__(self, *_: Any):
@@ -58,9 +52,8 @@ class Atomic(contextlib.ContextDecorator):
             # It then acts the same as if you used raise with the most recent exception type, value and traceback.
             raise
         finally:
-            if self.auto_close:
-                # After everything is done we should commit transactions and close the connection.
-                self.conn.close()
+            # After everything is done we should commit transactions and close the connection.
+            self.conn.close()
 
 
 def connected(f: Optional[Callable[..., Any]] = None) -> Any:
@@ -83,7 +76,7 @@ def connected(f: Optional[Callable[..., Any]] = None) -> Any:
     return _wrapper
 
 
-def atomic(f: Optional[Callable[..., Any]] = None, **kwargs: Any) -> Any:
+def atomic(f: Optional[Callable[..., Any]] = None) -> Any:
     """Decorate executions made to database.
     This method enhance the execution of queries/transactions to database adding extra atomic capabilities.
 
@@ -96,7 +89,7 @@ def atomic(f: Optional[Callable[..., Any]] = None, **kwargs: Any) -> Any:
         # If atomic is called as decorator
         return Atomic()(f)
     # If atomic is called as context manager
-    return Atomic(**kwargs)
+    return Atomic()
 
 
 __all__ = ["connected", "atomic"]

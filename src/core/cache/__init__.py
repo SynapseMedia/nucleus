@@ -1,8 +1,9 @@
-from .database import connect
+from .database import connect, connection
 from .decorator import atomic, connected
 
 __all__ = [
-    "connect",
     "atomic",
+    "connect",
     "connected",
+    "connection"
 ]

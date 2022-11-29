@@ -5,5 +5,5 @@ __all__ = [
     "Movie",
     "Media",
     "MediaType",
-    "Collector"
+    "Collector",
 ]

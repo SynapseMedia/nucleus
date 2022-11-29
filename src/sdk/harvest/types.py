@@ -10,8 +10,8 @@ import src.core.cache as cache
 
 # Convention for importing constants/types
 from abc import ABCMeta, abstractmethod
-from src.core.types import Any, Iterator, Protocol, Generator
-from src.core.cache.types import Cursor, Condition
+from src.core.types import Any, Iterator, Protocol, Dict
+from src.core.cache.types import Cursor, Connection
 from .constants import INSERT_MOVIE, FETCH_MOVIE
 
 
@@ -28,9 +28,9 @@ class Collector(Protocol, metaclass=ABCMeta):
     @abstractmethod
     def __str__(self) -> str:
         ...
-
+    
     @abstractmethod
-    def __call__(self) -> Generator[Any, Any, Any]:
+    def __iter__(self) -> Iterator[Dict[Any, Any]]:
         """Call could implemented any logic to collect metadata from any kind of data input.
 
         eg:
@@ -50,6 +50,7 @@ class CoreModel(pydantic.BaseModel):
     """Model based SQL manager"""
 
     class Config:
+        conn: Connection | None = None
         query: str = FETCH_MOVIE
         mutation: str = INSERT_MOVIE
         use_enum_values = True
@@ -64,19 +65,17 @@ class CoreModel(pydantic.BaseModel):
             map_fields = map(str, raw_fields)
             return ";".join(map_fields)
 
-    # def batch():
-
     @classmethod
-    def filter(cls, condition: Condition):
-        """Filter query adding extra conditions to conditions
+    def _get_connection(cls) -> Connection:
+        """Singleton connection factory
 
-        :param condition: Condition to append to query
-        :raises exceptions.InvalidQuery: If not previous query builtin
-        :return: self
-        :rtype: Self
+        :return: connection to use during operations
+        :rtype: Connections
         """
-        # TODO finish this
-        ...
+
+        if cls.Config.conn is None:
+            cls.Config.conn = cache.connect()
+        return cls.Config.conn
 
     @classmethod
     def get(cls) -> Any:
@@ -86,10 +85,10 @@ class CoreModel(pydantic.BaseModel):
         :rtype: Any
         """
 
-        with cache.connected() as conn:
-            response = conn.execute(cls.Config.query)
-            rows = response.fetchone()  # raw data
-            return rows[0]
+        conn = cls._get_connection()
+        response = conn.execute(cls.Config.query)
+        rows = response.fetchone()  # raw data
+        return rows[0]
 
     @classmethod
     def all(cls) -> Iterator[Any]:
@@ -99,21 +98,19 @@ class CoreModel(pydantic.BaseModel):
         :rtype: Iterator[Any]
         """
 
-        with cache.connected() as conn:
-            response = conn.execute(cls.Config.query)
-            rows = response.fetchall()  # raw data
-            return rows[0]
+        conn = cls._get_connection()
+        response = conn.execute(cls.Config.query)
+        rows = response.fetchall()  # raw data
+        return rows[0]
 
-    # TODO batch save?
     def save(self) -> bool:
         """Exec insertion into database using built query
 
-        :raises exceptions.InvalidMutation: If not query builtin
         :return: True if query was saved or False otherwise
         :rtype: bool
         """
 
-        with cache.connected() as conn:
-            # q: Query = self.Config.query
-            cursor: Cursor = conn.execute(self.Config.mutation, (self,))
-            return cursor.rowcount > 0
+        conn = self._get_connection()
+        # q: Query = self.Config.query
+        cursor: Cursor = conn.execute(self.Config.mutation, (self,))
+        return cursor.rowcount > 0

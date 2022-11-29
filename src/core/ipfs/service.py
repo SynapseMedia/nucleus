@@ -15,17 +15,22 @@ def ls() -> Services:
 
 
     :return: Registered services
-    :rtype: EdgeServices
+    :rtype: Services
     :raises IPFSFailedExecution: if ipfs cmd execution fail
     """
 
     exec = CLI("/pin/remote/service/ls")
     output = exec().get("output")
+    raw_services = output.get("RemoteServices")
 
-    # Get all services from ipfs
+    # map registered services
     services_iter = map(
-        lambda x: Service(service=x["Service"], endpoint=x["ApiEndpoint"], key=None),
-        output.get("RemoteServices"),
+        lambda x: Service(
+            service=x["Service"],
+            endpoint=x["ApiEndpoint"],
+            key=None,
+        ),
+        raw_services,
     )
 
     return Services(remote=services_iter)

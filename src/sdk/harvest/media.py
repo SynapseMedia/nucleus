@@ -9,7 +9,7 @@ from .constants import PROD_PATH, RAW_PATH
 
 
 def resolve(dir_: Directory, is_prod: bool = True) -> Tuple[Directory, bool]:
-    """Resolve root dir for runtime directory PROD or RAW based on 'is_prod' param
+    """Resolve dir for media in directory PROD or RAW.
 
     :param dir_: the dir to resolve
     :param is_prod: determine how resolved the dir

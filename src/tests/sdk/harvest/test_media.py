@@ -1,7 +1,6 @@
 import os
 import responses
 import src.sdk.harvest.media as media
-
 from src.core.types import Directory, URI, Any
 
 custom_dir = "src/tests/core"
