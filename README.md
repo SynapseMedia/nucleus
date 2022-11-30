@@ -53,7 +53,7 @@ The nodes will also be facilitators of metadata for the network, each node will 
 "The *harvest* process consists of a set of instructions, expressed as a Python class. The toolkit will execute the instructions expressed in those classes to obtain content that then populates the metadata schema." - @aphelionz
 
 Harvest collectors implement the logic necessary for fetching, preprocessing, cleaning and schematization of data from any available
-resource. Based on the following class abstraction we can see the methods required for the development of a resolver:
+resource. Based on the [Collector](https://github.com/ZorrillosDev/watchit-toolkit/blob/374215a534a4524c7fd2eca1332d7b86b40d8c8a/src/sdk/harvest/types.py#L25) abstraction we can write our own implementation:
 
 ~~~~python
 
