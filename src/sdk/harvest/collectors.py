@@ -23,7 +23,7 @@ def merge(collectors: Iterator[Collector]) -> Iterator[Dict[Any, Any]]:
     return itertools.chain.from_iterable(collectors)
 
 
-def load(path: str = COLLECTORS_PATH) -> Iterator[Any]:
+def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
     """Import submodules from a given path and return module object
 
     :param path: The path to search for submodules.
