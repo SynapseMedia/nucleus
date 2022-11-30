@@ -55,24 +55,34 @@ The nodes will also be facilitators of metadata for the network, each node will 
 Harvest collectors implement the logic necessary for fetching, preprocessing, cleaning and schematization of data from any available
 resource. Based on the following class abstraction we can see the methods required for the development of a resolver:
 
-~~~~
+~~~~python
+
 Define your collectors modules below.
 Ex: Each collector must implement 2 fundamental methods.
 
 class Dummy:
-    def __str__(self) -> str:
-        return 'Test'
+    def __str__(self):
+        return "dummy"
 
-    def __call__(self, scheme, *args, **kwargs):
-       """
-        Returned meta should be valid scheme
-        Process your data and populate scheme struct
+    def __iter__(self):
+        """Here could be implemented any logic to collect metadata."""
         
-        :param scheme: MovieScheme object
-        :returns: Scheme valid object list ex: {movie1, movie2}
-        :rtype Generator[MovieScheme]
-        """
-        yield data
+        dummy_data = [{
+            "title": "A Fork in the Road",
+            "synopsis": "Baby loves have fun",
+            "imdb_code": "wtt00000000",
+            "genres": ["Action", "Comedy", "Crime"],
+            "creator_key": "0xee99ceff640d37edd9cac8c7cff4ed4cd609f435",
+            "speech_language": "en",
+            "release_year": 2010,
+            "runtime": 105.0,
+            "mpa_rating": "PG",
+            "rating": 6.0,
+        }]
+        
+        for raw in dummy_data:
+            yield raw
+
 ~~~~
 
 Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py)

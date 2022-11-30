@@ -16,7 +16,7 @@ def merge(collectors: Iterator[Collector]) -> Iterator[Dict[Any, Any]]:
     """Iterate over collectors and merge results
 
     :param collectors: Collectors object iterator
-    :returns: Merged collectors results
+    :return: Merged collectors results
     :rtype: List[Dict[Any, Any]]
     """
 
@@ -27,7 +27,7 @@ def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
     """Import submodules from a given path and yield module object
 
     :param path: The path to search for submodules.
-    :returns: Iterator of matched modules.
+    :return: Iterator of matched modules.
     :rtype: Iterator[Any]
     """
 
