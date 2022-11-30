@@ -15,13 +15,14 @@ expected = {
 
 
 def test_submodules_collector():
-    """Should copy for local file and not attempt download"""
+    """Should collect expected metadata from dummy collector"""
     dummy = list(collectors.load())[0]
     data = list(dummy)
     assert data == [expected]
 
 
-def test_collect_collector():
+def test_merge_collector():
+    """Should merge collected metadata from collectors"""
     loaded_collectors = collectors.load()
     data_merged = collectors.merge(loaded_collectors)
     
