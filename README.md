@@ -85,8 +85,6 @@ class Dummy:
 
 ~~~~
 
-Please see [example](https://github.com/ZorrillosDev/watchit-gateway/blob/master/resolvers/dummy/dummy.py)
-
 ## Usage
 
 - [SDK]()
