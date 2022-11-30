@@ -60,7 +60,7 @@ def connected(f: Optional[Callable[..., Any]] = None) -> Any:
     """Decorate a method call with database.
 
     :param f: A function to execute in wrapper
-    :returns: Wrapper function
+    :return: Wrapper function
     :rtype: Callable[..., T]
     """
 
@@ -81,7 +81,7 @@ def atomic(f: Optional[Callable[..., Any]] = None) -> Any:
     This method enhance the execution of queries/transactions to database adding extra atomic capabilities.
 
     :param f: This function should contain any query or transaction to db.
-    :returns: decorated function/context for atomic transaction
+    :: decorated function/context for atomic transaction
     :rtype: Callable[..., T]
     :raises Exception: if database transaction fail
     """
