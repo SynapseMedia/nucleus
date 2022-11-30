@@ -8,6 +8,10 @@ from .constants import COLLECTORS_PATH
 from .types import Collector
 
 
+def map(collectors: Iterator[Collector]):
+    """Iterate over collectors and create a hash value for each collector"""
+    ...
+    
 def merge(collectors: Iterator[Collector]) -> Iterator[Dict[Any, Any]]:
     """Iterate over collectors and merge results
 
