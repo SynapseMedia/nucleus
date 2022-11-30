@@ -57,8 +57,7 @@ resource. Based on [Collector](https://github.com/ZorrillosDev/watchit-toolkit/b
 
 ~~~~python
 
-Define your collectors modules below.
-Ex: Each collector must implement 2 fundamental methods.
+# Define your collectors modules below.
 
 class Dummy:
     def __str__(self):
