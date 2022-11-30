@@ -16,7 +16,7 @@ def merge(collectors: Iterator[Collector]) -> Iterator[Dict[Any, Any]]:
     """Iterate over collectors and merge results
 
     :param collectors: Collectors object iterator
-    :return: Merged collectors results
+    :returns: Merged collectors results
     :rtype: List[Dict[Any, Any]]
     """
 
