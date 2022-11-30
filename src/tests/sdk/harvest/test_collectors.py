@@ -25,8 +25,6 @@ def test_collect_collector():
     loaded_collectors = collectors.load()
     data_merged = collectors.merge(loaded_collectors)
     
-    # we expect only one dummy class result even if we pass two collector because
-    # the idea is that merge return
     expected2 = expected.copy()
     expected2.update({"title": "A in the Road"})
     assert list(data_merged) == [expected, expected2]
