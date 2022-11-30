@@ -24,10 +24,10 @@ def merge(collectors: Iterator[Collector]) -> Iterator[Dict[Any, Any]]:
 
 
 def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
-    """Import submodules from a given path and return module object
+    """Import submodules from a given path and yield module object
 
     :param path: The path to search for submodules.
-    :returns: Generator of matched modules.
+    :returns: Iterator of matched modules.
     :rtype: Iterator[Any]
     """
 
