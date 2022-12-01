@@ -3,31 +3,39 @@ import pkgutil
 import inspect
 import itertools
 
-from src.core.types import Iterator, Any, Dict
+from src.core.types import Iterator, Tuple, Dict
 from .constants import COLLECTORS_PATH
 from .types import Collector
+from .models import Movie
 
 
-def map(collectors: Iterator[Collector]):
-    """Iterate over collectors and create a hash value for each collector"""
+
+def hashmap(collectors: Iterator[Collector]) -> Dict[str, Tuple[Movie]]:
+    """Iterate over collectors and create a key value based on collector name
+
+    :param collectors: Collectors object iterator
+    :returns: Key value pairs for each collector
+    :rtype: Dict[str, Dict[Any, Any]]
+    """
     ...
-    
-def merge(collectors: Iterator[Collector]) -> Iterator[Dict[Any, Any]]:
+
+
+def merge(collectors: Iterator[Collector]) -> Iterator[Movie]:
     """Iterate over collectors and merge results
 
     :param collectors: Collectors object iterator
-    :return: Merged collectors results
-    :rtype: List[Dict[Any, Any]]
+    :returns: Merged collected as Movie iterator
+    :rtype: Iterator[Dict[Any, Any]]
     """
-
-    return itertools.chain.from_iterable(collectors)
+    collected = itertools.chain.from_iterable(collectors)
+    return map(Movie.parse_obj, collected)  # type: ignore
 
 
 def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
     """Import submodules from a given path and yield module object
 
     :param path: The path to search for submodules.
-    :return: Iterator of matched modules.
+    :returns: Iterator of matched modules.
     :rtype: Iterator[Any]
     """
 
