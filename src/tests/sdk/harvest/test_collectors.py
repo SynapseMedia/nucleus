@@ -14,16 +14,18 @@ expected = {
 }
 
 
-def test_submodules_collector():
+def test_load_collector():
     """Should collect expected metadata from dummy collector"""
-    dummy = list(collectors.load())[0]
+    # we get the collector from original source files and get the first known
+    dummy = list(collectors.load())[0] 
     data = list(dummy)
     assert data == [expected]
 
 
 def test_merge_collector():
+    mock_collectors_dir = "src/tests/_mock/collectors/"
     """Should merge collected metadata from collectors"""
-    loaded_collectors = collectors.load()
+    loaded_collectors = collectors.load(mock_collectors_dir)
     data_merged = collectors.merge(loaded_collectors)
     
     expected2 = expected.copy()

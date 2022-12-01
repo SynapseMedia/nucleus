@@ -30,6 +30,7 @@ _templates/
 orbit*/
 pragma*.txt
 src/.pytest_cache
+!src/tests/_mock/collectors
 !collectors/__init__.py
 !collectors/dummy/dummy.py
 !collectors/dummy/__init__.py

@@ -7,7 +7,7 @@ from pathlib import Path
 from src.core.types import Directory
 
 custom_dir = "src/tests/core"
-directory = Directory("fixture")
+directory = Directory("_mock")
 image = Directory(f"{directory}/watchit.png")
 
 
