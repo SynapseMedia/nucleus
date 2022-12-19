@@ -27,8 +27,12 @@ class Collector(Protocol, metaclass=ABCMeta):
 
     @abstractmethod
     def __str__(self) -> str:
+        """Context name for current data.
+
+        We use this context name to keep a reference to data in data processing.
+        """
         ...
-    
+
     @abstractmethod
     def __iter__(self) -> Iterator[Dict[Any, Any]]:
         """Call could implemented any logic to collect metadata from any kind of data input.
