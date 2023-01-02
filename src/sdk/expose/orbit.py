@@ -1,24 +1,24 @@
 import asyncio
 import src.core.subprocess as subprocess
-from src.core.types import Sequence
+
+from src.core.types import Iterator, Any
+from src.sdk.harvest.types import Collector
 
 
-async def migrate(collectors: Sequence[str], recreate: bool = False) -> None:
+async def migrate(collectors: Iterator[Collector], **kwargs: Any) -> None:
     """Spawn nodejs migrate to orbitdb subprocess
 
     :param collectors: list of collectors names to migrate into orbit
-    :param recreate: if recreate equal True new orbit repo is created else use existing
     :return: None since is just a subprocess call
     :rtype: None
     """
 
     # Formulate params
-    recreate_param = recreate and "-g" or ""
     commands = map(
         lambda r: subprocess.NodeJs(
-            "migrate", *(recreate_param, f"--key={r}", f"--source={r}")
+            "migrate", *(f"--key={r}", f"--source={r}")
         ),
-        collectors ,
+        collectors,
     )
 
     process_list = [command() for command in commands]

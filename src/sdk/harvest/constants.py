@@ -1,5 +1,6 @@
 # Scheme constants
 import os
+
 from src.core.constants import ROOT_DIR
 
 DEFAULT_RATE_MAX = 10
