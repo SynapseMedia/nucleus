@@ -3,24 +3,23 @@ import pkgutil
 import inspect
 import itertools
 
-from src.core.types import Iterator, Any, Dict
+from src.core.types import Iterator
 from .constants import COLLECTORS_PATH
 from .types import Collector
+from .models import Movie
 
 
-def map(collectors: Iterator[Collector]):
-    """Iterate over collectors and create a hash value for each collector"""
-    ...
-    
-def merge(collectors: Iterator[Collector]) -> Iterator[Dict[Any, Any]]:
-    """Iterate over collectors and merge results
+def merge(collectors: Iterator[Collector]) -> Iterator[Movie]:
+    """Returns merged collected data as Movie iterator.
+    Collected data is merged and later used to instantiate Movie model.
+    ref: https://pydantic-docs.helpmanual.io/usage/models/#helper-functions
 
-    :param collectors: Collectors object iterator
-    :return: Merged collectors results
-    :rtype: List[Dict[Any, Any]]
+    :param collectors: Collector iterator
+    :return: Merged collectors
+    :rtype: Iterator[Movie]
     """
-
-    return itertools.chain.from_iterable(collectors)
+    collected = itertools.chain.from_iterable(collectors)
+    return map(Movie.parse_obj, collected)
 
 
 def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
@@ -28,7 +27,7 @@ def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
 
     :param path: The path to search for submodules.
     :return: Iterator of matched modules.
-    :rtype: Iterator[Any]
+    :rtype: Iterator[Collector]
     """
 
     for module_finder, name, _ in pkgutil.iter_modules([path]):

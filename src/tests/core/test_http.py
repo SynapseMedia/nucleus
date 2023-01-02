@@ -1,4 +1,3 @@
-import os
 import pytest
 import requests
 import responses
@@ -6,44 +5,24 @@ import src.core.http as http
 
 from src.core.types import Directory, URI, Any
 
-new_file_directory = Directory("src/tests/core/fixture/watchit_.png")
-mock_local_file = Directory(new_file_directory.replace("_", ""))
-mock_link = URI("https://example.org/assets/tests/watchit.png")
-
-
-def _setup_file_response_ok(mock_file: Any, **kwargs: Any):
-    responses.add(
-        responses.GET,
-        mock_link,
-        **{
-            **{
-                "body": mock_file.read(),
-                "status": 200,
-                "content_type": "image/jpeg",
-                "stream": True,
-            },
-            **kwargs,
-        }
-    )
-
 
 # Unit tests
 @responses.activate
-def test_valid_remote_file():
+def test_valid_remote_file(file_response_ok: Any):
     """Should fetch remote file from valid URL"""
-    with open(mock_local_file, "rb") as mock_file:
-        _setup_file_response_ok(mock_file)
-        current_path = http.download(mock_link, new_file_directory)
 
-        assert current_path
-        assert str(current_path) == new_file_directory
-        assert current_path.is_file()
-        os.remove(current_path)
+    new_file_directory = Directory("src/tests/_mock/files/watchit.png")
+    current_path = http.download(file_response_ok, new_file_directory)
+
+    assert current_path
+    assert str(current_path) == new_file_directory
+    assert current_path.is_file()
 
 
 @responses.activate
 def test_invalid_remote_file():
     """Should fail for remote file from invalid URL"""
-    responses.add(responses.GET, mock_link, status=404)
+    invalid_link = URI("https://invalid.org/assets/tests/watchit.png")
+    responses.add(responses.GET, invalid_link, status=404)
     with pytest.raises(requests.exceptions.HTTPError):
-        http.download(mock_link, new_file_directory)
+        http.download(invalid_link, "/tmp")

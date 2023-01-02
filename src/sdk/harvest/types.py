@@ -25,10 +25,13 @@ class MediaType(enum.Enum):
 class Collector(Protocol, metaclass=ABCMeta):
     """Collector define the methods needed to handle metadata collection process"""
 
-    @abstractmethod
     def __str__(self) -> str:
-        ...
-    
+        """Context name for current data.
+
+        We use this context name to keep a reference to data.
+        """
+        return "__collectable__"
+
     @abstractmethod
     def __iter__(self) -> Iterator[Dict[Any, Any]]:
         """Call could implemented any logic to collect metadata from any kind of data input.

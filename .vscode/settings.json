@@ -14,6 +14,7 @@
         "hookwrapper",
         "imdb",
         "ipfs",
+        "IPNS",
         "jsonify",
         "lastrowid",
         "levelname",
@@ -25,7 +26,8 @@
         "strerror",
         "tqdm",
         "Tsize",
-        "verboselogs"
+        "verboselogs",
+        "watchit"
     ],
     "python.testing.pytestArgs": [
         "."

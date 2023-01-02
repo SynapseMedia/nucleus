@@ -21,7 +21,7 @@ class NodeJs(Command):
         """Start an async subprocess cmd
 
         :return: subprocess asyncio shell
-        :rtype: Process
+        :rtype: sub.Process
         """
         proc = await asyncio.create_subprocess_shell(str(self))
         stdout, stderr = await proc.communicate()
