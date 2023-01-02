@@ -17,7 +17,7 @@ const SOURCE_DB = argv.db || 'watchit.db'; // From where we get the raw data
 const IPFS_NODE = argv.node || 'watchit-ipfs' // Our local IPFS node
 
 const OVERWRITE = argv.r || true // Overwrite existing database.
-const COLLECTOR = argv.s || 'FULL' // Collector name to migrate source. This could be useful if we need to create different 
+const COLLECTOR = argv.c || 'FULL' // Collector name to migrate source. This could be useful if we need to create different 
 const KEY = argv.key || 'watchit' // Local key used to IPNS publish
 
 const IPFSLocalNode = IpfsApi.create({ host: IPFS_NODE, port: '5001', protocol: 'http' });
@@ -57,7 +57,9 @@ async function hasIPFSKey(key) {
 async function initializeOrbit({ options = {} }) {
     // Create OrbitDB instance
     const dbOptions = { ...{ overwrite: OVERWRITE, localOnly: false, replicate: true }, ...options }
-    const orbitdb = await OrbitDB.createInstance(IPFSLocalNode);
+    const orbitdb = await OrbitDB.createInstance(IPFSLocalNode, {
+        directory: `./${COLLECTOR}`
+    });
 
     // Initialize orbit db log
     const db = await orbitdb.log(ORBIT_DB_NAME, dbOptions);

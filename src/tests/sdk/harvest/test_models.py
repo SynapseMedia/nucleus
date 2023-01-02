@@ -19,6 +19,19 @@ def test_movie_freeze(mock_movie: Movie, setup_database: Any):
         assert stored == True
 
 
+
+def test_movie_batch_freeze(mock_movie: Movie, mock_movie2: Movie, setup_database: Any):
+    """Should commit a batch mutation of movies"""
+    with patch("src.core.cache.database.sqlite3") as mock:
+        conn = setup_database
+        mock.connect.return_value = conn  # type: ignore
+
+        
+        expected: List[Movie] = [mock_movie, mock_movie2]
+        saved = Movie.batch(iter(expected))
+
+        assert saved == True
+
 def test_movie_fetch_frozen(mock_movie: Movie, setup_database: Any):
     """Should query a valid fetch of movies"""
     with patch("src.core.cache.database.sqlite3") as mock:

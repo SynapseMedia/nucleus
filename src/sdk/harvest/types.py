@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Scheme definition for movies. 
 Each scheme here defined help us to keep a standard for runtime processing of movies. 
@@ -106,6 +107,18 @@ class CoreModel(pydantic.BaseModel):
         rows = response.fetchall()  # raw data
         return rows[0]
 
+    @classmethod
+    def batch(cls, e: Iterator[CoreModel]) -> bool:
+        """Exec batch insertion into database
+        WARN: This execution its handled by a loop
+
+        :param e: Entries to insert into database.
+        :return: True if success else False
+        :rtype: bool
+        """
+        entries = map(lambda x: x.save(), e)
+        return all(entries)
+
     def save(self) -> bool:
         """Exec insertion into database using built query
 
@@ -114,6 +127,5 @@ class CoreModel(pydantic.BaseModel):
         """
 
         conn = self._get_connection()
-        # q: Query = self.Config.query
         cursor: Cursor = conn.execute(self.Config.mutation, (self,))
         return cursor.rowcount > 0
