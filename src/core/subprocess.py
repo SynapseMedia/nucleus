@@ -1,4 +1,6 @@
 import asyncio
+import src.core.logger as logger
+import asyncio.subprocess as sub
 
 # Convention for importing types
 from src.core.types import Command, Sequence, Iterator
@@ -15,19 +17,20 @@ class NodeJs(Command):
     def __str__(self) -> str:
         return f"npm run {self.cmd} -- {self.args} --enc=json"
 
-    async def __call__(self) -> str:
+    async def __call__(self) -> sub.Process:
         """Start an async subprocess cmd
 
         :return: subprocess asyncio shell
         :rtype: sub.Process
         """
-        cmd = str(self)
-        proc = await asyncio.create_subprocess_shell(
-            cmd, stdout=asyncio.subprocess.PIPE
-        )
-        
-        stdout, _ = await proc.communicate()
-        return stdout.decode().strip()
+        proc = await asyncio.create_subprocess_shell(str(self))
+        stdout, stderr = await proc.communicate()
+
+        if stdout:
+            logger.log.info(f"[stdout]\n{stdout.decode()}")
+        if stderr:
+            logger.log.error(f"[stderr]\n{stderr.decode()}")
+        return proc
 
 
 def spawn(cmd: Iterator[Command]):
