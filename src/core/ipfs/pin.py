@@ -4,7 +4,7 @@ from .types import RemotePin, LocalPin
 from .cmd import CLI
 
 
-def remote(cid: CIDStr, registered_service: str) -> RemotePin:
+def remote(cid: CIDStr, service: str) -> RemotePin:
     """Pin cid into remote service.
     Service should be already registered otherwise raise IPFSFailedExecution.
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
@@ -18,13 +18,13 @@ def remote(cid: CIDStr, registered_service: str) -> RemotePin:
 
 
     :param cid: the cid to pin
-    :param registered_service: name of registered service
+    :param service: name of registered service
     :return: ipfs output for remote pin
     :rtype: RemotePin
     :raises IPFSFailedExecution: if cid already pinned or remote service fail
     """
 
-    service = "--service=%s" % registered_service
+    service = "--service=%s" % service
     background_mode = f"--background={True}"
     args = (cid, service, background_mode)
 
