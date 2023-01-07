@@ -18,14 +18,14 @@ class Web3HTTPProviderAdapter(Provider):
 
     refs:
         - https://peps.python.org/pep-0544/#defining-a-protocol
-        - https://www.geeksforgeeks.org/adapter-method-python-design-patterns/
+        - https://refactoring.guru/es/design-patterns/adapter
     """
 
     def __call__(self):
-        def __connect(endpoint: Endpoint) -> HTTPProvider:
+        def connect(endpoint: Endpoint) -> HTTPProvider:
             return HTTPProvider(endpoint)
 
-        return __connect
+        return connect
 
 
 class Goerli(Chain):

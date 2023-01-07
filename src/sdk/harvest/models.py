@@ -14,10 +14,10 @@ from src.core.types import Optional, List, Any
 from .constants import DEFAULT_RATE_MAX, FIRST_MOVIE_YEAR_EVER
 
 # Exception for relative internal importing
-from .types import CoreModel, MediaType
+from .types import Model, MediaType
 
 
-class Media(CoreModel):
+class Media(Model):
     """Media define needed field for the multimedia assets schema."""
 
     route: str
@@ -35,7 +35,7 @@ class Media(CoreModel):
         return v
 
 
-class Movie(CoreModel):
+class Movie(Model):
     """Movies define needed fields for standard movie schema."""
 
     title: str

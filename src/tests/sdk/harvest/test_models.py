@@ -1,6 +1,8 @@
+import src.sdk.harvest as harvest
+
 from mock import patch
 from src.core.types import Any, List
-from src.sdk.harvest import Movie
+from src.sdk.harvest.models import Movie
 
 
 def test_movie_freeze(mock_movie: Movie, setup_database: Any):
@@ -28,9 +30,9 @@ def test_movie_batch_freeze(mock_movie: Movie, mock_movie2: Movie, setup_databas
 
         
         expected: List[Movie] = [mock_movie, mock_movie2]
-        saved = Movie.batch(iter(expected))
+        saved = harvest.Movie.batch_save(iter(expected))
 
-        assert saved == True
+        assert all(saved) == True
 
 def test_movie_fetch_frozen(mock_movie: Movie, setup_database: Any):
     """Should query a valid fetch of movies"""
@@ -41,7 +43,7 @@ def test_movie_fetch_frozen(mock_movie: Movie, setup_database: Any):
         # store a movie
         mock_movie.save()
         expected = [mock_movie]
-        result = Movie.all()
+        result = harvest.Movie.all()
         movies: List[Movie] = list(result)
         assert movies == expected
 
@@ -54,6 +56,6 @@ def test_movie_get_frozen(mock_movie: Movie, setup_database: Any):
 
         # store a movie
         mock_movie.save()
-        result = Movie.get()
+        result = harvest.Movie.get()
         movies: Movie = result
         assert movies == mock_movie

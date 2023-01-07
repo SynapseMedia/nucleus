@@ -1,25 +1,26 @@
 # import inspect
 import pkgutil
 import inspect
+import pydantic
 import itertools
 
-from src.core.types import Iterator
+
+from src.core.types import Iterator, Type, T
 from .constants import COLLECTORS_PATH
 from .types import Collector
-from .models import Movie
 
 
-def merge(collectors: Iterator[Collector]) -> Iterator[Movie]:
+def parse(collectors: Iterator[Collector], as_: Type[T]) -> Iterator[T]:
     """Returns merged collected data as Movie iterator.
-    Collected data is merged and later used to instantiate Movie model.
     ref: https://pydantic-docs.helpmanual.io/usage/models/#helper-functions
 
     :param collectors: Collector iterator
-    :return: Merged collectors
-    :rtype: Iterator[Movie]
+    :return: Merged collectors as T
+    :rtype: Iterator[T]
     """
+
     collected = itertools.chain.from_iterable(collectors)
-    return map(Movie.parse_obj, collected)
+    return map(lambda x: pydantic.parse_obj_as(as_, x), collected)
 
 
 def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:

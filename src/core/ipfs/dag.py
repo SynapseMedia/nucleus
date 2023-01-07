@@ -1,9 +1,9 @@
-from src.core.types import CIDStr
+from src.core.types import CID
 from .types import Dag, DagLink
 from .cmd import CLI
 
 
-def get(cid: CIDStr) -> Dag:
+def get(cid: CID) -> Dag:
     """Retrieve dag information from cid
     ref: https://docs.ipfs.io/reference/cli/#ipfs-dag-get
 
