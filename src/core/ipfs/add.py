@@ -1,8 +1,8 @@
-from src.core.types import CIDStr, Directory
+from src.core.types import CID, Directory
 from .cmd import CLI
 
 
-def directory(path: Directory) -> CIDStr:
+def directory(path: Directory) -> CID:
     """Add directory to ipfs
     ref: https://docs.ipfs.io/reference/cli/#ipfs-add
 

@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 """
 Scheme definition for movies. 
 Each scheme here defined help us to keep a standard for runtime processing of movies. 
@@ -15,6 +16,7 @@ from src.core.types import Any, Iterator, Protocol, Dict
 from src.core.cache.types import Cursor, Connection
 from .constants import INSERT_MOVIE, FETCH_MOVIE
 
+Raw = Dict[Any, Any]
 
 class MediaType(enum.Enum):
     """Any resource type should be listed here"""
@@ -34,23 +36,25 @@ class Collector(Protocol, metaclass=ABCMeta):
         return "__collectable__"
 
     @abstractmethod
-    def __iter__(self) -> Iterator[Dict[Any, Any]]:
+    def __iter__(self) -> Iterator[Raw]:
         """Call could implemented any logic to collect metadata from any kind of data input.
+        Please see pydantic helper functions:
+        https://docs.pydantic.dev/usage/models/#helper-functions
 
         eg:
-
+        -
         with open("file.json") as file:
             # read movies from json file
-            movies = json.load(file)
+            meta = json.load(file)
 
-            for meta in movies:
-                yield Movies(**meta)
+            for raw in meta:
+                yield raw
 
         """
         ...
 
 
-class CoreModel(pydantic.BaseModel):
+class Model(pydantic.BaseModel):
     """Model based SQL manager"""
 
     class Config:
@@ -108,16 +112,15 @@ class CoreModel(pydantic.BaseModel):
         return rows[0]
 
     @classmethod
-    def batch(cls, e: Iterator[CoreModel]) -> bool:
+    def batch_save(cls, e: Iterator[Model]) -> Iterator[bool]:
         """Exec batch insertion into database
         WARN: This execution its handled by a loop
 
         :param e: Entries to insert into database.
-        :return: True if success else False
-        :rtype: bool
+        :return: Iterator with a boolean flag for each operation.
+        :rtype: Iterator[bool]
         """
-        entries = map(lambda x: x.save(), e)
-        return all(entries)
+        return map(lambda x: x.save(), e)
 
     def save(self) -> bool:
         """Exec insertion into database using built query
@@ -129,3 +132,4 @@ class CoreModel(pydantic.BaseModel):
         conn = self._get_connection()
         cursor: Cursor = conn.execute(self.Config.mutation, (self,))
         return cursor.rowcount > 0
+

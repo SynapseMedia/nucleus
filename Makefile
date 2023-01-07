@@ -48,6 +48,9 @@ check-typing: venv
 test: venv
 	${PYTEST} ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
 
+test-debug: venv
+	${PYTEST} --pdb ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
+
 test-coverage: 
 	${PYTEST} ${PYTHON_MODULES}/tests/
 	${COVERAGE} run --source=./src ${VENV}/bin/py.test

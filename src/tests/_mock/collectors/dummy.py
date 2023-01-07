@@ -1,4 +1,3 @@
-# Convention for importing types
 class Dummy:
     def __str__(self):
         return "dummy"

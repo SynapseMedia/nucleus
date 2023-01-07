@@ -2,7 +2,7 @@ import cid  # type: ignore
 
 # Convention for importing types
 from web3 import Web3
-from src.core.types import Primitives, HexStr, CIDStr
+from src.core.types import Primitives, HexStr, CID
 
 
 def to_hex(input_: Primitives) -> HexStr:
@@ -15,7 +15,7 @@ def to_hex(input_: Primitives) -> HexStr:
     return HexStr(Web3.toHex(input_))
 
 
-def cid_to_uint256(cid_: CIDStr) -> int:
+def cid_to_uint256(cid_: CID) -> int:
     """Encode cid to uint256
 
     :param cid: IPFS cid

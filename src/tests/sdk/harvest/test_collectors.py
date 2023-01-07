@@ -1,4 +1,7 @@
-import src.sdk.harvest.collectors as collectors
+import src.sdk.harvest as harvest
+
+# Convention for importing types
+from src.sdk.harvest import Movie
 
 expected = {
     "title": "A Fork in the Road",
@@ -22,15 +25,15 @@ mock_collectors_dir = "src/tests/_mock/collectors/"
 def test_load_collector():
     """Should collect expected metadata from dummy collector"""
     # we get the collector from original source files and get the first known
-    dummy = list(collectors.load(mock_collectors_dir))[0]
+    dummy = list(harvest.load(mock_collectors_dir))[0]
     data = list(dummy)
     assert data == [expected]
 
 
-def test_merge_collector():
+def test_parse_collector():
     """Should merge collected metadata from collectors"""
-    loaded_collectors = collectors.load(mock_collectors_dir)
-    data_merged = collectors.merge(loaded_collectors)
+    loaded_collectors = harvest.load(mock_collectors_dir)
+    data_merged = harvest.parse(loaded_collectors, Movie)
 
     expected2 = expected.copy()
     # Update the expected output for serialized model

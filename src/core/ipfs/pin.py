@@ -1,10 +1,10 @@
-from src.core.types import CIDStr
+from src.core.types import CID
 
 from .types import RemotePin, LocalPin
 from .cmd import CLI
 
 
-def remote(cid: CIDStr, service: str) -> RemotePin:
+def remote(cid: CID, service: str) -> RemotePin:
     """Pin cid into remote service.
     Service should be already registered otherwise raise IPFSFailedExecution.
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
@@ -39,7 +39,7 @@ def remote(cid: CIDStr, service: str) -> RemotePin:
     )
 
 
-def local(cid: CIDStr) -> LocalPin:
+def local(cid: CID) -> LocalPin:
     """Pin cid into local node
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin
 

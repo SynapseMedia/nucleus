@@ -11,13 +11,17 @@ from abc import ABCMeta, abstractmethod
 # "inherit" from global typing
 from typing import *  # type: ignore
 
+# https://docs.python.org/3/library/typing.html#typing.TypeVar
+T = TypeVar("T")
+
+
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
 
 ID = str
-CIDStr = str
+CID = str
 Directory = str
 URI = NewType("URI", str)
 Endpoint = Union[URI, str]
