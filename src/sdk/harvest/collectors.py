@@ -5,13 +5,34 @@ import pydantic
 import itertools
 
 
-from src.core.types import Iterator, Type, T
+from collections import defaultdict
+from src.core.types import Iterator, Type, T, Any, Dict
 from .constants import COLLECTORS_PATH
 from .types import Collector
 
 
-def parse(collectors: Iterator[Collector], as_: Type[T]) -> Iterator[T]:
-    """Returns merged collected data as Movie iterator.
+def map_as(as_: Type[T], collectors: Iterator[Collector]) -> Dict[str, T]:
+    """Returns mapped collected data as T.
+    Map collectors using name as key and the metadata content as value list.
+    ref: https://pydantic-docs.helpmanual.io/usage/models/#helper-functions
+
+    :param collectors: Collector iterator
+    :return: Mapped collected data using the name of collector as key and value with meta provided.
+    :rtype: Dict[str, T]
+    """
+
+    mapped: Any = defaultdict(list)
+    # For each collector metadata provided lets parse it and map it.
+    for collect in collectors:
+        data_collected = tuple(collect)
+        parsed_obj = map(lambda x: pydantic.parse_obj_as(as_, x), data_collected)
+        # dynamic append parsed object to map
+        mapped[str(collect)] += parsed_obj
+    return dict(mapped)
+
+
+def merge_as(as_: Type[T], collectors: Iterator[Collector]) -> Iterator[T]:
+    """Returns merged collected data as T.
     ref: https://pydantic-docs.helpmanual.io/usage/models/#helper-functions
 
     :param collectors: Collector iterator

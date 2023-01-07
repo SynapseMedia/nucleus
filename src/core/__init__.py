@@ -10,7 +10,18 @@ Convention:
             raise exceptions.InvalidPrivateKey() <- immediately obvious where the exception comes from.       
       IMPORTANT! An exception for this rule could be the package internal/relative import. 
         eg. from .manager import exec
-        
+    - Even in cases where we are seeing some duplication between the type and the functions exposed by the package we should 
+      try to keep this convention so that the code is understood in a separate context between the abstractions and the executable commands/functions.
+      
+        eg. 
+          import src.sdk.harvest as harvest <- exposed module to being used
+          
+          from src.sdk.harvest import Movie <- imported type
+          
+          collected = harvest.load(...) 
+          harvest.merge_as(Movie, collected)
+          
+          
     - For constants or types the better approach is to import using `from` instead of `import` directly since that could be annoying
       keep referencing the package for every usage of type or constant.
         eg. from src.core.types import URI <- easy to use URI anywhere.  

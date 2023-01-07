@@ -30,10 +30,10 @@ def test_load_collector():
     assert data == [expected]
 
 
-def test_parse_collector():
+def test_merge_collector():
     """Should merge collected metadata from collectors"""
     loaded_collectors = harvest.load(mock_collectors_dir)
-    data_merged = harvest.parse(loaded_collectors, Movie)
+    data_merged = harvest.merge_as(Movie, loaded_collectors)
 
     expected2 = expected.copy()
     # Update the expected output for serialized model
@@ -42,3 +42,20 @@ def test_parse_collector():
     got = list(map(lambda x: x.dict(), data_merged))
 
     assert got == [expected, expected2]
+
+
+def test_map_collector():
+    """Should map collected metadata from collectors"""
+    loaded_collectors = harvest.load(mock_collectors_dir)
+    data_merged = harvest.map_as(Movie, loaded_collectors)
+
+    expected2 = expected.copy()
+    # Update the expected output for serialized model
+    expected.update({"genres": "Action,Comedy,Crime"})
+    expected2.update({"title": "A in the Road", "genres": "Action,Comedy,Crime"})
+
+    got_values = data_merged.values()
+    got_keys = data_merged.keys()
+
+    assert list(got_values) == [[expected], [expected2]]
+    assert list(got_keys) == ["dummy", "file"]
