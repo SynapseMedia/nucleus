@@ -1,6 +1,6 @@
 from .models import Movie, Media
 from .types import MediaType, Collector
-from .collectors import parse, load
+from .collectors import merge_as, map_as, load
 from .media import fetch, resolve
 
 __all__ = [
@@ -9,7 +9,8 @@ __all__ = [
     "MediaType",
     "Collector",
     "load",
-    "parse",
+    "merge_as",
+    "map_as",
     "fetch",
     "resolve",
 ]

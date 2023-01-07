@@ -3,6 +3,7 @@ import src.sdk.harvest as harvest
 import src.sdk.expose as expose
 
 
+from src.sdk.harvest import Movie
 
 mock_collectors_dir = "src/tests/_mock/collectors/"
 
@@ -11,7 +12,7 @@ def test_orbit_subprocess_call():
     """Should run migrate subprocess to expose metadata"""
 
     loaded_collectors = harvest.load(mock_collectors_dir)
-    batch_collected = harvest.parse_as(loaded_collectors) 
+    batch_collected = harvest.merge_as(Movie, loaded_collectors)
     harvest.Movie.batch_save(batch_collected)
 
     # Run a subprocess foreach collector to migrate
@@ -19,7 +20,6 @@ def test_orbit_subprocess_call():
     commands = map(expose.migrate, loaded_collectors)
     subprocess.spawn(commands)
 
-    
     """
         just make sure your debug output is rrreeaaalllly good on that migrate node process :D
         and optionally that your python knows how to parse it
