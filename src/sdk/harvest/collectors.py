@@ -23,11 +23,9 @@ def map_as(as_: Type[T], collectors: Iterator[Collector]) -> Dict[str, T]:
 
     mapped: Any = defaultdict(list)
     # For each collector metadata provided lets parse it and map it.
-    for collect in collectors:
-        data_collected = tuple(collect)
-        parsed_obj = map(lambda x: pydantic.parse_obj_as(as_, x), data_collected)
-        # dynamic append parsed object to map
-        mapped[str(collect)] += parsed_obj
+    for collected in collectors:
+        parsed_obj = map(lambda x: pydantic.parse_obj_as(as_, x), collected)
+        mapped[str(collected)] += parsed_obj
     return dict(mapped)
 
 
