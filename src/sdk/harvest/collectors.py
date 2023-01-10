@@ -3,46 +3,56 @@ import pkgutil
 import inspect
 import pydantic
 import itertools
+import builtins
 
 
 from collections import defaultdict
-from src.core.types import Iterator, Type, T, Any, Dict
+from src.core.types import Iterator, Any, Type, T
 from .constants import COLLECTORS_PATH
-from .types import Collector
+from .types import Collectors, MetaIter, MetaMap
 
 
-def map_as(as_: Type[T], collectors: Iterator[Collector]) -> Dict[str, T]:
-    """Returns mapped collected data as T.
+def parse(as_: Type[T], meta: MetaIter) -> Iterator[T]:
+    """Return parsed metadata as T type.
+     
+    :param as_: Model to parse metadata
+    :param meta: The raw metadata input
+    :return: The parsed metadata
+    :rtype: Iterator[T]
+    """
+    return builtins.map(lambda x: pydantic.parse_obj_as(as_, x), meta)
+
+
+def map(collectors: Collectors) -> MetaMap:
+    """Returns mapped collectors.
     Map collectors using name as key and the metadata content as value list.
     ref: https://pydantic-docs.helpmanual.io/usage/models/#helper-functions
 
     :param collectors: Collector iterator
     :return: Mapped collected data using the name of collector as key and value with meta provided.
-    :rtype: Dict[str, T]
+    :rtype: MetaMap
     """
 
     mapped: Any = defaultdict(list)
     # For each collector metadata provided lets parse it and map it.
     for collected in collectors:
-        parsed_obj = map(lambda x: pydantic.parse_obj_as(as_, x), collected)
-        mapped[str(collected)] += parsed_obj
+        mapped[str(collected)] += collected
     return dict(mapped)
 
 
-def merge_as(as_: Type[T], collectors: Iterator[Collector]) -> Iterator[T]:
-    """Returns merged collected data as T.
+def merge(collectors: Collectors) -> MetaIter:
+    """Returns merged collectors.
     ref: https://pydantic-docs.helpmanual.io/usage/models/#helper-functions
 
     :param collectors: Collector iterator
-    :return: Merged collectors as T
-    :rtype: Iterator[T]
+    :return: Merged collectors
+    :rtype: MetaIter
     """
 
-    collected = itertools.chain.from_iterable(collectors)
-    return map(lambda x: pydantic.parse_obj_as(as_, x), collected)
+    return itertools.chain.from_iterable(collectors)
 
 
-def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
+def load(path: str = COLLECTORS_PATH) -> Collectors:
     """Import submodules from a given path and yield module object
 
     :param path: The path to search for submodules.

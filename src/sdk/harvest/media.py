@@ -1,4 +1,3 @@
-import shutil
 import pathlib
 import src.core.fs as fs
 import src.core.http as http
@@ -17,7 +16,7 @@ def resolve(dir_: Directory, is_prod: bool = True) -> Tuple[Directory, bool]:
     :rtype: str, bool
     """
     target_path = RAW_PATH if not is_prod else PROD_PATH
-    root_dir = "%s/%s" % (target_path, dir_)
+    root_dir = Directory("%s/%s" % (target_path, dir_))
 
     path_exists = fs.exists(root_dir)
     return Directory(root_dir), path_exists
@@ -26,7 +25,7 @@ def resolve(dir_: Directory, is_prod: bool = True) -> Tuple[Directory, bool]:
 def fetch(route: URI, output: Directory) -> pathlib.Path:
     """Fetch files from the given route.
     If a file already exists omit the download when a URL is provided.
-    If the file is a local file make a copy to output dir.
+    If the file is a local file make a copy to output dir if does'nt exists in output.
 
     :param route: File route reference
     :param output: Where store the file?
@@ -42,8 +41,7 @@ def fetch(route: URI, output: Directory) -> pathlib.Path:
     # Check if route is file path and exists in host to copy it to prod dir
     if pathlib.Path(route).is_file():
         logger.log.notice(f"Copying existing file: {route}")  # type: ignore
-        fs.make(output)  # make thr path if doesn't exists
-        shutil.copy(route, output)  # copy the file to recently created directory
+        output = fs.copy(route, output)  # copy the file to output
         return pathlib.Path(output)
 
     return http.download(route, output)

@@ -13,6 +13,7 @@ from typing import *  # type: ignore
 
 # https://docs.python.org/3/library/typing.html#typing.TypeVar
 T = TypeVar("T")
+P = ParamSpec("P")
 
 
 HexStr = NewType("HexStr", str)
@@ -20,22 +21,12 @@ Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
 
-ID = str
-CID = str
-Directory = str
+ID = NewType("ID", str)
+CID = NewType("CID", str)
+Directory = NewType("Directory", str)
+Raw = NewType("Raw", Mapping[str, Any])
 URI = NewType("URI", str)
 Endpoint = Union[URI, str]
-
-
-class Printable(Protocol, metaclass=ABCMeta):
-    """Printable abstraction to enforce implement string representation methods."""
-
-    @abstractmethod
-    def __str__(self) -> str:
-        """
-        Human readable string representation for abstraction.
-        """
-        ...
 
 
 class Accessor(Protocol, metaclass=ABCMeta):

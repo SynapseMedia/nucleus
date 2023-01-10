@@ -12,11 +12,14 @@ import src.core.cache as cache
 
 # Convention for importing constants/types
 from abc import ABCMeta, abstractmethod
-from src.core.types import Any, Iterator, Protocol, Dict
+from src.core.types import Any, Iterator, Protocol, Raw, Mapping, NewType
 from src.core.cache.types import Cursor, Connection
 from .constants import INSERT_MOVIE, FETCH_MOVIE
 
-Raw = Dict[Any, Any]
+Metadata = NewType("Metadata", Raw)
+MetaIter = Iterator[Metadata]
+MetaMap = Mapping[str, MetaIter]
+
 
 class MediaType(enum.Enum):
     """Any resource type should be listed here"""
@@ -36,7 +39,7 @@ class Collector(Protocol, metaclass=ABCMeta):
         return "__collectable__"
 
     @abstractmethod
-    def __iter__(self) -> Iterator[Raw]:
+    def __iter__(self) -> MetaIter:
         """Call could implemented any logic to collect metadata from any kind of data input.
         Please see pydantic helper functions:
         https://docs.pydantic.dev/usage/models/#helper-functions
@@ -52,6 +55,9 @@ class Collector(Protocol, metaclass=ABCMeta):
 
         """
         ...
+
+
+Collectors = Iterator[Collector]
 
 
 class Model(pydantic.BaseModel):
@@ -132,4 +138,3 @@ class Model(pydantic.BaseModel):
         conn = self._get_connection()
         cursor: Cursor = conn.execute(self.Config.mutation, (self,))
         return cursor.rowcount > 0
-

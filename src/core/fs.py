@@ -2,18 +2,19 @@ import os
 import errno
 import pathlib
 import contextlib
+import shutil
 
 from src.core.types import Directory, Iterator
 
 
 @contextlib.contextmanager
-def read(dir_: str) -> Iterator[str]:
+def read(dir_: Directory) -> Iterator[str]:
     """Return file content.
     If file is not found, exception is raised.
 
     :param dir_: file path
     :return: file content
-    :rtype: str
+    :rtype: Iterator[str]
     :raises FileNotFoundError: if file does not exist
     """
 
@@ -35,8 +36,7 @@ def exists(dir_: Directory) -> bool:
     :return: True if the path exists
     :rtype: bool
     """
-    path_exists = pathlib.Path(dir_).exists()
-    return path_exists
+    return pathlib.Path(dir_).exists()
 
 
 def make(dir_: Directory) -> Directory:
@@ -50,6 +50,20 @@ def make(dir_: Directory) -> Directory:
     pathlib.Path(dirname).mkdir(parents=True, exist_ok=True)
     return Directory(dirname)
 
+
+def copy(origin: Directory, output: Directory) -> Directory:
+    """ Copy file from origin to output dir.
+    If output directory does'nt exists it will be created.
+    
+    :param origin: file path
+    :param output: destination directory
+    :return: new absolute file path
+    :type: Directory
+    """
+    
+    make(output)  # make the path if doesn't exists
+    path = shutil.copy(origin, output)  # copy the file to recently created directory
+    return Directory(path)
 
 def extension(file: Directory) -> str:
     """Extract file extension

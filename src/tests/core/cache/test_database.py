@@ -3,7 +3,7 @@ import src.core.cache.database as database
 
 from mock import patch
 from src.core.cache.constants import DB_DEFAULT
-from src.core.types import Any
+from src.core.types import Any, Directory
 
 
 def test_is_open_ok_for_opened_connection():
@@ -24,4 +24,4 @@ def test_valid_connection_for_valid_file():
     """Should instance a valid connection with valid input file db"""
     with database.connection(DB_DEFAULT) as conn:
         assert conn.cursor() is not None
-        assert fs.exists(DB_DEFAULT) is True
+        assert fs.exists(Directory(DB_DEFAULT)) is True

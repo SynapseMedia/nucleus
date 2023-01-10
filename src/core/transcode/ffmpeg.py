@@ -4,7 +4,7 @@ import src.core.exceptions as exceptions
 # Convention for importing types and constants
 from ffmpeg_streaming._input import Input as FFInput  # type: ignore
 from ffmpeg_streaming import input as ffinput, FFProbe  # type: ignore
-from src.core.types import Directory, Dict, Sequence, Iterator, Any
+from src.core.types import Directory, Mapping, Sequence, Iterator, Any
 from .constants import MAX_MUXING_QUEUE_SIZE
 
 # package types
@@ -60,12 +60,12 @@ def quality(size: Size) -> Sequence[Representation]:
     Blocked upscale and locked downscale allowed for each defined quality
     :param size: master video size to match appropriate representation
     :return: list of appropriate representations based on requested quality
-    :rtype: tuple
+    :rtype: Sequence[Representation]
     :raises InvalidVideoQuality: if size not match any allowed representations
     """
 
     # Video quality representations allowed by size
-    representations: Dict[Size, Sequence[Representation]] = {
+    representations: Mapping[Size, Sequence[Representation]] = {
         Sizes.Q480: (REPR.R360p, REPR.R480p),
         Sizes.Q720: (REPR.R360p, REPR.R480p, REPR.R720p),
         Sizes.Q1080: (REPR.R360p, REPR.R480p, REPR.R720p, REPR.R1080p),

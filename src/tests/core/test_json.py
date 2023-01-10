@@ -12,7 +12,7 @@ def json_content():
 
 def test_write_json(json_content: Any):
     """Should write json file with defined content"""
-    new_dir = file_dir
+    new_dir = Directory(file_dir)
     new_created_dir = json.write(new_dir, json_content)
     with open(
         new_created_dir,
