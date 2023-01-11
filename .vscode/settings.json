@@ -39,6 +39,9 @@
     "python.experiments.optInto": [
         "All"
     ],
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportShadowedImports": "none",
+    },
     "sqltools.connections": [
         {
             "previewLimit": 50,

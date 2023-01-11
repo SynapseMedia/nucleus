@@ -2,13 +2,14 @@ import pytest
 import src.core.image as image
 import src.core.exceptions as exceptions
 
+from src.core.types import Directory
 from src.core.image import Size
 
 
 root_dir = "src/tests/_mock/files/"
-image_dir_771 = f"{root_dir}771x900.jpg"
-image_dir_255 = f"{root_dir}255x255.jpg"
-image_dir_638 = f"{root_dir}638x400.jpg"
+image_dir_771 = Directory(f"{root_dir}771x900.jpg")
+image_dir_255 = Directory(f"{root_dir}255x255.jpg")
+image_dir_638 = Directory(f"{root_dir}638x400.jpg")
 
 
 def test_sizes():

@@ -3,14 +3,10 @@ import functools
 import contextlib
 import src.core.logger as logger
 
-from src.core.types import ParamSpec, TypeVar, Callable, Any, Optional
+from src.core.types import Callable, Any, Optional, T, P
 from .constants import DB_ISOLATION_LEVEL
 from .database import connect
 from .types import Connection
-
-
-T = TypeVar("T")
-P = ParamSpec("P")
 
 
 class Atomic(contextlib.ContextDecorator):
@@ -34,6 +30,7 @@ class Atomic(contextlib.ContextDecorator):
             with self._recreate_cm():  # type: ignore
                 # Get extra settings passed to decorator
                 return f(self.conn, *args, **kwargs)
+
         return _wrapper
 
     def __exit__(self, *_: Any):

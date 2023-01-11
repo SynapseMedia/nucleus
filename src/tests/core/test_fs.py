@@ -9,11 +9,12 @@ from src.core.types import Directory
 custom_dir = "src/tests/core"
 directory = Directory("_mock")
 image = Directory(f"{directory}/watchit.png")
-
+license = Directory("LICENSE")
+invalid = Directory("NOT_EXIST")
 
 def test_valid_read_file():
     """Should return a valid file content with valid directory"""
-    with fs.read("LICENSE") as content:
+    with fs.read(license) as content:
         pattern = "GNU AFFERO GENERAL PUBLIC LICENSE"
         assert content is not None
         assert re.search(pattern, content)
@@ -22,21 +23,21 @@ def test_valid_read_file():
 def test_invalid_read_file():
     """Should raise FileNotFoundError exception with invalid directory"""
     with pytest.raises(FileNotFoundError):
-        with fs.read("NOT_EXIST"):
+        with fs.read(invalid):
             ...
 
 
 # Unit tests
 def test_exists_file():
     """Should return True for valid path"""
-    existing_file = fs.exists("LICENSE")
+    existing_file = fs.exists(license)
     assert existing_file is True
 
 
 # Unit tests
 def test_exists_invalid_file():
     """Should return False for invalid path"""
-    existing_file = fs.exists("INVALID")
+    existing_file = fs.exists(invalid)
     assert existing_file is False
 
 def test_make_destination_dir():

@@ -1,9 +1,11 @@
+import os
 import pytest
 import src.core.cache.database as database
 import src.core.cache.decorator as decorator
 
 from mock import patch
 from src.core.cache.database import Connection
+from src.core.cache.constants import DB_DEFAULT
 
 
 def test_connected():
@@ -15,6 +17,7 @@ def test_connected():
         assert database.is_open(conn) is True
 
     to_decorate_with_connection()
+    os.remove(DB_DEFAULT)
 
 
 def test_atomic():

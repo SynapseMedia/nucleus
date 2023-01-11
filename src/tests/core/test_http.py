@@ -25,4 +25,4 @@ def test_invalid_remote_file():
     invalid_link = URI("https://invalid.org/assets/tests/watchit.png")
     responses.add(responses.GET, invalid_link, status=404)
     with pytest.raises(requests.exceptions.HTTPError):
-        http.download(invalid_link, "/tmp")
+        http.download(invalid_link, Directory("/tmp"))

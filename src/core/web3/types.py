@@ -21,12 +21,12 @@ from src.core.types import (
     NewType,
     TypedDict,
     NamedTuple,
-    Dict,
     Callable,
+    Raw
 )
 
 Address = Union[HexStr, str]
-Abi = NewType("Abi", Dict[Any, Any])
+Abi = NewType("Abi", Raw)
 Connector = Callable[[Endpoint], Any]
 PrivateKey = Union[Address, int]
 TxCall = Union[NamedTuple, TypedDict]

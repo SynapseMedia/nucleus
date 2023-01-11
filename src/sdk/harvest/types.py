@@ -12,11 +12,13 @@ import src.core.cache as cache
 
 # Convention for importing constants/types
 from abc import ABCMeta, abstractmethod
-from src.core.types import Any, Iterator, Protocol, Dict
+from src.core.types import Any, Iterator, Protocol, Raw, Mapping, NewType
 from src.core.cache.types import Cursor, Connection
-from .constants import INSERT_MOVIE, FETCH_MOVIE
+from .constants import INSERT, FETCH, MIGRATE
 
-Raw = Dict[Any, Any]
+Metadata = NewType("Metadata", Raw)
+MetaIter = Iterator[Metadata]
+MetaMap = Mapping[str, MetaIter]
 
 class MediaType(enum.Enum):
     """Any resource type should be listed here"""
@@ -36,7 +38,7 @@ class Collector(Protocol, metaclass=ABCMeta):
         return "__collectable__"
 
     @abstractmethod
-    def __iter__(self) -> Iterator[Raw]:
+    def __iter__(self) -> MetaIter:
         """Call could implemented any logic to collect metadata from any kind of data input.
         Please see pydantic helper functions:
         https://docs.pydantic.dev/usage/models/#helper-functions
@@ -54,13 +56,14 @@ class Collector(Protocol, metaclass=ABCMeta):
         ...
 
 
+Collectors = Iterator[Collector]
+
+
 class Model(pydantic.BaseModel):
     """Model based SQL manager"""
 
     class Config:
         conn: Connection | None = None
-        query: str = FETCH_MOVIE
-        mutation: str = INSERT_MOVIE
         use_enum_values = True
         validate_assignment = True
 
@@ -74,6 +77,34 @@ class Model(pydantic.BaseModel):
             return ";".join(map_fields)
 
     @classmethod
+    @property
+    def __alias__(cls) -> str:
+        return cls.__name__.lower()
+
+    @classmethod
+    def _migrate(cls) -> str:
+        """Return a migration query string.
+        Expected behavior if "table do not exist" before run other queries.
+        This query is used to handle migrations related to models.
+        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
+        """
+        return MIGRATE % (cls.__alias__, cls.__alias__)
+
+    @classmethod
+    def _mutate(cls) -> str:
+        """Return a insert query based on class name.
+        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
+        """
+        return INSERT % cls.__alias__
+
+    @classmethod
+    def _query(cls) -> str:
+        """Return a query based on class name.
+        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
+        """
+        return FETCH % cls.__alias__
+
+    @classmethod
     def _get_connection(cls) -> Connection:
         """Singleton connection factory
 
@@ -82,7 +113,10 @@ class Model(pydantic.BaseModel):
         """
 
         if cls.Config.conn is None:
-            cls.Config.conn = cache.connect()
+            # we need to keep a reference in db name related to model
+            db_name = f"{cls.__alias__}.db" # keep .db file name
+            cls.Config.conn = cache.connect(db_path=db_name)
+            cls.Config.conn.execute(cls._migrate())
         return cls.Config.conn
 
     @classmethod
@@ -94,7 +128,7 @@ class Model(pydantic.BaseModel):
         """
 
         conn = cls._get_connection()
-        response = conn.execute(cls.Config.query)
+        response = conn.execute(cls._query())
         rows = response.fetchone()  # raw data
         return rows[0]
 
@@ -107,12 +141,12 @@ class Model(pydantic.BaseModel):
         """
 
         conn = cls._get_connection()
-        response = conn.execute(cls.Config.query)
+        response = conn.execute(cls._query())
         rows = response.fetchall()  # raw data
         return rows[0]
 
     @classmethod
-    def batch_save(cls, e: Iterator[Model]) -> Iterator[bool]:
+    def batch_save(cls, e: Iterator[Model]) -> Iterator[int | None]:
         """Exec batch insertion into database
         WARN: This execution its handled by a loop
 
@@ -122,7 +156,7 @@ class Model(pydantic.BaseModel):
         """
         return map(lambda x: x.save(), e)
 
-    def save(self) -> bool:
+    def save(self) -> int | None:
         """Exec insertion into database using built query
 
         :return: True if query was saved or False otherwise
@@ -130,6 +164,5 @@ class Model(pydantic.BaseModel):
         """
 
         conn = self._get_connection()
-        cursor: Cursor = conn.execute(self.Config.mutation, (self,))
-        return cursor.rowcount > 0
-
+        cursor: Cursor = conn.execute(self._mutate(), (self,))
+        return cursor.lastrowid

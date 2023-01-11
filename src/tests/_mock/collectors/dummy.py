@@ -20,7 +20,7 @@ class Dummy:
                 "speech_language": "en",
                 "publish_date": 1669911990.9270618,
                 "resources": [],
-            }
+            },
         ]
 
         for raw in dummy_data:

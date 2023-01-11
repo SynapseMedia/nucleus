@@ -8,8 +8,9 @@ FIRST_MOVIE_YEAR_EVER = 1880
 
 # Query constants
 # Insert template fields are ordered based on model ordered dict field.
-INSERT_MOVIE = """INSERT INTO movies(m) VALUES(?)"""
-FETCH_MOVIE = """SELECT m FROM movies"""
+MIGRATE = """CREATE TABLE IF NOT EXISTS %ss(m %s);"""
+INSERT = """INSERT INTO %ss(m) VALUES(?)"""
+FETCH = """SELECT m FROM %ss"""
 
 # Runtime directories
 COLLECTORS_PATH = f"{ROOT_DIR}/collectors/"
