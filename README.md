@@ -40,11 +40,7 @@ The toolkit proposes a sequence of steps (pipeline) for the processing and decen
 
 ### Node
 
-In a Nutshell Toolkit itself exposes a node that powers the Watchit network through distributed storage, metadata resolution, reward system and access controls.
-
-The nodes will be rewarded through the IPFS [bitswap](https://docs.ipfs.tech/concepts/bitswap/) which will determine the amount of data provided by each participant, based on this WVC coin will be granted.
-
-The information shared between the nodes will be the assets and movies added to IPFS within the Watchit network, it is important to note that this data will not be stored by default and only those that are requested from the network or those with which you want to feed your node to increase your rewards since the more data you have to share the more rewards you will get.
+In a nutshell, WatchIt is a tool that exposes a node that powers the Watchit network through distributed storage, metadata resolution, and access controls. The information shared between the nodes will be the assets and movies added to IPFS within the Watchit network, it's important to note that this data will not be stored by default, only those that are requested from the network.
 
 The nodes will also be facilitators of metadata for the network, each node will have a process that will "pin" with lists of metadata from the different participants in the network (this metadata will be previously encrypted) that will be obtained through the Distribution contract.
 
