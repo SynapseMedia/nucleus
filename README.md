@@ -40,9 +40,9 @@ The toolkit proposes a sequence of steps (pipeline) for the processing and decen
 
 ### Node
 
-In a nutshell, WatchIt is a tool that exposes a node that powers the Watchit network through distributed storage, metadata resolution, and access controls. The information shared between the nodes will be the assets and movies added to IPFS within the Watchit network, it's important to note that this data will not be stored by default, only those that are requested from the network.
+In short, WatchIt's toolkit not only provides a set of tools for decentralizing multimedia, but it also exposes a node that powers the Watchit network through distributed storage, metadata resolution, and access controls. 
 
-The nodes will also be facilitators of metadata for the network, each node will have a process that will "pin" with lists of metadata from the different participants in the network (this metadata will be previously encrypted) that will be obtained through the Distribution contract.
+The information shared between the nodes will be the assets and movies added to IPFS within the Watchit network, it's important to note that this data will not be stored by default, only those that are requested from the network. The nodes will also act as facilitators of metadata for the network, each node will have a process that "pins" with lists of metadata from different participants in the network, this metadata is previously encrypted and obtained through the Distribution contract.
 
 ### Harvesting
 
