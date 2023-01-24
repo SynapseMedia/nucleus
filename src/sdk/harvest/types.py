@@ -36,19 +36,15 @@ class Collector(ABC):
 
     @abstractmethod
     def __iter__(self) -> Iterator[Model]:
-        """This method could implement any logic to collect metadata from any kind of data input.
+        """Call could implemented any logic to collect metadata from any kind of data input.
         
         Please see pydantic helper functions:
         https://docs.pydantic.dev/usage/models/#helper-functions
 
         eg:
         -
-        with open("file.json") as file:
-            # read movies from json file
-            meta = json.load(file)
-
-            for raw in meta:
-                yield raw
+        source_file = "src/tests/_mock/files/dummy.json"
+        return iter(pydantic.parse_file_as(List[Music], source_file))
 
         """
         ...
