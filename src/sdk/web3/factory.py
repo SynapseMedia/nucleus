@@ -1,8 +1,8 @@
 from typing import Dict, Type, Any
-from ...core.web3 import ChainID, ContractID, NetworkID, Network, Chain, Contract
-from ...core.web3.contracts import ERC1155
-from ...core.web3.network import Ethereum
-from ...core.web3.chains import Rinkeby, Goerli
+from ...core.blockchain import ChainID, ContractID, NetworkID, Network, Chain, Contract
+from ...core.blockchain.contracts import ERC1155
+from ...core.blockchain.network import Ethereum
+from ...core.blockchain.chains import Rinkeby, Goerli
 from ...core.exceptions import (
     InvalidChain,
     InvalidNetwork,

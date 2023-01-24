@@ -12,6 +12,11 @@
         "speech_language": "en",
         "publish_date": 1669911990.9270618,
         "trailer_link": "",
-        "resources": []
+        "resources": [
+            {
+                "route": "src/tests/_mock/files/watchit.png",
+                "type": 0
+            }
+        ]
     }
 ]

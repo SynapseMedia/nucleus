@@ -2,7 +2,7 @@ import sys
 import requests
 
 from . import session
-from src.core import logger
+from src.sdk import logger
 from src.core.storage.ipfs import services, pin_remote, register_service
 from src.core.exceptions import IPFSFailedExecution
 from src.core.constants import (

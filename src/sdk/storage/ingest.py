@@ -1,5 +1,6 @@
-from src.core import json, logger
+from src.core import json
 from src.core.storage.ipfs import pin, add_dir
+from src.sdk import logger
 from .edge import pin as remote_pin
 from ..scheme.definition.movies import MovieScheme
 

@@ -75,6 +75,13 @@ class IPFSFailedExecution(Exception):
         super().__init__(f"Failed execution: {message}")
 
 
+class SubProcessFailedExecution(Exception):
+    """Raised on subprocess execution fail."""
+
+    def __init__(self, message: str = ""):
+        super().__init__(f"Process execution fault: {message}")
+
+
 class InvalidChain(Exception):
     """Raised when an invalid chain is requested."""
 

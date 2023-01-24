@@ -1,6 +1,7 @@
 from pathlib import Path
-from src.core import json, logger
+from src.core import json
 from src.core.media.assets.factory import image, representation, Size, SIZES
+from src.sdk import logger
 
 
 def auto_resize_to_default(input_image: str, output: str):

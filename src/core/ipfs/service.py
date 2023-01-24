@@ -19,9 +19,8 @@ def ls() -> Services:
     :raises IPFSFailedExecution: if ipfs cmd execution fail
     """
 
-    exec = CLI("/pin/remote/service/ls")
-    output = exec().get("output")
-    raw_services = output.get("RemoteServices")
+    call = CLI("/pin/remote/service/ls")()
+    raw_services = call.output.get("RemoteServices")
 
     # map registered services
     services_iter = map(

@@ -23,8 +23,6 @@ def directory(path: Directory) -> CID:
     )
 
     # Exec command and get output
-    exec = CLI("/add", *args)
-    hash_ = exec().get("output")
-
+    call = CLI("/add", *args)()
     # Cleaned returned cid
-    return hash_.strip()
+    return call.output.strip()

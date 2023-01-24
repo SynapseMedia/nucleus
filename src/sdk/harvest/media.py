@@ -1,7 +1,6 @@
 import pathlib
 import src.core.fs as fs
 import src.core.http as http
-import src.core.logger as logger
 
 from src.core.types import URI, Tuple, Directory
 from .constants import PROD_PATH, RAW_PATH
@@ -22,10 +21,9 @@ def resolve(dir_: Directory, is_prod: bool = True) -> Tuple[Directory, bool]:
     return Directory(root_dir), path_exists
 
 
-def fetch(route: URI, output: Directory) -> pathlib.Path:
+def fetch(route: URI | Directory, output: Directory) -> pathlib.Path:
     """Fetch files from the given route.
-    If a file already exists omit the download when a URL is provided.
-    If the file is a local file make a copy to output dir if does'nt exists in output.
+    If the file is a local file it copy it to output dir.
 
     :param route: File route reference
     :param output: Where store the file?
@@ -33,15 +31,14 @@ def fetch(route: URI, output: Directory) -> pathlib.Path:
     :rtype: pathlib.Path
     """
 
-    # path already exists?
-    if pathlib.Path(output).exists():
-        logger.log.notice(f"File already exists: {output}")  # type: ignore
-        return pathlib.Path(output)
-
-    # Check if route is file path and exists in host to copy it to prod dir
     if pathlib.Path(route).is_file():
-        logger.log.notice(f"Copying existing file: {route}")  # type: ignore
-        output = fs.copy(route, output)  # copy the file to output
+        source = Directory(route)  # source directory
+        out_dir = pathlib.Path(output)
+        # Check if output file already exists
+        if out_dir.exists():
+            return out_dir
+
+        output = fs.copy(source, output)  # copy the file to output
         return pathlib.Path(output)
 
-    return http.download(route, output)
+    return http.download(URI(route), output)

@@ -9,6 +9,7 @@ from src.core.types import (
     Protocol,
     Tuple,
     Endpoint,
+    NamedTuple,
 )
 
 
@@ -29,17 +30,15 @@ class Dag(TypedDict):
     links: Iterator[DagLink]
 
 
-# Exec type contains standardize output for ipfs commands.
+# Result type contains standardize output for ipfs commands.
 # An issue here is that ipfs returns different encodings for each command, sometimes could be a string and later probably we get a json object,
 # so using "output" could be fine to expect always the same field to process.
-# eg. output = exec.get("output")
+# eg. call.output
 # ref: docs.ipfs.io/reference/cli/#ipfs
-Exec = TypedDict("Exec", {"output": Any})
-Services = TypedDict("Services", {"remote": Iterator[Service]})
-
-# Pin types
-LocalPin = TypedDict("Pin", {"pins": Sequence[str]})
-RemotePin = TypedDict("RemotePin", {"cid": str, "status": str, "name": str})
+Result = NamedTuple("Result", output=Any)
+Services = TypedDict("Services", remote=Iterator[Service])
+LocalPin = TypedDict("Pin", pins=Sequence[str])
+RemotePin = TypedDict("RemotePin", cid=str, status=str, name=str)
 
 
 class Container(Protocol, metaclass=ABCMeta):

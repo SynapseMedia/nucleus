@@ -1,6 +1,7 @@
 from src.core.media.transcode.factory import get_codec
 from src.core.exceptions import InvalidCodec
-from src.core import json, logger
+from src.core import json
+from src.sdk import logger
 
 
 # TODO Facade pattern

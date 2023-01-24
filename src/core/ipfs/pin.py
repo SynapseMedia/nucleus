@@ -29,8 +29,8 @@ def remote(cid: CID, service: str) -> RemotePin:
     args = (cid, service, background_mode)
 
     # Exec command and get output
-    exec = CLI("/pin/remote/add", args)
-    output = exec().get("output")
+    call = CLI("/pin/remote/add", args)()
+    output = call.output
 
     return RemotePin(
         status=output.get("Status"),  # status: queue using background
@@ -54,6 +54,5 @@ def local(cid: CID) -> LocalPin:
     :raises IPFSFailedExecution: if ipfs cmd execution fail
     """
     # Exec command and get output
-    exec = CLI("/pin/add/", cid)
-    output = exec().get("output")
-    return LocalPin(pins=output.get("Pins"))
+    call = CLI("/pin/add/", cid)()
+    return LocalPin(pins=call.output.get("Pins"))

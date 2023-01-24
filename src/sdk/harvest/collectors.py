@@ -1,28 +1,27 @@
 import pkgutil
 import inspect
-import pydantic
 import itertools
 import builtins
 
 
 from collections import defaultdict
-from src.core.types import Iterator, Any, Type, T
+from src.core.types import Iterator, Any, Mapping
 from .constants import COLLECTORS_PATH
-from .types import Collectors, MetaIter, MetaMap
+from .types import Collector, Model
 
 
-def parse(as_: Type[T], meta: MetaIter) -> Iterator[T]:
-    """Return parsed metadata as T type.
-     
-    :param as_: Model to parse metadata
-    :param meta: The raw metadata input
-    :return: The parsed metadata
-    :rtype: Iterator[T]
+def batch_save(e: Iterator[Model]) -> Iterator[int | None]:
+    """Exec batch insertion into database
+    WARN: This execution its handled by a loop
+
+    :param e: Entries to insert into database.
+    :return: Iterator with a boolean flag for each operation.
+    :rtype: Iterator[bool]
     """
-    return builtins.map(lambda x: pydantic.parse_obj_as(as_, x), meta)
+    return builtins.map(lambda x: x.save(), e)
 
 
-def map(collectors: Collectors) -> MetaMap:
+def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[Model]]:
     """Returns mapped collectors.
     Map collectors using name as key and the metadata content as value list.
     ref: https://pydantic-docs.helpmanual.io/usage/models/#helper-functions
@@ -36,10 +35,10 @@ def map(collectors: Collectors) -> MetaMap:
     # For each collector metadata provided lets parse it and map it.
     for collected in collectors:
         mapped[str(collected)] += collected
-    return dict(mapped)
+    return mapped
 
 
-def merge(collectors: Collectors) -> MetaIter:
+def merge(collectors: Iterator[Collector]) -> Iterator[Model]:
     """Returns merged collectors.
     ref: https://pydantic-docs.helpmanual.io/usage/models/#helper-functions
 
@@ -51,7 +50,7 @@ def merge(collectors: Collectors) -> MetaIter:
     return itertools.chain.from_iterable(collectors)
 
 
-def load(path: str = COLLECTORS_PATH) -> Collectors:
+def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
     """Import submodules from a given path and yield module object
 
     :param path: The path to search for submodules.
@@ -64,5 +63,6 @@ def load(path: str = COLLECTORS_PATH) -> Collectors:
 
         # Get the module collector class
         for _, obj in inspect.getmembers(module):
-            if inspect.isclass(obj):
-                yield obj()
+            if not inspect.isabstract(obj) and inspect.isclass(obj):
+                if issubclass(obj, Collector):
+                    yield obj()  # yield an instance of collector

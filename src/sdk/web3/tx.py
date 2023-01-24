@@ -1,7 +1,7 @@
 from web3 import types
-from src.core.web3.factory import w3
+from src.core.blockchain.factory import w3
 from src.core.constants import WALLET_PUBLIC_KEY
-from src.core import logger
+from src.sdk import logger
 
 
 # TODO test this

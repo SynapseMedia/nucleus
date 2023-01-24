@@ -6,7 +6,6 @@ import datetime
 import validators  # type: ignore
 import cid  # type: ignore
 import pathlib
-import sqlite3
 
 # Convention for importing types/constants
 # Convention for relative internal import
@@ -134,26 +133,3 @@ class Movie(Model):
                 """
             )
         return v
-
-
-def _convert_movie(s: str) -> Any:
-    """Convert data from sqlite to Movie model
-    ref: https://docs.python.org/3/library/sqlite3.html#how-to-write-adaptable-objects
-
-    :param s: data from database
-    :return: Movie instanced with data from db
-    :rtype: Movie
-    """
-    values = list(s.split(b";"))  # type: ignore
-    fields = Movie.__fields__.keys()
-    params = dict(zip(fields, values))  # type: ignore
-    return Movie(**params)
-
-
-"""
-Register the converter callable to convert SQLite objects of type typename into a Python object of a specific type. 
-The converter is invoked for all SQLite values of type typename; it is passed a bytes object and should return an object of the desired Python type. 
-Consult the parameter detect_types of connect() for information regarding how type detection works.
-Note: typename and the name of the type in your query are matched case-insensitively.
-"""
-sqlite3.register_converter("movie", _convert_movie)  # type: ignore

@@ -1,7 +1,7 @@
-from src.core.web3 import ContractID, ChainID
-from src.core.web3.factory import contract, w3
-from src.core.web3.crypto import cid_to_uint256
-from src.core import logger
+from src.core.blockchain import ContractID, ChainID
+from src.core.blockchain.factory import contract, w3
+from src.core.blockchain.crypto import cid_to_uint256
+from src.sdk import logger
 
 # TODO add NFT type that define methods
 

@@ -1,6 +1,5 @@
 import sqlite3
 import contextlib
-import src.core.logger as logger
 
 from src.core.types import Iterator, Any
 from .constants import DB_DEFAULT
@@ -16,9 +15,12 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
     :rtype: Connection
     """
     # Explicit is better than implicit
-    logger.log.info(f"Connecting to {db_path}")
     # ref: https://docs.python.org/3/library/sqlite3.html#how-to-write-adaptable-objects
-    return sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES, **kwargs)
+    return sqlite3.connect(
+        db_path,
+        detect_types=sqlite3.PARSE_DECLTYPES,
+        **kwargs,
+    )
 
 
 @contextlib.contextmanager

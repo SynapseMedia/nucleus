@@ -2,7 +2,7 @@ import pytest
 import src.core.ipfs.service as service
 import src.core.exceptions as exceptions
 
-from src.core.ipfs.types import Service, Services
+from src.core.ipfs.types import Service, Services, Result
 from src.core.types import Any
 
 PATH_CLI_PATCH = "src.core.ipfs.service.CLI"
@@ -35,7 +35,7 @@ def test_register_service(mocker: Any):
         args: str
 
         def __call__(self):
-            return {"output": None}
+            return Result(None)
 
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
     registered_service = service.register(register_service)
@@ -61,7 +61,7 @@ def test_services(mocker: Any):
         args: str
 
         def __call__(self):
-            return {"output": {"RemoteServices": expected_services}}
+            return Result({"RemoteServices": expected_services})
 
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
     registered_services = service.ls()

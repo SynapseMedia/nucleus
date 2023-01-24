@@ -11,14 +11,10 @@ import pydantic
 import src.core.cache as cache
 
 # Convention for importing constants/types
-from abc import ABCMeta, abstractmethod
-from src.core.types import Any, Iterator, Protocol, Raw, Mapping, NewType
+from abc import ABC, abstractmethod
+from src.core.types import Any, Iterator
 from src.core.cache.types import Cursor, Connection
 from .constants import INSERT, FETCH, MIGRATE
-
-Metadata = NewType("Metadata", Raw)
-MetaIter = Iterator[Metadata]
-MetaMap = Mapping[str, MetaIter]
 
 
 class MediaType(enum.Enum):
@@ -28,8 +24,8 @@ class MediaType(enum.Enum):
     VIDEO = 1
 
 
-class Collector(Protocol, metaclass=ABCMeta):
-    """Collector define the methods needed to handle metadata collection process"""
+class Collector(ABC):
+    """Collector defined as "strict abstraction" with methods needed to handle metadata collection process."""
 
     def __str__(self) -> str:
         """Context name for current data.
@@ -39,8 +35,9 @@ class Collector(Protocol, metaclass=ABCMeta):
         return "__collectable__"
 
     @abstractmethod
-    def __iter__(self) -> MetaIter:
-        """Call could implemented any logic to collect metadata from any kind of data input.
+    def __iter__(self) -> Iterator[Model]:
+        """This method could implement any logic to collect metadata from any kind of data input.
+        
         Please see pydantic helper functions:
         https://docs.pydantic.dev/usage/models/#helper-functions
 
@@ -57,16 +54,86 @@ class Collector(Protocol, metaclass=ABCMeta):
         ...
 
 
-Collectors = Iterator[Collector]
+class _Manager:
+    """Manager is a basic SQL manager.
+    It helps to build queries and provide connection to db.
+    Every database file is created based on model name.
+    If we want to create different collectors models, the manager route the queries to the right database model.
+    """
+
+    _conn: Connection | None = None
+
+    @classmethod
+    @property
+    def alias(cls) -> str:
+        """Return class name as alias for model"""
+        return cls.__name__.lower()
+
+    @classmethod
+    def migrate(cls) -> str:
+        """Return a migration query string.
+        Expected behavior if "table do not exist" before run other queries.
+        This query is used to handle migrations related to models.
+        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
+        """
+        return MIGRATE % (cls.alias, cls.alias)
+
+    @classmethod
+    def mutate(cls) -> str:
+        """Return a insert query based on class name.
+        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
+        """
+        return INSERT % cls.alias
+
+    @classmethod
+    def query(cls) -> str:
+        """Return a query based on class name.
+        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
+        """
+        return FETCH % cls.alias
+
+    @classmethod
+    def connection(cls) -> Connection:
+        """Singleton connection factory
+
+        :return: connection to use during operations
+        :rtype: Connections
+        """
+
+        if cls._conn is None:
+            # we need to keep a reference in db name related to model
+            db_name = f"{cls.alias}.db"  # keep .db file name
+            cls._conn = cache.connect(db_path=db_name)
+            cls._conn.execute(cls.migrate())
+
+        return cls._conn
 
 
-class Model(pydantic.BaseModel):
+class Model(_Manager, pydantic.BaseModel):
     """Model based SQL manager"""
 
     class Config:
-        conn: Connection | None = None
         use_enum_values = True
         validate_assignment = True
+
+    def __init__(self, **kwargs: Any):
+        super(Model, self).__init__(**kwargs)
+        sqlite3.register_converter(self.alias, self.__convert__)
+
+    @classmethod
+    def __convert__(cls, raw: bytes) -> Model:
+        """Convert data from sqlite to  model
+        ref: https://docs.python.org/3/library/sqlite3.html#how-to-write-adaptable-objects
+
+        :param raw: data from database
+        :param model: model to convert raw input
+        :return: Model instanced with data from db
+        :rtype: Model
+        """
+        values = list(raw.split(b";"))  # type: ignore
+        fields = cls.__fields__.keys()  # fields defined in models
+        params = dict(zip(fields, values))  # type: ignore
+        return cls(**params)
 
     def __conform__(self, protocol: sqlite3.PrepareProtocol):
         """Sqlite3 adapter
@@ -78,49 +145,6 @@ class Model(pydantic.BaseModel):
             return ";".join(map_fields)
 
     @classmethod
-    @property
-    def __alias__(cls) -> str:
-        return cls.__name__.lower()
-
-    @classmethod
-    def _migrate(cls) -> str:
-        """Return a migration query string.
-        Expected behavior if "table do not exist" before run other queries.
-        This query is used to handle migrations related to models.
-        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
-        """
-        return MIGRATE % (cls.__alias__, cls.__alias__)
-
-    @classmethod
-    def _mutate(cls) -> str:
-        """Return a insert query based on class name.
-        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
-        """
-        return INSERT % cls.__alias__
-
-    @classmethod
-    def _query(cls) -> str:
-        """Return a query based on class name.
-        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
-        """
-        return FETCH % cls.__alias__
-
-    @classmethod
-    def _get_connection(cls) -> Connection:
-        """Singleton connection factory
-
-        :return: connection to use during operations
-        :rtype: Connections
-        """
-
-        if cls.Config.conn is None:
-            # we need to keep a reference in db name related to model
-            db_name = f"{cls.__alias__}.db" # keep .db file name
-            cls.Config.conn = cache.connect(db_path=db_name)
-            cls.Config.conn.execute(cls._migrate())
-        return cls.Config.conn
-
-    @classmethod
     def get(cls) -> Any:
         """Exec query and fetch one entry from database.
 
@@ -128,8 +152,8 @@ class Model(pydantic.BaseModel):
         :rtype: Any
         """
 
-        conn = cls._get_connection()
-        response = conn.execute(cls._query())
+        conn = cls.connection()
+        response = conn.execute(cls.query())
         rows = response.fetchone()  # raw data
         return rows[0]
 
@@ -141,21 +165,10 @@ class Model(pydantic.BaseModel):
         :rtype: Iterator[Any]
         """
 
-        conn = cls._get_connection()
-        response = conn.execute(cls._query())
+        conn = cls.connection()
+        response = conn.execute(cls.query())
         rows = response.fetchall()  # raw data
         return rows[0]
-
-    @classmethod
-    def batch_save(cls, e: Iterator[Model]) -> Iterator[int | None]:
-        """Exec batch insertion into database
-        WARN: This execution its handled by a loop
-
-        :param e: Entries to insert into database.
-        :return: Iterator with a boolean flag for each operation.
-        :rtype: Iterator[bool]
-        """
-        return map(lambda x: x.save(), e)
 
     def save(self) -> int | None:
         """Exec insertion into database using built query
@@ -164,6 +177,6 @@ class Model(pydantic.BaseModel):
         :rtype: bool
         """
 
-        conn = self._get_connection()
-        cursor: Cursor = conn.execute(self._mutate(), (self,))
+        conn = self.connection()
+        cursor: Cursor = conn.execute(self.mutate(), (self,))
         return cursor.lastrowid

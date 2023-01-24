@@ -1,7 +1,9 @@
 # https://docs.docker.com/develop/develop-images/multistage-build/
 FROM python:3.10 as python
 LABEL maintainer ="watchit"
-RUN apt update && apt-get install -y --no-install-recommends ffmpeg
+RUN apt update 
+RUN apt-get install -y --no-install-recommends ffmpeg
+RUN apt-get install libsqlite3-dev
 
 WORKDIR /usr/share/python
 # Add requirements to build context

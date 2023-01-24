@@ -13,17 +13,17 @@ def mock_movie():
     )
 
     return Movie(
-        title="Test",
-        imdb_code="wt00000000",
-        creator_key="0x0",
+        title="A Fork in the Road",
+        imdb_code="wtt00000000",
+        creator_key="0xee99ceff640d37edd9cac8c7cff4ed4cd609f435",
         mpa_rating="PG",
-        rating=5,
-        runtime=90,
-        release_year=1970,
-        synopsis="",
+        rating=6.0,
+        runtime=105.0,
+        release_year=2010,
+        synopsis="Baby loves have fun",
         speech_language="en",
-        publish_date=1666726838.7003856,
-        genres=["Sci-fi", "Horror"],
+        publish_date=1669911990.9270618,
+        genres=["Action", "Comedy", "Crime"],
         resources=[resource],
     )
 

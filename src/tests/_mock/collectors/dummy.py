@@ -1,4 +1,7 @@
-class Dummy:
+from src.sdk.harvest import Collector, Movie, MediaType
+
+
+class Dummy(Collector):
     def __str__(self):
         return "dummy"
 
@@ -11,7 +14,6 @@ class Dummy:
                 "imdb_code": "wtt00000000",
                 "creator_key": "0xee99ceff640d37edd9cac8c7cff4ed4cd609f435",
                 "mpa_rating": "PG",
-                "trailer_link": "",
                 "rating": 6.0,
                 "runtime": 105.0,
                 "synopsis": "Baby loves have fun",
@@ -19,9 +21,14 @@ class Dummy:
                 "genres": ["Action", "Comedy", "Crime"],
                 "speech_language": "en",
                 "publish_date": 1669911990.9270618,
-                "resources": [],
+                "resources": [
+                    {
+                        "route": "src/tests/_mock/files/watchit.png",
+                        "type": MediaType.IMAGE,
+                    }
+                ],
             },
         ]
 
         for raw in dummy_data:
-            yield raw
+            yield Movie.parse_obj(raw)

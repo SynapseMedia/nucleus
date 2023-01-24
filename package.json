@@ -6,22 +6,16 @@
   "author": "The team zorrillos",
   "description": "Watch movies for free",
   "dependencies": {
-    "chalk": "^4.1.0",
     "ipfs-http-client": "^54.0.0",
     "it-last": "^1.0.6",
-    "minimist": "^1.2.5",
-    "mongodb": "^4.2.0",
     "node-rsa": "^1.0.8",
     "orbit-db": "~0.28.7",
-    "pino": "^6.11.1",
-    "pino-pretty": "^4.5.0",
     "secp256k1": "^3.8.0",
-    "streaming-iterables": "^5.0.4",
-    "uuid": "^8.3.2"
+    "streaming-iterables": "^5.0.4"
   },
   "scripts": {
-    "migrate": "node src/sdk/expose/migrate.js -r",
-    "pin": "node src/sdk/expose/pin.js"
+    "migrate": "node src/sdk/expose/scripts/migrate.js",
+    "pin": "node src/sdk/expose/scripts/pin.js"
   },
   "devDependencies": {
     "fs": "0.0.1-security"

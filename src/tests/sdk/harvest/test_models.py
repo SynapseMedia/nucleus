@@ -30,7 +30,7 @@ def test_movie_batch_freeze(mock_movie: Movie, mock_movie2: Movie, setup_databas
 
         
         expected: List[Movie] = [mock_movie, mock_movie2]
-        saved = harvest.Movie.batch_save(iter(expected))
+        saved = harvest.batch_save(iter(expected))
 
         assert all(saved) == True
 

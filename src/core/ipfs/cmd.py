@@ -4,7 +4,7 @@ import src.core.exceptions as exceptions
 
 from src.core.types import Command
 from .constants import IPFS_CONTAINER
-from .types import Sequence, Exec, Container
+from .types import Sequence, Result, Container
 
 
 def get_container() -> Container:
@@ -28,7 +28,7 @@ class CLI(Command):
     def __str__(self) -> str:
         return f"ipfs {self.cmd} {self.args} --enc=json"
 
-    def __call__(self) -> Exec:
+    def __call__(self) -> Result:
         """Execute built command in container
 
         :return: Output dict from command. ref: https://docs.ipfs.io/reference/cli/
@@ -53,6 +53,6 @@ class CLI(Command):
 
         try:
             json_to_dict = json.loads(output)
-            return Exec(output=json_to_dict)
+            return Result(output=json_to_dict)
         except json.decoder.JSONDecodeError:
-            return Exec(output=output.decode("utf-8"))
+            return Result(output=output.decode("utf-8"))

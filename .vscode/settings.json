@@ -25,6 +25,7 @@
         "rtype",
         "strerror",
         "tqdm",
+        "tracebacks",
         "Tsize",
         "verboselogs",
         "watchit"

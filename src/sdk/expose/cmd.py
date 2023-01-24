@@ -1,11 +1,11 @@
-import src.core.subprocess as subprocess
+import src.core.subprocess.nodejs as nodejs
 
 from src.core.types import Command
 from src.sdk.harvest.types import Collector
 
 
 def migrate(collector: Collector) -> Command:
-    """Spawn nodejs migrate to orbitdb subprocess
+    """Spawn nodejs subprocess to migrate data to orbitdb.
 
     :param collectors: collector to migrate into orbit
     :return: Command to execute
@@ -13,4 +13,4 @@ def migrate(collector: Collector) -> Command:
     """
 
     args = (f"--key={collector}", f"--c={collector}")
-    return subprocess.NodeJs("migrate", *args)
+    return nodejs.Script("migrate", args)

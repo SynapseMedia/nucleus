@@ -1,8 +1,9 @@
 import time
 
 from src.core.http import fetch
-from src.core import json, logger
+from src.core import json
 from src.core.constants import RECURSIVE_SLEEP_REQUEST, MAX_FAIL_RETRY
+from src.sdk import logger
 from .image import auto_resize_to_default
 
 

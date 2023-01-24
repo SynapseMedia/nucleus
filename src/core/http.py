@@ -1,7 +1,6 @@
 import requests
 import pathlib
 import src.core.fs as fs
-import src.core.logger as logger
 import requests.exceptions as exceptions
 
 from src.core.constants import VALIDATE_SSL
@@ -12,7 +11,8 @@ session = requests.Session()
 
 
 def download(route: URI, output: Directory) -> pathlib.Path:
-    """Download remote media
+    """Download remote media.
+    If output does not exists, it will be created.
 
     :param route: URI
     :param output: Where store it?
@@ -36,7 +36,6 @@ def download(route: URI, output: Directory) -> pathlib.Path:
     if response.status_code != requests.codes.ok:
         raise exceptions.HTTPError()
 
-    logger.log.info(f"Trying fetch to: {output}")
     with open(output, "wb") as out:
         for block in response.iter_content(256):
             if not block:
@@ -44,5 +43,4 @@ def download(route: URI, output: Directory) -> pathlib.Path:
             out.write(block)
         out.close()
 
-    logger.log.success(f"File stored in: {output}")  # type: ignore
     return pathlib.Path(output)

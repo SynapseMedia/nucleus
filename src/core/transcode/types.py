@@ -51,6 +51,7 @@ class Input(Protocol, metaclass=ABCMeta):
     def __init__(self, input_file: Directory, **options: Any):
         ...
 
+    @abstractmethod
     def get_path(self) -> Directory:
         """Return current input directory
 
@@ -59,6 +60,7 @@ class Input(Protocol, metaclass=ABCMeta):
         """
         ...
 
+    @abstractmethod
     def get_video_size(self) -> Size:
         """Return video size
 
@@ -67,6 +69,7 @@ class Input(Protocol, metaclass=ABCMeta):
         """
         ...
 
+    @abstractmethod
     def get_duration(self) -> float:
         """Get video time duration
 

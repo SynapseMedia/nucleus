@@ -4,23 +4,23 @@
 // https://github.com/orbitdb/orbit-db/blob/main/API.md#orbitdbcreatename-type-options
 
 const argv = require('minimist')(process.argv.slice(2));
-const logs = require('./logger');
+const logs = console
 
+const fs = require('fs')
 const IpfsApi = require('ipfs-http-client');
 const OrbitDB = require('orbit-db');
-const Sqlite3 = require("sqlite3").verbose()
 const { consume } = require('streaming-iterables')
 
 const ORBIT_DB_NAME = argv.name || 'wt.movies.db' // The orbit db collection name
 const MAX_CHUNKS = argv.size || 1000 // Max number of slices to group for CID
-const SOURCE_DB = argv.db || 'watchit.db'; // From where we get the raw data
-const IPFS_NODE = argv.node || 'watchit-ipfs' // Our local IPFS node
+const IPFS_NODE = argv.node || '127.0.0.1' // Our local IPFS node
 
 const OVERWRITE = argv.r || true // Overwrite existing database.
 const COLLECTOR = argv.c || 'FULL' // Collector name to migrate source. This could be useful if we need to create different 
 const KEY = argv.key || 'watchit' // Local key used to IPNS publish
-
 const IPFSLocalNode = IpfsApi.create({ host: IPFS_NODE, port: '5001', protocol: 'http' });
+
+
 /**
  * Split array in fixed size chunks
  *
@@ -37,13 +37,13 @@ function generateChunks(array, len) {
 /**
  * Check if a key is registered in local node
  *
- * @param {*} node
  * @param {*} key
  * @return {*} 
  */
 async function hasIPFSKey(key) {
     // Check if current used key exists
     const currentList = await IPFSLocalNode.key.list()
+    console.log(key)
     return currentList.some((k) => Object.is(k.name, key))
 };
 
@@ -83,48 +83,37 @@ async function announceDB(address) {
 }
 
 
-/**
- * Collect and convert data from serialized sqlite3 entries
- *
- * @param {*} db
- * @returns Out of the box data
- */
-async function collectDataFromCache(db) {
-    const db = new Sqlite3.Database(db)
-    const query = "SELECT * FROM movies"
-    const data = db.map(query, (err, row) => {
-
-    })
-}
-
 // List of default keys
 // ; = ensures the preceding statement was closed
 ; (async () => {
-
+    logs.info("Waiting for data")
+    let data = fs.readFileSync(0, 'utf-8');
+    log.info(data)
+    process.exit(0)
+    return
     // Initialize orbit db log
     logs.info(`Starting ${COLLECTOR} db `);
-    const db = initializeOrbit(ORBIT_DB_NAME, { overwrite: OVERWRITE })
+    const db = await initializeOrbit(ORBIT_DB_NAME, { overwrite: OVERWRITE })
     const dbAddress = db.address.toString()
     const dbAddressHash = dbAddress.split('/')[2]
 
     // Check if existing keys else create it
-    if (!(await hasIPFSKey(IPFSLocalNode, KEY))) {
+    if (!(await hasIPFSKey(KEY))) {
         await IPFSLocalNode.key.gen(KEY)
         logs.warn(`"${KEY}" key created`)
     }
 
     // let others know that we exist
-    const ipns = announceDB(dbAddress)
+    // const ipns = await announceDB(dbAddressHash)
 
     // Start movies migration to orbit from mongo
     let index = 0; // Keep cursor for movies unique id
 
     try {
-        logs.warn('Connecting to cache..');
-        const rawData = collectDataFromCache(SOURCE_DB)
+
         const size = rawData.length
         const data = generateChunks(rawData, MAX_CHUNKS);
-    
+
         logs.warn(`Migrating ${size} movies..`)
 
         for (const chunk of rawData) {
@@ -135,6 +124,7 @@ async function collectDataFromCache(db) {
                 v['total'] = size;
                 return v
             });
+
             //Add movie
             const { cid } = await IPFSLocalNode.add(
                 Buffer.from(JSON.stringify(ch)),

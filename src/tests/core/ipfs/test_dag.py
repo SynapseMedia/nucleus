@@ -2,7 +2,8 @@ import pytest
 import src.core.ipfs.dag as dag
 import src.core.exceptions as exceptions
 
-from src.core.types import Any
+from src.core.ipfs.types import Result
+from src.core.types import Any, CID
 
 
 def test_dag_get(mocker: Any):
@@ -24,10 +25,10 @@ def test_dag_get(mocker: Any):
         args: str
 
         def __call__(self):
-            return {"output": expected_dag}
+            return Result(expected_dag)
 
     mocker.patch("src.core.ipfs.dag.CLI", return_value=MockCLI())
-    dag_get = dag.get("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1")
+    dag_get = dag.get(CID("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1"))
     assert dag_get.get("data") == expected_dag.get("Data")
 
     for i, link in enumerate(dag_get.get("links")):
@@ -57,4 +58,4 @@ def test_invalid_dag_get(mocker: Any):
     expected_issue = 'Error: invalid path "QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt": selected encoding not supported'
     mocker.patch("src.core.ipfs.dag.CLI", return_value=MockFailingCLI(expected_issue))
     with pytest.raises(exceptions.IPFSFailedExecution):
-        dag.get(duplicated_cid)
+        dag.get(CID(duplicated_cid))

@@ -1,7 +1,7 @@
 from marshmallow import EXCLUDE
 from marshmallow.exceptions import ValidationError
 from .definition.movies import MovieScheme
-from src.core import logger
+from src.sdk import logger
 
 
 def check(data: list, **kwargs):

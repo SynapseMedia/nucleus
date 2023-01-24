@@ -26,11 +26,9 @@ def get(cid: CID) -> Dag:
     """
 
     # Exec command and get output
-    exec = CLI("/dag/get", cid)
-    output = exec().get("output")
-
-    data = output.get("Data")
-    raw_links = output.get("Links")
+    call = CLI("/dag/get", cid)()
+    data = call.output.get("Data")
+    raw_links = call.output.get("Links")
 
     # map iterator for nested links
     links = map(

@@ -1,15 +1,15 @@
 import web3
 import eth_account
-import src.core.web3.crypto as crypto
+import src.core.blockchain.crypto as crypto
 
 from web3 import Web3
-from src.core.web3.contracts import ERC1155
-from src.core.web3.network import Ethereum
-from src.core.web3.chains import Rinkeby, Goerli
+from src.core.blockchain.contracts import ERC1155
+from src.core.blockchain.network import Ethereum
+from src.core.blockchain.chains import Rinkeby, Goerli
 
 from src.core.types import CID
-from src.core.web3.types import Connector
-from src.core.web3.constants import (
+from src.core.blockchain.types import Connector
+from src.core.blockchain.constants import (
     GOERLI_PROVIDER,
     GOERLI_ALCHEMY_API_KEY,
     RINKEBY_PROVIDER,

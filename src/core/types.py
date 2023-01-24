@@ -30,15 +30,13 @@ Endpoint = Union[URI, str]
 
 
 class Accessor(Protocol, metaclass=ABCMeta):
-    """
-    Accessor abstraction to enforce dynamic properties.
+    """Accessor abstraction to enforce dynamic properties.
     You can define behavior for when a user attempts to access an attribute that doesn't exist.
     """
 
     @abstractmethod
     def __getattr__(self, name: str) -> Any:
-        """
-        Dynamic access to an attribute.
+        """Dynamic access to an attribute.
         Here should be handled the logic for dynamic attribute access.
 
         :param name: The name of the attribute
@@ -53,8 +51,7 @@ class Command(Protocol, metaclass=ABCMeta):
 
     @abstractmethod
     def __call__(self) -> Any:
-        """
-        Call exec the command.
+        """Call exec the command.
         Each command procedure should be implemented here.
 
         :return: Any data returned by command executor
@@ -64,7 +61,5 @@ class Command(Protocol, metaclass=ABCMeta):
 
     @abstractmethod
     def __str__(self) -> str:
-        """
-        How to represent your command as string?
-        """
+        """How to represent your command as string?"""
         ...

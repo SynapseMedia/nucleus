@@ -1,7 +1,6 @@
 # ref: https://docs.python.org/es/3/library/functools.html
 import functools
 import contextlib
-import src.core.logger as logger
 
 from src.core.types import Callable, Any, Optional, T, P
 from .constants import DB_ISOLATION_LEVEL
@@ -20,7 +19,6 @@ class Atomic(contextlib.ContextDecorator):
     def __enter__(self):
         # Set connection with isolation level to turn off auto commit
         # ref: https://docs.python.org/3.4/library/sqlite3.html#sqlite3.Connection.isolation_level
-        logger.log.info("Starting query execution")
         self.conn = connect(isolation_level=DB_ISOLATION_LEVEL)
         return self.conn
 
@@ -38,11 +36,9 @@ class Atomic(contextlib.ContextDecorator):
         try:
             # If context execution goes fine return results
             self.conn.commit()
-            logger.log.info("Commit completed")
-        except Exception as e:
+        except Exception:
             # In case of any issue we should rollback
             self.conn.rollback()
-            logger.log.error(f"Error after try to execute transaction: {e}")
             # Raise an exception to "alert" about the issue.
             # Error should never pass silently.
             # When you raise without arguments, the interpreter looks for the last exception raised and handled.
