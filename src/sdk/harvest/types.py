@@ -154,7 +154,7 @@ class Model(_Manager, pydantic.BaseModel):
         return rows[0]
 
     @classmethod
-    def all(cls) -> Iterator[Any]:
+    def all(cls) -> Iterator[Model]:
         """Exec query and fetch a list of data from database.
 
         :return: Any list of derived model
