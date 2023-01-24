@@ -4,6 +4,12 @@ Use this `types` to handle global standard type definition
 
 Note: The Python runtime does not enforce function and variable type annotations. 
 They can be used by third party tools such as type checkers, IDEs, linters, etc.
+
+refs:
+- https://docs.python.org/3/library/typing.html#module-typing
+- https://peps.python.org/pep-0544/#protocol-members
+- https://google.github.io/pytype/errors.html#bad-return-type
+
 """
 from hexbytes import HexBytes
 from abc import ABCMeta, abstractmethod

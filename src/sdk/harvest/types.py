@@ -18,14 +18,19 @@ from .constants import INSERT, FETCH, MIGRATE
 
 
 class MediaType(enum.Enum):
-    """Any resource type should be listed here"""
+    """Enumeration of resource types.
+    Any resource type should be listed here
+    """
 
     IMAGE = 0
     VIDEO = 1
 
 
 class Collector(ABC):
-    """Collector defined as "strict abstraction" with methods needed to handle metadata collection process."""
+    """Abstract class for collecting metadata.
+    Collector define an "strict abstraction" with methods needed to handle metadata collection process.
+    Subclasses should implement the __iter__ method to collect metadata from various data inputs.
+    """
 
     def __str__(self) -> str:
         """Context name for current data.
@@ -36,7 +41,7 @@ class Collector(ABC):
 
     @abstractmethod
     def __iter__(self) -> Iterator[Model]:
-        """Call could implemented any logic to collect metadata from any kind of data input.
+        """Collect metadata from any kind of data input.
         
         Please see pydantic helper functions:
         https://docs.pydantic.dev/usage/models/#helper-functions
@@ -51,10 +56,10 @@ class Collector(ABC):
 
 
 class _Manager:
-    """Manager is a basic SQL manager.
-    It helps to build queries and provide connection to db.
-    Every database file is created based on model name.
-    If we want to create different collectors models, the manager route the queries to the right database model.
+    """SQL manager for managing database connections and queries.
+    
+    Each database file is created based on the model name.
+    This manager routes queries to the correct database model for different collectors.
     """
 
     _conn: Connection | None = None
