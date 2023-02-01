@@ -18,7 +18,7 @@ def test_orbit_subprocess_call():
         # Run a subprocess foreach collector to migrate
         # In this case we are using merge strategy so we expose a batch metadata.
         commands = map(expose.migrate, loaded_collectors)
-        # since we are processing one thread for collector we took the first for test
+        # since we are processing one thread for each collector we took the first for test
         ipc = tuple(commands)[0]() 
         stdout = ipc.communicate(b"abc")
         
