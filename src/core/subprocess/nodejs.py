@@ -29,7 +29,7 @@ def _match_faulty_line(lines: Sequence[str]) -> str | None:
 
     :param line: input line to analyze
     :return: If process failed True is returned otherwise False.
-    :rtype: bool
+    :rtype: str | None
     """
 
     for line in lines:
@@ -46,7 +46,8 @@ async def _trace(stream: Reader) -> StdOut:
     """Async pluggable function to trace information from process stream
 
     :param stream: read stream
-    :return: None
+    :return: standard output
+    :rtype: StdOut
 
     """
 
