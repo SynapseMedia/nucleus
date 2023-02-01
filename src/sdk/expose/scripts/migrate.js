@@ -82,13 +82,12 @@ async function announceDB(address) {
     return await IPFSLocalNode.name.publish(address, { key: KEY })
 }
 
-
 // List of default keys
 // ; = ensures the preceding statement was closed
 ; (async () => {
     logs.info("Waiting for data")
     let data = fs.readFileSync(0, 'utf-8');
-    log.info(data)
+    logs.info(data)
     process.exit(0)
     return
     // Initialize orbit db log

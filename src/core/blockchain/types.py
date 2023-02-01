@@ -59,24 +59,24 @@ class Provider(Protocol, metaclass=ABCMeta):
         class Web3HTTPProviderAdapter(Provider):
             def __call__(self):
                 ...any logic here
-                def __connect(endpoint: Endpoint):
+                def connect(endpoint: Endpoint):
                     return HTTPProvider(endpoint)
-                return __connect
+                return connect
 
 
         class AlgorandProviderAdapter(Provider):
             def __call__(self):
                 ...any logic here
-                def __connect(endpoint: Endpoint):
+                def connect(endpoint: Endpoint):
                     return algod.AlgodClient(endpoint)
-                return __connect
+                return connect
 
 
         class AnyOtherProviderAdapter(Provider):
             def __call__(self):
-                def __connect(endpoint: Endpoint):
+                def connect(endpoint: Endpoint):
                     # Build here the connector logic
-                return __connect
+                return connect
     """
 
     @abstractmethod
@@ -156,7 +156,7 @@ class Proxy(Accessor, metaclass=ABCMeta):
 
 
 class Chain(Protocol, metaclass=ABCMeta):
-    """Chain abstract class
+    """Chain abstract class.
 
     Hold/specify the artifacts/methods needed to interact with chain.
     Use this class to create chain subtypes.
@@ -226,10 +226,10 @@ class Chain(Protocol, metaclass=ABCMeta):
 
 
 class Network(Protocol, metaclass=ABCMeta):
-    """Network abstract class
+    """Network abstract class.
 
-    Specify all methods needed to interact with the blockchain.
-    Use this class to create blockchain subtypes.
+    Bridge all methods needed to interact with networks.
+    Use this class to create networks subtypes.
 
     Usage:
         class Algorand(Network):
@@ -302,7 +302,7 @@ class Network(Protocol, metaclass=ABCMeta):
 class Contract(Protocol, metaclass=ABCMeta):
     """Contract abstract class
 
-    Specify all methods needed to interact with contracts.
+    Bridge all methods needed to interact with contracts.
     Use this class to create contract subtypes.
 
     Usage:

@@ -1,4 +1,4 @@
-import src.core.subprocess.nodejs as nodejs
+import src.core.subprocess as subprocess
 
 from src.core.types import Command
 from src.sdk.harvest.types import Collector
@@ -13,4 +13,4 @@ def migrate(collector: Collector) -> Command:
     """
 
     args = (f"--key={collector}", f"--c={collector}")
-    return nodejs.Script("migrate", args)
+    return subprocess.Script("migrate", args)

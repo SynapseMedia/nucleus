@@ -42,7 +42,7 @@ class Collector(ABC):
     @abstractmethod
     def __iter__(self) -> Iterator[Model]:
         """Collect metadata from any kind of data input.
-        
+
         Please see pydantic helper functions:
         https://docs.pydantic.dev/usage/models/#helper-functions
 
@@ -57,7 +57,7 @@ class Collector(ABC):
 
 class _Manager:
     """SQL manager for managing database connections and queries.
-    
+
     Each database file is created based on the model name.
     This manager routes queries to the correct database model for different collectors.
     """
@@ -94,7 +94,8 @@ class _Manager:
         return FETCH % cls.alias
 
     @classmethod
-    def connection(cls) -> Connection:
+    @property
+    def conn(cls) -> Connection:
         """Singleton connection factory
 
         :return: connection to use during operations
@@ -153,8 +154,7 @@ class Model(_Manager, pydantic.BaseModel):
         :rtype: Any
         """
 
-        conn = cls.connection()
-        response = conn.execute(cls.query())
+        response = cls.conn.execute(cls.query())
         rows = response.fetchone()  # raw data
         return rows[0]
 
@@ -166,8 +166,7 @@ class Model(_Manager, pydantic.BaseModel):
         :rtype: Iterator[Any]
         """
 
-        conn = cls.connection()
-        response = conn.execute(cls.query())
+        response = cls.conn.execute(cls.query())
         rows = response.fetchall()  # raw data
         return rows[0]
 
@@ -178,6 +177,5 @@ class Model(_Manager, pydantic.BaseModel):
         :rtype: bool
         """
 
-        conn = self.connection()
-        cursor: Cursor = conn.execute(self.mutate(), (self,))
+        cursor: Cursor = self.conn.execute(self.mutate(), (self,))
         return cursor.lastrowid
