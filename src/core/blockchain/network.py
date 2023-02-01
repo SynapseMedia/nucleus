@@ -38,9 +38,9 @@ class Ethereum(Network):
     _connector: Connector
 
     def __init__(self, chain: Chain):
-        self._connector = chain.provider()
-        self._web3 = Web3(self._connector(chain.endpoint))
         self._chain = chain
+        self._connector = self._chain.provider()
+        self._web3 = Web3(self._connector(self._chain.endpoint))
 
     @property
     def chain(self):

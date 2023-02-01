@@ -1,16 +1,3 @@
-class EmptyCache(Exception):
-    """Raised trying to process empty cache."""
-
-    def __init__(self):
-        message = """
-            No data to fetch.
-            Please harvest metadata and try again.
-            If REGENERATE_MOVIES is true a new dated version of metadata its generated.
-            """
-
-        super().__init__(message)
-
-
 class InvalidCID(Exception):
     """Raised when a invalid CID is encountered."""
 
@@ -108,8 +95,3 @@ class InvalidPrivateKey(Exception):
 
     def __init__(self, message: str = ""):
         super().__init__(f"Invalid private key: {message}")
-
-
-class InvalidRequest(Exception):
-    code = 400
-    description = "Invalid request."
