@@ -87,11 +87,11 @@ class NodeIPC(IPC):
         self._stream = asyncio.StreamReader(loop=self._loop)
 
     async def pipe(self, data: bytes) -> StdOut:
-        """Check the output and analyze it.
-        Failed if capture ERROR logs or stderr pipe.
+        """Run process, communicate input data and trace logs.
+        Tracing analyze logs and match any failure.
 
-        :return: If process failed True is returned otherwise False.
-        :rtype: bool
+        :return: standard output collected from trace.
+        :rtype: StdOut
         """
 
         # start process and check return code
