@@ -41,3 +41,4 @@ dump/
 dump/*
 htmlconv
 watchit.db
+coverage.xml
