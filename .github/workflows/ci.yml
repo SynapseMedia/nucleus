@@ -28,11 +28,9 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install virtualenv
-#        if: steps.cache.outputs.cache-hit != 'true'
         run: pip3 install virtualenv
 
       - name: Bootstrap
-#        if: steps.cache.outputs.cache-hit != 'true'
         run: make bootstrap
 
       # - name: Type checker
