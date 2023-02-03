@@ -16,7 +16,8 @@ def fit_image_from_dag(cid: str):
     :rtype: dict
     """
     image = dag_get(f"{cid}/image")["Links"]
-    image_resources = {i["Name"].split(".")[0]: f"/image/{i['Name']}" for i in image}
+    image_resources = {i["Name"].split(
+        ".")[0]: f"/image/{i['Name']}" for i in image}
     return {
         "route": cid,
         "index": image_resources,
@@ -39,9 +40,8 @@ def fit_video_from_dag(cid: str):
     video = dag_get(f"{cid}/movie")["Links"]
 
     # Mapping file => path from dag response
-    video_resource = {
-        i["Name"]: template_path % (i["Name"], protocol.get(i["Name"])) for i in video
-    }
+    video_resource = {i["Name"]: template_path %
+                      (i["Name"], protocol.get(i["Name"])) for i in video}
 
     return {
         "route": cid,

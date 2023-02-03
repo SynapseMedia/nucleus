@@ -6,9 +6,11 @@ from src.core.types import Directory, Any
 
 file_dir = "src/tests/_mock/files/index.json"
 
+
 @pytest.fixture
 def json_content():
     return {"test": "hi"}
+
 
 def test_write_json(json_content: Any):
     """Should write json file with defined content"""

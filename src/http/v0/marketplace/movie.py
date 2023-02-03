@@ -98,9 +98,8 @@ def recent():
     # Parse erc1155 metadata
     # Get "in-relation" hash from ingested metadata
     metadata_for_cid, _ = storage.frozen()
-    metadata_for_cid = metadata_for_cid.sort([("date_uploaded_unix", order_by)]).limit(
-        limit
-    )
+    metadata_for_cid = metadata_for_cid.sort(
+        [("date_uploaded_unix", order_by)]).limit(limit)
 
     movies_meta = map(_sanitize_internals, metadata_for_cid)
     return jsonify(list(movies_meta))
@@ -113,18 +112,15 @@ def create():
     image, video = _process_files(request.files)
     movie_duration, _ = util.get_duration(video)
 
-    json = [
-        {
-            **input_,
-            **{
-                "imdb_code": f"wt{uuid.uuid4().hex}",
-                "genres": ["Action"],
-                "runtime": int(movie_duration / 60),
-                "date_uploaded_unix": time.time(),
-                "resource": {"image": {"route": image}, "video": {"route": video}},
-            },
-        }
-    ]
+    json = [{**input_,
+             **{"imdb_code": f"wt{uuid.uuid4().hex}",
+                 "genres": ["Action"],
+                 "runtime": int(movie_duration / 60),
+                 "date_uploaded_unix": time.time(),
+                 "resource": {"image": {"route": image},
+                              "video": {"route": video}},
+                },
+             }]
 
     try:
         current_movie = list(check(json)).pop()

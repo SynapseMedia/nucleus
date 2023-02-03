@@ -15,7 +15,7 @@ class InvalidStreamingProtocol(Exception):
 
     def __init__(self):
         message = """
-                Invalid protocol provided. 
+                Invalid protocol provided.
                 Allowed protocol from enum:
                     Protocol.HLS
                     Protocol.DASH

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 """
-Scheme definition for movies. 
-Each scheme here defined help us to keep a standard for runtime processing of movies. 
-All processed data is later used in the creation of standard metadata (ERC-1155, ..), pipeline cache, marshalling, etc; 
+Scheme definition for movies.
+Each scheme here defined help us to keep a standard for runtime processing of movies.
+All processed data is later used in the creation of standard metadata (ERC-1155, ..), pipeline cache, marshalling, etc;
 """
 import enum
 import sqlite3

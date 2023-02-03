@@ -60,7 +60,7 @@ class Movie(Model):
     @pydantic.validator("resources", pre=True)
     def serialize_resources_pre(cls, v: Any):
         """Pre serialize media to object"""
-        if type(v) is bytes:
+        if isinstance(v, bytes):
             parsed = ast.literal_eval(v.decode())
             instances = map(lambda x: Media(**x), parsed)
             return list(instances)
@@ -68,7 +68,7 @@ class Movie(Model):
 
     @pydantic.validator("genres", pre=True)
     def serialize_genres_pre(cls, v: Any):
-        if type(v) is bytes:
+        if isinstance(v, bytes):
             decoded = v.decode()
             return decoded.split(",")
         return v
@@ -88,7 +88,7 @@ class Movie(Model):
             raise ValueError(
                 """
                 Invalid imdb code pattern: %s.
-                Pattern must match: r"^w?t[a-zA-Z0-9]{8,32}$"       
+                Pattern must match: r"^w?t[a-zA-Z0-9]{8,32}$"
                 """
                 % v
             )

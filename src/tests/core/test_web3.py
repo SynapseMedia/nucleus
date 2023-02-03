@@ -65,7 +65,8 @@ def test_goerli_chain():
     assert isinstance(provider, web3.HTTPProvider)
 
     expected_value = f"{GOERLI_PROVIDER}/{GOERLI_ALCHEMY_API_KEY}"
-    assert provider.endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
+    assert provider.endpoint_uri == Web3.HTTPProvider(
+        expected_value).endpoint_uri
     assert kovan.erc1155 == "0x0B33Fe1Bb738B7c3e981978d7E5a9f2b980853Ed"
     assert (
         kovan.private_key
@@ -75,7 +76,8 @@ def test_goerli_chain():
 
 def test_cid_to_uint256():
     """Should return expected output uint256 in deterministic way from input"""
-    current_value = CID("bafyjvzacdk3rngktzetikg3w2gf7nxvxsq5y4t4xryzijalyazsa")
+    current_value = CID(
+        "bafyjvzacdk3rngktzetikg3w2gf7nxvxsq5y4t4xryzijalyazsa")
     expected_value = (
         651268735865305864933405567136027539147782079973983219801233220330061301348
     )

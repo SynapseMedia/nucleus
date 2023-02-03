@@ -19,7 +19,9 @@ def test_copy_local_file(mock_local_file_path: Any):
 
 def test_omit_existing_file(mock_local_file_path: Any):
     """Should omit copy for local file and download attempt if file exist in destination directory"""
-    current_path = harvest.fetch(URI(mock_local_file_path), mock_local_file_path)
+    current_path = harvest.fetch(
+        URI(mock_local_file_path),
+        mock_local_file_path)
     assert current_path
     assert str(current_path) == mock_local_file_path
     assert current_path.is_file()

@@ -15,7 +15,7 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
     :rtype: Connection
     """
     # Explicit is better than implicit
-    # ref: https://docs.python.org/3/library/sqlite3.html#how-to-write-adaptable-objects
+    # ref: https://docs.python.org/3/library/sqlite3.html
     return sqlite3.connect(
         db_path,
         detect_types=sqlite3.PARSE_DECLTYPES,
@@ -24,7 +24,7 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
 
 
 @contextlib.contextmanager
-def connection(db_path: str = DB_DEFAULT, **kwargs: Any) -> Iterator[Connection]:
+def connection(db_path: str = DB_DEFAULT, **k: Any) -> Iterator[Connection]:
     """Context db connection
 
     :param db_path: sqlite file path
@@ -32,7 +32,7 @@ def connection(db_path: str = DB_DEFAULT, **kwargs: Any) -> Iterator[Connection]
     :rtype: Connection
     """
     # Explicit is better than implicit
-    yield connect(db_path, **kwargs)
+    yield connect(db_path, **k)
 
 
 def is_open(conn: Connection) -> bool:

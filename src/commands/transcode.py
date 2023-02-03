@@ -7,9 +7,8 @@ from src.sdk.constants import OVERWRITE_TRANSCODE_OUTPUT, HLS_FORMAT, DASH_FORMA
 
 @click.group("transcode")
 @click.option("--overwrite", default=OVERWRITE_TRANSCODE_OUTPUT)
-@click.option(
-    "--protocol", default=HLS_FORMAT, type=click.Choice([HLS_FORMAT, DASH_FORMAT])
-)
+@click.option("--protocol", default=HLS_FORMAT,
+              type=click.Choice([HLS_FORMAT, DASH_FORMAT]))
 @click.pass_context
 def transcode(ctx, overwrite, protocol):
     """Transcode toolkit"""

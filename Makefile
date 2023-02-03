@@ -10,6 +10,7 @@ PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini
 FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=flake8.ini 
 COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage 
 BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
+AUTOPEP8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/autopep8
 PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python3
 PIP = ${VENV}/bin/pip3
 
@@ -38,6 +39,7 @@ bootstrap: setup-env venv requirements
 
 fix-coding-style: venv
 	${BLACKFIX} ${PYTHON_MODULES}
+	${AUTOPEP8} --in-place --aggressive --aggressive --recursive ./${PYTHON_MODULES}
 
 check-coding-style: venv
 	${FLAKE8} ${PYTHON_MODULES}

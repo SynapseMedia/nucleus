@@ -52,5 +52,5 @@ def test_parse_collector_merge():
     data_merged = harvest.merge(loaded_collectors)
     got = [isinstance(x, Movie) for x in data_merged]  # type: ignore
 
-    assert all(got) == True
+    assert all(got)
     assert len(got) == 2

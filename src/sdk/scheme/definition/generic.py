@@ -19,8 +19,13 @@ class DataObjectScheme(Schema):
         attrs = data.copy()
         meta_params = {"register": False}
         attrs["Meta"] = type(
-            "GeneratedMeta", (getattr(self.__class__, "Meta", object),), meta_params
-        )
+            "GeneratedMeta",
+            (getattr(
+                self.__class__,
+                "Meta",
+                object),
+             ),
+            meta_params)
         schema_cls = type(self.__class__.__name__, (self.__class__,), attrs)
         schema_cls.iterable = lambda: self.iter_from(schema_cls, data.keys())
         return schema_cls

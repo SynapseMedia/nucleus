@@ -66,7 +66,10 @@ def test_services(mocker: Any):
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
     registered_services = service.ls()
     services_iter = map(
-        lambda x: Service(service=x["Service"], endpoint=x["ApiEndpoint"], key=None),
+        lambda x: Service(
+            service=x["Service"],
+            endpoint=x["ApiEndpoint"],
+            key=None),
         expected_services,
     )
 

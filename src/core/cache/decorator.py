@@ -18,7 +18,7 @@ class Atomic(contextlib.ContextDecorator):
 
     def __enter__(self):
         # Set connection with isolation level to turn off auto commit
-        # ref: https://docs.python.org/3.4/library/sqlite3.html#sqlite3.Connection.isolation_level
+        # ref: https://docs.python.org/3.4/library/sqlite3.html
         self.conn = connect(isolation_level=DB_ISOLATION_LEVEL)
         return self.conn
 
@@ -42,10 +42,12 @@ class Atomic(contextlib.ContextDecorator):
             # Raise an exception to "alert" about the issue.
             # Error should never pass silently.
             # When you raise without arguments, the interpreter looks for the last exception raised and handled.
-            # It then acts the same as if you used raise with the most recent exception type, value and traceback.
+            # It then acts the same as if you used raise with the most recent
+            # exception type, value and traceback.
             raise
         finally:
-            # After everything is done we should commit transactions and close the connection.
+            # After everything is done we should commit transactions and close
+            # the connection.
             self.conn.close()
 
 

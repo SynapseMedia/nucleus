@@ -18,21 +18,23 @@ def test_movie_freeze(mock_movie: Movie, setup_database: Any):
         rows = query.fetchone()
 
         assert rows[0] == mock_movie
-        assert stored == True
+        assert stored
 
 
-
-def test_movie_batch_freeze(mock_movie: Movie, mock_movie2: Movie, setup_database: Any):
+def test_movie_batch_freeze(
+        mock_movie: Movie,
+        mock_movie2: Movie,
+        setup_database: Any):
     """Should commit a batch mutation of movies"""
     with patch("src.core.cache.database.sqlite3") as mock:
         conn = setup_database
         mock.connect.return_value = conn  # type: ignore
 
-        
         expected: List[Movie] = [mock_movie, mock_movie2]
         saved = harvest.batch_save(iter(expected))
 
-        assert all(saved) == True
+        assert all(saved)
+
 
 def test_movie_fetch_frozen(mock_movie: Movie, setup_database: Any):
     """Should query a valid fetch of movies"""

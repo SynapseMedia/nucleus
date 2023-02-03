@@ -15,5 +15,5 @@ __all__ = [
     "batch_save",
     "map",
     "fetch",
-    "resolve"
+    "resolve",
 ]

@@ -49,7 +49,8 @@ class CLI(Command):
 
         # If not result just keep object output standard
         if not output:
-            raise exceptions.IPFSFailedExecution("Invalid IPFS command call output")
+            raise exceptions.IPFSFailedExecution(
+                "Invalid IPFS command call output")
 
         try:
             json_to_dict = json.loads(output)

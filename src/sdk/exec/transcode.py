@@ -27,7 +27,8 @@ def _run_task(video, output_dir, protocol=HLS_FORMAT, overwrite=True):
     # Avoid overwrite existing output
     # If path already exist or overwrite = False
     if Path(file_output_dir).exists() and not overwrite:
-        logger.log.warning(f"Skipping media already processed: {file_output_dir}\n")
+        logger.log.warning(
+            f"Skipping media already processed: {file_output_dir}\n")
         return
 
     try:
@@ -38,7 +39,9 @@ def _run_task(video, output_dir, protocol=HLS_FORMAT, overwrite=True):
             file_output_dir,  # where to store transcoded video
         )
     except RuntimeError:
-        shutil.rmtree(root_output_dir, ignore_errors=True)  # Remove dir if fail
+        shutil.rmtree(
+            root_output_dir,
+            ignore_errors=True)  # Remove dir if fail
         logger.log.error(f"Fail transcoding to {protocol}")
     return file_output_dir
 
@@ -50,7 +53,8 @@ def boot(current_movie: MovieScheme, **kwargs):
     """
     # Process video detailed in movie metadata
     output_dir = util.build_dir(current_movie)
-    logger.log.warn(f"Transcoding {current_movie.title}:{current_movie.imdb_code}")
+    logger.log.warn(
+        f"Transcoding {current_movie.title}:{current_movie.imdb_code}")
     return _run_task(
         video=current_movie.resource.video, output_dir=output_dir, **kwargs
     )

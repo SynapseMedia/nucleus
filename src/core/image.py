@@ -26,7 +26,9 @@ def invalid_ratio(image: PIL.Image) -> bool:
     # ratio height should be major than width
     is_height_less_than_width = h < w
     # input image is smaller than "master"
-    is_input_less_than_master = any(x < y for x, y in zip(image.size, Size.Large))
+    is_input_less_than_master = any(
+        x < y for x, y in zip(
+            image.size, Size.Large))
     # Invalid image ratio height should be major than width
     return is_height_less_than_width or is_input_less_than_master
 

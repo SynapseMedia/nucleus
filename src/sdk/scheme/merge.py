@@ -12,7 +12,8 @@ def reduce_gens(generators: iter):
     :rtype: list
     """
 
-    from_iter = itertools.chain.from_iterable(generators)  # [[], [], []] -> flatten
+    from_iter = itertools.chain.from_iterable(
+        generators)  # [[], [], []] -> flatten
     return functools.reduce(operator.add, from_iter)
 
 

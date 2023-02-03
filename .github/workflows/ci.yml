@@ -12,11 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ '3.8', '3.9', '3.10' ]
+        python-version: [ '3.9', '3.10' ]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v3
-      # - uses: jakebailey/pyright-action@v1
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -39,8 +38,8 @@ jobs:
       # - name: Type checker
       #   run: make check-typing
 
-      # - name: Static Analysis
-      #   run: make check-coding-style
+      - name: Static Analysis
+        run: make check-coding-style
 
       - name: Tests
         run: |

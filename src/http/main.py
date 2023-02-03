@@ -31,7 +31,8 @@ def health_check(env, resp):
     return [b"Hello Watchit World"]
 
 
-app.wsgi_app = DispatcherMiddleware(health_check, {default_root_uri: app.wsgi_app})
+app.wsgi_app = DispatcherMiddleware(
+    health_check, {default_root_uri: app.wsgi_app})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

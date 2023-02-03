@@ -12,6 +12,7 @@ image = Directory(f"{directory}/watchit.png")
 license = Directory("LICENSE")
 invalid = Directory("NOT_EXIST")
 
+
 def test_valid_read_file():
     """Should return a valid file content with valid directory"""
     with fs.read(license) as content:
@@ -39,6 +40,7 @@ def test_exists_invalid_file():
     """Should return False for invalid path"""
     existing_file = fs.exists(invalid)
     assert existing_file is False
+
 
 def test_make_destination_dir():
     """Should create directory"""

@@ -25,7 +25,8 @@ def mint(to: str, cid: str, chain_id: ChainID):
     uint256_cid = cid_to_uint256(cid)
 
     # Build contract transaction call
-    tx = _contract.mint(to, uint256_cid).buildTransaction()  # owner, cid uint256
+    # owner, cid uint256
+    tx = _contract.mint(to, uint256_cid).buildTransaction()
 
     tx = network.send_transaction(tx)
     return network.get_transaction(tx.hex())

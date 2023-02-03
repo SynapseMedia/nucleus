@@ -3,7 +3,6 @@ from src.sdk.harvest.models import Movie, Media
 from src.sdk.harvest import MediaType
 
 
-
 @pytest.fixture
 def mock_movie():
     """Fixture to provide a mocking for movie"""

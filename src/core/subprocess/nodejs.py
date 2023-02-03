@@ -90,7 +90,7 @@ class NodeIPC(IPC):
         """Check the output and analyze it.
         Failed if capture ERROR logs or stderr pipe.
 
-        :return: standard output 
+        :return: standard output
         :rtype: StdOut
         """
 
@@ -112,7 +112,9 @@ class NodeIPC(IPC):
         """
 
         # execute nodejs command and communicate the data input
-        protocol_factory = lambda: StreamProtocol(self._stream, loop=self._loop)
+        def protocol_factory():
+            return StreamProtocol(self._stream, loop=self._loop)
+
         transport, protocol = await self._loop.subprocess_shell(
             protocol_factory,
             self._cmd,

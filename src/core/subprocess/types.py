@@ -36,7 +36,7 @@ class IPC(Protocol, metaclass=ABCMeta):
         """Check the output and analyze it.
         Failed if capture ERROR logs or stderr pipe.
 
-        :return: standard output 
+        :return: standard output
         :rtype: StdOut
         """
 

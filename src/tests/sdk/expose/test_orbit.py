@@ -16,9 +16,11 @@ def test_orbit_subprocess_call():
 
     with logger.console.status("Migrating.."):
         # Run a subprocess foreach collector to migrate
-        # In this case we are using merge strategy so we expose a batch metadata.
+        # In this case we are using merge strategy so we expose a batch
+        # metadata.
         commands = map(expose.migrate, loaded_collectors)
-        # since we are processing one thread for each collector we took the first for test
+        # since we are processing one thread for each collector we took the
+        # first for test
         ipc = tuple(commands)[0]()
         stdout = ipc.communicate(b"abc")
 
@@ -29,4 +31,4 @@ def test_orbit_subprocess_call():
             match_logs.append(match_found)
 
         assert all(match_logs)
-        assert all(saved) == True
+        assert all(saved)

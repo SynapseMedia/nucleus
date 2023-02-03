@@ -12,7 +12,7 @@ from src.core.types import (
     TypedDict,
     NamedTuple,
     Callable,
-    Raw
+    Raw,
 )
 
 Address = Union[HexStr, str]

@@ -52,18 +52,20 @@ def make(dir_: Directory) -> Directory:
 
 
 def copy(origin: Directory, output: Directory) -> Directory:
-    """ Copy file from origin to output dir.
+    """Copy file from origin to output dir.
     If output directory does'nt exists it will be created.
-    
+
     :param origin: file path
     :param output: destination directory
     :return: new absolute file path
     :type: Directory
     """
-    
+
     make(output)  # make the path if doesn't exists
-    path = shutil.copy(origin, output)  # copy the file to recently created directory
+    # copy the file to recently created directory
+    path = shutil.copy(origin, output)
     return Directory(path)
+
 
 def extension(file: Directory) -> str:
     """Extract file extension
