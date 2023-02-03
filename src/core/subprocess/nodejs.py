@@ -90,8 +90,8 @@ class NodeIPC(IPC):
         """Check the output and analyze it.
         Failed if capture ERROR logs or stderr pipe.
 
-        :return: If process failed True is returned otherwise False.
-        :rtype: bool
+        :return: standard output 
+        :rtype: StdOut
         """
 
         # start process and check return code

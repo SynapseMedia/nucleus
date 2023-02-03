@@ -2,13 +2,13 @@
 export SHELL:=/bin/bash
 
 
-PYTHON_MODULES = src
+PYTHON_MODULES = src/
 PYTHONPATH = .
 VENV = .venv
 PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pyright 
 PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini --no-header --durations=5 --disable-pytest-warnings -v  
 FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=flake8.ini 
-COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage
+COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage 
 BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
 PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python3
 PIP = ${VENV}/bin/pip3
@@ -52,12 +52,7 @@ test-debug: venv
 	${PYTEST} --pdb ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
 
 test-coverage: 
-	${PYTEST} ${PYTHON_MODULES}/tests/
-	${COVERAGE} run --source=./src ${VENV}/bin/py.test
-	${COVERAGE} report
-
-test-coverage-html: test-coverage
-	${COVERAGE} html
+	${PYTEST} --cov-report term --cov-report  xml:coverage.xml --cov=src
 
 test-check:
 	${PYTEST} ${PYTHON_MODULES}

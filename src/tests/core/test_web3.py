@@ -5,16 +5,11 @@ import src.core.blockchain.crypto as crypto
 from web3 import Web3
 from src.core.blockchain.contracts import ERC1155
 from src.core.blockchain.network import Ethereum
-from src.core.blockchain.chains import Rinkeby, Goerli
+from src.core.blockchain.chains import Goerli
 
 from src.core.types import CID
 from src.core.blockchain.types import Connector
-from src.core.blockchain.constants import (
-    GOERLI_PROVIDER,
-    GOERLI_ALCHEMY_API_KEY,
-    RINKEBY_PROVIDER,
-    RINKEBY_ALCHEMY_API_KEY,
-)
+from src.core.blockchain.constants import GOERLI_PROVIDER, GOERLI_ALCHEMY_API_KEY
 
 
 class InvalidEVM:
@@ -56,7 +51,7 @@ def test_valid_account_for_network():
 def test_nft_contract_factory():
     """Should return expected contract based on chain name"""
     # Chain rinkeby and ERC1155 standard
-    chain = Rinkeby()
+    chain = Goerli()
     network = Ethereum(chain)
     expected_contract = ERC1155(network)
     assert isinstance(expected_contract, ERC1155)
@@ -74,22 +69,6 @@ def test_goerli_chain():
     assert kovan.erc1155 == "0x0B33Fe1Bb738B7c3e981978d7E5a9f2b980853Ed"
     assert (
         kovan.private_key
-        == "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f"
-    )
-
-
-def test_rinkeby_chain():
-    """Should return expected assets and connector for rinkeby network"""
-    rinkeby = Rinkeby()
-    connector: Connector = rinkeby.provider()
-    provider = connector(rinkeby.endpoint)
-    assert isinstance(provider, web3.HTTPProvider)
-
-    expected_value = f"{RINKEBY_PROVIDER}/{RINKEBY_ALCHEMY_API_KEY}"
-    assert provider.endpoint_uri == Web3.HTTPProvider(expected_value).endpoint_uri
-    assert rinkeby.erc1155 == "0x58Aa6dD8aA078385496441F3ABa691d472feBaF5"
-    assert (
-        rinkeby.private_key
         == "8da4ef21b864d2cc526dbdb2a120bd2874c36c9d0a1fb7f8c63d7f7a8b41de8f"
     )
 

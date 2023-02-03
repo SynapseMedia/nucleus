@@ -19,11 +19,14 @@ def test_orbit_subprocess_call():
         # In this case we are using merge strategy so we expose a batch metadata.
         commands = map(expose.migrate, loaded_collectors)
         # since we are processing one thread for each collector we took the first for test
-        ipc = tuple(commands)[0]() 
+        ipc = tuple(commands)[0]()
         stdout = ipc.communicate(b"abc")
-        
-        # if stdout.exit_code > 0:
-        for log in stdout.logs:
-            print(log)
 
-    assert all(saved) == True
+        match_logs: list[bool] = []
+        expected_matches = ["Waiting for data", "abc"]
+        for log in expected_matches:
+            match_found = log in stdout.logs
+            match_logs.append(match_found)
+
+        assert all(match_logs)
+        assert all(saved) == True

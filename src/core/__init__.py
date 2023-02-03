@@ -12,10 +12,8 @@ Convention:
           eg. from .manager import exec
       - Even in cases where we are seeing some duplication between the type and the functions exposed by the package we should 
         try to keep this convention so that the code is understood in a separate context between the abstractions and the executable commands/functions.
-        
           eg. 
-            import src.sdk.harvest as harvest <- exposed module to being used
-            
+            import src.sdk.harvest as harvest <- exposed module to being used 
             from src.sdk.harvest import Movie <- imported type
             
             collected = harvest.load(...) 
