@@ -2,6 +2,7 @@ import re
 import os
 import asyncio
 import subprocess
+import functools
 
 # Convention for importing types
 from src.core.types import Command, Sequence, List
@@ -112,9 +113,11 @@ class NodeIPC(IPC):
         """
 
         # execute nodejs command and communicate the data input
-        def protocol_factory():
-            return StreamProtocol(self._stream, loop=self._loop)
+        protocol_factory = functools.partial(
+            StreamProtocol, self._stream, loop=self._loop
+        )
 
+        # run the cmd shell command + return a Process instance.
         transport, protocol = await self._loop.subprocess_shell(
             protocol_factory,
             self._cmd,

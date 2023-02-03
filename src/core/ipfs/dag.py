@@ -32,10 +32,10 @@ def get(cid: CID) -> Dag:
 
     # map iterator for nested links
     links = map(
-        lambda l: DagLink(
-            name=l.get("Name"),
-            hash=l.get("Hash"),
-            tsize=l.get("Tsize"),
+        lambda links: DagLink(
+            name=links.get("Name"),
+            hash=links.get("Hash"),
+            tsize=links.get("Tsize"),
         ),
         raw_links,
     )

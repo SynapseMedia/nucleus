@@ -37,14 +37,14 @@ requirements:
 
 bootstrap: setup-env venv requirements
 
-fix-coding-style: venv
+code-fix: venv
 	${BLACKFIX} ${PYTHON_MODULES}
-	${AUTOPEP8} --in-place --aggressive --aggressive --recursive ./${PYTHON_MODULES}
+	${AUTOPEP8} --in-place --aggressive --aggressive --recursive -v ./${PYTHON_MODULES}
 
-check-coding-style: venv
+code-check: venv
 	${FLAKE8} ${PYTHON_MODULES}
 
-check-typing: venv
+type-check: venv
 	${PYTYPE} ${PYTHON_MODULES}/
 
 test: venv
