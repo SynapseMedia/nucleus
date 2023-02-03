@@ -19,8 +19,6 @@ from typing import *  # type: ignore
 
 # https://docs.python.org/3/library/typing.html#typing.TypeVar
 T = TypeVar("T")
-P = ParamSpec("P")
-
 
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)

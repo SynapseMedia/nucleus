@@ -2,7 +2,7 @@
 import functools
 import contextlib
 
-from src.core.types import Callable, Any, Optional, T, P
+from src.core.types import Callable, Any, Optional, T
 from .constants import DB_ISOLATION_LEVEL
 from .database import connect
 from .types import Connection
@@ -63,7 +63,7 @@ def connected(f: Optional[Callable[..., Any]] = None) -> Any:
         return Atomic()
 
     @functools.wraps(f)
-    def _wrapper(*args: P.args, **kwargs: P.kwargs) -> Any:
+    def _wrapper(*args: Any, **kwargs: Any) -> Any:
         # Get connection a pass it to func call
         return f(connect(), *args, **kwargs)
 
