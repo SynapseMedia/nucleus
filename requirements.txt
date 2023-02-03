@@ -2,6 +2,7 @@ aiohttp==3.8.1
 aiosignal==1.2.0
 async-timeout==4.0.2
 attrs==21.4.0
+autopep8==2.0.1
 base58==1.0.3
 bitarray==1.2.2
 black==22.3.0
