@@ -7,7 +7,7 @@ from src.core.types import Directory
 from .types import Streaming, Input
 
 
-def output(_, duration: int, time_: int, time_left: int):
+def _output(_, duration: int, time_: int, time_left: int):
     """Render tqdm progress bar."""
     sys.stdout.flush()
     per = round(time_ / duration * 100)
@@ -37,7 +37,7 @@ class HLS(Streaming):
         return Formats.h264()  # type: ignore
 
     def transcode(self, output_dir: Directory):
-        self._hls.output(output_dir, monitor=output)
+        self._hls.output(output_dir, monitor=_output)
 
 
 class DASH(Streaming):
@@ -55,4 +55,4 @@ class DASH(Streaming):
         return Formats.vp9()  # type: ignore
 
     def transcode(self, output_dir: Directory):
-        self._dash.output(output_dir, monitor=output)
+        self._dash.output(output_dir, monitor=_output)

@@ -1,11 +1,13 @@
+import asyncio
+
 # Convention for importing types
 from src.core.types import Any
-from .types import Reader, Loop, SubProcessStream
+from .types import Reader, Loop
 
 FILE_NO = (1, 2)  # objects that are based on file descriptors
 
 
-class StreamProtocol(SubProcessStream):
+class StreamProtocol(asyncio.subprocess.SubprocessStreamProtocol):
     """Like StreamReaderProtocol, but for a subprocess.
     ref: https://docs.python.org/3.6/library/asyncio-stream.html
     """

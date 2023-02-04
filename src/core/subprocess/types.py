@@ -6,7 +6,6 @@ import asyncio
 from abc import abstractmethod, ABCMeta
 from src.core.types import Protocol, NamedTuple, Iterator
 
-SubProcessStream = asyncio.subprocess.SubprocessStreamProtocol
 SubProcess = asyncio.subprocess.Process
 Reader = asyncio.StreamReader
 Loop = asyncio.BaseEventLoop

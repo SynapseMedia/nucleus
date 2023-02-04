@@ -2,7 +2,7 @@ import pathlib
 import src.core.fs as fs
 import src.core.http as http
 
-from src.core.types import URI, Tuple, Directory
+from src.core.types import URI, Tuple, Directory, Union
 from .constants import PROD_PATH, RAW_PATH
 
 
@@ -21,7 +21,7 @@ def resolve(dir_: Directory, is_prod: bool = True) -> Tuple[Directory, bool]:
     return Directory(root_dir), path_exists
 
 
-def fetch(route: URI | Directory, output: Directory) -> pathlib.Path:
+def fetch(route: Union[URI, Directory], output: Directory) -> pathlib.Path:
     """Fetch files from the given route.
     If the file is a local file it copy it to output dir.
 
