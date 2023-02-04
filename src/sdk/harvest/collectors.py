@@ -5,12 +5,12 @@ import builtins
 
 
 from collections import defaultdict
-from src.core.types import Iterator, Any, Mapping
+from src.core.types import Iterator, Any, Mapping, Union
 from .constants import COLLECTORS_PATH
 from .types import Collector, Model
 
 
-def batch_save(e: Iterator[Model]) -> Iterator[int | None]:
+def batch_save(e: Iterator[Model]) -> Iterator[Union[int, None]]:
     """Exec batch insertion into database
     WARN: This execution its handled by a loop
 
