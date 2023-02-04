@@ -50,12 +50,12 @@ class Movie(Model):
     synopsis: str
     release_year: int
     # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
-    genres: list[str]
+    genres: List[str]
     speech_language: str
     publish_date: Optional[float] = 0
     trailer_link: Optional[str] = ""
     # Add movie multimedia resources
-    resources: list[Media] = []
+    resources: List[Media] = []
 
     @pydantic.validator("resources", pre=True)
     def serialize_resources_pre(cls, v: Any):
