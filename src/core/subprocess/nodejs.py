@@ -6,12 +6,9 @@ import functools
 
 # Convention for importing types
 from src.core.types import Command, Sequence, List, Union
-from .types import Reader, Loop, SubProcess, IPC, StdOut
 from .protocol import StreamProtocol
-
-
-EXIT_SUCCESS = 0
-EXIT_FAILURE = 1
+from .types import Reader, Loop, SubProcess, IPC, StdOut
+from .constants import EXIT_FAILURE, EXIT_SUCCESS
 
 
 def _decode_bytes(b: bytes) -> str:

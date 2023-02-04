@@ -3,8 +3,7 @@ import asyncio
 # Convention for importing types
 from src.core.types import Any
 from .types import Reader, Loop
-
-FILE_NO = (1, 2)  # objects that are based on file descriptors
+from .constants import FILE_NO
 
 
 class StreamProtocol(asyncio.subprocess.SubprocessStreamProtocol):
