@@ -52,5 +52,6 @@ jobs:
           files: ./coverage.xml # optional
           flags: unittests # optional
           name: codecov-umbrella # optional
+          override_branch: "v0.4.0"
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
