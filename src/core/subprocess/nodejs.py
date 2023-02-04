@@ -5,7 +5,7 @@ import subprocess
 import functools
 
 # Convention for importing types
-from src.core.types import Command, Sequence, List
+from src.core.types import Command, Sequence, List, Union
 from .types import Reader, Loop, SubProcess, IPC, StdOut
 from .protocol import StreamProtocol
 
@@ -24,7 +24,7 @@ def _decode_bytes(b: bytes) -> str:
     return b.decode()
 
 
-def _match_faulty_line(lines: Sequence[str]) -> str | None:
+def _match_faulty_line(lines: Sequence[str]) -> Union[str,None]:
     """Check if the process failed.
     Failed if capture nodejs ERROR logs.
 
