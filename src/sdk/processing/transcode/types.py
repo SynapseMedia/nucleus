@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 from abc import abstractmethod, ABCMeta
 
+from ffmpeg_streaming._format import H264, VP9  # type: ignore
 from ffmpeg_streaming._input import Input as FFInput  # type: ignore
-from ffmpeg_streaming import Bitrate, Representation, Size, Format  # type: ignore
-from src.core.types import Directory, Protocol, Any
+from ffmpeg_streaming import Bitrate, Representation, Size, Format, Formats  # type: ignore
+from src.core.types import Directory, Protocol, Any, Sequence
 
 
 @dataclass(frozen=True)
@@ -29,7 +30,7 @@ class BRS:
 
 
 @dataclass(frozen=True)
-class REPR:
+class Representations:
     R360p = Representation(Sizes.Q360, BRS.B360)
     R480p = Representation(Sizes.Q480, BRS.B480)
     R720p = Representation(Sizes.Q720, BRS.B720)
@@ -80,15 +81,12 @@ class Input(Protocol, metaclass=ABCMeta):
 
 
 class Streaming(Protocol, metaclass=ABCMeta):
-
-    _input: Input
-
     @abstractmethod
     def __init__(self, input: Input):
         ...
 
     @abstractmethod
-    def set_representation(self, repr: Representation) -> None:
+    def set_representations(self, repr: Sequence[Representation]) -> None:
         """Add quality representation to current input
         : param repr: representation to be used on transcode process
         :return: None
@@ -115,3 +113,6 @@ class Streaming(Protocol, metaclass=ABCMeta):
         :return: None
         """
         ...
+
+
+__all__ = ("H264", "VP9", "Format", "Formats")

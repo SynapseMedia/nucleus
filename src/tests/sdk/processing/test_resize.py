@@ -1,9 +1,9 @@
 import pytest
-import src.core.image as image
 import src.core.exceptions as exceptions
+import src.sdk.processing.resize as resize
 
 from src.core.types import Directory
-from src.core.image import Size
+from src.sdk.processing.resize import Size
 
 
 root_dir = "src/tests/_mock/files/"
@@ -22,7 +22,7 @@ def test_sizes():
 
 def test_valid_input():
     """Should success for valid input image"""
-    with image.input(image_dir_771) as img:
+    with resize.input(image_dir_771) as img:
         w, h = img.size
         assert w == 771
         assert h == 900
@@ -32,7 +32,7 @@ def test_invalid_255x255_input():
     """Should fail image input 255x255 since is less than master 500x750 size"""
 
     with pytest.raises(exceptions.InvalidImageSize):
-        with image.input(image_dir_255):
+        with resize.input(image_dir_255):
             ...
 
 
@@ -40,5 +40,5 @@ def test_invalid_638x400_input():
     """Should fail if image width is larger than height input 638x400 size"""
 
     with pytest.raises(exceptions.InvalidImageSize):
-        with image.input(image_dir_638):
+        with resize.input(image_dir_638):
             ...
