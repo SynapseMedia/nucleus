@@ -12,8 +12,14 @@ from src.sdk.processing.transcode.types import (
 
 
 class MockMedia:
+    
+    def auto_generate_representations(self, *args: Any, **kwargs: Any):
+        ...
+    
     def __getattr__(self, name: str) -> Any:
-        return lambda _: name  # type: ignore
+        def method(*args: Any, **kwargs: Any):
+            return self
+        return method # type: ignore
 
 
 class MockInput(Input):
@@ -75,7 +81,7 @@ def test_invalid_quality():
 def test_valid_input(mocker: Any):
     """Should instance a valid input"""
     mocker.patch(
-        "src.core.transcode.ffmpeg.VideoInput",
+        "src.sdk.processing.ffmpeg.VideoInput",
         return_value=MockInput(Directory("test")),
     )
     with media.ffmpeg.input(Directory("test")) as _input:
