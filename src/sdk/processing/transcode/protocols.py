@@ -3,7 +3,7 @@ import src.sdk.logger as logger
 
 # Convention for importing types
 from src.core.types import Directory, Sequence
-from .types import Streaming,  Representation, Formats, Input
+from .types import Streaming, Representation, Formats, Input
 
 
 def _output(_, duration: int, time_: int, time_left: int):
@@ -21,7 +21,6 @@ def _output(_, duration: int, time_: int, time_left: int):
 
 
 class HLS(Streaming):
-
     def __init__(self, input: Input):
         self._hls = input._media.hls(self.codec)  # type: ignore
         self._hls.auto_generate_representations()
@@ -38,7 +37,6 @@ class HLS(Streaming):
 
 
 class DASH(Streaming):
-
     def __init__(self, input: Input):
         self._dash = input._media.dash(self.codec)  # type: ignore
         self._dash.auto_generate_representations()
@@ -52,5 +50,3 @@ class DASH(Streaming):
 
     def transcode(self, output_dir: Directory):
         self._dash.output(output_dir, monitor=_output)
-
-

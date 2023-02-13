@@ -16,9 +16,7 @@ class Engine(Protocol, metaclass=ABCMeta):
     @abstractmethod
     def start(self):
         ...
-    
-    
+
     @abstractmethod
     def exit(self):
         ...
-    

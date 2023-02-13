@@ -22,5 +22,5 @@ def test_orbit_subprocess_call():
         for log in expected_matches:
             match_found = log in stdout.logs
             match_logs.append(match_found)
-            
+
         assert all(match_logs)
