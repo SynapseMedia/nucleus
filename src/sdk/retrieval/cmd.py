@@ -10,5 +10,4 @@ def migrate(*args: Sequence[str]) -> Command:
     :return: Command to execute
     :rtype: Command
     """
-
     return subprocess.Script("migrate", *args)

@@ -14,8 +14,8 @@
     "streaming-iterables": "^5.0.4"
   },
   "scripts": {
-    "migrate": "node src/sdk/expose/scripts/migrate.js",
-    "pin": "node src/sdk/expose/scripts/pin.js"
+    "migrate": "node src/sdk/retrieval/scripts/migrate.js",
+    "pin": "node src/sdk/retrieval/scripts/pin.js"
   },
   "devDependencies": {
     "fs": "0.0.1-security"

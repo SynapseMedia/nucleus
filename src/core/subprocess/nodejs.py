@@ -143,7 +143,7 @@ class Script(Command):
 
     def __init__(self, cmd: str, *args: Sequence[str]):
         self.cmd = cmd
-        self.args = " ".join(*args)
+        self.args = " ".join(args)  # type: ignore
 
     def __str__(self) -> str:
         return f"npm run {self.cmd} -- {self.args} --enc=json"
