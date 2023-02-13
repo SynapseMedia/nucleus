@@ -13,8 +13,6 @@ def test_orbit_subprocess_call():
         # In this case we are using merge strategy so we expose a batch
         # metadata.
         ipc = retrieval.migrate("--key=dummy", "--c=dummy")()
-        # since we are processing one thread for each collector we took the
-        # first for test
         stdout = ipc.communicate(b"abc")
 
         match_logs: list[bool] = []
