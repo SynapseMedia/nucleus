@@ -1,17 +1,15 @@
-import sys
 import datetime
+import src.sdk.logger as logger
 
 # Convention for importing types
-from ffmpeg_streaming import Representation, Formats  # type: ignore
-from src.core.types import Directory
-from .types import Streaming, Input
+from src.core.types import Directory, Sequence
+from .types import Streaming,  Representation, Formats, Input
 
 
 def _output(_, duration: int, time_: int, time_left: int):
     """Render tqdm progress bar."""
-    sys.stdout.flush()
     per = round(time_ / duration * 100)
-    sys.stdout.write(
+    logger.console.status(
         "\rTranscoding...(%s%%) %s left [%s%s]"
         % (
             per,
@@ -23,14 +21,13 @@ def _output(_, duration: int, time_: int, time_left: int):
 
 
 class HLS(Streaming):
-    _input: Input
 
     def __init__(self, input: Input):
-        self._input = input
         self._hls = input._media.hls(self.codec)  # type: ignore
+        self._hls.auto_generate_representations()
 
-    def set_representation(self, repr: Representation):
-        self._hls.representations(repr)
+    def set_representations(self, repr: Sequence[Representation]):
+        self._hls.representations(*repr)
 
     @property
     def codec(self):
@@ -41,14 +38,13 @@ class HLS(Streaming):
 
 
 class DASH(Streaming):
-    _input: Input
 
     def __init__(self, input: Input):
-        self._input = input
         self._dash = input._media.dash(self.codec)  # type: ignore
+        self._dash.auto_generate_representations()
 
-    def set_representation(self, repr: Representation):
-        self._dash.representations(repr)
+    def set_representations(self, repr: Sequence[Representation]):
+        self._dash.representations(*repr)
 
     @property
     def codec(self):
@@ -56,3 +52,5 @@ class DASH(Streaming):
 
     def transcode(self, output_dir: Directory):
         self._dash.output(output_dir, monitor=_output)
+
+

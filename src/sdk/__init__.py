@@ -1,3 +1,3 @@
-from . import expose, harvest
+from . import retrieval, harvest
 
-__all__ = ["harvest", "expose"]
+__all__ = ["harvest", "retrieval"]

@@ -4,11 +4,12 @@ import src.core.exceptions as exceptions
 # Convention for importing types and constants
 from ffmpeg_streaming._input import Input as FFInput  # type: ignore
 from ffmpeg_streaming import input as ffinput, FFProbe  # type: ignore
-from src.core.types import Directory, Mapping, Sequence, Iterator, Any
-from .constants import MAX_MUXING_QUEUE_SIZE
 
-# package types
-from .types import REPR, Sizes, Size, Representation, Input
+
+from src.core.types import Directory, Iterator, Any, Mapping, Sequence
+from .types import Input, Representation, Representations as REPR, Size, Sizes
+from .constants import MAX_MUXING_QUEUE_SIZE
+from .ffmpeg import VideoInput
 
 
 class VideoInput:
@@ -23,7 +24,8 @@ class VideoInput:
     def __init__(self, input_file: Directory, **options: Any):
         self._path = input_file
         self._media = ffinput(input_file, **options)
-
+    
+    
     def get_path(self) -> Directory:
         """Return current input directory
 

@@ -16,8 +16,7 @@ const MAX_CHUNKS = argv.size || 1000 // Max number of slices to group for CID
 const IPFS_NODE = argv.node || '127.0.0.1' // Our local IPFS node
 
 const OVERWRITE = argv.r || true // Overwrite existing database.
-const COLLECTOR = argv.c || 'FULL' // Collector name to migrate source. This could be useful if we need to create different 
-const KEY = argv.key || 'watchit' // Local key used to IPNS publish
+const KEY = argv.key || 'watchit' // Local key 
 const IPFSLocalNode = IpfsApi.create({ host: IPFS_NODE, port: '5001', protocol: 'http' });
 
 
@@ -43,7 +42,6 @@ function generateChunks(array, len) {
 async function hasIPFSKey(key) {
     // Check if current used key exists
     const currentList = await IPFSLocalNode.key.list()
-    console.log(key)
     return currentList.some((k) => Object.is(k.name, key))
 };
 
@@ -58,7 +56,7 @@ async function initializeOrbit({ options = {} }) {
     // Create OrbitDB instance
     const dbOptions = { ...{ overwrite: OVERWRITE, localOnly: false, replicate: true }, ...options }
     const orbitdb = await OrbitDB.createInstance(IPFSLocalNode, {
-        directory: `./${COLLECTOR}`
+        directory: `./${KEY}`
     });
 
     // Initialize orbit db log
@@ -90,8 +88,9 @@ async function announceDB(address) {
     logs.info(data)
     process.exit(0)
     return
+
     // Initialize orbit db log
-    logs.info(`Starting ${COLLECTOR} db `);
+    logs.info(`Starting ${KEY} db `);
     const db = await initializeOrbit(ORBIT_DB_NAME, { overwrite: OVERWRITE })
     const dbAddress = db.address.toString()
     const dbAddressHash = dbAddress.split('/')[2]
