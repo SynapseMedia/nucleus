@@ -5,7 +5,6 @@ from src.sdk.processing.transcode.protocols import HLS, DASH
 from src.tests.sdk.processing.test_transcode import MockInput
 
 
-
 def test_hls_protocol():
     """Should return a valid codec for HLS"""
 
