@@ -12,14 +12,14 @@ from src.sdk.processing.transcode.types import (
 
 
 class MockMedia:
-    
     def auto_generate_representations(self, *args: Any, **kwargs: Any):
         ...
-    
+
     def __getattr__(self, name: str) -> Any:
         def method(*args: Any, **kwargs: Any):
             return self
-        return method # type: ignore
+
+        return method  # type: ignore
 
 
 class MockInput(Input):
