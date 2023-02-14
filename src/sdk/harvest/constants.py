@@ -9,4 +9,3 @@ FETCH = """SELECT m FROM %ss"""
 
 # Runtime directories
 COLLECTORS_PATH = f"{ROOT_DIR}/collectors/"
-

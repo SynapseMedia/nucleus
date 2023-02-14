@@ -17,7 +17,7 @@ def test_model_freeze(mock_models: Model, setup_database: Any):
         cursor = conn.cursor()
         query = cursor.execute("SELECT m FROM models")
         rows = query.fetchone()
-        
+
         assert rows[0] == mock_models
         assert stored
 
@@ -58,5 +58,5 @@ def test_movie_get_frozen(mock_models: Model, setup_database: Any):
         # store a movie
         mock_models.save()
         result = Model.get()
-        movies= result
+        movies = result
         assert movies == mock_models

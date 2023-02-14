@@ -11,7 +11,9 @@ image = Directory(f"{directory}/watchit.png")
 def test_copy_local_file(mock_local_file_path: Any):
     """Should copy for local file and not attempt download"""
     new_file_directory = Directory("src/tests/_mock/files/watchit!.png")
-    current_path = processing.fetch(URI(mock_local_file_path), new_file_directory)
+    current_path = processing.fetch(
+        URI(mock_local_file_path),
+        new_file_directory)
     assert current_path
     assert str(current_path) == new_file_directory
     assert current_path.is_file()

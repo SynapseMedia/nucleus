@@ -5,6 +5,7 @@ from .protocols import DASH, HLS
 
 # TODO test these functions
 
+
 def to_dash(input_file: Directory, **options: Any) -> Streaming:
     with input(input_file, **options) as _input:
         return DASH(_input)

@@ -16,6 +16,7 @@ class Size:
 
 # TODO add thumbnail maker
 
+
 def invalid_ratio(image: PIL.Image) -> bool:
     """Validate ratio for image
 

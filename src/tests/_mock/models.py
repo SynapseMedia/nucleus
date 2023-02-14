@@ -40,7 +40,6 @@ class Movie(Meta):
     publish_date: Optional[float] = 0
     trailer_link: Optional[str] = ""
 
-    
     @pydantic.validator("genres", pre=True)
     def serialize_genres_pre(cls, v: Any):
         if isinstance(v, str):
