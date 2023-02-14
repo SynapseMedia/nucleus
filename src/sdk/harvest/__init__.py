@@ -1,6 +1,6 @@
 from .types import Collector
 from .models import MediaType, Model, Media, Meta
-from .collectors import merge, map, load, batch_save
+from .collectors import merge, map, load
 
 
 __all__ = [
@@ -11,6 +11,5 @@ __all__ = [
     "Collector",
     "load",
     "merge",
-    "batch_save",
     "map",
 ]
