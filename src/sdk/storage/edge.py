@@ -1,142 +1,85 @@
-import sys
-import requests
+from src.core.types import Sequence
+from .types import Edge, Service, RemotePin
 
-from . import session
-from src.sdk import logger
-from src.core.storage.ipfs import services, pin_remote, register_service
-from src.core.exceptions import IPFSFailedExecution
-from src.core.constants import (
-    VALIDATE_SSL,
-    PINATA_API_SECRET,
-    PINATA_API_KEY,
-    PINATA_ENDPOINT,
-    PINATA_PSA,
-    PINATA_SERVICE,
-    PINATA_API_JWT,
-    PINATA_PIN_BACKGROUND,
-)
-
-
-# from .types import EdgeService
+# TODO WIP
+# TODO Facade edge classes
 # TODO: create pinata and filebase providers here
 # TODO this probably should be in sdk upper abstraction level
 
-# class Pinata(EdgeService):
-#     ...
 
-# TODO refactor edge to support different services
-def has_valid_registered_service(service: str):
-    """
-    Check if pinata service is already registered
-    :param service: service name to check if registered
-    :return: False if not registered else True
-    """
-    # Map resulting from registered services and search for "pinata"
-    return any(map(lambda i: i["Service"] == service, services()))
+class Pinata(Edge):
+    _service: Service
 
+    def __init__(self, service: Service):
+        self._service = service
 
-def pin(cid: str, service: str = PINATA_SERVICE):
-    """
-    Pin cid into edge pinata remote cache
-    :param cid: the cid to pin
-    :return
-    """
+    @property
+    def name(self):
+        return self._service.get("service")
 
-    if not has_valid_registered_service(service):
-        raise IPFSFailedExecution("Service %s is not registered" % service)
+    def pin(self, cid: str) -> RemotePin:
+        """Pin cid in remote edge cache
+        ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
 
-    try:
-        pin_remote(cid, PINATA_SERVICE, PINATA_PIN_BACKGROUND)
-    except IPFSFailedExecution:
-        logger.log.warning("Object already pinned to pinata")
-        sys.stdout.write("\n")
+        :param cid: cid to pin
+        :return: RemotePin object
+        :rtype: RemotePin
+        """
+        # TODO check if has registered service
+        ...
 
+    @property
+    def background_mode(self):
+        """Pin cid in async mode
+        ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
 
-def flush(limit=1000):
-    """Flush pinned entries from edge
+        :return: True if running in async mode else False
+        :rtype: bool
+        """
+        return True
 
-    :param limit: How many entries to flush?
-    """
-    pinned = pin_ls(limit)  # Get current pin list from edge service
-    logger.log.info(f"Flushing {pinned.get('count')} from edge")
+    @property
+    def is_registered(self) -> bool:
+        """Check if service is registered
 
-    for _pin in pinned.get("results"):
-        _pinned = _pin.get("pin")
-        _cid = _pinned.get("cid")
+        :return: True if service is registered else False
+        :rtype: bool
+        """
+        ...
 
-        if unpin(_cid):
-            logger.log.info(f"Pin {_cid} removed from edge")
-            continue
-        logger.log.error(f"Fail trying to remove pin for {_cid}")
+    @property
+    def status(self) -> bool:
+        """Check status for edge service
 
+        :return: True if auth ready and registered else False
+        :rtype: bool
+        """
+        ...
 
-def register(service: str, endpoint: str, key: str):
-    """Register edge service in ipfs node
-    https://docs.ipfs.io/reference/http/api/#api-v0-pin-remote-service-add
+    def ls(self, limit: int) -> Sequence[RemotePin]:
+        """Return current remote pin list
+        ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-ls
 
-    @params service: service name
-    @params endpoint: service endpoint
-    @params key: service jwt
-    @return: ipfs execution output
-    @rtype: str
-    """
-    if has_valid_registered_service(service):
-        logger.log.warning("Service already registered")
-        return
+        :param limit: Number of remote pins to return
+        :return: List of current remote pin list
+        :rtype: Sequence[RemotePin]
+        """
+        ...
 
-    logger.log.info("Registering pinata service")
-    return register_service(service, endpoint, key)
+    def unpin(self, cid: str) -> bool:
+        """Remove pin from edge cache service
 
+        :param cid: Cid to remove from cache
+        :return: True if pin was removed else False
+        :rtype: bool
+        """
+        ...
 
-def unpin(cid):
-    """
-    Unpin pinata pinned cid
-    :param cid:
-    :return boolean: True if unpinned success else False
-    """
-    response = session.delete(
-        f"{PINATA_ENDPOINT}/pinning/unpin/{cid}",
-        verify=VALIDATE_SSL,
-        headers={
-            "pinata_api_key": PINATA_API_KEY,
-            "pinata_secret_api_key": PINATA_API_SECRET,
-        },
-    )
+    def flush(self, limit: int) -> int:
+        """Remove all pinned cid from edge cache service
 
-    return response.ok
-
-
-def pin_ls(limit=1000):
-    """
-    Request pinata pinned entries
-    :param limit:
-    :return: {result: [], count: int}
-    """
-    response = session.get(
-        f"{PINATA_PSA}/pins?limit={limit}",
-        verify=VALIDATE_SSL,
-        headers={"Authorization": f"Bearer {PINATA_API_JWT}"},
-    )
-
-    return response.json()
-
-
-def check_status():
-    """
-    Ping request to check for valid auth
-    for pinata service
-    :return: True if active service else False
-    """
-    # Start http session
-    response = session.get(
-        f"{PINATA_ENDPOINT}/data/testAuthentication",
-        verify=VALIDATE_SSL,
-        headers={
-            "pinata_api_key": PINATA_API_KEY,
-            "pinata_secret_api_key": PINATA_API_SECRET,
-        },
-    )
-
-    # Check status for response
-    valid_response_code = response.status_code == requests.codes.ok
-    return valid_response_code and has_valid_registered_service(PINATA_SERVICE)
+        :param limit: Maximum number of remote pins to remove
+        :return: Number of remote pins removed
+        :rtype: int
+        """
+        ...

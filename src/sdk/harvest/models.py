@@ -1,22 +1,85 @@
-import re
-import time
-import ast
+from __future__ import annotations
+
 import pydantic
-import datetime
+import ast
+import sqlite3
+import enum
 import validators  # type: ignore
 import cid  # type: ignore
 import pathlib
+import src.core.cache as cache
 
-# Convention for importing types/constants
-# Convention for relative internal import
-from src.core.types import Optional, List, Any
-from .constants import DEFAULT_RATE_MAX, FIRST_MOVIE_YEAR_EVER
-
-# Exception for relative internal importing
-from .types import Model, MediaType
+from src.core.types import Any, Iterator, List, Type
+from src.core.cache import Cursor, Connection
+from .constants import INSERT, FETCH, MIGRATE
 
 
-class Media(Model):
+class _Manager:
+    """SQL manager for managing database connections and queries.
+
+    Each database file is created based on the model name.
+    This manager routes queries to the correct database model for different collectors.
+    """
+
+    _conn: Connection | None = None
+
+    @classmethod
+    @property
+    def alias(cls) -> str:
+        """Return class name as alias for model"""
+        return cls.__name__.lower()
+
+    @classmethod
+    def migrate(cls) -> str:
+        """Return a migration query string.
+        Expected behavior if "table do not exist" before run other queries.
+        This query is used to handle migrations related to models.
+        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
+        """
+        return MIGRATE % (cls.alias, cls.alias)
+
+    @classmethod
+    def mutate(cls) -> str:
+        """Return a insert query based on class name.
+        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
+        """
+        return INSERT % cls.alias
+
+    @classmethod
+    def query(cls) -> str:
+        """Return a query based on class name.
+        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
+        """
+        return FETCH % cls.alias
+
+    @classmethod
+    @property
+    def conn(cls) -> Connection:
+        """Singleton connection factory
+
+        :return: connection to use during operations
+        :rtype: Connections
+        """
+
+        if cls._conn is None:
+            # we need to keep a reference in db name related to model
+            db_name = f"{cls.alias}.db"  # keep .db file name
+            cls._conn = cache.connect(db_path=db_name)
+            cls._conn.execute(cls.migrate())
+
+        return cls._conn
+
+
+class MediaType(enum.Enum):
+    """Enumeration of resource types.
+    Any resource type should be listed here
+    """
+
+    IMAGE = 0
+    VIDEO = 1
+
+
+class Media(pydantic.BaseModel):
     """Media define needed field for the multimedia assets schema."""
 
     route: str
@@ -33,32 +96,53 @@ class Media(Model):
 
         return v
 
+    @pydantic.validator("type")
+    def serialize_media_pre(cls, v: Any):
+        """Pre serialize media to object"""
+        if isinstance(v, MediaType):
+            return v.value
+        return v
 
-class Movie(Model):
-    """Movies define needed fields for standard movie schema."""
 
-    title: str
-    # imdb code is adopted from IMB movies site to handle an alpha-numeric id
-    # https://es.wikipedia.org/wiki/Internet_Movie_Database
-    imdb_code: str
-    # creator key itself is a public key from blockchain network
-    creator_key: str
-    # # https://en.wikipedia.org/wiki/Motion_Picture_Association_film_rating_system
-    mpa_rating: str
-    rating: float
-    runtime: float
-    synopsis: str
-    release_year: int
-    # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
-    genres: List[str]
-    speech_language: str
-    publish_date: Optional[float] = 0
-    trailer_link: Optional[str] = ""
-    # Add movie multimedia resources
-    resources: List[Media] = []
+class Meta(pydantic.BaseModel):
+    class Config:
+        use_enum_values = True
+        validate_assignment = True
 
-    @pydantic.validator("resources", pre=True)
-    def serialize_resources_pre(cls, v: Any):
+    ...
+
+
+class Model(_Manager, pydantic.BaseModel):
+    """Model based SQL manager"""
+
+    media: List[Media]
+    metadata: Meta
+
+    def __init__(self, **kwargs: Any):
+        super(Model, self).__init__(**kwargs)
+        sqlite3.register_converter(self.alias, self.__convert__)
+
+    @classmethod
+    def annotate(cls, **kwargs: Any) -> Type[Model]:
+        """Dynamic typing for metadata from Meta subtypes.
+        Enhance the model by annotating new properties to it from a specific model.
+
+        :para type_: type to treat metadata
+        :return: Enhanced model
+        :rtype: Model
+        """
+        cls = type(
+            "Model",
+            (cls,),
+            {
+                **{"__annotations__": kwargs},
+                **{k: pydantic.Field(k) for k in kwargs.keys()},
+            },
+        )
+        return cls
+
+    @pydantic.validator("media", pre=True)
+    def serialize_media_pre(cls, v: Any):
         """Pre serialize media to object"""
         if isinstance(v, bytes):
             parsed = ast.literal_eval(v.decode())
@@ -66,70 +150,61 @@ class Movie(Model):
             return list(instances)
         return v
 
-    @pydantic.validator("genres", pre=True)
-    def serialize_genres_pre(cls, v: Any):
-        if isinstance(v, bytes):
-            decoded = v.decode()
-            return decoded.split(",")
-        return v
+    @classmethod
+    def __convert__(cls, raw: bytes) -> Model:
+        """Convert data from sqlite to  model
+        ref: https://docs.python.org/3/library/sqlite3.html#how-to-write-adaptable-objects
 
-    @pydantic.validator("genres")
-    def serialize_genres(cls, v: List[str]):
-        return ",".join(v)
+        :param raw: data from database
+        :param model: model to convert raw input
+        :return: Model instanced with data from db
+        :rtype: Model
+        """
 
-    @pydantic.validator("publish_date", pre=True, always=True)
-    def publish_date_default(cls, v: float):
-        return v or time.time()
+        fields = cls.__fields__.keys()
+        values = map(ast.literal_eval, raw.decode().split(";"))
+        params = dict(zip(fields, values))
+        return cls(**params)
 
-    @pydantic.validator("imdb_code")
-    def imdb_valid_format(cls, v: str):
-        pattern = re.compile(r"^w?t[a-zA-Z0-9]{8,32}$")
-        if not re.fullmatch(pattern, v):
-            raise ValueError(
-                """
-                Invalid imdb code pattern: %s.
-                Pattern must match: r"^w?t[a-zA-Z0-9]{8,32}$"
-                """
-                % v
-            )
-        return v
+    def __conform__(self, protocol: sqlite3.PrepareProtocol):
+        """Sqlite3 adapter
+        ref: https://docs.python.org/3/library/sqlite3.html#sqlite3-adapters
+        """
+        if protocol is sqlite3.PrepareProtocol:
+            raw_fields = self.dict().values()
+            map_fields = map(str, raw_fields)
+            return ";".join(map_fields)
 
-    @pydantic.validator("rating")
-    def rating_range(cls, v: float):
-        if v < 0 or v > DEFAULT_RATE_MAX:
-            raise ValueError(
-                """
-                Invalid rating range: %s.
-                Min rating should be >= 0 and <= 10
-                """
-                % v
-            )
-        return v
+    @classmethod
+    def get(cls) -> Any:
+        """Exec query and fetch one entry from database.
 
-    @pydantic.validator("mpa_rating", pre=True, always=True)
-    def mpa_rating_default(cls, v: str):
-        return v or "PG"
+        :return: Any derived model
+        :rtype: Any
+        """
 
-    @pydantic.validator("release_year")
-    def year_range(cls, v: float):
-        # https://en.wikipedia.org/wiki/1870s_in_film
-        if v < FIRST_MOVIE_YEAR_EVER or v > datetime.date.today().year + 1:
-            raise ValueError(
-                """
-                Invalid movie release year.
-                Year should be greater than 1880 (date of first created movie)
-                and less than the current year.
-                """
-            )
-        return v
+        response = cls.conn.execute(cls.query())
+        rows = response.fetchone()  # raw data
+        return rows[0]
 
-    @pydantic.validator("genres", each_item=True)
-    def valid_genres(cls, v: str):
-        if v == "" or len(v) < 3:
-            raise ValueError(
-                """
-                Invalid genres for movie.
-                Genres should be not empty and contain at least 3 characters.
-                """
-            )
-        return v
+    @classmethod
+    def all(cls) -> Iterator[Model]:
+        """Exec query and fetch a list of data from database.
+
+        :return: Any list of derived model
+        :rtype: Iterator[Any]
+        """
+
+        response = cls.conn.execute(cls.query())
+        rows = response.fetchall()  # raw data
+        return rows[0]
+
+    def save(self) -> int | None:
+        """Exec insertion into database using built query
+
+        :return: True if query was saved or False otherwise
+        :rtype: bool
+        """
+
+        cursor: Cursor = self.conn.execute(self.mutate(), (self,))
+        return cursor.lastrowid

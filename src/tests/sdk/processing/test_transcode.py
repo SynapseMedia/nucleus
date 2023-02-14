@@ -1,6 +1,6 @@
 import pytest
 import src.core.exceptions as exceptions
-import src.sdk.processing as media
+import src.sdk.processing.transcode as transcode
 
 from src.core.types import Directory, Any
 from src.sdk.processing.transcode.types import (
@@ -55,7 +55,7 @@ def test_quality():
     }
 
     for size, high in sizes.items():
-        representation = media.ffmpeg.quality(size)
+        representation = transcode.quality(size)
         # Expect always  the higher quality = size
         # expect always the lower quality = R360p
         higher = representation[-1]  # type: ignore
@@ -75,16 +75,16 @@ def test_invalid_quality():
 
     for size in sizes:
         with pytest.raises(exceptions.InvalidVideoQuality):
-            media.ffmpeg.quality(size)
+            transcode.quality(size)
 
 
 def test_valid_input(mocker: Any):
     """Should instance a valid input"""
     mocker.patch(
-        "src.sdk.processing.ffmpeg.VideoInput",
+        "src.sdk.processing.transcode.ffmpeg.VideoInput",
         return_value=MockInput(Directory("test")),
     )
-    with media.ffmpeg.input(Directory("test")) as _input:
+    with transcode.input(Directory("test")) as _input:
         assert _input.get_video_size().width == 100
         assert _input.get_video_size().height == 100
         assert _input.get_path() == Directory("test")
