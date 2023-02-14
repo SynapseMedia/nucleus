@@ -6,7 +6,7 @@ __author__ = "gmena"
 session = requests.Session()
 
 from . import edge  # noqa
-from . import ingest  # noqa
+from . import local  # noqa
 
 
-__all__ = ["edge", "ingest", "session"]
+__all__ = ["edge", "local", "session"]

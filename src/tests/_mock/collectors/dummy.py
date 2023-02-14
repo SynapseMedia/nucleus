@@ -1,4 +1,5 @@
-from src.sdk.harvest import Collector, Movie, MediaType
+from src.sdk.harvest import Collector, Model
+from src.tests._mock.models import Movie
 
 
 class Dummy(Collector):
@@ -10,25 +11,29 @@ class Dummy(Collector):
 
         dummy_data = [
             {
-                "title": "A Fork in the Road",
-                "imdb_code": "wtt00000000",
-                "creator_key": "0xee99ceff640d37edd9cac8c7cff4ed4cd609f435",
-                "mpa_rating": "PG",
-                "rating": 6.0,
-                "runtime": 105.0,
-                "synopsis": "Baby loves have fun",
-                "release_year": 2010,
-                "genres": ["Action", "Comedy", "Crime"],
-                "speech_language": "en",
-                "publish_date": 1669911990.9270618,
-                "resources": [
+                "metadata": {
+                    "title": "A Fork in the Road",
+                    "imdb_code": "wtt00000000",
+                    "creator_key": "0xee99ceff640d37edd9cac8c7cff4ed4cd609f435",
+                    "mpa_rating": "PG",
+                    "rating": 6.0,
+                    "runtime": 105.0,
+                    "synopsis": "Baby loves have fun",
+                    "release_year": 2010,
+                    "genres": ["Action", "Comedy", "Crime"],
+                    "speech_language": "en",
+                    "publish_date": 1669911990.9270618,
+                },
+                "media": [
                     {
                         "route": "src/tests/_mock/files/watchit.png",
-                        "type": MediaType.IMAGE,
+                        "type": 0,
                     }
                 ],
-            },
+            }
         ]
 
         for raw in dummy_data:
-            yield Movie.parse_obj(raw)
+            # how should we handle metadata?
+            model = Model.annotate(metadata=Movie) 
+            yield model.parse_obj(raw)

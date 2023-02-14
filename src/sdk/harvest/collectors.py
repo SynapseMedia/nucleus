@@ -59,8 +59,7 @@ def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
     """
 
     for module_finder, name, _ in pkgutil.iter_modules([path]):
-        module = module_finder.find_module(
-            name).load_module(name)  # type: ignore
+        module = module_finder.find_module(name).load_module(name)  # type: ignore
 
         # Get the module collector class
         for _, obj in inspect.getmembers(module):

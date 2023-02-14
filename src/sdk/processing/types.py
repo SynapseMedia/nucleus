@@ -10,13 +10,9 @@ class Engine(Protocol, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def input(self):
+    def __enter__(self):
         ...
 
     @abstractmethod
-    def start(self):
-        ...
-
-    @abstractmethod
-    def exit(self):
+    def __exit__(self):
         ...

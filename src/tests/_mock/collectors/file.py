@@ -1,10 +1,9 @@
-import pydantic
+import json
 
-from src.core.types import List
-from src.sdk.harvest import Movie, Collector
+from src.sdk.harvest import Collector, Model
+from src.tests._mock.models import Movie
 
-
-# class MyMeta(Model):
+# class MyMeta(Meta):
 #     """You can define your own data model here .
 #     Write here any custom metadata model to distribute"""
 
@@ -20,7 +19,9 @@ class File(Collector):
     def __iter__(self):
         """Here could be implemented any logic to collect metadata."""
 
-        # You can use pydantic helpers to handle any raw input
-        # ref: https://docs.pydantic.dev/usage/models/#helper-functions
         source_file = "src/tests/_mock/files/dummy.json"
-        return iter(pydantic.parse_file_as(List[Movie], source_file))
+        with open(source_file) as file:
+            # read movies from json file
+            for raw in json.load(file):
+                model = Model.annotate(metadata=Movie)
+                yield model.parse_obj(raw)

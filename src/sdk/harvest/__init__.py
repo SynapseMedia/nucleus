@@ -1,12 +1,11 @@
-from .models import Movie, Media
-from .types import MediaType, Collector, Model
+from .types import Collector
+from .models import MediaType, Model, Media, Meta
 from .collectors import merge, map, load, batch_save
-from .media import fetch, resolve
 
 
 __all__ = [
-    "Movie",
     "Media",
+    "Meta",
     "MediaType",
     "Model",
     "Collector",
@@ -14,6 +13,4 @@ __all__ = [
     "merge",
     "batch_save",
     "map",
-    "fetch",
-    "resolve",
 ]
