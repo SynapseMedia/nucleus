@@ -30,7 +30,7 @@ def test_map_collector(mock_models: Model):
     """Should map collected metadata from collectors"""
     loaded_collectors = harvest.load(mock_collectors_dir)
     data_merged = harvest.map(loaded_collectors)
-    
+
     expected2 = copy.deepcopy(mock_models)
     expected2.metadata.title = "A in the Road"
 
