@@ -9,7 +9,7 @@ import cid  # type: ignore
 import pathlib
 import src.core.cache as cache
 
-from src.core.types import Any, Iterator, List, Type, Union
+from src.core.types import Any, Iterator, List, Type, Union, Tuple
 from src.core.cache import Cursor, Connection
 from .constants import INSERT, FETCH, MIGRATE
 
@@ -210,16 +210,16 @@ class Model(_Manager, pydantic.BaseModel):
         return cursor.lastrowid
 
     @classmethod
-    def batch_save(cls, e: Iterator[Model]) -> List[Union[int, None]]:
+    def batch_save(cls, e: Iterator[Model]) -> Tuple[Union[int, None]]:
         """Exec batch insertion into database
         WARN: This execution its handled by a loop
 
         :param e: Entries to insert into database.
-        :return: List of row ids for each inserted entry.
-        :rtype: List[Union[int, None]]
+        :return: Tuple of row ids for each inserted entry.
+        :rtype: Tuple[Union[int, None]]
         """
 
         cls.conn.execute("BEGIN TRANSACTION")
-        stored = list(map(lambda x: x.save(), e))
+        stored = tuple(map(lambda x: x.save(), e))
         cls.conn.execute("COMMIT")
         return stored
