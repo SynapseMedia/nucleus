@@ -17,3 +17,6 @@ def test_dash_protocol():
 
     dash = DASH(MockInput(Directory("test")))
     assert isinstance(dash.codec, VP9)
+
+
+# def test_input_mp4()
