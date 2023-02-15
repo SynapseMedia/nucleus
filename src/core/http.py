@@ -1,16 +1,14 @@
 import requests
-import pathlib
-import src.core.fs as fs
 import requests.exceptions as exceptions
 
 from src.core.constants import VALIDATE_SSL
-from src.core.types import URI, Directory
+from src.core.types import URI, Path
 
 # Session keep alive
 session = requests.Session()
 
 
-def download(route: URI, output: Directory) -> pathlib.Path:
+def download(route: URI, output: Path) -> Path:
     """Download remote media.
     If output does not exists, it will be created.
 
@@ -22,7 +20,7 @@ def download(route: URI, output: Directory) -> pathlib.Path:
     """
 
     # Create if not exist dir
-    fs.make(output)
+    output.make()
 
     # Start http session
     response = session.get(
@@ -43,4 +41,4 @@ def download(route: URI, output: Directory) -> pathlib.Path:
             out.write(block)
         out.close()
 
-    return pathlib.Path(output)
+    return output

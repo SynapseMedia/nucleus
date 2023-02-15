@@ -1,7 +1,7 @@
 import src.core.ipfs.add as add
 
 from src.core.ipfs.types import Result
-from src.core.types import Any, Directory
+from src.core.types import Any, Path
 
 expected_hash = "QmRoo28ogKQ6ds3jk9x7X7x3sjTs2yTMu5vHUPxLN8vinU"
 
@@ -18,5 +18,5 @@ def test_add(mocker: Any):
     """Should return a valid cid for valid dir"""
 
     mocker.patch("src.core.ipfs.add.CLI", return_value=MockCLI())
-    add_directory = add.directory(Directory("/test/dir"))
+    add_directory = add.directory(Path("/test/dir"))
     assert add_directory == expected_hash

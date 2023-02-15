@@ -12,7 +12,7 @@ def test_orbit_subprocess_call():
         # Run a subprocess foreach collector to migrate.
         # In this case we are using merge strategy so we expose a batch
         # metadata.
-        ipc = retrieval.migrate("--key=dummy", "--c=dummy")()
+        ipc = retrieval.migrate("--key=dummy", "--test")()
         stdout = ipc.communicate(b"abc")
 
         match_logs: list[bool] = []

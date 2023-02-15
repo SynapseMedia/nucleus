@@ -9,6 +9,9 @@ from .constants import COLLECTORS_PATH
 from .types import Collector, Model
 
 
+# we need a filter to pickup keys from model
+# def filter()
+
 def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[Model]]:
     """Returns mapped collectors.
     Map collectors using name as key and the metadata content as value list.

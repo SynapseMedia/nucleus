@@ -15,6 +15,7 @@ const ORBIT_DB_NAME = argv.name || 'wt.movies.db' // The orbit db collection nam
 const MAX_CHUNKS = argv.size || 1000 // Max number of slices to group for CID
 const IPFS_NODE = argv.node || '127.0.0.1' // Our local IPFS node
 
+const TEST_MODE = argv.test || false
 const OVERWRITE = argv.r || true // Overwrite existing database.
 const KEY = argv.key || 'watchit' // Local key 
 const IPFSLocalNode = IpfsApi.create({ host: IPFS_NODE, port: '5001', protocol: 'http' });
@@ -83,11 +84,17 @@ async function announceDB(address) {
 // List of default keys
 // ; = ensures the preceding statement was closed
 ; (async () => {
-    logs.info("Waiting for data")
-    let data = fs.readFileSync(0, 'utf-8');
-    logs.info(data)
-    process.exit(0)
-    return
+    if (TEST_MODE) {
+        /**
+         * IMPORTANT!
+         * We use this flag for test only purpose.
+         */
+        logs.info("Waiting for data")
+        let data = fs.readFileSync(0, 'utf-8');
+        logs.info(data)
+        process.exit(0)
+        return
+    }
 
     // Initialize orbit db log
     logs.info(`Starting ${KEY} db `);
@@ -114,7 +121,7 @@ async function announceDB(address) {
 
         logs.warn(`Migrating ${size} movies..`)
 
-        for (const chunk of rawData) {
+        for (const chunk of data) {
             // let before = +new Date();
             let ch = chunk.map((v) => {
                 index++;

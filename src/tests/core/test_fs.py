@@ -4,13 +4,13 @@ import pytest
 import src.core.fs as fs
 
 from pathlib import Path
-from src.core.types import Directory
+from src.core.types import Path
 
 custom_dir = "src/tests/core"
-directory = Directory("_mock")
-image = Directory(f"{directory}/watchit.png")
-license = Directory("LICENSE")
-invalid = Directory("NOT_EXIST")
+directory = Path("_mock")
+image = Path(f"{directory}/watchit.png")
+license = Path("LICENSE")
+invalid = Path("NOT_EXIST")
 
 
 def test_valid_read_file():
@@ -44,7 +44,7 @@ def test_exists_invalid_file():
 
 def test_make_destination_dir():
     """Should create directory"""
-    new_dir = Directory("assets/mock_test_dir/")
+    new_dir = Path("assets/mock_test_dir/")
     new_created_dir = fs.make(new_dir)
     expected_new_path = Path(new_created_dir)
     assert expected_new_path.exists()
@@ -54,6 +54,6 @@ def test_make_destination_dir():
 def test_extract_extension_for_file():
     """Should extract extension from file path"""
     expected = "png"
-    provided = Directory("watchit.png")
+    provided = Path("watchit.png")
     assert fs.extension(provided) == expected
     assert fs.extension(image) == expected

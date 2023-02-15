@@ -1,7 +1,7 @@
 import pytest
 
 from src.core.types import Any
-from src.sdk.harvest import MediaType, Model
+from src.sdk.harvest import Model
 
 from src.tests._mock.models import Movie
 
@@ -27,7 +27,7 @@ def mock_raw_entry():
         "media": [
             {
                 "route": "src/tests/_mock/files/watchit.png",
-                "type": MediaType.IMAGE,
+                "type": "image",
             }
         ],
     }

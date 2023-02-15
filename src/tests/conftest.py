@@ -1,12 +1,12 @@
 import pytest
 import sqlite3
 import responses
-from src.core.types import Any
+from src.core.types import Any, Path
 
 
 @pytest.fixture()
 def mock_local_file_path():
-    return "src/tests/_mock/files/watchit.png"
+    return Path("src/tests/_mock/files/watchit.png")
 
 
 @pytest.fixture()

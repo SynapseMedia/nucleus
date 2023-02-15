@@ -1,7 +1,7 @@
 import src.core.json as json
 
 # Convention for importing types and constants
-from src.core.types import Directory
+from src.core.types import Path
 from .constants import NFT_ABI_PATH
 from .types import Contract, Network, Proxy, Address
 
@@ -22,6 +22,6 @@ class ERC1155(Contract):
     @property
     def abi(self):
         """Return abi from json for NFT contract"""
-        abi_path = Directory(NFT_ABI_PATH)
+        abi_path = Path(NFT_ABI_PATH)
         abi_json = json.read(abi_path)
         return abi_json["abi"]
