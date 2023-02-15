@@ -20,7 +20,7 @@
         "media": [
             {
                 "route": "src/tests/_mock/files/watchit.png",
-                "type": 0
+                "type": "image"
             }
         ]
     }

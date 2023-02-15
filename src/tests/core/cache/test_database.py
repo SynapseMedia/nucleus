@@ -4,7 +4,7 @@ import src.core.cache.database as database
 
 from mock import patch
 from src.core.constants import ROOT_DIR
-from src.core.types import Any, Directory
+from src.core.types import Any, Path
 
 
 TEST_DB = f"{ROOT_DIR}/test.db"
@@ -29,5 +29,5 @@ def test_valid_connection_for_valid_file():
     """Should instance a valid connection with valid input file db"""
     with database.connection(TEST_DB) as conn:
         assert conn.cursor() is not None
-        assert fs.exists(Directory(TEST_DB)) is True
+        assert fs.exists(Path(TEST_DB)) is True
         os.remove(TEST_DB)

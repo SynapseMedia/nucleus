@@ -6,25 +6,27 @@ from ffmpeg_streaming._input import Input as FFInput  # type: ignore
 from ffmpeg_streaming import input as ffinput, FFProbe  # type: ignore
 
 
-from src.core.types import Directory, Iterator, Any, Mapping, Sequence
+from src.core.types import Iterator, Any, Mapping, Sequence, Path
 from .types import Input, Representation, Representations as REPR, Size, Sizes
 from .constants import MAX_MUXING_QUEUE_SIZE
 
 
-class VideoInput:
+class VideoInput(Input):
     """Protocol to give control over FFmpeg input.
 
     This class is designed to process one video file at time
     """
 
     _media: FFInput
-    _path: Directory
+    _probe: FFProbe
+    _path: Path
 
-    def __init__(self, input_file: Directory, **options: Any):
+    def __init__(self, input_file: Path, **options: Any):
         self._path = input_file
+        self._probe = FFProbe(input_file)
         self._media = ffinput(input_file, **options)
 
-    def get_path(self) -> Directory:
+    def get_path(self) -> Path:
         """Return current input directory
 
         :return: Directory string representation
@@ -32,14 +34,21 @@ class VideoInput:
         """
         return self._path
 
-    def get_video_size(self) -> Size:
+    def get_media(self) -> FFInput:
+        """Return current file FFMPEG input
+
+        :return" FFMPEG wrapped file
+        :rtype: FFInput
+        """
+        return self._media
+
+    def get_size(self) -> Size:
         """Return video size
 
         :return: Video size from input file
         :rtype: Size
         """
-        ffprobe = FFProbe(self._path)
-        return ffprobe.video_size
+        return self._probe.video_size
 
     def get_duration(self) -> float:
         """Get video time duration
@@ -49,9 +58,8 @@ class VideoInput:
         :rtype: float
         """
 
-        ffprobe = FFProbe(self._path)
-        duration = float(ffprobe.format().get("duration", 0))
-        return duration
+        format_ = self._probe.format()
+        return float(format_.get("duration", 0))
 
 
 def quality(size: Size) -> Sequence[Representation]:
@@ -86,7 +94,7 @@ def quality(size: Size) -> Sequence[Representation]:
 
 
 @contextlib.contextmanager
-def input(input_file: Directory, **options: Any) -> Iterator[Input]:
+def input(input_file: Path, **options: Any) -> Iterator[Input]:
     """Factory ffmpeg input interface from file
 
     :param input_file: Path to video

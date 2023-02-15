@@ -2,22 +2,22 @@ import pytest
 import src.core.exceptions as exceptions
 import src.sdk.processing.resize as resize
 
-from src.core.types import Directory
-from src.sdk.processing.resize import Size
+from src.core.types import Path
+from src.sdk.processing.resize.types import Sizes
 
 
 root_dir = "src/tests/_mock/files/"
-image_dir_771 = Directory(f"{root_dir}771x900.jpg")
-image_dir_255 = Directory(f"{root_dir}255x255.jpg")
-image_dir_638 = Directory(f"{root_dir}638x400.jpg")
+image_dir_771 = Path(f"{root_dir}771x900.jpg")
+image_dir_255 = Path(f"{root_dir}255x255.jpg")
+image_dir_638 = Path(f"{root_dir}638x400.jpg")
 
 
 def test_sizes():
     """Should contains valid image sizes"""
 
-    assert Size.Small == (45, 67)
-    assert Size.Medium == (230, 345)
-    assert Size.Large == (500, 750)
+    assert Sizes.Small == (45, 67)
+    assert Sizes.Medium == (230, 345)
+    assert Sizes.Large == (500, 750)
 
 
 def test_valid_input():

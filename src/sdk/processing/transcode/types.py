@@ -3,8 +3,8 @@ from abc import abstractmethod, ABCMeta
 
 from ffmpeg_streaming._format import H264, VP9  # type: ignore
 from ffmpeg_streaming._input import Input as FFInput  # type: ignore
-from ffmpeg_streaming import Bitrate, Representation, Size, Format, Formats  # type: ignore
-from src.core.types import Directory, Protocol, Any, Sequence
+from ffmpeg_streaming import Bitrate, Representation, Size, Format, Formats, FFProbe  # type: ignore
+from src.core.types import Protocol, Any, Sequence, Path
 
 
 @dataclass(frozen=True)
@@ -46,13 +46,22 @@ class Input(Protocol, metaclass=ABCMeta):
     """
 
     _media: FFInput
+    _probe: FFProbe
 
     @abstractmethod
-    def __init__(self, input_file: Directory, **options: Any):
+    def __init__(self, input_file: Path, **options: Any):
+        ...
+
+    def get_media(self) -> FFInput:
+        """Return current file FFMPEG input
+
+        :return" FFMPEG wrapped file
+        :rtype: FFInput
+        """
         ...
 
     @abstractmethod
-    def get_path(self) -> Directory:
+    def get_path(self) -> Path:
         """Return current input directory
 
         :return: Directory string representation
@@ -61,7 +70,7 @@ class Input(Protocol, metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def get_video_size(self) -> Size:
+    def get_size(self) -> Size:
         """Return video size
 
         :return: Video size from input file
@@ -106,7 +115,7 @@ class Streaming(Protocol, metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def transcode(self, output_dir: Directory) -> None:
+    def transcode(self, output_dir: Path) -> None:
         """Start transcoding process based on conf
 
         :param output_dir: Directory where to write output

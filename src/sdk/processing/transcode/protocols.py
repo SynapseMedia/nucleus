@@ -2,7 +2,7 @@ import datetime
 import src.sdk.logger as logger
 
 # Convention for importing types
-from src.core.types import Directory, Sequence
+from src.core.types import Sequence, Any, Path
 from .types import Streaming, Representation, Formats, Input
 
 
@@ -21,8 +21,8 @@ def _output(_, duration: int, time_: int, time_left: int):
 
 
 class HLS(Streaming):
-    def __init__(self, input: Input):
-        self._hls = input._media.hls(self.codec)  # type: ignore
+    def __init__(self, input: Input, **kwargs: Any):
+        self._hls = input.get_media().hls(self.codec, **kwargs)  # type: ignore
         self._hls.auto_generate_representations()
 
     def set_representations(self, repr: Sequence[Representation]):
@@ -32,13 +32,13 @@ class HLS(Streaming):
     def codec(self):
         return Formats.h264()  # type: ignore
 
-    def transcode(self, output_dir: Directory):
+    def transcode(self, output_dir: Path):
         self._hls.output(output_dir, monitor=_output)
 
 
 class DASH(Streaming):
-    def __init__(self, input: Input):
-        self._dash = input._media.dash(self.codec)  # type: ignore
+    def __init__(self, input: Input, **kwargs: Any):
+        self._dash = input.get_media().dash(self.codec, **kwargs)  # type: ignore
         self._dash.auto_generate_representations()
 
     def set_representations(self, repr: Sequence[Representation]):
@@ -48,5 +48,5 @@ class DASH(Streaming):
     def codec(self):
         return Formats.vp9()  # type: ignore
 
-    def transcode(self, output_dir: Directory):
+    def transcode(self, output_dir: Path):
         self._dash.output(output_dir, monitor=_output)

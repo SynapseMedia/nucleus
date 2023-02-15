@@ -1,10 +1,10 @@
 import json
 
 # Convention for importing types
-from src.core.types import Directory, Raw
+from src.core.types import Raw, Path
 
 
-def read(input_file: Directory) -> Raw:
+def read(input_file: Path) -> Raw:
     """Create an output json file into output file with data
 
     :param input_file: File dir
@@ -15,7 +15,7 @@ def read(input_file: Directory) -> Raw:
         return json.load(f)
 
 
-def write(output: Directory, data: Raw) -> Directory:
+def write(output: Path, data: Raw) -> Path:
     """Create an output json file into output file with data
 
     :param output: directory to store file
@@ -25,4 +25,4 @@ def write(output: Directory, data: Raw) -> Directory:
     """
     with open(output, "w") as f:
         json.dump(data, f, ensure_ascii=False)
-    return Directory(output)
+    return Path(output)

@@ -1,7 +1,6 @@
 from enum import Enum
 from abc import ABCMeta, abstractmethod
 from src.core.types import (
-    Accessor,
     Endpoint,
     HexStr,
     Hash,
@@ -91,7 +90,7 @@ class Provider(Protocol, metaclass=ABCMeta):
         ...
 
 
-class Proxy(Accessor, metaclass=ABCMeta):
+class Proxy(Protocol, metaclass=ABCMeta):
     """This protocol pretends to enforce generically calls to unknown methods
 
     eg.

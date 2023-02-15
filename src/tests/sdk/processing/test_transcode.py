@@ -2,13 +2,17 @@ import pytest
 import src.core.exceptions as exceptions
 import src.sdk.processing.transcode as transcode
 
-from src.core.types import Directory, Any
+from src.core.types import Any, Path
 from src.sdk.processing.transcode.types import (
     Representations as REPR,
     Sizes,
     Input,
     Size,
 )
+
+
+class MockFFProbe:
+    ...
 
 
 class MockMedia:
@@ -23,22 +27,22 @@ class MockMedia:
 
 
 class MockInput(Input):
-    def __init__(self, input: Directory, **options: Any):
+    def __init__(self, input: Path, **options: Any):
         self._media = MockMedia()  # type: ignore
+        self._probe = MockFFProbe()  # type: ignore
         self._path = input
 
-    def get_path(self) -> Directory:
+    def get_media(self):
+        return self._media
+
+    def get_path(self):
         return self._path
 
-    def get_video_size(self) -> Size:
+    def get_size(self):
         return Size(100, 100)
 
-    def get_duration(self) -> float:
+    def get_duration(self):
         return 10.1
-
-
-class MockFFProbe:
-    pass
 
 
 def test_quality():
@@ -82,10 +86,10 @@ def test_valid_input(mocker: Any):
     """Should instance a valid input"""
     mocker.patch(
         "src.sdk.processing.transcode.ffmpeg.VideoInput",
-        return_value=MockInput(Directory("test")),
+        return_value=MockInput(Path("test")),
     )
-    with transcode.input(Directory("test")) as _input:
-        assert _input.get_video_size().width == 100
-        assert _input.get_video_size().height == 100
-        assert _input.get_path() == Directory("test")
+    with transcode.input(Path("test")) as _input:
+        assert _input.get_size().width == 100
+        assert _input.get_size().height == 100
+        assert _input.get_path() == Path("test")
         assert _input.get_duration() == 10.1

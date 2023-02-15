@@ -3,11 +3,11 @@ from __future__ import annotations
 import pydantic
 import ast
 import sqlite3
-import enum
 import validators  # type: ignore
 import cid  # type: ignore
 import pathlib
 import src.core.cache as cache
+
 
 from src.core.types import Any, Iterator, List, Type, Union, Tuple
 from src.core.cache import Cursor, Connection
@@ -70,21 +70,15 @@ class _Manager:
         return cls._conn
 
 
-class MediaType(enum.Enum):
-    """Enumeration of resource types.
-    Any resource type should be listed here
-    """
-
-    IMAGE = 0
-    VIDEO = 1
-
-
 class Media(pydantic.BaseModel):
     """Media define needed field for the multimedia assets schema."""
 
     route: str
-    type: MediaType
+    type: str
 
+
+    # TODO allow annotate engine based on type same as Model approach to extend capabilities
+    # eg. .annotate(engine=Engine(...))
     @pydantic.validator("route")
     def valid_route(cls, v: str):
         is_path = pathlib.Path(v).exists()  # type: ignore
@@ -94,13 +88,6 @@ class Media(pydantic.BaseModel):
         if not is_url and not is_path and not is_cid:
             raise ValueError("Route must be a CID | URI | Path")
 
-        return v
-
-    @pydantic.validator("type")
-    def serialize_media_pre(cls, v: Any):
-        """Pre serialize media to object"""
-        if isinstance(v, MediaType):
-            return v.value
         return v
 
 
@@ -124,15 +111,13 @@ class Model(_Manager, pydantic.BaseModel):
 
     @classmethod
     def annotate(cls, **kwargs: Any) -> Type[Model]:
-        """Dynamic typing for metadata from Meta subtypes.
-        Enhance the model by annotating new properties to it from a specific model.
+        """Enhance the model by annotating dynamically new properties types.
 
-        :para type_: type to treat metadata
-        :return: Enhanced model
-        :rtype: Model
+        :return: enhanced model
+        :rtype: Type[Model]
         """
         cls = type(
-            "Model",
+            cls.__name__,
             (cls,),
             {
                 **{"__annotations__": kwargs},
