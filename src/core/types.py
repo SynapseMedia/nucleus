@@ -37,24 +37,7 @@ Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
 
 
-class Accessor(Protocol, metaclass=ABCMeta):
-    """Accessor abstraction to enforce dynamic properties.
-    You can define behavior for when a user attempts to access an attribute that doesn't exist.
-    """
-
-    @abstractmethod
-    def __getattr__(self, name: str) -> Any:
-        """Dynamic access to an attribute.
-        Here should be handled the logic for dynamic attribute access.
-
-        :param name: The name of the attribute
-        :return: Any data processed using the attribute
-        :rtype: Any
-        """
-        ...
-
-
-class Proxy(Accessor, metaclass=ABCMeta):
+class Proxy(Protocol, metaclass=ABCMeta):
     """This protocol pretends to enforce generically calls to unknown methods
 
     eg.
@@ -155,6 +138,8 @@ class CID(_ExtensibleStr):
             ...
 
     def __getattr__(self, name: str) -> Any:
+        if not self._cid:
+            raise AttributeError(name)
         return getattr(self._cid, name)
 
     def valid(self) -> bool:
@@ -176,6 +161,8 @@ class URL(_ExtensibleStr):
             ...
 
     def __getattr__(self, name: str) -> str:
+        if not self._parsed:
+            raise AttributeError(name)
         return getattr(self._parsed, name)
 
     def valid(self) -> bool:
@@ -184,7 +171,7 @@ class URL(_ExtensibleStr):
         return all((valid_scheme, self.netloc))
 
 
-class Path(str):
+class Path(_ExtensibleStr):
 
     """Enhanced string type extended with features needed to handle paths"""
 
@@ -199,7 +186,7 @@ class Path(str):
             # pickle avoid recursion
             raise AttributeError(name)
         return getattr(self._path, name)
-    
+
     def make(self) -> Path:
         """Enhanced path mkdir
 

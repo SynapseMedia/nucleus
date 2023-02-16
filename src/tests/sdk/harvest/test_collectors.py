@@ -1,7 +1,7 @@
 import copy
 import src.sdk.harvest as harvest
 
-from src.sdk.harvest.models import Codex
+from src.sdk.harvest import Codex
 
 mock_collectors_dir = "src/tests/_mock/collectors/"
 
