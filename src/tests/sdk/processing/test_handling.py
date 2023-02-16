@@ -39,7 +39,8 @@ def test_resolve_root_for_prod():
 def test_resolve_root_for_raw():
     """Should resolve RAW_DIR for param is_prod = False"""
     processing.handling.RAW_PATH = custom_dir
-    processing.handling.PROD_PATH = "prod"  # just to be sure that this is not called
+    # just to be sure that this is not called
+    processing.handling.PROD_PATH = "prod"
     result_dir = processing.resolve(directory, is_prod=False)
     # (Path expected for raw, if path exists = True)
     expected = ("%s/%s" % (processing.handling.RAW_PATH, directory), True)

@@ -28,7 +28,7 @@ def test_movie_batch_freeze(mock_models: Codex, setup_database: Any):
         mock.connect.return_value = conn  # type: ignore
         model2 = copy.deepcopy(mock_models)
         model2.metadata.title = "The new boy"
-            
+
         expected = [mock_models, model2]
         saved = mock_models.batch_save(iter(expected))
         result = mock_models.all()

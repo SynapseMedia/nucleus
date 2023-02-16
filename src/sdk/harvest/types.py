@@ -8,7 +8,7 @@ import sqlite3
 import src.core.cache as cache
 
 # Convention for importing constants/types
-from abc import ABC, abstractmethod
+from abc import ABC, ABCMeta, abstractmethod
 from src.core.types import Any, Iterator, Union, List, Type, Tuple, Path, URL, CID
 from src.core.cache import Cursor, Connection
 from .constants import INSERT, FETCH, MIGRATE
@@ -153,6 +153,11 @@ class Model(_Manager, pydantic.BaseModel):
         return stored
 
 
+class MediaType(str, metaclass=ABCMeta):
+
+    ...
+
+
 class Meta(Model):
     class Config:
         use_enum_values = True
@@ -163,7 +168,7 @@ class Media(Model):
     """Media define needed field for the multimedia assets schema."""
 
     route: Union[URL, CID, Path]
-    type: str
+    type: MediaType
 
     @pydantic.validator("route")
     def valid_route(cls, v: str):

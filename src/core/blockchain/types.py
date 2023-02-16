@@ -12,7 +12,7 @@ from src.core.types import (
     NamedTuple,
     Callable,
     Raw,
-    Proxy
+    Proxy,
 )
 
 Address = Union[HexStr, str]
@@ -89,7 +89,6 @@ class Provider(Protocol, metaclass=ABCMeta):
         :rtype: Connector
         """
         ...
-
 
 
 class Chain(Protocol, metaclass=ABCMeta):
@@ -247,8 +246,6 @@ class Contract(Protocol, metaclass=ABCMeta):
             ....
 
     """
-
-    _address: Address
 
     @abstractmethod
     def __init__(self, network: Network):
