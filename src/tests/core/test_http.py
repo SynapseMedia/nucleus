@@ -3,7 +3,7 @@ import requests
 import responses
 import src.core.http as http
 
-from src.core.types import Path, URI, Any
+from src.core.types import Path, URL, Any
 
 
 # Unit tests
@@ -22,7 +22,7 @@ def test_valid_remote_file(file_response_ok: Any):
 @responses.activate
 def test_invalid_remote_file():
     """Should fail for remote file from invalid URL"""
-    invalid_link = URI("https://invalid.org/assets/tests/watchit.png")
+    invalid_link = URL("https://invalid.org/assets/tests/watchit.png")
     responses.add(responses.GET, invalid_link, status=404)
     with pytest.raises(requests.exceptions.HTTPError):
         http.download(invalid_link, Path("/tmp"))

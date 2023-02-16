@@ -15,11 +15,11 @@ refs:
 """
 
 import os
-import errno
+import cid  # type: ignore
 import pathlib
 import contextlib
 import shutil
-
+import urllib.parse as parse
 
 from hexbytes import HexBytes
 from abc import ABCMeta, abstractmethod
@@ -30,16 +30,91 @@ from typing import *  # type: ignore
 # https://docs.python.org/3/library/typing.html#typing.TypeVar
 T = TypeVar("T")
 
+Raw = NewType("Raw", Mapping[str, Any])
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
 
-ID = NewType("ID", str)
-CID = NewType("CID", str)
-Raw = NewType("Raw", Mapping[str, Any])
-URI = NewType("URI", str)
-Endpoint = Union[URI, str]
+
+class Accessor(Protocol, metaclass=ABCMeta):
+    """Accessor abstraction to enforce dynamic properties.
+    You can define behavior for when a user attempts to access an attribute that doesn't exist.
+    """
+
+    @abstractmethod
+    def __getattr__(self, name: str) -> Any:
+        """Dynamic access to an attribute.
+        Here should be handled the logic for dynamic attribute access.
+
+        :param name: The name of the attribute
+        :return: Any data processed using the attribute
+        :rtype: Any
+        """
+        ...
+
+
+class Proxy(Accessor, metaclass=ABCMeta):
+    """This protocol pretends to enforce generically calls to unknown methods
+
+    eg.
+        # Contract can be any based on lib
+        # Every network lib expose in a different way the programmatic call to functions.
+
+        # using Web3
+        c = Contract()
+
+        # We don't know the accessor for functions for every lib
+        c.functions.mint() <- how can we handle `mint` for any different lib?
+
+        # So...
+        # probably we need an standard interface here to delegate calls?
+
+        c = Contract()
+        c.mint() # Does'nt matter how the call is made underneath
+
+    """
+
+    @abstractmethod
+    def __init__(self, interface: Any):
+        """Interface may be anything but MUST expose a subscriptable object to handle it"""
+        ...
+
+    @abstractmethod
+    def __getattr__(self, name: str) -> Callable[[Any], Any]:
+        """Control behavior for when a user attempts to access an attribute that doesn't exist
+        This method proxies/delegate the call to low level lib subscriptable object.
+
+        # Example with web3 lib
+        class Web3Functions:
+            def __getattr__(self, name):
+                # Here the low level lib handle the function call to contract
+
+        # Underneath core lib web3
+        class Web3Contract:
+            functions = Web3Functions <- this is now an subscriptable object
+
+        # Our proxy is an subscriptable object too
+        contract = CustomContract(Proxy)
+
+        # In a transitive approach we delegate the call to our `favorite lib` using our "CustomContract"
+        contract.[myMethod]() <- this is not an existing method in our contract so we delegate the call to our lib contract functions
+
+        Usage:
+            class ProxyWeb3Contract(Proxy):
+                _interface: Contract
+
+                def __init__(self, interface: Contract):
+                    self._interface = interface
+
+                def __getattr__(self, name: str):
+                    return getattr(self._interface.functions, name)
+
+        :return: expected method to call in contract
+        :rtype: Callable[[Any], Any]
+
+        """
+        ...
 
 
 class Command(Protocol, metaclass=ABCMeta):
@@ -61,15 +136,70 @@ class Command(Protocol, metaclass=ABCMeta):
         ...
 
 
+class _ExtensibleStr(str):
+    def __new__(cls, value: str, *args: Any, **kwargs: Any):
+        # explicitly only pass value to the str constructor
+        return super().__new__(cls, value)
+
+
+class CID(_ExtensibleStr):
+    """Enhanced string type extended with features needed to handle CIDs"""
+
+    _cid: Union[cid.CIDv0, cid.CIDv1]
+
+    def __init__(self, *args: Any, **kwargs: Any):
+        try:
+            self._cid = cid.from_string(self)  # type: ignore
+        except ValueError:
+            # we want to allow control the behavior using `valid` method
+            ...
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self._cid, name)
+
+    def valid(self) -> bool:
+        return cid.is_cid(self)  # type: ignore
+
+
+class URL(_ExtensibleStr):
+    """Enhanced string type extended with features needed to handle urls
+    ref: https://docs.python.org/3/library/urllib.parse.html#module-urllib.parse
+    """
+
+    _parsed: parse.ParseResult
+
+    def __init__(self, *args: Any, **kwargs: Any):
+        try:
+            self._parsed = parse.urlparse(self)
+        except ValueError:
+            # we want to allow control the behavior using `valid` method
+            ...
+
+    def __getattr__(self, name: str) -> str:
+        return getattr(self._parsed, name)
+
+    def valid(self) -> bool:
+        allowed_schemes = {"http", "https"}
+        valid_scheme = self.scheme in allowed_schemes
+        return all((valid_scheme, self.netloc))
+
+
 class Path(str):
 
     """Enhanced string type extended with features needed to handle paths"""
-    
-    
-    def __getattr__(self, name: str):
-        """Proxy handling pathlib features"""
-        return getattr(pathlib.Path(self), name)
 
+    _path: pathlib.Path
+
+    def __init__(self, *args: Any, **kwargs: Any):
+        self._path = pathlib.Path(self)
+
+    def __getattr__(self, name: str) -> Any:
+        """Proxy handling pathlib features"""
+        if name == "__setstate__":
+            # pickle avoid recursion
+            raise AttributeError(name)
+        return getattr(self._path, name)
+    
     def make(self) -> Path:
         """Enhanced path mkdir
 
@@ -78,8 +208,9 @@ class Path(str):
         :rtype: str
         """
         dirname = os.path.dirname(self)
-        Path(dirname).mkdir(parents=True, exist_ok=True)
-        return Path(dirname)
+        path = Path(dirname)
+        path.mkdir(parents=True, exist_ok=True)
+        return path
 
     def extension(self) -> str:
         """Extract file extension
@@ -95,7 +226,6 @@ class Path(str):
 
     def copy(self, output: Path) -> Path:
         """Copy file from origin to output dir.
-        If output directory does'nt exists it will be created.
 
         :param origin: file path
         :param output: destination directory
@@ -103,7 +233,6 @@ class Path(str):
         :type: Directory
         """
 
-        self.make()  # make the path if doesn't exists
         # copy the file to recently created directory
         path = shutil.copy(self, output)
         return Path(path)
@@ -116,12 +245,7 @@ class Path(str):
         :param dir_: file path
         :return: file content
         :rtype: Iterator[str]
-        :raises FileNotFoundError: if file does not exist
         """
-
-        # Lets ensure that the database file exists
-        if not self.exists():  # Check if path exist if not raise error
-            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self)
 
         with self.open() as file:
             content = file.read()

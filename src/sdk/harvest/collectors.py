@@ -6,20 +6,16 @@ import itertools
 from collections import defaultdict
 from src.core.types import Iterator, Any, Mapping
 from .constants import COLLECTORS_PATH
-from .types import Collector, Model
+from .types import Collector, Codex
 
 
-# we need a filter to pickup keys from model
-# def filter()
-
-def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[Model]]:
-    """Returns mapped collectors.
+def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[Codex]]:
+    """Returns a map of collectors.
     Map collectors using name as key and the metadata content as value list.
-    ref: https://pydantic-docs.helpmanual.io/usage/models/#helper-functions
 
-    :param collectors: Collector iterator
-    :return: Mapped collected data using the name of collector as key and value with meta provided.
-    :rtype: MetaMap
+    :param collectors: collector iterator
+    :return: mapped collected data using the name of collector as key and value with meta provided.
+    :rtype: Mapping[str, Iterator[Codex]]
     """
 
     mapped: Any = defaultdict(list)
@@ -29,13 +25,12 @@ def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[Model]]:
     return mapped
 
 
-def merge(collectors: Iterator[Collector]) -> Iterator[Model]:
+def merge(collectors: Iterator[Collector]) -> Iterator[Codex]:
     """Returns merged collectors.
-    ref: https://pydantic-docs.helpmanual.io/usage/models/#helper-functions
 
     :param collectors: Collector iterator
-    :return: Merged collectors
-    :rtype: MetaIter
+    :return: merged collectors
+    :rtype: Iterator[Codex]
     """
 
     return itertools.chain.from_iterable(collectors)

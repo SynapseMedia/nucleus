@@ -2,13 +2,13 @@ import requests
 import requests.exceptions as exceptions
 
 from src.core.constants import VALIDATE_SSL
-from src.core.types import URI, Path
+from src.core.types import URL, Path
 
 # Session keep alive
 session = requests.Session()
 
 
-def download(route: URI, output: Path) -> Path:
+def download(route: URL, output: Path) -> Path:
     """Download remote media.
     If output does not exists, it will be created.
 

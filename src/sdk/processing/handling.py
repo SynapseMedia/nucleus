@@ -1,6 +1,6 @@
 import src.core.http as http
 
-from src.core.types import URI, Tuple, Union, Path
+from src.core.types import URL, Tuple, Union, Path
 from .constants import PROD_PATH, RAW_PATH
 
 
@@ -17,23 +17,25 @@ def resolve(dir_: Path, is_prod: bool = True) -> Tuple[Path, bool]:
     return Path(root_dir), root_dir.exists()
 
 
-def fetch(route: Union[URI, Path], output: Path) -> Path:
+def fetch(route: Union[URL, Path], output: Path) -> Path:
     """Fetch files from the given route.
-    If the file is a local file it copy it to output dir.
+    If output path exists the file copy is omitted.
+    If the route is a local file it copy it to output dir.
+    If the route is a URL will try to download it and store it in output.
 
-    :param route: File route reference
-    :param output: Where store the file?
-    :return: Directory of stored file
-    :rtype: pathlib.Path
+    :param route: file route reference
+    :param output: where store the file?
+    :return: directory of stored file
+    :rtype: Path
     """
 
-    if Path(route).is_file():
-        source = Path(route)  # source directory
-        # Check if output file already exists
-        if output.exists():
-            return output
+    # if exists omit the process
+    if output.exists():
+        return output
 
-        output = source.copy(output)  # copy the file to output
-        return Path(output)
+    # copy the file to output
+    if isinstance(route, Path) and route.is_file():
+        return route.copy(output)
 
-    return http.download(URI(route), output)
+    # Otherwise try to download the file from URI
+    return http.download(URL(route), output)

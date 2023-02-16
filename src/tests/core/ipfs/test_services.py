@@ -3,7 +3,7 @@ import src.core.ipfs.service as service
 import src.core.exceptions as exceptions
 
 from src.core.ipfs.types import Service, Services, Result
-from src.core.types import Any
+from src.core.types import Any, URL
 
 PATH_CLI_PATCH = "src.core.ipfs.service.CLI"
 
@@ -23,11 +23,10 @@ def test_register_service(mocker: Any):
     """Should return a valid output for valid service registration"""
 
     register_service = Service(
-        **{
-            "service": "edge",
-            "endpoint": "http://localhost",
-            "key": "abc123",
-        }
+       name= "edge",
+        endpoint= URL("http://localhost"),
+        key="abc123"
+
     )
 
     class MockCLI:
@@ -67,8 +66,8 @@ def test_services(mocker: Any):
     registered_services = service.ls()
     services_iter = map(
         lambda x: Service(
-            service=x["Service"],
-            endpoint=x["ApiEndpoint"],
+            name=x["Service"],
+            endpoint=URL(x["ApiEndpoint"]),
             key=None),
         expected_services,
     )
@@ -81,8 +80,8 @@ def test_services(mocker: Any):
 def test_invalid_register_service(mocker: Any):
     """Should raise error for already registered service"""
     register_service = Service(
-        service="edge",
-        endpoint="http://localhost",
+        name="edge",
+        endpoint=URL("http://localhost"),
         key="abc123",
     )
 

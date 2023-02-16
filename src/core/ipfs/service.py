@@ -1,6 +1,6 @@
 from .cmd import CLI
 from .types import Services, Service
-
+from src.core.types import URL
 
 def ls() -> Services:
     """Return registered services
@@ -25,8 +25,8 @@ def ls() -> Services:
     # map registered services
     services_iter = map(
         lambda x: Service(
-            service=x["Service"],
-            endpoint=x["ApiEndpoint"],
+            name=x["Service"],
+            endpoint=URL(x["ApiEndpoint"]),
             key=None,
         ),
         raw_services,

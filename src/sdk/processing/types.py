@@ -1,5 +1,5 @@
 from abc import abstractmethod, ABCMeta
-from src.core.types import Protocol
+from src.core.types import Protocol, Any, Path
 
 
 class Engine(Protocol, metaclass=ABCMeta):
@@ -10,9 +10,25 @@ class Engine(Protocol, metaclass=ABCMeta):
     """
 
     @abstractmethod
+    def __init__(self, media: Path):
+        """Initialize engine with any media path."""
+        ...
+
+    @abstractmethod
     def __enter__(self):
+        """Defines what the context manager should do at the beginning of the block created by the with statement."""
+        ...
+
+    @abstractmethod
+    def __call__(self, *options: Any):
+        """Execute any action over media proxy using instructions
+        eg.
+            engine = Engine(Media("image.png"))
+            engine(Instruction(method, params))
+        """
         ...
 
     @abstractmethod
     def __exit__(self):
+        """Defines what the context manager should do after its block has been executed (or terminates)"""
         ...

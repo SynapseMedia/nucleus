@@ -1,7 +1,7 @@
 import os
 import src.sdk.processing as processing
 
-from src.core.types import URI, Path
+from src.core.types import Path
 
 custom_dir = "src/tests/_mock"
 directory = Path("files")
@@ -11,7 +11,7 @@ image = Path(f"{directory}/watchit.png")
 def test_copy_local_file(mock_local_file_path: Path):
     """Should copy for local file and not attempt download"""
     new_file_directory = Path("src/tests/_mock/files/watchit!.png")
-    current_path = processing.fetch(URI(mock_local_file_path), new_file_directory)
+    current_path = processing.fetch(mock_local_file_path, new_file_directory)
     assert current_path
     assert str(current_path) == new_file_directory
     assert current_path.is_file()

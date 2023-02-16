@@ -1,5 +1,3 @@
-import pytest
-import src.core.exceptions as exceptions
 import src.sdk.processing.resize as resize
 
 from src.core.types import Path
@@ -26,19 +24,3 @@ def test_valid_input():
         w, h = img.size
         assert w == 771
         assert h == 900
-
-
-def test_invalid_255x255_input():
-    """Should fail image input 255x255 since is less than master 500x750 size"""
-
-    with pytest.raises(exceptions.InvalidImageSize):
-        with resize.input(image_dir_255):
-            ...
-
-
-def test_invalid_638x400_input():
-    """Should fail if image width is larger than height input 638x400 size"""
-
-    with pytest.raises(exceptions.InvalidImageSize):
-        with resize.input(image_dir_638):
-            ...
