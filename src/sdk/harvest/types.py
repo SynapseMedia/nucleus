@@ -4,7 +4,7 @@ from __future__ import annotations
 # Convention for importing constants/types
 from abc import ABC, abstractmethod
 from src.core.types import Iterator
-from .models import Model
+from .models import Codex
 
 
 class Collector(ABC):
@@ -21,6 +21,6 @@ class Collector(ABC):
         return "__collectable__"
 
     @abstractmethod
-    def __iter__(self) -> Iterator[Model]:
+    def __iter__(self) -> Iterator[Codex]:
         """Collect metadata from any kind of data input"""
         ...

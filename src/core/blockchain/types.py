@@ -1,7 +1,7 @@
 from enum import Enum
 from abc import ABCMeta, abstractmethod
 from src.core.types import (
-    Endpoint,
+    URL,
     HexStr,
     Hash,
     Any,
@@ -12,11 +12,12 @@ from src.core.types import (
     NamedTuple,
     Callable,
     Raw,
+    Proxy
 )
 
 Address = Union[HexStr, str]
 Abi = NewType("Abi", Raw)
-Connector = Callable[[Endpoint], Any]
+Connector = Callable[[URL], Any]
 PrivateKey = Union[Address, int]
 TxCall = Union[NamedTuple, TypedDict]
 TxAnswer = Union[NamedTuple, TypedDict]
@@ -45,20 +46,20 @@ class ContractID(Enum):
 
 
 class Provider(Protocol, metaclass=ABCMeta):
-    """This protocol enforce adapter usage for Lib connectors and Chains
+    """Adapter protocol to enforce usage of Lib connectors
 
     We don't know how each lib handle their connection to providers or endpoints for each networks
         - for web3 lib we have HTTP, ICP, Websocket
         - for algorand we can use AlgoClient to connect a node
 
     This probably cause an issue for standard usage, if we use an adapter we can wrap an existing
-    class with a new interface that we know.
+    class with a new standard interface that we know.
 
     Usage:
         class Web3HTTPProviderAdapter(Provider):
             def __call__(self):
                 ...any logic here
-                def connect(endpoint: Endpoint):
+                def connect(endpoint: URL):
                     return HTTPProvider(endpoint)
                 return connect
 
@@ -66,14 +67,14 @@ class Provider(Protocol, metaclass=ABCMeta):
         class AlgorandProviderAdapter(Provider):
             def __call__(self):
                 ...any logic here
-                def connect(endpoint: Endpoint):
+                def connect(endpoint: URL):
                     return algod.AlgodClient(endpoint)
                 return connect
 
 
         class AnyOtherProviderAdapter(Provider):
             def __call__(self):
-                def connect(endpoint: Endpoint):
+                def connect(endpoint: URL):
                     # Build here the connector logic
                 return connect
     """
@@ -84,80 +85,17 @@ class Provider(Protocol, metaclass=ABCMeta):
 
         This method will ensure that always we get the same interface for use in each corresponding network
 
-        :return: Connector is a callable Callable[Endpoint, ExpectedConnector]
+        :return: Connector is a callable Callable[URL, ExpectedConnector]
         :rtype: Connector
         """
         ...
 
 
-class Proxy(Protocol, metaclass=ABCMeta):
-    """This protocol pretends to enforce generically calls to unknown methods
-
-    eg.
-        # Contract can be any based on lib
-        # Every network lib expose in a different way the programmatic call to functions.
-
-        # using Web3
-        c = Contract()
-
-        # We don't know the accessor for functions for every lib
-        c.functions.mint() <- how can we handle `mint` for any different lib?
-
-        # So...
-        # probably we need an standard interface here to delegate calls?
-
-        c = Contract()
-        c.mint() # Does'nt matter how the call is made underneath
-
-    """
-
-    @abstractmethod
-    def __init__(self, interface: Any):
-        """Interface may be anything but MUST expose a subscriptable object to handle it"""
-        ...
-
-    @abstractmethod
-    def __getattr__(self, name: str) -> Callable[[Any], Any]:
-        """Control behavior for when a user attempts to access an attribute that doesn't exist
-
-        This method proxies/delegate the call to low level lib subscriptable object
-
-        # Example with web3 lib
-        class Web3Functions:
-            def __getattr__(self, name):
-                # Here the low level lib handle the function call to contract
-
-        # Underneath core lib web3
-        class Web3Contract:
-            functions = Web3Functions <- this is now an subscriptable object
-
-        # Our proxy is an subscriptable object too
-        contract = CustomContract(Proxy)
-
-        # In a transitive approach we delegate the call to our `favorite lib` using our "CustomContract"
-        contract.[myMethod]() <- this is not an existing method in our contract so we delegate the call to our lib contract functions
-
-        Usage:
-            class ProxyWeb3Contract(Proxy):
-                _interface: Contract
-
-                def __init__(self, interface: Contract):
-                    self._interface = interface
-
-                def __getattr__(self, name: str):
-                    return getattr(self._interface.functions, name)
-
-        :return: expected method to call in contract
-        :rtype: Callable[[Any], Any]
-
-        """
-        ...
-
 
 class Chain(Protocol, metaclass=ABCMeta):
     """Chain abstract class.
 
-    Hold/specify the artifacts/methods needed to interact with chain.
+    Adapt the artifacts/methods needed to interact with chain.
     Use this class to create chain subtypes.
 
     Usage:
@@ -183,11 +121,11 @@ class Chain(Protocol, metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def endpoint(self) -> Endpoint:
+    def endpoint(self) -> URL:
         """Return connection string to provider
 
-        :return: Endpoint to connect with provider
-        :rtype: Endpoint
+        :return: URL to connect with provider
+        :rtype: URL
         """
         ...
 

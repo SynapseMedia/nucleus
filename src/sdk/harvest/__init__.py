@@ -1,12 +1,12 @@
 from .types import Collector
-from .models import Model, Media, Meta
+from .models import Media, Meta, Codex
 from .collectors import merge, map, load
 
 
 __all__ = [
     "Media",
+    "Codex",
     "Meta",
-    "Model",
     "Collector",
     "load",
     "merge",

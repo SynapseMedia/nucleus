@@ -1,4 +1,4 @@
-from .nodejs import Script
+from .exec import script
 from .types import IPC
 
-__all__ = ("Script", "IPC")
+__all__ = ("script", "IPC")

@@ -8,14 +8,15 @@ from src.core.types import (
     Iterator,
     Protocol,
     Tuple,
-    Endpoint,
+    URL,
     NamedTuple,
+    NewType,
 )
 
 
 class Service(TypedDict):
-    service: str  # Service name. eg. pinata, filebase.
-    endpoint: Endpoint  # api endpoint provided by service
+    name: str  # Service name. eg. pinata, filebase.
+    endpoint: URL  # api endpoint provided by service
     key: Optional[str]  # auth key provided by service
 
 
@@ -35,6 +36,7 @@ class Dag(TypedDict):
 # so using "output" could be fine to expect always the same field to process.
 # eg. call.output
 # ref: docs.ipfs.io/reference/cli/#ipfs
+ID = NewType("ID", str)
 Result = NamedTuple("Result", output=Any)
 Services = TypedDict("Services", remote=Iterator[Service])
 LocalPin = TypedDict("Pin", pins=Sequence[str])

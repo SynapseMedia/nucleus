@@ -1,12 +1,9 @@
-
 import contextlib
 import PIL.Image as PIL
-import src.core.exceptions as exceptions
 
 # Convention for importing types
 from src.core.types import Iterator, Path
 from .types import Size, Sizes
-
 
 
 def check_ratio(image: PIL.Image, max_size: Size = Sizes.Large) -> bool:
@@ -23,7 +20,6 @@ def check_ratio(image: PIL.Image, max_size: Size = Sizes.Large) -> bool:
     # input image is smaller than "master".
     # We need to compare each ratio because we have an unexpected result
     is_input_less_than_master = any(x < y for x, y in zip(image.size, max_size))
-
     # Invalid image ratio height should be major than width
     return is_height_less_than_width or is_input_less_than_master
 
@@ -38,8 +34,4 @@ def input(input_image: Path) -> Iterator[PIL.Image]:
     :raises InvalidImageSize: if the image ratio is invalid
     """
 
-    with PIL.open(input_image) as image:
-        if check_ratio(image):
-            # Invalid image ratio height should be major than width
-            raise exceptions.InvalidImageSize()
-        yield image
+    yield PIL.open(input_image)

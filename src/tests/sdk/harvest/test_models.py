@@ -2,10 +2,10 @@ import copy
 
 from mock import patch
 from src.core.types import Any
-from src.sdk.harvest import Model
+from src.sdk.harvest import Codex
 
 
-def test_model_freeze(mock_models: Model, setup_database: Any):
+def test_model_freeze(mock_models: Codex, setup_database: Any):
     """Should commit a valid mutation of movies"""
     with patch("src.core.cache.database.sqlite3") as mock:
         conn = setup_database
@@ -14,14 +14,14 @@ def test_model_freeze(mock_models: Model, setup_database: Any):
         stored = mock_models.save()
 
         cursor = conn.cursor()
-        query = cursor.execute("SELECT m FROM models")
+        query = cursor.execute("SELECT m FROM codex")
         rows = query.fetchone()
 
         assert rows[0] == mock_models
         assert stored
 
 
-def test_movie_batch_freeze(mock_models: Model, setup_database: Any):
+def test_movie_batch_freeze(mock_models: Codex, setup_database: Any):
     """Should commit a batch mutation of movies"""
     with patch("src.core.cache.database.sqlite3") as mock:
         conn = setup_database
@@ -37,7 +37,7 @@ def test_movie_batch_freeze(mock_models: Model, setup_database: Any):
         assert all(saved)
 
 
-def test_movie_fetch_frozen(mock_models: Model, setup_database: Any):
+def test_movie_fetch_frozen(mock_models: Codex, setup_database: Any):
     """Should query a valid fetch of movies"""
     with patch("src.core.cache.database.sqlite3") as mock:
         conn = setup_database
@@ -51,7 +51,7 @@ def test_movie_fetch_frozen(mock_models: Model, setup_database: Any):
         assert movies == expected
 
 
-def test_movie_get_frozen(mock_models: Model, setup_database: Any):
+def test_movie_get_frozen(mock_models: Codex, setup_database: Any):
     """Should query a valid get of a movie"""
     with patch("src.core.cache.database.sqlite3") as mock:
         conn = setup_database
@@ -59,6 +59,6 @@ def test_movie_get_frozen(mock_models: Model, setup_database: Any):
 
         # store a movie
         mock_models.save()
-        result = Model.get()
+        result = Codex.get()
         movies = result
         assert movies == mock_models

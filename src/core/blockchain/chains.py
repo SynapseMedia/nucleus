@@ -1,6 +1,6 @@
 # Convention for importing types and constants
 from web3.providers.rpc import HTTPProvider
-from src.core.types import Endpoint
+from src.core.types import URL
 from .types import Chain, ChainID, Provider
 from .constants import (
     WALLET_KEY,
@@ -19,7 +19,7 @@ class Web3HTTPProviderAdapter(Provider):
     """
 
     def __call__(self):
-        def connect(endpoint: Endpoint) -> HTTPProvider:
+        def connect(endpoint: URL) -> HTTPProvider:
             # We could write any logic here
             return HTTPProvider(endpoint)
 
@@ -37,8 +37,8 @@ class Goerli(Chain):
         return ChainID.Goerli
 
     @property
-    def endpoint(self) -> Endpoint:
-        return f"{GOERLI_PROVIDER}/{GOERLI_ALCHEMY_API_KEY}"
+    def endpoint(self) -> URL:
+        return URL(f"{GOERLI_PROVIDER}/{GOERLI_ALCHEMY_API_KEY}")
 
     @property
     def provider(self):

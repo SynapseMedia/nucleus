@@ -1,6 +1,6 @@
 import json
 
-from src.sdk.harvest import Collector, Model
+from src.sdk.harvest import Collector, Codex, Media
 from src.tests._mock.models import Movie
 
 # class MyMeta(Meta):
@@ -23,5 +23,10 @@ class File(Collector):
         with open(source_file) as file:
             # read movies from json file
             for raw in json.load(file):
-                model = Model.annotate(metadata=Movie)
-                yield model.parse_obj(raw)
+                raw_movie = raw.get("metadata")
+                raw_media = raw.get("media")
+
+                yield Codex(
+                    metadata=Movie(**raw_movie),
+                    media=[Media(**m) for m in raw_media],
+                )

@@ -1,4 +1,4 @@
-from src.core.types import ID
+from .types import ID
 from .cmd import CLI
 
 

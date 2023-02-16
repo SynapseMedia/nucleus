@@ -3,13 +3,10 @@ from __future__ import annotations
 import pydantic
 import ast
 import sqlite3
-import validators  # type: ignore
-import cid  # type: ignore
-import pathlib
+
 import src.core.cache as cache
 
-
-from src.core.types import Any, Iterator, List, Type, Union, Tuple
+from src.core.types import Any, Iterator, Union, List, Type, Tuple, Path, URL, CID
 from src.core.cache import Cursor, Connection
 from .constants import INSERT, FETCH, MIGRATE
 
@@ -70,70 +67,12 @@ class _Manager:
         return cls._conn
 
 
-class Media(pydantic.BaseModel):
-    """Media define needed field for the multimedia assets schema."""
-
-    route: str
-    type: str
-
-
-    # TODO allow annotate engine based on type same as Model approach to extend capabilities
-    # eg. .annotate(engine=Engine(...))
-    @pydantic.validator("route")
-    def valid_route(cls, v: str):
-        is_path = pathlib.Path(v).exists()  # type: ignore
-        is_url = bool(validators.url(v))  # type: ignore
-        is_cid = bool(cid.is_cid(v))  # type: ignore
-
-        if not is_url and not is_path and not is_cid:
-            raise ValueError("Route must be a CID | URI | Path")
-
-        return v
-
-
-class Meta(pydantic.BaseModel):
-    class Config:
-        use_enum_values = True
-        validate_assignment = True
-
-    ...
-
-
 class Model(_Manager, pydantic.BaseModel):
     """Model based SQL manager"""
-
-    media: List[Media]
-    metadata: Meta
 
     def __init__(self, **kwargs: Any):
         super(Model, self).__init__(**kwargs)
         sqlite3.register_converter(self.alias, self.__convert__)
-
-    @classmethod
-    def annotate(cls, **kwargs: Any) -> Type[Model]:
-        """Enhance the model by annotating dynamically new properties types.
-
-        :return: enhanced model
-        :rtype: Type[Model]
-        """
-        cls = type(
-            cls.__name__,
-            (cls,),
-            {
-                **{"__annotations__": kwargs},
-                **{k: pydantic.Field(k) for k in kwargs.keys()},
-            },
-        )
-        return cls
-
-    @pydantic.validator("media", pre=True)
-    def serialize_media_pre(cls, v: Any):
-        """Pre serialize media to object"""
-        if isinstance(v, bytes):
-            parsed = ast.literal_eval(v.decode())
-            instances = map(lambda x: Media(**x), parsed)
-            return list(instances)
-        return v
 
     @classmethod
     def __convert__(cls, raw: bytes) -> Model:
@@ -147,7 +86,8 @@ class Model(_Manager, pydantic.BaseModel):
         """
 
         fields = cls.__fields__.keys()
-        values = map(ast.literal_eval, raw.decode().split(";"))
+        raw_values = raw.decode().split(";")
+        values = map(ast.literal_eval, raw_values)
         params = dict(zip(fields, values))
         return cls(**params)
 
@@ -208,3 +148,60 @@ class Model(_Manager, pydantic.BaseModel):
         stored = tuple(map(lambda x: x.save(), e))
         cls.conn.execute("COMMIT")
         return stored
+
+
+class Media(Model):
+    """Media define needed field for the multimedia assets schema."""
+
+    route: str
+    type: str
+
+    @pydantic.validator("route")
+    def valid_route(cls, v: str):
+        is_url = URL(v).valid()
+        is_cid = CID(v).valid()
+        is_path = Path(v).is_file()
+
+        if not is_url and not is_path and not is_cid:
+            raise ValueError("Route must be a CID | URI | Path")
+
+        return v
+
+
+class Meta(Model):
+    class Config:
+        use_enum_values = True
+        validate_assignment = True
+
+
+class Codex(Model):
+
+    media: List[Media]
+    metadata: Meta
+
+    @pydantic.validator("media", pre=True)
+    def serialize_media_pre(cls, v: Any):
+        """Pre serialize media to object"""
+        if isinstance(v, bytes):
+            parsed = ast.literal_eval(v.decode())
+            instances = map(lambda x: Media(**x), parsed)
+            return list(instances)
+        return v
+
+    @classmethod
+    def annotate(cls, **kwargs: Any) -> Type[Codex]:
+        """Dynamic typing for metadata from Codex subtypes.
+        Enhance the model by annotating new properties to it from a specific model.
+
+        :return: Enhanced codex
+        :rtype: Type[Codex]
+        """
+        cls = type(
+            "Codex",
+            (cls,),
+            {
+                **{"__annotations__": kwargs},
+                **{k: pydantic.Field(k) for k in kwargs.keys()},
+            },
+        )
+        return cls
