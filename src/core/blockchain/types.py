@@ -249,7 +249,6 @@ class Contract(Protocol, metaclass=ABCMeta):
     """
 
     _address: Address
-    _proxy: Proxy
 
     @abstractmethod
     def __init__(self, network: Network):
@@ -258,7 +257,9 @@ class Contract(Protocol, metaclass=ABCMeta):
 
     @abstractmethod
     def __getattr__(self, name: str) -> Any:
-        """Descriptor called when an attribute lookup has not found the attribute in the usual places"""
+        """Descriptor called when an attribute lookup has not found the attribute in the usual places
+        Its intended to use for dynamically invoke function in contracts.
+        """
         ...
 
     @property

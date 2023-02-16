@@ -1,5 +1,4 @@
-from .types import Collector
-from .models import Media, Meta, Codex
+from .types import Collector,  Media, Meta, Codex
 from .collectors import merge, map, load
 
 
