@@ -19,7 +19,7 @@ class Meta(Model):
 
 
 class Media(Model):
-    """Media define needed field for the multimedia assets schema.    
+    """Media implement needed field for the multimedia assets schema.    
     All derived class are used as types for dispatch actions.
     eg.
     
