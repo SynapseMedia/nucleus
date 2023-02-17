@@ -27,6 +27,6 @@ class File(Collector):
                 raw_media = raw.get("media")
 
                 yield Collection(
-                    metadata=Movie(**raw_movie),
-                    media=[Image(**m) for m in raw_media],
+                    metadata=Movie.parse_obj(raw_movie),
+                    media=[Image.parse_obj(m) for m in raw_media],
                 )
