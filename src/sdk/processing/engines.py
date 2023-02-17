@@ -1,15 +1,8 @@
-from src.sdk.harvest import Media
+from src.sdk.harvest import Video, Image
+from src.sdk.harvest.types import Media
 from functools import singledispatch
 
 # from .types import Engine
-
-
-class Video:
-    ...
-
-
-class Image:
-    ...
 
 
 @singledispatch
