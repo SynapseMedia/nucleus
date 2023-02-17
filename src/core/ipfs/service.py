@@ -2,6 +2,7 @@ from .cmd import CLI
 from .types import Services, Service
 from src.core.types import URL
 
+
 def ls() -> Services:
     """Return registered services
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-service-ls

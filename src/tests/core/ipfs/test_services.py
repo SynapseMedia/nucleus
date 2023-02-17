@@ -23,10 +23,7 @@ def test_register_service(mocker: Any):
     """Should return a valid output for valid service registration"""
 
     register_service = Service(
-       name= "edge",
-        endpoint= URL("http://localhost"),
-        key="abc123"
-
+        name="edge", endpoint=URL("http://localhost"), key="abc123"
     )
 
     class MockCLI:
@@ -67,7 +64,8 @@ def test_services(mocker: Any):
     services_iter = map(
         lambda x: Service(
             name=x["Service"],
-            endpoint=URL(x["ApiEndpoint"]),
+            endpoint=URL(
+                x["ApiEndpoint"]),
             key=None),
         expected_services,
     )

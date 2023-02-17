@@ -1,4 +1,4 @@
-from src.sdk.harvest import Collector, Codex
+from src.sdk.harvest import Collector, Collection, Image
 from src.tests._mock.models import Movie
 
 
@@ -35,5 +35,10 @@ class Dummy(Collector):
 
         for raw in dummy_data:
             # how should we handle metadata?
-            annotated_model = Codex.annotate(metadata=Movie)
-            yield annotated_model.parse_obj(raw)
+            raw_movie = raw.get("metadata")
+            raw_media = raw.get("media", [])
+
+            yield Collection(
+                metadata=Movie.parse_obj(raw_movie),
+                media=[Image.parse_obj(m) for m in raw_media],
+            )

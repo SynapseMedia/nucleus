@@ -1,10 +1,10 @@
-from .types import Collector,  Media, Meta, Codex
+from .media import *  # type: ignore
+from .types import Collector, Meta, Collection
 from .collectors import merge, map, load
 
 
 __all__ = [
-    "Media",
-    "Codex",
+    "Collection",
     "Meta",
     "Collector",
     "load",

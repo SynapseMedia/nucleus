@@ -6,16 +6,16 @@ import itertools
 from collections import defaultdict
 from src.core.types import Iterator, Any, Mapping
 from .constants import COLLECTORS_PATH
-from .types import Collector, Codex
+from .types import Collector, Collection
 
 
-def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[Codex]]:
+def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[Collection]]:
     """Returns a map of collectors.
     Map collectors using name as key and the metadata content as value list.
 
     :param collectors: collector iterator
     :return: mapped collected data using the name of collector as key and value with meta provided.
-    :rtype: Mapping[str, Iterator[Codex]]
+    :rtype: Mapping[str, Iterator[Collection]]
     """
 
     mapped: Any = defaultdict(list)
@@ -25,12 +25,12 @@ def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[Codex]]:
     return mapped
 
 
-def merge(collectors: Iterator[Collector]) -> Iterator[Codex]:
+def merge(collectors: Iterator[Collector]) -> Iterator[Collection]:
     """Returns merged collectors.
 
     :param collectors: Collector iterator
     :return: merged collectors
-    :rtype: Iterator[Codex]
+    :rtype: Iterator[Collection]
     """
 
     return itertools.chain.from_iterable(collectors)

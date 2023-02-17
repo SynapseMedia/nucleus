@@ -1,7 +1,7 @@
 import pytest
 
 from src.core.types import Any
-from src.sdk.harvest import Codex
+from src.sdk.harvest import Collection, Image
 
 from src.tests._mock.models import Movie
 
@@ -35,7 +35,6 @@ def mock_raw_entry():
 
 @pytest.fixture
 def mock_models(mock_raw_entry: Any, mock_raw_media: Any):
-    annotated_model = Codex.annotate(metadata=Movie)
-    return annotated_model.parse_obj(
-        {"metadata": mock_raw_entry, "media": [mock_raw_media]}
-    )
+    metadata = Movie.parse_obj(mock_raw_entry)
+    media = Image.parse_obj(mock_raw_media)
+    return Collection(metadata=metadata, media=[media])
