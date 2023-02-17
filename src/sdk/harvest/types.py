@@ -35,7 +35,7 @@ class Media(Model):
         def _(model: Video):
             ...
         
-        process(Video)    
+        process(video)    
     """
 
     route: Union[URL, CID, Path]
