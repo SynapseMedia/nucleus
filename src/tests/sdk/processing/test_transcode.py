@@ -88,7 +88,7 @@ def test_valid_input(mocker: Any):
         "src.sdk.processing.transcode.video.VideoInput",
         return_value=MockInput(Path("test")),
     )
-    
+
     input_ = transcode.input(Path("test"))
     assert input_.get_size().width == 100
     assert input_.get_size().height == 100
