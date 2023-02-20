@@ -8,7 +8,7 @@ import pickle
 import src.core.cache as cache
 
 # Convention for importing constants/types
-from src.core.types import Any, Iterator, Union, Tuple
+from src.core.types import Any, Iterator
 from src.core.cache import Cursor, Connection
 from .constants import INSERT, FETCH, MIGRATE
 
@@ -109,18 +109,3 @@ class Model(_Manager, pydantic.BaseModel):
 
         cursor: Cursor = self.conn.execute(self.mutate(), (self,))
         return cursor.lastrowid
-
-    @classmethod
-    def batch_save(cls, e: Iterator[Model]) -> Tuple[Union[int, None]]:
-        """Exec batch insertion into database
-        WARN: This execution its handled by a loop
-
-        :param e: Entries to insert into database.
-        :return: Tuple of row ids for each inserted entry.
-        :rtype: Tuple[Union[int, None]]
-        """
-
-        cls.conn.execute("BEGIN TRANSACTION")
-        stored = tuple(map(lambda x: x.save(), e))
-        cls.conn.execute("COMMIT")
-        return stored

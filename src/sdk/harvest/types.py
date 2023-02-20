@@ -6,7 +6,10 @@ import ast
 
 # Convention for importing constants/types
 from abc import ABC, abstractmethod
-from src.core.types import Any, Iterator, Union, List, Path, URL, CID
+from pydantic import HttpUrl, FilePath
+from src.core.types import Any, Iterator, Union, List
+
+from .fields import CIDString
 from .model import Model
 
 
@@ -19,41 +22,32 @@ class Meta(Model):
 
 
 class Media(Model):
-    """Media implement needed field for the multimedia assets schema.    
+    """Media implement needed field for the multimedia assets schema.
     All derived class are used as types for dispatch actions.
     eg.
-    
+
         class Video(Media):
             type: Literal["video"] = "video"
-        
-        
+
+
         @singledispatch
         def process(model: Media):
             raise NotImplementedError()
-        
+
         @process.register
         def _(model: Video):
             ...
-        
-        process(video)    
+
+        process(video)
     """
 
-    route: Union[URL, CID, Path]
+    route: Union[HttpUrl, FilePath, CIDString]
     type: str
-
-    @pydantic.validator("route")
-    def valid_route(cls, v: str):
-        is_url = URL(v).valid()
-        is_cid = CID(v).valid()
-        is_path = Path(v).is_file()
-
-        if not is_url and not is_path and not is_cid:
-            raise ValueError("Route must be a CID | URI | Path")
-
-        return v
 
 
 class Collection(Model):
+
+    """The purpose of Collection is to link the metadata and it corresponding media"""
 
     media: List[Media]
     metadata: Meta
