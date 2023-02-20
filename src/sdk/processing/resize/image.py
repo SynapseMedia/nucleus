@@ -2,7 +2,7 @@ import PIL.Image as PIL
 
 # Convention for importing types
 from src.core.types import Path, Any
-from .types import Size, Sizes, ImageInput
+from .types import Size, Sizes, Input
 
 
 def check_ratio(image: PIL.Image, max_size: Size = Sizes.Large) -> bool:
@@ -25,7 +25,7 @@ def check_ratio(image: PIL.Image, max_size: Size = Sizes.Large) -> bool:
     return is_height_less_than_width or is_input_less_than_master
 
 
-def input(input_image: Path, **options: Any) -> ImageInput:
+def input(input_image: Path, **options: Any) -> Input:
     """Factory Image
 
     :param input_image: Path to image

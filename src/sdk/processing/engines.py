@@ -1,8 +1,10 @@
 from src.core.types import Path, Any
+
 from .resize import input as image_input
-from .resize.types import ImageInput
+from .resize.types import Input as ImageInput
 from .transcode import HLS, DASH, input as video_input
-from .transcode.types import VideoInput
+from .transcode.types import Input as VideoInput
+
 from .types import Engine
 
 
@@ -31,8 +33,7 @@ class VideoEngine(Engine):
             return getattr(self._input, name)
 
         ffinput = self._input.get_media()  # get input media to process
-        return dict(zip(self.__protocols__, (HLS(ffinput), DASH(ffinput))))[
-            name]
+        return dict(zip(self.__protocols__, (HLS(ffinput), DASH(ffinput))))[name]
 
     def __exit__(self, *args: Any):
         ...
