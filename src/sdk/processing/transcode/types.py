@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 from abc import abstractmethod, ABCMeta
 
+# Convention for importing types and constants
 from ffmpeg_streaming._format import H264, VP9  # type: ignore
 from ffmpeg_streaming._input import Input as FFInput  # type: ignore
+from ffmpeg_streaming import input as ffinput, FFProbe  # type: ignore
 from ffmpeg_streaming import Bitrate, Representation, Size, Format, Formats, FFProbe  # type: ignore
 from src.core.types import Protocol, Any, Sequence, Path
 
@@ -39,18 +41,28 @@ class Representations:
     R4k = Representation(Sizes.Q4k, BRS.B4k)
 
 
-class Input(Protocol, metaclass=ABCMeta):
-    """Protocol to give control over FFmpeg input.
+class VideoInput:
+    """Adapter to give control over FFmpeg input.
 
     This class is designed to process one video file at time
     """
 
     _media: FFInput
     _probe: FFProbe
+    _path: Path
 
-    @abstractmethod
     def __init__(self, input_file: Path, **options: Any):
-        ...
+        self._path = input_file
+        self._probe = FFProbe(input_file)
+        self._media = ffinput(input_file, **options)
+
+    def get_path(self) -> Path:
+        """Return current input directory
+
+        :return: Directory string representation
+        :rtype: Directory
+        """
+        return self._path
 
     def get_media(self) -> FFInput:
         """Return current file FFMPEG input
@@ -58,27 +70,16 @@ class Input(Protocol, metaclass=ABCMeta):
         :return" FFMPEG wrapped file
         :rtype: FFInput
         """
-        ...
+        return self._media
 
-    @abstractmethod
-    def get_path(self) -> Path:
-        """Return current input directory
-
-        :return: Directory string representation
-        :rtype: Directory
-        """
-        ...
-
-    @abstractmethod
     def get_size(self) -> Size:
         """Return video size
 
         :return: Video size from input file
         :rtype: Size
         """
-        ...
+        return self._probe.video_size
 
-    @abstractmethod
     def get_duration(self) -> float:
         """Get video time duration
 
@@ -86,12 +87,14 @@ class Input(Protocol, metaclass=ABCMeta):
         :return: duration in seconds
         :rtype: float
         """
-        ...
+
+        format_ = self._probe.format()
+        return float(format_.get("duration", 0))
 
 
 class Streaming(Protocol, metaclass=ABCMeta):
     @abstractmethod
-    def __init__(self, input: Input):
+    def __init__(self, input: VideoInput):
         ...
 
     @abstractmethod

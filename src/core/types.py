@@ -126,7 +126,7 @@ class _ExtensibleStr(str):
 
 
 class CID(_ExtensibleStr):
-    """Enhanced string type extended with features needed to handle CIDs"""
+    """Enhanced bridge string type extended with features needed to handle CIDs"""
 
     _cid: Union[cid.CIDv0, cid.CIDv1]
 
@@ -147,7 +147,7 @@ class CID(_ExtensibleStr):
 
 
 class URL(_ExtensibleStr):
-    """Enhanced string type extended with features needed to handle urls
+    """Enhanced bridge string type extended with features needed to handle urls
     ref: https://docs.python.org/3/library/urllib.parse.html#module-urllib.parse
     """
 
@@ -173,7 +173,7 @@ class URL(_ExtensibleStr):
 
 class Path(_ExtensibleStr):
 
-    """Enhanced string type extended with features needed to handle paths"""
+    """Enhanced bridge string type extended with features needed to handle paths"""
 
     _path: pathlib.Path
 

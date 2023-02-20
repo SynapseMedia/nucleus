@@ -6,7 +6,7 @@ from src.core.types import Any, Path
 from src.sdk.processing.transcode.types import (
     Representations as REPR,
     Sizes,
-    Input,
+    VideoInput,
     Size,
 )
 
@@ -26,7 +26,7 @@ class MockMedia:
         return method  # type: ignore
 
 
-class MockInput(Input):
+class MockInput(VideoInput):
     def __init__(self, input: Path, **options: Any):
         self._media = MockMedia()  # type: ignore
         self._probe = MockFFProbe()  # type: ignore
