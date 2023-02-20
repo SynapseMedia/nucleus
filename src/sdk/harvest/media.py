@@ -1,5 +1,5 @@
 from src.core.types import Literal
-from .types import Media
+from .model import Media
 
 
 class Video(Media):

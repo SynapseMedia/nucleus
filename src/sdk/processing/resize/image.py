@@ -1,9 +1,8 @@
-import contextlib
 import PIL.Image as PIL
 
 # Convention for importing types
-from src.core.types import Iterator, Path
-from .types import Size, Sizes
+from src.core.types import Path, Any
+from .types import Size, Sizes, ImageInput
 
 
 def check_ratio(image: PIL.Image, max_size: Size = Sizes.Large) -> bool:
@@ -26,8 +25,7 @@ def check_ratio(image: PIL.Image, max_size: Size = Sizes.Large) -> bool:
     return is_height_less_than_width or is_input_less_than_master
 
 
-@contextlib.contextmanager
-def input(input_image: Path) -> Iterator[PIL.Image]:
+def input(input_image: Path, **options: Any) -> ImageInput:
     """Factory Image
 
     :param input_image: Path to image
@@ -36,4 +34,4 @@ def input(input_image: Path) -> Iterator[PIL.Image]:
     :raises InvalidImageSize: if the image ratio is invalid
     """
 
-    yield PIL.open(input_image)
+    return PIL.open(input_image, **options)

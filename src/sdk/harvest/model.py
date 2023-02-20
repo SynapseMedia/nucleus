@@ -1,15 +1,19 @@
 from __future__ import annotations
 
 
+import ast
 import pydantic
 import sqlite3
 import pickle
 import src.core.cache as cache
 
 # Convention for importing constants/types
-from src.core.types import Any, Iterator
+from pydantic import HttpUrl, FilePath
+from src.core.types import Any, Iterator, Union, List
 from src.core.cache import Cursor, Connection
+
 from .constants import INSERT, FETCH, MIGRATE
+from .fields import CIDString
 
 
 class _Manager:
@@ -109,3 +113,52 @@ class Model(_Manager, pydantic.BaseModel):
 
         cursor: Cursor = self.conn.execute(self.mutate(), (self,))
         return cursor.lastrowid
+
+
+class Meta(Model):
+    """Abstract metadata model"""
+
+    class Config:
+        use_enum_values = True
+        validate_assignment = True
+
+
+class Media(Model):
+    """Media implement needed field for the multimedia assets schema.
+    All derived class are used as types for dispatch actions.
+    eg.
+
+        class Video(Media):
+            type: Literal["video"] = "video"
+
+
+        @singledispatch
+        def process(model: Media):
+            raise NotImplementedError()
+
+        @process.register
+        def _(model: Video):
+            ...
+
+        process(video)
+    """
+
+    route: Union[HttpUrl, FilePath, CIDString]
+    type: str
+
+
+class Collection(Model):
+
+    """The purpose of Collection is to link the metadata and it corresponding media"""
+
+    media: List[Media]
+    metadata: Meta
+
+    @pydantic.validator("media", pre=True)
+    def serialize_media_pre(cls, v: Any):
+        """Pre serialize media to object"""
+        if isinstance(v, bytes):
+            parsed = ast.literal_eval(v.decode())
+            instances = map(lambda x: Media(**x), parsed)
+            return list(instances)
+        return v

@@ -3,7 +3,7 @@ import src.sdk.logger as logger
 
 # Convention for importing types
 from src.core.types import Sequence, Any, Path
-from .types import Streaming, Representation, Formats, Input
+from .types import Streaming, Representation, Formats, FFInput
 
 
 def _output(_, duration: int, time_: int, time_left: int):
@@ -21,8 +21,8 @@ def _output(_, duration: int, time_: int, time_left: int):
 
 
 class HLS(Streaming):
-    def __init__(self, input: Input, **kwargs: Any):
-        self._hls = input.get_media().hls(self.codec, **kwargs)  # type: ignore
+    def __init__(self, input: FFInput, **kwargs: Any):
+        self._hls = input.hls(self.codec, **kwargs)  # type: ignore
         self._hls.auto_generate_representations()
 
     def set_representations(self, repr: Sequence[Representation]):
@@ -37,8 +37,8 @@ class HLS(Streaming):
 
 
 class DASH(Streaming):
-    def __init__(self, input: Input, **kwargs: Any):
-        self._dash = input.get_media().dash(self.codec, **kwargs)  # type: ignore
+    def __init__(self, input: FFInput, **kwargs: Any):
+        self._dash = input.dash(self.codec, **kwargs)  # type: ignore
         self._dash.auto_generate_representations()
 
     def set_representations(self, repr: Sequence[Representation]):

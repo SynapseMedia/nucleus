@@ -1,8 +1,10 @@
 import dataclasses
+import PIL.Image as PIL
 
 from src.core.types import Tuple
 
 Size = Tuple[int, int]
+ImageInput = PIL.Image
 
 
 @dataclasses.dataclass(frozen=True)
