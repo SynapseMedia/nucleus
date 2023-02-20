@@ -41,7 +41,7 @@ class Representations:
     R4k = Representation(Sizes.Q4k, BRS.B4k)
 
 
-class VideoInput:
+class Input:
     """Adapter to give control over FFmpeg input.
 
     This class is designed to process one video file at time
@@ -94,7 +94,7 @@ class VideoInput:
 
 class Streaming(Protocol, metaclass=ABCMeta):
     @abstractmethod
-    def __init__(self, input: VideoInput):
+    def __init__(self, input: Input):
         ...
 
     @abstractmethod

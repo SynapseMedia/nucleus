@@ -1,7 +1,7 @@
 import src.core.exceptions as exceptions
 
 from src.core.types import Any, Mapping, Sequence, Path
-from .types import VideoInput, Representation, Representations as REPR, Size, Sizes
+from .types import Input, Representation, Representations as REPR, Size, Sizes
 from .constants import MAX_MUXING_QUEUE_SIZE
 
 
@@ -36,14 +36,14 @@ def quality(size: Size) -> Sequence[Representation]:
     return representations[size]
 
 
-def input(input_file: Path, **options: Any) -> VideoInput:
+def input(input_file: Path, **options: Any) -> Input:
     """Factory ffmpeg input interface from file
 
     :param input_file: Path to video
     :return: Input interface
     :rtype: Input
     """
-    return VideoInput(
+    return Input(
         input_file,  # file path to process
         max_muxing_queue_size=MAX_MUXING_QUEUE_SIZE,
         **options
