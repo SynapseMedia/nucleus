@@ -1,5 +1,4 @@
 import os
-import src.core.fs as fs
 import src.core.cache.database as database
 
 from mock import patch
@@ -29,5 +28,5 @@ def test_valid_connection_for_valid_file():
     """Should instance a valid connection with valid input file db"""
     with database.connection(TEST_DB) as conn:
         assert conn.cursor() is not None
-        assert fs.exists(Path(TEST_DB)) is True
+        assert Path(TEST_DB).exists() is True
         os.remove(TEST_DB)
