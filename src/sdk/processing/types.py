@@ -35,6 +35,6 @@ class Engine(Protocol, metaclass=ABCMeta):
         """Delegate calls to any internal processing logic"""
 
     @abstractmethod
-    def __exit__(self):
+    def __exit__(self, *args: Any):
         """Defines what the context manager should do after its block has been executed (or terminates)"""
         ...
