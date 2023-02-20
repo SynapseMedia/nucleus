@@ -85,11 +85,12 @@ def test_invalid_quality():
 def test_valid_input(mocker: Any):
     """Should instance a valid input"""
     mocker.patch(
-        "src.sdk.processing.transcode.ffmpeg.VideoInput",
+        "src.sdk.processing.transcode.video.VideoInput",
         return_value=MockInput(Path("test")),
     )
-    with transcode.input(Path("test")) as _input:
-        assert _input.get_size().width == 100
-        assert _input.get_size().height == 100
-        assert _input.get_path() == Path("test")
-        assert _input.get_duration() == 10.1
+    
+    input_ = transcode.input(Path("test"))
+    assert input_.get_size().width == 100
+    assert input_.get_size().height == 100
+    assert input_.get_path() == Path("test")
+    assert input_.get_duration() == 10.1
