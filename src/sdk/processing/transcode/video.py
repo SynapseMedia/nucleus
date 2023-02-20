@@ -1,6 +1,6 @@
 import src.core.exceptions as exceptions
 
-from src.core.types import  Any, Mapping, Sequence, Path
+from src.core.types import Any, Mapping, Sequence, Path
 from .types import VideoInput, Representation, Representations as REPR, Size, Sizes
 from .constants import MAX_MUXING_QUEUE_SIZE
 
@@ -34,7 +34,6 @@ def quality(size: Size) -> Sequence[Representation]:
     if size not in representations:
         raise exceptions.InvalidVideoQuality()
     return representations[size]
-
 
 
 def input(input_file: Path, **options: Any) -> VideoInput:
