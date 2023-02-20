@@ -31,7 +31,8 @@ class VideoEngine(Engine):
             return getattr(self._input, name)
 
         ffinput = self._input.get_media()  # get input media to process
-        return dict(zip(self.__protocols__, (HLS(ffinput), DASH(ffinput))))[name]
+        return dict(zip(self.__protocols__, (HLS(ffinput), DASH(ffinput))))[
+            name]
 
     def __exit__(self, *args: Any):
         ...
@@ -60,4 +61,3 @@ class ImageEngine(Engine):
 
     def __exit__(self, *args: Any):
         self._input.close()
-        

@@ -7,8 +7,6 @@ from src.sdk.harvest.model import Media
 from .engines import VideoEngine, ImageEngine
 from .types import Engine
 
-# from .types import Engine
-
 
 @singledispatch
 def process(model: Media) -> Engine:
