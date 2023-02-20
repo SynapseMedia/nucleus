@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 
@@ -11,6 +10,7 @@ import src.core.cache as cache
 from src.core.types import Any, Iterator
 from src.core.cache import Cursor, Connection
 from .constants import INSERT, FETCH, MIGRATE
+
 
 class _Manager:
     """SQL manager for managing database connections and queries.
