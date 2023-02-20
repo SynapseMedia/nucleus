@@ -85,7 +85,7 @@ def test_invalid_quality():
 def test_valid_input(mocker: Any):
     """Should instance a valid input"""
     mocker.patch(
-        "src.sdk.processing.transcode.video.VideoInput",
+        "src.sdk.processing.transcode.video.Input",
         return_value=MockInput(Path("test")),
     )
 
