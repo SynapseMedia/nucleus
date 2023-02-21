@@ -1,5 +1,3 @@
-import ffmpeg  # type: ignore
-
 from src.core.types import Any, Path
 from .types import Input
 
@@ -11,4 +9,4 @@ def input(input_file: Path, **options: Any) -> Input:
     :return: Input interface
     :rtype: Input
     """
-    return ffmpeg.input(input_file, **options)  # type: ignore
+    return Input(input_file, **options)  # type: ignore

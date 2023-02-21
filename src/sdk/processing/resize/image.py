@@ -5,7 +5,7 @@ from src.core.types import Path, Any
 from .types import Size, Sizes, Input
 
 
-def check_ratio(image: PIL.Image, max_size: Size = Sizes.Large) -> bool:
+def check_ratio(image: Input, max_size: Size = Sizes.Large) -> bool:
     """Validate ratio for image
 
     :param image: Image to validate
