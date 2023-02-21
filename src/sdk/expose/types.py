@@ -1,9 +1,9 @@
-import pydantic
+from src.sdk.harvest.model import Model
+from src.sdk.harvest.fields import CIDString
 
 
-class Codex(pydantic.BaseModel):
+class Codex(Model):
     signature: str
     publicKey: str
-    hash: str
-    media: str
-    metadata: str
+    media: CIDString
+    metadata: CIDString
