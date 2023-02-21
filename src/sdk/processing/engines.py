@@ -1,7 +1,7 @@
 from src.core.types import Path, Any
 
 from .resize import input as image_input, Input as ImageInput
-from .streaming import input as stream_input, Streaming as StreamInput
+from .stream import input as stream_input, Input as StreamInput
 from .transcode import input as video_input, Input as VideoInput
 
 from .types import Engine
@@ -27,7 +27,7 @@ class StreamEngine(Engine):
         return getattr(self._input, name)
 
     def __exit__(self, *args: Any):
-        ...
+        self._input.terminate()
 
 
 class VideoEngine(Engine):
