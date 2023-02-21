@@ -92,19 +92,21 @@ class Input:
 
         return self
 
-    def transcode(self, output_dir: Path, **kwargs: Any) -> Stream:
+    def transcode(self, output_dir: Path, **kwargs: Any):
         """Start transcoding process
         :param output_dir: the dir to store resulting video
         :return: stream gear object
         :rtype: Stream
         """
-        streamer = Stream(
+        self._stream = Stream(
             output=output_dir,
             format=self._protocol,
             **kwargs,
             **self._params,
         )
-        
-        streamer.transcode_source()
-        streamer.terminate()
-        return streamer
+
+        # run transcoding process
+        self._stream.transcode_source()
+
+    def terminate(self):
+        self._stream.terminate()
