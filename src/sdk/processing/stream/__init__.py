@@ -1,4 +1,4 @@
-from .stream import input, Streaming as Input
-from .types import Sizes, Quality, FPS
+from .stream import input
+from .types import Sizes, Quality, FPS, Input
 
 __all__ = ("input", "Sizes", "Quality", "FPS", "Input")
