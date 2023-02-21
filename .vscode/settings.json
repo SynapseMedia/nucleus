@@ -28,6 +28,7 @@
         "tracebacks",
         "Tsize",
         "verboselogs",
+        "vidgear",
         "watchit"
     ],
     "python.testing.pytestArgs": [

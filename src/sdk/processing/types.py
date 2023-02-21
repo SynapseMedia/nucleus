@@ -3,7 +3,7 @@ from src.core.types import Protocol, Any, Path
 
 
 class Engine(Protocol, metaclass=ABCMeta):
-    """Abstract middleware class to handle standard actions for media processing.
+    """Abstract proxy adapter class to handle standard actions for media processing.
 
     Any type of input, for example, video, image, music, etc., needs some type of processing to be transmitted or consumed.
     We could define any steps or logic needed to process our media.

@@ -1,20 +1,41 @@
 from src.core.types import Path, Any
 
-from .resize import input as image_input
-from .resize.types import Input as ImageInput
-from .transcode import HLS, DASH, input as video_input
-from .transcode.types import Input as VideoInput
+from .resize import input as image_input, Input as ImageInput
+from .streaming import input as stream_input, Streaming as StreamInput
+from .transcode import input as video_input, Input as VideoInput
 
 from .types import Engine
 
 
+class StreamEngine(Engine):
+    """Streaming engine to support video streaming transcoding"""
+
+    _path: Path
+    _input: StreamInput
+    _options: Any
+
+    def __init__(self, path: Path):
+        self.path = path
+
+    def __enter__(self):
+        self._input = stream_input(self._path, **self._options)
+
+    def __call__(self, **options: Any):
+        self._options = options
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self._input, name)
+
+    def __exit__(self, *args: Any):
+        ...
+
+
 class VideoEngine(Engine):
+    """Video engine to support low level transcoding using ffmpeg"""
 
     _path: Path
     _input: VideoInput
     _options: Any
-
-    __protocols__ = ("to_hls", "to_dash")
 
     def __init__(self, path: Path):
         self.path = path
@@ -26,20 +47,17 @@ class VideoEngine(Engine):
         self._options = options
 
     def __getattr__(self, name: str) -> Any:
-        """We extend methods from ffmpeg lib adding our "out of the box" protocols
+        """We could interact directly with ffmpeg methods
         ref: https://github.com/kkroening/ffmpeg-python
         """
-        if name not in self.__protocols__:
-            return getattr(self._input, name)
-
-        ffinput = self._input.get_media()  # get input media to process
-        return dict(zip(self.__protocols__, (HLS(ffinput), DASH(ffinput))))[name]
+        return getattr(self._input, name)
 
     def __exit__(self, *args: Any):
         ...
 
 
 class ImageEngine(Engine):
+    """Image engine to support image processing using Pillow"""
 
     _path: Path
     _input: ImageInput
