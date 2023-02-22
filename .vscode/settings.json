@@ -27,6 +27,7 @@
         "tqdm",
         "tracebacks",
         "Tsize",
+        "vcodec",
         "verboselogs",
         "vidgear",
         "watchit"

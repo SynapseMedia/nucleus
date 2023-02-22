@@ -1,5 +1,4 @@
 import os
 
 RUNTIME_DIRECTORY = os.getenv("RUNTIME_DIRECTORY")
-RAW_PATH = os.getenv("RAW_DIRECTORY")
-PROD_PATH = os.getenv("PROD_DIRECTORY")
+TMP_PATH = os.getenv("TMP_DIRECTORY")

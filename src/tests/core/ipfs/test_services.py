@@ -1,6 +1,5 @@
 import pytest
 import src.core.ipfs.service as service
-import src.core.exceptions as exceptions
 
 from src.core.ipfs.types import Service, Services, Result
 from src.core.types import Any, URL
@@ -16,7 +15,7 @@ class MockFailingCLI:
 
     def __call__(self):
         # Check for raising error for any resulting fail
-        raise exceptions.IPFSFailedExecution(self.msg)
+        raise RuntimeError(self.msg)
 
 
 def test_register_service(mocker: Any):
@@ -86,5 +85,5 @@ def test_invalid_register_service(mocker: Any):
     # Simulating an error returned by ipfs invalid service
     expected_issue = "Error: service already present"
     mocker.patch(PATH_CLI_PATCH, return_value=MockFailingCLI(expected_issue))
-    with pytest.raises(exceptions.IPFSFailedExecution):
+    with pytest.raises(RuntimeError):
         service.register(register_service)

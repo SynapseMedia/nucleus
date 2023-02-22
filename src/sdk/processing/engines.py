@@ -1,76 +1,54 @@
 from src.core.types import Path, Any
 
-from .resize import input as image_input, Input as ImageInput
-from .stream import input as stream_input, Input as StreamInput
-from .transcode import input as video_input, Input as VideoInput
-
+from .resize import input as image_input, Image as ImageInput
+from .stream import input as stream_input, Streaming as StreamInput
+from .transcode import input as video_input, InputNode as VideoInput
 from .types import Engine
 
 
 class StreamEngine(Engine):
-    """Streaming engine to support video streaming transcoding"""
+    """Streaming engine to support streaming transcoding using StreamGear"""
 
-    _path: Path
     _input: StreamInput
-    _options: Any
 
-    def __init__(self, path: Path):
-        self.path = path
-
-    def __enter__(self):
-        self._input = stream_input(self._path, **self._options)
-
-    def __call__(self, **options: Any):
-        self._options = options
+    def __init__(self, path: Path, **options: Any):
+        self._input = stream_input(path, **options)
 
     def __getattr__(self, name: str) -> Any:
         return getattr(self._input, name)
 
-    def __exit__(self, *args: Any):
-        self._input.terminate()
+    def output(self, path: Path) -> Path:
+        self._input.stream(path).transcode()
+        return path
 
 
 class VideoEngine(Engine):
     """Video engine to support low level transcoding using ffmpeg"""
 
-    _path: Path
     _input: VideoInput
-    _options: Any
 
-    def __init__(self, path: Path):
-        self.path = path
-
-    def __enter__(self):
-        self._input = video_input(self._path, **self._options)
-
-    def __call__(self, **options: Any):
-        self._options = options
+    def __init__(self, path: Path, **options: Any):
+        self._input = video_input(path, **options)
 
     def __getattr__(self, name: str) -> Any:
         """We could interact directly with ffmpeg methods
         ref: https://github.com/kkroening/ffmpeg-python
+        ref: https://ffmpeg.org/ffmpeg-all.html
         """
         return getattr(self._input, name)
 
-    def __exit__(self, *args: Any):
-        ...
+    def output(self, path: Path) -> Path:
+        self._input.output(path).run()  # type: ignore
+        return path
 
 
 class ImageEngine(Engine):
     """Image engine to support image processing using Pillow"""
 
-    _path: Path
     _input: ImageInput
-    _options: Any
 
-    def __init__(self, path: Path):
-        self.path = path
-
-    def __enter__(self):
-        self._input = image_input(self._path, **self._options)
-
-    def __call__(self, **options: Any):
-        self._options = options
+    def __init__(self, path: Path, **options: Any):
+        self._input = image_input(path, **options)
 
     def __getattr__(self, name: str) -> Any:
         """We could interact directly with Pillow methods
@@ -78,5 +56,9 @@ class ImageEngine(Engine):
         """
         return getattr(self._input, name)
 
-    def __exit__(self, *args: Any):
-        self._input.close()
+    def output(self, path: Path):
+        self._input.save(path)
+        return path
+
+
+__all__ = ("VideoEngine", "ImageEngine", "StreamEngine")

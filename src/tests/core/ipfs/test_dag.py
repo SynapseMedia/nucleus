@@ -1,6 +1,5 @@
 import pytest
 import src.core.ipfs.dag as dag
-import src.core.exceptions as exceptions
 
 from src.core.ipfs.types import Result
 from src.core.types import Any, CID
@@ -51,7 +50,7 @@ def test_invalid_dag_get(mocker: Any):
 
         def __call__(self):
             # Check for raising error for any resulting fail
-            raise exceptions.IPFSFailedExecution(self.msg)
+            raise RuntimeError(self.msg)
 
     duplicated_cid = "abcde"
     # Simulating an error returned by ipfs invalid cid
@@ -59,5 +58,5 @@ def test_invalid_dag_get(mocker: Any):
     mocker.patch(
         "src.core.ipfs.dag.CLI",
         return_value=MockFailingCLI(expected_issue))
-    with pytest.raises(exceptions.IPFSFailedExecution):
+    with pytest.raises(RuntimeError):
         dag.get(CID(duplicated_cid))
