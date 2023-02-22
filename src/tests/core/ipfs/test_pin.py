@@ -1,6 +1,5 @@
 import pytest
 import src.core.ipfs.pin as pin
-import src.core.exceptions as exceptions
 
 from src.core.ipfs.types import LocalPin, RemotePin, Result
 from src.core.types import Any, CID
@@ -14,7 +13,7 @@ class MockFailingCLI:
 
     def __call__(self):
         # Check for raising error for any resulting fail
-        raise exceptions.IPFSFailedExecution(self.msg)
+        raise RuntimeError(self.msg)
 
 
 def test_pin_local(mocker: Any):
@@ -73,7 +72,7 @@ def test_invalid_pin_remote(mocker: Any):
     mocker.patch(
         "src.core.ipfs.pin.CLI",
         return_value=MockFailingCLI(expected_issue))
-    with pytest.raises(exceptions.IPFSFailedExecution):
+    with pytest.raises(RuntimeError):
         pin.local(CID(invalid_cid))
 
 
@@ -85,5 +84,5 @@ def test_invalid_pin_local(mocker: Any):
     mocker.patch(
         "src.core.ipfs.pin.CLI",
         return_value=MockFailingCLI(expected_issue))
-    with pytest.raises(exceptions.IPFSFailedExecution):
+    with pytest.raises(RuntimeError):
         pin.remote(CID(duplicated_cid), "edge")

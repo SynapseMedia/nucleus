@@ -1,4 +1,4 @@
-from ffmpeg.nodes import InputNode as Input  # type: ignore
+from ffmpeg.nodes import InputNode  # type: ignore
 
 
-__all__ = ("Input",)
+__all__ = ("InputNode",)

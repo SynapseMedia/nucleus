@@ -65,7 +65,7 @@ class _Manager:
 
         if cls._conn is None:
             # we need to keep a reference in db name related to model
-            db_name = f"{cls.alias}.db"  # keep .db file name
+            db_name = f".models/{cls.alias}.db"  # keep .db file name
             cls._conn = cache.connect(db_path=db_name)
             cls._conn.execute(cls.migrate())
 

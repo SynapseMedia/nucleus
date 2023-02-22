@@ -45,7 +45,7 @@ def is_open(conn: Connection) -> bool:
     try:
         cursor = conn.cursor()
         cursor.execute("SELECT 1")
-        return cursor is not None
+        return cursor is not None  # type: ignore
     except Exception:
         return False
 

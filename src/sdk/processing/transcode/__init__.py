@@ -1,4 +1,4 @@
 from .video import input
-from .types import Input
+from .types import InputNode
 
-__all__ = ("input", "Input")
+__all__ = ("input", "InputNode")

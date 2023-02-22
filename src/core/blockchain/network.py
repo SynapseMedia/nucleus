@@ -1,5 +1,4 @@
 import eth_account as eth
-import src.core.exceptions as exceptions
 
 # Convention for importing types
 from web3 import Web3
@@ -47,11 +46,9 @@ class Ethereum(Network):
         return self._chain
 
     def set_default_account(self, private_key: PrivateKey):
-        try:
-            account = eth.Account.from_key(private_key)
-            self._web3.eth.default_account = account
-        except ValueError as e:
-            raise exceptions.InvalidPrivateKey(str(e))
+        account = eth.Account.from_key(private_key)
+        self._web3.eth.default_account = account
+
 
     def sign_transaction(self, tx: TxCall):
         return self._web3.eth.account.sign_transaction(

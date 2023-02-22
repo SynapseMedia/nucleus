@@ -10,31 +10,23 @@ class Engine(Protocol, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def __init__(self, path: Path):
-        """Initialize engine with any media path."""
+    def __init__(self, path: Path, **options: Any):
+        """Initialize engine with media input path.
+        
+        :param path: the input media
+        """
         ...
 
-    @abstractmethod
-    def __enter__(self):
-        """Defines what the context manager should do at the beginning of the block created by the with statement."""
-        ...
-
-    @abstractmethod
-    def __call__(self, **options: Any):
-        """Add options to the processing context
+    def output(self, path: Path) -> Path:
+        """Standard processed media output.
 
         eg.
+            with Engine(Path(...)) as stream:
+                ...more code here
+                stream.output(Path(...))
 
-        engine = Engine(Path(..))
-        with engine(max_muxing_queue_size=10) as video:
-            ...
         """
         ...
 
     def __getattr__(self, name: str) -> Any:
-        """Delegate calls to any internal processing logic"""
-
-    @abstractmethod
-    def __exit__(self, *args: Any):
-        """Defines what the context manager should do after its block has been executed (or terminates)"""
-        ...
+        """Delegate calls to any internal tool or library"""
