@@ -8,12 +8,10 @@ import pickle
 import src.core.cache as cache
 
 # Convention for importing constants/types
-from pydantic import HttpUrl, FilePath
-from src.core.types import Any, Iterator, Union, List
+from src.core.types import Any, Iterator, Union, List, Path, CID, URL
 from src.core.cache import Cursor, Connection
 
 from .constants import INSERT, FETCH, MIGRATE
-from .fields import CIDString
 
 
 class _Manager:
@@ -119,12 +117,16 @@ class Meta(Model):
     """Abstract metadata model"""
 
     class Config:
+        # ref: https://docs.pydantic.dev/usage/model_config/
+        frozen = True
+        smart_union = True
         use_enum_values = True
-        validate_assignment = True
+        arbitrary_types_allowed = True
+        anystr_strip_whitespace = True
 
 
-class Media(Model):
-    """Media implement needed field for the multimedia assets schema.
+class Media(Meta):
+    """Abstract media model.
     All derived class are used as types for dispatch actions.
     eg.
 
@@ -143,7 +145,7 @@ class Media(Model):
         process(video)
     """
 
-    route: Union[HttpUrl, FilePath, CIDString]
+    route: Union[URL, Path, CID]
     type: str
 
 

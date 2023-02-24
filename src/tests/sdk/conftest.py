@@ -38,3 +38,12 @@ def mock_models(mock_raw_entry: Any, mock_raw_media: Any):
     metadata = Movie.parse_obj(mock_raw_entry)
     media = Image.parse_obj(mock_raw_media)
     return Collection(metadata=metadata, media=[media])
+
+
+@pytest.fixture
+def mock_models_B(mock_raw_entry: Any, mock_raw_media: Any):
+    
+    mock_raw_entry.update({"title": "A in the Road"})
+    metadata = Movie.parse_obj(mock_raw_entry)
+    media = Image.parse_obj(mock_raw_media)
+    return Collection(metadata=metadata, media=[media])

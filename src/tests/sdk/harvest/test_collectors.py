@@ -1,4 +1,3 @@
-import copy
 import src.sdk.harvest as harvest
 
 from src.sdk.harvest import Collection
@@ -14,30 +13,22 @@ def test_load_collector(mock_models: Collection):
     assert data == [mock_models]
 
 
-def test_merge_collector(mock_models: Collection):
+def test_merge_collector(mock_models: Collection, mock_models_B: Collection):
     """Should merge collected metadata from collectors"""
     loaded_collectors = harvest.load(mock_collectors_dir)
     data_merged = harvest.merge(loaded_collectors)
-
-    expected2 = copy.deepcopy(mock_models)
-    expected2.metadata.title = "A in the Road"
-
-    got = list(data_merged)
-    assert got == [mock_models, expected2]
+    assert list(data_merged) == [mock_models, mock_models_B]
 
 
-def test_map_collector(mock_models: Collection):
+def test_map_collector(mock_models: Collection, mock_models_B: Collection):
     """Should map collected metadata from collectors"""
     loaded_collectors = harvest.load(mock_collectors_dir)
     data_merged = harvest.map(loaded_collectors)
 
-    expected2 = copy.deepcopy(mock_models)
-    expected2.metadata.title = "A in the Road"
-
     got_values = data_merged.values()
     got_keys = data_merged.keys()
 
-    assert list(got_values) == [[mock_models], [expected2]]
+    assert list(got_values) == [[mock_models], [mock_models_B]]
     assert list(got_keys) == ["dummy", "file"]
 
 

@@ -29,9 +29,8 @@ def input(input_image: Path, **options: Any) -> Image:
     """Factory Image
 
     :param input_image: Path to image
-    :return: PIL Image object
+    :return: Image object
     :rtype: Image
-    :raises InvalidImageSize: if the image ratio is invalid
     """
 
     return PIL.open(input_image, **options)

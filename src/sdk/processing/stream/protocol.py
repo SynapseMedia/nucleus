@@ -10,9 +10,7 @@ class Streaming:
 
     _stream: Stream
     _params: Dict[str, Any]
-    _protocol: str
-
-    __protocols__ = ("hls", "dash")
+    _protocol: str = "hls"
 
     def __init__(self, input: Path, **kwargs: Any):
         """Initialize Stream params.
@@ -35,21 +33,30 @@ class Streaming:
         quality_collection = [quality.dict() for quality in qualities]
         self._params = {**self._params, **{"-streams": quality_collection}}
 
-    def __getattr__(self, name: str) -> Streaming:
-        """Dynamically set protocol to use in transcoding process
+    def hls(self) -> Streaming:
+        """set hls protocol to use in transcoding process
 
         :param name: the expected protocol name
         :return: Streaming object
         :rtype: Streaming
         """
-        if name not in self.__protocols__:
-            raise AttributeError("expected to call hls or dash methods")
         # set called protocol
-        self._protocol = name
+        self._protocol = "hls"
         return self
 
-    def stream(self, output_dir: Path) -> Streaming:
-        """Stream factory.
+    def dash(self) -> Streaming:
+        """set dash protocol to use in transcoding process
+
+        :param name: the expected protocol name
+        :return: Streaming object
+        :rtype: Streaming
+        """
+        # set called protocol
+        self._protocol = "dash"
+        return self
+
+    def output(self, output_dir: Path) -> Streaming:
+        """Output stream factory.
 
         :param output_dir: path to stream output
         :param kwargs: any additional arguments
@@ -65,19 +72,22 @@ class Streaming:
 
         return self
 
-    def transcode(self) -> Stream:
+    def transcode(self):
         """Start transcoding process
 
         :param output_dir: the dir to store resulting video
         :return: stream gear object
         :rtype: Stream
-        :raises RuntimeError: if stream is not set before call 
+        :raises RuntimeError: if stream is not set before call
         """
 
         if not self._stream:
             raise RuntimeError("expected stream to transcode")
-
         # run transcoding process
         self._stream.transcode_source()
+
+    def terminate(self) -> None:
+        """Finish transcode process"""
+        if not self._stream:
+            raise RuntimeError("expected stream to terminate")
         self._stream.terminate()
-        return self._stream

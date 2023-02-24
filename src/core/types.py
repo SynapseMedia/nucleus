@@ -145,6 +145,15 @@ class CID(_ExtensibleStr):
     def valid(self) -> bool:
         return cid.is_cid(self)  # type: ignore
 
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v: str):
+        if not cls(v).valid():
+            raise ValueError("string must be a CID")
+
 
 class URL(_ExtensibleStr):
     """Enhanced bridge string type extended with features needed to handle urls
@@ -169,6 +178,15 @@ class URL(_ExtensibleStr):
         allowed_schemes = {"http", "https"}
         valid_scheme = self.scheme in allowed_schemes
         return all((valid_scheme, self.netloc))
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v: str):
+        if not cls(v).valid():
+            raise ValueError("string must be a URL")
 
 
 class Path(_ExtensibleStr):
@@ -238,3 +256,12 @@ class Path(_ExtensibleStr):
             content = file.read()
             file.close()  # don't leak a file descriptor
             yield content
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v: str):
+        if not cls(v).exists():
+            raise ValueError("string must be a Path")

@@ -1,20 +1,19 @@
-from src.core.types import Literal, Union
-from .fields import HttpUrl, FilePath
+from src.core.types import Literal, Union, Path, URL
 from .model import Media
 
 
 class Stream(Media):
-    route: Union[HttpUrl, FilePath]
+    route: Union[URL, Path]
     type: Literal["stream"] = "stream"
 
 
 class Video(Media):
-    route: Union[HttpUrl, FilePath]
+    route: Union[URL, Path]
     type: Literal["video"] = "video"
 
 
 class Image(Media):
-    route: Union[HttpUrl, FilePath]
+    route: Union[URL, Path]
     type: Literal["image"] = "image"
 
 

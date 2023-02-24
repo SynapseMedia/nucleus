@@ -1,64 +1,74 @@
-from src.core.types import Path, Any
+from __future__ import annotations
 
-from .resize import input as image_input, Image as ImageInput
-from .stream import input as stream_input, Streaming as StreamInput
-from .transcode import input as video_input, InputNode as VideoInput
+import src.sdk.processing.stream as stream
+import src.sdk.processing.transform as transform
+import src.sdk.processing.transcode as transcode
+
+from src.core.types import Path, Any, Dict
+from src.sdk.harvest.model import Media
+
+from .transform import Image as ImageInput
+from .stream import Streaming as StreamInput
+from .transcode import FilterableStream as VideoInput
 from .types import Engine
 
 
 class StreamEngine(Engine):
     """Streaming engine to support streaming transcoding using StreamGear"""
 
+    _type: str
+    _path: Path
     _input: StreamInput
+    _options: Dict[str, Any]
 
-    def __init__(self, path: Path, **options: Any):
-        self._input = stream_input(path, **options)
+    def __enter__(self):
+        # override generic engine enter
+        self._input = stream.input(self._path, **self._options)
+        return self
 
-    def __getattr__(self, name: str) -> Any:
-        return getattr(self._input, name)
+    def __exit__(self, *args: Any):
+        self._input.terminate()
 
-    def output(self, path: Path) -> Path:
-        self._input.stream(path).transcode()
-        return path
+    def output(self, path: Path) -> Media:
+        # We generate the expected path after transcode
+        self._input.output(path).transcode()
+        return Media(route=path, type=self._type)
 
 
 class VideoEngine(Engine):
     """Video engine to support low level transcoding using ffmpeg"""
 
+    _type: str
+    _path: Path
     _input: VideoInput
+    _options: Dict[str, Any]
 
-    def __init__(self, path: Path, **options: Any):
-        self._input = video_input(path, **options)
+    def __enter__(self):
+        self._input = transcode.input(self._path, **self._options)
+        return self
 
-    def __getattr__(self, name: str) -> Any:
-        """We could interact directly with ffmpeg methods
-        ref: https://github.com/kkroening/ffmpeg-python
-        ref: https://ffmpeg.org/ffmpeg-all.html
-        """
-        return getattr(self._input, name)
-
-    def output(self, path: Path) -> Path:
+    def output(self, path: Path) -> Media:
+        # We generate the expected path after transcode
         self._input.output(path).run()  # type: ignore
-        return path
+        return Media(route=path, type=self._type)
 
 
 class ImageEngine(Engine):
     """Image engine to support image processing using Pillow"""
 
+    _type: str
+    _path: Path
     _input: ImageInput
+    _options: Dict[str, Any]
 
-    def __init__(self, path: Path, **options: Any):
-        self._input = image_input(path, **options)
+    def __enter__(self):
+        self._input = transform.input(self._path, **self._options)
+        return self
 
-    def __getattr__(self, name: str) -> Any:
-        """We could interact directly with Pillow methods
-        ref: https://pillow.readthedocs.io/en/stable/reference/Image.html
-        """
-        return getattr(self._input, name)
-
-    def output(self, path: Path):
+    def output(self, path: Path) -> Media:
+        # We generate the expected path after processing
         self._input.save(path)
-        return path
+        return Media(route=path, type=self._type)
 
 
 __all__ = ("VideoEngine", "ImageEngine", "StreamEngine")

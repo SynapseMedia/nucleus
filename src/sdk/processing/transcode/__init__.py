@@ -1,4 +1,4 @@
 from .video import input
-from .types import InputNode
+from .types import FilterableStream
 
-__all__ = ("input", "InputNode")
+__all__ = ("input", "FilterableStream")

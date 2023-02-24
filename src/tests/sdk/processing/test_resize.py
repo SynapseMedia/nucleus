@@ -1,7 +1,7 @@
-import src.sdk.processing.resize as resize
+import src.sdk.processing.transform as transform
 
 from src.core.types import Path
-from src.sdk.processing.resize.types import Sizes
+from src.sdk.processing.transform.types import Sizes
 
 
 root_dir = "src/tests/_mock/files/"
@@ -20,7 +20,7 @@ def test_sizes():
 
 def test_valid_input():
     """Should success for valid input image"""
-    with resize.input(image_dir_771) as img:
+    with transform.input(image_dir_771) as img:
         w, h = img.size
         assert w == 771
         assert h == 900
