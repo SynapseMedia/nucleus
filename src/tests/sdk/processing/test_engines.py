@@ -92,7 +92,7 @@ def test_stream_engine_annotations(mock_local_video_path: Path):
 
             protocol = stream.annotate("hls")
             protocol = protocol.annotate("set_resolutions", [])
-            media = protocol.output(output)
+            protocol.output(output)
 
             assert protocol._input.called == ["hls", "set_resolutions", "transcode"]  # type: ignore
 
@@ -130,7 +130,7 @@ def test_video_engine_annotations(mock_local_video_path: Path):
                 "drawbox", 50, 50, 120, 120, color="red", thickness=5
             )
 
-            media = video.output(output)
+            video.output(output)
 
             assert video._input.called == ["drawbox"]  # type: ignore
 
@@ -146,7 +146,7 @@ def test_video_engine_options(mock_local_video_path: Path):
         media = Video(route=mock_local_video_path)
         with processing.VideoEngine(media)(**{"t": 20}) as video:
             output = Path("video.mp4")
-            media = video.output(output)
+            video.output(output)
 
             # Check if input receive the right config params
             assert video._options == {"t": 20}  # type: ignore
@@ -187,7 +187,7 @@ def test_image_engine_annotations(mock_local_file_path: Path):
         with engine(a="a") as image:
             output = Path("image.jpg")
             image = image.annotate("crop", (20, 20, 40, 40))
-            media = image.output(output)
+            image.output(output)
 
             assert image._input.called == ["crop"]  # type: ignore
 
@@ -205,7 +205,7 @@ def test_image_engine_options(mock_local_file_path: Path):
 
         with engine(a="a") as image:
             output = Path("image.jpg")
-            media = image.output(output)
+            image.output(output)
 
             # Check if input receive the right config params
             assert image._options == {"a": "a"}  # type: ignore
