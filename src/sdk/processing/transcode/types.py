@@ -1,4 +1,4 @@
-from ffmpeg.nodes import InputNode  # type: ignore
+from ffmpeg.nodes import FilterableStream  # type: ignore
 
 
-__all__ = ("InputNode",)
+__all__ = ("FilterableStream",)

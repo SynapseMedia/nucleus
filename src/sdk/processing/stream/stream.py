@@ -6,7 +6,7 @@ def input(input_file: Path, **options: Any) -> Streaming:
     """Factory ffmpeg input interface from file
 
     :param input_file: Path to video
-    :return: Input interface
-    :rtype: Input
+    :return: Streaming object
+    :rtype: Streaming
     """
     return Streaming(input_file, **options)  # type: ignore

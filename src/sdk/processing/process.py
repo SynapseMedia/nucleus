@@ -1,6 +1,5 @@
 from functools import singledispatch
 
-from src.core.types import Path
 from src.sdk.harvest import Video, Image, Stream
 from src.sdk.harvest.model import Media
 
@@ -9,23 +8,20 @@ from .types import Engine
 
 
 @singledispatch
-def process(model: Media) -> Engine:
-    raise NotImplementedError()
+def engine(model: Media) -> Engine:
+    raise NotImplementedError(f"cannot process not registered media `{model}")
 
 
-@process.register
+@engine.register
 def _(model: Video) -> VideoEngine:
-    route = Path(str(model.route))
-    return VideoEngine(route)
+    return VideoEngine(model)
 
 
-@process.register
+@engine.register
 def _(model: Stream) -> StreamEngine:
-    route = Path(str(model.route))
-    return StreamEngine(route)
+    return StreamEngine(model)
 
 
-@process.register
+@engine.register
 def _(model: Image) -> ImageEngine:
-    route = Path(str(model.route))
-    return ImageEngine(route)
+    return ImageEngine(model)
