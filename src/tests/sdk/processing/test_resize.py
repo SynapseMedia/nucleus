@@ -13,9 +13,9 @@ image_dir_638 = Path(f"{root_dir}638x400.jpg")
 def test_sizes():
     """Should contains valid image sizes"""
 
-    assert Sizes.Small == (45, 67)
-    assert Sizes.Medium == (230, 345)
-    assert Sizes.Large == (500, 750)
+    assert Sizes.small == (45, 67)
+    assert Sizes.medium == (230, 345)
+    assert Sizes.large == (500, 750)
 
 
 def test_valid_input():
