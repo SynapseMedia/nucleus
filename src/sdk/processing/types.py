@@ -40,7 +40,6 @@ class Engine(ABC):
         Defines what the context manager should do after its block has been executed (or terminates)"""
         ...
 
-
     def annotate(self, name: str, *args: Any, **kwargs: Any) -> Engine:
         """Delegate calls to any underlying tool or library.
         It Allow chain underlying methods keeping object reference.
@@ -66,7 +65,7 @@ class Engine(ABC):
     def __enter__(self) -> Engine:
         """Defines what the context manager should do at the beginning of the block created by the with statement."""
         ...
-    
+
     @abstractmethod
     def output(self, path: Path) -> Media:
         """Standard processed media output.
