@@ -49,7 +49,6 @@ class Ethereum(Network):
         account = eth.Account.from_key(private_key)
         self._web3.eth.default_account = account
 
-
     def sign_transaction(self, tx: TxCall):
         return self._web3.eth.account.sign_transaction(
             tx, private_key=self._chain.private_key

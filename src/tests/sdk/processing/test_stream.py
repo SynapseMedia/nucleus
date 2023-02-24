@@ -21,9 +21,9 @@ def test_dash_protocol(mock_local_video_path: Path):
 
     stream_input = stream.input(mock_local_video_path)
     streaming = stream_input.dash()
-    assert streaming._params == {"-video_source": mock_local_video_path}  # type: ignore
+    assert streaming._params == {
+        "-video_source": mock_local_video_path}  # type: ignore
     assert streaming._protocol == "dash"  # type: ignore
-
 
 
 def test_protocol_quality(mock_local_video_path: Path):

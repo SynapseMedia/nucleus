@@ -36,7 +36,7 @@ class Engine(ABC):
         return self
 
     def __exit__(self, *args: Any):
-        """ Template method to handle context exit. Default is do nothing.
+        """Template method to handle context exit. Default is do nothing.
         Defines what the context manager should do after its block has been executed (or terminates)"""
         ...
 
@@ -48,7 +48,7 @@ class Engine(ABC):
     def annotate(self, name: str, *args: Any, **kwargs: Any) -> Engine:
         """Delegate calls to any underlying tool or library.
         It Allow chain underlying methods keeping object reference.
-        
+
         :param name: the name of the attribute or method to call
         :param kwargs: additional keyword arguments
         :return: annotated engine
@@ -57,14 +57,15 @@ class Engine(ABC):
 
         method = getattr(self._input, name)
         if not callable(method):
-            assert ValueError("annotation can be used only with underlying methods")
+            assert ValueError(
+                "annotation can be used only with underlying methods")
 
         # concat `fluent interface`
         result = method(*args, **kwargs)
         if result is not None:
             self._input = result
         return self
-    
+
     @abstractmethod
     def output(self, path: Path) -> Media:
         """Standard processed media output.

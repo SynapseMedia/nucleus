@@ -1,6 +1,5 @@
-
 # TODO store singledispatch
-# TODO store(Media) 
+# TODO store(Media)
 # TODO store(Meta)
 # @singledispatch
 # def engine(model: Media) -> Engine:

@@ -94,7 +94,8 @@ def test_stream_engine_annotations(mock_local_video_path: Path):
             protocol = protocol.annotate("set_resolutions", [])
             protocol.output(output)
 
-            assert protocol._input.called == ["hls", "set_resolutions", "transcode"]  # type: ignore
+            assert protocol._input.called == [
+                "hls", "set_resolutions", "transcode"]  # type: ignore
 
 
 def test_video_engine(mock_local_video_path: Path):

@@ -12,7 +12,6 @@ from src.core.types import Any, Iterator, Union, List, Path, CID, URL
 from src.core.cache import Cursor, Connection
 
 from .constants import INSERT, FETCH, MIGRATE
-from .fields import CIDString
 
 
 class _Manager:
