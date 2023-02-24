@@ -6,11 +6,6 @@ from src.core.types import Any, Path
 
 @pytest.fixture()
 def mock_local_file_path():
-    return Path("src/tests/_mock/files/video.mp4")
-
-
-@pytest.fixture()
-def mock_local_video_path():
     return Path("src/tests/_mock/files/watchit.png")
 
 
