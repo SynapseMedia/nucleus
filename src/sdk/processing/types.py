@@ -48,7 +48,7 @@ class Engine(ABC):
     def annotate(self, name: str, *args: Any, **kwargs: Any) -> Engine:
         """Delegate calls to any underlying tool or library.
         It Allow chain underlying methods keeping object reference.
-
+        
         :param name: the name of the attribute or method to call
         :param kwargs: additional keyword arguments
         :return: annotated engine

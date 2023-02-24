@@ -14,7 +14,9 @@ from .types import Engine
 
 
 class StreamEngine(Engine):
-    """Streaming engine to support streaming transcoding using StreamGear"""
+    """Streaming engine to support streaming transcoding using StreamGear
+    ref: https://abhitronix.github.io/vidgear/latest/gears/streamgear/ssm/usage/
+    """
 
     _type: str
     _path: Path
@@ -36,7 +38,9 @@ class StreamEngine(Engine):
 
 
 class VideoEngine(Engine):
-    """Video engine to support low level transcoding using ffmpeg"""
+    """Video engine to support low level transcoding using ffmpeg
+    ref: https://github.com/kkroening/ffmpeg-python
+    """
 
     _type: str
     _path: Path
@@ -54,7 +58,9 @@ class VideoEngine(Engine):
 
 
 class ImageEngine(Engine):
-    """Image engine to support image processing using Pillow"""
+    """Image engine to support image processing using Pillow
+    ref: https://pillow.readthedocs.io/en/stable/reference/Image.html
+    """
 
     _type: str
     _path: Path
