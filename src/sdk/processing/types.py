@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 from abc import abstractmethod, ABC
-from src.core.types import Any, Path, Dict
-from src.sdk.harvest.model import Media, Collectable
+from src.core.types import Any, Path, URL, Dict, Union
+from src.sdk.harvest.model import Media
 
-# contextual aliases
-Processable = Collectable
+# Alias for allowed engine inputs
+Processable = Media[Union[Path, URL]]
 
 
 class Engine(ABC):

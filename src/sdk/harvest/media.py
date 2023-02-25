@@ -1,5 +1,5 @@
 from src.core.types import Literal
-from .model import Collectable
+from .types import Collectable
 
 
 class Stream(Collectable):

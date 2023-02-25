@@ -1,6 +1,10 @@
 from abc import ABCMeta, abstractmethod
-from src.core.types import Sequence, Protocol
+from src.core.types import Sequence, Protocol, Path
 from src.core.ipfs.types import Service, RemotePin
+from src.sdk.harvest.model import Media
+
+# Alias for allowed media to store
+Storable = Media[Path]
 
 
 class Edge(Protocol, metaclass=ABCMeta):

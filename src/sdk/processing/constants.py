@@ -1,4 +1,0 @@
-import os
-
-RUNTIME_DIRECTORY = os.getenv("RUNTIME_DIRECTORY")
-TMP_PATH = os.getenv("TMP_DIRECTORY")

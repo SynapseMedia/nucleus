@@ -1,5 +1,4 @@
 from functools import singledispatch
-
 from src.sdk.harvest import Video, Image, Stream
 
 from .engines import VideoEngine, ImageEngine, StreamEngine

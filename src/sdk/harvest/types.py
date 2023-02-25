@@ -3,8 +3,11 @@ from __future__ import annotations
 
 # Convention for importing constants/types
 from abc import ABC, abstractmethod
-from src.core.types import Iterator
-from .model import Collection
+from src.core.types import Iterator, URL, Path, Union
+from .model import Collection, Media
+
+# Alias for sources allowed to collect media
+Collectable = Media[Union[URL, Path]]
 
 
 class Collector(ABC):
