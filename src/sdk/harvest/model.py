@@ -149,11 +149,15 @@ class Media(Meta, Generic[T]):
     type: str
 
 
+# Alias for sources allowed to collect media
+Collectable = Media[Union[URL, Path]]
+
+
 class Collection(Model):
 
     """The purpose of Collection is to link the metadata and it corresponding media"""
 
-    media: List[Media[Union[CID, URL, Path]]]
+    media: List[Union[Media[CID], Collectable]]
     metadata: Meta
 
     @pydantic.validator("media", pre=True)
