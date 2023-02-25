@@ -130,12 +130,12 @@ class Media(Meta, Generic[T]):
     All derived class are used as types for dispatch actions.
     eg.
 
-        class Video(Media):
+        class Video(Media[Path]):
             type: Literal["video"] = "video"
 
 
         @singledispatch
-        def process(model: Media):
+        def process(model: Media[Path]):
             raise NotImplementedError()
 
         @process.register
