@@ -1,19 +1,16 @@
-from src.core.types import Literal, Union, Path, URL
-from .model import Media
+from src.core.types import Literal
+from .model import Collectable
 
 
-class Stream(Media):
-    route: Union[URL, Path]
+class Stream(Collectable):
     type: Literal["stream"] = "stream"
 
 
-class Video(Media):
-    route: Union[URL, Path]
+class Video(Collectable):
     type: Literal["video"] = "video"
 
 
-class Image(Media):
-    route: Union[URL, Path]
+class Image(Collectable):
     type: Literal["image"] = "image"
 
 

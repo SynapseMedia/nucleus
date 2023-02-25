@@ -31,7 +31,7 @@ class StreamEngine(Engine):
     def __exit__(self, *args: Any):
         self._input.terminate()
 
-    def output(self, path: Path) -> Media:
+    def output(self, path: Path) -> Media[Path]:
         # We generate the expected path after transcode
         self._input.output(path).transcode()
         return Media(route=path, type=self._type)
@@ -51,7 +51,7 @@ class VideoEngine(Engine):
         self._input = transcode.input(self._path, **self._options)
         return self
 
-    def output(self, path: Path) -> Media:
+    def output(self, path: Path) -> Media[Path]:
         # We generate the expected path after transcode
         self._input.output(path).run()  # type: ignore
         return Media(route=path, type=self._type)
@@ -71,7 +71,7 @@ class ImageEngine(Engine):
         self._input = transform.input(self._path, **self._options)
         return self
 
-    def output(self, path: Path) -> Media:
+    def output(self, path: Path) -> Media[Path]:
         # We generate the expected path after processing
         self._input.save(path)
         return Media(route=path, type=self._type)

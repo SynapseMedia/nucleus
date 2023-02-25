@@ -8,7 +8,7 @@ import pickle
 import src.core.cache as cache
 
 # Convention for importing constants/types
-from src.core.types import Any, Iterator, Union, List, Path, CID, URL
+from src.core.types import Any, Iterator, Union, List, Path, URL, CID, Generic, T
 from src.core.cache import Cursor, Connection
 
 from .constants import INSERT, FETCH, MIGRATE
@@ -125,8 +125,8 @@ class Meta(Model):
         anystr_strip_whitespace = True
 
 
-class Media(Meta):
-    """Abstract media model.
+class Media(Meta, Generic[T]):
+    """Generic media model.
     All derived class are used as types for dispatch actions.
     eg.
 
@@ -145,15 +145,19 @@ class Media(Meta):
         process(video)
     """
 
-    route: Union[URL, Path, CID]
+    route: T
     type: str
+
+
+# Alias for sources allowed to collect media
+Collectable = Media[Union[URL, Path]]
 
 
 class Collection(Model):
 
     """The purpose of Collection is to link the metadata and it corresponding media"""
 
-    media: List[Media]
+    media: List[Union[Collectable, Media[CID]]]
     metadata: Meta
 
     @pydantic.validator("media", pre=True)

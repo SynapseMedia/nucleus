@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import abstractmethod, ABC
 from src.core.types import Any, Path, Dict
-from src.sdk.harvest.model import Media
+from src.sdk.harvest.model import Media, Collectable
 
 
 class Engine(ABC):
@@ -17,7 +17,7 @@ class Engine(ABC):
     _input: Any
     _options: Dict[str, Any]
 
-    def __init__(self, media: Media):
+    def __init__(self, media: Collectable):
         """Template method initialize engine with media input path."""
         self._path = Path(media.route)
         self._type = media.type
@@ -67,7 +67,7 @@ class Engine(ABC):
         ...
 
     @abstractmethod
-    def output(self, path: Path) -> Media:
+    def output(self, path: Path) -> Media[Path]:
         """Standard processed media output.
         Expected call output to get resulting File output.
 
