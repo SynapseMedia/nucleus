@@ -4,7 +4,7 @@ from abc import abstractmethod, ABC
 from src.core.types import Any, Path, Dict
 from src.sdk.harvest.model import Media, Collectable
 
-# alias context type
+# contextual aliases
 Processable = Collectable
 
 
