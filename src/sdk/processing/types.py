@@ -4,6 +4,9 @@ from abc import abstractmethod, ABC
 from src.core.types import Any, Path, Dict
 from src.sdk.harvest.model import Media, Collectable
 
+# alias context type
+Processable = Collectable
+
 
 class Engine(ABC):
     """Adapter/Template engine to handle standard actions for media processing.
@@ -17,7 +20,7 @@ class Engine(ABC):
     _input: Any
     _options: Dict[str, Any]
 
-    def __init__(self, media: Collectable):
+    def __init__(self, media: Processable):
         """Template method initialize engine with media input path."""
         self._path = Path(media.route)
         self._type = media.type

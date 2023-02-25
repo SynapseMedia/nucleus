@@ -1,13 +1,13 @@
 from functools import singledispatch
+
 from src.sdk.harvest import Video, Image, Stream
-from src.sdk.harvest.model import Collectable
 
 from .engines import VideoEngine, ImageEngine, StreamEngine
-from .types import Engine
+from .types import Engine, Processable
 
 
 @singledispatch
-def engine(model: Collectable) -> Engine:
+def engine(model: Processable) -> Engine:
     raise NotImplementedError(f"cannot process not registered media `{model}")
 
 
