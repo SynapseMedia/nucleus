@@ -1,13 +1,12 @@
-# Watchit Toolkit
+# Nucleus
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 [![Gitter](https://badges.gitter.im/watchit-app/community.svg)](https://gitter.im/watchit-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![CI](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/ZorrillosDev/watchit-toolkit/branch/v0.4.0/graph/badge.svg?token=M9FF5B6UNA)](https://codecov.io/gh/ZorrillosDev/watchit-toolkit)
 
-> Node, SDK, CLI and REST API for Watchit.
 
-***NOTE!*** The toolkit is **alpha-stage** software. It means toolkit hasn't been security audited and programming APIs and data formats can still change.
+***NOTE!*** Nucleus is **alpha-stage** software. It means toolkit hasn't been security audited and programming APIs and data formats can still change.
 
 The design so far contains 3 layers of abstraction:
 
@@ -17,7 +16,7 @@ The design so far contains 3 layers of abstraction:
 
 3. **The CLI and HTTP API**: These make use of the sdk to form the services.
 
-Toolkit its a low level compilation of "toolchain" for Watchit environment.
+Nucleus its a low level compilation of "toolchain" for media decentralization.
 It includes:
 
 - Metadata harvesting
@@ -28,22 +27,16 @@ It includes:
 
 ## Summary
 
-The toolkit proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:
+Nucleus proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:
 
-1. **Harvesting**: collect movies metadata
-2. **Processing**: video transcoding and image processing
-3. **Schematization**: metadata standard schematization eg. ERC1155 metadata
-4. **Storage**: structured storage in the IPFS decentralized network
-5. **Blockchain**: mint movies to web3 as NFT
-6. **Expose**: distribution of metadata through [OrbitDB](https://orbitdb.org/)
+1. **Harvesting**: metadata collection
+2. **Processing**: media processing
+3. **Storage**:  storage in IPFS network
+4. **Expose**: metadata imprinted onto the DHT
+5. **Mint**: mint meta as NFTs
+6. **Retrieval(Optional)**: unmarshall and distribution of metadata through [OrbitDB](https://orbitdb.org/)
 
 ## Terms and Concepts
-
-### Node
-
-In short, WatchIt's toolkit not only provides a set of tools for decentralizing multimedia, but it also exposes a node that powers the Watchit network through distributed storage, metadata resolution, and access controls. 
-
-The information shared between the nodes will be the assets and movies added to IPFS within the Watchit network, it's important to note that this data will not be stored by default, only those that are requested from the network. The nodes will also act as facilitators of metadata for the network, each node will have a process that "pins" with lists of metadata from different participants in the network, this metadata is previously encrypted and obtained through the Distribution contract.
 
 ### Harvesting
 
