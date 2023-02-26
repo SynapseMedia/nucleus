@@ -27,14 +27,17 @@ It includes:
 
 ## Summary
 
-Nucleus proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:
+Nucleus proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia.
 
 1. **Harvesting**: metadata collection
 2. **Processing**: media processing
 3. **Storage**:  storage in IPFS network
 4. **Expose**: metadata imprinted onto the DHT
 5. **Mint**: mint meta as NFTs
-6. **Retrieval(Optional)**: unmarshall and distribution of metadata through [OrbitDB](https://orbitdb.org/)
+6. **Retrieval**: unmarshall and distribution of metadata through [OrbitDB](https://orbitdb.org/)
+
+The pipeline design was based on the decoupling principle, allowing for different use cases. For instance, some elements such as the **storage** component may be optional if data is already stored on the IPFS network, or the **mint** component may be optional if there is no need to create NFTs for the metadata. Similarly, the **processing** component may not be necessary if the media is already ready for storage.
+
 
 ## Terms and Concepts
 
