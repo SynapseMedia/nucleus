@@ -8,14 +8,6 @@
 
 ***NOTE!*** Nucleus is **alpha-stage** software. It means toolkit hasn't been security audited and programming APIs and data formats can still change.
 
-The design so far contains 3 layers of abstraction:
-
-1. **The Core**: "The building block" packages here are intended to have minimal or no dependencies, those that have dependencies will be with the same internal packages and as far as possible they will be utility packages.
-
-2. **The SDK**: Exposes the API to the client at the programming level to use core functions in a safe and conformant way.
-
-3. **The CLI and HTTP API**: These make use of the sdk to form the services.
-
 Nucleus its a low level compilation of "toolchain" for media decentralization.
 It includes:
 
@@ -24,6 +16,15 @@ It includes:
 - Multimedia storage
 - Metadata distribution
 - Web3 instruments
+
+The design so far contains 3 layers of abstraction:
+
+1. **The Core**: "The building block" packages here are intended to have minimal or no dependencies, those that have dependencies will be with the same internal packages and as far as possible they will be utility packages.
+
+2. **The SDK**: Exposes the API to the client at the programming level to use core functions in a safe and conformant way.
+
+3. **The CLI and HTTP API**: These make use of the sdk to form the services.
+
 
 ## Summary
 
