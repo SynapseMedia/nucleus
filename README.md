@@ -35,7 +35,7 @@ Nucleus proposes a sequence of steps (pipeline) for the processing and decentral
 3. **Storage**:  storage in IPFS network
 4. **Expose**: metadata imprinted onto the DHT
 5. **Mint**: mint meta as NFTs
-6. **Retrieval**: unmarshall and distribution of metadata through [OrbitDB](https://orbitdb.org/)
+6. **Retrieval**: unmarshall and distribution of metadata
 
 The pipeline design was based on the decoupling principle, allowing for different use cases. For instance, some elements such as the **storage** component may be optional if data is already stored on the IPFS network, or the **mint** component may be optional if there is no need to create NFTs for the metadata. Similarly, the **processing** component may not be necessary if the media is already ready for storage.
 
