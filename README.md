@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/ZorrillosDev/watchit-toolkit/branch/v0.4.0/graph/badge.svg?token=M9FF5B6UNA)](https://codecov.io/gh/ZorrillosDev/watchit-toolkit)
 
 
-***NOTE!*** Nucleus is **alpha-stage** software. It means toolkit hasn't been security audited and programming APIs and data formats can still change.
+***NOTE!*** Nucleus is **alpha-stage** software. It means nucleus hasn't been security audited and programming APIs and data formats can still change.
 
 Nucleus its a low level compilation of "toolchain" for media decentralization.
 It includes:
