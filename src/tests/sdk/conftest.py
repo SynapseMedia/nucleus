@@ -19,13 +19,13 @@ def mock_raw_entry():
     """Fixture to provide a mocking for movie"""
 
     return {
-        "title": "A Fork in the Road",
+        "name": "A Fork in the Road",
         "imdb_code": "wtt00000000",
         "creator_key": "0xee99ceff640d37edd9cac8c7cff4ed4cd609f435",
         "mpa_rating": "PG",
         "rating": 6.0,
         "runtime": 105.0,
-        "synopsis": "Baby loves have fun",
+        "description": "Baby loves have fun",
         "release_year": 2010,
         "genres": ["Action", "Comedy", "Crime"],
         "speech_language": "en",
@@ -43,7 +43,7 @@ def mock_models(mock_raw_entry: Any, mock_raw_media: Any):
 @pytest.fixture
 def mock_models_B(mock_raw_entry: Any, mock_raw_media: Any):
 
-    mock_raw_entry.update({"title": "A in the Road"})
+    mock_raw_entry.update({"name": "A in the Road"})
     metadata = Movie.parse_obj(mock_raw_entry)
     media = Image.parse_obj(mock_raw_media)
     return Collection(metadata=metadata, media=[media])
