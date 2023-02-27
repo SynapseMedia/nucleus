@@ -70,11 +70,11 @@ class _Manager:
         return cls._conn
 
 
-class Model(_Manager, pydantic.BaseModel):
+class _Model(_Manager, pydantic.BaseModel):
     """Model based SQL manager"""
 
     def __init__(self, **kwargs: Any):
-        super(Model, self).__init__(**kwargs)
+        super(_Model, self).__init__(**kwargs)
         sqlite3.register_converter(self.alias, pickle.loads)
         sqlite3.register_adapter(self.__class__, pickle.dumps)
 
@@ -91,7 +91,7 @@ class Model(_Manager, pydantic.BaseModel):
         return rows[0]
 
     @classmethod
-    def all(cls) -> Iterator[Model]:
+    def all(cls) -> Iterator[_Model]:
         """Exec query and fetch a list of data from database.
 
         :return: Any list of derived model
@@ -113,9 +113,8 @@ class Model(_Manager, pydantic.BaseModel):
         return cursor.lastrowid
 
 
-class Meta(Model):
-    """Abstract metadata model"""
-
+class _FrozenModel(_Model):
+    """Template immutable model"""
     class Config:
         # ref: https://docs.pydantic.dev/usage/model_config/
         frozen = True
@@ -125,7 +124,16 @@ class Meta(Model):
         anystr_strip_whitespace = True
 
 
-class Media(Meta, Generic[T]):
+class Meta(_FrozenModel):
+    """Template metadata model. 
+    Extend this model to create your owns.
+    Default fields are name and description.
+    """
+    
+    name: str
+    description: str
+
+class Media(_FrozenModel, Generic[T]):
     """Generic media model.
     All derived class are used as types for dispatch actions.
     eg.
@@ -153,7 +161,7 @@ class Media(Meta, Generic[T]):
 Collectable = Media[Union[URL, Path]]
 
 
-class Collection(Model):
+class Collection(_Model):
 
     """The purpose of Collection is to link the metadata and it corresponding media"""
 

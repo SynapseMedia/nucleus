@@ -10,19 +10,10 @@ DEFAULT_RATE_MAX = 10
 FIRST_MOVIE_YEAR_EVER = 1880
 
 
-class MyMeta(Meta):
-    """You can define your own data model here .
-    Write here any custom metadata model to distribute"""
-
-    title: str
-    address: str
-    ...
-
-
 class Movie(Meta):
     """Movies define needed fields for standard movie schema."""
 
-    title: str
+    name: str
     # imdb code is adopted from IMB movies site to handle an alpha-numeric id
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
     imdb_code: str
@@ -32,7 +23,7 @@ class Movie(Meta):
     mpa_rating: str
     rating: float
     runtime: float
-    synopsis: str
+    description: str
     release_year: int
     # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
     genres: List[str]

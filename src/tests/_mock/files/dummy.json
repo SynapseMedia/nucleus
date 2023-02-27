@@ -1,13 +1,13 @@
 [
     {
         "metadata": {
-            "title": "A in the Road",
+            "name": "A in the Road",
             "imdb_code": "wtt00000000",
             "creator_key": "0xee99ceff640d37edd9cac8c7cff4ed4cd609f435",
             "mpa_rating": "PG",
             "rating": 6.0,
             "runtime": 105.0,
-            "synopsis": "Baby loves have fun",
+            "description": "Baby loves have fun",
             "release_year": 2010,
             "genres": [
                 "Action",
