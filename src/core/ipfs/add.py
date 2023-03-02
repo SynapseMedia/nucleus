@@ -9,7 +9,7 @@ def directory(path: Path) -> CID:
     :param path: Directory to add to IPFS
     :return: The resulting CID
     :rtype: CIDStr
-    :raises IPFSFailedExecution: if ipfs cmd execution fail
+    :raises IPFSRuntimeException: if ipfs cmd execution fail
     """
     # no pin by default
     # blake2b-208 hash func to encode to bytes16 and hex

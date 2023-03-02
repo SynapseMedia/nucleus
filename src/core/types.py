@@ -30,6 +30,7 @@ from typing import *  # type: ignore
 # https://docs.python.org/3/library/typing.html#typing.TypeVar
 T = TypeVar("T")
 
+JSON = Dict[Any, Any]
 Raw = NewType("Raw", Mapping[str, Any])
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)

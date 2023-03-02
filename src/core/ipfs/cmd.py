@@ -4,6 +4,7 @@ import docker  # type: ignore
 from src.core.types import Command
 from .constants import IPFS_CONTAINER
 from .types import Sequence, Result, Container
+from .exceptions import IPFSRuntimeException
 
 
 def get_container() -> Container:
@@ -31,7 +32,7 @@ class CLI(Command):
         """Execute built command in container
 
         :return: Output dict from command. ref: https://docs.ipfs.io/reference/cli/
-        :raises RuntimeError: if exit code > or empty output is returned from command
+        :raises IPFSRuntimeException: if exit code > or empty output is returned from command
         :rtype: Output
         """
         container = get_container()
@@ -44,11 +45,13 @@ class CLI(Command):
             0     Successful execution.
             1     Failed executions.
             """
-            raise RuntimeError(output.decode("utf-8"))
+            raise IPFSRuntimeException(
+                f"exception raised by ipfs: {output.decode('utf-8')}"
+            )
 
         # If not result just keep object output standard
         if not output:
-            raise RuntimeError("Invalid IPFS command call output")
+            raise IPFSRuntimeException("invalid IPFS command call output")
 
         try:
             json_to_dict = json.loads(output)

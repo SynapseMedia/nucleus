@@ -1,7 +1,7 @@
 import pytest
 import src.core.ipfs.pin as pin
 
-from src.core.ipfs.types import LocalPin, RemotePin, Result
+from src.core.ipfs.types import LocalPin, Pin, Result
 from src.core.types import Any, CID
 
 
@@ -57,7 +57,7 @@ def test_pin_remote(mocker: Any):
     assert expected_result["Status"] == pins["status"]
     assert expected_result["Cid"] == pins["cid"]
     assert expected_result["Name"] == pins["name"]
-    assert pins == RemotePin(
+    assert pins == Pin(
         status=expected_result["Status"],
         cid=expected_result["Cid"],
         name=expected_result["Name"],

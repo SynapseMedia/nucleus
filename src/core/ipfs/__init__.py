@@ -5,7 +5,7 @@ from .types import (
     Result,
     Services,
     LocalPin,
-    RemotePin,
+    Pin,
 )
 
 __all__ = (
@@ -15,5 +15,5 @@ __all__ = (
     "Result",
     "Services",
     "LocalPin",
-    "RemotePin",
+    "Pin",
 )

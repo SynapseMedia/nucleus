@@ -49,8 +49,8 @@ class MockStream:
     def hls(self):
         self.called.append("hls")
 
-    def set_resolutions(self, *args: Any, **kwargs: Any):
-        self.called.append("set_resolutions")
+    def resolutions(self, *args: Any, **kwargs: Any):
+        self.called.append("resolutions")
 
     def transcode(self, *args: Any, **kwargs: Any):
         self.called.append("transcode")
@@ -91,12 +91,12 @@ def test_stream_engine_annotations(mock_local_video_path: Path):
             output = Path("video.mpd")
 
             protocol = stream.annotate("hls")
-            protocol = protocol.annotate("set_resolutions", [])
+            protocol = protocol.annotate("resolutions", [])
             protocol.output(output)
 
             assert protocol._input.called == [  # type: ignore
                 "hls",
-                "set_resolutions",
+                "resolutions",
                 "transcode",
             ]
 

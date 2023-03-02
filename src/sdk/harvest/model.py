@@ -26,28 +26,31 @@ class _Manager:
     @classmethod
     @property
     def alias(cls) -> str:
-        """Return class name as alias for model"""
+        """Return the class name as an alias for the model."""
         return cls.__name__.lower()
 
     @classmethod
     def migrate(cls) -> str:
         """Return a migration query string.
-        Expected behavior if "table do not exist" before run other queries.
+
         This query is used to handle migrations related to models.
-        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
+        If the table does not exist, it will be created before running other queries.
+        ref: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
         """
         return MIGRATE % (cls.alias, cls.alias)
 
     @classmethod
     def mutate(cls) -> str:
-        """Return a insert query based on class name.
+        """Return an insert query based on the class name.
+
         See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
         """
         return INSERT % cls.alias
 
     @classmethod
     def query(cls) -> str:
-        """Return a query based on class name.
+        """Return a query based on the class name.
+
         See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
         """
         return FETCH % cls.alias
@@ -71,7 +74,7 @@ class _Manager:
 
 
 class _Model(_Manager, pydantic.BaseModel):
-    """Model based SQL manager"""
+    """This model defines a template for managing the cache associated with each model"""
 
     def __init__(self, **kwargs: Any):
         super(_Model, self).__init__(**kwargs)
@@ -115,6 +118,7 @@ class _Model(_Manager, pydantic.BaseModel):
 
 class _FrozenModel(_Model):
     """Template immutable model"""
+
     class Config:
         # ref: https://docs.pydantic.dev/usage/model_config/
         frozen = True
@@ -125,13 +129,14 @@ class _FrozenModel(_Model):
 
 
 class Meta(_FrozenModel):
-    """Template metadata model. 
+    """Template metadata model.
     Extend this model to create your owns.
     Default fields are name and description.
     """
-    
+
     name: str
     description: str
+
 
 class Media(_FrozenModel, Generic[T]):
     """Generic media model.
@@ -162,8 +167,7 @@ Collectable = Media[Union[URL, Path]]
 
 
 class Collection(_Model):
-
-    """The purpose of Collection is to link the metadata and it corresponding media"""
+    """Collection is in charge of link the metadata and it corresponding media"""
 
     media: List[Union[Media[CID], Collectable]]
     metadata: Meta

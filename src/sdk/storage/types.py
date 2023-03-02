@@ -1,11 +1,16 @@
+import requests
 from abc import ABCMeta, abstractmethod
-from src.core.types import Sequence, Protocol, Path
-from src.core.ipfs.types import Service, RemotePin
+from src.core.types import Iterator, Protocol, Path, CID, Dict, JSON
+from src.core.ipfs.types import Service, Pin
 from src.sdk.harvest.model import Media
 
 # Alias for allowed media to store
 Storable = Media[Path]
-
+# The Session object allows you to persist certain parameters across requests.
+# It also persists cookies across all requests made from the Session instance.
+Headers = JSON
+Session = requests.Session
+Response = requests.Response
 
 class Edge(Protocol, metaclass=ABCMeta):
     """Edge provides an standard facade interface to handle services in IPFS.
@@ -21,72 +26,32 @@ class Edge(Protocol, metaclass=ABCMeta):
     def __init__(self, service: Service):
         ...
 
-    @property
     @abstractmethod
-    def name(self) -> str:
-        """Return service name from name attribute in Service"""
-        ...
-
-    @abstractmethod
-    def pin(self, cid: str) -> RemotePin:
+    def pin(self, cid: CID) -> Pin:
         """Pin cid in remote edge cache
         ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
 
         :param cid: cid to pin
-        :return: RemotePin object
-        :rtype: RemotePin
-        """
-        ...
-
-    @property
-    @abstractmethod
-    def background_mode(self) -> bool:
-        """Pin cid in async mode
-        ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
-
-        :return: True if running in async mode else False
-        :rtype: bool
-        """
-        ...
-
-    @property
-    @abstractmethod
-    def is_registered(self) -> bool:
-        """Check if service is registered
-
-        :return: True if service is registered else False
-        :rtype: bool
-        """
-        ...
-
-    @property
-    @abstractmethod
-    def status(self) -> bool:
-        """Check status for edge service
-
-        :return: True if auth ready and registered else False
-        :rtype: bool
+        :return: Pin object
+        :rtype: Pin
         """
         ...
 
     @abstractmethod
-    def ls(self, limit: int) -> Sequence[RemotePin]:
+    def ls(self) -> Iterator[Pin]:
         """Return current remote pin list
         ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-ls
 
-        :param limit: Number of remote pins to return
-        :return: List of current remote pin list
-        :rtype: Sequence[RemotePin]
+        :return: list of current remote pin list
+        :rtype: Iterator[Pin]
         """
         ...
 
     @abstractmethod
-    def unpin(self, cid: str) -> bool:
+    def unpin(self, cid: CID):
         """Remove pin from edge cache service
 
         :param cid: Cid to remove from cache
-        :return: True if pin was removed else False
-        :rtype: bool
         """
         ...
 

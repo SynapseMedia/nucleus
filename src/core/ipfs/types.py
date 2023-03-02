@@ -1,7 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from src.core.types import (
     Sequence,
-    TypedDict,
     Any,
     Optional,
     Mapping,
@@ -11,24 +10,31 @@ from src.core.types import (
     URL,
     NamedTuple,
     NewType,
+    CID,
 )
 
 
-class Service(TypedDict):
+class Service(NamedTuple):
     name: str  # Service name. eg. pinata, filebase.
     endpoint: URL  # api endpoint provided by service
     key: Optional[str]  # auth key provided by service
 
 
-class DagLink(TypedDict):
+class DagLink(NamedTuple):
     name: Optional[str]
     hash: Mapping[str, str]
     tsize: int
 
 
-class Dag(TypedDict):
+class Dag(NamedTuple):
     data: Mapping[str, Mapping[str, str]]
     links: Iterator[DagLink]
+
+
+class Pin(NamedTuple):
+    cid: CID
+    status: str
+    name: Optional[str]
 
 
 # Result type contains standardize output for ipfs commands.
@@ -38,9 +44,8 @@ class Dag(TypedDict):
 # ref: docs.ipfs.io/reference/cli/#ipfs
 ID = NewType("ID", str)
 Result = NamedTuple("Result", output=Any)
-Services = TypedDict("Services", remote=Iterator[Service])
-LocalPin = TypedDict("Pin", pins=Sequence[str])
-RemotePin = TypedDict("RemotePin", cid=str, status=str, name=str)
+Services = NamedTuple("Services", remote=Iterator[Service])
+LocalPin = NamedTuple("Pin", pins=Sequence[str])
 
 
 class Container(Protocol, metaclass=ABCMeta):

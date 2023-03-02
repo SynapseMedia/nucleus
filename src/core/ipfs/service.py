@@ -17,7 +17,7 @@ def ls() -> Services:
 
     :return: Registered services
     :rtype: Services
-    :raises IPFSFailedExecution: if ipfs cmd execution fail
+    :raises IPFSRuntimeException: if ipfs cmd execution fail
     """
 
     call = CLI("/pin/remote/service/ls")()
@@ -38,16 +38,16 @@ def ls() -> Services:
 
 def register(service: Service) -> Service:
     """Add service to ipfs
-    ref: https://docs.ipfs.tech/reference/kubo/cli/#ipfs-pin-remote-add
+    ref: https://docs.ipfs.tech/reference/kubo/cli/#ipfs-pin-remote-service-add
 
     :params service: to register service
     :return: reflected param service
     :rtype: Service
-    :raises IPFSFailedExecution: if service is already registered
+    :raises IPFSRuntimeException: if service is already registered
     """
 
     # Using ignore here because this is an issue with python typing
     # https://github.com/python/mypy/issues/7981
-    params = service.values()
+    params = (service.name, service.endpoint, service.key)
     CLI("/pin/remote/service/add", *params)()  # type: ignore
     return service
