@@ -37,7 +37,7 @@ def test_protocol_quality(mock_local_video_path: Path):
     quality_a = Resolution(Screen.Q1080, FPS.F60)
     quality_c = Resolution(Screen.Q720, FPS.F60)
     quality_list = [quality_a, quality_c]
-    protocol.set_resolutions(quality_list)
+    protocol.resolutions(quality_list)
 
     assert protocol._params == {  # type: ignore
         "-video_source": mock_local_video_path,

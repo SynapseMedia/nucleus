@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import abstractmethod, ABC
-from src.core.types import Any, Path, URL, Dict, Union
+from src.core.types import Any, Path, URL, Mapping, Union
 from src.sdk.harvest.model import Media
 
 # Alias for allowed engine inputs
@@ -18,7 +18,7 @@ class Engine(ABC):
     _type: str
     _path: Path
     _input: Any
-    _options: Dict[str, Any]
+    _options: Mapping[str, Any]
 
     def __init__(self, media: Processable):
         """Template method initialize engine with media input path."""

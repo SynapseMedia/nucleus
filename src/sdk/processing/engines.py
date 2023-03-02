@@ -4,7 +4,7 @@ import src.sdk.processing.stream as stream
 import src.sdk.processing.transform as transform
 import src.sdk.processing.transcode as transcode
 
-from src.core.types import Path, Any, Dict
+from src.core.types import Path, Any, Mapping
 from src.sdk.harvest.model import Media
 
 from .transform import Image as ImageInput
@@ -21,7 +21,7 @@ class StreamEngine(Engine):
     _type: str
     _path: Path
     _input: StreamInput
-    _options: Dict[str, Any]
+    _options: Mapping[str, Any]
 
     def __enter__(self):
         # override generic engine enter
@@ -33,7 +33,7 @@ class StreamEngine(Engine):
 
     def output(self, path: Path) -> Media[Path]:
         # We generate the expected path after transcode
-        self._input.output(path).transcode()
+        self._input.transcode(path)
         return Media(route=path, type=self._type)
 
 
@@ -45,7 +45,7 @@ class VideoEngine(Engine):
     _type: str
     _path: Path
     _input: VideoInput
-    _options: Dict[str, Any]
+    _options: Mapping[str, Any]
 
     def __enter__(self):
         self._input = transcode.input(self._path, **self._options)
@@ -65,7 +65,7 @@ class ImageEngine(Engine):
     _type: str
     _path: Path
     _input: ImageInput
-    _options: Dict[str, Any]
+    _options: Mapping[str, Any]
 
     def __enter__(self):
         self._input = transform.input(self._path, **self._options)

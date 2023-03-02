@@ -1,12 +1,10 @@
-from .media import *
 from pydantic.types import *  # type: ignore
 from pydantic.networks import *  # type: ignore
 
+from .media import *
 from .model import Meta
 from .types import Collector, Collection
 from .collectors import merge, map, load
-
-
 
 from pydantic import types, networks
 from . import media

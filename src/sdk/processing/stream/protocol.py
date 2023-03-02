@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 # Convention for importing types
-from src.core.types import Sequence, Any, Path, Dict
+from src.core.types import Sequence, Any, Path, Mapping
 from .types import Resolution, Stream
 
 
@@ -9,7 +9,7 @@ class Streaming:
     """Adapter streaming class to handle preset protocols usage"""
 
     _stream: Stream
-    _params: Dict[str, Any]
+    _params: Mapping[str, Any]
     _protocol: str = "hls"
 
     def __init__(self, input: Path, **kwargs: Any):
@@ -25,7 +25,23 @@ class Streaming:
             **kwargs,
         }
 
-    def set_resolutions(self, qualities: Sequence[Resolution]):
+    @classmethod
+    def __stream__(cls, output_dir: Path) -> Stream:
+        """Singleton stream gear factory
+
+        :param output_dir: path to stream output
+        :return: Stream object
+        :rtype: Stream
+        """
+        if not cls._stream:
+            cls._stream = Stream(
+                output=output_dir,
+                format=cls._protocol,
+                **cls._params,
+            )
+        return cls._stream
+
+    def resolutions(self, qualities: Sequence[Resolution]):
         """Add expected quality resolutions for transcoded output
         :param qualities: quality list to output
         :return: None
@@ -55,39 +71,20 @@ class Streaming:
         self._protocol = "dash"
         return self
 
-    def output(self, output_dir: Path) -> Streaming:
-        """Output stream factory.
-
-        :param output_dir: path to stream output
-        :param kwargs: any additional arguments
-        :return: Stream object
-        :rtype: Stream
-
-        """
-        self._stream = Stream(
-            output=output_dir,
-            format=self._protocol,
-            **self._params,
-        )
-
-        return self
-
-    def transcode(self):
+    def transcode(self, output_dir: Path):
         """Start transcoding process
 
-        :param output_dir: the dir to store resulting video
+        :param output_dir: path to stream output
         :return: stream gear object
         :rtype: Stream
-        :raises RuntimeError: if stream is not set before call
         """
 
-        if not self._stream:
-            raise RuntimeError("expected stream to transcode")
         # run transcoding process
-        self._stream.transcode_source()
+        self.__stream__(output_dir).transcode_source()
 
     def terminate(self) -> None:
         """Finish transcode process"""
         if not self._stream:
-            raise RuntimeError("expected stream to terminate")
+            return
+
         self._stream.terminate()

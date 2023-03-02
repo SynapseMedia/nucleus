@@ -1,10 +1,10 @@
 from src.core.types import CID
 
-from .types import RemotePin, LocalPin
+from .types import Pin, LocalPin
 from .cmd import CLI
 
 
-def remote(cid: CID, service: str) -> RemotePin:
+def remote(cid: CID, service_name: str) -> Pin:
     """Pin cid into remote service.
     Service should be already registered otherwise raise IPFSFailedExecution.
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
@@ -18,21 +18,21 @@ def remote(cid: CID, service: str) -> RemotePin:
 
 
     :param cid: the cid to pin
-    :param service: name of registered service
+    :param service_name: name of registered service
     :return: ipfs output for remote pin
-    :rtype: RemotePin
-    :raises IPFSFailedExecution: if cid already pinned or remote service fail
+    :rtype: Pin
+    :raises IPFSRuntimeException: if cid already pinned or remote service fail
     """
 
-    service = "--service=%s" % service
+    service_name = "--service=%s" % service_name
     background_mode = f"--background={True}"
-    args = (cid, service, background_mode)
+    args = (cid, service_name, background_mode)
 
     # Exec command and get output
     call = CLI("/pin/remote/add", args)()
     output = call.output
 
-    return RemotePin(
+    return Pin(
         status=output.get("Status"),  # status: queue using background
         cid=output.get("Cid"),  # resulting cid
         name=output.get("Name"),  # named pin
@@ -51,7 +51,7 @@ def local(cid: CID) -> LocalPin:
     :param cid: the cid to pin
     :return: ipfs output for ipfs local pin
     :rtype: LocalPin
-    :raises IPFSFailedExecution: if ipfs cmd execution fail
+    :raises IPFSRuntimeException: if ipfs cmd execution fail
     """
     # Exec command and get output
     call = CLI("/pin/add/", cid)()
