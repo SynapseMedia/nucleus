@@ -1,14 +1,14 @@
 import requests
 from abc import ABCMeta, abstractmethod
-from src.core.types import Iterator, Protocol, Path, CID, Dict, JSON
+from src.core.types import Iterator, Protocol, Path, CID, JSON
 from src.core.ipfs.types import Service, Pin
 from src.sdk.harvest.model import Media
 
 # Alias for allowed media to store
 Storable = Media[Path]
+Headers = JSON
 # The Session object allows you to persist certain parameters across requests.
 # It also persists cookies across all requests made from the Session instance.
-Headers = JSON
 Session = requests.Session
 Response = requests.Response
 

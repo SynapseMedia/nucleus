@@ -1,9 +1,8 @@
 import requests
-import functools
 
-from src.core.types import Iterator, CID, Any, JSON, Union
+from src.core.types import Iterator, CID, Any, JSON
 from .types import Edge, Service, Pin, Response, Session, Headers
-from .constants import ESTUARY_API_PIN
+from .constants import ESTUARY_API_PIN, ESTUARY_API_PUBLIC
 from .exceptions import EdgePinException
 
 
@@ -12,7 +11,7 @@ from .exceptions import EdgePinException
 
 def _pin_factory(raw_pin: JSON):
     """Pin factory from raw pin list
-    
+
     :param raw_pin: dictionary with pin information
     :return: Pin object
     :rtype: Pin
@@ -26,7 +25,7 @@ def _pin_factory(raw_pin: JSON):
     return Pin(cid, status, name)
 
 
-def _handle_response(res: Response) -> JSON:
+def _enhanced_response(res: Response) -> JSON:
     """Amplifier helper function to handle response from Estuary API
 
     :param res: expected response
@@ -34,7 +33,7 @@ def _handle_response(res: Response) -> JSON:
     :rtype: JSON
     :raises EdgePinException if an error occurs during request
     """
-  
+
     # expected response as json
     response = res.json()
     # Failing during pin request
@@ -43,38 +42,6 @@ def _handle_response(res: Response) -> JSON:
         raise EdgePinException(f"exception raised during request: {error_description}")
 
     return response
-
-
-def _filter_pin_id_from_list(cid: CID, pin: JSON) -> Union[str, None]:
-    """Return a pin id
-
-    :return: None if cid is not found otherwise the corresponding pin id
-    :rtype: Union[str, None]
-    """
-
-    pin_summary = pin.get("pin", {})
-    pin_content = pin.get("content", {})
-    raw_cid = pin_summary.get("cid")
-    pin_id = pin_content.get("id")
-
-    # shallow compare to match cid in response
-    if raw_cid == cid:
-        return pin_id
-
-    return None
-
-
-def _find_pin_id_by_cid(cid: CID, pin_list: JSON) -> Union[str, None]:
-    """Filter pin id from pin list using cid
-
-    :return: pin id if match found else None
-    :rtype: Union[str, None]
-    """
-    filter_func = functools.partial(_filter_pin_id_from_list, cid)
-    filtered_result = tuple(filter(filter_func, pin_list))
-    if len(filtered_result) > 0:
-        return filtered_result[0]
-    return None
 
 
 class Estuary(Edge):
@@ -102,15 +69,34 @@ class Estuary(Edge):
         )
 
         # expected response as json
-        response = _handle_response(req)
+        response = _enhanced_response(req)
         return response.get("results", [])
+
+    def _content_by_cid(self, cid: CID) -> JSON:
+        """Collect details from estuary based on CID
+        ref: https://docs.estuary.tech/Reference/SwaggerUI#/public/get_public_by_cid__cid_
+
+        :param cid: cid to retrieve details
+        :return: cid content details
+        :rtype: JSON
+        :raises EdgePinException: if pin request fails
+        """
+
+        req = self._http.get(
+            f"{ESTUARY_API_PUBLIC}/by-cid/",
+            headers=self._headers,
+        )
+
+        # expected response as json
+        response = _enhanced_response(req)
+        return response.get("content", {})
 
     def pin(self, cid: CID, **kwargs: Any) -> Pin:
         """Pin cid into remote edge cache
         ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
 
         :param cid: cid to pin
-        :return: Pin object
+        :return: pin object
         :rtype: Pin
         :raises EdgePinException: if pin request fails
         """
@@ -121,7 +107,7 @@ class Estuary(Edge):
         )
 
         # expected response as json
-        response = _handle_response(req)
+        response = _enhanced_response(req)
         # data resulting from estuary endpoint
         # ref: https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
         return _pin_factory(response)
@@ -130,8 +116,8 @@ class Estuary(Edge):
         """Return current remote pin list
         ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-ls
 
-        :param limit: Number of remote pins to return
-        :return: List of current remote pin list
+        :param limit: number of remote pins to return
+        :return: list of current remote pin list
         :rtype: Sequence[Pin]
         :raises EdgePinException: if pin request fails
         """
@@ -142,15 +128,15 @@ class Estuary(Edge):
     def unpin(self, cid: CID):
         """Remove pin from edge cache service
 
-        :param cid: Cid to remove from cache
+        :param cid: cid to remove from cache
         :return: None since we don't receive anything from estuary
         :rtype: None
         """
-        response = self._ls_records()
-        pin_id = _find_pin_id_by_cid(cid, response)
+        content = self._content_by_cid(cid)
+        pin_id = content.get("id")  # content id is same as pin id
         req = self._http.delete(f"{ESTUARY_API_PIN}/{pin_id}")
         # we don't consume anything since delete is empty response
-        _handle_response(req)
+        _enhanced_response(req)
 
     def flush(self, limit: int = 0) -> int:
         """Remove all pinned cid from edge cache service
