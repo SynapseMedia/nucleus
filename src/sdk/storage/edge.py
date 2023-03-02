@@ -76,20 +76,31 @@ class Estuary(Edge):
         """Collect details from estuary based on CID
         ref: https://docs.estuary.tech/Reference/SwaggerUI#/public/get_public_by_cid__cid_
 
-        :param cid: cid to retrieve details
+        :param cid: cid to retrieve content details
         :return: cid content details
         :rtype: JSON
         :raises EdgePinException: if pin request fails
         """
 
         req = self._http.get(
-            f"{ESTUARY_API_PUBLIC}/by-cid/",
+            f"{ESTUARY_API_PUBLIC}/by-cid/{cid}",
             headers=self._headers,
         )
 
         # expected response as json
         response = _enhanced_response(req)
         return response.get("content", {})
+
+    def _pin_id_by_cid(self, cid: CID) -> Any:
+        """Return content id from estuary pin
+        
+        :param: cid to retrieve pin id
+        :return: content id
+        :rtype: Any
+        """
+        
+        content = self._content_by_cid(cid)
+        return content.get("id")  # content id is same as pin id
 
     def pin(self, cid: CID, **kwargs: Any) -> Pin:
         """Pin cid into remote edge cache
@@ -132,8 +143,7 @@ class Estuary(Edge):
         :return: None since we don't receive anything from estuary
         :rtype: None
         """
-        content = self._content_by_cid(cid)
-        pin_id = content.get("id")  # content id is same as pin id
+        pin_id = self._pin_id_by_cid(cid)
         req = self._http.delete(f"{ESTUARY_API_PIN}/{pin_id}")
         # we don't consume anything since delete is empty response
         _enhanced_response(req)
