@@ -1,23 +1,7 @@
-# from src.core import json
-# from src.core.storage.ipfs import pin, add_dir
-# from src.sdk import logger
-# from .edge import pin as remote_pin
-# from ..scheme.definition.movies import MovieScheme
+from .types import Storable
 
-# __author__ = "gmena"
-
-
-# def to_ipfs(mv: MovieScheme):
-#     """Ingest movie to IPFS
-
-#     :param mv: MovieScheme
-#     :return: Cleaned, pre-processed, structured ready MovieScheme
-#     """
-
-#     logger.log.warning(f"Ingesting {mv.imdb_code}")
-#     # Logs on ready ingested
-#     current_dir = json.build_dir(mv)
-#     return add_dir(current_dir)
+def pin(media: Storable):
+    ...
 
 
 # def pin_cid(cid_list: iter, remote: bool):
