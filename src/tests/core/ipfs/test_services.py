@@ -61,16 +61,12 @@ def test_services(mocker: Any):
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
     registered_services = service.ls()
     services_iter = map(
-        lambda x: Service(
-            name=x["Service"],
-            endpoint=URL(
-                x["ApiEndpoint"]),
-            key=None),
+        lambda x: Service(name=x["Service"], endpoint=URL(x["ApiEndpoint"]), key=None),
         expected_services,
     )
 
-    assert list(registered_services["remote"]) == list(
-        Services(remote=services_iter)["remote"]
+    assert list(registered_services.remote) == list(
+        Services(remote=services_iter).remote
     )
 
 

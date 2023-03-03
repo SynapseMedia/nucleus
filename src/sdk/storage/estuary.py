@@ -6,7 +6,7 @@ from .constants import ESTUARY_API_PIN, ESTUARY_API_PUBLIC
 from .exceptions import EdgePinException
 
 
-# ESTd7a0cf19-db87-42f2-9d0b-4a462c6057bfARY
+# ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY
 
 
 def _pin_factory(raw_pin: JSON):
@@ -54,6 +54,15 @@ class Estuary(Edge):
         self._service = service
         self._headers = {"Authorization": f"Bearer {service.key}"}
 
+    def _build_uri(self, uri_path: str) -> str:
+        """Uri builder helper
+
+        :param uri_path: path to concat to service endpoint
+        :return: out of the box uri
+        :rtype: str
+        """
+        return f"{self._service.endpoint}{uri_path}"
+
     def _ls_records(self) -> JSON:
         """Return pinned records.
         We use this method to fetch pin ids.
@@ -64,7 +73,7 @@ class Estuary(Edge):
         :raises EdgePinException if an error occurs during request
         """
         req = self._http.get(
-            ESTUARY_API_PIN,
+            self._build_uri(ESTUARY_API_PIN),
             headers=self._headers,
         )
 
@@ -82,10 +91,8 @@ class Estuary(Edge):
         :raises EdgePinException: if pin request fails
         """
 
-        req = self._http.get(
-            f"{ESTUARY_API_PUBLIC}/by-cid/{cid}",
-            headers=self._headers,
-        )
+        content_uri = f"{self._build_uri(ESTUARY_API_PUBLIC)}/by-cid/{cid}"
+        req = self._http.get(content_uri, headers=self._headers)
 
         # expected response as json
         response = _enhanced_response(req)
@@ -93,12 +100,12 @@ class Estuary(Edge):
 
     def _pin_id_by_cid(self, cid: CID) -> Any:
         """Return content id from estuary pin
-        
+
         :param: cid to retrieve pin id
         :return: content id
         :rtype: Any
         """
-        
+
         content = self._content_by_cid(cid)
         return content.get("id")  # content id is same as pin id
 
@@ -112,7 +119,7 @@ class Estuary(Edge):
         :raises EdgePinException: if pin request fails
         """
         req = self._http.post(
-            ESTUARY_API_PIN,
+            self._build_uri(ESTUARY_API_PIN),
             data={cid: cid, **kwargs},
             headers=self._headers,
         )
@@ -144,7 +151,7 @@ class Estuary(Edge):
         :rtype: None
         """
         pin_id = self._pin_id_by_cid(cid)
-        req = self._http.delete(f"{ESTUARY_API_PIN}/{pin_id}")
+        req = self._http.delete(f"{self._build_uri(ESTUARY_API_PIN)}/{pin_id}")
         # we don't consume anything since delete is empty response
         _enhanced_response(req)
 
@@ -161,6 +168,8 @@ class Estuary(Edge):
         sliced = response[:limit]
 
         for pin in sliced:
+            # IMPORTANT this method send a request by each pin
+            # Performance improvement tried using session
             pinned = pin.get("pin")
             cid = pinned.get("cid")
             self.unpin(cid)
