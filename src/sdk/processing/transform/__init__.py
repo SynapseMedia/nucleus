@@ -1,4 +1,4 @@
-from .image import input, check_ratio
-from .types import Size, Sizes, Image
+from .image import input
+from .types import Size, Image
 
-__all__ = ("input", "check_ratio", "Size", "Sizes", "Image")
+__all__ = ("input", "Size", "Image")

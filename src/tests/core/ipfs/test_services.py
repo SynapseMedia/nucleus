@@ -1,8 +1,9 @@
 import pytest
 import src.core.ipfs.service as service
 
-from src.core.ipfs.types import Service, Services, Result
-from src.core.types import Any, URL
+from src.core.ipfs.types import Service, Services
+from src.core.ipfs.constants import EXIT_SUCCESS
+from src.core.types import Any, URL, StdOut
 
 PATH_CLI_PATCH = "src.core.ipfs.service.CLI"
 
@@ -30,7 +31,7 @@ def test_register_service(mocker: Any):
         args: str
 
         def __call__(self):
-            return Result(None)
+            return StdOut(EXIT_SUCCESS, None)
 
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
     registered_service = service.register(register_service)
@@ -56,12 +57,16 @@ def test_services(mocker: Any):
         args: str
 
         def __call__(self):
-            return Result({"RemoteServices": expected_services})
+            return StdOut(EXIT_SUCCESS, {"RemoteServices": expected_services})
 
     mocker.patch(PATH_CLI_PATCH, return_value=MockCLI())
     registered_services = service.ls()
     services_iter = map(
-        lambda x: Service(name=x["Service"], endpoint=URL(x["ApiEndpoint"]), key=None),
+        lambda x: Service(
+            name=x["Service"],
+            endpoint=URL(
+                x["ApiEndpoint"]),
+            key=None),
         expected_services,
     )
 

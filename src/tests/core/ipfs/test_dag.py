@@ -1,8 +1,9 @@
 import pytest
 import src.core.ipfs.dag as dag
+import src.core.exceptions as exceptions
 
-from src.core.ipfs.types import Result
-from src.core.types import Any, CID
+from src.core.ipfs.constants import EXIT_SUCCESS
+from src.core.types import Any, CID, StdOut
 
 
 def test_dag_get(mocker: Any):
@@ -24,7 +25,7 @@ def test_dag_get(mocker: Any):
         args: str
 
         def __call__(self):
-            return Result(expected_dag)
+            return StdOut(EXIT_SUCCESS, expected_dag)
 
     mocker.patch("src.core.ipfs.dag.CLI", return_value=MockCLI())
     dag_get = dag.get(CID("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1"))
@@ -50,11 +51,13 @@ def test_invalid_dag_get(mocker: Any):
 
         def __call__(self):
             # Check for raising error for any resulting fail
-            raise RuntimeError(self.msg)
+            raise exceptions.IPFSRuntimeException(self.msg)
 
     duplicated_cid = "abcde"
     # Simulating an error returned by ipfs invalid cid
     expected_issue = 'Error: invalid path "QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt": selected encoding not supported'
-    mocker.patch("src.core.ipfs.dag.CLI", return_value=MockFailingCLI(expected_issue))
-    with pytest.raises(RuntimeError):
+    mocker.patch(
+        "src.core.ipfs.dag.CLI",
+        return_value=MockFailingCLI(expected_issue))
+    with pytest.raises(exceptions.IPFSRuntimeException):
         dag.get(CID(duplicated_cid))

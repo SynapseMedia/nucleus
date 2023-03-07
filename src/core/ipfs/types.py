@@ -1,51 +1,55 @@
+from dataclasses import dataclass
 from abc import ABCMeta, abstractmethod
 from src.core.types import (
     Sequence,
-    Any,
     Optional,
     Mapping,
     Iterator,
     Protocol,
     Tuple,
     URL,
-    NamedTuple,
     NewType,
     CID,
 )
 
-
-class Service(NamedTuple):
-    name: str  # Service name. eg. pinata, filebase.
-    endpoint: URL  # api endpoint provided by service
-    key: Optional[str]  # auth key provided by service
+ID = NewType("ID", str)
 
 
-class DagLink(NamedTuple):
+@dataclass
+class Service:
+    name: str = ""  # Service name. eg. estuary, pinata, filebase.
+    endpoint: URL = URL("")  # api endpoint provided by service.
+    key: Optional[str] = None  # auth key provided by service
+
+
+@dataclass
+class DagLink:
     name: Optional[str]
     hash: Mapping[str, str]
     tsize: int
 
 
-class Dag(NamedTuple):
+@dataclass
+class Dag:
     data: Mapping[str, Mapping[str, str]]
     links: Iterator[DagLink]
 
 
-class Pin(NamedTuple):
+@dataclass
+class Pin:
     cid: CID
     status: str
     name: Optional[str]
 
 
-# Result type contains standardize output for ipfs commands.
-# An issue here is that ipfs returns different encodings for each command, sometimes could be a string and later probably we get a json object,
-# so using "output" could be fine to expect always the same field to process.
-# eg. call.output
-# ref: docs.ipfs.io/reference/cli/#ipfs
-ID = NewType("ID", str)
-Result = NamedTuple("Result", output=Any)
-Services = NamedTuple("Services", remote=Iterator[Service])
-LocalPin = NamedTuple("Pin", pins=Sequence[str])
+@dataclass
+class Services:
+    remote: Iterator[Service]
+
+
+@dataclass
+class LocalPin:
+    pins: Sequence[str]
 
 
 class Container(Protocol, metaclass=ABCMeta):

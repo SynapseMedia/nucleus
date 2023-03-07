@@ -1,8 +1,9 @@
 import pytest
 import src.core.ipfs.pin as pin
 
-from src.core.ipfs.types import LocalPin, Pin, Result
-from src.core.types import Any, CID
+from src.core.ipfs.types import LocalPin, Pin
+from src.core.ipfs.constants import EXIT_SUCCESS
+from src.core.types import Any, CID, StdOut
 
 
 class MockFailingCLI:
@@ -26,12 +27,12 @@ def test_pin_local(mocker: Any):
         args: str
 
         def __call__(self):
-            return Result({"Pins": expected_pins})
+            return StdOut(EXIT_SUCCESS, {"Pins": expected_pins})
 
     mocker.patch("src.core.ipfs.pin.CLI", return_value=MockCLI())
     pins = pin.local(CID("QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1"))
 
-    assert pins.get("pins") == expected_pins
+    assert pins.pins == expected_pins
     assert pins == LocalPin(pins=expected_pins)
 
 
@@ -48,18 +49,18 @@ def test_pin_remote(mocker: Any):
         args: str
 
         def __call__(self):
-            return Result(expected_result)
+            return StdOut(EXIT_SUCCESS, expected_result)
 
     mocker.patch("src.core.ipfs.pin.CLI", return_value=MockCLI())
     cid_to_pin = "QmZ4agkfrVHjLZUZ8EZnNqxeVfNW5YpxNaNYLy1fTjnYt1"
     pins = pin.remote(CID(cid_to_pin), "edge")
 
-    assert expected_result["Status"] == pins["status"]
-    assert expected_result["Cid"] == pins["cid"]
-    assert expected_result["Name"] == pins["name"]
+    assert expected_result["Status"] == pins.status
+    assert expected_result["Cid"] == pins.cid
+    assert expected_result["Name"] == pins.name
     assert pins == Pin(
         status=expected_result["Status"],
-        cid=expected_result["Cid"],
+        cid=CID(expected_result["Cid"]),
         name=expected_result["Name"],
     )
 

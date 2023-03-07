@@ -1,6 +1,8 @@
 # TODO store singledispatch
-# TODO store(Media)
-# TODO store(Meta)
+# TODO local(Meta)
+# TODO local(Storable)
+# TODO service(Service)
+
 # @singledispatch
 # def engine(model: Media) -> Engine:
 #     raise NotImplementedError()

@@ -27,7 +27,9 @@ class Engine(ABC):
         self._options = {}  # we could ad any default options here
 
     def __call__(self, **options: Any) -> Engine:
-        """Template method to add options to the processing context.
+        """Template method to extend options for processing context.
+        IMPORTANT! This methods extend using update strategy so can overwrite existing options.
+
         :param options: additional keyword arguments
         eg.
 
@@ -35,7 +37,7 @@ class Engine(ABC):
         with engine(max_muxing_queue_size=10) as video:
             ...
         """
-        self._options = options
+        self._options = {**self._options, **options}
         return self
 
     def __exit__(self, *args: Any):
@@ -43,9 +45,24 @@ class Engine(ABC):
         Defines what the context manager should do after its block has been executed (or terminates)"""
         ...
 
-    def annotate(self, name: str, *args: Any, **kwargs: Any) -> Engine:
+    def __getattr__(self, name: str) -> Any:
         """Delegate calls to any underlying tool or library.
-        It Allow chain underlying methods keeping object reference.
+
+        :param name: the name of the method to call
+        :return: any returned result by underlying method
+        :rtype: Any
+        :raise ValueError if accessed attribute is not callable
+        """
+
+        method = getattr(self._input, name)
+        if not callable(method):
+            raise ValueError("expected call to underlying method")
+
+        # call to method and return
+        return method
+
+    def annotate(self, name: str, *args: Any, **kwargs: Any) -> Engine:
+        """It allow chain calls for underlying methods keeping object reference.
 
         :param name: the name of the attribute or method to call
         :param kwargs: additional keyword arguments
@@ -53,13 +70,9 @@ class Engine(ABC):
         :rtype: Engine
         """
 
-        method = getattr(self._input, name)
-        if not callable(method):
-            assert ValueError(
-                "annotation can be used only with underlying methods")
-
         # concat `fluent interface`
-        result = method(*args, **kwargs)
+        call = getattr(self, name)
+        result = call(name, *args, **kwargs)
         if result is not None:
             self._input = result
         return self
@@ -82,5 +95,6 @@ class Engine(ABC):
         :param path: the destination path
         :return: the output
         :rtype: Path
+        :raises ProcessingException: if any exception is captured during processing
         """
         ...

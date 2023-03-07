@@ -4,16 +4,11 @@ import asyncio
 
 
 from abc import abstractmethod, ABCMeta
-from src.core.types import Protocol, NamedTuple, Iterator
+from src.core.types import Protocol, StdOut
 
 SubProcess = asyncio.subprocess.Process
 Reader = asyncio.StreamReader
 Loop = asyncio.BaseEventLoop
-
-
-class StdOut(NamedTuple):
-    exit_code: int
-    logs: Iterator[str]
 
 
 class IPC(Protocol, metaclass=ABCMeta):

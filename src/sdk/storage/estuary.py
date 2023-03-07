@@ -1,9 +1,9 @@
 import requests
+import src.sdk.exceptions as exceptions
 
 from src.core.types import Iterator, CID, Any, JSON
 from .types import Edge, Service, Pin, Response, Session, Headers
 from .constants import ESTUARY_API_PIN, ESTUARY_API_PUBLIC
-from .exceptions import EdgePinException
 
 
 # ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY
@@ -19,7 +19,8 @@ def _pin_factory(raw_pin: JSON):
     pin = raw_pin.get("pin", {})
     status = raw_pin.get("status", "fail")
     # pin subfields
-    # ref: https://docs.estuary.tech/Reference/SwaggerUI#/pinning/get_pinning_pins
+    # ref:
+    # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/get_pinning_pins
     name = pin.get("name", "estuary")
     cid = pin.get("cid", CID(""))
     return Pin(cid, status, name)
@@ -37,9 +38,11 @@ def _enhanced_response(res: Response) -> JSON:
     # expected response as json
     response = res.json()
     # Failing during pin request
-    if response.status_code > requests.codes.ok:
+    if res.status_code > requests.codes.ok:
         error_description = response.get("details", "")
-        raise EdgePinException(f"exception raised during request: {error_description}")
+        raise exceptions.PinException(
+            f"exception raised during request: {error_description}",
+        )
 
     return response
 
@@ -127,7 +130,8 @@ class Estuary(Edge):
         # expected response as json
         response = _enhanced_response(req)
         # data resulting from estuary endpoint
-        # ref: https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
+        # ref:
+        # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
         return _pin_factory(response)
 
     def ls(self) -> Iterator[Pin]:

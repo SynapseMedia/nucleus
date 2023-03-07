@@ -1,7 +1,11 @@
 from functools import singledispatch
-from src.sdk.harvest import Video, Image, Stream
+from src.sdk.harvest import (
+    Video as VideoModel,
+    Image as ImageModel,
+    Stream as StreamModel,
+)
 
-from .engines import VideoEngine, ImageEngine, StreamEngine
+from .engines import Video, Image, Stream
 from .types import Engine, Processable
 
 
@@ -11,15 +15,15 @@ def engine(model: Processable) -> Engine:
 
 
 @engine.register
-def _(model: Video) -> VideoEngine:
-    return VideoEngine(model)
+def _(model: VideoModel) -> Video:
+    return Video(model)
 
 
 @engine.register
-def _(model: Stream) -> StreamEngine:
-    return StreamEngine(model)
+def _(model: StreamModel) -> Stream:
+    return Stream(model)
 
 
 @engine.register
-def _(model: Image) -> ImageEngine:
-    return ImageEngine(model)
+def _(model: ImageModel) -> Image:
+    return Image(model)
