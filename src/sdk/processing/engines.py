@@ -23,13 +23,13 @@ class Video(Engine):
     _options: Mapping[str, Any]
 
     def __enter__(self):
-        self._input = transcode.input(self._path)
+        self._input = transcode.input(self._path, **self._options)
         return self
 
-    def output(self, path: Path) -> Media[Path]:
+    def output(self, path: Path, **kwargs: Any) -> Media[Path]:
         try:
             # We generate the expected path after transcode
-            self._input.output(path, **self._options).run()  # type: ignore
+            self._input.output(path, **kwargs).run()  # type: ignore
             return Media(route=path, type=self._type)
         except Exception as e:
             # Standard exceptions raised
@@ -52,13 +52,14 @@ class Stream(Video):
         self._options = {
             "y": "",
             "c:a": "aac",
-            "crf": 0,  # The range of the CRF scale is 0–51, where 0 is lossless
             "b:a": "128k",  # apple recommends 32-160 kb/s
+            "crf": 0,  # The range of the CRF scale is 0–51, where 0 is lossless
             # The preset determines compression efficiency and therefore
             # affects encoding speed
             "preset": "medium",
         }  # default options
 
+    #TODO implement DASH + Av1
     def _hls(self):
         """Presets for HLS streaming protocol
 
@@ -77,9 +78,8 @@ class Stream(Video):
             "tag:v": "hvc1",
         }
 
-    def output(self, path: Path) -> Media[Path]:
-        self._options = {**self._hls(), **self._options}
-        return super().output(path)
+    def output(self, path: Path, **kwargs: Any) -> Media[Path]:
+        return super().output(path, **{**self._hls(), **kwargs})
 
 
 class Image(Engine):
@@ -96,10 +96,10 @@ class Image(Engine):
         self._input = transform.input(self._path, **self._options)
         return self
 
-    def output(self, path: Path) -> Media[Path]:
+    def output(self, path: Path, **kwargs: Any) -> Media[Path]:
         # We generate the expected path after processing
         try:
-            self._input.save(path)
+            self._input.save(path, **kwargs)
             return Media(route=path, type=self._type)
         except Exception as e:
             # Standard exceptions raised

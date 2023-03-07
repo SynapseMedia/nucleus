@@ -16,12 +16,9 @@ class GenericProcessingException(Exception):
 class GenericEdgeException(requests.exceptions.HTTPError):
     def __init__(self, message: str, *args: Any, **kwargs: Any):
         self.message = f"SDK :: Storage -> {message}"
-        super(
-            GenericEdgeException,
-            self).__init__(
-            self.message,
-            *args,
-            **kwargs)  # type: ignore
+        super(GenericEdgeException, self).__init__(
+            self.message, *args, **kwargs
+        )  # type: ignore
 
 
 class PinException(GenericEdgeException):
