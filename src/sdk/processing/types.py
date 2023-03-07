@@ -30,12 +30,9 @@ class Engine(ABC):
         """Template method to extend options for processing context.
         IMPORTANT! This methods extend using update strategy so can overwrite existing options.
 
-        :param options: additional keyword arguments
-        eg.
-
-        engine = Engine(Path(..))
-        with engine(max_muxing_queue_size=10) as video:
-            ...
+        :param options: additional input arguments
+        :return: Engine instance
+        :rtype: Engine
         """
         self._options = {**self._options, **options}
         return self
@@ -64,7 +61,7 @@ class Engine(ABC):
     def annotate(self, name: str, *args: Any, **kwargs: Any) -> Engine:
         """It allow chain calls for underlying methods keeping object reference.
 
-        :param name: the name of the attribute or method to call
+        :param name: the name of the method to call
         :param kwargs: additional keyword arguments
         :return: annotated engine
         :rtype: Engine
@@ -83,7 +80,7 @@ class Engine(ABC):
         ...
 
     @abstractmethod
-    def output(self, path: Path) -> Media[Path]:
+    def output(self, path: Path, **kwargs: Any) -> Media[Path]:
         """Standard processed media output.
         Expected call output to get resulting File output.
 
@@ -93,6 +90,7 @@ class Engine(ABC):
                 stream.output(Path(...))
 
         :param path: the destination path
+        :param kwargs: additional output arguments
         :return: the output
         :rtype: Path
         :raises ProcessingException: if any exception is captured during processing

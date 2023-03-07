@@ -23,11 +23,13 @@ class MockImage:
 
 class MockVideo:
     called: List[str] = []
+    kwargs: Any
 
     def __init__(self):
         self.called = []
 
-    def output(self, path: Path, **kargs: Any):
+    def output(self, path: Path, **kwargs: Any):
+        self.kwargs = kwargs
         return self
 
     def drawbox(self, *args: Any, **kwargs: Any):
@@ -68,12 +70,17 @@ def test_stream_options(mock_local_video_path: Path):
         mock.input = _mock_input
         media = Video(route=mock_local_video_path)
 
-        expected_options = {
+        input_args = {
             "y": "",
             "c:a": "aac",
             "crf": 0,
             "b:a": "128k",
             "preset": "medium",
+        }
+
+
+        output_args = {"r": 25, "s": Screen.Q480, "b:v": 1100}
+        hls_args = {
             "c:v": "libx265",
             "x265-params": "lossless=1",
             "f": "hls",
@@ -84,17 +91,17 @@ def test_stream_options(mock_local_video_path: Path):
             "g": 100,
             "sc_threshold": 0,
             "tag:v": "hvc1",
-            **{"r": 25, "s": Screen.Q480, "b:v": 1100},
+            **output_args
         }
+        
 
-        with processing.Stream(media)(
-            **{"r": 25, "s": Screen.Q480, "b:v": 1100}
-        ) as video:
+        with processing.Stream(media) as video:
             output = Path("video.mp4")
-            video.output(output)
+            video.output(output, **output_args)
 
             # Check if input receive the right config params
-            assert video._options == expected_options  # type: ignore
+            assert video._options == input_args  # type: ignore
+            assert video._input.kwargs == hls_args  # type: ignore
 
 
 def test_video_engine(mock_local_video_path: Path):
@@ -167,8 +174,6 @@ def test_image_engine(mock_local_file_path: Path):
             output = Path("image.jpg")
             image = image.annotate("crop", (20, 20, 40, 40))
             media = image.output(output)
-            
-            image.crop((20, 20, 40, 40))
 
             # Validate output
             assert isinstance(media, Media)
