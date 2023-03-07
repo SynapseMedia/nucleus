@@ -167,6 +167,8 @@ def test_image_engine(mock_local_file_path: Path):
             output = Path("image.jpg")
             image = image.annotate("crop", (20, 20, 40, 40))
             media = image.output(output)
+            
+            image.crop((20, 20, 40, 40))
 
             # Validate output
             assert isinstance(media, Media)
