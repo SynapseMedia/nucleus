@@ -18,7 +18,7 @@ def test_orbit_subprocess_call():
         match_logs: list[bool] = []
         expected_matches = ["Waiting for data", "abc"]
         for log in expected_matches:
-            match_found = log in stdout.logs
+            match_found = log in stdout.output
             match_logs.append(match_found)
 
         assert all(match_logs)

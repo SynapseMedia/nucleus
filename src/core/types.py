@@ -21,6 +21,7 @@ import contextlib
 import shutil
 import urllib.parse as parse
 
+from dataclasses import dataclass
 from hexbytes import HexBytes
 from abc import ABCMeta, abstractmethod
 
@@ -36,6 +37,12 @@ HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
+
+
+@dataclass
+class StdOut:
+    exit_code: int
+    output: Any
 
 
 class Proxy(Protocol, metaclass=ABCMeta):

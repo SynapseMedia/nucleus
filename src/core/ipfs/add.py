@@ -11,6 +11,7 @@ def directory(path: Path) -> CID:
     :rtype: CIDStr
     :raises IPFSRuntimeException: if ipfs cmd execution fail
     """
+
     # no pin by default
     # blake2b-208 hash func to encode to bytes16 and hex
     args = (

@@ -12,6 +12,7 @@ Storable = Media[Path]
 Session = requests.Session
 Response = requests.Response
 
+
 class Edge(Protocol, metaclass=ABCMeta):
     """Edge provides an standard facade interface to handle services in IPFS.
     For each edge service methods should be defined and encapsulate with any needed logic to simplify the usage.

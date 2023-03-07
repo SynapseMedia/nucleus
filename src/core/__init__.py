@@ -10,7 +10,7 @@ Convention:
               raise exceptions.InvalidPrivateKey() <- immediately obvious where the exception comes from.
         IMPORTANT! An exception for this rule could be the package internal/relative import.
           eg. from .manager import exec
-          
+
       - Even in cases where we are seeing some duplication between the type and the functions exposed by the package we SHOULD
         try to keep this convention so that the code is understood in a separate context between the abstractions and the executable commands/functions.
           eg.
@@ -25,11 +25,11 @@ Convention:
           eg. from src.core.types import URI <- easy to use URI anywhere.
 
     Types:
-    
+
       ## Dict vs Mapping
       - typing.Dict SHOULD be used to indicate a literal dict
       - typing.Mapping SHOULD be used for dynamic allocations
-      
+
       ## Abstractions
       - strict: runtime check eg. ABC
       - soft: type hint check eg. Protocol
