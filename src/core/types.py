@@ -233,7 +233,7 @@ class Path(_ExtensibleStr):
         :rtype: str
         """
 
-        _, file_extension = os.path.splitext(self)
+        file_extension = self._path.suffix
         file_extension = file_extension.replace(".", "")
         return file_extension
 
