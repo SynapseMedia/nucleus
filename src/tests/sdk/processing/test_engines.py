@@ -40,12 +40,34 @@ class MockVideo:
         ...
 
 
+class MockStream(MockVideo):
+    def output(self, path: Path, **kwargs: Any):
+        preset = processing.transcode.protocol(path.extension())
+        self.kwargs = {**preset, **kwargs}
+        return self
+
+
+def test_dispatch_engine(mock_local_video_path: Path):
+    """Should dispatch the right engine based on media"""
+    stream = Stream(route=mock_local_video_path)
+    video = Video(route=mock_local_video_path)
+    image = Image(route=mock_local_video_path)
+
+    stream_engine = processing.engine(stream)
+    video_engine = processing.engine(video)
+    image_engine = processing.engine(image)
+
+    assert isinstance(stream_engine, processing.Stream)
+    assert isinstance(video_engine, processing.Video)
+    assert isinstance(image_engine, processing.Image)
+
+
 def test_stream_engine(mock_local_video_path: Path):
     """Should start a valid transcoding process using StreamEngine returning a valid output"""
     with patch("src.sdk.processing.engines.transcode") as mock:
 
         def _mock_input(_: Any, **y: Any):
-            return MockVideo()
+            return MockStream()
 
         mock.input = _mock_input
         media = Stream(route=mock_local_video_path)
@@ -65,40 +87,37 @@ def test_stream_options(mock_local_video_path: Path):
     with patch("src.sdk.processing.engines.transcode") as mock:
 
         def _mock_input(_: Any, **y: Any):
-            return MockVideo()
+            return MockStream()
 
         mock.input = _mock_input
-        media = Video(route=mock_local_video_path)
+        media = Stream(route=mock_local_video_path)
 
         input_args = {
             "y": "",
             "c:a": "aac",
             "crf": 0,
             "b:a": "128k",
-            "preset": "medium",
+            "preset": "slow",
+            "keyint_min": 100,
+            "g": 100,
+            "sc_threshold": 0,
         }
-
 
         output_args = {"r": 25, "s": Screen.Q480, "b:v": 1100}
         hls_args = {
             "c:v": "libx265",
-            "x265-params": "lossless=1",
             "f": "hls",
+            "x265-params": "lossless=1",
             "hls_time": 10,
             "hls_list_size": 0,
             "hls_playlist_type": "vod",
-            "keyint_min": 100,
-            "g": 100,
-            "sc_threshold": 0,
             "tag:v": "hvc1",
-            **output_args
+            **output_args,
         }
-        
 
         with processing.Stream(media) as video:
-            output = Path("video.mp4")
+            output = Path("video.m3u8")
             video.output(output, **output_args)
-
             # Check if input receive the right config params
             assert video._options == input_args  # type: ignore
             assert video._input.kwargs == hls_args  # type: ignore

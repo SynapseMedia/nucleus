@@ -165,7 +165,7 @@ class Estuary(Edge):
         :param limit: Maximum number of remote pins to remove
         :return: Number of remote pins removed
         :rtype: int
-        :raises EdgePinException if an error occurs during request
+        :raises EdgePinException: if an error occurs during request
         """
         response = self._ls_records()
         limit = limit or len(response)

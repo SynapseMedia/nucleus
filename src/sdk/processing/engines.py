@@ -11,6 +11,16 @@ from .transform import Image as ImageInput
 from .transcode import FilterableStream as VideoInput
 from .types import Engine, Processable
 
+from .transcode.constants import (
+    DEFAULT_PRESET,
+    DEFAULT_VIDEO_BITRATE,
+    DEFAULT_AUDIO_CODEC,
+    DEFAULT_CRF,
+    DEFAULT_KEY_MIN,
+    DEFAULT_GOP,
+    DEFAULT_SC_THRESHOLD,
+)
+
 
 class Video(Engine):
     """Video engine to support low level transcoding using ffmpeg
@@ -51,35 +61,21 @@ class Stream(Video):
         super().__init__(media)
         self._options = {
             "y": "",
-            "c:a": "aac",
-            "b:a": "128k",  # apple recommends 32-160 kb/s
-            "crf": 0,  # The range of the CRF scale is 0–51, where 0 is lossless
-            # The preset determines compression efficiency and therefore
-            # affects encoding speed
-            "preset": "medium",
+            "c:a": DEFAULT_AUDIO_CODEC,
+            "b:a": DEFAULT_VIDEO_BITRATE,
+            "crf": DEFAULT_CRF,
+            "preset": DEFAULT_PRESET,
+            "keyint_min": DEFAULT_KEY_MIN,
+            "g": DEFAULT_GOP,
+            "sc_threshold": DEFAULT_SC_THRESHOLD,
         }  # default options
 
-    #TODO implement DASH + Av1
-    def _hls(self):
-        """Presets for HLS streaming protocol
-
-        ref: https://developer.apple.com/documentation/http_live_streaming/http_live_streaming_hls_authoring_specification_for_apple_devices
-        """
-        return {
-            "c:v": "libx265",
-            "x265-params": "lossless=1",
-            "f": "hls",
-            "hls_time": 10,
-            "hls_list_size": 0,
-            "hls_playlist_type": "vod",
-            "keyint_min": 100,
-            "g": 100,
-            "sc_threshold": 0,
-            "tag:v": "hvc1",
-        }
-
     def output(self, path: Path, **kwargs: Any) -> Media[Path]:
-        return super().output(path, **{**self._hls(), **kwargs})
+        # check file output extension and get corresponding preset
+        extension: str = path.extension()
+        # get protocol based on extension output
+        preset = transcode.protocol(extension)
+        return super().output(path, **{**preset, **kwargs})
 
 
 class Image(Engine):

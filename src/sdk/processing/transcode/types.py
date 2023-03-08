@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from ffmpeg.nodes import FilterableStream  # type: ignore
+from src.core.types import Dict, Any
+
+Preset = Dict[str, Any]
 
 
 class Size:
