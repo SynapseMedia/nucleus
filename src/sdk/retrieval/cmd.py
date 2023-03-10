@@ -9,4 +9,4 @@ def migrate(*args: Sequence[str]) -> Command:
     :return: Command to execute
     :rtype: Command
     """
-    return subprocess.script("migrate", *args)
+    return subprocess.node("migrate", *args)

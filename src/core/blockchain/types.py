@@ -247,6 +247,8 @@ class Contract(Protocol, metaclass=ABCMeta):
 
     """
 
+    _proxy: Proxy
+
     @abstractmethod
     def __init__(self, network: Network):
         """Connect contract to network"""
