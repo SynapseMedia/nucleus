@@ -1,15 +1,12 @@
-import ffmpeg  # type: ignore
+from src.core.types import Any, Path #, Command
+from .nodes import Video
 
-from src.core.types import Any, Path
-from .types import FilterableStream
+def input(path: Path, **options: Any) -> Video:
+    """Video node factory.
 
-
-def input(input_file: Path, **options: Any) -> FilterableStream:
-    """Factory ffmpeg input interface from file path.
-    ref: https://github.com/kkroening/ffmpeg-python
-
-    :param input_file: Path to video
-    :return: FilterableStream object
-    :rtype: FilterableStream
+    :param path: Path to video
+    :return: Video object
+    :rtype: Video
     """
-    return ffmpeg.input(input_file, **options)  # type: ignore
+    return Video(path, **options)  # type: ignore
+

@@ -9,33 +9,26 @@ Processable = Media[Union[Path, URL]]
 
 
 class Engine(ABC):
-    """Adapter/Template engine to handle standard actions for media processing.
-
-    Any type of input, for example, video, image, music, etc., needs some type of processing to be transmitted or consumed.
-    We could define any steps or logic needed to process our media.
+    """Template defines a media engine that uses an underlying library as interface to process media files and produce output.
+    The engine adapt dynamically the library so that methods can be directly accessed and process media in a specific context.
     """
 
     _type: str
     _path: Path
-    _input: Any
+    _interface: Any
     _options: Mapping[str, Any]
 
-    def __init__(self, media: Processable):
-        """Template method initialize engine with media input path."""
-        self._path = Path(media.route)
-        self._type = media.type
-        self._options = {}  # we could ad any default options here
+    def __init__(self, media: Processable, **kwargs: Any):
+        """Template method initialize engine with media input path.
 
-    def __call__(self, **options: Any) -> Engine:
-        """Template method to extend options for processing context.
-        IMPORTANT! This methods extend using update strategy so can overwrite existing options.
-
-        :param options: additional input arguments
-        :return: Engine instance
+        :param media: input media as URL or local Path
+        :param kwargs: input options
+        :return: engine instance
         :rtype: Engine
         """
-        self._options = {**self._options, **options}
-        return self
+        self._path = Path(media.route)
+        self._type = media.type
+        self._options = kwargs  # we could add any input options here
 
     def __exit__(self, *args: Any):
         """Template method to handle context exit. Default is do nothing.
@@ -51,7 +44,7 @@ class Engine(ABC):
         :raise ValueError if accessed attribute is not callable
         """
 
-        method = getattr(self._input, name)
+        method = getattr(self._library, name)
         if not callable(method):
             raise ValueError("expected call to underlying method")
 
@@ -71,12 +64,14 @@ class Engine(ABC):
         call = getattr(self, name)
         result = call(name, *args, **kwargs)
         if result is not None:
-            self._input = result
+            self._library = result
         return self
 
     @abstractmethod
     def __enter__(self) -> Engine:
-        """Defines what the context manager should do at the beginning of the block created by the with statement."""
+        """Defines what the context manager should do at the beginning of the block created by the with statement.
+        We can define in this step the input library for the engine.
+        """
         ...
 
     @abstractmethod
