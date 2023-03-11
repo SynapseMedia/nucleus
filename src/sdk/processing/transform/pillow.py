@@ -12,7 +12,7 @@ class Image(Adaptable):
         self._path = path  # the context file path
         self._interface = PIL.open(path, **kwargs)  # type: ignore
 
-    def __instancecheck__(self, instance: PIL.Image):
+    def __instancecheck__(self, instance: Any):
         return isinstance(instance, self._interface.__class__)
 
     def __chaining__(self, interface: PIL.Image):

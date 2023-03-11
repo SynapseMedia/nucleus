@@ -21,7 +21,7 @@ class _Node(Adaptable):
         self._path = path  # the context file path
         self._interface = ffmpeg.input(path, **kwargs)  # type: ignore
 
-    def __instancecheck__(self, instance: FFMPEG):
+    def __instancecheck__(self, instance: Any):
         return isinstance(instance, self._interface.__class__)
 
     def __chaining__(self, interface: FFMPEG):
