@@ -4,22 +4,28 @@ import ffmpeg  # type: ignore
 import functools
 import inspect
 
-from src.core.types import Path, Any, Set
+from src.core.types import Path, Any, Set, Adaptable
 from .types import FFMPEG, Spec, Settings
 
 
-class _Node:
+class _Node(Adaptable):
     """Adapter class that amplifies the features of ffmpeg lib.
     We can think about this class as a processing node that uses FFMPEG underneath.
     ref: https://github.com/kkroening/ffmpeg-python
     """
 
     _path: Path
-    _input: FFMPEG
+    _interface: FFMPEG
 
     def __init__(self, path: Path, **kwargs: Any):
         self._path = path  # the context file path
-        self._input = ffmpeg.input(path, **kwargs)  # type: ignore
+        self._interface = ffmpeg.input(path, **kwargs)  # type: ignore
+
+    def __instancecheck__(self, instance: FFMPEG):
+        return isinstance(instance, self._interface.__class__)
+
+    def __chaining__(self, interface: FFMPEG):
+        self._interface = interface
 
     def spec(self, *args: Any, **kwargs: Any) -> Spec:
         """Return current output as stream spec.
@@ -28,7 +34,7 @@ class _Node:
         :return: output node as stream spec
         :rtype: SpecStream
         """
-        return self._input.output(*args, **kwargs)  # type: ignore
+        return self._interface.output(*args, **kwargs)  # type: ignore
 
     def probe(self, **kwargs: Any):
         """Delegate call to underlying lib with context input path"""
@@ -47,10 +53,10 @@ class _Node:
             # we use the default argument if expected `stream` as first param
             # ref: https://kkroening.github.io/ffmpeg-python/
             if "stream" in args.args:
-                return functools.partial(callable_, self._input)
+                return functools.partial(callable_, self._interface)
 
             return callable_
-        return getattr(self._input, name)
+        return getattr(self._interface, name)
 
 
 # TODO support map to handle multiple streams

@@ -1,8 +1,6 @@
-import PIL.Image as PIL
-
 # Convention for importing types
 from src.core.types import Path, Any
-from .types import Image
+from .pillow import Image
 
 
 def input(path: Path, **options: Any) -> Image:
@@ -13,4 +11,4 @@ def input(path: Path, **options: Any) -> Image:
     :rtype: Image
     """
 
-    return PIL.open(path, **options)
+    return Image(path, **options)

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import abstractmethod, ABC
-from src.core.types import Any, Path, URL, Mapping, Union
+from src.core.types import Any, Path, URL, Mapping, Union, Adaptable
 from src.sdk.harvest.model import Media
 
 # Alias for allowed engine inputs
@@ -15,7 +15,7 @@ class Engine(ABC):
 
     _type: str
     _path: Path
-    _interface: Any
+    _interface: Adaptable
     _options: Mapping[str, Any]
 
     def __init__(self, media: Processable, **kwargs: Any):
@@ -39,12 +39,12 @@ class Engine(ABC):
         """Delegate calls to any underlying tool or library.
 
         :param name: the name of the method to call
-        :return: any returned result by underlying method
+        :return: underlying method to call
         :rtype: Any
         :raise ValueError if accessed attribute is not callable
         """
 
-        method = getattr(self._library, name)
+        method = getattr(self._interface, name)
         if not callable(method):
             raise ValueError("expected call to underlying method")
 
@@ -62,9 +62,10 @@ class Engine(ABC):
 
         # concat `fluent interface`
         call = getattr(self, name)
-        result = call(name, *args, **kwargs)
-        if result is not None:
-            self._library = result
+        result = call(*args, **kwargs)
+        # keep chaining if result method is same object
+        if isinstance(result, self._interface):  # type: ignore
+            self._interface.__chaining__(result)
         return self
 
     @abstractmethod
