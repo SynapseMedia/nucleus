@@ -27,11 +27,3 @@ def test_image_partial():
     meta_model = harvest.image(route=expected_route)
     assert meta_model.__class__.__name__ == "Image"
     assert meta_model.route == expected_route
-
-
-def test_stream_partial():
-    """Should return expected Stream Media based model"""
-    expected_route = Path("src/tests/_mock/files/video.mp4")
-    meta_model = harvest.stream(route=expected_route)
-    assert meta_model.__class__.__name__ == "Stream"
-    assert meta_model.route == expected_route

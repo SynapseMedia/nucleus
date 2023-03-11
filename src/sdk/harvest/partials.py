@@ -4,7 +4,7 @@ from src.core.types import Any, Type
 from pydantic import create_model, parse_obj_as
 
 from .model import Meta, Collectable
-from .media import Image, Video, Stream
+from .media import Image, Video
 
 
 def media_factory(base: Type[Collectable], **kwargs: Any) -> Collectable:
@@ -16,7 +16,6 @@ def media_factory(base: Type[Collectable], **kwargs: Any) -> Collectable:
 meta = functools.partial(create_model, __base__=Meta)
 image = functools.partial(media_factory, base=Image)
 video = functools.partial(media_factory, base=Video)
-stream = functools.partial(media_factory, base=Stream)
 
 
-__all__ = ("meta", "image", "video", "stream")
+__all__ = ("meta", "image", "video")

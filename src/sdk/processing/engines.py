@@ -4,11 +4,8 @@ import src.sdk.processing.transform as transform
 import src.sdk.processing.transcode as transcode
 import src.sdk.exceptions as exceptions
 
-from src.core.types import Path, Any, Mapping
+from src.core.types import Path, Any, Mapping, Adaptable
 from src.sdk.harvest.model import Media
-
-from .transform import Image as ImageLib
-from .transcode import Video as VideoLib
 from .types import Engine
 
 
@@ -19,7 +16,7 @@ class Video(Engine):
 
     _type: str
     _path: Path
-    _interface: VideoLib
+    _interface: Adaptable
     _options: Mapping[str, Any]
 
     def __enter__(self):
@@ -44,7 +41,7 @@ class Image(Engine):
 
     _type: str
     _path: Path
-    _interface: ImageLib
+    _interface: Adaptable
     _options: Mapping[str, Any]
 
     def __enter__(self):

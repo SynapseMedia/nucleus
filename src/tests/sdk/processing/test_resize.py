@@ -11,7 +11,7 @@ image_dir_638 = Path(f"{root_dir}638x400.jpg")
 
 def test_valid_input():
     """Should success for valid input image"""
-    with transform.input(image_dir_771) as img:
-        w, h = img.size
-        assert w == 771
-        assert h == 900
+    img = transform.input(image_dir_771)
+    w, h = img.size
+    assert w == 771
+    assert h == 900

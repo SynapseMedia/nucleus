@@ -108,6 +108,39 @@ class Proxy(Protocol, metaclass=ABCMeta):
         ...
 
 
+@runtime_checkable
+class Adaptable(Protocol, metaclass=ABCMeta):
+    """Adaptable specifies behavior for classes that can extend and interchange its implementation.
+    Such an interface is expected to be adapted/extended from an underlying library."""
+
+    _interface: Any
+
+    @abstractmethod
+    def __instancecheck__(self, instance: Any) -> Any:
+        """Pass instance checking to underlying lib."""
+        ...
+
+    @abstractmethod
+    def __chaining__(self, interface: Any):
+        """Allow chaining to control the fluent interface keeping object reference.
+        
+        :param interface: the interface to chain
+        :return: None
+        :rtype: None
+        """
+        ...
+
+    @abstractmethod
+    def __getattr__(self, name: str) -> Callable[[Any], Any]:
+        """Delegate calls to any underlying tool or library.
+
+        :param name: the name of the method to call
+        :return: underlying method to call
+        :rtype: Any
+        """
+        ...
+
+
 class Command(Protocol, metaclass=ABCMeta):
     """Command specify needed methods for commands execution."""
 
