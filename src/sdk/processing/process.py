@@ -32,7 +32,7 @@ def _(model: VideoModel, **kwargs: Any) -> Video:
     input_path = Path(model.route)
     library: FFMPEG = ffmpeg.input(input_path, **kwargs)  # type: ignore
     # Adapter for FFMPEG video lib
-    adapter = video.FFMPEGAdapter(model.type, library)
+    adapter = video.FFMPEG(model.type, library)
     return Video(adapter)
 
 
@@ -41,5 +41,5 @@ def _(model: ImageModel, **kwargs: Any) -> Image:
     input_path = Path(model.route)
     library: Pillow = PIL.open(input_path, **kwargs)
     # Adapter for Pillow image lib
-    adapter = image.PillowAdapter(model.type, library)
+    adapter = image.Pillow(model.type, library)
     return Image(adapter)
