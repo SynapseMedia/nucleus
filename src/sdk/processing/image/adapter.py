@@ -2,7 +2,7 @@ from PIL.Image import Image as Pillow
 from src.core.types import Adapter
 
 
-class PillowAdapter(Adapter[Pillow]):
+class Pillow(Adapter[Pillow]):
     """Pillow adapter class implements methods to handle PIL at a low level."""
     
     def __instancecheck__(self, instance: Pillow):

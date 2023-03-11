@@ -1,4 +1,4 @@
 from .types import Size
-from .adapter import PillowAdapter
+from .adapter import Pillow
 
-__all__ = ("Size", "PillowAdapter")
+__all__ = ("Size", "Pillow")

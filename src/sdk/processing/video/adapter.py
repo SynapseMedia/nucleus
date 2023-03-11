@@ -55,7 +55,7 @@ class _Stream(Adapter[FFMPEG]):
 # TODO eg: .map(stream, {"s": "840x600", "maxrate": "2M"})
 
 
-class FFMPEGAdapter(_Stream):
+class FFMPEG(_Stream):
     """FFMPEG adapter class implements methods to handle ffmpeg at a low level."""
 
     _settings: Set[Settings]
@@ -69,4 +69,4 @@ class FFMPEGAdapter(_Stream):
     # TODO luego convertir cada elemento y unirlo en un solo diccionario y pasarlo al spec.
 
 
-__all__ = ("FFMPEGAdapter",)
+__all__ = ("FFMPEG",)

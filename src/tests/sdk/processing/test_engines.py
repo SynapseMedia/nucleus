@@ -81,7 +81,7 @@ def test_dispatch_engine(mock_local_video_path: Path, mock_local_image_path: Pat
 
 def test_video_engine(mock_local_video_path: Path):
     """Should start a valid transcoding process using VideoEngine returning a valid output"""
-    with patch("src.sdk.processing.process.video.FFMPEGAdapter") as mock:
+    with patch("src.sdk.processing.process.video.FFMPEG") as mock:
 
         mock.return_value = MockVideo()
         media = Video(route=mock_local_video_path)
@@ -98,7 +98,7 @@ def test_video_engine(mock_local_video_path: Path):
 
 def test_video_engine_annotations(mock_local_video_path: Path):
     """Should start a valid transcoding process using method annotations"""
-    with patch("src.sdk.processing.process.video.FFMPEGAdapter") as mock:
+    with patch("src.sdk.processing.process.video.FFMPEG") as mock:
 
         mock.return_value = MockVideo()
         media = Video(route=mock_local_video_path)
@@ -116,7 +116,7 @@ def test_video_engine_annotations(mock_local_video_path: Path):
 
 def test_image_engine(mock_local_image_path: Path):
     """Should start a valid transform process using ImageEngine returning a valid output"""
-    with patch("src.sdk.processing.process.image.PillowAdapter") as mock:
+    with patch("src.sdk.processing.process.image.Pillow") as mock:
 
         mock.return_value = MockImage()
         media = Image(route=mock_local_image_path)
@@ -134,7 +134,7 @@ def test_image_engine(mock_local_image_path: Path):
 
 def test_image_engine_annotations(mock_local_image_path: Path):
     """Should start a valid transform process using using method annotations"""
-    with patch("src.sdk.processing.process.image.PillowAdapter") as mock:
+    with patch("src.sdk.processing.process.image.Pillow") as mock:
 
         mock.return_value = MockImage()
         media = Image(route=mock_local_image_path)
