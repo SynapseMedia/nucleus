@@ -1,57 +1,57 @@
 from __future__ import annotations
 
 from abc import abstractmethod, ABC
-from src.core.types import Any, Path, URL, Mapping, Union, Adaptable
 from src.sdk.harvest.model import Media
+from src.core.types import (
+    Any,
+    Path,
+    URL,
+    Union,
+    Callable,
+    Adapter,
+    Generic,
+    T,
+)
+
 
 # Alias for allowed engine inputs
 Processable = Media[Union[Path, URL]]
 
 
-class Engine(ABC):
-    """Template defines a media engine that uses an underlying library as interface to process media files and produce output.
+class Engine(ABC, Generic[T]):
+    """Engine implements a media engine template that uses an underlying library as interface to process media files and produce output.
     The engine adapt dynamically the library so that methods can be directly accessed and process media in a specific context.
     """
 
-    _type: str
-    _path: Path
-    _interface: Adaptable
-    _options: Mapping[str, Any]
+    _library: Adapter[T]
 
-    def __init__(self, media: Processable, **kwargs: Any):
+    def __init__(self, interface: Adapter[T]):
         """Template method initialize engine with media input path.
 
-        :param media: input media as URL or local Path
-        :param kwargs: input options
+        :param interface: adaptable interface
+        :param type: engine type
         :return: engine instance
         :rtype: Engine
         """
-        self._path = Path(media.route)
-        self._type = media.type
-        self._options = kwargs  # we could add any input options here
+        self._library = interface
 
-    def __exit__(self, *args: Any):
-        """Template method to handle context exit. Default is do nothing.
-        Defines what the context manager should do after its block has been executed (or terminates)"""
-        ...
+    def __getattr__(self, name: str) -> Callable[[Any], Any]:
+        """Control behavior for when a user attempts to access an attribute that doesn't exist.
+        This method delegate the call to any underlying tool or library.
 
-    def __getattr__(self, name: str) -> Any:
-        """Delegate calls to any underlying tool or library.
-
-        :param name: the name of the method to call
-        :return: underlying method to call
-        :rtype: Any
+        :return: expected method to call
+        :rtype: Callable[[Any], Any]
         :raise ValueError if accessed attribute is not callable
         """
 
-        method = getattr(self._interface, name)
+        method = getattr(self._library, name)
         if not callable(method):
             raise ValueError("expected call to underlying method")
 
-        # call to method and return
+        # return callable
         return method
 
-    def annotate(self, name: str, *args: Any, **kwargs: Any) -> Engine:
+    def annotate(self, name: str, *args: Any, **kwargs: Any) -> Engine[T]:
         """It allow chain calls for underlying methods keeping object reference.
 
         :param name: the name of the method to call
@@ -64,16 +64,9 @@ class Engine(ABC):
         call = getattr(self, name)
         result = call(*args, **kwargs)
         # keep chaining if result method is same object
-        if isinstance(result, self._interface):  # type: ignore
-            self._interface.__chaining__(result)
+        if isinstance(result, self._library):  # type: ignore
+            self._library(result)
         return self
-
-    @abstractmethod
-    def __enter__(self) -> Engine:
-        """Defines what the context manager should do at the beginning of the block created by the with statement.
-        We can define in this step the input library for the engine.
-        """
-        ...
 
     @abstractmethod
     def output(self, path: Path, **kwargs: Any) -> Media[Path]:

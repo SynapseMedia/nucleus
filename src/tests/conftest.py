@@ -5,8 +5,8 @@ from src.core.types import Any, Path
 
 
 @pytest.fixture()
-def mock_local_file_path():
-    return Path("src/tests/_mock/files/watchit.png")
+def mock_local_image_path():
+    return Path("src/tests/_mock/files/spidy.png")
 
 
 @pytest.fixture()
@@ -15,8 +15,8 @@ def mock_local_video_path():
 
 
 @pytest.fixture()
-def mock_local_file(mock_local_file_path: str):
-    return open(mock_local_file_path, "rb")
+def mock_local_file(mock_local_image_path: str):
+    return open(mock_local_image_path, "rb")
 
 
 @pytest.fixture()
