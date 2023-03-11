@@ -23,13 +23,14 @@ import urllib.parse as parse
 
 from dataclasses import dataclass
 from hexbytes import HexBytes
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod, ABC
 
 # "inherit" from global typing
 from typing import *  # type: ignore
 
 # https://docs.python.org/3/library/typing.html#typing.TypeVar
 T = TypeVar("T")
+C = TypeVar("C", contravariant=True)
 
 JSON = Dict[Any, Any]
 Raw = NewType("Raw", Mapping[str, Any])
@@ -45,8 +46,8 @@ class StdOut:
     output: Any
 
 
-class Proxy(Protocol, metaclass=ABCMeta):
-    """This protocol pretends to enforce generically calls to unknown methods
+class Proxy(Protocol, Generic[C], metaclass=ABCMeta):
+    """This protocol pretends to enforce proxy calls to underlying methods
 
     eg.
         # Contract can be any based on lib
@@ -67,76 +68,57 @@ class Proxy(Protocol, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def __init__(self, interface: Any):
+    def __init__(self, interface: C):
         """Interface may be anything but MUST expose a subscriptable object to handle it"""
         ...
 
     @abstractmethod
     def __getattr__(self, name: str) -> Callable[[Any], Any]:
-        """Control behavior for when a user attempts to access an attribute that doesn't exist
-        This method proxies/delegate the call to low level lib subscriptable object.
+        """Control behavior for when a user attempts to access an attribute that doesn't exist.
+        This method delegate the call to any underlying tool or library.
 
-        # Example with web3 lib
-        class Web3Functions:
-            def __getattr__(self, name):
-                # Here the low level lib handle the function call to contract
-
-        # Underneath core lib web3
-        class Web3Contract:
-            functions = Web3Functions <- this is now an subscriptable object
-
-        # Our proxy is an subscriptable object too
-        contract = CustomContract(Proxy)
-
-        # In a transitive approach we delegate the call to our `favorite lib` using our "CustomContract"
-        contract.[myMethod]() <- this is not an existing method in our contract so we delegate the call to our lib contract functions
-
-        Usage:
-            class ProxyWeb3Contract(Proxy):
-                _interface: Contract
-
-                def __init__(self, interface: Contract):
-                    self._interface = interface
-
-                def __getattr__(self, name: str):
-                    return getattr(self._interface.functions, name)
-
-        :return: expected method to call in contract
+        :return: expected method to call
         :rtype: Callable[[Any], Any]
-
         """
         ...
 
 
-@runtime_checkable
-class Adaptable(Protocol, metaclass=ABCMeta):
-    """Adaptable specifies behavior for classes that can extend and interchange its implementation.
-    Such an interface is expected to be adapted/extended from an underlying library."""
+class Adapter(ABC, Generic[T]):
+    """Adapter template that specifies behavior for classes that can extend and interchange its implementation.
+    Such an interface is expected to be adapted from an underlying library."""
 
-    _interface: Any
+    _input: T
+    _name: str
 
-    @abstractmethod
-    def __instancecheck__(self, instance: Any) -> Any:
-        """Pass instance checking to underlying lib."""
-        ...
+    def __init__(self, name: str, input: T):
+        """Initialize a new instance with bound library and name"""
+        self._input = input
+        self._name = name
 
-    @abstractmethod
-    def __chaining__(self, interface: Any):
+    def __str__(self):
+        """String representation for library"""
+        return self._name
+
+    def __instancecheck__(self, instance: T):
+        """Pass instance checking to underlying interface."""
+        return isinstance(instance, self._input.__class__)
+
+    def __call__(self, instance: T):
         """Allow chaining to control the fluent interface keeping object reference.
-        
+
         :param interface: the interface to chain
         :return: None
         :rtype: None
         """
-        ...
+        self._input = instance
 
     @abstractmethod
     def __getattr__(self, name: str) -> Callable[[Any], Any]:
-        """Delegate calls to any underlying tool or library.
+        """Control behavior for when a user attempts to access an attribute that doesn't exist.
+        This method delegate the call to any underlying tool or library.
 
-        :param name: the name of the method to call
-        :return: underlying method to call
-        :rtype: Any
+        :return: expected method to call
+        :rtype: Callable[[Any], Any]
         """
         ...
 

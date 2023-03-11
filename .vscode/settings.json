@@ -23,6 +23,7 @@
         "programname",
         "pydantic",
         "rtype",
+        "spidy",
         "strerror",
         "tqdm",
         "tracebacks",
