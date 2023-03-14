@@ -23,7 +23,7 @@ class _Model(Manager, pydantic.BaseModel):
     def get(cls) -> Any:
         """Exec query and fetch one entry from database.
 
-        :return: one result as model type
+        :return: one result as model instance
         :rtype: Any
         """
 
@@ -35,7 +35,7 @@ class _Model(Manager, pydantic.BaseModel):
     def all(cls) -> Iterator[_Model]:
         """Exec query and fetch a list of data from database.
 
-        :return: all query result as model type
+        :return: all query result as model instance
         :rtype: Iterator[Any]
         """
 

@@ -5,7 +5,7 @@ from src.core.ipfs.types import Service, Services
 from src.core.ipfs.constants import EXIT_SUCCESS
 from src.core.types import Any, URL, StdOut
 
-PATH_CLI_PATCH = "src.core.ipfs.service.CLI"
+PATH_CLI_PATCH = "src.core.ipfs.service.IPFS"
 
 
 class MockFailingCLI:

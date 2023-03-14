@@ -3,18 +3,22 @@ from __future__ import annotations
 from abc import abstractmethod, ABC
 from src.sdk.harvest.model import Media
 from src.core.types import (
+    T,
     Path,
+    Iterator,
     URL,
     Union,
     Generic,
-    T,
     Set,
     Setting,
+    Tuple,
+    Any,
 )
 
 
 # Alias for allowed engine inputs
 Processable = Media[Union[Path, URL]]
+Compiled = Iterator[Tuple[str, Any]]
 
 
 class Engine(ABC, Generic[T]):
@@ -35,6 +39,11 @@ class Engine(ABC, Generic[T]):
     def __str__(self):
         """String representation for library"""
         return self._name
+
+    def compile(self) -> Compiled:
+        """Join config as output map arguments"""
+        for preset in self._settings:
+            yield preset.__class__.__name__, dict(preset)
 
     def configure(self, setting: Setting) -> Engine[T]:
         """Set the context for media processing.
