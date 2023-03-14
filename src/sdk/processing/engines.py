@@ -6,7 +6,7 @@ from collections import ChainMap
 from PIL.Image import Image as Pillow
 from ffmpeg.nodes import FilterableStream as FFMPEG  # type: ignore
 
-from src.core.types import Path, Any, MutableMapping
+from src.core.types import Path, Any
 from src.sdk.harvest.model import Media
 from .types import Engine
 
@@ -16,13 +16,9 @@ class Video(Engine[FFMPEG]):
     ref: https://github.com/kkroening/ffmpeg-python
     """
 
-    def _build_output_args(self):
+    def _build_output_args(self) -> ChainMap[Any, Any]:
         """Join config as output arguments for ffmpeg"""
-        mapped_args: map[MutableMapping[str, Any]] = map(
-            lambda x: dict(x), self._settings
-        )
-
-        # merge arguments from settings
+        mapped_args = [y for _, y in self.compile()]
         return ChainMap(*mapped_args)
 
     def save(self, path: Path) -> Media[Path]:

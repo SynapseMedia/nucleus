@@ -6,41 +6,27 @@ from src.sdk.processing import Screen, Bitrate, HLS, VP9
 
 
 def test_video_configuration(mock_local_video_path: Path):
-    """Should output the expected FFMPEG command using configured options"""
-    output = Path("video.mp4")
+    """Should compile the expected configuration"""
     video = Video(route=mock_local_video_path)
     video_engine = processing.engine(video)
     video_engine.configure(HLS(VP9()))
     video_engine.configure(Screen.Q1080)
     video_engine.configure(Bitrate.B1080)
 
-    command = video_engine.spec(output).compile()
-    assert command == [
-        "ffmpeg",
-        "-i",
-        "src/tests/_mock/files/video.mp4",
-        "-b:a",
-        "320k",
-        "-b:v",
-        "4096k",
-        "-c:a",
-        "aac",
-        "-c:v",
-        "libvpx-vp9",
-        "-hls_list_size",
-        "0",
-        "-hls_playlist_type",
-        "vod",
-        "-hls_time",
-        "10",
-        "-s",
-        "1920x1080",
-        "-tag:v",
-        "hvc1",
-        "video.mp4",
+    # check if compiled args are equal to expected
+    compiled = sorted(video_engine.compile(), key=lambda t: t[0])
+    assert compiled == [
+        ("BR", {"b:v": "4096k", "b:a": "320k"}),
+        (
+            "HLS",
+            {
+                "hls_time": 10,
+                "hls_list_size": 0,
+                "hls_playlist_type": "vod",
+                "tag:v": "hvc1",
+                "c:a": "aac",
+                "c:v": "libvpx-vp9",
+            },
+        ),
+        ("Size", {"s": "1920x1080"}),
     ]
-
-
-# TODO comprobar aca si el formato existe en el origen FFProbe para HLS y DASH verificar primero
-# TODO el codec que tiene el original si no es diferente al de salida solo copiar
-

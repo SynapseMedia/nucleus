@@ -71,7 +71,7 @@ class BR(Option):
         # if we only receive video bitrate, we consider it as overall bitrate
         if self._video and not self._audio:
             yield "b", f"{self._video}k"
-            raise StopIteration()
+            return
 
         yield "b:v", f"{self._video}k"
         yield "b:a", f"{self._audio}k"

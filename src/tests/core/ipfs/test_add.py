@@ -18,6 +18,6 @@ class MockCLI:
 def test_add(mocker: Any):
     """Should return a valid cid for valid dir"""
 
-    mocker.patch("src.core.ipfs.add.CLI", return_value=MockCLI())
+    mocker.patch("src.core.ipfs.add.IPFS", return_value=MockCLI())
     add_directory = add.directory(Path("/test/dir"))
     assert add_directory == expected_hash
