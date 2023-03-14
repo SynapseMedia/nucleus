@@ -1,4 +1,10 @@
-from .types import Size
-from .adapter import Pillow
+from .types import *
+from .options import *
 
-__all__ = ("Size", "Pillow")
+from . import options
+from . import types
+
+__all__ = [
+    *types.__all__,
+    *options.__all__,
+]  # type:ignore

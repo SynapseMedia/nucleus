@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from src.core.types import Any, Dict
-from .types import Option, Operations
+from .types import Option
 
 """
 aspect ratio	H.264/AVC kb/s	Frame rate
@@ -16,15 +16,14 @@ aspect ratio	H.264/AVC kb/s	Frame rate
 
 
 class Custom(Option):
-    """Special class to add custom settings directly to the ffmpeg command"""
+    """Special class to add custom settings directly to the ffmpeg command.
+    ref: https://ffmpeg.org/ffmpeg.html#Main-options
+    """
 
     _custom: Dict[str, Any]
 
     def __init__(self, **kwargs: Any):
         self._custom = kwargs
-
-    def __contains__(self, op: Operations) -> bool:
-        return op in [Operations.IN, Operations.OUT]
 
     def __iter__(self):
         for k, v in self._custom.items():
@@ -43,9 +42,6 @@ class Size(Option):
     def __str__(self) -> str:
         return f"{self._width}x{self._height}"
 
-    def __contains__(self, op: Operations) -> bool:
-        return op in [Operations.IN, Operations.OUT]
-
     def __iter__(self):
         yield "s", str(self)
 
@@ -58,22 +54,18 @@ class FPS(Option):
     def __init__(self, fps: float):
         self._fps = fps
 
-    def __contains__(self, op: Operations) -> bool:
-        return op in [Operations.IN, Operations.OUT]
-
     def __iter__(self):
         yield "r", self._fps
 
 
 class BR(Option):
+    """Video/Audio bitrate"""
+
     _video: int
     _audio: int
 
     def __init__(self, video: int, audio: int = 0):
         self._video, self._audio = video, audio
-
-    def __contains__(self, op: Operations) -> bool:
-        return op in [Operations.OUT]
 
     def __iter__(self):
         # if we only receive video bitrate, we consider it as overall bitrate

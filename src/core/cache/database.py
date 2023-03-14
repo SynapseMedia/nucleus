@@ -39,7 +39,7 @@ def is_open(conn: Connection) -> bool:
     """Check if connection is open.
 
     :param conn: connection to check
-    :return: True if connection is open or False otherwise
+    :return: true if connection is open or False otherwise
     :rtype: bool
     """
     try:

@@ -8,8 +8,8 @@ from src.core.types import Primitives, HexStr, CID
 def to_hex(input_: Primitives) -> HexStr:
     """Convert input to hex representation
 
-    :param _input:
-    :return: Hexadecimal string
+    :param input:
+    :return: hexadecimal string
     :rtype: str
     """
     return HexStr(Web3.toHex(input_))

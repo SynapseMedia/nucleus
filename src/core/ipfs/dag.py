@@ -1,6 +1,6 @@
 from src.core.types import CID
 from .types import Dag, DagLink
-from .cmd import CLI
+from .cmd import IPFS
 
 
 def get(cid: CID) -> Dag:
@@ -20,13 +20,13 @@ def get(cid: CID) -> Dag:
         }
 
     :param cid: cid to retrieve from dag
-    :return: Dag representation objects
+    :return: dag representation objects
     :rtype: Dag
     :raises IPFSRuntimeException: if ipfs cmd execution fail
     """
 
     # Exec command and get output
-    call = CLI("/dag/get", cid)()
+    call = IPFS("/dag/get", cid)()
     data = call.output.get("Data")
     raw_links = call.output.get("Links")
 

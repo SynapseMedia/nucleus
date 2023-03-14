@@ -18,7 +18,7 @@ Convention:
             from src.sdk.harvest import Movie <- imported type
 
             collected = harvest.load(...)
-            harvest.merge_as(Movie, collected)
+            harvest.merge(...)
 
       - For constants or types the better approach is to import using `from` instead of `import` directly since that could be annoying
         keep referencing the package for every usage of type or constant.

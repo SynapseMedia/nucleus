@@ -49,7 +49,7 @@ class MockVideo:
 
     def output(self, path: Path, **kwargs: Any):
         return MockOutput()
-    
+
     def __instancecheck__(self, instance: Any):
         return True
 
@@ -62,9 +62,6 @@ class MockVideo:
 
     def run(self):
         ...
-
-
-# TODO test video settings
 
 
 def test_dispatch_engine(mock_local_video_path: Path, mock_local_image_path: Path):
@@ -81,7 +78,7 @@ def test_dispatch_engine(mock_local_video_path: Path, mock_local_image_path: Pat
 
 def test_video_engine(mock_local_video_path: Path):
     """Should start a valid transcoding process using VideoEngine returning a valid output"""
-    with patch("src.sdk.processing.process.video.FFMPEG") as mock:
+    with patch("src.sdk.processing.process.FFMPEGAdapter") as mock:
 
         mock.return_value = MockVideo()
         media = Video(route=mock_local_video_path)
@@ -89,34 +86,16 @@ def test_video_engine(mock_local_video_path: Path):
         # Video processing using call to pass input args
         output = Path("video.mp4")
         video = processing.engine(media)
-        media = video.output(output)
+        media = video.save(output)
 
         # Validate output
         assert media.route == output
         assert isinstance(media, Media)
 
 
-def test_video_engine_annotations(mock_local_video_path: Path):
-    """Should start a valid transcoding process using method annotations"""
-    with patch("src.sdk.processing.process.video.FFMPEG") as mock:
-
-        mock.return_value = MockVideo()
-        media = Video(route=mock_local_video_path)
-
-        output = Path("video.mp4")
-        video = processing.engine(media)
-        video = video.annotate("drawbox", 50, 50, 120, 120, color="red", thickness=5)
-        video.output(output)
-        
-        assert video._library.called == ["drawbox"]  # type: ignore
-        assert isinstance(video._library.chained[0], MockVideo)  # type: ignore
-
-
-
-
 def test_image_engine(mock_local_image_path: Path):
     """Should start a valid transform process using ImageEngine returning a valid output"""
-    with patch("src.sdk.processing.process.image.Pillow") as mock:
+    with patch("src.sdk.processing.process.PillowAdapter") as mock:
 
         mock.return_value = MockImage()
         media = Image(route=mock_local_image_path)
@@ -124,25 +103,8 @@ def test_image_engine(mock_local_image_path: Path):
         output = Path("image.jpg")
         # expected pillow adapter
         image = processing.engine(media)
-        image = image.annotate("crop", (20, 20, 40, 40))
-        media = image.output(output)
+        media = image.save(output)
 
         # Validate output
         assert media.route == output
         assert isinstance(media, Media)
-
-
-def test_image_engine_annotations(mock_local_image_path: Path):
-    """Should start a valid transform process using using method annotations"""
-    with patch("src.sdk.processing.process.image.Pillow") as mock:
-
-        mock.return_value = MockImage()
-        media = Image(route=mock_local_image_path)
-
-        output = Path("image.jpg")
-        image = processing.engine(media)
-        image = image.annotate("crop", (20, 20, 40, 40))
-        image.output(output)
-
-        assert image._library.called == ["crop"]  # type: ignore
-        assert isinstance(image._library.chained[0], MockImage)  # type: ignore

@@ -1,6 +1,7 @@
 import json
 import docker  # type: ignore
 import src.core.exceptions as exceptions
+import src.core.subprocess as subprocess
 
 from src.core.types import Command, StdOut
 from .constants import IPFS_CONTAINER
@@ -10,14 +11,14 @@ from .types import Sequence, Container
 def get_container() -> Container:
     """Return a Container to handle docker commands
 
-    :return: Container object from docker lib
+    :return: container object from docker lib
     :rtype: Container
     """
     client = docker.from_env()  # type: ignore
     return client.containers.get(IPFS_CONTAINER)  # type: ignore
 
 
-class CLI(Command):
+class IPFS(Command):
     cmd: str
     args: str
 
@@ -31,14 +32,14 @@ class CLI(Command):
     def __call__(self) -> StdOut:
         """Execute built command in container
 
-        :return: Output dict from command. ref: https://docs.ipfs.io/reference/cli/
+        :return: standard output with collected data from subprocess call to ipfs
+        :rtype: StdOut
         :raises IPFSRuntimeException: if exit code > or empty output is returned from command
-        :rtype: Output
         """
-        container = get_container()
-        code, output = container.exec_run(str(self))
+        call = subprocess.call(str(self))
+        stdout = call.communicate()
 
-        if code > 0:
+        if stdout.exit_code > 0:
             """
             The CLI will exit with one of the following values:
 
@@ -46,11 +47,11 @@ class CLI(Command):
             1     Failed executions.
             """
             raise exceptions.IPFSRuntimeException(
-                f"exception raised by ipfs: {output.decode('utf-8')}"
+                f"exception raised by ipfs: {stdout.output}"
             )
 
         # If not result just keep object output standard
-        if not output:
+        if not stdout.output:
             raise exceptions.IPFSRuntimeException(
                 "invalid IPFS command call output",
             )
@@ -63,7 +64,7 @@ class CLI(Command):
         # ref: docs.ipfs.io/reference/cli/#ipfs
 
         try:
-            json_to_dict = json.loads(output)
-            return StdOut(code, json_to_dict)
+            json_to_dict = json.loads(stdout.output)
+            return StdOut(stdout.exit_code, json_to_dict)
         except json.decoder.JSONDecodeError:
-            return StdOut(code, output.decode("utf-8"))
+            return StdOut(stdout.exit_code, stdout.output)
