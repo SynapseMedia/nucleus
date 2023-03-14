@@ -1,4 +1,4 @@
-from .cmd import CLI
+from .cmd import IPFS
 from .types import Services, Service
 from src.core.types import URL
 
@@ -15,12 +15,12 @@ def ls() -> Services:
         }
 
 
-    :return: Registered services
+    :return: registered services
     :rtype: Services
     :raises IPFSRuntimeException: if ipfs cmd execution fail
     """
 
-    call = CLI("/pin/remote/service/ls")()
+    call = IPFS("/pin/remote/service/ls")()
     raw_services = call.output.get("RemoteServices")
 
     # map registered services
@@ -49,5 +49,5 @@ def register(service: Service) -> Service:
     # Using ignore here because this is an issue with python typing
     # https://github.com/python/mypy/issues/7981
     params = (service.name, service.endpoint, service.key)
-    CLI("/pin/remote/service/add", *params)()  # type: ignore
+    IPFS("/pin/remote/service/add", *params)()  # type: ignore
     return service

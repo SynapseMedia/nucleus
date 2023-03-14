@@ -1,6 +1,6 @@
-# Convention for importing types
-from src.core.types import Command, Sequence
-from .ipc import IPC
+import src.core.subprocess as subprocess
+
+from src.core.types import Command, Sequence, StdOut, Any
 
 
 class NodeJs(Command):
@@ -14,12 +14,12 @@ class NodeJs(Command):
     def __str__(self) -> str:
         return f"npm run {self.cmd} -- {self.args} --enc=json"
 
-    def __call__(self) -> IPC:
+    def __call__(self, *args: Any) -> StdOut:
         """Start a subprocess call based on class command definition.
         The command execution its based on the string representation of the class.
 
-        :return: Process running script
+        :return: standard output collected from nodejs process
         :rtype: Process
         """
-
-        return IPC(str(self))
+        call = subprocess.call(str(self))
+        return call.communicate(*args)

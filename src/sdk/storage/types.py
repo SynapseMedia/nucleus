@@ -29,11 +29,10 @@ class Edge(Protocol, metaclass=ABCMeta):
 
     @abstractmethod
     def pin(self, cid: CID) -> Pin:
-        """Pin cid in remote edge cache
-        ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
+        """Pin cid into remote edge cache
 
         :param cid: cid to pin
-        :return: Pin object
+        :return: pin object
         :rtype: Pin
         """
         ...
@@ -41,8 +40,8 @@ class Edge(Protocol, metaclass=ABCMeta):
     @abstractmethod
     def ls(self) -> Iterator[Pin]:
         """Return current remote pin list
-        ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-ls
 
+        :param limit: number of remote pins to return
         :return: list of current remote pin list
         :rtype: Iterator[Pin]
         """
@@ -53,6 +52,8 @@ class Edge(Protocol, metaclass=ABCMeta):
         """Remove pin from edge cache service
 
         :param cid: Cid to remove from cache
+        :return: none
+        :rtype: None
         """
         ...
 
@@ -60,8 +61,9 @@ class Edge(Protocol, metaclass=ABCMeta):
     def flush(self, limit: int) -> int:
         """Remove all pinned cid from edge cache service
 
-        :param limit: Maximum number of remote pins to remove
-        :return: Number of remote pins removed
+        :param limit: maximum number of remote pins to remove
+        :return: number of remote pins removed
         :rtype: int
+        :raises EdgePinException: if an error occurs during request
         """
         ...

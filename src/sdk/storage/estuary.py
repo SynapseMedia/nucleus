@@ -13,7 +13,7 @@ def _pin_factory(raw_pin: JSON):
     """Pin factory from raw pin list
 
     :param raw_pin: dictionary with pin information
-    :return: Pin object
+    :return: pin object
     :rtype: Pin
     """
     pin = raw_pin.get("pin", {})
@@ -114,7 +114,6 @@ class Estuary(Edge):
 
     def pin(self, cid: CID, **kwargs: Any) -> Pin:
         """Pin cid into remote edge cache
-        ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-add
 
         :param cid: cid to pin
         :return: pin object
@@ -130,8 +129,7 @@ class Estuary(Edge):
         # expected response as json
         response = _enhanced_response(req)
         # data resulting from estuary endpoint
-        # ref:
-        # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
+        # ref: https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
         return _pin_factory(response)
 
     def ls(self) -> Iterator[Pin]:
@@ -140,20 +138,22 @@ class Estuary(Edge):
 
         :param limit: number of remote pins to return
         :return: list of current remote pin list
-        :rtype: Sequence[Pin]
+        :rtype: Iterator[Pin]
         :raises EdgePinException: if pin request fails
         """
         # expected response as json
         response = self._ls_records()
         return map(_pin_factory, response)
 
-    def unpin(self, cid: CID):
+    def unpin(self, cid: CID) :
         """Remove pin from edge cache service
 
         :param cid: cid to remove from cache
-        :return: None since we don't receive anything from estuary
+        :return: none since we don't receive anything from estuary
         :rtype: None
+        :raises EdgePinException: if an error occurs during request
         """
+        
         pin_id = self._pin_id_by_cid(cid)
         req = self._http.delete(f"{self._build_uri(ESTUARY_API_PIN)}/{pin_id}")
         # we don't consume anything since delete is empty response
@@ -162,8 +162,8 @@ class Estuary(Edge):
     def flush(self, limit: int = 0) -> int:
         """Remove all pinned cid from edge cache service
 
-        :param limit: Maximum number of remote pins to remove
-        :return: Number of remote pins removed
+        :param limit: maximum number of remote pins to remove
+        :return: number of remote pins removed
         :rtype: int
         :raises EdgePinException: if an error occurs during request
         """

@@ -25,7 +25,7 @@ def _match_faulty_line(lines: Sequence[str]) -> Union[str, None]:
     Failed if capture nodejs ERROR logs.
 
     :param line: input line to analyze
-    :return: If process failed True is returned otherwise False.
+    :return: if process failed True is returned otherwise False.
     :rtype: str | None
     """
 
@@ -68,7 +68,7 @@ async def _trace(stream: Reader) -> StdOut:
     return StdOut(EXIT_SUCCESS, iter(logs))
 
 
-class IPC:
+class IPC(object):
     """Inter-process communication.
     IPC exchange I/O between main process and sub processes.
     Collect logs and subprocess status.
@@ -132,7 +132,7 @@ class IPC:
 
         return SubProcess(transport, protocol, self._loop)
 
-    def communicate(self, data: bytes) -> StdOut:
+    def communicate(self, data: bytes = b"") -> StdOut:
         """Communicate with process
 
         :param data: message sent to process

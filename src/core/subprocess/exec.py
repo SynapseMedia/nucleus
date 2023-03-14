@@ -1,12 +1,11 @@
-from src.core.types import Command, Sequence
-from .commands import NodeJs
+from .ipc import IPC
 
 
-def node(cmd: str, *args: Sequence[str]) -> Command:
-    """Spawn nodejs subprocess .
+def call(cmd: str) -> IPC:
+    """Spawn subprocess .
 
-    :param cmd: script to run based on package.json
-    :return: Command to execute
-    :rtype: Command
+    :param cmd: process to execute
+    :return: inter process communication instance
+    :rtype: IPC
     """
-    return NodeJs(cmd, *args)
+    return IPC(cmd)

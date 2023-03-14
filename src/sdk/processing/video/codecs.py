@@ -62,7 +62,7 @@ class HEVC(Codec):
         allowed_codecs = videos + audios
         return codec in allowed_codecs
 
-    def __iter__(self) :
+    def __iter__(self):
         yield "g", DEFAULT_GOP
         yield "crf", DEFAULT_CRF
         yield "keyint_min", DEFAULT_KEY_MIN

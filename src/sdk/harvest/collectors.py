@@ -39,14 +39,13 @@ def merge(collectors: Iterator[Collector]) -> Iterator[Collection]:
 def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
     """Import submodules from a given path and yield module object
 
-    :param path: The path to search for submodules.
-    :return: Iterator of matched modules.
+    :param path: the path to search for submodules.
+    :return: iterator of matched modules.
     :rtype: Iterator[Collector]
     """
 
     for module_finder, name, _ in pkgutil.iter_modules([path]):
-        module = module_finder.find_module(
-            name).load_module(name)  # type: ignore
+        module = module_finder.find_module(name).load_module(name)  # type: ignore
 
         # Get the module collector class
         for _, obj in inspect.getmembers(module):

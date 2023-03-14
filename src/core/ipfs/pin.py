@@ -1,7 +1,7 @@
 from src.core.types import CID
 
 from .types import Pin, LocalPin
-from .cmd import CLI
+from .cmd import IPFS
 
 
 def remote(cid: CID, service_name: str) -> Pin:
@@ -29,7 +29,7 @@ def remote(cid: CID, service_name: str) -> Pin:
     args = (cid, service_name, background_mode)
 
     # Exec command and get output
-    call = CLI("/pin/remote/add", args)()
+    call = IPFS("/pin/remote/add", args)()
     output = call.output
 
     return Pin(
@@ -54,5 +54,5 @@ def local(cid: CID) -> LocalPin:
     :raises IPFSRuntimeException: if ipfs cmd execution fail
     """
     # Exec command and get output
-    call = CLI("/pin/add/", cid)()
+    call = IPFS("/pin/add/", cid)()
     return LocalPin(pins=call.output.get("Pins"))

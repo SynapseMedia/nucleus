@@ -23,7 +23,7 @@ import urllib.parse as parse
 
 from dataclasses import dataclass
 from hexbytes import HexBytes
-from abc import ABCMeta, abstractmethod, ABC
+from abc import ABCMeta, abstractmethod
 
 # "inherit" from global typing
 from typing import *  # type: ignore
@@ -38,12 +38,23 @@ HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
+Preset = Iterator[Tuple[str, Any]]
 
 
 @dataclass
 class StdOut:
     exit_code: int
     output: Any
+
+
+class Setting(Protocol, metaclass=ABCMeta):
+    @abstractmethod
+    def __iter__(self) -> Preset:
+        """Yield key value pair to build adapter arguments.
+        Allow to convert option as dict
+        """
+
+        ...
 
 
 class Proxy(Protocol, Generic[C], metaclass=ABCMeta):
@@ -83,55 +94,15 @@ class Proxy(Protocol, Generic[C], metaclass=ABCMeta):
         ...
 
 
-class Adapter(ABC, Generic[T]):
-    """Adapter template that specifies behavior for classes that can extend and interchange its implementation.
-    Such an interface is expected to be adapted from an underlying library."""
-
-    _input: T
-    _name: str
-
-    def __init__(self, name: str, input: T):
-        """Initialize a new instance with bound library and name"""
-        self._input = input
-        self._name = name
-
-    def __str__(self):
-        """String representation for library"""
-        return self._name
-
-    def __instancecheck__(self, instance: T):
-        """Pass instance checking to underlying interface."""
-        return isinstance(instance, self._input.__class__)
-
-    def __call__(self, instance: T):
-        """Allow chaining to control the fluent interface keeping object reference.
-
-        :param interface: the interface to chain
-        :return: None
-        :rtype: None
-        """
-        self._input = instance
-
-    @abstractmethod
-    def __getattr__(self, name: str) -> Callable[[Any], Any]:
-        """Control behavior for when a user attempts to access an attribute that doesn't exist.
-        This method delegate the call to any underlying tool or library.
-
-        :return: expected method to call
-        :rtype: Callable[[Any], Any]
-        """
-        ...
-
-
 class Command(Protocol, metaclass=ABCMeta):
     """Command specify needed methods for commands execution."""
 
     @abstractmethod
-    def __call__(self) -> Any:
+    def __call__(self) -> StdOut:
         """Call exec the command.
         Each command procedure should be implemented here.
 
-        :return: Any data returned by command executor
+        :return: any data returned by command executor
         :rtype: Any
         """
         ...
@@ -243,8 +214,7 @@ class Path(_ExtensibleStr):
     def extension(self) -> str:
         """Extract file extension
 
-        :param file: file path
-        :return: extension
+        :return: file extension
         :rtype: str
         """
 

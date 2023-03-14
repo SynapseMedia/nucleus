@@ -54,8 +54,8 @@ class Atomic(contextlib.ContextDecorator):
 def connected(f: Optional[Callable[..., Any]] = None) -> Any:
     """Decorate a method call with database.
 
-    :param f: A function to execute in wrapper
-    :return: Wrapper function
+    :param f: a function to execute in wrapper
+    :return: wrapper function
     :rtype: Callable[..., T]
     """
 

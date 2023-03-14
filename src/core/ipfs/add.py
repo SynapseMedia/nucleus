@@ -1,14 +1,14 @@
 from src.core.types import CID, Path
-from .cmd import CLI
+from .cmd import IPFS
 
 
 def directory(path: Path) -> CID:
     """Add directory to ipfs
     ref: https://docs.ipfs.io/reference/cli/#ipfs-add
 
-    :param path: Directory to add to IPFS
-    :return: The resulting CID
-    :rtype: CIDStr
+    :param path: directory to add to IPFS
+    :return: the resulting CID
+    :rtype: CID
     :raises IPFSRuntimeException: if ipfs cmd execution fail
     """
 
@@ -24,6 +24,6 @@ def directory(path: Path) -> CID:
     )
 
     # Exec command and get output
-    call = CLI("/add", *args)()
+    call = IPFS("/add", *args)()
     # Cleaned returned cid
     return call.output.strip()

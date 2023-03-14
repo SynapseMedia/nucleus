@@ -5,75 +5,13 @@ import ast
 import pydantic
 import sqlite3
 import pickle
-import src.core.cache as cache
 
 # Convention for importing constants/types
 from src.core.types import Any, Iterator, Union, List, Path, URL, CID, Generic, T
-from src.core.cache import Cursor, Connection
-
-from .constants import INSERT, FETCH, MIGRATE
+from src.core.cache import Cursor, Manager
 
 
-class _Manager:
-    """SQL manager for managing database connections and queries.
-
-    Each database file is created based on the model name.
-    This manager routes queries to the correct database model for different collectors.
-    """
-
-    _conn: Connection | None = None
-
-    @classmethod
-    @property
-    def alias(cls) -> str:
-        """Return the class name as an alias for the model."""
-        return cls.__name__.lower()
-
-    @classmethod
-    def migrate(cls) -> str:
-        """Return a migration query string.
-
-        This query is used to handle migrations related to models.
-        If the table does not exist, it will be created before running other queries.
-        ref: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
-        """
-        return MIGRATE % (cls.alias, cls.alias)
-
-    @classmethod
-    def mutate(cls) -> str:
-        """Return an insert query based on the class name.
-
-        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
-        """
-        return INSERT % cls.alias
-
-    @classmethod
-    def query(cls) -> str:
-        """Return a query based on the class name.
-
-        See more: https://docs.python.org/3/library/sqlite3.html#default-adapters-and-converters
-        """
-        return FETCH % cls.alias
-
-    @classmethod
-    @property
-    def conn(cls) -> Connection:
-        """Singleton connection factory
-
-        :return: connection to use during operations
-        :rtype: Connections
-        """
-
-        if cls._conn is None:
-            # we need to keep a reference in db name related to model
-            db_name = f".models/{cls.alias}.db"  # keep .db file name
-            cls._conn = cache.connect(db_path=db_name)
-            cls._conn.execute(cls.migrate())
-
-        return cls._conn
-
-
-class _Model(_Manager, pydantic.BaseModel):
+class _Model(Manager, pydantic.BaseModel):
     """This model defines a template for managing the cache associated with each model"""
 
     def __init__(self, **kwargs: Any):
@@ -85,7 +23,7 @@ class _Model(_Manager, pydantic.BaseModel):
     def get(cls) -> Any:
         """Exec query and fetch one entry from database.
 
-        :return: Any derived model
+        :return: one result as model type
         :rtype: Any
         """
 
@@ -97,7 +35,7 @@ class _Model(_Manager, pydantic.BaseModel):
     def all(cls) -> Iterator[_Model]:
         """Exec query and fetch a list of data from database.
 
-        :return: Any list of derived model
+        :return: all query result as model type
         :rtype: Iterator[Any]
         """
 
@@ -108,7 +46,7 @@ class _Model(_Manager, pydantic.BaseModel):
     def save(self) -> int | None:
         """Exec insertion into database using built query
 
-        :return: True if query was saved or False otherwise
+        :return: true if query was saved or False otherwise
         :rtype: bool
         """
 
@@ -147,7 +85,7 @@ class Media(_FrozenModel, Generic[T]):
             type: Literal["video"] = "video"
 
 
-        @singledispatch
+        @singledispatch/assessments
         def process(model: Media[Path]):
             raise NotImplementedError()
 
