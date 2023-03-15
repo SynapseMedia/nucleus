@@ -16,7 +16,9 @@ class MockVideo:
         return Media(route=path, type="test")
 
 
-def test_dispatch_engine(mock_local_video_path: Path, mock_local_image_path: Path):
+def test_dispatch_engine(
+        mock_local_video_path: Path,
+        mock_local_image_path: Path):
     """Should dispatch the right engine based on media"""
     video = Video(route=mock_local_video_path)
     image = Image(route=mock_local_image_path)
