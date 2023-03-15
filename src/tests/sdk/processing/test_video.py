@@ -17,6 +17,7 @@ def test_video_configuration(mock_local_video_path: Path):
     compiled = sorted(video_engine.compile(), key=lambda t: t[0])
     assert compiled == [
         ("BR", {"b:v": "4096k", "b:a": "320k"}),
+        ("FrameSize", {"s": "1920x1080"}),
         (
             "HLS",
             {
@@ -28,5 +29,4 @@ def test_video_configuration(mock_local_video_path: Path):
                 "c:v": "libvpx-vp9",
             },
         ),
-        ("Size", {"s": "1920x1080"}),
     ]

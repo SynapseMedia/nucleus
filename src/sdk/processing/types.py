@@ -32,8 +32,8 @@ class Engine(ABC, Generic[T]):
 
     def __init__(self, name: str, input: T):
         """Initialize a new instance with bound library and name"""
-        self._input = input
         self._name = name
+        self._library = input
         self._settings = set()
 
     def __str__(self):
