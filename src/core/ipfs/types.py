@@ -17,8 +17,8 @@ ID = NewType("ID", str)
 
 @dataclass
 class Service:
-    name: str = ""  # Service name. eg. estuary, pinata, filebase.
-    endpoint: URL = URL("")  # api endpoint provided by service.
+    name: str  # Service name. eg. estuary, pinata, filebase.
+    endpoint: URL  # api endpoint provided by service.
     key: Optional[str] = None  # auth key provided by service
 
 

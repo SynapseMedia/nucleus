@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import src.sdk.exceptions as exceptions
 
 from collections import ChainMap
@@ -37,16 +38,39 @@ class Image(Engine[Pillow]):
     ref: https://pillow.readthedocs.io/en/stable/reference/Image.html
     """
 
+    def __init__(self, *args: Any, **kwargs: Any):
+        super().__init__(*args, **kwargs)
+        # lets compile the pattern to avoid overhead in loop
+        self._pattern = re.compile(r"(?<!^)(?=[A-Z])")
+
+    def _to_snake_case(self, class_name: str) -> str:
+        """Transform PascalCase class definition to snake_case method name
+
+        :para name: the class name to parse
+        :return: the snake case version for class name
+        """
+        return self._pattern.sub("_", class_name).lower()
+
+    def _setup_methods(self):
+        """Call and chain methods based on configured options"""
+        for class_name, params in self.compile():
+            # The method to call should be the same as the option name.
+            method = self._to_snake_case(class_name)
+            func = getattr(self._library, method)
+            # pillow image chaining
+            # all methods return a new instance of the Image class, holding the resulting image
+            # ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image
+            self._library = func(**dict(params))
+
     def save(self, path: Path) -> Media[Path]:
         # We generate the expected path after processing
-        try:
-            self._library.save(path)
-            return Media(route=path, type=self._name)
-        except Exception as e:
-            # Standard exceptions raised
-            raise exceptions.ProcessingException(str(e))
-
-        # TODO implementar la estructuracion de las opciones y el llamado a los metodos correspondientes
+        # try:
+        self._setup_methods()
+        self._library.save(path)
+        return Media(route=path, type=self._name)
+        # except Exception as e:
+        #     # Standard exceptions raised
+        #     raise exceptions.ProcessingException(str(e))
 
 
 __all__ = ("Video", "Image")

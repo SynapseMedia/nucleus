@@ -30,8 +30,10 @@ class Custom(Option):
             yield k, v
 
 
-class Size(Option):
-    """Set frame size."""
+class FrameSize(Option):
+    """Set frame size.
+    ref: https://ffmpeg.org/ffmpeg.html#Main-options
+    """
 
     _width: int
     _height: int
@@ -47,7 +49,9 @@ class Size(Option):
 
 
 class FPS(Option):
-    """Set frame rate (Hz value, fraction or abbreviation)."""
+    """Set frame rate (Hz value, fraction or abbreviation).
+    ref: https://ffmpeg.org/ffmpeg.html#Main-options
+    """
 
     _fps: float
 
@@ -59,7 +63,9 @@ class FPS(Option):
 
 
 class BR(Option):
-    """Video/Audio bitrate"""
+    """Video/Audio bitrate
+    ref: https://ffmpeg.org/ffmpeg.html#Main-options
+    """
 
     _video: int
     _audio: int
@@ -90,13 +96,13 @@ class Bitrate:
 
 @dataclass(frozen=True)
 class Screen:
-    Q240 = Size(416, 234)
-    Q360 = Size(640, 360)
-    Q480 = Size(854, 480)
-    Q720 = Size(1280, 720)
-    Q1080 = Size(1920, 1080)
-    Q2k = Size(2560, 1440)
-    Q4k = Size(3840, 2160)
+    Q240 = FrameSize(416, 234)
+    Q360 = FrameSize(640, 360)
+    Q480 = FrameSize(854, 480)
+    Q720 = FrameSize(1280, 720)
+    Q1080 = FrameSize(1920, 1080)
+    Q2k = FrameSize(2560, 1440)
+    Q4k = FrameSize(3840, 2160)
 
 
-__all__ = ("FPS", "Size", "Screen", "Bitrate", "BR", "Custom")
+__all__ = ("FPS", "FrameSize", "Screen", "Bitrate", "BR", "Custom")

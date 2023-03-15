@@ -1,10 +1,10 @@
-from src.sdk.processing import Size, FPS, BR, Custom
+from src.sdk.processing import FrameSize, FPS, BR, Custom
 
 
-def test_size_option():
+def test_frame_size_option():
     """Should return expected Size as dict"""
 
-    size = Size(100, 100)
+    size = FrameSize(100, 100)
     expected_size = {"s": "100x100"}
     assert dict(size) == expected_size
 
