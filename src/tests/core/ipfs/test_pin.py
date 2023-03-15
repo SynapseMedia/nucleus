@@ -70,9 +70,8 @@ def test_invalid_pin_remote(mocker: Any):
     invalid_cid = "abcde"
     # Simulating an error returned by ipfs invalid cid
     expected_issue = 'Error: invalid path "abcde": selected encoding not supported'
-    mocker.patch(
-        "src.core.ipfs.pin.IPFS",
-        return_value=MockFailingCLI(expected_issue))
+    mocker.patch("src.core.ipfs.pin.IPFS",
+                 return_value=MockFailingCLI(expected_issue))
     with pytest.raises(RuntimeError):
         pin.local(CID(invalid_cid))
 
@@ -82,8 +81,7 @@ def test_invalid_pin_local(mocker: Any):
     duplicated_cid = "abcde"
     # Simulating an error returned by ipfs invalid cid
     expected_issue = 'Error: reason: "DUPLICATE_OBJECT", details: "Object already pinned to pinata. Please remove or replace existing pin object."'
-    mocker.patch(
-        "src.core.ipfs.pin.IPFS",
-        return_value=MockFailingCLI(expected_issue))
+    mocker.patch("src.core.ipfs.pin.IPFS",
+                 return_value=MockFailingCLI(expected_issue))
     with pytest.raises(RuntimeError):
         pin.remote(CID(duplicated_cid), "edge")

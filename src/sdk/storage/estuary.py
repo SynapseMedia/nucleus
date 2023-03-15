@@ -129,7 +129,8 @@ class Estuary(Edge):
         # expected response as json
         response = _enhanced_response(req)
         # data resulting from estuary endpoint
-        # ref: https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
+        # ref:
+        # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
         return _pin_factory(response)
 
     def ls(self) -> Iterator[Pin]:
@@ -145,7 +146,7 @@ class Estuary(Edge):
         response = self._ls_records()
         return map(_pin_factory, response)
 
-    def unpin(self, cid: CID) :
+    def unpin(self, cid: CID):
         """Remove pin from edge cache service
 
         :param cid: cid to remove from cache
@@ -153,7 +154,7 @@ class Estuary(Edge):
         :rtype: None
         :raises EdgePinException: if an error occurs during request
         """
-        
+
         pin_id = self._pin_id_by_cid(cid)
         req = self._http.delete(f"{self._build_uri(ESTUARY_API_PIN)}/{pin_id}")
         # we don't consume anything since delete is empty response

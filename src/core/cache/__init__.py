@@ -10,5 +10,5 @@ __all__ = (
     "connection",
     "Cursor",
     "Connection",
-    "Manager"
+    "Manager",
 )

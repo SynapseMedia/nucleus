@@ -19,6 +19,7 @@ ref: https://ffmpeg.org/ffmpeg.html#Main-options
 
 """
 
+
 class Custom(Option):
     """Special class to add custom settings directly to the ffmpeg command.
     ref: https://ffmpeg.org/ffmpeg.html#Main-options

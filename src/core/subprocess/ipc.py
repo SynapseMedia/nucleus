@@ -85,7 +85,7 @@ class IPC(object):
 
     def stream(self):
         """If we need to read live the output we can get stream directly using this method
-        
+
         :return: stream reader
         :rtype: Reader
         """

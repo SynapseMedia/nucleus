@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from PIL.Image import Resampling
 
+
 @dataclass
 class Coord:
     left: int

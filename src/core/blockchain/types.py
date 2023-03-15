@@ -10,7 +10,7 @@ from src.core.types import (
     TypedDict,
     NamedTuple,
     Callable,
-    Raw
+    Raw,
 )
 
 Address = Union[HexStr, str]
@@ -81,8 +81,7 @@ class Chain(Protocol, metaclass=ABCMeta):
         ...
 
 
-
-#TODO refactor segregate interfaces
+# TODO refactor segregate interfaces
 class Network(Protocol, metaclass=ABCMeta):
     """Network abstract class.
 
@@ -101,7 +100,7 @@ class Network(Protocol, metaclass=ABCMeta):
         ...
 
 
-#TODO refactor
+# TODO refactor
 class Contract(Protocol, metaclass=ABCMeta):
     """Contract abstract class
 
@@ -118,4 +117,3 @@ class Contract(Protocol, metaclass=ABCMeta):
     def __init__(self, network: Network):
         """Connect contract to network"""
         ...
-

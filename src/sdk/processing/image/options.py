@@ -8,9 +8,9 @@ ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Imag
 
 eg:
     # after parsing
-    class RemapPalette(Option) = image.remap_palette(...) 
-        ...   
-    
+    class RemapPalette(Option) = image.remap_palette(...)
+        ...
+
 
 """
 

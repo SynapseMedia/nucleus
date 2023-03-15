@@ -12,7 +12,8 @@ DEFAULT_AUDIO_CODEC = "aac"
 # The range of the CRF scale is 0–51, where 0 is lossless (higher quality)
 DEFAULT_CRF = 0
 # The preset determines compression efficiency and therefore affects encoding speed
-# This option itemizes a range of choices from veryfast (best speed) to veryslow (best quality).
+# This option itemizes a range of choices from veryfast (best speed) to
+# veryslow (best quality).
 DEFAULT_PRESET = "slow"
 # keyframes minimum every 100 frames
 DEFAULT_KEY_MIN = 25
