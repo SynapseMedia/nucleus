@@ -14,6 +14,10 @@ aspect ratio	H.264/AVC kb/s	Frame rate
 
 """
 
+"""All these settings are defined by ffmpeg lib.
+ref: https://ffmpeg.org/ffmpeg.html#Main-options
+
+"""
 
 class Custom(Option):
     """Special class to add custom settings directly to the ffmpeg command.
