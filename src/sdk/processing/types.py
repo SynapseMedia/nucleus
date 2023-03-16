@@ -22,8 +22,8 @@ Compiled = Iterator[Tuple[str, Any]]
 
 
 class Engine(ABC, Generic[T]):
-    """Engine implements a media engine template that uses an underlying library as interface to process media files and produce output.
-    The engine adapt dynamically the library so that methods can be directly accessed and process media in a specific context.
+    """Engine implements a media engine adapter template to process media files and produce output.
+    The engine adapt dynamically the library to process media in a specific context.
     """
 
     _name: str
