@@ -64,13 +64,13 @@ class Image(Engine[Pillow]):
 
     def save(self, path: Path) -> Media[Path]:
         # We generate the expected path after processing
-        # try:
-        self._setup_methods()
-        self._library.save(path)
-        return Media(route=path, type=self._name)
-        # except Exception as e:
-        #     # Standard exceptions raised
-        #     raise exceptions.ProcessingException(str(e))
+        try:
+            self._setup_methods()
+            self._library.save(path)
+            return Media(route=path, type=self._name)
+        except Exception as e:
+            # Standard exceptions raised
+            raise exceptions.ProcessingException(str(e))
 
 
 __all__ = ("Video", "Image")
