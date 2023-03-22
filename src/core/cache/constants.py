@@ -12,6 +12,7 @@ DB_DEFAULT = f"{ROOT_DIR}/{DB_NAME}"
 DB_ISOLATION_LEVEL = os.getenv("DB_ISOLATION")
 DB_DATE_VERSION = datetime.date.today().strftime("%Y%m%d")
 
+MODELS_PATH = "./models/%s.db"
 # Query constants
 # Insert template fields are ordered based on model ordered dict field.
 MIGRATE = """CREATE TABLE IF NOT EXISTS %s(m %s);"""

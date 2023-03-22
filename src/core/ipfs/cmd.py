@@ -47,13 +47,13 @@ class IPFS(Command):
             1     Failed executions.
             """
             raise exceptions.IPFSRuntimeError(
-                f"exception raised by ipfs: {stdout.output}"
+                f"error while try to execute IPFS command: {stdout.output}"
             )
 
         # If not result just keep object output standard
         if not stdout.output:
             raise exceptions.IPFSRuntimeError(
-                "invalid IPFS command call output",
+                "received invalid IPFS command call output",
             )
 
         # StdOut type contains standardize output for ipfs commands.

@@ -3,7 +3,7 @@ from src.core.types import Path
 
 from .types import Connection
 from .database import connect
-from .constants import INSERT, FETCH, MIGRATE
+from .constants import INSERT, FETCH, MIGRATE, MODELS_PATH
 
 
 class Manager:
@@ -57,7 +57,6 @@ class Manager:
         """
         cls._conn = conn
 
-
     @classmethod
     @property
     def conn(cls) -> Connection:
@@ -66,16 +65,16 @@ class Manager:
 
         :return: connection to use during operations
         :rtype: Connection
-        :raises ConnectionError: if any error occurs during connection creation
+        :raises DatabaseError: if any error occurs during connection creation
         """
 
         if cls._conn is None:
             # we need to keep a reference in db name related to model
-            db_name = Path(f"./models/{cls.alias}.db")  # keep .db file name
+            db_name = Path(MODELS_PATH % cls.alias)  # keep .db file name
             # ensure that model file exists
             if not db_name.exists():
                 db_name.make()
-                
+
             cls._conn = connect(db_path=db_name)
             cls._conn.execute(cls.migrate())
         return cls._conn

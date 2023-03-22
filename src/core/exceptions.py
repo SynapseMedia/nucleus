@@ -7,10 +7,21 @@ We need consistency with standard exceptions to help users to handle it in a pre
 
 
 class IPFSRuntimeError(Exception):
+    """Exception raised for errors related to ipfs cli."""
     def __init__(self, message: str):
         self.message = f"Core :: IPFS -> {message}"
 
 
-class ConnectionError(Exception):
+class DatabaseError(Exception):
+    """Exception raised for errors that are related to the database."""
+
     def __init__(self, message: str):
         self.message = f"Core :: Cache -> {message}"
+
+
+class TransactionError(DatabaseError):
+    """Exception raised for errors that are related to database transaction.
+    OperationError error is a subclass from DatabaseError.
+    """
+
+    ...

@@ -11,8 +11,8 @@ def read(input_file: Path) -> JSON:
     :return: json dict
     :rtype: JSON
     """
-    with open(input_file) as f:
-        return json.load(f)
+    raw = input_file.read_text()
+    return json.load(raw)
 
 
 def write(output: Path, data: JSON) -> Path:
@@ -23,9 +23,9 @@ def write(output: Path, data: JSON) -> Path:
     :return: path to file
     :rtype: Directory
     """
-    with open(output, "w") as f:
-        json.dump(data, f, ensure_ascii=False)
-    return Path(output)
+    json_string = json.dumps(data, ensure_ascii=False)
+    output.write_text(json_string)
+    return output
 
 
 def to_object(data: JSON) -> Any:

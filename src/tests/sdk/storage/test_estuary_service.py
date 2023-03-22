@@ -34,6 +34,6 @@ def test_estuary_fail_request(
         mock_estuary_service: Service,
         mock_invalid_request: CID):
 
-    with pytest.raises(exceptions.PinError):
+    with pytest.raises(exceptions.EdgeServiceError):
         estuary = storage.Estuary(mock_estuary_service)
         estuary.unpin(mock_invalid_request)

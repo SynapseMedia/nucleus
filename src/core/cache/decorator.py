@@ -1,6 +1,7 @@
 # ref: https://docs.python.org/es/3/library/functools.html
 import functools
 import contextlib
+import src.core.exceptions as exceptions
 
 from src.core.types import Callable, Any, Optional, T
 from .constants import DB_ISOLATION_LEVEL
@@ -36,7 +37,7 @@ class Atomic(contextlib.ContextDecorator):
         try:
             # If context execution goes fine return results
             self.conn.commit()
-        except Exception:
+        except Exception as e:
             # In case of any issue we should rollback
             self.conn.rollback()
             # Raise an exception to "alert" about the issue.
@@ -44,7 +45,9 @@ class Atomic(contextlib.ContextDecorator):
             # When you raise without arguments, the interpreter looks for the last exception raised and handled.
             # It then acts the same as if you used raise with the most recent
             # exception type, value and traceback.
-            raise
+            raise exceptions.TransactionError(
+                f"error while trying to commit database transaction: {str(e)}"
+            )
         finally:
             # After everything is done we should commit transactions and close
             # the connection.
@@ -78,7 +81,7 @@ def atomic(f: Optional[Callable[..., Any]] = None) -> Any:
     :param f: This function should contain any query or transaction to db.
     :: decorated function/context for atomic transaction
     :rtype: Callable[..., T]
-    :raises Exception: if database transaction fail
+    :raises TransactionError: if database transaction fail
     """
     if callable(f):
         # If atomic is called as decorator

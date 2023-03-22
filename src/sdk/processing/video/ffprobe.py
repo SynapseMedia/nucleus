@@ -17,6 +17,6 @@ def probe(path: Path, **kwargs: Any) -> SimpleNamespace:
         raw_probe = ffmpeg.probe(path, **kwargs)  # type: ignore
         return json.to_object(raw_probe)
     except ffmpeg._run.Error as e: # type: ignore
-        raise exceptions.ProcessingError(str(e))
+        raise exceptions.EngineError(str(e))
 
 __all__ = ("probe",)

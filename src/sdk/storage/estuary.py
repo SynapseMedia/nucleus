@@ -32,7 +32,7 @@ def _enhanced_response(res: Response) -> JSON:
     :param res: expected response
     :return: json response
     :rtype: JSON
-    :raises EdgePinException if an error occurs during request
+    :raises PinServiceError if an error occurs during request
     """
 
     # expected response as json
@@ -40,7 +40,7 @@ def _enhanced_response(res: Response) -> JSON:
     # Failing during pin request
     if res.status_code > requests.codes.ok:
         error_description = response.get("details", "")
-        raise exceptions.PinError(
+        raise exceptions.EdgeServiceError(
             f"exception raised during request: {error_description}",
         )
 

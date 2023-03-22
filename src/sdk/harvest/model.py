@@ -8,15 +8,22 @@ import pickle
 import src.sdk.exceptions as exceptions
 
 # Convention for importing constants/types
-from src.core.types import Any, Union, Iterator, List, Path, URL, CID, Generic, T
+from pydantic import ValidationError
 from src.core.cache import Cursor, Manager
+from src.core.types import Any, Union, Iterator, List, Path, URL, CID, Generic, T
 
 
 class _Model(Manager, pydantic.BaseModel):
     """This model defines a template for managing the cache associated with each model"""
 
     def __init__(self, **kwargs: Any):
-        super(_Model, self).__init__(**kwargs)
+        try:
+            super(_Model, self).__init__(**kwargs)
+        except ValidationError as e:
+            raise exceptions.ModelValidationError(
+                f"raised exception during model initialization: {str(e)}"
+            )
+
         sqlite3.register_converter(self.alias, pickle.loads)
         sqlite3.register_adapter(self.__class__, pickle.dumps)
 
@@ -37,7 +44,7 @@ class _Model(Manager, pydantic.BaseModel):
             raise exceptions.ManagerError(str(e))
 
     @classmethod
-    def all(cls) ->Iterator[_Model]:
+    def all(cls) -> Iterator[_Model]:
         """Exec query and fetch a list of data from database.
 
         :return: all query result as model instance

@@ -16,7 +16,7 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
     :param db_path: sqlite file path
     :return: connection to database
     :rtype: Connection
-    :raises ConnectionError: if any error occurs during connection creation
+    :raises DatabaseError: if any error occurs during connection creation
     """
 
     try:
@@ -28,7 +28,9 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
         )
     except sqlite3.Error as e:
         # proxy exception raising
-        raise exceptions.ConnectionError(str(e))
+        raise exceptions.DatabaseError(
+            f"error while trying to connect to database:{str(e)}"
+        )
 
 
 @contextlib.contextmanager
@@ -38,7 +40,7 @@ def connection(db_path: str = DB_DEFAULT, **k: Any) -> Iterator[Connection]:
     :param db_path: sqlite file path
     :return: connection to database
     :rtype: Connection
-    :raises ConnectionError: if any error occurs during connection creation
+    :raises DatabaseError: if any error occurs during connection creation
     """
     yield connect(db_path, **k)
 
