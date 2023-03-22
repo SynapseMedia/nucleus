@@ -6,7 +6,6 @@ from abc import ABC, abstractmethod
 from src.core.types import Iterator
 from .model import Collection
 
-
 class Collector(ABC):
     """Abstract class for collecting metadata.
     Collector define an "strict abstraction" with methods needed to handle metadata collection process.

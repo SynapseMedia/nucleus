@@ -34,3 +34,6 @@ def _(model: ImageModel) -> Image:
     input_path = Path(model.route)
     library = PIL.open(input_path)
     return Image(model.type, library)
+
+
+__all__ = ("engine",)

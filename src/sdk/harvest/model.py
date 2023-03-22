@@ -5,9 +5,10 @@ import ast
 import pydantic
 import sqlite3
 import pickle
+import src.sdk.exceptions as exceptions
 
 # Convention for importing constants/types
-from src.core.types import Any, Iterator, Union, List, Path, URL, CID, Generic, T
+from src.core.types import Any, Union, Iterator, List, Path, URL, CID, Generic, T
 from src.core.cache import Cursor, Manager
 
 
@@ -20,38 +21,48 @@ class _Model(Manager, pydantic.BaseModel):
         sqlite3.register_adapter(self.__class__, pickle.dumps)
 
     @classmethod
-    def get(cls) -> Any:
+    def get(cls) -> _Model:
         """Exec query and fetch one entry from database.
 
         :return: one result as model instance
-        :rtype: Any
+        :rtype: _Model
+        :raises ManagerError: if there is an error fetching entry
         """
 
-        response = cls.conn.execute(cls.query())
-        rows = response.fetchone()  # raw data
-        return rows[0]
+        try:
+            response = cls.conn.execute(cls.query())
+            row = response.fetchone()
+            return row[0]
+        except sqlite3.ProgrammingError as e:
+            raise exceptions.ManagerError(str(e))
 
     @classmethod
-    def all(cls) -> Iterator[_Model]:
+    def all(cls) ->Iterator[_Model]:
         """Exec query and fetch a list of data from database.
 
         :return: all query result as model instance
-        :rtype: Iterator[Any]
+        :rtype: Iterator[_Model]
+        :raises ManagerError: if there is an error fetching entries
         """
+        try:
+            response = cls.conn.execute(cls.query())
+            rows = response.fetchall()
+            return map(lambda r: r[0], rows)
+        except sqlite3.ProgrammingError as e:
+            raise exceptions.ManagerError(str(e))
 
-        response = cls.conn.execute(cls.query())
-        rows = response.fetchall()  # raw data
-        return map(lambda r: r[0], rows)
-
-    def save(self) -> int | None:
+    def save(self) -> Union[int, None]:
         """Exec insertion into database using built query
 
         :return: true if query was saved or False otherwise
         :rtype: bool
+        :raises ManagerError: if there is an error saving entry
         """
-
-        cursor: Cursor = self.conn.execute(self.mutate(), (self,))
-        return cursor.lastrowid
+        try:
+            cursor: Cursor = self.conn.execute(self.mutate(), (self,))
+            return cursor.lastrowid
+        except sqlite3.ProgrammingError as e:
+            raise exceptions.ManagerError(str(e))
 
 
 class _FrozenModel(_Model):

@@ -46,23 +46,20 @@ class IPFS(Command):
             0     Successful execution.
             1     Failed executions.
             """
-            raise exceptions.IPFSRuntimeException(
+            raise exceptions.IPFSRuntimeError(
                 f"exception raised by ipfs: {stdout.output}"
             )
 
         # If not result just keep object output standard
         if not stdout.output:
-            raise exceptions.IPFSRuntimeException(
+            raise exceptions.IPFSRuntimeError(
                 "invalid IPFS command call output",
             )
 
         # StdOut type contains standardize output for ipfs commands.
         # An issue here is that ipfs returns different encodings for each
-        # command, sometimes could be a string and later probably we get a json
-        # object,
-
+        # command, sometimes could be a string and later probably we get a json object.
         # ref: docs.ipfs.io/reference/cli/#ipfs
-
         try:
             json_to_dict = json.loads(stdout.output)
             return StdOut(stdout.exit_code, json_to_dict)

@@ -1,4 +1,6 @@
 # Convention for importing constants/types
+from src.core.types import Path
+
 from .types import Connection
 from .database import connect
 from .constants import INSERT, FETCH, MIGRATE
@@ -46,18 +48,34 @@ class Manager:
         return FETCH % cls.alias
 
     @classmethod
+    def using(cls, conn: Connection):
+        """Set a connection to use during operations.
+
+        :param conn: connection to use
+        :return: None
+        :rtype: None
+        """
+        cls._conn = conn
+
+
+    @classmethod
     @property
     def conn(cls) -> Connection:
-        """Singleton connection factory
+        """Singleton connection factory.
+        A migration process happen after connection is established to ensure integrity during cache operations.
 
         :return: connection to use during operations
-        :rtype: Connections
+        :rtype: Connection
+        :raises ConnectionError: if any error occurs during connection creation
         """
 
         if cls._conn is None:
             # we need to keep a reference in db name related to model
-            db_name = f".models/{cls.alias}.db"  # keep .db file name
+            db_name = Path(f"./models/{cls.alias}.db")  # keep .db file name
+            # ensure that model file exists
+            if not db_name.exists():
+                db_name.make()
+                
             cls._conn = connect(db_path=db_name)
             cls._conn.execute(cls.migrate())
-
         return cls._conn

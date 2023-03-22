@@ -27,19 +27,18 @@ from abc import ABCMeta, abstractmethod
 
 # "inherit" from global typing
 from typing import *  # type: ignore
+from types import *  # type: ignore
 
 # https://docs.python.org/3/library/typing.html#typing.TypeVar
 T = TypeVar("T")
 C = TypeVar("C", contravariant=True)
 
 JSON = Dict[Any, Any]
-Raw = NewType("Raw", Mapping[str, Any])
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
 Preset = Iterator[Tuple[str, Any]]
-
 
 @dataclass
 class StdOut:
@@ -48,14 +47,15 @@ class StdOut:
 
 
 class Setting(Protocol, metaclass=ABCMeta):
+    """Setting defines the expected behavior of configurations parameters for media engines."""
+
     @abstractmethod
     def __iter__(self) -> Preset:
         """Yield key value pair to build adapter arguments.
-        Allow to convert option as dict
+        Allow to convert option as dict.
         """
 
         ...
-
 
 class Proxy(Protocol, Generic[C], metaclass=ABCMeta):
     """This protocol pretends to enforce proxy calls to underlying methods

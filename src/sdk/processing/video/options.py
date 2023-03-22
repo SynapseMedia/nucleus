@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-from src.core.types import Any, Dict
-from .types import Option
+from src.core.types import Any, Dict, Setting
 
 """
 aspect ratio	H.264/AVC kb/s	Frame rate
@@ -20,7 +19,7 @@ ref: https://ffmpeg.org/ffmpeg.html#Main-options
 """
 
 
-class Custom(Option):
+class Custom(Setting):
     """Special class to add custom settings directly to the ffmpeg command.
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
     """
@@ -35,7 +34,7 @@ class Custom(Option):
             yield k, v
 
 
-class FrameSize(Option):
+class FrameSize(Setting):
     """Set frame size.
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
     """
@@ -53,7 +52,7 @@ class FrameSize(Option):
         yield "s", str(self)
 
 
-class FPS(Option):
+class FPS(Setting):
     """Set frame rate (Hz value, fraction or abbreviation).
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
     """
@@ -67,7 +66,7 @@ class FPS(Option):
         yield "r", self._fps
 
 
-class BR(Option):
+class BR(Setting):
     """Video/Audio bitrate
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
     """

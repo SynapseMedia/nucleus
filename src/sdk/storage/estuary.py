@@ -40,7 +40,7 @@ def _enhanced_response(res: Response) -> JSON:
     # Failing during pin request
     if res.status_code > requests.codes.ok:
         error_description = response.get("details", "")
-        raise exceptions.PinException(
+        raise exceptions.PinError(
             f"exception raised during request: {error_description}",
         )
 

@@ -10,11 +10,11 @@ from src.core.types import (
     TypedDict,
     NamedTuple,
     Callable,
-    Raw,
+    JSON,
 )
 
 Address = Union[HexStr, str]
-Abi = NewType("Abi", Raw)
+Abi = NewType("Abi", JSON)
 Connector = Callable[[URL], Any]
 PrivateKey = Union[Address, int]
 TxCall = Union[NamedTuple, TypedDict]

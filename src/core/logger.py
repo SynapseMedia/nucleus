@@ -32,13 +32,11 @@ def factory(name: str, level: str = LOG_LEVEL):
 
 
 # Default logging
-api = factory("API")
-cli = factory("CLI")
+core = factory("CORE")
 sdk = factory("SDK")
 
 __all__ = (
-    "api",
-    "cli",
+    "core",
     "sdk",
     "logging",
     "factory",

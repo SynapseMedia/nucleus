@@ -21,27 +21,3 @@ class Codec(Setting, P):
         :rtype: bool
         """
         ...
-
-
-class Option(Setting, P):
-    """The option class defines a generic controller for the behavior of ffmpeg options
-    depending on how the action is determined as either input or output of the command.
-    ref: https://ffmpeg.org/ffmpeg.html#Main-options
-
-    """
-
-    ...
-
-
-class Protocol(Setting, P):
-    """Streaming protocol abstraction.
-    ref: https://en.wikipedia.org/wiki/HTTP_Live_Streaming
-    ref: https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP
-    ref: https://ffmpeg.org/ffmpeg-formats.html#Options-10
-    ref: https://ffmpeg.org/ffmpeg-formats.html#dash-2
-    """
-
-    ...
-
-
-__all__ = ()

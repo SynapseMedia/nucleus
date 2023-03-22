@@ -30,7 +30,7 @@ class Video(Engine[FFMPEG]):
             return Media(route=path, type=self._name)
         except Exception as e:
             # Standard exceptions raised
-            raise exceptions.ProcessingException(str(e))
+            raise exceptions.ProcessingError(str(e))
 
 
 class Image(Engine[Pillow]):
@@ -59,19 +59,18 @@ class Image(Engine[Pillow]):
             func = getattr(self._library, method)
             # pillow image chaining
             # all methods return a new instance of the Image class, holding the resulting image
-            # ref:
-            # https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image
+            # ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image
             self._library = func(**dict(params))
 
     def save(self, path: Path) -> Media[Path]:
         # We generate the expected path after processing
-        # try:
-        self._setup_methods()
-        self._library.save(path)
-        return Media(route=path, type=self._name)
-        # except Exception as e:
-        #     # Standard exceptions raised
-        #     raise exceptions.ProcessingException(str(e))
+        try:
+            self._setup_methods()
+            self._library.save(path)
+            return Media(route=path, type=self._name)
+        except Exception as e:
+            # Standard exceptions raised
+            raise exceptions.ProcessingError(str(e))
 
 
 __all__ = ("Video", "Image")

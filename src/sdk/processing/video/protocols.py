@@ -1,8 +1,10 @@
-from .types import Codec, Protocol
+from src.core.types import Setting
+
+from .types import Codec
 from .constants import HLS_TIME, HLS_PLAYLIST_TYPE, HLS_TAG_VIDEO_FORMAT, HLS_LIST_SIZE
 
 
-class HLS(Protocol):
+class HLS(Setting):
     """Represent HLS streaming protocol.
     ref: https://ffmpeg.org/ffmpeg-formats.html#Options-10
     ref: https://en.wikipedia.org/wiki/HTTP_Live_Streaming
