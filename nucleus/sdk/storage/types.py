@@ -1,31 +1,35 @@
-import requests
+from dataclasses import dataclass
 from abc import ABCMeta, abstractmethod
-from nucleus.core.types import Iterator, Protocol, Path, CID, JSON
-from nucleus.core.ipfs.types import Service, Pin
 from nucleus.sdk.harvest.model import Media
+from nucleus.core.types import (
+    Iterator,
+    Protocol,
+    Path,
+    CID,
+    NewType,
+    Optional,
+)
 
-Headers = JSON
 # Alias for allowed media to store
 Storable = Media[Path]
-# The Session object allows you to persist certain parameters across requests.
-# It also persists cookies across all requests made from the Session instance.
-Session = requests.Session
-Response = requests.Response
+ID = NewType("ID", str)
+
+
+@dataclass
+class Pin:
+    cid: CID
+    status: str
+    name: Optional[str]
 
 
 class Edge(Protocol, metaclass=ABCMeta):
     """Edge provides an standard facade interface to handle services in IPFS.
     For each edge service methods should be defined and encapsulate with any needed logic to simplify the usage.
+    Use this class to create edge services subtypes.
 
     Each edge service represent a remote cache service like 'pinata', 'filebase' or any service that support remote pinning service.
     ref: https://docs.ipfs.tech/reference/kubo/cli/#ipfs-pin-remote-service
     """
-
-    _service: Service
-
-    @abstractmethod
-    def __init__(self, service: Service):
-        ...
 
     @abstractmethod
     def pin(self, cid: CID) -> Pin:
@@ -54,16 +58,5 @@ class Edge(Protocol, metaclass=ABCMeta):
         :param cid: Cid to remove from cache
         :return: none
         :rtype: None
-        """
-        ...
-
-    @abstractmethod
-    def flush(self, limit: int) -> int:
-        """Remove all pinned cid from edge cache service
-
-        :param limit: maximum number of remote pins to remove
-        :return: number of remote pins removed
-        :rtype: int
-        :raises EdgePinException: if an error occurs during request
         """
         ...

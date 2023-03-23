@@ -5,6 +5,12 @@ from nucleus.core.types import Any, Path
 
 
 @pytest.fixture()
+def mock_local_path():
+    return Path("nucleus/tests/_mock/files")
+
+
+
+@pytest.fixture()
 def mock_local_image_path():
     return Path("nucleus/tests/_mock/files/spidy.png")
 

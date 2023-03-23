@@ -1,27 +1,24 @@
-from nucleus.core.types import Setting
-
-from .types import Codec
+from dataclasses import dataclass
 from .constants import HLS_TIME, HLS_PLAYLIST_TYPE, HLS_TAG_VIDEO_FORMAT, HLS_LIST_SIZE
+from .types import Codec
 
 
-class HLS(Setting):
+@dataclass
+class HLS:
     """Represent HLS streaming protocol.
     ref: https://ffmpeg.org/ffmpeg-formats.html#Options-10
     ref: https://en.wikipedia.org/wiki/HTTP_Live_Streaming
 
     """
 
-    _codec: Codec
-
-    def __init__(self, codec: Codec):
-        self._codec = codec
+    codec: Codec
 
     def __iter__(self):
         yield "hls_time", HLS_TIME
         yield "hls_list_size", HLS_LIST_SIZE
         yield "hls_playlist_type", HLS_PLAYLIST_TYPE,
         yield "tag:v", HLS_TAG_VIDEO_FORMAT,
-        yield from self._codec
+        yield from self.codec
 
 
 __all__ = ("HLS",)

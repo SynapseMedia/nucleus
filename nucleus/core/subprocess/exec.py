@@ -1,6 +1,5 @@
 from .ipc import IPC
 
-
 def call(cmd: str) -> IPC:
     """Spawn subprocess .
 

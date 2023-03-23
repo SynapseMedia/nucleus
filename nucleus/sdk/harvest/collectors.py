@@ -4,18 +4,18 @@ import itertools
 
 
 from collections import defaultdict
-from nucleus.core.types import Iterator, Any, Mapping
+from nucleus.core.types import Iterator, Any, Mapping, JSON
 from .constants import COLLECTORS_PATH
-from .types import Collector, Collection
+from .types import Collector
 
 
-def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[Collection]]:
+def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[JSON]]:
     """Returns a map of collectors.
     Map collectors using name as key and the metadata content as value list.
 
     :param collectors: collector iterator
     :return: mapped collected data using the name of collector as key and value with meta provided.
-    :rtype: Mapping[str, Iterator[Collection]]
+    :rtype: Mapping[str, Iterator[JSON]
     """
 
     mapped: Any = defaultdict(list)
@@ -25,12 +25,12 @@ def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[Collection]]:
     return mapped
 
 
-def merge(collectors: Iterator[Collector]) -> Iterator[Collection]:
+def merge(collectors: Iterator[Collector]) -> Iterator[JSON]:
     """Returns merged collectors.
 
     :param collectors: Collector iterator
     :return: merged collectors
-    :rtype: Iterator[Collection]
+    :rtype: Iterator[JSON]
     """
 
     return itertools.chain.from_iterable(collectors)

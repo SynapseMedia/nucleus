@@ -4,9 +4,10 @@ import asyncio
 import subprocess
 import functools
 
-from nucleus.core.types import StdOut, Sequence, List, Union
+from nucleus.core.types import Sequence, List, Union
+
 from .protocol import StreamProtocol
-from .types import Reader, Loop, SubProcess
+from .types import Reader, Loop, SubProcess, StdOut
 from .constants import EXIT_FAILURE, EXIT_SUCCESS
 
 

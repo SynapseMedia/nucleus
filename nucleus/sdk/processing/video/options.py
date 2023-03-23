@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from nucleus.core.types import Any, Dict, Setting
+from nucleus.core.types import Any, Dict
 
 """
 aspect ratio	H.264/AVC kb/s	Frame rate
@@ -19,7 +19,7 @@ ref: https://ffmpeg.org/ffmpeg.html#Main-options
 """
 
 
-class Custom(Setting):
+class Custom:
     """Special class to add custom settings directly to the ffmpeg command.
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
     """
@@ -34,57 +34,51 @@ class Custom(Setting):
             yield k, v
 
 
-class FrameSize(Setting):
+@dataclass
+class FrameSize:
     """Set frame size.
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
     """
 
-    _width: int
-    _height: int
-
-    def __init__(self, width: int, height: int):
-        self._width, self._height = width, height
+    width: int
+    height: int
 
     def __str__(self) -> str:
-        return f"{self._width}x{self._height}"
+        return f"{self.width}x{self.height}"
 
     def __iter__(self):
         yield "s", str(self)
 
 
-class FPS(Setting):
+@dataclass
+class FPS:
     """Set frame rate (Hz value, fraction or abbreviation).
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
     """
 
-    _fps: float
-
-    def __init__(self, fps: float):
-        self._fps = fps
+    fps: float
 
     def __iter__(self):
-        yield "r", self._fps
+        yield "r", self.fps
 
 
-class BR(Setting):
+@dataclass
+class BR:
     """Video/Audio bitrate
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
     """
 
-    _video: int
-    _audio: int
-
-    def __init__(self, video: int, audio: int = 0):
-        self._video, self._audio = video, audio
+    video: int
+    audio: int = 0
 
     def __iter__(self):
         # if we only receive video bitrate, we consider it as overall bitrate
-        if self._video and not self._audio:
-            yield "b", f"{self._video}k"
+        if self.video and not self.audio:
+            yield "b", f"{self.video}k"
             return
 
-        yield "b:v", f"{self._video}k"
-        yield "b:a", f"{self._audio}k"
+        yield "b:v", f"{self.video}k"
+        yield "b:a", f"{self.audio}k"
 
 
 @dataclass(frozen=True)

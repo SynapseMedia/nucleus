@@ -1,5 +1,0 @@
-import os
-
-IPFS_CONTAINER = os.getenv("IPFS_CONTAINER")
-EXIT_SUCCESS = 0
-EXIT_FAILURE = 1

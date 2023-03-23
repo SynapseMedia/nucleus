@@ -9,7 +9,7 @@ import nucleus.sdk.exceptions as exceptions
 
 # Convention for importing constants/types
 from pydantic import ValidationError
-from nucleus.core.cache import Cursor, Manager
+from nucleus.core.cache import Manager
 from nucleus.core.types import Any, Union, Iterator, List, Path, URL, CID, Generic, T
 
 
@@ -70,7 +70,7 @@ class _Model(Manager, pydantic.BaseModel):
         :raises ModelManagerError: if there is an error saving entry
         """
         try:
-            cursor: Cursor = self.conn.execute(self.mutate(), (self,))
+            cursor = self.conn.execute(self.mutate(), (self,))
             return cursor.lastrowid
         except sqlite3.ProgrammingError as e:
             raise exceptions.ModelManagerError(

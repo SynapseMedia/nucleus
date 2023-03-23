@@ -14,14 +14,10 @@ refs:
 
 """
 
-import os
 import cid  # type: ignore
 import pathlib
-import contextlib
-import shutil
 import urllib.parse as parse
 
-from dataclasses import dataclass
 from hexbytes import HexBytes
 from abc import ABCMeta, abstractmethod
 
@@ -40,81 +36,21 @@ Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
 Preset = Iterator[Tuple[str, Any]]
 
-@dataclass
-class StdOut:
-    exit_code: int
-    output: Any
-
 
 class Setting(Protocol, metaclass=ABCMeta):
-    """Setting defines the expected behavior of configurations parameters for media engines."""
+    """Setting defines the expected behavior of any configuration parameters.
+    Use this class to create setting subtypes.
+    """
 
     @abstractmethod
     def __iter__(self) -> Preset:
         """Yield key value pair to build adapter arguments.
-        Allow to convert option as dict.
+        Allow to convert setting as dict.
         """
-
-        ...
-
-class Proxy(Protocol, Generic[C], metaclass=ABCMeta):
-    """This protocol pretends to enforce proxy calls to underlying methods
-
-    eg.
-        # Contract can be any based on lib
-        # Every network lib expose in a different way the programmatic call to functions.
-
-        # using Web3
-        c = Contract()
-
-        # We don't know the accessor for functions for every lib
-        c.functions.mint() <- how can we handle `mint` for any different lib?
-
-        # So...
-        # probably we need an standard interface here to delegate calls?
-
-        c = Contract()
-        c.mint() # Does'nt matter how the call is made underneath
-
-    """
-
-    @abstractmethod
-    def __init__(self, interface: C):
-        """Interface may be anything but MUST expose a subscriptable object to handle it"""
-        ...
-
-    @abstractmethod
-    def __getattr__(self, name: str) -> Callable[[Any], Any]:
-        """Control behavior for when a user attempts to access an attribute that doesn't exist.
-        This method delegate the call to any underlying tool or library.
-
-        :return: expected method to call
-        :rtype: Callable[[Any], Any]
-        """
-        ...
-
-
-class Command(Protocol, metaclass=ABCMeta):
-    """Command specify needed methods for commands execution."""
-
-    @abstractmethod
-    def __call__(self) -> StdOut:
-        """Call exec the command.
-        Each command procedure should be implemented here.
-
-        :return: any data returned by command executor
-        :rtype: Any
-        """
-        ...
-
-    @abstractmethod
-    def __str__(self) -> str:
-        """How to represent your command as string?"""
-        ...
 
 
 class _ExtensibleStr(str):
-    def __new__(cls, value: str, *args: Any, **kwargs: Any):
+    def __new__(cls, value: str):
         # explicitly only pass value to the str constructor
         return super().__new__(cls, value)
 
@@ -124,9 +60,9 @@ class CID(_ExtensibleStr):
 
     _cid: Union[cid.CIDv0, cid.CIDv1]
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, value: str):
         try:
-            self._cid = cid.from_string(self)  # type: ignore
+            self._cid = cid.from_string(value)  # type: ignore
         except ValueError:
             # we want to allow control the behavior using `valid` method
             ...
@@ -156,9 +92,9 @@ class URL(_ExtensibleStr):
 
     _parsed: parse.ParseResult
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, value: str):
         try:
-            self._parsed = parse.urlparse(self)
+            self._parsed = parse.urlparse(value)
         except ValueError:
             # we want to allow control the behavior using `valid` method
             ...
@@ -189,8 +125,8 @@ class Path(_ExtensibleStr):
 
     _path: pathlib.Path
 
-    def __init__(self, *args: Any, **kwargs: Any):
-        self._path = pathlib.Path(self)
+    def __init__(self, value: str):
+        self._path = pathlib.Path(value)
 
     def __getattr__(self, name: str) -> Any:
         """Proxy handling pathlib features"""
@@ -198,57 +134,6 @@ class Path(_ExtensibleStr):
             # pickle avoid recursion
             raise AttributeError(name)
         return getattr(self._path, name)
-
-    def make(self) -> Path:
-        """Enhanced path mkdir
-
-        :param dir_: dir to create
-        :return: string new created dir
-        :rtype: str
-        """
-        dirname = os.path.dirname(self)
-        path = Path(dirname)
-        path.mkdir(parents=True, exist_ok=True)
-        return path
-
-    def extension(self) -> str:
-        """Extract file extension
-
-        :return: file extension
-        :rtype: str
-        """
-
-        file_extension = self._path.suffix
-        file_extension = file_extension.replace(".", "")
-        return file_extension
-
-    def copy(self, output: Path) -> Path:
-        """Copy file from origin to output dir.
-
-        :param origin: file path
-        :param output: destination directory
-        :return: new absolute file path
-        :type: Directory
-        """
-
-        # copy the file to recently created directory
-        path = shutil.copy(self, output)
-        return Path(path)
-
-    @contextlib.contextmanager
-    def read(self) -> Iterator[str]:
-        """Return file content.
-        If file is not found, exception is raised.
-
-        :param dir_: file path
-        :return: file content
-        :rtype: Iterator[str]
-        """
-
-        with self.open() as file:
-            content = file.read()
-            file.close()  # don't leak a file descriptor
-            yield content
 
     @classmethod
     def __get_validators__(cls):
@@ -258,3 +143,5 @@ class Path(_ExtensibleStr):
     def validate(cls, v: str):
         if not cls(v).exists():
             raise ValueError("string must be a Path")
+
+        ...

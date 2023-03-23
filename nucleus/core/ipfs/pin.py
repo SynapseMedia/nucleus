@@ -39,7 +39,7 @@ def remote(cid: CID, service_name: str) -> Pin:
     )
 
 
-def local(cid: CID) -> LocalPin:
+def add(cid: CID) -> LocalPin:
     """Pin cid into local node
     ref: http://docs.ipfs.io/reference/cli/#ipfs-pin
 

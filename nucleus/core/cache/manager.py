@@ -73,7 +73,7 @@ class Manager:
             db_path = Path(MODELS_PATH % cls.alias)  # keep .db file name
             # ensure that model file exists
             if not db_path.exists():
-                db_path.make()
+                db_path.mkdir(parents=True)
 
             cls._conn = connect(db_path=db_path)
             cls._conn.execute(cls.migrate())

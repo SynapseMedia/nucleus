@@ -4,8 +4,8 @@ from pydantic.networks import *  # type: ignore
 from .media import *
 from .partials import *
 
-from .model import Meta
-from .types import Collector, Collection
+from .types import Collector
+from .model import Meta, Collection
 from .collectors import merge, map, load
 
 from pydantic import types, networks

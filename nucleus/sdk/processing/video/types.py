@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from nucleus.core.types import Protocol as P, Setting
+from nucleus.core.types import Protocol, Setting
 
 
-class Codec(Setting, P):
+class Codec(Setting, Protocol):
     """Codec compression abstraction.
     ref: https://trac.ffmpeg.org/wiki/Encode/VP9
     ref: https://trac.ffmpeg.org/wiki/Encode/H.265

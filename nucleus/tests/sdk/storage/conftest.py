@@ -3,7 +3,6 @@ import responses
 import json
 
 from nucleus.core.types import CID
-from nucleus.sdk.storage import EstuarySvc
 
 ENDPOINT = "https://api.estuary.tech"
 
@@ -19,13 +18,6 @@ expected = {
         }
     ],
 }
-
-
-@pytest.fixture()
-def mock_estuary_service():
-    return EstuarySvc(
-        key="abcd12345",
-    )
 
 
 @pytest.fixture()

@@ -1,29 +1,34 @@
-from nucleus.core.types import CID, Path
-from .cmd import IPFS
+import nucleus.core.exceptions as exceptions
+
+from dataclasses import dataclass
+from nucleus.core.http import LiveSession
+from nucleus.core.types import Path
+from .constant import IPFS_API_ADD
 
 
-def directory(path: Path) -> CID:
-    """Add directory to ipfs
+@dataclass
+class Directory:
+    """Add directory to ipfs.
     ref: https://docs.ipfs.io/reference/cli/#ipfs-add
-
-    :param path: directory to add to IPFS
-    :return: the resulting CID
-    :rtype: CID
-    :raises IPFSRuntimeException: if ipfs cmd execution fail
     """
 
-    # no pin by default
-    # blake2b-208 hash func to encode to bytes16 and hex
-    args = (
-        path,
-        "--recursive",
-        "--quieter",
-        "--cid-version=1",
-        "--pin=false",
-        "--hash=blake2b-208",
-    )
+    path: Path
 
-    # Exec command and get output
-    call = IPFS("/add", *args)()
-    # Cleaned returned cid
-    return call.output.strip()
+    def __call__(self, session: LiveSession):
+        if not self.path.exists():
+            raise exceptions.IPFSRuntimeError(
+                f"raised trying to execute `add` directory with an invalid path {self.path}"
+            )
+
+        return session.post(
+            IPFS_API_ADD,
+            data=dict(self),
+            files={"file": self.path.read_bytes()},
+        )
+
+    def __iter__(self):
+        yield "recursive", "true",
+        yield "quieter", "true",
+        yield "cid-version", "1"
+        yield "pin", "false"
+        yield "hash", "blake2b-208"

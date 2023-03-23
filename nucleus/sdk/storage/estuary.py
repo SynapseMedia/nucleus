@@ -1,9 +1,11 @@
-import requests
 import nucleus.sdk.exceptions as exceptions
+import nucleus.core.http as http
 
-from nucleus.core.types import Iterator, CID, Any, JSON
-from .types import Edge, Service, Pin, Response, Session, Headers
+from dataclasses import dataclass
+from nucleus.core.http import Response
+from nucleus.core.types import Iterator, CID, Any, JSON, URL
 from .constants import ESTUARY_API_PIN, ESTUARY_API_PUBLIC
+from .types import Pin
 
 
 # ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY
@@ -37,8 +39,17 @@ def _enhanced_response(res: Response) -> JSON:
 
     # expected response as json
     response = res.json()
-    # Failing during pin request
-    if res.status_code > requests.codes.ok:
+
+    # if response fail
+    if not res.ok:
+        """
+        Observable behavior:
+            {
+                "code": 0,
+                "details": "string",
+                "reason": "string"
+            }
+        """
         error_description = response.get("details", "")
         raise exceptions.StorageServiceError(
             f"exception raised during request: {error_description}",
@@ -47,42 +58,14 @@ def _enhanced_response(res: Response) -> JSON:
     return response
 
 
-class Estuary(Edge):
-    _service: Service
-    _http: Session
-    _headers: Headers
+@dataclass
+class Estuary:
+    endpoint: URL
+    key: str
 
-    def __init__(self, service: Service):
-        self._http = Session()
-        self._service = service
-        self._headers = {"Authorization": f"Bearer {service.key}"}
-
-    def _build_uri(self, uri_path: str) -> str:
-        """Uri builder helper
-
-        :param uri_path: path to concat to service endpoint
-        :return: out of the box uri
-        :rtype: str
-        """
-        return f"{self._service.endpoint}{uri_path}"
-
-    def _ls_records(self) -> JSON:
-        """Return pinned records.
-        We use this method to fetch pin ids.
-        A proper usage could be fetch then filter CID to find corresponding pin id
-
-        :return: list of pinned record
-        :rtype: JSON
-        :raises EdgePinException if an error occurs during request
-        """
-        req = self._http.get(
-            self._build_uri(ESTUARY_API_PIN),
-            headers=self._headers,
-        )
-
-        # expected response as json
-        response = _enhanced_response(req)
-        return response.get("results", [])
+    def __post_init__(self):
+        self._http = http.live_session(self.endpoint)
+        self._http.headers.update({"Authorization": f"Bearer {self.key}"})
 
     def _content_by_cid(self, cid: CID) -> JSON:
         """Collect details from estuary based on CID
@@ -94,23 +77,12 @@ class Estuary(Edge):
         :raises EdgePinException: if pin request fails
         """
 
-        content_uri = f"{self._build_uri(ESTUARY_API_PUBLIC)}/by-cid/{cid}"
-        req = self._http.get(content_uri, headers=self._headers)
+        content_uri = f"{ESTUARY_API_PUBLIC}/by-cid/{cid}"
+        req = self._http.get(content_uri)
 
         # expected response as json
         response = _enhanced_response(req)
         return response.get("content", {})
-
-    def _pin_id_by_cid(self, cid: CID) -> Any:
-        """Return content id from estuary pin
-
-        :param: cid to retrieve pin id
-        :return: content id
-        :rtype: Any
-        """
-
-        content = self._content_by_cid(cid)
-        return content.get("id")  # content id is same as pin id
 
     def pin(self, cid: CID, **kwargs: Any) -> Pin:
         """Pin cid into remote edge cache
@@ -120,17 +92,10 @@ class Estuary(Edge):
         :rtype: Pin
         :raises EdgePinException: if pin request fails
         """
-        req = self._http.post(
-            self._build_uri(ESTUARY_API_PIN),
-            data={cid: cid, **kwargs},
-            headers=self._headers,
-        )
-
-        # expected response as json
+        req = self._http.post(ESTUARY_API_PIN, data={cid: cid, **kwargs})
         response = _enhanced_response(req)
         # data resulting from estuary endpoint
-        # ref:
-        # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
+        # ref: https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
         return _pin_factory(response)
 
     def ls(self) -> Iterator[Pin]:
@@ -143,8 +108,12 @@ class Estuary(Edge):
         :raises EdgePinException: if pin request fails
         """
         # expected response as json
-        response = self._ls_records()
-        return map(_pin_factory, response)
+        req = self._http.get(ESTUARY_API_PIN)
+
+        # expected response as json
+        response = _enhanced_response(req)
+        pin_list = response.get("results", [])
+        return map(_pin_factory, pin_list)
 
     def unpin(self, cid: CID):
         """Remove pin from edge cache service
@@ -155,28 +124,7 @@ class Estuary(Edge):
         :raises EdgePinException: if an error occurs during request
         """
 
-        pin_id = self._pin_id_by_cid(cid)
-        req = self._http.delete(f"{self._build_uri(ESTUARY_API_PIN)}/{pin_id}")
+        pin_id = self._content_by_cid(cid).get("id")  # content id is same as pin id
+        req = self._http.delete(f"{ESTUARY_API_PIN}/{pin_id}")
         # we don't consume anything since delete is empty response
         _enhanced_response(req)
-
-    def flush(self, limit: int = 0) -> int:
-        """Remove all pinned cid from edge cache service
-
-        :param limit: maximum number of remote pins to remove
-        :return: number of remote pins removed
-        :rtype: int
-        :raises EdgePinException: if an error occurs during request
-        """
-        response = self._ls_records()
-        limit = limit or len(response)
-        sliced = response[:limit]
-
-        for pin in sliced:
-            # IMPORTANT this method send a request by each pin
-            # Performance improvement tried using session
-            pinned = pin.get("pin")
-            cid = pinned.get("cid")
-            self.unpin(cid)
-
-        return limit

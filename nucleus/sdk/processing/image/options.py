@@ -1,4 +1,4 @@
-from nucleus.core.types import Setting, Preset
+from dataclasses import dataclass
 from .types import Coord, Resampling
 
 """All these settings are defined by pillow library.
@@ -15,30 +15,34 @@ eg:
 """
 
 
-class Crop(Setting):
+@dataclass
+class Crop:
     """Crop image
     ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.crop
     """
 
-    def __init__(self, box: Coord):
-        self._box = box
+    box: Coord
 
-    def __iter__(self) -> Preset:
+    def __iter__(self):
         yield "box", (
-            self._box.left,
-            self._box.top,
-            self._box.right,
-            self._box.bottom,
+            self.box.left,
+            self.box.top,
+            self.box.right,
+            self.box.bottom,
         )
 
 
-class Resize(Setting):
+@dataclass
+class Resize:
     """Resize image
     ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize
     """
 
-    def __init__(self, width: int, height: int):
-        self._size = [width, height]
+    width: int
+    height: int
+
+    def __post_init__(self):
+        self._size = [self.width, self.height]
         self._box = (0, 0, *self._size)
         self._resample = Resampling.BICUBIC
 
@@ -48,7 +52,7 @@ class Resize(Setting):
     def resample(self, resample: Resampling):
         self._resample = resample
 
-    def __iter__(self) -> Preset:
+    def __iter__(self):
         yield "size", self._size
         yield "resample", self._resample
         yield "box", self._box
