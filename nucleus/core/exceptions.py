@@ -19,9 +19,9 @@ class DatabaseError(Exception):
         self.message = f"Core :: Cache -> {message}"
 
 
-class TransactionError(DatabaseError):
+class DatabaseTransactionError(DatabaseError):
     """Exception raised for errors that are related to database transaction.
-    OperationError error is a subclass from DatabaseError.
+    DatabaseTransactionError error is a subclass from DatabaseError.
     """
 
     ...

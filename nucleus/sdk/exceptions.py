@@ -25,31 +25,41 @@ class StorageError(Exception):
         super(StorageError, self).__init__(self.message, *args, **kwargs)  # type: ignore
 
 
-class ManagerError(HarvestingError):
-    """Raised when a model fails to persist or interact with the underlying cache"""
+class ModelManagerError(HarvestingError):
+    """Raised when a model fails to persist or interact with the underlying cache.
+    ModelManagerError error is a subclass from HarvestingError.
+    """
 
     ...
 
 
 class ModelValidationError(HarvestingError):
-    """Raised when a model fails during schema validation"""
+    """Raised when a model fails during schema validation.
+    ModelValidationError error is a subclass from HarvestingError.
+    """
 
     ...
 
 
-class EdgeServiceError(StorageError):
-    """Raised when something fails when trying to operate on the edge services."""
+class StorageServiceError(StorageError):
+    """Raised when something fails when trying to operate on the edge services.
+    StorageServiceError error is a subclass from StorageError.
+    """
 
     ...
 
 
-class EngineError(ProcessingError):
-    """Raised when something fail during media processing"""
+class ProcessingEngineError(ProcessingError):
+    """Raised when something fail during media processing.
+    ProcessingEngineError error is a subclass from StorageError.
+    """
 
     ...
 
 
 class FFProbeError(ProcessingError):
-    """Raised when something fail during ffprobe call"""
+    """Raised when something fail during ffprobe call.
+    FFProbeError error is a subclass from StorageError.
+    """
 
     ...

@@ -13,7 +13,7 @@ def probe(path: Path, **kwargs: Any) -> SimpleNamespace:
     :param path: the path to probe
     :return: simple name space object representation of the output
     :rtype: SimpleNamespace
-    :raises ProcessingError: if the file path does not exist
+    :raises FFProbeError: if the file path does not exist
     """
     try:
         raw_probe = ffmpeg.probe(path, **kwargs)  # type: ignore

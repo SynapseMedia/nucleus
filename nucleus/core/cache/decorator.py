@@ -45,7 +45,7 @@ class Atomic(contextlib.ContextDecorator):
             # When you raise without arguments, the interpreter looks for the last exception raised and handled.
             # It then acts the same as if you used raise with the most recent
             # exception type, value and traceback.
-            raise exceptions.TransactionError(
+            raise exceptions.DatabaseTransactionError(
                 f"error while trying to commit database transaction: {str(e)}"
             )
         finally:
@@ -81,7 +81,7 @@ def atomic(f: Optional[Callable[..., Any]] = None) -> Any:
     :param f: This function should contain any query or transaction to db.
     :: decorated function/context for atomic transaction
     :rtype: Callable[..., T]
-    :raises TransactionError: if database transaction fail
+    :raises DatabaseTransactionError: if database transaction fail
     """
     if callable(f):
         # If atomic is called as decorator

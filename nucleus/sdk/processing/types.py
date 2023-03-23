@@ -50,7 +50,7 @@ class Engine(ABC, Generic[T]):
 
         :param setting: the setting to bind
         :return: the self adapter
-        :rtype: Adapter[Any]
+        :rtype: Engine[T]
         """
 
         self._settings.add(setting)
@@ -63,6 +63,6 @@ class Engine(ABC, Generic[T]):
         :param path: the output path
         :return: new media path
         :rtype: Media[Path]
-        :raises ProcessingException: if any exception is captured during processing
+        :raises ProcessingEngineError: if any exception is captured during processing
         """
         ...

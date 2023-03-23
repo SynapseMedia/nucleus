@@ -30,7 +30,7 @@ class Video(Engine[FFMPEG]):
             return Media(route=path, type=self._name)
         except Exception as e:
             # Standard exceptions raised
-            raise exceptions.EngineError(
+            raise exceptions.ProcessingEngineError(
                 f"error while trying to save video output: {str(e)}"
             )
 
@@ -72,7 +72,7 @@ class Image(Engine[Pillow]):
             return Media(route=path, type=self._name)
         except Exception as e:
             # Standard exceptions raised
-            raise exceptions.EngineError(
+            raise exceptions.ProcessingEngineError(
                 f"error while trying to save image output: {str(e)}"
             )
 

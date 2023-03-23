@@ -33,7 +33,7 @@ class _Model(Manager, pydantic.BaseModel):
 
         :return: one result as model instance
         :rtype: _Model
-        :raises ManagerError: if there is an error fetching entry
+        :raises ModelManagerError: if there is an error fetching entry
         """
 
         try:
@@ -41,7 +41,7 @@ class _Model(Manager, pydantic.BaseModel):
             row = response.fetchone()
             return row[0]
         except sqlite3.ProgrammingError as e:
-            raise exceptions.ManagerError(
+            raise exceptions.ModelManagerError(
                 f"raised exception during fetching stored model: {str(e)}"
             )
 
@@ -51,14 +51,14 @@ class _Model(Manager, pydantic.BaseModel):
 
         :return: all query result as model instance
         :rtype: Iterator[_Model]
-        :raises ManagerError: if there is an error fetching entries
+        :raises ModelManagerError: if there is an error fetching entries
         """
         try:
             response = cls.conn.execute(cls.query())
             rows = response.fetchall()
             return map(lambda r: r[0], rows)
         except sqlite3.ProgrammingError as e:
-            raise exceptions.ManagerError(
+            raise exceptions.ModelManagerError(
                 f"raised exception during fetching all stored models: {str(e)}"
             )
 
@@ -67,13 +67,13 @@ class _Model(Manager, pydantic.BaseModel):
 
         :return: true if query was saved or False otherwise
         :rtype: bool
-        :raises ManagerError: if there is an error saving entry
+        :raises ModelManagerError: if there is an error saving entry
         """
         try:
             cursor: Cursor = self.conn.execute(self.mutate(), (self,))
             return cursor.lastrowid
         except sqlite3.ProgrammingError as e:
-            raise exceptions.ManagerError(
+            raise exceptions.ModelManagerError(
                 f"raised exception while saving model: {str(e)}"
             )
 
