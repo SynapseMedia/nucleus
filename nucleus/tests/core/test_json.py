@@ -4,7 +4,7 @@ import nucleus.core.json as json
 
 from nucleus.core.types import Path, JSON as JSONType
 
-file_dir = "src/tests/_mock/files/index.json"
+file_dir = "nucleus/tests/_mock/files/index.json"
 
 
 @pytest.fixture

@@ -1,8 +1,8 @@
-# import src.sdk.logger as logger
-# import src.sdk.retrieval as retrieval
+# import nucleus.sdk.logger as logger
+# import nucleus.sdk.retrieval as retrieval
 
 
-# mock_collectors_dir = "src/tests/_mock/collectors/"
+# mock_collectors_dir = "nucleus/tests/_mock/collectors/"
 
 
 # def test_orbit_subprocess_call():

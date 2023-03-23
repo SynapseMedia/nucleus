@@ -12,7 +12,7 @@ def read(input_file: Path) -> JSON:
     :rtype: JSON
     """
     raw = input_file.read_text()
-    return json.load(raw)
+    return json.loads(raw)
 
 
 def write(output: Path, data: JSON) -> Path:

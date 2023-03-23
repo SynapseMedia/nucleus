@@ -27,7 +27,7 @@ def test_parse_raw_raise_model_validation_error():
 
 def test_model_freeze(mock_models: Collection, setup_database: Any):
     """Should commit a valid mutation of movies"""
-    with patch("src.core.cache.database.sqlite3") as mock:
+    with patch("nucleus.core.cache.database.sqlite3") as mock:
         conn = setup_database
         mock.connect.return_value = conn  # type: ignore
         # eg. Movie(...).save()
@@ -43,7 +43,7 @@ def test_model_freeze(mock_models: Collection, setup_database: Any):
 
 def test_movie_fetch_frozen(mock_models: Collection, setup_database: Any):
     """Should query a valid fetch of movies"""
-    with patch("src.core.cache.database.sqlite3") as mock:
+    with patch("nucleus.core.cache.database.sqlite3") as mock:
         conn = setup_database
         mock.connect.return_value = conn  # type: ignore
 
@@ -56,7 +56,7 @@ def test_movie_fetch_frozen(mock_models: Collection, setup_database: Any):
 
 def test_movie_get_frozen(mock_models: Collection, setup_database: Any):
     """Should query a valid get of a movie"""
-    with patch("src.core.cache.database.sqlite3") as mock:
+    with patch("nucleus.core.cache.database.sqlite3") as mock:
         conn = setup_database
         mock.connect.return_value = conn  # type: ignore
 

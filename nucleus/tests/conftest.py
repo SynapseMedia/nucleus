@@ -6,12 +6,12 @@ from nucleus.core.types import Any, Path
 
 @pytest.fixture()
 def mock_local_image_path():
-    return Path("src/tests/_mock/files/spidy.png")
+    return Path("nucleus/tests/_mock/files/spidy.png")
 
 
 @pytest.fixture()
 def mock_local_video_path():
-    return Path("src/tests/_mock/files/video.mp4")
+    return Path("nucleus/tests/_mock/files/video.mp4")
 
 
 @pytest.fixture()

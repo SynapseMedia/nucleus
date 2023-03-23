@@ -2,7 +2,7 @@
 export SHELL:=/bin/bash
 
 
-PYTHON_MODULES = src/
+PYTHON_MODULES = nucleus/
 PYTHONPATH = .
 VENV = .venv
 PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pyright 

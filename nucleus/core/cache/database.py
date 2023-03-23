@@ -52,13 +52,8 @@ def is_open(conn: Connection) -> bool:
     :return: true if connection is open or False otherwise
     :rtype: bool
     """
-    try:
-        cursor = conn.cursor()
-        cursor.execute("SELECT 1")
-        return cursor is not None  # type: ignore
-    except sqlite3.ProgrammingError:
-        # Exception raised for sqlite3 API programming errors, for example trying to operate on a closed Connection
-        return False
+    cursor = conn.cursor()
+    return cursor is not None  # type: ignore
 
 
 __all__ = ["connect", "connection", "is_open"]

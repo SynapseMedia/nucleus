@@ -22,5 +22,5 @@ def test_node_id(mocker: Any):
                            },
                           )
 
-    mocker.patch("src.core.ipfs.node.IPFS", return_value=MockCLI())
+    mocker.patch("nucleus.core.ipfs.node.IPFS", return_value=MockCLI())
     assert node.id() == "12D3KooWAsERf3AYJZ8XkGPK4svfEzoy3x8uM16H6PKzamNkppgp"

@@ -9,7 +9,7 @@ from nucleus.tests._mock.models import Movie
 @pytest.fixture
 def mock_raw_media():
     return {
-        "route": "src/tests/_mock/files/watchit.png",
+        "route": "nucleus/tests/_mock/files/watchit.png",
         "type": "image",
     }
 

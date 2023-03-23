@@ -2,7 +2,7 @@ import nucleus.sdk.harvest as harvest
 
 from nucleus.sdk.harvest import Collection
 
-mock_collectors_dir = "src/tests/_mock/collectors/"
+mock_collectors_dir = "nucleus/tests/_mock/collectors/"
 
 
 def test_load_collector(mock_models: Collection):

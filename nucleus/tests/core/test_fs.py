@@ -3,7 +3,7 @@ import re
 import pytest
 from nucleus.core.types import Path
 
-custom_dir = "src/tests/core"
+custom_dir = "nucleus/tests/core"
 directory = Path("_mock")
 image = Path(f"{directory}/watchit.png")
 license = Path("LICENSE")

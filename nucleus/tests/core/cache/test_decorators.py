@@ -22,7 +22,7 @@ def test_connected():
 
 def test_atomic():
     """Should run statements in transactional atomic mode"""
-    with patch("src.core.cache.database.sqlite3") as mock:
+    with patch("nucleus.core.cache.database.sqlite3") as mock:
         mock.connect().execute().fetchone.return_value = (1,)  # type: ignore
         _commit = mock.connect().commit  # type: ignore
 
@@ -37,7 +37,7 @@ def test_atomic():
 
 def test_atomic_rollback():
     """Should fail running statements and rollback"""
-    with patch("src.core.cache.database.sqlite3") as mock:
+    with patch("nucleus.core.cache.database.sqlite3") as mock:
         _roll = mock.connect().rollback  # type: ignore
 
         with pytest.raises(Exception):
