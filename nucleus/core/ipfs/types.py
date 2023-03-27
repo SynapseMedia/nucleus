@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 from nucleus.core.http import LiveSession, Response
 from nucleus.core.types import Protocol
 
@@ -11,5 +11,13 @@ class RPCCommand(Protocol, metaclass=ABCMeta):
 
     """
 
+    @abstractmethod
     def __call__(self, session: LiveSession) -> Response:
+        """This method is called in API handler as a nested call
+        ref: http://docs.ipfs.tech/reference/kubo/cli/#ipfs-add
+
+        :param session: http "out of the box" interface
+        :return: endpoint command call response
+        :rtype: Response
+        """
         ...

@@ -1,4 +1,6 @@
 import functools
+
+
 from .api import IPFSApi
 from .constants import IPFS_DEFAULT_ENDPOINT
 

@@ -43,3 +43,6 @@ class IPFSApi:
 
         # ready to use response
         return response.json()
+
+
+__all__ = ("IPFSApi",)

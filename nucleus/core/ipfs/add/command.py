@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field, asdict
-from nucleus.core.http import LiveSession
 from nucleus.core.types import Setting
+from nucleus.core.http import LiveSession
 
 from .constants import IPFS_API_ADD
 

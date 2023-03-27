@@ -30,6 +30,7 @@ from types import *  # type: ignore
 # https://docs.python.org/3/library/typing.html#typing.TypeVar
 T = TypeVar("T")
 T_contra = TypeVar("T_contra", contravariant=True)
+T_co = TypeVar("T_co", covariant=True)
 
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)

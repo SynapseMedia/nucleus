@@ -1,7 +1,7 @@
 import nucleus.core.exceptions as exceptions
 
 from dataclasses import dataclass
-from nucleus.core.types import Path
+from nucleus.core.types import Path, Union
 
 
 @dataclass
@@ -28,7 +28,7 @@ class File:
 class Text:
     """Text represent "data" param in request based on input text."""
 
-    input: str
+    input: Union[str, bytes]
 
     def __iter__(self):
         yield "data", self.input

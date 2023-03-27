@@ -1,17 +1,10 @@
 from dataclasses import dataclass
 from abc import ABCMeta, abstractmethod
-from nucleus.sdk.harvest.models import Media
-from nucleus.core.types import (
-    Iterator,
-    Protocol,
-    Path,
-    CID,
-    NewType,
-    Optional,
-)
+from nucleus.sdk.harvest.models import Media, Meta
+from nucleus.core.types import Iterator, Protocol, Path, CID, NewType, Optional, Union
 
 # Alias for allowed media to store
-Storable = Media[Path]
+Storable = Union[Media[Path], Meta]
 ID = NewType("ID", str)
 
 

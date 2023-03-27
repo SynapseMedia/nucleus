@@ -10,6 +10,7 @@ def test_load_collector(mock_raw_collected: JSON):
     # we get the collector from original source files and get the first known
     dummy = list(harvest.load(mock_collectors_dir))[0]
     data = list(dummy)
+
     assert data == [mock_raw_collected]
 
 
