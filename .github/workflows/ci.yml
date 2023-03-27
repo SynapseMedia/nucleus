@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'main'
-      - 'v0.*.0'
   pull_request:
 
 jobs:
