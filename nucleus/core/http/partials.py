@@ -1,5 +1,6 @@
 import functools
 import requests
+
 from .session import LiveSession
 
 live_session = functools.partial(LiveSession)

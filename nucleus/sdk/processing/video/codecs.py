@@ -1,5 +1,4 @@
 from nucleus.core.types import Literal
-from .types import Codec
 from .constants import (
     DEFAULT_KEY_MIN,
     DEFAULT_GOP,
@@ -9,7 +8,7 @@ from .constants import (
 )
 
 
-class Copy(Codec):
+class Copy:
     """Format used to `copy` the codec from the source to the output.
     Special value copy (output only) to indicate that the stream is not to be re-encoded.
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
@@ -21,14 +20,14 @@ class Copy(Codec):
     def __init__(self, stream: Literal["v", "a"] = "v"):
         self._stream_specifier = stream
 
-    def __contains__(self, _: str):
-        return False
+    def __contains__(self, codec: str) -> bool:
+        ...
 
     def __iter__(self):
         yield f"c:{self._stream_specifier}", "copy"
 
 
-class H264(Codec):
+class H264:
     """Represent H264 codec with default options.
     ref: https://trac.ffmpeg.org/wiki/Encode/H.264
 
@@ -50,7 +49,7 @@ class H264(Codec):
         yield "c:v", "libx264"
 
 
-class HEVC(Codec):
+class HEVC:
     """Represent HEVC codec with default options.
     ref: https://trac.ffmpeg.org/wiki/Encode/H.265
 
@@ -72,7 +71,7 @@ class HEVC(Codec):
         yield "x265-params", "lossless=1"
 
 
-class VP9(Codec):
+class VP9:
     """Represent Vp9 codec with default options.
     ref: https://trac.ffmpeg.org/wiki/Encode/VP9
 

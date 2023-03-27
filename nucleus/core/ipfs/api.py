@@ -6,18 +6,18 @@ from nucleus.core.types import JSON
 from .types import RPCCommand
 
 
-class IPFS:
+class IPFSApi:
 
     """IPFS strategically interact with different rpc command and execute them in a safe manner.
     Each http call is preset with base url and version and the complement of the url is added during runtime based on each rpc command implementation.
         eg. localhost:5001/api/v0 + /add, /config, ...
-    
+
     """
 
     _http: LiveSession
 
-    def __init__(self, endpoint: str, version: int = 0):
-        self._http = http.live_session(f"{endpoint}/api/v{version}")
+    def __init__(self, endpoint: str):
+        self._http = http.live_session(endpoint)
 
     def __call__(self, command: RPCCommand) -> JSON:
         """Execute built command in container
@@ -34,7 +34,6 @@ class IPFS:
         405 - HTTP Method Not Allowed
         """
 
-        
         # we pass an out of the box http session
         response = command(self._http)
         if not response.ok:

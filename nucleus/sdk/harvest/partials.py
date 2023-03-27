@@ -4,7 +4,7 @@ import nucleus.sdk.exceptions as exceptions
 from nucleus.core.types import Any, Type
 from pydantic import create_model, parse_obj_as, ValidationError
 
-from .model import Meta, Collectable
+from .models import Meta, Collectable
 from .media import Image, Video
 
 

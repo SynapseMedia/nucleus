@@ -1,5 +1,5 @@
 import pytest
-
+import copy
 from nucleus.core.types import Any
 from nucleus.sdk.harvest import Collection, Image
 
@@ -35,7 +35,14 @@ def mock_raw_metadata():
 
 @pytest.fixture
 def mock_raw_collected(mock_raw_metadata: Any, mock_raw_media: Any):
-    return {"metadata": mock_raw_metadata, "media": mock_raw_media}
+    return {"metadata": mock_raw_metadata, "media": [mock_raw_media]}
+
+
+@pytest.fixture
+def mock_raw_collected2(mock_raw_collected: Any):
+    mock_raw_collected2 = copy.deepcopy(mock_raw_collected)
+    mock_raw_collected2["metadata"].update({"name": "A in the Road"})
+    return mock_raw_collected2
 
 
 @pytest.fixture

@@ -1,23 +1,15 @@
-import nucleus.core.ipfs.add as add
+import responses
+import nucleus.core.ipfs as ipfs
 
-from nucleus.core.ipfs.constants import EXIT_SUCCESS
-from nucleus.core.types import Any, Path, StdOut
-
-
-expected_hash = "QmRoo28ogKQ6ds3jk9x7X7x3sjTs2yTMu5vHUPxLN8vinU"
+from nucleus.core.types import Path
+from nucleus.core.ipfs import Add, File
 
 
-class MockCLI:
-    cmd: str
-    args: str
+@responses.activate
+def test_add(api_add_request_output: str, mock_local_video_path: Path):
+    """Should return a valid ipfs api response for valid file"""
 
-    def __call__(self):
-        return StdOut(EXIT_SUCCESS, expected_hash)
-
-
-def test_add(mocker: Any):
-    """Should return a valid cid for valid dir"""
-
-    mocker.patch("nucleus.core.ipfs.add.IPFS", return_value=MockCLI())
-    add_directory = add.directory(Path("/test/dir"))
-    assert add_directory == expected_hash
+    api = ipfs.api()  # call to local ipfs
+    command = Add(File(mock_local_video_path))
+    output = api(command)
+    assert output == api_add_request_output

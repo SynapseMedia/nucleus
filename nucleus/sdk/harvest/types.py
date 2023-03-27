@@ -7,7 +7,7 @@ from nucleus.core.types import Iterator, JSON
 
 
 class Collector(ABC):
-    """Abstract class for collecting metadata.
+    """Abstract class for metadata collection.
     Collector define an "strict abstraction" with methods needed to handle metadata collection process.
     Subclasses should implement the __iter__ method to collect metadata from various data inputs.
     Use this class to create collector subtypes.

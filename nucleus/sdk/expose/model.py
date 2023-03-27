@@ -1,9 +1,11 @@
+from dataclasses import dataclass
 from nucleus.core.types import CID
-from nucleus.sdk.harvest.model import _Model  # type: ignore
 
 
-class Impulse(_Model):
-    signature: str
-    public_key: str
-    media: CID
-    metadata: CID
+@dataclass
+class Impulse:
+    v: float  # version
+    sig: str  # signature
+    pk: str  # public key
+    media: CID  # media cid (meta for media resources)
+    meta: CID  # metadata cid (metadata structure)

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import abstractmethod, ABC
-from nucleus.sdk.harvest.model import Media
+from nucleus.sdk.harvest.models import Media
 from nucleus.core.types import (
     T,
     Path,
@@ -9,7 +9,7 @@ from nucleus.core.types import (
     URL,
     Union,
     Generic,
-    Set,
+    List,
     Tuple,
     Any,
     Setting,
@@ -18,7 +18,7 @@ from nucleus.core.types import (
 
 # Alias for allowed engine inputs
 Processable = Media[Union[Path, URL]]
-Compiled = Iterator[Tuple[str, Any]]
+Compilation = Iterator[Tuple[str, Any]]
 
 
 class Engine(ABC, Generic[T]):
@@ -29,20 +29,24 @@ class Engine(ABC, Generic[T]):
 
     _name: str
     _library: T
-    _settings: Set[Setting]
+    _settings: List[Setting]
 
     def __init__(self, name: str, lib: T):
         """Initialize a new instance with bound library and name"""
         self._name = name
         self._library = lib
-        self._settings = set()
+        self._settings = list()
 
     def __str__(self):
         """String representation for library"""
         return self._name
 
-    def compile(self) -> Compiled:
-        """Join config as output map arguments"""
+    def compile(self) -> Compilation:
+        """Compile engine settings into an map of arguments
+
+        :return: a new map of compiled arguments using
+        :rtype: Compilation
+        """
         for preset in self._settings:
             yield preset.__class__.__name__, dict(preset)
 
@@ -54,7 +58,7 @@ class Engine(ABC, Generic[T]):
         :rtype: Engine[T]
         """
 
-        self._settings.add(setting)
+        self._settings.append(setting)
         return self
 
     @abstractmethod

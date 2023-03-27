@@ -1,5 +1,5 @@
 """
-Observations: 
+Observations:
 We need consistency with standard exceptions to help users to handle it in a predictive way.
  - Errors should never pass silently, even if it's just raising the underlying exception wrapped in our own exceptions.
 
@@ -8,6 +8,7 @@ We need consistency with standard exceptions to help users to handle it in a pre
 
 class IPFSRuntimeError(Exception):
     """Exception raised for errors related to ipfs cli."""
+
     def __init__(self, message: str):
         self.message = f"Core :: IPFS -> {message}"
 

@@ -1,6 +1,6 @@
 from .database import connect, connection
 from .decorator import atomic, connected
-from .types import Connection
+from .types import Connection, Cursor
 from .manager import Manager
 
 __all__ = (
@@ -9,5 +9,6 @@ __all__ = (
     "connected",
     "connection",
     "Connection",
+    "Cursor",
     "Manager",
 )

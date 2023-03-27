@@ -1,5 +1,5 @@
 from nucleus.core.types import Literal
-from .model import Collectable
+from .models import Collectable
 
 
 class Video(Collectable):

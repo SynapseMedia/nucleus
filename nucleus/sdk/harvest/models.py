@@ -142,3 +142,9 @@ class Collection(_Model):
             instances = map(lambda x: Media(**x), parsed)
             return list(instances)
         return v
+
+
+__all__ = (
+    "Meta",
+    "Collection",
+)

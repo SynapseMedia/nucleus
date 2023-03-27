@@ -5,11 +5,12 @@ from nucleus.core.types import Any
 
 
 class LiveSession(requests.Session):
-    """Enhance the session behavior by adding the default base url in your requests"""
+    """Enhance the session behavior by adding the default base url into requests"""
 
     _base_url: str
 
     def __init__(self, base_url: str):
+        super().__init__()
         self._base_url = base_url
 
     def request(self, method: Any, url: Any, *args: Any, **kwargs: Any):

@@ -3,7 +3,7 @@ import nucleus.sdk.processing as processing
 from mock import patch
 from nucleus.core.types import Path, Any
 from nucleus.sdk.harvest import Video, Image
-from nucleus.sdk.harvest.model import Media
+from nucleus.sdk.harvest.models import Media
 
 
 class MockImage:

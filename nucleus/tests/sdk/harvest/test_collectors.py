@@ -13,33 +13,19 @@ def test_load_collector(mock_raw_collected: JSON):
     assert data == [mock_raw_collected]
 
 
-def test_merge_collector(mock_raw_collected: JSON):
+def test_merge_collector(mock_raw_collected: JSON, mock_raw_collected2: JSON):
     """Should merge collected metadata from collectors"""
     loaded_collectors = harvest.load(mock_collectors_dir)
     data_merged = harvest.merge(loaded_collectors)
-    
-    mock_raw_collected2 = mock_raw_collected.copy()
-    mock_raw_collected2.update({"name": "A in the Road"})
     assert list(data_merged) == [mock_raw_collected, mock_raw_collected2]
 
 
-# def test_map_collector(mock_models: Collection, mock_models_B: Collection):
-#     """Should map collected metadata from collectors"""
-#     loaded_collectors = harvest.load(mock_collectors_dir)
-#     data_merged = harvest.map(loaded_collectors)
+def test_map_collector(mock_raw_collected: JSON, mock_raw_collected2: JSON):
+    """Should map collected metadata from collectors"""
+    loaded_collectors = harvest.load(mock_collectors_dir)
+    data_merged = harvest.map(loaded_collectors)
+    got_values = data_merged.values()
+    got_keys = data_merged.keys()
 
-#     got_values = data_merged.values()
-#     got_keys = data_merged.keys()
-
-#     assert list(got_values) == [[mock_models], [mock_models_B]]
-#     assert list(got_keys) == ["dummy", "file"]
-
-
-# def test_parse_collector_merge():
-#     """Should parse merged collected metadata"""
-#     loaded_collectors = harvest.load(mock_collectors_dir)
-#     data_merged = harvest.merge(loaded_collectors)
-#     got = [isinstance(x, Collection) for x in data_merged]  # type: ignore
-
-#     assert all(got)
-#     assert len(got) == 2
+    assert list(got_values) == [[mock_raw_collected], [mock_raw_collected2]]
+    assert list(got_keys) == ["Dummy", "File"]

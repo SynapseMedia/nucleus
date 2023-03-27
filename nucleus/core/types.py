@@ -14,12 +14,14 @@ refs:
 
 """
 
+import json
 import cid  # type: ignore
 import pathlib
 import urllib.parse as parse
 
-from hexbytes import HexBytes
+from collections import UserDict
 from abc import ABCMeta, abstractmethod
+from hexbytes import HexBytes
 
 # "inherit" from global typing
 from typing import *  # type: ignore
@@ -27,9 +29,8 @@ from types import *  # type: ignore
 
 # https://docs.python.org/3/library/typing.html#typing.TypeVar
 T = TypeVar("T")
-C = TypeVar("C", contravariant=True)
+T_contra = TypeVar("T_contra", contravariant=True)
 
-JSON = Dict[Any, Any]
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
@@ -44,7 +45,7 @@ class Setting(Protocol, metaclass=ABCMeta):
 
     @abstractmethod
     def __iter__(self) -> Preset:
-        """Yield key value pair to build adapter arguments.
+        """Yield key value pair to build compilation of arguments.
         Allow to convert setting as dict.
         """
 
@@ -145,3 +146,28 @@ class Path(_ExtensibleStr):
             raise ValueError("string must be a Path")
 
         ...
+
+
+class JSON(UserDict[Any, Any]):
+    def write(self, path: Path):
+        """Create an output json file into output file with self
+
+        :param path: directory to store json file
+        :return: path to file
+        :rtype: Path
+        """
+        json_string = json.dumps(self.data, ensure_ascii=False)
+        path.write_text(json_string)
+        return path
+
+    @classmethod
+    def read(cls, path: Path):
+        """Read a json file and return a JSON object
+
+        :param path: the path to read json raw
+        :return: JSON
+        :rtype: JSON
+        """
+        raw = path.read_text()
+        dict = json.loads(raw)
+        return cls(**dict)

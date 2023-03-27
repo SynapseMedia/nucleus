@@ -21,7 +21,7 @@ def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[JSON]]:
     mapped: Any = defaultdict(list)
     # For each collector metadata provided lets parse it and map it.
     for collected in collectors:
-        mapped[str(collected)] += collected
+        mapped[collected.__class__.__name__] += collected
     return mapped
 
 
@@ -45,10 +45,14 @@ def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
     """
 
     for module_finder, name, _ in pkgutil.iter_modules([path]):
-        module = module_finder.find_module(name).load_module(name)  # type: ignore
+        module = module_finder.find_module(
+            name).load_module(name)  # type: ignore
 
         # Get the module collector class
         for _, obj in inspect.getmembers(module):
             if not inspect.isabstract(obj) and inspect.isclass(obj):
                 if issubclass(obj, Collector):
                     yield obj()  # yield an instance of collector
+
+
+__all__ = ("load", "map", "merge")

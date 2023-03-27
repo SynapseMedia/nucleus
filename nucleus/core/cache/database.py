@@ -20,7 +20,8 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
     """
 
     try:
-        # Connect and sets the row_factory to the callable sqlite3.Row, which converts the plain tuple into a more useful object.
+        # Connect and sets the row_factory to the callable sqlite3.Row, which
+        # converts the plain tuple into a more useful object.
         return sqlite3.connect(
             db_path,
             detect_types=sqlite3.PARSE_DECLTYPES,

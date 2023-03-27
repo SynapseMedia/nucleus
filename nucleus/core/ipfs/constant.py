@@ -1,1 +1,0 @@
-IPFS_API_ADD = "/add"

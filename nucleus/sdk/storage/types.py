@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from abc import ABCMeta, abstractmethod
-from nucleus.sdk.harvest.model import Media
+from nucleus.sdk.harvest.models import Media
 from nucleus.core.types import (
     Iterator,
     Protocol,
@@ -23,7 +23,7 @@ class Pin:
 
 
 class Edge(Protocol, metaclass=ABCMeta):
-    """Edge provides an standard facade interface to handle services in IPFS.
+    """Edge provides an standard interface to handle ipfs edge services.
     For each edge service methods should be defined and encapsulate with any needed logic to simplify the usage.
     Use this class to create edge services subtypes.
 

@@ -1,6 +1,6 @@
 from nucleus.sdk.processing import VP9, HEVC, H264
 
-# TODO test expected iterated dict
+# TODO test expected iterated dict eg. dict(vp9) == {"g", 10, ...}
 
 
 def test_vp9_codec_contains():

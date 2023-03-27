@@ -1,5 +1,5 @@
+from PIL.Image import Resampling
 from dataclasses import dataclass
-from .types import Coord, Resampling
 
 """All these settings are defined by pillow library.
 Option classes should be named in correspondence to the methods of the Pillow Image object and using the Python class naming convention.
@@ -16,8 +16,20 @@ eg:
 
 
 @dataclass
+class Coord:
+    """The Python Imaging Library uses a Cartesian pixel coordinate system
+    ref: https://pillow.readthedocs.io/en/stable/handbook/concepts.html#coordinate-system
+    """
+
+    left: int
+    top: int
+    right: int
+    bottom: int
+
+
+@dataclass
 class Crop:
-    """Crop image
+    """Crop image returns a rectangular region from this image
     ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.crop
     """
 
@@ -58,4 +70,4 @@ class Resize:
         yield "box", self._box
 
 
-__all__ = ("Crop", "Resize")
+__all__ = ("Crop", "Coord", "Resize", "Resampling")

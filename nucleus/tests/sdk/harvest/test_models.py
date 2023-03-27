@@ -22,7 +22,8 @@ def test_parse_obj_raise_model_validation_error():
 
 def test_parse_raw_raise_model_validation_error():
     with pytest.raises(exceptions.ModelValidationError):
-        ExampleModel.parse_raw('{"age": 123}')  # missing name, description again
+        # missing name, description again
+        ExampleModel.parse_raw('{"age": 123}')
 
 
 def test_model_freeze(mock_models: Collection, setup_database: Any):

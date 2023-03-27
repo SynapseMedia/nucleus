@@ -1,9 +1,8 @@
-from .types import (
-    LocalPin,
-    Pin,
-)
+from .add import *
+from .partials import *
 
-__all__ = (
-    "LocalPin",
-    "Pin",
-)
+from . import partials
+from . import add
+
+
+__all__ = [*partials.__all__, *add.__all__]  # type: ignore
