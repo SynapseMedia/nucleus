@@ -13,7 +13,7 @@ class Manager:
     This manager routes queries to the correct database model for different collectors.
     """
 
-    _conn: Union[Connection,None] = None
+    _conn: Union[Connection, None] = None
 
     @classmethod
     @property
