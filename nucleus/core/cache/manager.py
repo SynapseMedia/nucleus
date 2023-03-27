@@ -1,5 +1,5 @@
 # Convention for importing constants/types
-from nucleus.core.types import Path
+from nucleus.core.types import Path, Union
 
 from .types import Connection
 from .database import connect
@@ -13,7 +13,7 @@ class Manager:
     This manager routes queries to the correct database model for different collectors.
     """
 
-    _conn: Connection | None = None
+    _conn: Union[Connection,None] = None
 
     @classmethod
     @property
