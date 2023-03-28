@@ -15,6 +15,3 @@ class StdOut:
     exit_code: int
     output: Any
 
-    # TODO use as bytes
-    # TODO add methods for handle output
-    # TODO eg. as_str, etc

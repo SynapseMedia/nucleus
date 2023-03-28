@@ -9,11 +9,11 @@ import nucleus.sdk.exceptions as exceptions
 
 # Convention for importing constants/types
 from pydantic import ValidationError
-from nucleus.core.cache import Manager
+from nucleus.core.cache import ConnectionManager
 from nucleus.core.types import Any, Union, Iterator, List, Path, URL, CID, Generic, T
 
 
-class _Model(Manager, pydantic.BaseModel):
+class _Model(ConnectionManager, pydantic.BaseModel):
     """This model defines a template for managing the cache associated with each model"""
 
     def __init__(self, **kwargs: Any):

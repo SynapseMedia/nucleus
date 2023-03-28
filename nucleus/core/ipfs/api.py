@@ -22,8 +22,8 @@ class IPFSApi:
     def __call__(self, command: RPCCommand) -> JSON:
         """Execute built command in container
 
-        :return: standard output with collected data from subprocess call to ipfs
-        :rtype: StdOut
+        :return: json response from IPFS API call response
+        :rtype: JSON
         :raises IPFSRuntimeException: if status code is not 200
 
         200 - The request was processed or is being processed (streaming)
@@ -38,7 +38,7 @@ class IPFSApi:
         response = command(self._http)
         if not response.ok:
             raise exceptions.IPFSRuntimeError(
-                f"error trying to execute IPFS command: {response.reason}"
+                f"error trying to execute IPFS command `{command.__class__.__name__}`: {response.reason}"
             )
 
         # ready to use response

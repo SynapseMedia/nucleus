@@ -1,14 +1,12 @@
-from .database import connect, connection
-from .decorator import atomic, connected
+from .database import connect, connection, is_open
 from .types import Connection, Cursor
-from .manager import Manager
+from .manager import ConnectionManager
 
 __all__ = (
-    "atomic",
     "connect",
-    "connected",
     "connection",
-    "Connection",
+    "is_open",
     "Cursor",
-    "Manager",
+    "Connection",
+    "ConnectionManager",
 )

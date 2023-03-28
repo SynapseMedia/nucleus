@@ -6,14 +6,8 @@ from .database import connect
 from .constants import INSERT, FETCH, MIGRATE, MODELS_PATH
 
 
-class Manager:
-    """SQL manager for managing database connections and queries.
-
-    Each database file is created based on the model name.
-    This manager routes queries to the correct database model for different collectors.
-    """
-
-    _conn: Union[Connection, None] = None
+class QueryManager(object):
+    """Manager to handle SQL queries"""
 
     @classmethod
     @property
@@ -47,6 +41,16 @@ class Manager:
         """
         return FETCH % cls.alias
 
+
+class ConnectionManager(QueryManager):
+    """Connection manager to handle database connections.
+
+    Each database file is created based on the model name.
+    This manager routes queries to the correct database model for different collectors.
+    """
+
+    _conn: Union[Connection, None] = None
+
     @classmethod
     def using(cls, conn: Connection):
         """Set a connection to use during operations.
@@ -78,3 +82,6 @@ class Manager:
             cls._conn = connect(db_path=db_path)
             cls._conn.execute(cls.migrate())
         return cls._conn
+
+
+__all__ = ("ConnectionManager",)

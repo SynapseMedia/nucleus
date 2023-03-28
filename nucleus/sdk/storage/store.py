@@ -17,13 +17,12 @@ def store(model: Storable) -> Stored:
     :return: stored instance
     :rtype: Stored
     """
-    raise NotImplementedError(
-        f"cannot process not registered storable `{model}")
+    raise NotImplementedError(f"cannot process not registered storable `{model}")
 
 
 @store.register
 def _(model: Media[Path]) -> Stored:
-    api = ipfs.api()  # ipfs api interface
+    api = ipfs.local_api()  # local ipfs api interface
     command = Add(File(model.route))
     # expected /add output from API
     # {Hash: .., Name: .., Size: ...}
@@ -39,7 +38,7 @@ def _(model: Media[Path]) -> Stored:
 
 @store.register
 def _(model: Meta) -> Stored:
-    api = ipfs.api()  # ipfs api interface
+    api = ipfs.local_api()  # local ipfs api interface
     # transform meta in json string
     json_string = json.dumps(model.dict())
 

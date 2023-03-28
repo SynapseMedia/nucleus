@@ -23,7 +23,7 @@ def _decode_bytes(b: bytes) -> str:
 
 def _match_faulty_line(lines: Sequence[str]) -> Union[str, None]:
     """Check if the process failed.
-    Failed if capture nodejs ERROR logs.
+    Consideration: Is Faulty if capture ERROR logs.
 
     :param line: input line to analyze
     :return: if process failed True is returned otherwise False.

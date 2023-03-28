@@ -60,10 +60,9 @@ class Image(Engine[Pillow]):
             # The method to call should be the same as the option name.
             method = self._to_snake_case(class_name)
             func = getattr(self._library, method)
-            # pillow image chaining
+            # pillow chaining features
             # all methods return a new instance of the Image class, holding the resulting image
-            # ref:
-            # https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image
+            # ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image
             self._library = func(**dict(params))
 
     def save(self, path: Path) -> Media[Path]:
