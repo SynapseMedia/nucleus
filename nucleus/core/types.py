@@ -37,6 +37,7 @@ Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
 Preset = Iterator[Tuple[str, Any]]
+Func = Callable[..., Any]
 
 
 class Setting(Protocol, metaclass=ABCMeta):

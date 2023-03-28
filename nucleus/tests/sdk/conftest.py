@@ -1,8 +1,6 @@
 import pytest
 import copy
 from nucleus.core.types import Any
-from nucleus.sdk.harvest import Collection, Image
-
 from nucleus.tests._mock.models import Movie
 
 
@@ -46,15 +44,11 @@ def mock_raw_collected2(mock_raw_collected: Any):
 
 
 @pytest.fixture
-def mock_models(mock_raw_metadata: Any, mock_raw_media: Any):
-    metadata = Movie.parse_obj(mock_raw_metadata)
-    media = Image.parse_obj(mock_raw_media)
-    return Collection(metadata=metadata, media=[media])
+def mock_models(mock_raw_metadata: Any):
+    return Movie.parse_obj(mock_raw_metadata)
 
 
 @pytest.fixture
-def mock_models_B(mock_raw_metadata: Any, mock_raw_media: Any):
+def mock_models_B(mock_raw_metadata: Any):
     mock_raw_metadata.update({"name": "A in the Road"})
-    metadata = Movie.parse_obj(mock_raw_metadata)
-    media = Image.parse_obj(mock_raw_media)
-    return Collection(metadata=metadata, media=[media])
+    return Movie.parse_obj(mock_raw_metadata)

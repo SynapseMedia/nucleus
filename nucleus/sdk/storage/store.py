@@ -22,7 +22,7 @@ def store(model: Storable) -> Stored:
 
 @store.register
 def _(model: Media[Path]) -> Stored:
-    api = ipfs.local_api()  # local ipfs api interface
+    api = ipfs.api()  # local ipfs api interface
     command = Add(File(model.route))
     # expected /add output from API
     # {Hash: .., Name: .., Size: ...}
@@ -38,7 +38,7 @@ def _(model: Media[Path]) -> Stored:
 
 @store.register
 def _(model: Meta) -> Stored:
-    api = ipfs.local_api()  # local ipfs api interface
+    api = ipfs.api()  # local ipfs api interface
     # transform meta in json string
     json_string = json.dumps(model.dict())
 

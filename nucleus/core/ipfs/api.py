@@ -1,4 +1,3 @@
-import nucleus.core.http as http
 import nucleus.core.exceptions as exceptions
 
 from nucleus.core.http import LiveSession
@@ -16,8 +15,8 @@ class IPFSApi:
 
     _http: LiveSession
 
-    def __init__(self, endpoint: str):
-        self._http = http.live_session(endpoint)
+    def __init__(self, http_client: LiveSession):
+        self._http = http_client
 
     def __call__(self, command: RPCCommand) -> JSON:
         """Execute built command in container

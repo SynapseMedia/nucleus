@@ -1,9 +1,8 @@
 import pytest
 import nucleus.sdk.exceptions as exceptions
 
-from mock import patch
-from nucleus.core.types import Any
-from nucleus.sdk.harvest import Collection, Meta
+from nucleus.sdk.harvest import Meta
+from nucleus.tests._mock.models import Movie
 
 
 class ExampleModel(Meta):
@@ -26,43 +25,28 @@ def test_parse_raw_raise_model_validation_error():
         ExampleModel.parse_raw('{"age": 123}')
 
 
-def test_model_freeze(mock_models: Collection, setup_database: Any):
+def test_model_freeze(mock_models: Movie):
     """Should commit a valid mutation of movies"""
-    with patch("nucleus.core.cache.database.sqlite3") as mock:
-        conn = setup_database
-        mock.connect.return_value = conn  # type: ignore
-        # eg. Movie(...).save()
-        stored = mock_models.save()
-
-        cursor = conn.cursor()
-        query = cursor.execute("SELECT m FROM collection")
-        rows = query.fetchone()
-
-        assert rows[0] == mock_models
-        assert stored
+    # eg. Movie(...).save()
+    stored = mock_models.save()
+    rows = mock_models.get()
+    assert rows == mock_models
+    assert stored
 
 
-def test_movie_fetch_frozen(mock_models: Collection, setup_database: Any):
+def test_movie_fetch_frozen(mock_models: Movie):
     """Should query a valid fetch of movies"""
-    with patch("nucleus.core.cache.database.sqlite3") as mock:
-        conn = setup_database
-        mock.connect.return_value = conn  # type: ignore
-
-        # store a movie
-        expected = [mock_models]
-        result = mock_models.all()
-        movies = list(result)
-        assert movies == expected
+    # store a movie
+    expected = [mock_models]
+    result = mock_models.all()
+    movies = list(result)
+    assert movies == expected
 
 
-def test_movie_get_frozen(mock_models: Collection, setup_database: Any):
+def test_movie_get_frozen(mock_models: Movie):
     """Should query a valid get of a movie"""
-    with patch("nucleus.core.cache.database.sqlite3") as mock:
-        conn = setup_database
-        mock.connect.return_value = conn  # type: ignore
-
-        # store a movie
-        mock_models.save()
-        result = Collection.get()
-        movies = result
-        assert movies == mock_models
+    # store a movie
+    mock_models.save()
+    result = Movie.get()
+    movies = result
+    assert movies == mock_models

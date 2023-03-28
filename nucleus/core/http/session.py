@@ -3,8 +3,10 @@ import requests
 from urllib.parse import urljoin
 from nucleus.core.types import Any
 
+Session = requests.Session
 
-class LiveSession(requests.Session):
+
+class LiveSession(Session):
     """Enhance the session behavior by adding the default base url into requests"""
 
     _base_url: str

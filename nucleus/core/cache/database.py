@@ -30,7 +30,7 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
     except sqlite3.Error as e:
         # proxy exception raising
         raise exceptions.DatabaseError(
-            f"error while trying to connect to database:{str(e)}"
+            f"error while trying to connect to database: {str(e)}"
         )
 
 

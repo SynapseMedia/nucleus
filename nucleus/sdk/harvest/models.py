@@ -1,33 +1,67 @@
 from __future__ import annotations
 
 
-import ast
 import pydantic
 import sqlite3
 import pickle
+import nucleus.core.cache as cache
 import nucleus.sdk.exceptions as exceptions
 
-# Convention for importing constants/types
 from pydantic import ValidationError
-from nucleus.core.cache import ConnectionManager
-from nucleus.core.types import Any, Union, Iterator, List, Path, URL, CID, Generic, T
+from nucleus.core.cache import Connection
+from nucleus.core.types import Any, Union, Iterator, Path, URL, Generic, T
+
+from .constants import MIGRATE, INSERT, FETCH, MODELS_PATH
+from .decorators import with_standard_errors
 
 
-class _Model(ConnectionManager, pydantic.BaseModel):
-    """This model defines a template for managing the cache associated with each model"""
+class _Manager(pydantic.main.ModelMetaclass):
+    """Database connection behavior.
 
-    def __init__(self, **kwargs: Any):
+    Each database file is created based on the class name.
+    This metaclass routes queries to the correct database .
+    """
+
+    def __new__(mcs, name: Any, bases: Any, attrs: Any, **kwargs: Any):  # type: ignore
+        """Start a new connection to cache database and ensure that the database is ready to receive requests."""
+        db_path = Path(MODELS_PATH)
+        db_file = f"{db_path}/{name}.db"
+        
+        # ensure that model directory exists
+        if not db_path.exists():
+            db_path.mkdir(parents=True)
+            
+        conn = cache.connect(db_path=db_file)
+        # run migration before run any operations on the database
+        conn.execute(MIGRATE % (name, name))
+        # add new attributes to class
+        new_attrs = {**{"_conn": conn, "_alias": name}, **attrs}
+        return super().__new__(mcs, name, bases, new_attrs, **kwargs)  # type: ignore
+
+
+class _Model(pydantic.BaseModel, metaclass=_Manager):
+    """This model defines a template for managing the cache associated with each model
+
+    Each database file is created based on the model name.
+    This generic model routes queries to the right database according to the model name.
+    """
+
+    _alias: str
+    _conn: Connection
+
+    def __init__(self, *args: Any, **kwargs: Any):
         try:
-            super(_Model, self).__init__(**kwargs)
+            super(_Model, self).__init__(*args, **kwargs)
         except ValidationError as e:
             raise exceptions.ModelValidationError(
                 f"raised exception during model initialization: {str(e)}"
             )
 
-        sqlite3.register_converter(self.alias, pickle.loads)
+        sqlite3.register_converter(self._alias, pickle.loads)
         sqlite3.register_adapter(self.__class__, pickle.dumps)
 
     @classmethod
+    @with_standard_errors
     def get(cls) -> _Model:
         """Exec query and fetch one entry from database.
 
@@ -36,16 +70,12 @@ class _Model(ConnectionManager, pydantic.BaseModel):
         :raises ModelManagerError: if there is an error fetching entry
         """
 
-        try:
-            response = cls.conn.execute(cls.query())
-            row = response.fetchone()
-            return row[0]
-        except sqlite3.ProgrammingError as e:
-            raise exceptions.ModelManagerError(
-                f"raised exception during fetching stored model: {str(e)}"
-            )
+        response = cls._conn.execute(FETCH % cls._alias)
+        row = response.fetchone()
+        return row[0]
 
     @classmethod
+    @with_standard_errors
     def all(cls) -> Iterator[_Model]:
         """Exec query and fetch a list of data from database.
 
@@ -53,15 +83,11 @@ class _Model(ConnectionManager, pydantic.BaseModel):
         :rtype: Iterator[_Model]
         :raises ModelManagerError: if there is an error fetching entries
         """
-        try:
-            response = cls.conn.execute(cls.query())
-            rows = response.fetchall()
-            return map(lambda r: r[0], rows)
-        except sqlite3.ProgrammingError as e:
-            raise exceptions.ModelManagerError(
-                f"raised exception during fetching all stored models: {str(e)}"
-            )
+        response = cls._conn.execute(FETCH % cls._alias)
+        rows = response.fetchall()
+        return map(lambda r: r[0], rows)
 
+    @with_standard_errors
     def save(self) -> Union[int, None]:
         """Exec insertion into database using built query
 
@@ -69,13 +95,8 @@ class _Model(ConnectionManager, pydantic.BaseModel):
         :rtype: bool
         :raises ModelManagerError: if there is an error saving entry
         """
-        try:
-            cursor = self.conn.execute(self.mutate(), (self,))
-            return cursor.lastrowid
-        except sqlite3.ProgrammingError as e:
-            raise exceptions.ModelManagerError(
-                f"raised exception while saving model: {str(e)}"
-            )
+        cursor = self._conn.execute(INSERT % self._alias, (self,))
+        return cursor.lastrowid
 
 
 class _FrozenModel(_Model):
@@ -127,24 +148,4 @@ class Media(_FrozenModel, Generic[T]):
 # Alias for sources allowed to collect media
 Collectable = Media[Union[URL, Path]]
 
-
-class Collection(_Model):
-    """Collection is in charge of link the metadata and it corresponding media"""
-
-    media: List[Union[Media[CID], Collectable]]
-    metadata: Meta
-
-    @pydantic.validator("media", pre=True)
-    def serialize_media_pre(cls, v: Any):
-        """Pre serialize media to object"""
-        if isinstance(v, bytes):
-            parsed = ast.literal_eval(v.decode())
-            instances = map(lambda x: Media(**x), parsed)
-            return list(instances)
-        return v
-
-
-__all__ = (
-    "Meta",
-    "Collection",
-)
+__all__ = ("Meta",)

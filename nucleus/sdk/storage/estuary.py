@@ -1,5 +1,5 @@
 import nucleus.sdk.exceptions as exceptions
-import nucleus.core.http as http
+import nucleus.core.http as http_client
 
 from dataclasses import dataclass
 from nucleus.core.http import Response
@@ -64,7 +64,7 @@ class Estuary:
     key: str
 
     def __post_init__(self):
-        self._http = http.live_session(self.endpoint)
+        self._http = http_client.live_session(self.endpoint)
         self._http.headers.update({"Authorization": f"Bearer {self.key}"})
 
     def _content_by_cid(self, cid: CID) -> JSON:
