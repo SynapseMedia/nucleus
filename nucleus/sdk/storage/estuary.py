@@ -74,7 +74,8 @@ class Estuary:
         :rtype: JSON
         :raises StorageServiceError: if pin request fails
         """
-        # ref: https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
+        # ref:
+        # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
         req = self._http.post(ESTUARY_API_PIN, data={cid: cid, **kwargs})
         return _enhanced_response(req)
 

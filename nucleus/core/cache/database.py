@@ -29,7 +29,8 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
         )
     except sqlite3.Error as e:
         # proxy exception raising
-        raise DatabaseError(f"error while trying to connect to database: {str(e)}")
+        raise DatabaseError(
+            f"error while trying to connect to database: {str(e)}")
 
 
 @contextlib.contextmanager
