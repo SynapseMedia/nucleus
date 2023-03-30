@@ -30,9 +30,7 @@ _templates/
 orbit*/
 pragma*.txt
 src/.pytest_cache
-!collectors/__init__.py
-!collectors/dummy/dummy.py
-!collectors/dummy/__init__.py
+
 data/ipfs
 data/*
 geth
