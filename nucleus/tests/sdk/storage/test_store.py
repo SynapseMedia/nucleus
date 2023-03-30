@@ -5,7 +5,9 @@ from nucleus.sdk.storage import Stored
 from nucleus.sdk.harvest import File, MediaType
 
 
-def test_storage_file(rpc_ipfs_api_add_request: JSON, mock_local_video_path: Path):
+def test_storage_file(
+        rpc_ipfs_api_add_request: JSON,
+        mock_local_video_path: Path):
     """Should dispatch the right request based on storable input"""
 
     # retrieve the storage node, by default local ipfs local node

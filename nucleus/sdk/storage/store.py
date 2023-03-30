@@ -30,7 +30,8 @@ def client(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
         :return: stored instance
         :rtype: Stored
         """
-        raise NotImplementedError(f"cannot process not registered storable `{model}")
+        raise NotImplementedError(
+            f"cannot process not registered storable `{model}")
 
     @store.register
     def _(model: FileType) -> Stored:
