@@ -1,10 +1,12 @@
+import pytest
 import nucleus.sdk.processing as processing
 
 from nucleus.core.types import Path
 from nucleus.sdk.processing import H264, HLS, Copy
 from nucleus.sdk.harvest import Video
 
-
+# TODO add mocking
+@pytest.mark.skip(reason="no way of currently testing this. mock needed")
 def test_probe_video(mock_local_video_path: Path):
     """Integration test example to check the video codec using probe"""
 
