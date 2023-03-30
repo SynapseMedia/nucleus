@@ -4,7 +4,7 @@ from __future__ import annotations
 # Convention for importing constants/types
 from enum import Enum
 from abc import ABC, abstractmethod
-from nucleus.core.types import Iterator, JSON
+from nucleus.core.types import Iterator, Dict, Any
 
 
 class MediaType(Enum):
@@ -21,6 +21,6 @@ class Collector(ABC):
     """
 
     @abstractmethod
-    def __iter__(self) -> Iterator[JSON]:
+    def __iter__(self) -> Iterator[Dict[Any, Any]]:
         """Collect metadata from any kind of data input"""
         ...
