@@ -21,7 +21,6 @@ clients
 orbitdb/
 source
 scheme.js
-collectors
 _bck/**
 _build/
 _static/
@@ -30,7 +29,6 @@ _templates/
 orbit*/
 pragma*.txt
 src/.pytest_cache
-
 data/ipfs
 data/*
 geth
