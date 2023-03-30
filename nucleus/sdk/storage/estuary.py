@@ -83,7 +83,6 @@ class Estuary:
         """Remove pin from edge cache service
 
         :param cid: cid to remove from cache
-        :return: none since we don't receive anything from estuary
         :rtype: None
         :raises StorageServiceError: if an error occurs during request
         """
