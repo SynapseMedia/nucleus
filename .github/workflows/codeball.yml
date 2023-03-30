@@ -22,3 +22,11 @@ jobs:
           labelPullRequestsWhenApproved: "true"
           labelPullRequestsWhenReviewNeeded: "false"
           failJobsWhenReviewNeeded: "false"
+
+      # If Codeball have code suggestions, add suggestions as comments
+      - name: Add Suggestions
+        uses: sturdy-dev/codeball-action/suggester@v2
+        if: ${{ steps.codeball_status.outputs.suggested == 'true' && inputs.codeSuggestionsFromComments == 'true' && steps.codeball_status.outputs.jobType == 'comment' }}
+        with:
+          codeball-job-id: ${{ steps.codeball_baller.outputs.codeball-job-id }}
+          GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
