@@ -22,23 +22,3 @@ jobs:
           labelPullRequestsWhenApproved: "true"
           labelPullRequestsWhenReviewNeeded: "false"
           failJobsWhenReviewNeeded: "false"
-
-      # Start a new Codeball review job
-      # This step is asynchronous and will return a job id
-      - name: Trigger Codeball
-        id: codeball_baller
-        uses: sturdy-dev/codeball-action/baller@v2
-
-      # Wait for Codeball to return the status
-      - name: Get Status
-        id: codeball_status
-        uses: sturdy-dev/codeball-action/status@v2
-        with:
-          codeball-job-id: ${{ steps.codeball_baller.outputs.codeball-job-id }}
-
-      # If Codeball approved the contribution, approve the PR
-      - name: Approve PR
-        uses: sturdy-dev/codeball-action/approver@v2
-        with:
-          message: "Codeball: LGTM! :+1:"
-          approve: ${{ steps.codeball_status.outputs.approved }}
