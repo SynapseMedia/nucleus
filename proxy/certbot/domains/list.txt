@@ -1,3 +1,0 @@
-watchit.movie
-web.watchit.movie
-marketplace.watchit.movie
