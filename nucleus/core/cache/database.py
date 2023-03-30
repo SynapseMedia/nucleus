@@ -1,7 +1,7 @@
 import sqlite3
 import contextlib
-import nucleus.core.exceptions as exceptions
 
+from nucleus.core.exceptions import DatabaseError
 from nucleus.core.types import Iterator, Any
 from .constants import DB_DEFAULT
 from .types import Connection
@@ -29,9 +29,7 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
         )
     except sqlite3.Error as e:
         # proxy exception raising
-        raise exceptions.DatabaseError(
-            f"error while trying to connect to database: {str(e)}"
-        )
+        raise DatabaseError(f"error while trying to connect to database: {str(e)}")
 
 
 @contextlib.contextmanager

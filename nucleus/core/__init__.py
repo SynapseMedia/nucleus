@@ -6,8 +6,6 @@ Convention:
     Importing:
       - Every module or exceptions for SHOULD be imported using `import`, avoid use `from` for packages.
           eg. import nucleus.core.cache as cache <- better reading and understanding.
-          eg. import nucleus.core.exceptions as exceptions
-              raise exceptions.InvalidPrivateKey() <- immediately obvious where the exception comes from.
         IMPORTANT! An exception for this rule could be the package internal/relative import.
           eg. from .manager import exec
 

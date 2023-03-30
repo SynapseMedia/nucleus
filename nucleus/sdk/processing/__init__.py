@@ -2,13 +2,16 @@ from .engines import *
 from .image import *
 from .video import *
 from .process import *
+from .types import Processed
 
 from . import process
 from . import engines
 from . import image
 from . import video
 
+
 __all__ = [
+    "Processed",
     *process.__all__,
     *engines.__all__,
     *image.__all__,

@@ -42,4 +42,4 @@ dump/*
 htmlconv
 watchit.db
 coverage.xml
-models/*
+.models/*

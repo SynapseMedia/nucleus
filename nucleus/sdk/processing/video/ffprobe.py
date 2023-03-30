@@ -1,11 +1,11 @@
 import ffmpeg  # type: ignore
-import nucleus.sdk.exceptions as exceptions
 
 # Convention for importing types
-from nucleus.core.types import Path, Any, SimpleNamespace, Dict
+from nucleus.core.types import Path, Any, SimpleNamespace
+from nucleus.sdk.exceptions import FFProbeError
 
 
-def _to_object(data: Dict[Any, Any]) -> Any:
+def _to_object(data: Any) -> Any:
     """Recursively convert a nested JSON as SimpleNamespace object
 
     :return: SimpleNamespace object mirroring JSON representation
@@ -20,7 +20,6 @@ def _to_object(data: Dict[Any, Any]) -> Any:
     if isinstance(data, dict):
         container = SimpleNamespace()
         for k, v in data.items():
-
             setattr(container, k, _to_object(v))
         return container
 
@@ -41,8 +40,7 @@ def probe(path: Path, **kwargs: Any) -> SimpleNamespace:
         raw_probe = ffmpeg.probe(path, **kwargs)  # type: ignore
         return _to_object(raw_probe)
     except ffmpeg._run.Error as e:  # type: ignore
-        raise exceptions.FFProbeError(
-            f"error during ffprobe command call: {str(e)}")
+        raise FFProbeError(f"error during ffprobe command call: {str(e)}")
 
 
 __all__ = ("probe",)

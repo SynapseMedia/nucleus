@@ -3,9 +3,9 @@ import PIL.Image as PIL
 
 from functools import singledispatch
 from nucleus.core.types import Any, Path
-from nucleus.sdk.harvest import Video as VideoModel, Image as ImageModel
+from nucleus.sdk.harvest import Video, Image
 
-from .engines import Video, Image
+from .engines import VideoEngine, ImageEngine
 from .types import Engine, Processable
 
 
@@ -23,17 +23,17 @@ def engine(model: Processable) -> Engine[Any]:
 
 
 @engine.register
-def _(model: VideoModel) -> Video:
+def _(model: Video) -> VideoEngine:
     input_path = Path(model.route)
     library = ffmpeg.input(input_path)  # type: ignore
-    return Video(model.type, library)  # type: ignore
+    return VideoEngine(model.type, library)  # type: ignore
 
 
 @engine.register
-def _(model: ImageModel) -> Image:
+def _(model: Image) -> ImageEngine:
     input_path = Path(model.route)
     library = PIL.open(input_path)
-    return Image(model.type, library)
+    return ImageEngine(model.type, library)
 
 
 __all__ = ("engine",)

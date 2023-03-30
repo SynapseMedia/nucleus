@@ -1,8 +1,7 @@
 from .add import *
-from .partials import *
+from .connect import *
 
 from . import add
-from . import partials
+from . import connect
 
-
-__all__ = [*add.__all__, *partials.__all__]  # type: ignore
+__all__ = [*add.__all__, *connect.__all__]  # type: ignore

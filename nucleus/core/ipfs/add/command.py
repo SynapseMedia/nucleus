@@ -21,7 +21,7 @@ class Add:
     def __call__(self, session: LiveSession):
         # convert dataclass to request IPFS 'add endpoint' attributes.
         params = asdict(self)
-        params.pop("_input")
+        params.pop("_input", None)
         # convert input setting to adapt the behavior of the request. eg. send
         # raw data, upload files, etc
         compiled_settings = dict(self._input)

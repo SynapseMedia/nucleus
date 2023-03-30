@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import abstractmethod, ABC
-from nucleus.sdk.harvest.models import Media
+from nucleus.sdk.harvest import Media
 from nucleus.core.types import (
     T,
     Path,
@@ -15,7 +15,8 @@ from nucleus.core.types import (
     Setting,
 )
 
-
+# Alias for expected output
+Processed = Media[Path]
 # Alias for allowed engine inputs
 Processable = Media[Union[Path, URL]]
 Compilation = Iterator[Tuple[str, Any]]
@@ -62,12 +63,12 @@ class Engine(ABC, Generic[T]):
         return self
 
     @abstractmethod
-    def save(self, path: Path) -> Media[Path]:
+    def save(self, path: Path) -> Processed:
         """Store the new media based on configuration context.
 
         :param path: the output path
         :return: new media path
-        :rtype: Media[Path]
+        :rtype: Processed
         :raises ProcessingEngineError: if any exception is captured during processing
         """
         ...
