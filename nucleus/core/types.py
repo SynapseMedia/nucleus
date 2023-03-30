@@ -32,6 +32,7 @@ T = TypeVar("T")
 T_contra = TypeVar("T_contra", contravariant=True)
 T_co = TypeVar("T_co", covariant=True)
 
+ExceptionType = Type[Exception]
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
@@ -110,6 +111,8 @@ class URL(_ExtensibleStr):
     def valid(self) -> bool:
         allowed_schemes = {"http", "https"}
         valid_scheme = self.scheme in allowed_schemes
+        # contains a valid scheme and valid domain
+        # ref: https://docs.python.org/3/library/urllib.parse.html
         return all((valid_scheme, self.netloc))
 
     @classmethod
@@ -151,6 +154,9 @@ class Path(_ExtensibleStr):
 
 
 class JSON(UserDict[Any, Any]):
+
+    """Enhanced bridge dict type extended with features needed to handle json structure"""
+
     def write(self, path: Path):
         """Create an output json file into output file with self
 

@@ -1,33 +1,15 @@
-import nucleus.sdk.exceptions as exceptions
 import nucleus.core.http as http_client
 
 from dataclasses import dataclass
 from nucleus.core.http import Response
-from nucleus.core.types import Iterator, CID, Any, JSON, URL
+from nucleus.core.types import CID, Any, JSON, URL
+from nucleus.sdk.exceptions import StorageServiceError
 from .constants import ESTUARY_API_PIN, ESTUARY_API_PUBLIC
-from .types import Pin
 
 
 # ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY
 
-
-def _pin_factory(raw_pin: JSON):
-    """Pin factory from raw pin list
-
-    :param raw_pin: dictionary with pin information
-    :return: pin object
-    :rtype: Pin
-    """
-    pin = raw_pin.get("pin", {})
-    status = raw_pin.get("status", "fail")
-    # pin subfields
-    # ref:
-    # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/get_pinning_pins
-    name = pin.get("name", "estuary")
-    cid = pin.get("cid", CID(""))
-    return Pin(cid, status, name)
-
-
+# TODO decorator
 def _enhanced_response(res: Response) -> JSON:
     """Amplifier helper function to handle response from Estuary API
 
@@ -51,8 +33,8 @@ def _enhanced_response(res: Response) -> JSON:
             }
         """
         error_description = response.get("details", "")
-        raise exceptions.StorageServiceError(
-            f"exception raised during request: {error_description}",
+        raise StorageServiceError(
+            f"exception raised during request: {error_description}"
         )
 
     return response
@@ -84,37 +66,17 @@ class Estuary:
         response = _enhanced_response(req)
         return response.get("content", {})
 
-    def pin(self, cid: CID, **kwargs: Any) -> Pin:
+    def pin(self, cid: CID, **kwargs: Any) -> JSON:
         """Pin cid into remote edge cache
 
         :param cid: cid to pin
         :return: pin object
-        :rtype: Pin
-        :raises EdgePinException: if pin request fails
+        :rtype: JSON
+        :raises StorageServiceError: if pin request fails
         """
+        # ref: https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
         req = self._http.post(ESTUARY_API_PIN, data={cid: cid, **kwargs})
-        response = _enhanced_response(req)
-        # data resulting from estuary endpoint
-        # ref:
-        # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
-        return _pin_factory(response)
-
-    def ls(self) -> Iterator[Pin]:
-        """Return current remote pin list
-        ref: http://docs.ipfs.io/reference/cli/#ipfs-pin-remote-ls
-
-        :param limit: number of remote pins to return
-        :return: list of current remote pin list
-        :rtype: Iterator[Pin]
-        :raises EdgePinException: if pin request fails
-        """
-        # expected response as json
-        req = self._http.get(ESTUARY_API_PIN)
-
-        # expected response as json
-        response = _enhanced_response(req)
-        pin_list = response.get("results", [])
-        return map(_pin_factory, pin_list)
+        return _enhanced_response(req)
 
     def unpin(self, cid: CID) -> None:
         """Remove pin from edge cache service
@@ -122,11 +84,10 @@ class Estuary:
         :param cid: cid to remove from cache
         :return: none since we don't receive anything from estuary
         :rtype: None
-        :raises EdgePinException: if an error occurs during request
+        :raises StorageServiceError: if an error occurs during request
         """
-
-        pin_id = self._content_by_cid(cid).get(
-            "id")  # content id is same as pin id
+        # content id is same as pin id
+        pin_id = self._content_by_cid(cid).get("id")
         req = self._http.delete(f"{ESTUARY_API_PIN}/{pin_id}")
         # we don't consume anything since delete is empty response
         _enhanced_response(req)

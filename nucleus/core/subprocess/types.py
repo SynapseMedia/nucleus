@@ -14,4 +14,3 @@ Loop = asyncio.BaseEventLoop
 class StdOut:
     exit_code: int
     output: Any
-

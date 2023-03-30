@@ -2,8 +2,15 @@ from __future__ import annotations
 
 
 # Convention for importing constants/types
+from enum import Enum
 from abc import ABC, abstractmethod
 from nucleus.core.types import Iterator, JSON
+
+
+class MediaType(Enum):
+    # standard type names implementation
+    VIDEO = "video"
+    IMAGE = "image"
 
 
 class Collector(ABC):

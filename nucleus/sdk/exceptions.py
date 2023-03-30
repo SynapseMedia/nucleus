@@ -53,7 +53,7 @@ class StorageServiceError(StorageError):
 
 class ProcessingEngineError(ProcessingError):
     """Raised when something fail during media processing.
-    ProcessingEngineError error is a subclass from StorageError.
+    ProcessingEngineError error is a subclass from ProcessingError.
     """
 
     ...
@@ -61,7 +61,7 @@ class ProcessingEngineError(ProcessingError):
 
 class FFProbeError(ProcessingError):
     """Raised when something fail during ffprobe call.
-    FFProbeError error is a subclass from StorageError.
+    FFProbeError error is a subclass from ProcessingError.
     """
 
     ...

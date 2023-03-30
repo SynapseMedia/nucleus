@@ -1,20 +1,19 @@
-import nucleus.core.exceptions as exceptions
-
 from dataclasses import dataclass
 from nucleus.core.types import Path, Union
+from nucleus.core.exceptions import IPFSRuntimeError
 
 
 @dataclass
 class File:
     """File represent "files" params in request based on input path.
-    :raises exceptions.IPFSRuntimeError if file does not exist.
+    :raises IPFSRuntimeError if file does not exist.
     """
 
     path: Path
 
     def __post_init__(self):
         if not self.path.exists():
-            raise exceptions.IPFSRuntimeError(
+            raise IPFSRuntimeError(
                 f"raised trying to execute `add` directory with an invalid path {self.path}"
             )
 

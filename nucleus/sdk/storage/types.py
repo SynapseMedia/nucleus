@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from abc import ABCMeta, abstractmethod
 from nucleus.sdk.harvest.models import Media, Meta
-from nucleus.core.types import Iterator, Protocol, Path, CID, NewType, Optional, Union
+from nucleus.core.types import Protocol, Path, CID, NewType, Optional, Union, JSON
+
 
 # Alias for allowed media to store
 Storable = Union[Media[Path], Meta]
@@ -9,7 +10,18 @@ ID = NewType("ID", str)
 
 
 @dataclass
+class Stored:
+    """Represents ipfs /add output"""
+
+    cid: CID
+    name: str
+    size: float
+
+
+@dataclass
 class Pin:
+    """Represents ipfs /pin output"""
+
     cid: CID
     status: str
     name: Optional[str]
@@ -25,22 +37,12 @@ class Edge(Protocol, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def pin(self, cid: CID) -> Pin:
+    def pin(self, cid: CID) -> JSON:
         """Pin cid into remote edge cache
 
         :param cid: cid to pin
-        :return: pin object
-        :rtype: Pin
-        """
-        ...
-
-    @abstractmethod
-    def ls(self) -> Iterator[Pin]:
-        """Return current remote pin list
-
-        :param limit: number of remote pins to return
-        :return: list of current remote pin list
-        :rtype: Iterator[Pin]
+        :return: service response as json
+        :rtype: JSON
         """
         ...
 

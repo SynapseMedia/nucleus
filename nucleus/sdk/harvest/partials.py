@@ -1,8 +1,8 @@
 import functools
-import nucleus.sdk.exceptions as exceptions
 
 from nucleus.core.types import Any, Type
 from pydantic import create_model, parse_obj_as, ValidationError
+from nucleus.sdk.exceptions import ModelValidationError
 
 from .models import Meta, Collectable
 from .media import Image, Video
@@ -19,7 +19,7 @@ def media_factory(base: Type[Collectable], **kwargs: Any) -> Collectable:
     try:
         return parse_obj_as(base, kwargs)
     except ValidationError as e:
-        raise exceptions.ModelValidationError(
+        raise ModelValidationError(
             f"exceptions raised during schema validation in partials factory: {str(e)}"
         )
 
