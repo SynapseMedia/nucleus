@@ -1,14 +1,14 @@
 import functools
 
-from nucleus.core.types import Any, Type
+from nucleus.core.types import Any, Type, T
 from pydantic import create_model, parse_obj_as, ValidationError
 from nucleus.sdk.exceptions import ModelValidationError
 
-from .models import Meta, Collectable
+from .models import Meta
 from .media import Image, Video
 
 
-def media_factory(base: Type[Collectable], **kwargs: Any) -> Collectable:
+def media_factory(base: Type[T], **kwargs: Any) -> T:
     """Enhanced parse obj to allow named parameters as obj
 
     :param base: the base type for model
