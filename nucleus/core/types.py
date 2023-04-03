@@ -20,7 +20,6 @@ import pathlib
 import urllib.parse as parse
 
 from collections import UserDict
-from abc import ABCMeta, abstractmethod
 from hexbytes import HexBytes
 
 # "inherit" from global typing
@@ -41,16 +40,16 @@ Preset = Iterator[Tuple[str, Any]]
 Func = Callable[..., Any]
 
 
-class Setting(Protocol, metaclass=ABCMeta):
+class Setting(Protocol):
     """Setting defines the expected behavior of any configuration parameters.
     Use this class to create setting subtypes.
     """
 
-    @abstractmethod
     def __iter__(self) -> Preset:
         """Yield key value pair to build compilation of arguments.
         Allow to convert setting as dict.
         """
+        ...
 
 
 class _ExtensibleStr(str):

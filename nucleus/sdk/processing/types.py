@@ -49,7 +49,7 @@ class Engine(ABC, Generic[T]):
         :rtype: Compilation
         """
         for preset in self._settings:
-            yield preset.__class__.__name__, dict(preset)
+            yield type(preset).__name__, dict(preset)
 
     def configure(self, setting: Setting) -> Engine[T]:
         """Set the context for media processing.

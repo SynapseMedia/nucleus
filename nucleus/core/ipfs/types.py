@@ -1,9 +1,8 @@
-from abc import ABCMeta, abstractmethod
 from nucleus.core.http import LiveSession, Response
 from nucleus.core.types import Protocol
 
 
-class RPCCommand(Protocol, metaclass=ABCMeta):
+class RPCCommand(Protocol):
     """RPCCommand abstraction define a callable abstraction to communicate with IPFS API.
     Determinate how each command should be handled.
     Use this class to create IPFS RCP commands subtypes.
@@ -11,7 +10,6 @@ class RPCCommand(Protocol, metaclass=ABCMeta):
 
     """
 
-    @abstractmethod
     def __call__(self, session: LiveSession) -> Response:
         """This method is called in API handler as a nested call
         ref: http://docs.ipfs.tech/reference/kubo/cli/#ipfs-add

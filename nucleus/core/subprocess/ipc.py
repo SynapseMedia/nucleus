@@ -69,7 +69,7 @@ async def _trace(stream: Reader) -> StdOut:
     return StdOut(EXIT_SUCCESS, iter(logs))
 
 
-class IPC(object):
+class IPC:
     """Inter-process communication.
     IPC exchange I/O between main process and sub processes.
     Collect logs and subprocess status.

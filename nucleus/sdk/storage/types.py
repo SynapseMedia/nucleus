@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from abc import ABCMeta, abstractmethod
 from nucleus.sdk.harvest.models import Media, Meta
 from nucleus.core.types import Protocol, Path, CID, NewType, Optional, Union, JSON
 
@@ -27,7 +26,7 @@ class Pin:
     name: Optional[str]
 
 
-class Edge(Protocol, metaclass=ABCMeta):
+class Edge(Protocol):
     """Edge provides an standard interface to handle ipfs edge services.
     For each edge service methods should be defined and encapsulate with any needed logic to simplify the usage.
     Use this class to create edge services subtypes.
@@ -36,7 +35,6 @@ class Edge(Protocol, metaclass=ABCMeta):
     ref: https://docs.ipfs.tech/reference/kubo/cli/#ipfs-pin-remote-service
     """
 
-    @abstractmethod
     def pin(self, cid: CID) -> JSON:
         """Pin cid into remote edge cache
 
@@ -46,7 +44,6 @@ class Edge(Protocol, metaclass=ABCMeta):
         """
         ...
 
-    @abstractmethod
     def unpin(self, cid: CID):
         """Remove pin from edge cache service
 

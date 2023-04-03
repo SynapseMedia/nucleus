@@ -70,7 +70,7 @@ class _Model(pydantic.BaseModel, metaclass=_Manager):
             )
 
         sqlite3.register_converter(self._alias, pickle.loads)
-        sqlite3.register_adapter(self.__class__, pickle.dumps)
+        sqlite3.register_adapter(type(self), pickle.dumps)
 
     @classmethod
     @decorators.proxy_exception(

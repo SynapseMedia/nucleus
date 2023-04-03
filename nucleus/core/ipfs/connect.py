@@ -2,8 +2,8 @@ import nucleus.core.http as http
 
 from nucleus.core.types import Optional
 
-from .supervisor import RPC
 from .constants import IPFS_DEFAULT_ENDPOINT
+from .rpc import RPC
 
 
 def rpc(endpoint: Optional[str] = None):

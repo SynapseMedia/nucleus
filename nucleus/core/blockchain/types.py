@@ -1,4 +1,3 @@
-from abc import ABCMeta, abstractmethod
 from nucleus.core.types import (
     URL,
     HexStr,
@@ -21,7 +20,7 @@ TxAnswer = Union[NamedTuple, TypedDict]
 SignedTransaction = NewType("SignedTransaction", NamedTuple)
 
 
-class Chain(Protocol, metaclass=ABCMeta):
+class Chain(Protocol):
     """Chain abstract class.
     Use this class to create chain subtypes.
 
@@ -31,12 +30,11 @@ class Chain(Protocol, metaclass=ABCMeta):
 
     """
 
-    @abstractmethod
     def __str__(self) -> str:
         ...
 
 
-class Network(Protocol, metaclass=ABCMeta):
+class Network(Protocol):
     """Network bridge abstract class.
     Use this class to create networks subtypes.
 
@@ -46,13 +44,12 @@ class Network(Protocol, metaclass=ABCMeta):
 
     """
 
-    @abstractmethod
     def __init__(self, chain: Chain):
         """Assoc chain with network"""
         ...
 
 
-class Contract(Protocol, metaclass=ABCMeta):
+class Contract(Protocol):
     """Contract abstract class
     Use this class to create contract subtypes.
 
@@ -62,7 +59,6 @@ class Contract(Protocol, metaclass=ABCMeta):
 
     """
 
-    @abstractmethod
     def __init__(self, network: Network):
         """Connect contract to network"""
         ...
