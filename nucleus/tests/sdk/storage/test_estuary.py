@@ -20,6 +20,13 @@ def test_estuary_pin(mock_estuary_service: Estuary, mock_estuary_pin_cid_request
     )
 
 
+def test_estuary_ob(mock_estuary_service: Estuary, mock_cid: CID):
+    """Should fail on purpose to track the observable error behavior from Estuary"""
+    estuary = storage.service(mock_estuary_service)
+    with pytest.raises(exceptions.StorageServiceError):
+        estuary.pin(mock_cid)
+
+
 @responses.activate
 def test_estuary_fail_request(
     mock_estuary_service: Estuary, mock_estuary_invalid_request: CID

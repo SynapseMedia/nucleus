@@ -21,6 +21,11 @@ def mock_estuary_service():
 
 
 @pytest.fixture()
+def mock_cid():
+    return expected_cid
+
+
+@pytest.fixture()
 def mock_estuary_pin_cid_request():
 
     # expected response from estuary API
