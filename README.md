@@ -56,9 +56,9 @@ Some available capabilities for dev support:
 
 - **Install**: `make bootstrap`
 - **Tests**: `make test`
-- **Coverage**: `make coverage`
-- **Lint**: `make code-fmt`
-- **Lint Fix**: `make fix-coding-style`
+- **Debug**: `make test-debug`
+- **Lint**: `make code-check`
+- **Lint Fix**: `make code-fix`
 
 Note: Please check [Makefile](https://github.com/geolffreym/watchit-toolkit/Makefile) for more capabilities.  
 
