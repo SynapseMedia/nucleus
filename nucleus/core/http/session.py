@@ -23,5 +23,4 @@ class LiveSession(requests.Session):
         try:
             return super().request(method, joined_url, *args, **kwargs)
         except requests.exceptions.RequestException as e:
-            raise HttpError(
-                f"error trying to make a request to {joined_url}: {str(e)}")
+            raise HttpError(f"error trying to make a request to {joined_url}: {str(e)}")

@@ -1,3 +1,4 @@
+import responses
 import nucleus.sdk.storage as storage
 
 from nucleus.core.types import Path, JSON
@@ -5,6 +6,7 @@ from nucleus.sdk.harvest import File, MediaType
 from nucleus.sdk.storage import Stored
 
 
+@responses.activate
 def test_storage_file(rpc_api_add_request: JSON, mock_local_video_path: Path):
     """Should dispatch the right request based on storable input"""
 

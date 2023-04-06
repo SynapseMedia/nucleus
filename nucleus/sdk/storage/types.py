@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from nucleus.sdk.harvest.models import Media, Meta
-from nucleus.core.types import Protocol, Path, CID, NewType, Optional, Union, JSON, URL
+from nucleus.core.types import Protocol, Path, CID, NewType, Optional, Union, URL
 
 
 # Alias for allowed media to store
@@ -48,7 +48,7 @@ class Service(Protocol):
         ...
 
 
-class ServiceClient(Protocol):
+class Edge(Protocol):
     """Edge provides an standard interface to handle ipfs storage services.
     For each storage service methods should be defined and encapsulate with any needed logic to simplify the usage.
     Use this class to create edge services subtypes.
@@ -57,20 +57,20 @@ class ServiceClient(Protocol):
     ref: https://docs.ipfs.tech/reference/kubo/cli/#ipfs-pin-remote-service
     """
 
-    def pin(self, cid: CID) -> JSON:
+    def pin(self, cid: CID) -> Pin:
         """Pin cid into remote storage
 
         :param cid: cid to pin
-        :return: service response as json
-        :rtype: JSON
+        :return: pin object
+        :rtype: Pin
         """
         ...
 
-    def unpin(self, cid: CID):
+    def unpin(self, cid: CID) -> CID:
         """Remove pin from storage service
 
         :param cid: Cid to remove from cache
-        :return: none
-        :rtype: None
+        :return: just removed cid
+        :rtype: CID
         """
         ...

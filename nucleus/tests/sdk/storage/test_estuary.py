@@ -1,39 +1,29 @@
-# import responses
-# import pytest
-# import nucleus.sdk.storage as storage
-# import nucleus.sdk.exceptions as exceptions
+import pytest
+import responses
+import nucleus.sdk.storage as storage
+import nucleus.sdk.exceptions as exceptions
 
-# from nucleus.core.ipfs import Service, Pin
-# from nucleus.core.types import CID
-
-
-# def test_estuary_uri_builder(mock_estuary_service: Service):
-#     """Should return expected uri based on service endpoint"""
-#     estuary = storage.Estuary(mock_estuary_service)
-#     uri = estuary._build_uri("/demo/path")  # type: ignore
-#     assert uri == f"{mock_estuary_service.endpoint}/demo/path"
+from nucleus.core.types import CID
+from nucleus.sdk.storage import Estuary, Pin
 
 
-# @responses.activate
-# def test_ls_pinned_cid(
-#         mock_pinned_cid_request: CID,
-#         mock_estuary_service: Service):
-#     """Should fetch a list of Pins stored in estuary"""
+@responses.activate
+def test_estuary_pin(mock_estuary_service: Estuary, mock_estuary_pin_cid_request: CID):
+    """Should return valid Pin for valid CID"""
+    estuary = storage.service(mock_estuary_service)
+    pinned = estuary.pin(mock_estuary_pin_cid_request)
 
-#     estuary = storage.Estuary(mock_estuary_service)
-#     got = list(estuary.ls())
-
-#     # expected a list of pins
-#     expected = [Pin(status="pinned",
-#                     cid=mock_pinned_cid_request,
-#                     name="estuary")]
-#     assert got == expected
+    assert pinned == Pin(
+        cid=mock_estuary_pin_cid_request,
+        status="pending",
+        name="estuary",
+    )
 
 
-# def test_estuary_fail_request(
-#         mock_estuary_service: Service,
-#         mock_invalid_request: CID):
-
-#     with pytest.raises(exceptions.StorageServiceError):
-#         estuary = storage.Estuary(mock_estuary_service)
-#         estuary.unpin(mock_invalid_request)
+@responses.activate
+def test_estuary_fail_request(
+    mock_estuary_service: Estuary, mock_estuary_invalid_request: CID
+):
+    with pytest.raises(exceptions.StorageServiceError):
+        estuary = storage.service(mock_estuary_service)
+        estuary.unpin(mock_estuary_invalid_request)

@@ -41,9 +41,9 @@ def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
         output = api(command)
         # construct stored object
         return Stored(
-            cid=CID(output.get("Hash", "")),
-            name=output.get("Name", ""),
-            size=output.get("Size", 0.0),
+            cid=CID(output["Hash"]),
+            name=output["Name"],
+            size=output["Size"],
         )
 
     @store.register
@@ -61,8 +61,8 @@ def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
 
         # construct stored object
         return Stored(
-            cid=CID(output.get("Hash", "")),
-            name=output.get("Name", ""),
+            cid=CID(output["Hash"]),
+            name=output["Name"],
             size=len(bytes_),
         )
 

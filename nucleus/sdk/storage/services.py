@@ -1,10 +1,10 @@
+from dataclasses import dataclass
 from nucleus.core.types import URL
 
 
+@dataclass
 class Estuary:
-    """Estuary API settings.
-    Implements Services
-    """
+    """Estuary API settings"""
 
     _endpoint: URL
     _key: str
@@ -14,3 +14,6 @@ class Estuary:
 
     def key(self) -> str:
         return self._key
+
+
+__all__ = ("Estuary",)

@@ -1,12 +1,16 @@
 from .store import *
-from .clients import *
-from .types import Stored
+from .edge import *
+from .services import *
+from .types import Stored, Pin
 
 from . import store
-from . import clients
+from . import edge
+from . import services
 
 __all__ = [
+    "Pin",
     "Stored",
     *store.__all__,
-    *clients.__all__,
+    *edge.__all__,
+    *services.__all__,
 ]  # type: ignore
