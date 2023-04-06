@@ -45,7 +45,7 @@ The pipeline design was based on the decoupling principle, allowing for differen
 
 ## Installing
 
-Before using `nucleus`, FFmpeg and IPFS.
+Before using `nucleus`, FFmpeg and IPFS must be installed.
 
 1) Check the official docs to [install IPFS](https://docs.ipfs.tech/install/command-line/#system-requirements).
 2) There are a variety of ways to install FFmpeg, such as the [official download links](https://ffmpeg.org/download.html), or using your package manager of choice (e.g. `sudo apt install ffmpeg` on Debian/Ubuntu, `brew install ffmpeg` on OS X, etc.).
