@@ -9,9 +9,6 @@ from .types import Pin
 from .constants import ESTUARY_API_PIN, ESTUARY_API_PUBLIC
 
 
-# ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY
-
-
 @dataclass
 class EstuaryClient:
     """Estuary client implements Service"""

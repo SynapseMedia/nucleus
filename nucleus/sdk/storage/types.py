@@ -1,6 +1,15 @@
 from dataclasses import dataclass
 from nucleus.sdk.harvest.models import Media, Meta
-from nucleus.core.types import Protocol, Path, CID, NewType, Optional, Union, URL
+from nucleus.core.types import (
+    Protocol,
+    Path,
+    CID,
+    NewType,
+    Optional,
+    Union,
+    URL,
+    runtime_checkable,
+)
 
 
 # Alias for allowed media to store
@@ -26,6 +35,7 @@ class Pin:
     name: Optional[str]
 
 
+@runtime_checkable
 class Service(Protocol):
     """Storage abstraction to manage the configuration needed to connect to services.
     Use this class to create Services subtypes.
