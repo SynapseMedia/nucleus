@@ -5,11 +5,10 @@
 [![CI](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/ZorrillosDev/watchit-toolkit/branch/v0.4.0/graph/badge.svg?token=M9FF5B6UNA)](https://codecov.io/gh/ZorrillosDev/watchit-toolkit)
 
-<div style="display: flex; align-items: center; justify-content: center">
-  <img src="arch.png"
-      alt="Markdown Monster icon"
-      style="margin: 10px 0 10px 0" />
-</div>
+<img src="arch.png"
+    alt="Markdown Monster icon"
+    style="margin: 10px auto" />
+
 ***NOTE!*** Nucleus is **alpha-stage** software. It means nucleus hasn't been security audited and programming APIs and data formats can still change.
 
 Nucleus its a low level compilation of "toolchain" for media decentralization.
