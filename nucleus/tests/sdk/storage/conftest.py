@@ -19,6 +19,10 @@ expected = {
 def mock_estuary_service():
     return Estuary(URL(ENDPOINT), "test")
 
+@pytest.fixture()
+def mock_cid():
+    return expected_cid
+
 
 @pytest.fixture()
 def mock_estuary_pin_cid_request():
