@@ -43,6 +43,13 @@ The pipeline design was based on the decoupling principle, allowing for differen
 
 "Retrieval" is an auxiliary component that allows for the retrieval and unmarshalling of data from the DHT as raw information that can then be used for distribution through any available or preferred means. In our case, we use Orbit as a distributed ledger for the "out of the box" consumption of our metadata.
 
+## Installing
+
+Before using `nucleus`, FFmpeg and IPFS.
+
+1) Check the official docs to [install IPFS](https://docs.ipfs.tech/install/command-line/#system-requirements).
+2) There are a variety of ways to install FFmpeg, such as the [official download links](https://ffmpeg.org/download.html), or using your package manager of choice (e.g. `sudo apt install ffmpeg` on Debian/Ubuntu, `brew install ffmpeg` on OS X, etc.).
+
 ## Development
 
 Some available capabilities for dev support:

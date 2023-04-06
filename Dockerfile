@@ -1,6 +1,6 @@
 # https://docs.docker.com/develop/develop-images/multistage-build/
 FROM python:3.10 as python
-LABEL maintainer ="watchit"
+LABEL maintainer = "synapse"
 RUN apt update 
 RUN apt-get install -y --no-install-recommends ffmpeg
 RUN apt-get install libsqlite3-dev
