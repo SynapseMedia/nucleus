@@ -24,6 +24,7 @@ def test_estuary_pin(mock_estuary_service: Estuary, mock_estuary_pin_cid_request
 def test_estuary_fail_request(
     mock_estuary_service: Estuary, mock_estuary_invalid_request: CID
 ):
+    """Should raise an exception if the cid is not valid neither exists"""
     with pytest.raises(exceptions.StorageServiceError):
         estuary = storage.service(mock_estuary_service)
         estuary.unpin(mock_estuary_invalid_request)
