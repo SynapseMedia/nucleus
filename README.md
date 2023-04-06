@@ -60,7 +60,7 @@ Some available capabilities for dev support:
 - **Lint**: `make code-check`
 - **Lint Fix**: `make code-fix`
 
-Note: Please check [Makefile](https://github.com/SynapseMedia/nucleus/Makefile) for more capabilities.  
+Note: Please check [Makefile](https://github.com/SynapseMedia/nucleus/blob/main/Makefile) for more capabilities.  
 
 <!-- ## More info
 
