@@ -74,7 +74,6 @@ class EstuaryClient:
 
         :param cid: cid to pin
         :return: pin object
-        :return: unpinned cid as Pin
         :rtype: JSON
         :raises StorageServiceError: if pin request fails
         """
