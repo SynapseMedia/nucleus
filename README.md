@@ -5,7 +5,11 @@
 [![CI](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/ZorrillosDev/watchit-toolkit/branch/v0.4.0/graph/badge.svg?token=M9FF5B6UNA)](https://codecov.io/gh/ZorrillosDev/watchit-toolkit)
 
-
+<div style="display: flex; align-items: center; justify-content: center">
+  <img src="arch.png"
+      alt="Markdown Monster icon"
+      style="margin: 10px 0 10px 0" />
+</div>
 ***NOTE!*** Nucleus is **alpha-stage** software. It means nucleus hasn't been security audited and programming APIs and data formats can still change.
 
 Nucleus its a low level compilation of "toolchain" for media decentralization.
@@ -24,7 +28,6 @@ The design so far contains 3 layers of abstraction:
 2. **The SDK**: Exposes the API to the client at the programming level to use core functions in a safe and conformant way.
 
 3. **The CLI and HTTP API**: These make use of the sdk to form the services.
-
 
 ## Summary
 

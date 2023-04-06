@@ -17,7 +17,6 @@ doc/_build/
 .venv
 .coverage
 hash
-clients
 orbitdb/
 source
 scheme.js

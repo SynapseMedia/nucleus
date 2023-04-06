@@ -1,14 +1,15 @@
 import json
-import nucleus.core.ipfs as ipfs
+import nucleus.core.ipfs as ipfs_
 
 from functools import singledispatch
 from nucleus.core.ipfs import Add, Text, File
 from nucleus.core.types import CID, Optional, Callable
 from nucleus.sdk.harvest import Meta, File as FileType
+
 from .types import Storable, Stored
 
 
-def client(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
+def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
     """HOF to handle storage endpoint and return a singledispatch generic function.
     A form of generic function dispatch where the implementation is chosen based on the type of a single argument.
     ref: https://docs.python.org/3/glossary.html#term-single-dispatch
@@ -19,7 +20,7 @@ def client(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
     """
 
     # connected ipfs api interface
-    api = ipfs.rpc(endpoint)
+    api = ipfs_.rpc(endpoint)
 
     @singledispatch
     def store(model: Storable) -> Stored:
@@ -68,4 +69,4 @@ def client(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
     return store
 
 
-__all__ = ("client",)
+__all__ = ("ipfs",)

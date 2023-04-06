@@ -9,7 +9,7 @@ def test_storage_file(rpc_api_add_request: JSON, mock_local_video_path: Path):
     """Should dispatch the right request based on storable input"""
 
     # retrieve the storage node, by default local ipfs local node
-    local_node = storage.client()
+    local_node = storage.ipfs()
 
     # store a new file in local node
     storable = File(route=mock_local_video_path, type=MediaType.VIDEO)

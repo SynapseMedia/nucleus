@@ -9,45 +9,44 @@ from .constants import ESTUARY_API_PIN, ESTUARY_API_PUBLIC
 
 # ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY
 
-# TODO decorator
-def _enhanced_response(res: Response) -> JSON:
-    """Amplifier helper function to handle response from Estuary API
-
-    :param res: expected response
-    :return: json response
-    :rtype: JSON
-    :raises StorageServiceError: if an error occurs during request
-    """
-
-    # expected response as json
-    response = res.json()
-
-    # if response fail
-    if not res.ok:
-        """
-        Observable behavior:
-            {
-                "code": 0,
-                "details": "string",
-                "reason": "string"
-            }
-        """
-        error_description = response.get("details", "")
-        raise StorageServiceError(
-            f"exception raised during request: {error_description}"
-        )
-
-    return response
-
 
 @dataclass
-class Estuary:
+class EstuaryClient:
     endpoint: URL
     key: str
 
     def __post_init__(self):
         self._http = http_client.live_session(self.endpoint)
         self._http.headers.update({"Authorization": f"Bearer {self.key}"})
+
+    def _safe_request(self, res: Response) -> JSON:
+        """Amplifier helper method to handle response from Estuary API
+
+        :param res: expected response
+        :return: json response
+        :rtype: JSON
+        :raises StorageServiceError: if an error occurs during request
+        """
+
+        # expected response as json
+        response = res.json()
+
+        # if response fail
+        if not res.ok:
+            """
+            Observable behavior:
+                {
+                    "code": 0,
+                    "details": "string",
+                    "reason": "string"
+                }
+            """
+            error_description = response.get("details", "")
+            raise StorageServiceError(
+                f"exception raised during request: {error_description}"
+            )
+
+        return response
 
     def _content_by_cid(self, cid: CID) -> JSON:
         """Collect details from estuary based on CID
@@ -63,11 +62,11 @@ class Estuary:
         req = self._http.get(content_uri)
 
         # expected response as json
-        response = _enhanced_response(req)
+        response = self._safe_request(req)
         return response.get("content", {})
 
     def pin(self, cid: CID, **kwargs: Any) -> JSON:
-        """Pin cid into remote edge cache
+        """Pin cid into estuary
 
         :param cid: cid to pin
         :return: pin object
@@ -77,10 +76,10 @@ class Estuary:
         # ref:
         # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
         req = self._http.post(ESTUARY_API_PIN, data={cid: cid, **kwargs})
-        return _enhanced_response(req)
+        return self._safe_request(req)
 
     def unpin(self, cid: CID) -> None:
-        """Remove pin from edge cache service
+        """Remove pin from estuary
 
         :param cid: cid to remove from cache
         :rtype: None
@@ -88,7 +87,5 @@ class Estuary:
         """
         # content id is same as pin id
         pin_id = self._content_by_cid(cid).get("id")
-        req = self._http.delete(f"{ESTUARY_API_PIN}/{pin_id}")
-        # we don't consume anything since delete is empty response
-        _enhanced_response(req)
+        self._http.delete(f"{ESTUARY_API_PIN}/{pin_id}")
         return None
