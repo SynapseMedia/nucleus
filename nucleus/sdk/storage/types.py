@@ -13,20 +13,20 @@ from nucleus.core.types import (
 
 
 # Alias for allowed media to store
-Storable = Union[Media[Path], Meta]
+Storable = Union[Media[Path], Media[CID], Meta]
 ID = NewType("ID", str)
 
 
-@dataclass
+@dataclass(slots=True)
 class Stored:
     """Represents ipfs /add output"""
 
     cid: CID
     name: str
-    size: float
+    size: int
 
 
-@dataclass
+@dataclass(slots=True)
 class Pin:
     """Represents ipfs /pin output"""
 

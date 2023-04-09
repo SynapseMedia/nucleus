@@ -29,7 +29,7 @@ class VideoEngine(Engine[FFMPEG]):
             # We generate the expected path after transcode
             output_args = self._build_output_args()
             self._library.output(path, **output_args).run()  # type: ignore
-            return File(route=path, type=self._name)
+            return File(route=path, type=self._name, size=path.size())
         except Exception as e:
             # Standard exceptions raised
             raise ProcessingEngineError(
@@ -72,7 +72,7 @@ class ImageEngine(Engine[Pillow]):
         try:
             self._setup_methods()
             self._library.save(path)
-            return File(route=path, type=self._name)
+            return File(route=path, type=self._name, size=path.size())
         except Exception as e:
             # Standard exceptions raised
             raise ProcessingEngineError(

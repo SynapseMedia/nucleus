@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from nucleus.core.types import URL
 
 
-@dataclass
+@dataclass(slots=True)
 class Estuary:
     """Estuary API settings"""
 

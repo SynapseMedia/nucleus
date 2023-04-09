@@ -9,10 +9,11 @@ def test_resize_option():
     resize.resample(Resampling.BOX)
 
     expected_size = {
-        "size": [100, 100],
+        "size": (100, 100),
         "resample": Resampling.BOX,
         "box": (0, 0, 10, 10),
     }
+
     assert dict(resize) == expected_size
 
 

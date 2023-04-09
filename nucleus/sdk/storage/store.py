@@ -1,10 +1,9 @@
-import json
 import nucleus.core.ipfs as ipfs_
 
 from functools import singledispatch
 from nucleus.core.ipfs import Add, Text, File
-from nucleus.core.types import CID, Optional, Callable
-from nucleus.sdk.harvest import Meta, File as FileType
+from nucleus.core.types import CID, Optional, Callable, JSON
+from nucleus.sdk.harvest import Meta, File as FileType, Distributed
 
 from .types import Storable, Stored
 
@@ -34,25 +33,50 @@ def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
         raise NotImplementedError(f"cannot process not registered storable `{model}")
 
     @store.register
-    def _(model: FileType) -> Stored:
-        command = Add(File(model.route))
+    def _(model: Distributed) -> Stored:
+        # encode to bytes to then get the size
+        bytes_ = bytes(JSON(model.dict()))
+        command = Add(Text(bytes_))
+
         # expected /add output from API
-        # {Hash: .., Name: .., Size: ...}
+        # {Hash: .., Name: ..}
         output = api(command)
+
         # construct stored object
         return Stored(
             cid=CID(output["Hash"]),
             name=output["Name"],
-            size=output["Size"],
+            size=int(output["Size"]),
+        )
+
+    @store.register
+    def _(model: FileType) -> Stored:
+        # 1 - store the file
+        # 2 - assoc the file cid with a distributed media type
+        # 3 - store distributed media type schema
+
+        command = Add(File(model.route))
+        # expected /add output from API
+        # {Hash: .., Name: .., Size: ...}
+        file_output = api(command)
+        file_cid = CID(file_output["Hash"])
+        file_size = int(file_output["Size"])
+
+        # Create the new storable schema
+        distributed = Distributed(route=file_cid, type=model.type, size=file_size)
+        stored_distributed_schema = store(distributed)
+
+        # construct stored object
+        return Stored(
+            cid=stored_distributed_schema.cid,
+            name=stored_distributed_schema.name,
+            size=file_size + stored_distributed_schema.size,
         )
 
     @store.register
     def _(model: Meta) -> Stored:
-        # transform meta in json string
-        json_string = json.dumps(model.dict())
-
         # encode to bytes to then get the size
-        bytes_ = bytes(json_string, "utf-8")
+        bytes_ = bytes(JSON(model.dict()))
         command = Add(Text(bytes_))
 
         # expected /add output from API

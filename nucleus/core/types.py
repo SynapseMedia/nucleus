@@ -71,7 +71,7 @@ class CID(_ExtensibleStr):
             ...
 
     def __getattr__(self, name: str) -> Any:
-        if not self._cid:
+        if name == "__setstate__" or not self._cid:
             raise AttributeError(name)
         return getattr(self._cid, name)
 
@@ -103,7 +103,7 @@ class URL(_ExtensibleStr):
             ...
 
     def __getattr__(self, name: str) -> str:
-        if not self._parsed:
+        if name == "__setstate__" or not self._parsed:
             raise AttributeError(name)
         return getattr(self._parsed, name)
 
@@ -140,6 +140,10 @@ class Path(_ExtensibleStr):
             raise AttributeError(name)
         return getattr(self._path, name)
 
+    def size(self):
+        """Shortcut for Path.size().st_size"""
+        return self.stat().st_size
+
     @classmethod
     def __get_validators__(cls):
         yield cls.validate
@@ -155,6 +159,14 @@ class Path(_ExtensibleStr):
 class JSON(UserDict[Any, Any]):
 
     """Enhanced bridge dict type extended with features needed to handle json structure"""
+
+    def __str__(self) -> str:
+        """Return json as json string"""
+        return json.dumps(dict(self))
+
+    def __bytes__(self) -> bytes:
+        """Return json as bytes"""
+        return bytes(str(self), "utf-8")
 
     def write(self, path: Path):
         """Create an output json file into output file with self

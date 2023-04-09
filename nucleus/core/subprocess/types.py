@@ -10,7 +10,7 @@ Reader = asyncio.StreamReader
 Loop = asyncio.BaseEventLoop
 
 
-@dataclass
+@dataclass(slots=True)
 class StdOut:
     exit_code: int
     output: Any

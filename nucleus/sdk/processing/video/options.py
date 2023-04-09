@@ -34,7 +34,7 @@ class Custom:
             yield k, v
 
 
-@dataclass
+@dataclass(slots=True)
 class FrameSize:
     """Set frame size.
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
@@ -50,7 +50,7 @@ class FrameSize:
         yield "s", str(self)
 
 
-@dataclass
+@dataclass(slots=True)
 class FPS:
     """Set frame rate (Hz value, fraction or abbreviation).
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
@@ -62,7 +62,7 @@ class FPS:
         yield "r", self.fps
 
 
-@dataclass
+@dataclass(slots=True)
 class BR:
     """Video/Audio bitrate
     ref: https://ffmpeg.org/ffmpeg.html#Main-options

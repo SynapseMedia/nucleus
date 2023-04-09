@@ -8,7 +8,7 @@ import nucleus.core.decorators as decorators
 
 from pydantic import ValidationError
 from nucleus.core.cache import Connection
-from nucleus.core.types import Any, Union, Iterator, Path, URL, Generic, T
+from nucleus.core.types import Any, Union, Iterator, Path, Generic, T
 
 from nucleus.sdk.exceptions import ModelManagerError, ModelValidationError
 from .constants import MIGRATE, INSERT, FETCH, MODELS_PATH
@@ -29,8 +29,7 @@ class _Manager(pydantic.main.ModelMetaclass):
 
         super_new = super().__new__  # type: ignore
         # Ensure initialization is only performed for subclasses of _Model
-        is_subclass_instance = any(
-            map(lambda x: isinstance(x, _Manager), bases))
+        is_subclass_instance = any(map(lambda x: isinstance(x, _Manager), bases))
         if not is_subclass_instance:
             return super_new(mcs, name, bases, attrs, **kwargs)  # type: ignore
 
@@ -152,9 +151,7 @@ class Media(_Model, Generic[T]):
 
     route: T
     type: MediaType
+    size: int = 0
 
-
-# Alias for sources allowed to collect media
-Collectable = Media[Union[URL, Path]]
 
 __all__ = ("Meta",)

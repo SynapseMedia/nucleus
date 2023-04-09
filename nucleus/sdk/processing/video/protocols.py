@@ -3,7 +3,7 @@ from .constants import HLS_TIME, HLS_PLAYLIST_TYPE, HLS_TAG_VIDEO_FORMAT, HLS_LI
 from .types import Codec
 
 
-@dataclass
+@dataclass(slots=True)
 class HLS:
     """Represent HLS streaming protocol.
     ref: https://ffmpeg.org/ffmpeg-formats.html#Options-10

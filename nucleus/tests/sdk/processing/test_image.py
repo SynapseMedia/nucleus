@@ -15,9 +15,9 @@ def test_image_configuration(mock_local_image_path: Path):
     # check if compiled args are equal to expected
     compiled = sorted(image_engine.compile(), key=lambda t: t[0])
     assert compiled == [
-        ("Crop", {
-            "box": (
-                0, 0, 50, 50)}), ("Resize", {
-                    "size": [
-                        50, 50], "resample": Resampling.BICUBIC, "box": (
-                        0, 0, 50, 50)}, ), ]
+        ("Crop", {"box": (0, 0, 50, 50)}),
+        (
+            "Resize",
+            {"size": (50, 50), "resample": Resampling.BICUBIC, "box": (0, 0, 50, 50)},
+        ),
+    ]

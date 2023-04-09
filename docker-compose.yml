@@ -7,12 +7,10 @@ x-multimedia-volume:
   target: /multimedia
 
 services:
-  watchit-ipfs:
+  ipfs:
     image: ipfs/go-ipfs:v0.10.0
     hostname: ipfs
-    container_name: 'watchit-ipfs'
     restart: unless-stopped
-    entrypoint: [ "/scripts/init.sh" ]
     networks:
       - watchit
     env_file:
@@ -20,100 +18,8 @@ services:
     volumes:
       - *multimedia-volume
       - "${IPFS_DATA}:/ipfsdata"
-      - ./monitor.txt:/monitor.txt
-      - ./peering/:/peering
-      - ./scripts:/scripts
     ports:
       - "0.0.0.0:8080:8080/tcp"
       - "0.0.0.0:4001:4001/tcp"
       - "0.0.0.0:4001:4001/udp"
       - "127.0.0.1:5001:5001"
-
-  watchit-cli:
-    build: .
-    container_name: watchit-cli
-    entrypoint: [ "python", "main.py" ]
-    networks:
-      - watchit
-    volumes:
-      - *multimedia-volume
-      - .:/data/watchit
-      - ./node_modules:/data/watchit/node_modules
-      - /var/run/docker.sock:/var/run/docker.sock
-    env_file:
-      - .env
-    depends_on:
-      - watchit-ipfs
-
-  watchit-http:
-    build: .
-    image: watchit-sdk
-    container_name: watchit-http
-    command: [ "flask", "run", "--host=0.0.0.0" ]
-    networks:
-      - watchit
-    volumes:
-      - *multimedia-volume
-      - .:/data/watchit
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      FLASK_ENV: 'development'
-      FLASK_APP: '/data/watchit/src/http/main.py'
-    depends_on:
-      - watchit-ipfs
-    ports:
-      - "5000:5000"
-
-  watchit-monitor:
-    build: .
-    image: watchit-sdk
-    restart: unless-stopped
-    container_name: watchit-monitor
-    volumes:
-      - .:/data/watchit
-      - ./node_modules:/data/watchit/node_modules
-    entrypoint: [ "node" ]
-    command: [ "src/sdk/expose/pin.js" ]
-    networks:
-      - watchit
-    env_file:
-      - .env
-
-  watchit-certbot:
-    image: peelvalley/certbot
-    restart: unless-stopped
-    hostname: certbot
-    networks:
-      - proxy
-    environment:
-      NOTIFY_EMAIL: 'dev@zorrillos.com'
-    volumes:
-      - cert-data:/etc/letsencrypt
-      - ./proxy/certbot/domains:/opt/certbot/domains/
-
-  watchit-reverse-proxy:
-    image: peelvalley/proxy
-    restart: unless-stopped
-    networks:
-      - watchit
-      - proxy
-    ports:
-      - "0.0.0.0:80:80"
-      - "0.0.0.0:443:443"
-    volumes:
-      - ./proxy/reverse-proxy/conf.d.available:/etc/nginx/conf.d.available
-      - ./proxy/reverse-proxy/conf.d.enabled:/etc/nginx/conf.d.enabled
-      - proxy-conf:/etc/nginx/conf.d
-      - cert-data:/etc/letsencrypt
-      - proxy-cache:/cache/nginx
-
-networks:
-  watchit:
-  proxy:
-volumes:
-  cert-data:
-  proxy-cache:
-  proxy-conf:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
