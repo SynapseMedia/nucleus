@@ -1,8 +1,7 @@
 from dataclasses import dataclass
-from nucleus.sdk.harvest.models import Media, Meta
+from nucleus.sdk.harvest import Meta, Object, File
 from nucleus.core.types import (
     Protocol,
-    Path,
     CID,
     NewType,
     Optional,
@@ -13,7 +12,7 @@ from nucleus.core.types import (
 
 
 # Alias for allowed media to store
-Storable = Union[Media[Path], Media[CID], Meta]
+Storable = Union[File, Object, Meta]
 ID = NewType("ID", str)
 
 

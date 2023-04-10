@@ -17,8 +17,11 @@ def test_storage_file(rpc_api_add_request: JSON, mock_local_video_path: Path):
     storable = File(route=mock_local_video_path, type=MediaType.VIDEO)
     stored = local_node(storable)  # expected Stored output
 
+    output_hash = rpc_api_add_request.get("Hash")
+    output_name = rpc_api_add_request.get("Name")
+
     assert stored.cid.valid()
-    assert stored.cid == "bafyjvzacdjrk37kqvy5hbqepmcraz3txt3igs7dbjwwhlfm3433a"
-    assert stored.name == "meta"
-    assert stored.size == 202
+    assert stored.cid == output_hash
+    assert stored.name == output_name
+    assert stored.size == 197 + 96  # the file size + object struct size
     assert isinstance(stored, Stored)

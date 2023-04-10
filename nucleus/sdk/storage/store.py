@@ -2,8 +2,8 @@ import nucleus.core.ipfs as ipfs_
 
 from functools import singledispatch
 from nucleus.core.ipfs import Add, Text, File
-from nucleus.core.types import CID, Optional, Callable, JSON
-from nucleus.sdk.harvest import Meta, File as FileType, Distributed
+from nucleus.core.types import CID, Optional, Callable, JSON, Union
+from nucleus.sdk.harvest import Meta, File as FileType, Object
 
 from .types import Storable, Stored
 
@@ -21,33 +21,36 @@ def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
     # connected ipfs api interface
     api = ipfs_.rpc(endpoint)
 
+    def _add_text(model: Union[Object, Meta]) -> Stored:
+        """Transform model into bytes representation and store it in IPFS as text
+
+        :param model: the model to store
+        :return: stored object
+        :rtype: Stored
+        """
+
+        bytes_ = bytes(JSON(model.dict()))
+        command = Add(Text(bytes_))
+        # expected /add output from API
+        # {Hash: .., Name: ..}
+        output = api(command)
+
+        return Stored(
+            cid=CID(output["Hash"]),
+            name=output["Name"],
+            size=len(bytes_),
+        )
+
     @singledispatch
     def store(model: Storable) -> Stored:
         """Storage single dispatch factory.
         Use the model input to infer the right storage strategy.
 
         :param model: the model to dispatch
-        :return: stored instance
+        :return: Stored instance
         :rtype: Stored
         """
         raise NotImplementedError(f"cannot process not registered storable `{model}")
-
-    @store.register
-    def _(model: Distributed) -> Stored:
-        # encode to bytes to then get the size
-        bytes_ = bytes(JSON(model.dict()))
-        command = Add(Text(bytes_))
-
-        # expected /add output from API
-        # {Hash: .., Name: ..}
-        output = api(command)
-
-        # construct stored object
-        return Stored(
-            cid=CID(output["Hash"]),
-            name=output["Name"],
-            size=int(output["Size"]),
-        )
 
     @store.register
     def _(model: FileType) -> Stored:
@@ -62,11 +65,11 @@ def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
         file_cid = CID(file_output["Hash"])
         file_size = int(file_output["Size"])
 
-        # Create the new storable schema
-        distributed = Distributed(route=file_cid, type=model.type, size=file_size)
+        # Create the new media storable schema
+        # Object represent an already stored media
+        distributed = Object(route=file_cid, type=model.type, size=file_size)
         stored_distributed_schema = store(distributed)
 
-        # construct stored object
         return Stored(
             cid=stored_distributed_schema.cid,
             name=stored_distributed_schema.name,
@@ -74,21 +77,14 @@ def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
         )
 
     @store.register
+    def _(model: Object) -> Stored:
+        """If we need store an Object representation as text"""
+        return _add_text(model)
+
+    @store.register
     def _(model: Meta) -> Stored:
-        # encode to bytes to then get the size
-        bytes_ = bytes(JSON(model.dict()))
-        command = Add(Text(bytes_))
-
-        # expected /add output from API
-        # {Hash: .., Name: ..}
-        output = api(command)
-
-        # construct stored object
-        return Stored(
-            cid=CID(output["Hash"]),
-            name=output["Name"],
-            size=len(bytes_),
-        )
+        """If we need store a Meta representation as text"""
+        return _add_text(model)
 
     return store
 

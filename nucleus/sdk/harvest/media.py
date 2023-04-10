@@ -11,8 +11,8 @@ The behavior of media types in the context of processing and storage is defined 
 Collectable = Media[Union[URL, Path]]
 
 
-class Distributed(Media[CID]):
-    """Generic decentralized media
+class Object(Media[CID]):
+    """Decentralized media representation.
     This class is used to infer any media decentralized and already stored in IPFS
     """
 
@@ -20,7 +20,7 @@ class Distributed(Media[CID]):
 
 
 class File(Media[Path]):
-    """Generic local media path.
+    """Local media file representation.
     This class is used to infer any media stored in local host.
     """
 
@@ -39,4 +39,4 @@ class Image(Collectable):
     type = MediaType.IMAGE
 
 
-__all__ = ("Image", "Video", "File", "Distributed")
+__all__ = ("Image", "Video", "File", "Object")
