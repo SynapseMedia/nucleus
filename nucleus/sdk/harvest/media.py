@@ -12,7 +12,7 @@ Collectable = Media[Union[URL, Path]]
 
 
 class Object(Media[CID]):
-    """Decentralized media representation.
+    """Distributed/Stored media representation.
     This class is used to infer any media decentralized and already stored in IPFS
     """
 

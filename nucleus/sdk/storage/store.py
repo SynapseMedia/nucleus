@@ -21,26 +21,6 @@ def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
     # connected ipfs api interface
     api = ipfs_.rpc(endpoint)
 
-    def _add_text(model: Union[Object, Meta]) -> Stored:
-        """Transform model into bytes representation and store it in IPFS as text
-
-        :param model: the model to store
-        :return: stored object
-        :rtype: Stored
-        """
-
-        bytes_ = bytes(JSON(model.dict()))
-        command = Add(Text(bytes_))
-        # expected /add output from API
-        # {Hash: .., Name: ..}
-        output = api(command)
-
-        return Stored(
-            cid=CID(output["Hash"]),
-            name=output["Name"],
-            size=len(bytes_),
-        )
-
     @singledispatch
     def store(model: Storable) -> Stored:
         """Storage single dispatch factory.
@@ -76,15 +56,27 @@ def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
             size=file_size + stored_distributed_schema.size,
         )
 
-    @store.register
-    def _(model: Object) -> Stored:
-        """If we need store an Object representation as text"""
-        return _add_text(model)
+    @store.register(Object)
+    @store.register(Meta)
+    def _(model: Union[Object, Meta]) -> Stored:
+        """Transform model into bytes representation and store it in IPFS as text
 
-    @store.register
-    def _(model: Meta) -> Stored:
-        """If we need store a Meta representation as text"""
-        return _add_text(model)
+        :param model: the model to store
+        :return: stored object
+        :rtype: Stored
+        """
+
+        bytes_ = bytes(JSON(model.dict()))
+        command = Add(Text(bytes_))
+        # expected /add output from API
+        # {Hash: .., Name: ..}
+        output = api(command)
+
+        return Stored(
+            cid=CID(output["Hash"]),
+            name=output["Name"],
+            size=len(bytes_),
+        )
 
     return store
 

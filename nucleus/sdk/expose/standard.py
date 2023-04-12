@@ -34,7 +34,7 @@ none	No digital signature or MAC performed	Optional
 @dataclass(slots=True)
 class Header:
     typ: str  # Is used by JWT applications to declare the media type [IANA.MediaTypes] of this complete JWT
-    alg: str  # The "alg" (algorithm) Header Parameter identifies the cryptographic algorithm used in signature creation
+    alg: str = "HS256"  # The "alg" (algorithm) Header Parameter identifies the cryptographic algorithm used in signature creation
 
 
 @dataclass(slots=True)
