@@ -23,7 +23,7 @@ def mock_raw_metadata():
         "mpa_rating": "PG",
         "rating": 6.0,
         "runtime": 105.0,
-        "description": "Baby loves have fun",
+        "desc": "Baby loves have fun",
         "release_year": 2010,
         "genres": ["Action", "Comedy", "Crime"],
         "speech_language": "en",

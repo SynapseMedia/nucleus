@@ -19,9 +19,10 @@ def test_storage_file(rpc_api_add_request: JSON, mock_local_video_path: Path):
 
     output_hash = rpc_api_add_request.get("Hash")
     output_name = rpc_api_add_request.get("Name")
+    output_size = int(rpc_api_add_request.get("Size", 0))
 
     assert stored.cid.valid()
     assert stored.cid == output_hash
     assert stored.name == output_name
-    assert stored.size == 197 + 96  # the file size + object struct size
+    assert stored.size == output_size
     assert isinstance(stored, Stored)

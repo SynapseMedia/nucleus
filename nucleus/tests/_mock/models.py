@@ -23,7 +23,7 @@ class Movie(Meta):
     mpa_rating: str
     rating: float
     runtime: float
-    description: str
+    desc: str
     release_year: int
     # https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
     genres: List[str]
