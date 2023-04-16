@@ -126,7 +126,7 @@ class Meta(_Model):
     """
 
     name: str
-    description: str
+    desc: str
 
 
 class Media(_Model, Generic[T]):

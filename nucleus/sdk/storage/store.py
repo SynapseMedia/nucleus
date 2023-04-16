@@ -34,26 +34,22 @@ def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
 
     @store.register
     def _(model: FileType) -> Stored:
-        # 1 - store the file
-        # 2 - assoc the file cid with a distributed media type
-        # 3 - store distributed media type schema
+        """Add a file to IPFS
 
+        :param model: the file model to store
+        :return: stored instance
+        :rtype: Stored
+
+        """
         command = Add(File(model.route))
         # expected /add output from API
         # {Hash: .., Name: .., Size: ...}
         file_output = api(command)
-        file_cid = CID(file_output["Hash"])
-        file_size = int(file_output["Size"])
-
-        # Create the new media storable schema
-        # Object represent an already stored media
-        distributed = Object(route=file_cid, type=model.type, size=file_size)
-        stored_distributed_schema = store(distributed)
 
         return Stored(
-            cid=stored_distributed_schema.cid,
-            name=stored_distributed_schema.name,
-            size=file_size + stored_distributed_schema.size,
+            cid=CID(file_output["Hash"]),
+            name=file_output["Name"],
+            size=int(file_output["Size"]),
         )
 
     @store.register(Object)
@@ -61,8 +57,8 @@ def ipfs(endpoint: Optional[str] = None) -> Callable[[Storable], Stored]:
     def _(model: Union[Object, Meta]) -> Stored:
         """Transform model into bytes representation and store it in IPFS as text
 
-        :param model: the model to store
-        :return: stored object
+        :param model: the text model to store
+        :return: stored instance
         :rtype: Stored
         """
 

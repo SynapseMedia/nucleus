@@ -9,7 +9,7 @@ def test_meta_partial():
     meta_model = harvest.meta("MyMeta", a=(str, "hello"), b=(str, "world"))
     assert meta_model.__name__ == "MyMeta"
     # should be equal to default meta field + custom fields
-    assert list(meta_model.__fields__.keys()) == ["name", "description", "a", "b"]
+    assert list(meta_model.__fields__.keys()) == ["name", "desc", "a", "b"]
 
 
 def test_video_partial():
