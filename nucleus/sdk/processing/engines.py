@@ -11,6 +11,10 @@ from nucleus.sdk.exceptions import ProcessingEngineError
 from nucleus.sdk.harvest import File
 from .types import Engine
 
+# TODO add `stats` method to return statistics of the media
+# TODO thread processing for video engine
+# TODO https://pillow.readthedocs.io/en/stable/reference/Image.html#image-attributes
+
 
 class VideoEngine(Engine[FFMPEG]):
     """Engine to support low level transcoding using ffmpeg

@@ -71,7 +71,7 @@ class CID(_ExtensibleStr):
             ...
 
     def __getattr__(self, name: str) -> Any:
-        if name == "__setstate__" or not self._cid:
+        if name == "_cid" or not self._cid:
             raise AttributeError(name)
         return getattr(self._cid, name)
 
@@ -103,7 +103,7 @@ class URL(_ExtensibleStr):
             ...
 
     def __getattr__(self, name: str) -> str:
-        if name == "__setstate__" or not self._parsed:
+        if name == "_parsed" or not self._parsed:
             raise AttributeError(name)
         return getattr(self._parsed, name)
 
@@ -135,8 +135,8 @@ class Path(_ExtensibleStr):
 
     def __getattr__(self, name: str) -> Any:
         """Proxy handling pathlib features"""
-        if name == "__setstate__":
-            # pickle avoid recursion
+        if name == "_path" or not self._path:
+            # avoid recursion
             raise AttributeError(name)
         return getattr(self._path, name)
 

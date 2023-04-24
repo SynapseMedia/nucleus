@@ -43,6 +43,7 @@ class Payload:
     iss: str  # The "iss" (issuer) claim identifies the principal that issued the JWT.
     s: CID  # s: structural metadata CID (meta for media resources)
     d: CID  # d: descriptive metadata CID
+    t: CID  # t: technical metadata CID
 
 
 @dataclass(slots=True)
