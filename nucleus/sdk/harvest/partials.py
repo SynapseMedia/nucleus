@@ -4,7 +4,6 @@ from nucleus.core.types import Any, Type, T
 from pydantic import create_model, parse_obj_as, ValidationError
 from nucleus.sdk.exceptions import ModelValidationError
 
-
 from .models import Meta
 from .media import Image, Video
 
