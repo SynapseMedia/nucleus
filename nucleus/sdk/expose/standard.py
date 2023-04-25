@@ -1,5 +1,7 @@
+import functools
+
 from dataclasses import dataclass
-from nucleus.core.types import CID
+from .types import Header, Payload
 
 """Standard implementation for SEP-001 extends JWT standard.
 ref: https://www.rfc-editor.org/rfc/rfc7519
@@ -31,25 +33,24 @@ none	No digital signature or MAC performed	Optional
 """
 
 
-@dataclass(slots=True)
-class Header:
-    typ: str  # Is used by JWT applications to declare the media type [IANA.MediaTypes] of this complete JWT
-    alg: str = "HS256"  # The "alg" (algorithm) Header Parameter identifies the cryptographic algorithm used in signature creation
 
 
-@dataclass(slots=True)
-class Payload:
-    iat: int  # The "iat" (issued at) claim identifies the time at which the JWT was issued.
-    iss: str  # The "iss" (issuer) claim identifies the principal that issued the JWT.
-    s: CID  # s: structural metadata CID (meta for media resources)
-    d: CID  # d: descriptive metadata CID
-    t: CID  # t: technical metadata CID
-
-
-@dataclass(slots=True)
+@dataclass
 class SEP001:
-    header: CID
-    payload: CID
+    header: Header
+    payload: Payload
+
+    def descriptive(self, model: Meta):
+        self.D = D(**model.dict())
+
+    def structural(self, model: Object):
+        return S(cid=model.hash)
+
+    def technical(self, model: SimpleNamespace):
+        ...
+
+    def generate(self):
+        ...
 
 
 __all__ = ["SEP001", "Payload", "Header"]

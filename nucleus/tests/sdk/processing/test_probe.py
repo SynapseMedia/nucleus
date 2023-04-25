@@ -14,7 +14,7 @@ def test_probe_video(mock_local_video_path: Path):
 
     # lets get the summary of input video
     probe = processing.probe(mock_local_video_path)
-    input_codec = probe.streams[0].codec_name
+    input_codec = probe["streams"][0].codec_name
 
     video = Video(route=mock_local_video_path)
     video_engine = processing.engine(video)

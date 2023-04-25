@@ -1,6 +1,5 @@
-from nucleus.core.types import Path, Union, URL, CID
+from nucleus.core.types import Path, Union, URL
 from .models import Media
-from .types import MediaType
 
 """
 Each specification defines how media types are processed and stored.
@@ -11,32 +10,19 @@ The behavior of media types in the context of processing and storage is defined 
 Collectable = Media[Union[URL, Path]]
 
 
-class Object(Media[CID]):
-    """Distributed/Stored media representation.
-    This class is used to infer any media decentralized and already stored in IPFS
-    """
-
-    ...
-
-
-class File(Media[Path]):
-    """Local media file representation.
-    This class is used to infer any media stored in local host.
-    """
-
-    ...
-
-
 class Video(Collectable):
     """Video class establishes how the videos should be processed"""
 
-    type = MediaType.VIDEO
+    ...
 
 
 class Image(Collectable):
     """Image class establishes how the images should be processed"""
 
-    type = MediaType.IMAGE
+    ...
 
 
-__all__ = ("Image", "Video", "File", "Object")
+__all__ = (
+    "Image",
+    "Video",
+)

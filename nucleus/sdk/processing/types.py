@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 from abc import abstractmethod, ABC
 from nucleus.sdk.harvest import Media
 from nucleus.core.types import (
@@ -13,13 +12,24 @@ from nucleus.core.types import (
     Tuple,
     Any,
     Setting,
+    SimpleNamespace,
 )
 
-# Alias for expected output
-Processed = Media[Path]
+
 # Alias for allowed engine inputs
 Processable = Media[Union[Path, URL]]
 Compilation = Iterator[Tuple[str, Any]]
+
+
+class File(Media[Path]):
+    """Local media file representation.
+    This class is used to infer any media stored in local host.
+    """
+
+    # we expect to fill this field with IANA Media types
+    # https://www.iana.org/assignments/media-types/media-types.xhtml
+    type: str
+    ...
 
 
 class Engine(ABC, Generic[T]):
@@ -28,19 +38,13 @@ class Engine(ABC, Generic[T]):
     Use this class to create engine subtypes.
     """
 
-    _name: str
     _library: T
     _settings: List[Setting]
 
-    def __init__(self, name: str, lib: T):
+    def __init__(self, lib: T):
         """Initialize a new instance with bound library and name"""
-        self._name = name
         self._library = lib
         self._settings = list()
-
-    def __str__(self):
-        """String representation for library"""
-        return self._name
 
     def compile(self) -> Compilation:
         """Compile engine settings into an map of arguments
@@ -63,12 +67,22 @@ class Engine(ABC, Generic[T]):
         return self
 
     @abstractmethod
-    def save(self, path: Path) -> Processed:
+    def introspect(self, path: Union[Path, None]) -> SimpleNamespace:
+        """Return technical information of the input media.
+
+        :param path: the media path
+        :return: any technical information collected from media.
+        :rtype: SimpleNamespace
+        """
+        ...
+
+    @abstractmethod
+    def save(self, path: Path) -> File:
         """Store the new media based on configuration context.
 
         :param path: the output path
         :return: new media path
-        :rtype: Processed
+        :rtype: File
         :raises ProcessingEngineError: if any exception is captured during processing
         """
         ...
