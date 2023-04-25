@@ -1,0 +1,6 @@
+def public():
+    ...
+
+
+def private():
+    ...
