@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from nucleus.sdk.harvest import Meta, Object, File
+from nucleus.sdk.harvest import Meta
+from nucleus.sdk.processing import File
 from nucleus.core.types import (
     Protocol,
     CID,
@@ -7,20 +8,18 @@ from nucleus.core.types import (
     Optional,
     Union,
     URL,
+    Callable,
     runtime_checkable,
 )
 
 
-# Alias for allowed media to store
-Storable = Union[File, Object, Meta]
-ID = NewType("ID", str)
-
-
 @dataclass(slots=True)
-class Stored:
-    """Represents ipfs /add output"""
+class Object:
+    """Distributed/Stored media representation.
+    This class is used to infer any media decentralized and already stored in IPFS
+    """
 
-    cid: CID
+    hash: CID
     name: str
     size: int
 
@@ -32,6 +31,12 @@ class Pin:
     cid: CID
     status: str
     name: Optional[str]
+
+
+# Alias for allowed media to store
+ID = NewType("ID", str)
+Storable = Union[File, Meta]
+Store = Callable[[Storable], Object]
 
 
 @runtime_checkable

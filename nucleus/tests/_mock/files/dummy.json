@@ -19,8 +19,7 @@
         },
         "media": [
             {
-                "route": "nucleus/tests/_mock/files/watchit.png",
-                "type": "image"
+                "route": "nucleus/tests/_mock/files/watchit.png"
             }
         ]
     }

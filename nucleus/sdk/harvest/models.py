@@ -12,7 +12,6 @@ from nucleus.core.types import Any, Union, Iterator, Path, Generic, T
 
 from nucleus.sdk.exceptions import ModelManagerError, ModelValidationError
 from .constants import MIGRATE, INSERT, FETCH, MODELS_PATH
-from .types import MediaType
 
 
 class _Manager(pydantic.main.ModelMetaclass):
@@ -120,10 +119,7 @@ class _Model(pydantic.BaseModel, metaclass=_Manager):
 
 
 class Meta(_Model):
-    """Template metadata model.
-    Extend this model to create your owns.
-    Default fields are name and description.
-    """
+    """Metadata model."""
 
     name: str
     desc: str
@@ -150,7 +146,6 @@ class Media(_Model, Generic[T]):
     """
 
     route: T
-    type: MediaType
     size: int = 0
 
 

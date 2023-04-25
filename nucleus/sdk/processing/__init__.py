@@ -2,7 +2,7 @@ from .engines import *
 from .image import *
 from .video import *
 from .process import *
-from .types import Processed
+from .types import Engine, File
 
 from . import process
 from . import engines
@@ -11,7 +11,8 @@ from . import video
 
 
 __all__ = [
-    "Processed",
+    "File",
+    "Engine",
     *process.__all__,
     *engines.__all__,
     *image.__all__,

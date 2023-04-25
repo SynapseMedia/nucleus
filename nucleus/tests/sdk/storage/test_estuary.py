@@ -8,7 +8,9 @@ from nucleus.sdk.storage import Estuary, Pin
 
 
 @responses.activate
-def test_estuary_pin(mock_estuary_service: Estuary, mock_estuary_pin_cid_request: CID):
+def test_estuary_pin(
+        mock_estuary_service: Estuary,
+        mock_estuary_pin_cid_request: CID):
     """Should return valid Pin for valid CID"""
     estuary = storage.service(mock_estuary_service)
     pinned = estuary.pin(mock_estuary_pin_cid_request)

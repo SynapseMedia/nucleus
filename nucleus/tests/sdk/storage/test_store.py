@@ -2,8 +2,8 @@ import responses
 import nucleus.sdk.storage as storage
 
 from nucleus.core.types import Path, JSON
-from nucleus.sdk.harvest import File, MediaType
-from nucleus.sdk.storage import Stored
+from nucleus.sdk.processing import File
+from nucleus.sdk.storage import Object
 
 
 @responses.activate
@@ -14,15 +14,15 @@ def test_storage_file(rpc_api_add_request: JSON, mock_local_video_path: Path):
     local_node = storage.ipfs()
 
     # store a new file in local node
-    storable = File(route=mock_local_video_path, type=MediaType.VIDEO)
+    storable = File(route=mock_local_video_path, type="video/H264")
     stored = local_node(storable)  # expected Stored output
 
     output_hash = rpc_api_add_request.get("Hash")
     output_name = rpc_api_add_request.get("Name")
     output_size = int(rpc_api_add_request.get("Size", 0))
 
-    assert stored.cid.valid()
-    assert stored.cid == output_hash
+    assert stored.hash.valid()
+    assert stored.hash == output_hash
     assert stored.name == output_name
     assert stored.size == output_size
-    assert isinstance(stored, Stored)
+    assert isinstance(stored, Object)

@@ -8,7 +8,6 @@ from nucleus.tests._mock.models import Movie
 def mock_raw_media():
     return {
         "route": "nucleus/tests/_mock/files/watchit.png",
-        "type": "image",
     }
 
 

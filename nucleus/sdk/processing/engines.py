@@ -1,19 +1,39 @@
 from __future__ import annotations
 
 import re
+import inspect
+import mimetypes
+import nucleus.sdk.processing as processing
 
 from collections import ChainMap
 from PIL.Image import Image as Pillow
 from ffmpeg.nodes import FilterableStream as FFMPEG  # type: ignore
 
-from nucleus.core.types import Path, Any
+from nucleus.core.types import Path, Any, SimpleNamespace, no_type_check, Union
 from nucleus.sdk.exceptions import ProcessingEngineError
-from nucleus.sdk.harvest import File
-from .types import Engine
+from .types import Engine, File
 
-# TODO add `stats` method to return statistics of the media
-# TODO thread processing for video engine
-# TODO https://pillow.readthedocs.io/en/stable/reference/Image.html#image-attributes
+
+@no_type_check
+def _to_object(data: Any) -> Any:
+    """Recursively convert a nested JSON as SimpleNamespace object
+
+    :return: SimpleNamespace object mirroring JSON representation
+    :rtype: SimpleNamespace
+    """
+
+    # if is a list recursive parse the entries
+    if isinstance(data, list):
+        return list(map(_to_object, data))  # type: ignore
+
+    # if is a dict recursive parse
+    if isinstance(data, dict):
+        container = SimpleNamespace()
+        for k, v in data.items():  # type: ignore
+            setattr(container, k, _to_object(v))  # type: ignore
+        return container
+
+    return data
 
 
 class VideoEngine(Engine[FFMPEG]):
@@ -26,14 +46,25 @@ class VideoEngine(Engine[FFMPEG]):
         mapped_args = [y for _, y in self.compile()]
         return ChainMap(*mapped_args)
 
+    def introspect(self, path: Union[Path, None] = None) -> SimpleNamespace:
+        # process the arg path or use the current media file path
+        filename = path or Path(self._library.node.kwargs.get("filename"))  # type: ignore
+        probe_result = _to_object(processing.probe(filename))
+
+        # attach mime type to introspection
+        (mime_type, _) = mimetypes.guess_type(filename)
+        probe_result.mime = mime_type
+        return probe_result
+
     def save(self, path: Path) -> File:
         # TODO allow see ffmpeg progress
         # TODO pubsub? Observer: Keep reading on event?
         try:
-            # We generate the expected path after transcode
+            i8t = self.introspect(path)
             output_args = self._build_output_args()
+            # We generate the expected path after transcode
             self._library.output(path, **output_args).run()  # type: ignore
-            return File(route=path, type=self._name, size=path.size())
+            return File(route=path, type=i8t.mime, size=path.size())
         except Exception as e:
             # Standard exceptions raised
             raise ProcessingEngineError(
@@ -71,12 +102,26 @@ class ImageEngine(Engine[Pillow]):
             # https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image
             self._library = func(**dict(params))
 
+    def introspect(self, path: Union[Path, None] = None) -> SimpleNamespace:
+        members = inspect.getmembers(self._library)
+        filter_private = filter(lambda x: not x[0].startswith("_"), members)
+        filter_method = filter(lambda x: not inspect.ismethod(x[1]), filter_private)
+        image_result = _to_object(dict(filter_method))
+
+        # attach mime type to introspection
+        # process the arg path or use the current media file path
+        filename = path or image_result.filename
+        (mime_type, _) = mimetypes.guess_type(filename)
+        image_result.mime = mime_type
+        return image_result
+
     def save(self, path: Path) -> File:
         # We generate the expected path after processing
         try:
             self._setup_methods()
             self._library.save(path)
-            return File(route=path, type=self._name, size=path.size())
+            i8t = self.introspect(path)
+            return File(route=path, type=i8t.mime, size=path.size())
         except Exception as e:
             # Standard exceptions raised
             raise ProcessingEngineError(

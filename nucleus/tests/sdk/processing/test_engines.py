@@ -2,22 +2,16 @@ import nucleus.sdk.processing as processing
 
 from mock import patch
 from nucleus.core.types import Path, Any
-from nucleus.sdk.harvest import Video, Image, Media, MediaType
+from nucleus.sdk.harvest import Video, Image, Media
 
 
-class MockImage:
+
+class MockMedia:
     def save(self, path: Path, **kwargs: Any) -> Media[Path]:
-        return Media(route=path, type=MediaType.IMAGE)
+        return Media(route=path)
 
 
-class MockVideo:
-    def save(self, path: Path, **kwargs: Any) -> Media[Path]:
-        return Media(route=path, type=MediaType.VIDEO)
-
-
-def test_dispatch_engine(
-        mock_local_video_path: Path,
-        mock_local_image_path: Path):
+def test_dispatch_engine(mock_local_video_path: Path, mock_local_image_path: Path):
     """Should dispatch the right engine based on media"""
     video = Video(route=mock_local_video_path)
     image = Image(route=mock_local_image_path)
@@ -33,7 +27,7 @@ def test_video_engine(mock_local_video_path: Path):
     """Should start a valid transcoding process using VideoEngine returning a valid output"""
     with patch("nucleus.sdk.processing.process.VideoEngine") as mock:
 
-        mock.return_value = MockVideo()
+        mock.return_value = MockMedia()
         media = Video(route=mock_local_video_path)
 
         # Video processing using call to pass input args
@@ -50,7 +44,7 @@ def test_image_engine(mock_local_image_path: Path):
     """Should start a valid transform process using ImageEngine returning a valid output"""
     with patch("nucleus.sdk.processing.process.ImageEngine") as mock:
 
-        mock.return_value = MockImage()
+        mock.return_value = MockMedia()
         media = Image(route=mock_local_image_path)
 
         output = Path("image.jpg")
