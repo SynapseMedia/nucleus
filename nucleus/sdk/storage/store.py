@@ -90,7 +90,7 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         return Object(
             name=output["Hash"],
             hash=CID(output["Hash"]),
-            size=len(bytes_),
+            size=int(output["Size"]),
         )
 
     return store

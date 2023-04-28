@@ -67,16 +67,15 @@ def test_nucleus():
         sep001.add_metadata(Descriptive(**dict(nucleus)))
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
-        
+
         # init marshall with public standard sep001
-        marshall = expose.marshall(sep001)  
+        marshall = expose.jwt(sep001)
         # bind local node to marshall process.
         # if we bind our node, the internal metadata will be stored and replaced by the corresponding CID
         marshall.connect(local_storage)
         # sign our JWT using ipfs node id as Identity
-        b64 = marshall.sign(FAKE_NODE_ID)  
-         # finally announce to the network our data
-        block: Object = local_storage(b64) 
-
+        b64 = marshall.sign(FAKE_NODE_ID)
+        # finally announce to the network our data
+        block: Object = local_storage(b64)
         print(block)
         ...

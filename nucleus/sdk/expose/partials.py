@@ -2,7 +2,7 @@ from .marshall import StdDist
 from .standard import SEP001, Header, Payload
 
 
-def marshall(std: SEP001) -> StdDist:
+def jwt(std: SEP001) -> StdDist:
     """MarshallDistributor factory
 
     :param std: the type of media to expose
@@ -25,5 +25,5 @@ def public(type: str) -> SEP001:
 
 __all__ = (
     "public",
-    "marshall",
+    "jwt",
 )
