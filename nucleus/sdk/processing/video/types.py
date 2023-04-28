@@ -1,6 +1,4 @@
 from __future__ import annotations
-
-from abc import abstractmethod
 from nucleus.core.types import Protocol, Setting
 
 
@@ -11,7 +9,6 @@ class Codec(Setting, Protocol):
     ref: https://trac.ffmpeg.org/wiki/Encode/H.264
     """
 
-    @abstractmethod
     def __contains__(self, codec: str) -> bool:
         """Check if the available codecs contain the codec in question.
         If codec match we can just copy it.

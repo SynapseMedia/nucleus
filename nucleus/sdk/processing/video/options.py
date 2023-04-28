@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from nucleus.core.types import Any, Dict
+from nucleus.core.types import Mapping, Any
 
 """
 aspect ratio	H.264/AVC kb/s	Frame rate
@@ -24,7 +24,7 @@ class Custom:
     ref: https://ffmpeg.org/ffmpeg.html#Main-options
     """
 
-    _custom: Dict[str, Any]
+    _custom: Mapping[str, Any]
 
     def __init__(self, **kwargs: Any):
         self._custom = kwargs

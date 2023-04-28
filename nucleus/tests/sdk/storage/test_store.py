@@ -14,7 +14,7 @@ def test_storage_file(rpc_api_add_request: JSON, mock_local_video_path: Path):
     local_node = storage.ipfs()
 
     # store a new file in local node
-    storable = File(route=mock_local_video_path, type="video/H264")
+    storable = File(path=mock_local_video_path)
     stored = local_node(storable)  # expected Stored output
 
     output_hash = rpc_api_add_request.get("Hash")

@@ -44,7 +44,7 @@ class _Manager(pydantic.main.ModelMetaclass):
         return super_new(mcs, name, bases, new_attrs, **kwargs)  # type: ignore
 
 
-class _Model(pydantic.BaseModel, metaclass=_Manager):
+class _BaseModel(pydantic.BaseModel, metaclass=_Manager):
     """This model defines a template to handle cache associated with each derived model"""
 
     _alias: str
@@ -61,7 +61,7 @@ class _Model(pydantic.BaseModel, metaclass=_Manager):
 
     def __init__(self, *args: Any, **kwargs: Any):
         try:
-            super(_Model, self).__init__(*args, **kwargs)
+            super(_BaseModel, self).__init__(*args, **kwargs)
         except ValidationError as e:
             raise ModelValidationError(
                 f"raised exception during model initialization: {str(e)}"
@@ -75,7 +75,7 @@ class _Model(pydantic.BaseModel, metaclass=_Manager):
         expected=sqlite3.ProgrammingError,
         target=ModelManagerError,
     )
-    def get(cls) -> _Model:
+    def get(cls) -> _BaseModel:
         """Exec query and fetch one entry from database.
 
         :return: one result as model instance
@@ -92,7 +92,7 @@ class _Model(pydantic.BaseModel, metaclass=_Manager):
         expected=sqlite3.ProgrammingError,
         target=ModelManagerError,
     )
-    def all(cls) -> Iterator[_Model]:
+    def all(cls) -> Iterator[_BaseModel]:
         """Exec query and fetch a list of data from database.
 
         :return: all query result as model instance
@@ -118,20 +118,20 @@ class _Model(pydantic.BaseModel, metaclass=_Manager):
         return cursor.lastrowid
 
 
-class Meta(_Model):
-    """Metadata model."""
+class Model(_BaseModel):
+    """Base Metadata model."""
 
     name: str
     desc: str
 
 
-class Media(_Model, Generic[T]):
+class Media(_BaseModel, Generic[T]):
     """Generic media model.
     All derived class are used as types for dispatch actions.
     eg.
 
         class Video(Media[Path]):
-            type: MediaTypes.VIDEO
+            ...
 
 
         @singledispatch/assessments
@@ -145,8 +145,7 @@ class Media(_Model, Generic[T]):
         process(video)
     """
 
-    route: T
-    size: int = 0
+    path: T
 
 
-__all__ = ("Meta",)
+__all__ = ("Model",)

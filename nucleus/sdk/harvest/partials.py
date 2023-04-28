@@ -4,11 +4,11 @@ from nucleus.core.types import Any, Type, T
 from pydantic import create_model, parse_obj_as, ValidationError
 from nucleus.sdk.exceptions import ModelValidationError
 
-from .models import Meta
+from .models import Model
 from .media import Image, Video
 
 
-def media_factory(base: Type[T], **kwargs: Any) -> T:
+def media_factory(*, base: Type[T], **kwargs: Any) -> T:
     """Enhanced parse obj to allow named parameters as obj
 
     :param base: the base type for model
@@ -25,7 +25,7 @@ def media_factory(base: Type[T], **kwargs: Any) -> T:
 
 
 # A partial prepared model factory functions
-meta = functools.partial(create_model, __base__=Meta)
+meta = functools.partial(create_model, __base__=Model)
 image = functools.partial(media_factory, base=Image)
 video = functools.partial(media_factory, base=Video)
 

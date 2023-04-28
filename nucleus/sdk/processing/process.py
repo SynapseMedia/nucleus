@@ -24,14 +24,14 @@ def engine(model: Processable) -> Engine[Any]:
 
 @engine.register
 def _(model: Video) -> VideoEngine:
-    input_path = Path(model.route)
+    input_path = Path(model.path)
     library = ffmpeg.input(input_path)  # type: ignore
     return VideoEngine(library)  # type: ignore
 
 
 @engine.register
 def _(model: Image) -> ImageEngine:
-    input_path = Path(model.route)
+    input_path = Path(model.path)
     library = PIL.open(input_path)
     return ImageEngine(library)
 

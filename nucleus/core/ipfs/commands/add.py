@@ -1,4 +1,6 @@
-from dataclasses import dataclass, field, asdict
+import dataclasses
+
+from dataclasses import dataclass, field
 from nucleus.core.types import Setting
 from nucleus.core.http import LiveSession
 
@@ -20,7 +22,7 @@ class Add:
 
     def __call__(self, session: LiveSession):
         # convert dataclass to request IPFS 'add endpoint' attributes.
-        params = asdict(self)
+        params = dataclasses.asdict(self)
         params.pop("input", None)
         # convert input setting to adapt the behavior of the request. eg. send
         # raw data, upload files, etc

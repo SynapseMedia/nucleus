@@ -31,6 +31,7 @@ T = TypeVar("T")
 T_contra = TypeVar("T_contra", contravariant=True)
 T_co = TypeVar("T_co", covariant=True)
 
+Raw = Dict[Any, Any]
 ExceptionType = Type[Exception]
 HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
@@ -38,6 +39,7 @@ Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
 Preset = Iterator[Tuple[str, Any]]
 Func = Callable[..., Any]
+Dynamic = SimpleNamespace
 
 
 class Setting(Protocol):
@@ -167,6 +169,9 @@ class JSON(UserDict[Any, Any]):
     def __bytes__(self) -> bytes:
         """Return json as bytes"""
         return bytes(str(self), "utf-8")
+
+    def parse(self):
+        return json.loads(str(self))
 
     def write(self, path: Path):
         """Create an output json file into output file with self

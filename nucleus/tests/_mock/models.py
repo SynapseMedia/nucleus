@@ -3,14 +3,14 @@ import datetime
 import time
 import re
 
-from nucleus.sdk.harvest import Meta
+from nucleus.sdk.harvest import Model
 from nucleus.core.types import Optional, List, Any
 
 DEFAULT_RATE_MAX = 10
 FIRST_MOVIE_YEAR_EVER = 1880
 
 
-class Movie(Meta):
+class Movie(Model):
     """Movies define needed fields for standard movie schema."""
 
     name: str
