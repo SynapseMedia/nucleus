@@ -16,7 +16,7 @@ def probe(path: Path, **kwargs: Any) -> JSON:
     :raises FFProbeError: if the file path does not exist
     """
     try:
-        return ffmpeg.probe(path, **kwargs)  # type: ignore
+        return JSON(ffmpeg.probe(path, **kwargs))  # type: ignore
     except ffmpeg._run.Error as e:  # type: ignore
         raise FFProbeError(f"error during ffprobe command call: {str(e)}")
 

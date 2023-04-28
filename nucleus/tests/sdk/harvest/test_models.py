@@ -1,11 +1,11 @@
 import pytest
 
-from nucleus.sdk.harvest import Meta
+from nucleus.sdk.harvest import Model
 from nucleus.tests._mock.models import Movie
 from nucleus.sdk.exceptions import ModelValidationError
 
 
-class ExampleModel(Meta):
+class ExampleModel(Model):
     age: int
 
 

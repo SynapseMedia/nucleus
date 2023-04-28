@@ -22,7 +22,7 @@ class Dummy(Collector):
                     "speech_language": "en",
                     "publish_date": 1669911990.9270618,
                 },
-                "media": [{"route": "nucleus/tests/_mock/files/watchit.png"}],
+                "media": [{"path": "nucleus/tests/_mock/files/watchit.png"}],
             }
         ]
 

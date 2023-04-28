@@ -1,40 +1,27 @@
-from dataclasses import dataclass
-from nucleus.core.types import CID, Optional
+from nucleus.core.types import Protocol, Literal
 
 
-@dataclass
-class S:
-    cid: CID
-    path: Optional[str] = ""
+class Metadata(Protocol):
+    """Metadata defines the expected behavior of contained metadata types.
+    eg:
+        - Descriptive
+        - Structural
+        - Technical
+    """
+
+    def __str__(self) -> Literal["s", "d", "t"]:
+        """Metadata types MUST return the  specified claims"""
+        ...
 
 
-@dataclass
-class D:
-    name: str
-    desc: str
+class SEP(Protocol):
+    """Specifies the behaviors of SEPs implementations"""
 
+    def add_metadata(self, meta: Metadata):
+        """Proxy procedure to add metadata into payload
 
-@dataclass
-class T:
-    size: int
-    width: int
-    height: int
-    codec: str
-    length: str
-
-
-@dataclass
-class Header:
-    # Is used by JWT applications to declare the media type [IANA.MediaTypes]
-    # of this complete JWT
-    typ: str
-    # The "alg" (algorithm) Header Parameter identifies the cryptographic
-    # algorithm used in signature creation
-    alg: str = "HS256"
-
-
-@dataclass
-class Payload:
-    s: S  # s: structural metadata CID
-    d: D  # d: descriptive metadata CID
-    t: T  # t: technical metadata CID
+        :param meta: the metadata type to store in payload
+        :return: none
+        :rtype: None
+        """
+        ...

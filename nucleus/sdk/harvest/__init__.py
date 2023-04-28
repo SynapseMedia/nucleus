@@ -5,7 +5,7 @@ from .media import *
 from .partials import *
 from .collectors import *
 
-from .models import Meta, Media
+from .models import Model, Media
 from .types import Collector
 
 from pydantic import types, networks
@@ -14,7 +14,7 @@ from . import partials
 from . import collectors
 
 __all__ = [
-    "Meta",
+    "Model",
     "Media",
     "Collector",
     *types.__all__,

@@ -7,7 +7,7 @@ from nucleus.sdk.processing import Screen, Bitrate, HLS, VP9
 
 def test_video_configuration(mock_local_video_path: Path):
     """Should compile the expected configuration"""
-    video = Video(route=mock_local_video_path)
+    video = Video(path=mock_local_video_path)
     video_engine = processing.engine(video)
     video_engine.configure(HLS(VP9()))
     video_engine.configure(Screen.Q1080)

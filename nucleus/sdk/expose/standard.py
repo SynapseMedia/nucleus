@@ -1,17 +1,11 @@
-import functools
+from __future__ import annotations
 
 from dataclasses import dataclass
-from .types import Header, Payload
+from nucleus.core.types import Optional, CID, Raw
+from .types import Metadata
 
-"""Standard implementation for SEP-001 extends JWT standard.
-ref: https://www.rfc-editor.org/rfc/rfc7519
-ref: https://www.iana.org/assignments/jwt/jwt.xhtml
-Validation:
-1) valid JWT?
-2) hash valid SEP001 standard?
-    - has s and d fields
-    - s and d has expected Meta, Media schema?
-
+"""Standard implementation for SEP-001 .
+ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.mdhttps://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
 """
 
 
@@ -33,24 +27,57 @@ none	No digital signature or MAC performed	Optional
 """
 
 
-
-
 @dataclass
+class Header:
+    """JWT Header standard based on SEP-001:
+    ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+    """
+
+    # Is used by JWT applications to declare the media type [IANA.MediaTypes]
+    # of this complete JWT
+    typ: str
+    # The "alg" (algorithm) Header Parameter identifies the cryptographic
+    # algorithm used in signature creation
+    alg: str = "HS256"
+
+
+@dataclass(init=False)
+class Payload:
+    """JWT Payload standard based on SEP-001:
+    ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+    """
+
+    s: Raw  # s: structural metadata Object
+    d: Raw  # d: descriptive metadata Object
+    t: Optional[Raw] = None  # t: technical metadata Object
+    r: Optional[CID] = None  # r: reserved for future use
+
+    def add(self, meta: Metadata) -> None:
+        """Associate metadata to payload.
+
+        :param meta: the metadata type to store in payload
+        :raises NotImplementedError if invalid metadata is added
+        """
+        setattr(self, str(meta), vars(meta))
+
+
+@dataclass(slots=True)
 class SEP001:
+    """SEP-001 standard implementation:
+    ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+    """
+
     header: Header
     payload: Payload
 
-    def descriptive(self, model: Meta):
-        self.D = D(**model.dict())
+    def add_metadata(self, meta: Metadata):
+        """Proxy add metadata to payload
 
-    def structural(self, model: Object):
-        return S(cid=model.hash)
-
-    def technical(self, model: SimpleNamespace):
-        ...
-
-    def generate(self):
-        ...
+        :param meta: the metadata type to store in payload
+        :return: none
+        :rtype: None
+        """
+        self.payload.add(meta)
 
 
 __all__ = ["SEP001", "Payload", "Header"]

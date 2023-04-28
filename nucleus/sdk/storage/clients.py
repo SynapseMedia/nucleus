@@ -5,7 +5,7 @@ from nucleus.core.http import Response
 from nucleus.core.types import CID, Any, JSON, URL
 from nucleus.sdk.exceptions import StorageServiceError
 
-from .types import Pin
+from .types import Pin, Object
 from .constants import ESTUARY_API_PIN, ESTUARY_API_PUBLIC
 
 
@@ -47,7 +47,7 @@ class EstuaryClient:
                 f"exception raised during request: {error_description}"
             )
 
-        return response
+        return JSON(response)
 
     def _content_by_cid(self, cid: CID) -> JSON:
         """Collect details from estuary based on CID
@@ -66,17 +66,18 @@ class EstuaryClient:
         response = self._safe_request(req)
         return response.get("content", {})
 
-    def pin(self, cid: CID, **kwargs: Any) -> Pin:
+    def pin(self, obj: Object, **kwargs: Any) -> Pin:
         """Pin cid into estuary
 
-        :param cid: cid to pin
+        :param obj: object to pin
         :return: pin object
-        :rtype: JSON
+        :rtype: Pin
         :raises StorageServiceError: if pin request fails
         """
         # ref:
         # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
-        req = self._http.post(ESTUARY_API_PIN, data={cid: cid, **kwargs})
+        data = {"cid": obj.hash, **kwargs}
+        req = self._http.post(ESTUARY_API_PIN, data=data)
         json_response = self._safe_request(req)
 
         return Pin(
@@ -85,20 +86,20 @@ class EstuaryClient:
             status="pending",
         )
 
-    def unpin(self, cid: CID) -> CID:
+    def unpin(self, obj: Object) -> CID:
         """Remove pin from estuary
 
-        :param cid: cid to remove from cache
+        :param obj: object to remove from service
         :return: just removed CID
         :rtype: CID
         :raises StorageServiceError: if an error occurs during request
         """
         # content id is same as pin id
-        pin_id = self._content_by_cid(cid).get("id")
+        pin_id = self._content_by_cid(obj.hash).get("id")
         response = self._http.delete(f"{ESTUARY_API_PIN}/{pin_id}")
         # If error happens then raise standard exception.
         self._safe_request(response)
-        return cid
+        return obj.hash
 
 
 __all__ = ["EstuaryClient"]

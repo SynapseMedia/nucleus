@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from nucleus.sdk.harvest import Meta
 from nucleus.sdk.processing import File
 from nucleus.core.types import (
     Protocol,
@@ -9,6 +8,7 @@ from nucleus.core.types import (
     Union,
     URL,
     Callable,
+    JSON,
     runtime_checkable,
 )
 
@@ -35,7 +35,7 @@ class Pin:
 
 # Alias for allowed media to store
 ID = NewType("ID", str)
-Storable = Union[File, Meta]
+Storable = Union[File, JSON, str]
 Store = Callable[[Storable], Object]
 
 
@@ -71,20 +71,20 @@ class Edge(Protocol):
     ref: https://docs.ipfs.tech/reference/kubo/cli/#ipfs-pin-remote-service
     """
 
-    def pin(self, cid: CID) -> Pin:
+    def pin(self, obj: Object) -> Pin:
         """Pin cid into remote storage
 
-        :param cid: cid to pin
+        :param obj: object to pin
         :return: pin object
         :rtype: Pin
         """
         ...
 
-    def unpin(self, cid: CID) -> CID:
+    def unpin(self, obj: Object) -> CID:
         """Remove pin from storage service
 
-        :param cid: Cid to remove from cache
-        :return: just removed cid
+        :param obj: object to remove from service
+        :return: just removed object cid
         :rtype: CID
         """
         ...

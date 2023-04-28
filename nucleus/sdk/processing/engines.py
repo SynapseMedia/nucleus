@@ -3,23 +3,24 @@ from __future__ import annotations
 import re
 import inspect
 import mimetypes
+import PIL.Image
 import nucleus.sdk.processing as processing
 
 from collections import ChainMap
 from PIL.Image import Image as Pillow
 from ffmpeg.nodes import FilterableStream as FFMPEG  # type: ignore
 
-from nucleus.core.types import Path, Any, SimpleNamespace, no_type_check, Union
+from nucleus.core.types import Path, Any, no_type_check, Dynamic
 from nucleus.sdk.exceptions import ProcessingEngineError
-from .types import Engine, File
+from .types import Engine, File, Introspection
 
 
 @no_type_check
 def _to_object(data: Any) -> Any:
-    """Recursively convert a nested JSON as SimpleNamespace object
+    """Recursively convert a nested JSON as Dynamic object
 
-    :return: SimpleNamespace object mirroring JSON representation
-    :rtype: SimpleNamespace
+    :return: Dynamic object mirroring JSON representation
+    :rtype: Dynamic
     """
 
     # if is a list recursive parse the entries
@@ -28,7 +29,7 @@ def _to_object(data: Any) -> Any:
 
     # if is a dict recursive parse
     if isinstance(data, dict):
-        container = SimpleNamespace()
+        container = Dynamic()
         for k, v in data.items():  # type: ignore
             setattr(container, k, _to_object(v))  # type: ignore
         return container
@@ -46,25 +47,29 @@ class VideoEngine(Engine[FFMPEG]):
         mapped_args = [y for _, y in self.compile()]
         return ChainMap(*mapped_args)
 
-    def introspect(self, path: Union[Path, None] = None) -> SimpleNamespace:
+    def introspect(self, path: Path) -> Introspection:
         # process the arg path or use the current media file path
-        filename = path or Path(self._library.node.kwargs.get("filename"))  # type: ignore
-        probe_result = _to_object(processing.probe(filename))
+        (mime_type, _) = mimetypes.guess_type(path)
+        probe_result = _to_object(processing.probe(path))
 
-        # attach mime type to introspection
-        (mime_type, _) = mimetypes.guess_type(filename)
-        probe_result.mime = mime_type
-        return probe_result
+        # extend introspection with custom video ffprobe
+        return Introspection(
+            size=path.size(),
+            type=str(mime_type),
+            **vars(probe_result),
+        )
 
     def save(self, path: Path) -> File:
         # TODO allow see ffmpeg progress
         # TODO pubsub? Observer: Keep reading on event?
         try:
-            i8t = self.introspect(path)
             output_args = self._build_output_args()
             # We generate the expected path after transcode
             self._library.output(path, **output_args).run()  # type: ignore
-            return File(route=path, type=i8t.mime, size=path.size())
+
+            # after low level processing happen!!
+            i8t = self.introspect(path)
+            return File(path=path, meta=i8t)
         except Exception as e:
             # Standard exceptions raised
             raise ProcessingEngineError(
@@ -102,26 +107,33 @@ class ImageEngine(Engine[Pillow]):
             # https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image
             self._library = func(**dict(params))
 
-    def introspect(self, path: Union[Path, None] = None) -> SimpleNamespace:
-        members = inspect.getmembers(self._library)
+    def introspect(self, path: Path) -> Introspection:
+        # fet the mime type from file path
+        (mime_type, _) = mimetypes.guess_type(path)
+        # get attributes from PIL.Image object
+        members = inspect.getmembers(PIL.Image.open(path))
         filter_private = filter(lambda x: not x[0].startswith("_"), members)
         filter_method = filter(lambda x: not inspect.ismethod(x[1]), filter_private)
         image_result = _to_object(dict(filter_method))
+        # patch to avoid size conflict keyword
+        delattr(image_result, "size")
 
-        # attach mime type to introspection
-        # process the arg path or use the current media file path
-        filename = path or image_result.filename
-        (mime_type, _) = mimetypes.guess_type(filename)
-        image_result.mime = mime_type
-        return image_result
+        # extend introspection with custom PIL.Image attributes
+        return Introspection(
+            size=path.size(),
+            type=str(mime_type),
+            **vars(image_result),
+        )
 
     def save(self, path: Path) -> File:
         # We generate the expected path after processing
         try:
             self._setup_methods()
             self._library.save(path)
+
+            # after low level processing happen!!
             i8t = self.introspect(path)
-            return File(route=path, type=i8t.mime, size=path.size())
+            return File(path=path, meta=i8t)
         except Exception as e:
             # Standard exceptions raised
             raise ProcessingEngineError(

@@ -5,16 +5,15 @@ from nucleus.core.types import Path, Any
 from nucleus.sdk.harvest import Video, Image, Media
 
 
-
 class MockMedia:
     def save(self, path: Path, **kwargs: Any) -> Media[Path]:
-        return Media(route=path)
+        return Media(path=path)
 
 
 def test_dispatch_engine(mock_local_video_path: Path, mock_local_image_path: Path):
     """Should dispatch the right engine based on media"""
-    video = Video(route=mock_local_video_path)
-    image = Image(route=mock_local_image_path)
+    video = Video(path=mock_local_video_path)
+    image = Image(path=mock_local_image_path)
 
     video_engine = processing.engine(video)
     image_engine = processing.engine(image)
@@ -28,7 +27,7 @@ def test_video_engine(mock_local_video_path: Path):
     with patch("nucleus.sdk.processing.process.VideoEngine") as mock:
 
         mock.return_value = MockMedia()
-        media = Video(route=mock_local_video_path)
+        media = Video(path=mock_local_video_path)
 
         # Video processing using call to pass input args
         output = Path("video.mp4")
@@ -36,7 +35,7 @@ def test_video_engine(mock_local_video_path: Path):
         media = video.save(output)
 
         # Validate output
-        assert media.route == output
+        assert media.path == output
         assert isinstance(media, Media)
 
 
@@ -45,7 +44,7 @@ def test_image_engine(mock_local_image_path: Path):
     with patch("nucleus.sdk.processing.process.ImageEngine") as mock:
 
         mock.return_value = MockMedia()
-        media = Image(route=mock_local_image_path)
+        media = Image(path=mock_local_image_path)
 
         output = Path("image.jpg")
         # expected pillow adapter
@@ -53,5 +52,5 @@ def test_image_engine(mock_local_image_path: Path):
         media = image.save(output)
 
         # Validate output
-        assert media.route == output
+        assert media.path == output
         assert isinstance(media, Media)
