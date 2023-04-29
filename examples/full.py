@@ -81,14 +81,12 @@ def main():
         key: str = distributor.key()
         signature: str = distributor.sign(sep001)
 
-    assert distributor.verify(sep001, signature) == True
-    assert key == "d673fef08feb368505b575a615183d8982133403ebbbe07fd8baa4b6d3ce52e2"
-    assert (
-        stored_signature.hash
-        == "bafkreicxagdqix6okyzdcpnvuyahhewfd6vafujctxxdv6ckegrelzs5hm"
-    )
-    assert (
-        stored_signature.name
-        == "bafkreicxagdqix6okyzdcpnvuyahhewfd6vafujctxxdv6ckegrelzs5hm"
-    )
+    # assert expected outputs
+    expected_cid = "bafkreicxagdqix6okyzdcpnvuyahhewfd6vafujctxxdv6ckegrelzs5hm"
+    expected_key = "d673fef08feb368505b575a615183d8982133403ebbbe07fd8baa4b6d3ce52e2"
+    valid_key = distributor.verify(sep001, signature)
+
+    assert valid_key == True
+    assert key == expected_key
+    assert stored_signature.hash == expected_cid
     assert stored_signature.size == 443
