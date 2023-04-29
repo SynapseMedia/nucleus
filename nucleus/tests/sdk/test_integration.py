@@ -1,3 +1,4 @@
+import pytest
 import nucleus.core.logger as logger
 import nucleus.sdk.harvest as harvest
 import nucleus.sdk.processing as processing
@@ -8,10 +9,17 @@ from nucleus.core.types import List, Path
 from nucleus.sdk.harvest import Image, Model
 from nucleus.sdk.storage import Store, Service, Edge, Object
 from nucleus.sdk.processing import Resize, Engine, File
-from nucleus.sdk.expose import Structural, Descriptive, Technical
+from nucleus.sdk.expose import (
+    Structural,
+    Descriptive,
+    Technical,
+    Broker,
+    StdDist,
+)
 
 
 # @responses.activate
+@pytest.mark.skip(reason="need mocks")
 def test_nucleus():
     """Should return valid Pin for valid CID"""
 
@@ -50,9 +58,9 @@ def test_nucleus():
         stored_file_object: Object = local_storage(output_file)
 
         # choose and connect an edge service to pin our resources. eg. estuary
-        # estuary: Service = storage.estuary(FAKE_KEY)  #  estuary service
-        # edge_client: Edge = storage.service(estuary)  #  based on service get the client
-        # edge_client.pin(stored_file_object)  # pin our cid in estuary
+        estuary: Service = storage.estuary(FAKE_KEY)  #  estuary service
+        edge_client: Edge = storage.service(estuary)  #  based on service get the client
+        edge_client.pin(stored_file_object)  # pin our cid in estuary
 
     # 4. expose our media through the standard
     with logger.console.status("Expose"):
@@ -68,14 +76,18 @@ def test_nucleus():
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
 
-        # init marshall with public standard sep001
-        marshall = expose.jwt(sep001)
-        # bind local node to marshall process.
-        # if we bind our node, the internal metadata will be stored and replaced by the corresponding CID
-        marshall.connect(local_storage)
-        # sign our JWT using ipfs node id as Identity
-        b64 = marshall.sign(FAKE_NODE_ID)
-        # finally announce to the network our data
-        block: Object = local_storage(b64)
-        print(block)
-        ...
+        # init our standard distribution for sep001
+        broker: Broker = Broker(key=FAKE_NODE_ID, store=local_storage)
+        distributor: StdDist = expose.dispatch(broker)
+        stored_signature: Object = distributor.announce(sep001)
+
+        # verify our standard signature
+        key: str = distributor.key()
+        signature: str = distributor.sign(sep001)
+
+        assert distributor.verify(sep001, signature) == True
+        assert key == "d673fef08feb368505b575a615183d8982133403ebbbe07fd8baa4b6d3ce52e2"
+        assert (
+            stored_signature.hash
+            == "bafkreicxagdqix6okyzdcpnvuyahhewfd6vafujctxxdv6ckegrelzs5hm"
+        )

@@ -52,7 +52,7 @@ def mock_estuary_invalid_request(mock_object: Object):
 
     responses.add(
         method=responses.GET,
-        url=f"{ENDPOINT}/public/by-cid/invalid_cid",
+        url=f"{ENDPOINT}/public/by-cid/{mock_object.hash}",
         body=json.dumps(expected_error),
         status=500,
         stream=True,

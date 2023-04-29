@@ -35,7 +35,7 @@ class Pin:
 
 # Alias for allowed media to store
 ID = NewType("ID", str)
-Storable = Union[File, JSON, str]
+Storable = Union[File, JSON, str, bytes]
 Store = Callable[[Storable], Object]
 
 
