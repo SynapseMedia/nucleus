@@ -21,26 +21,26 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
     api = ipfs_.rpc(endpoint)
 
     @functools.singledispatch
-    def store(model: Storable) -> Object:
+    def store(data: Storable) -> Object:
         """Storage single dispatch factory.
-        Use the model input to infer the right storage strategy.
+        Use the data input type to infer the right storage strategy.
 
-        :param model: the model to dispatch
+        :param data: the model to dispatch
         :return: Object instance
         :rtype: Object
         """
-        raise NotImplementedError(f"cannot process not registered storable `{model}")
+        raise NotImplementedError(f"cannot process not registered storable `{data}")
 
     @store.register
-    def _(model: FileType) -> Object:
+    def _(data: FileType) -> Object:
         """Add a file to IPFS
 
-        :param model: the file model to store
+        :param data: the file model to store
         :return: stored instance
         :rtype: Stored
 
         """
-        command = Add(File(model.path))
+        command = Add(File(data.path))
         # expected /add output from API
         # {Hash: .., Name: .., Size: ...}
         file_output = api(command)
@@ -52,16 +52,15 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         )
 
     @store.register
-    def _(model: str) -> Object:
-        """Add string to ipfs
+    def _(data: bytes) -> Object:
+        """Add bytes to ipfs
 
-        :param model: string to store
+        :param data: bytes to store
         :return: object instance
         :rtype: Object
         """
 
-        bytes_ = model.encode("utf-8")
-        command = Put(Text(bytes_))
+        command = Put(Text(data))
         # expected block/put output from API
         # {Key: .., Size: ..}
         output = api(command)
@@ -69,29 +68,32 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         return Object(
             name=output["Key"],
             hash=CID(output["Key"]),
-            size=len(bytes_),
+            size=len(data),
         )
 
     @store.register
-    def _(model: JSON) -> Object:
+    def _(data: str) -> Object:
         """Add JSON metadata representation to ipfs
 
-        :param model: string to store
+        :param data: string to store
         :return: object instance
         :rtype: Object
         """
 
-        bytes_ = bytes(model)
-        command = Add(Text(bytes_))
-        # expected block/put output from API
-        # {Hash: .., Name: .., Size: ...}
-        output = api(command)
+        bytes_ = data.encode("utf-8")
+        return store(bytes_)
 
-        return Object(
-            name=output["Hash"],
-            hash=CID(output["Hash"]),
-            size=int(output["Size"]),
-        )
+    @store.register
+    def _(data: JSON) -> Object:
+        """Add JSON metadata representation to ipfs
+
+        :param data: json to store
+        :return: object instance
+        :rtype: Object
+        """
+
+        bytes_ = bytes(data)
+        return store(bytes_)
 
     return store
 

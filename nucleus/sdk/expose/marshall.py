@@ -1,34 +1,58 @@
+from __future__ import annotations
+
+import hashlib
 import dataclasses
-import copy
 import jwt
 
-from dataclasses import dataclass, field
-from nucleus.core.types import JSON, Union, Dict, Any
-from nucleus.sdk.storage import Store
+
+from dataclasses import dataclass
+from nucleus.core.types import JSON, Raw, Any
+from nucleus.sdk.storage import Store, Object
+
 from .standard import SEP001
+from .constants import SECRET_HASH_SIZE
+
+
+@dataclass(slots=True)
+class Broker:
+    """Middleware class to handle storage and signature"""
+
+    key: str
+    store: Store
+
+    def __post_init__(self):
+        """Hashing for secret key"""
+        blake2 = hashlib.blake2b(digest_size=SECRET_HASH_SIZE)
+        blake2.update(self.key.encode("utf-8"))
+        self.key = blake2.hexdigest()
+
+    def sign(self, payload: Raw, **kwargs: Any):
+        return jwt.encode(payload, self.key, **kwargs)
+
+    def verify(self, sig: str, **kwargs: Any) -> bool:
+        try:
+            jwt.decode(sig, self.key, **kwargs)  # type: ignore
+            return True
+        except jwt.DecodeError as error:
+            raise error
 
 
 @dataclass
 class StdDist:
-    """Distributor handle SEP serialization and publish"""
+    """SEP Standard Distribution"""
 
-    # we could add more SEPs eventually
-    sep: SEP001
-    _store: Union[Store, None] = field(init=False)
-    _payload: Dict[Any, Any] = field(init=False)
-    _header: Dict[Any, Any] = field(init=False)
+    broker: Broker
 
-    def __post_init__(self):
-        self._store = None
-        self._header = dataclasses.asdict(self.sep.header)
-        # serialize payload omitting optional empty claims
-        self._payload = dataclasses.asdict(
-            self.sep.payload,
-            dict_factory=lambda x: {k: v for k, v in x if v is not None},
-        )
+    def key(self) -> str:
+        """Forwarding for internal broker key"""
+        return self.broker.key
 
-    def _store_payload(self) -> Dict[Any, Any]:
+    def _store_payload(self, payload: Raw) -> Raw:
         """Store the payload claims values in IPFS and replace the full metadata with a CID.
+
+        :param store: ipfs node client
+        :return: raw copy of payload
+        :rtype: Raw
 
         eg.
             {
@@ -46,28 +70,58 @@ class StdDist:
                 't': 'bafkzvzacdkg4xam57fkxjno3uogkkchuqhclf32kmgnuwsl4ugaa'
             }
         """
-        if not self._store:
-            return self._payload
+        for key, value in payload.items():
+            stored_object = self.broker.store(JSON(value))
+            payload[key] = stored_object.hash
+        return payload
 
-        sep_payload = copy.deepcopy(self._payload)
-        for key, value in sep_payload.items():
-            stored_object = self._store(JSON(value))
-            sep_payload[key] = stored_object.hash
-        return sep_payload
+    def sign(self, sep: SEP001) -> str:
+        """Sign metadata with broker key.
+        IMPORTANT! Storage-conversion happen adding raw meta into IPFS and replacing it with corresponding CID
 
-    def connect(self, store: Store):
-        self._store = store
-
-    def sign(self, secret: str) -> str:
-        """Encode and sign jwt using the `standard` implementation
-
-        :param secret: the secret to sign standard
-        :return: jwt signature
+        :param sep: standard implementation
+        :return: jwt string
         :rtype: str
         """
-        return jwt.encode(
-            self._store_payload(),
-            secret,
-            algorithm=self.sep.header.alg,
-            headers=self._header,
-        )
+
+        # get the algorithm from sep header
+        alg = sep.header.alg
+        # prepare header + payload to generate/sign the new jwt
+        header = dataclasses.asdict(sep.header)
+        payload = dataclasses.asdict(sep.payload)
+
+        # first store the payload to then sign it
+        payload = self._store_payload(payload)
+        return self.broker.sign(payload, algorithm=alg, headers=header)
+
+    def store(self, sig: str) -> Object:
+        """Store metadata into IPFS
+
+        :param sig: jwt signature
+        :return: Object instance
+        :rtype: Object
+        """
+        return self.broker.store(sig)
+
+    def announce(self, sep: SEP001) -> Object:
+        """Sign and store metadata into IPFS
+
+        :param sep: standard implementation
+        :return: Object with cid
+        :rtype: Object
+        """
+        signature = self.sign(sep)
+        return self.store(signature)
+
+    def verify(self, sep: SEP001, sig: str) -> bool:
+        """Verify standard signature:
+
+        :param sep: the standard implementation
+        :param sig: the jwt signature
+        :return: True if valid signature for sep else False
+        :rtype: bool
+        """
+        return self.broker.verify(sig, algorithms=[sep.header.alg])
+
+
+__all__ = ("StdDist", "Broker")

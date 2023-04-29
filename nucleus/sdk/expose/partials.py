@@ -1,15 +1,15 @@
-from .marshall import StdDist
+from .marshall import StdDist, Broker
 from .standard import SEP001, Header, Payload
 
 
-def jwt(std: SEP001) -> StdDist:
-    """MarshallDistributor factory
+def dispatch(broker: Broker) -> StdDist:
+    """StdDist factory
 
-    :param std: the type of media to expose
-    :return: MarshallDistributor object
-    :rtype: MarshallDistributor
+    :param broker: the broadcaster
+    :return: StdDist object
+    :rtype: StdDist
     """
-    return StdDist(std)
+    return StdDist(broker)
 
 
 def public(type: str) -> SEP001:
@@ -25,5 +25,5 @@ def public(type: str) -> SEP001:
 
 __all__ = (
     "public",
-    "jwt",
+    "dispatch",
 )

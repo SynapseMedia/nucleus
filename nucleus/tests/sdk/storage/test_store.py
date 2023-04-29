@@ -1,8 +1,8 @@
 import responses
-import nucleus.sdk.storage as storage
+import nucleus.sdk.storage as store
 
 from nucleus.core.types import Path, JSON
-from nucleus.sdk.processing import File
+from nucleus.sdk.processing import File, Introspection
 from nucleus.sdk.storage import Object
 
 
@@ -11,10 +11,11 @@ def test_storage_file(rpc_api_add_request: JSON, mock_local_video_path: Path):
     """Should dispatch the right request based on storable input"""
 
     # retrieve the storage node, by default local ipfs local node
-    local_node = storage.ipfs()
+    local_node = store.ipfs()
 
     # store a new file in local node
-    storable = File(path=mock_local_video_path)
+    introspection = Introspection(size=0, type="image/jpeg")
+    storable = File(path=mock_local_video_path, meta=introspection)
     stored = local_node(storable)  # expected Stored output
 
     output_hash = rpc_api_add_request.get("Hash")
