@@ -113,7 +113,9 @@ class ImageEngine(Engine[Pillow]):
         # get attributes from PIL.Image object
         members = inspect.getmembers(PIL.Image.open(path))
         filter_private = filter(lambda x: not x[0].startswith("_"), members)
-        filter_method = filter(lambda x: not inspect.ismethod(x[1]), filter_private)
+        filter_method = filter(
+            lambda x: not inspect.ismethod(
+                x[1]), filter_private)
         image_result = _to_object(dict(filter_method))
         # patch to avoid size conflict keyword
         delattr(image_result, "size")

@@ -58,8 +58,9 @@ def test_nucleus():
         stored_file_object: Object = local_storage(output_file)
 
         # choose and connect an edge service to pin our resources. eg. estuary
-        estuary: Service = storage.estuary(FAKE_KEY)  #  estuary service
-        edge_client: Edge = storage.service(estuary)  #  based on service get the client
+        estuary: Service = storage.estuary(FAKE_KEY)  # estuary service
+        # based on service get the client
+        edge_client: Edge = storage.service(estuary)
         edge_client.pin(stored_file_object)  # pin our cid in estuary
 
     # 4. expose our media through the standard
@@ -70,7 +71,8 @@ def test_nucleus():
         height = output_file.meta.height
         media_type = output_file.meta.type
 
-        # standard implementation https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+        # standard implementation
+        # https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
         sep001 = expose.public(media_type)  # image/jpeg
         sep001.add_metadata(Descriptive(**dict(nucleus)))
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
@@ -85,7 +87,7 @@ def test_nucleus():
         key: str = distributor.key()
         signature: str = distributor.sign(sep001)
 
-        assert distributor.verify(sep001, signature) == True
+        assert distributor.verify(sep001, signature)
         assert key == "d673fef08feb368505b575a615183d8982133403ebbbe07fd8baa4b6d3ce52e2"
         assert (
             stored_signature.hash
