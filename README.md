@@ -41,7 +41,7 @@ Nucleus proposes a sequence of steps (pipeline) for the processing and decentral
 
 The pipeline design was based on the decoupling principle, allowing for different use cases. For instance, some elements such as the **storage** component may be optional if data is already stored on the IPFS network, or the **mint** component may be optional if there is no need to create NFTs for the metadata. Similarly, the **processing** component may not be necessary if the media is ready for storage.
 
-"Retrieval" is an auxiliary component that allows for the retrieval and unmarshalling of data from the DHT as raw information that can then be used for distribution through any available or preferred means. In our case, we use Orbit as a distributed ledger for the "out of the box" consumption of our metadata.
+"Retrieval" is an auxiliary component that allows for the retrieval and unmarshalling of data from meta lake as raw information that can then be used for distribution through any available or preferred means. In our case, we use Orbit as a distributed ledger for the "out of the box" consumption of our metadata.
 
 ## Installing
 
