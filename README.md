@@ -35,7 +35,7 @@ Nucleus proposes a sequence of steps (pipeline) for the processing and decentral
 1. **Harvesting**: metadata collection
 2. **Processing**: media processing
 3. **Storage**:  storage in IPFS network
-4. **Expose**: metadata imprinted onto the DHT
+4. **Expose**: metadata imprinted onto IPFS/IPLD
 5. **Mint**: mint meta as NFTs
 6. **Retrieval**: unmarshall and distribution of metadata
 
