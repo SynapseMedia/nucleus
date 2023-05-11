@@ -82,6 +82,7 @@ class Marshall:
     serializer: Serializer
 
     @functools.singledispatchmethod
+    # TODO aca en base al serializar procesamos?
     def encode(self):
         ...
 
