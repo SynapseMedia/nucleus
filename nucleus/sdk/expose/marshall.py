@@ -1,57 +1,50 @@
 from __future__ import annotations
 
+
 import hashlib
 import dataclasses
-import jwt
+import functools
+
+import dag_cbor
+from multiformats import CID as MFormatCID
 
 
 from dataclasses import dataclass
-from nucleus.core.types import JSON, Raw, Any
-from nucleus.sdk.storage import Store, Object
+from nucleus.core.types import JSON, Raw
+from nucleus.sdk.storage import Object
 
-from .standard import SEP001
-from .constants import SECRET_HASH_SIZE
-
-
-@dataclass(slots=True)
-class Broker:
-    """Middleware class to handle storage and signature"""
-
-    key: str
-    store: Store
-
-    def __post_init__(self):
-        """Hashing for secret key"""
-        blake2 = hashlib.blake2b(digest_size=SECRET_HASH_SIZE)
-        blake2.update(self.key.encode("utf-8"))
-        self.key = blake2.hexdigest()
-
-    def sign(self, payload: Raw, **kwargs: Any):
-        return jwt.encode(payload, self.key, **kwargs)
-
-    def verify(self, sig: str, **kwargs: Any) -> bool:
-        try:
-            jwt.decode(sig, self.key, **kwargs)  # type: ignore
-            return True
-        except jwt.DecodeError as error:
-            raise error
+from .types import Serializer, SEP001
+from .keyring import KeyRing
 
 
-@dataclass
-class StdDist:
-    """SEP Standard Distribution"""
+def cid_from_bytes(data: bytes, codec: str = "raw") -> MFormatCID:
+    """Return a new CIDv1 base32 based on data hash and codec.
 
-    broker: Broker
+    :param data: the data to create a new CID
+    :param codec: the codec to use for the new CID
+    :return: the new multi format cid object
+    :rtype: MFormatCID
+    """
+    digest = hashlib.sha256(data).digest()
+    return MFormatCID("base32", 1, codec, ("sha2-256", digest))
 
-    def key(self) -> str:
-        """Forwarding for internal broker key"""
-        return self.broker.key
 
-    def _store_payload(self, payload: Raw) -> Raw:
-        """Store the payload claims values in IPFS and replace the full metadata with a CID.
+class DagJose(Serializer):
+    """Dag-JOSE Serialization"""
 
-        :param store: ipfs node client
-        :return: raw copy of payload
+    sep: SEP001
+
+
+class Compact(Serializer):
+    """JWS Compact Serialization"""
+
+    sep: SEP001
+
+    def _payload_cid_values(self, payload: Raw) -> Raw:
+        """Parse claims values to CIDs.
+
+        :param payload: raw payload to parse
+        :return: raw copy of processed payload
         :rtype: Raw
 
         eg.
@@ -71,11 +64,28 @@ class StdDist:
             }
         """
         for key, value in payload.items():
-            stored_object = self.broker.store(JSON(value))
-            payload[key] = stored_object.hash
+            raw_claim = bytes(JSON(value))
+            payload[key] = str(cid_from_bytes(raw_claim))
         return payload
 
-    def sign(self, sep: SEP001) -> str:
+    def payload(self) -> Raw:
+        payload = dataclasses.asdict(self.sep.payload)
+        return self._payload_cid_values(payload)
+
+
+@dataclass
+class Marshall:
+    """Standard metadata distribution for SEP001 specification.
+    This class is in charge of publishing metadata.
+    """
+
+    serializer: Serializer
+
+    @functools.singledispatchmethod
+    def encode(self):
+        ...
+
+    def sign(self, ky: KeyRing) -> str:
         """Sign metadata with broker key.
         IMPORTANT! Storage-conversion happen adding raw meta into IPFS and replacing it with corresponding CID
 
@@ -85,43 +95,13 @@ class StdDist:
         """
 
         # get the algorithm from sep header
-        alg = sep.header.alg
+        alg = self.serializer.alg()
         # prepare header + payload to generate/sign the new jwt
-        header = dataclasses.asdict(sep.header)
-        payload = dataclasses.asdict(sep.payload)
+        header = self.serializer.header()
+        payload = self.serializer.payload()
 
         # first store the payload to then sign it
-        payload = self._store_payload(payload)
-        return self.broker.sign(payload, algorithm=alg, headers=header)
-
-    def store(self, sig: str) -> Object:
-        """Store metadata into IPFS
-
-        :param sig: jwt signature
-        :return: Object instance
-        :rtype: Object
-        """
-        return self.broker.store(sig)
-
-    def announce(self, sep: SEP001) -> Object:
-        """Sign and store metadata into IPFS
-
-        :param sep: standard implementation
-        :return: Object with cid
-        :rtype: Object
-        """
-        signature = self.sign(sep)
-        return self.store(signature)
-
-    def verify(self, sep: SEP001, sig: str) -> bool:
-        """Verify standard signature:
-
-        :param sep: the standard implementation
-        :param sig: the jwt signature
-        :return: True if valid signature for sep else False
-        :rtype: bool
-        """
-        return self.broker.verify(sig, algorithms=[sep.header.alg])
+        return ky.sign(payload, algorithm=alg, headers=header)
 
 
-__all__ = ("StdDist", "Broker")
+__all__ = ("Marshall", "Compact")

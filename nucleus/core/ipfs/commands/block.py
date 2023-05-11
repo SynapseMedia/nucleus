@@ -10,7 +10,7 @@ from .constants import IPFS_API_BLOCK_PUT, IPFS_API_BLOCK_GET
 @dataclass(slots=True)
 class Put:
     """Put text in ipfs block.
-    ref: http://docs.ipfs.tech.ipns.localhost:8080/reference/kubo/rpc/#api-v0-block-put
+    ref: http://docs.ipfs.tech/reference/kubo/rpc/#api-v0-block-put
     """
 
     input: Setting
@@ -18,10 +18,7 @@ class Put:
     mhlen: int = -1
     pin: bool = True
     cid_codec: str = field(metadata={"name": "cid-codec"}, default="cidv2")
-    allow_big_block: bool = field(
-        metadata={
-            "name": "allow-big-block"},
-        default=False)
+    allow_big_block: bool = field(metadata={"name": "allow-big-block"}, default=False)
 
     def __call__(self, session: LiveSession):
         # convert dataclass to request IPFS 'add endpoint' attributes.
@@ -29,10 +26,7 @@ class Put:
         params.pop("input", None)
         compiled_settings = dict(self.input)
         # post request to /add endpoint using defined params and settings
-        return session.post(
-            IPFS_API_BLOCK_PUT,
-            params=params,
-            **compiled_settings)
+        return session.post(IPFS_API_BLOCK_PUT, params=params, **compiled_settings)
 
 
 @dataclass(slots=True)
