@@ -1,15 +1,15 @@
-from .marshall import StdDist, Broker
-from .standard import SEP001, Header, Payload
+from .marshall import Marshall
+from .types import Serializer, SEP001, Header, Payload
 
 
-def dispatch(broker: Broker) -> StdDist:
+def dispatch(serializer: Serializer) -> Marshall:
     """StdDist factory
 
-    :param broker: the broadcaster
+    :param serializer: the serialization handler
     :return: StdDist object
     :rtype: StdDist
     """
-    return StdDist(broker)
+    return Marshall(serializer)
 
 
 def public(type: str) -> SEP001:
@@ -20,7 +20,11 @@ def public(type: str) -> SEP001:
     :rtype: SEP001
     """
 
-    return SEP001(Header(type), Payload())
+    header = Header(
+        type,
+    )
+    payload = Payload()
+    return SEP001(header, payload)
 
 
 __all__ = (

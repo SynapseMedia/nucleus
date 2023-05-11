@@ -25,9 +25,9 @@ def media_factory(*, base: Type[T], **kwargs: Any) -> T:
 
 
 # A partial prepared model factory functions
-meta = functools.partial(create_model, __base__=Model)
+model = functools.partial(create_model, __base__=Model)
 image = functools.partial(media_factory, base=Image)
 video = functools.partial(media_factory, base=Video)
 
 
-__all__ = ("meta", "image", "video")
+__all__ = ("model", "image", "video")

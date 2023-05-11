@@ -50,13 +50,13 @@ class VideoEngine(Engine[FFMPEG]):
     def introspect(self, path: Path) -> Introspection:
         # process the arg path or use the current media file path
         (mime_type, _) = mimetypes.guess_type(path)
-        probe_result = _to_object(processing.probe(path))
+        video_introspection = _to_object(processing.probe(path))
 
         # extend introspection with custom video ffprobe
         return Introspection(
             size=path.size(),
             type=str(mime_type),
-            **vars(probe_result),
+            **vars(video_introspection),
         )
 
     def save(self, path: Path) -> File:
@@ -113,18 +113,16 @@ class ImageEngine(Engine[Pillow]):
         # get attributes from PIL.Image object
         members = inspect.getmembers(PIL.Image.open(path))
         filter_private = filter(lambda x: not x[0].startswith("_"), members)
-        filter_method = filter(
-            lambda x: not inspect.ismethod(
-                x[1]), filter_private)
-        image_result = _to_object(dict(filter_method))
+        filter_method = filter(lambda x: not inspect.ismethod(x[1]), filter_private)
+        image_introspection = _to_object(dict(filter_method))
         # patch to avoid size conflict keyword
-        delattr(image_result, "size")
+        delattr(image_introspection, "size")
 
         # extend introspection with custom PIL.Image attributes
         return Introspection(
             size=path.size(),
             type=str(mime_type),
-            **vars(image_result),
+            **vars(image_introspection),
         )
 
     def save(self, path: Path) -> File:

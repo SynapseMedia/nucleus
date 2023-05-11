@@ -12,8 +12,8 @@ from nucleus.sdk.expose import (
     Structural,
     Descriptive,
     Technical,
-    Broker,
-    StdDist,
+    Compact,
+    Marshall,
 )
 
 
@@ -73,8 +73,8 @@ def main():
         sep001.add_metadata(Technical(size=size, width=width, height=height))
 
         # init our standard distribution for sep001
-        broker: Broker = Broker(key=FAKE_NODE_ID, store=local_storage)
-        distributor: StdDist = expose.dispatch(broker)
+        broker: Compact = Compact(key=FAKE_NODE_ID, store=local_storage)
+        distributor: Marshall = expose.dispatch(broker)
         stored_signature: Object = distributor.announce(sep001)
 
         # verify our standard signature
