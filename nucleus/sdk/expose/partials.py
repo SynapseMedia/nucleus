@@ -1,15 +1,4 @@
-from .marshall import Marshall
-from .types import Serializer, SEP001, Header, Payload
-
-
-def dispatch(serializer: Serializer) -> Marshall:
-    """StdDist factory
-
-    :param serializer: the serialization handler
-    :return: StdDist object
-    :rtype: StdDist
-    """
-    return Marshall(serializer)
+from .types import SEP001, Header, Payload
 
 
 def public(type: str) -> SEP001:
@@ -20,14 +9,10 @@ def public(type: str) -> SEP001:
     :rtype: SEP001
     """
 
-    header = Header(
-        type,
-    )
+    header = Header(type, alg="ES256")  # TODO Signed not encrypted?
+
     payload = Payload()
     return SEP001(header, payload)
 
 
-__all__ = (
-    "public",
-    "dispatch",
-)
+__all__ = ("public",)

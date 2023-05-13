@@ -2,12 +2,10 @@ from __future__ import annotations
 from abc import abstractmethod, ABC
 from nucleus.sdk.harvest import Media
 from nucleus.core.types import (
-    T,
     Path,
     Iterator,
     URL,
     Union,
-    Generic,
     List,
     Tuple,
     Any,
@@ -50,19 +48,19 @@ class File(Media[Path]):
     ...
 
 
-class Engine(ABC, Generic[T]):
-    """Engine implements a media engine adapter template that uses an underlying library as interface to process media files and produce output.
-    The engine adapt dynamically the library so that methods can be directly accessed and process media in a specific context.
+class Engine(ABC):
+    """Engine implements a media engine template/adapter.
+    It uses an underlying library as an interface to process media files and produce output based on the provided settings.
     Use this class to create engine subtypes.
     """
 
-    _library: T
+    _library: Any
     _settings: List[Setting]
 
-    def __init__(self, lib: T):
-        """Initialize a new instance with bound library and name"""
+    def __init__(self, lib: Any):
+        """Initialize a new instance with bound library"""
         self._library = lib
-        self._settings = list()
+        self._settings = []
 
     def compile(self) -> Compilation:
         """Compile engine settings into an map of arguments
@@ -73,12 +71,12 @@ class Engine(ABC, Generic[T]):
         for preset in self._settings:
             yield type(preset).__name__, dict(preset)
 
-    def configure(self, setting: Setting) -> Engine[T]:
+    def configure(self, setting: Setting) -> Engine:
         """Set the context for media processing.
 
         :param setting: the setting to bind
         :return: the self adapter
-        :rtype: Engine[T]
+        :rtype: Engine
         """
 
         self._settings.append(setting)
@@ -96,7 +94,7 @@ class Engine(ABC, Generic[T]):
 
     @abstractmethod
     def save(self, path: Path) -> File:
-        """Store the new media based on configuration context.
+        """Store the new media based on conf context and bounded library.
 
         :param path: the output path
         :return: new media path
@@ -104,3 +102,6 @@ class Engine(ABC, Generic[T]):
         :raises ProcessingEngineError: if any exception is captured during processing
         """
         ...
+
+
+__all__ = ("Engine", "File", "Introspection")

@@ -4,38 +4,83 @@ from __future__ import annotations
 import hashlib
 import dataclasses
 import functools
+import json
 
 import dag_cbor
-from multiformats import CID as MFormatCID
-
 
 from dataclasses import dataclass
-from nucleus.core.types import JSON, Raw
-from nucleus.sdk.storage import Object
+from base64 import urlsafe_b64encode, b64encode
+from nucleus.core.types import JSON, Raw, CID
+from nucleus.sdk.storage import Object, Store
 
 from .types import Serializer, SEP001
 from .keyring import KeyRing
 
 
-def cid_from_bytes(data: bytes, codec: str = "raw") -> MFormatCID:
+def cid_from_bytes(data: bytes, codec: str = "raw") -> CID:
     """Return a new CIDv1 base32 based on data hash and codec.
 
     :param data: the data to create a new CID
     :param codec: the codec to use for the new CID
     :return: the new multi format cid object
-    :rtype: MFormatCID
+    :rtype: CID
     """
     digest = hashlib.sha256(data).digest()
-    return MFormatCID("base32", 1, codec, ("sha2-256", digest))
+    return CID.create("base32", 1, codec, ("sha2-256", digest))
 
 
-class DagJose(Serializer):
+def dispatch(sep: SEP001):
+
+    # TODO singledispatch aca
+    @functools.singledispatch
+    # TODO el callable permite la firma por eso se devuelve un callback
+    # eg marshall(local_storage)(dag_jose)(keyRing)
+    def sign(serializer: Serializer) -> Callable[KeyRing, Any]:
+        ...
+
+    @serialize.register
+    def _(serializer: DagJose):
+        ...
+
+    return serialize
+
+
+@dataclass(slots=True)
+class DagJose:
     """Dag-JOSE Serialization"""
 
     sep: SEP001
 
+    def encode(self, kr: KeyRing) -> Raw:
 
-class Compact(Serializer):
+        cbor_encoded = dag_cbor.encode(payload)
+        cid = cid_from_bytes(cbor_encoded)
+        cid_bytes = bytes(cid)
+        header_bytes = bytes(JSON(header))
+
+        payload_cid = urlsafe_b64encode(cid_bytes).rstrip(b"=").decode()
+        header_encoded = urlsafe_b64encode(header_bytes).rstrip(b"=").decode()
+        signing_input = ".".join([header_encoded, payload_cid])
+
+        signature = kr.sign(signing_input)
+        encoded_signature = urlsafe_b64encode(signature).rstrip(b"=").decode()
+
+        # TODO new type
+        return {
+            "payload": f"{payload_cid}",
+            "signatures": [
+                {
+                    "header": {"jwk": {}},  # TODO agrear aca jwk, alg, typ
+                    "protected": f"{header_encoded}",
+                    "signature": f"{encoded_signature}",
+                }
+            ],
+            "link": f"{cid}",
+        }
+
+
+@dataclass(slots=True)
+class Compact:
     """JWS Compact Serialization"""
 
     sep: SEP001
@@ -68,41 +113,8 @@ class Compact(Serializer):
             payload[key] = str(cid_from_bytes(raw_claim))
         return payload
 
-    def payload(self) -> Raw:
-        payload = dataclasses.asdict(self.sep.payload)
-        return self._payload_cid_values(payload)
-
-
-@dataclass
-class Marshall:
-    """Standard metadata distribution for SEP001 specification.
-    This class is in charge of publishing metadata.
-    """
-
-    serializer: Serializer
-
-    @functools.singledispatchmethod
-    # TODO aca en base al serializar procesamos?
-    def encode(self):
+    def encode(self, kr: KeyRing) -> str:
         ...
-
-    def sign(self, ky: KeyRing) -> str:
-        """Sign metadata with broker key.
-        IMPORTANT! Storage-conversion happen adding raw meta into IPFS and replacing it with corresponding CID
-
-        :param sep: standard implementation
-        :return: jwt string
-        :rtype: str
-        """
-
-        # get the algorithm from sep header
-        alg = self.serializer.alg()
-        # prepare header + payload to generate/sign the new jwt
-        header = self.serializer.header()
-        payload = self.serializer.payload()
-
-        # first store the payload to then sign it
-        return ky.sign(payload, algorithm=alg, headers=header)
 
 
 __all__ = ("Marshall", "Compact")

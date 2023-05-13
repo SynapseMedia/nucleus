@@ -28,8 +28,7 @@ class _Manager(pydantic.main.ModelMetaclass):
 
         super_new = super().__new__  # type: ignore
         # Ensure initialization is only performed for subclasses of _Model
-        is_subclass_instance = any(
-            map(lambda x: isinstance(x, _Manager), bases))
+        is_subclass_instance = any(map(lambda x: isinstance(x, _Manager), bases))
         if not is_subclass_instance:
             return super_new(mcs, name, bases, attrs, **kwargs)  # type: ignore
 
@@ -149,4 +148,4 @@ class Media(_BaseModel, Generic[T]):
     path: T
 
 
-__all__ = ("Model",)
+__all__ = ("Model", "Media")

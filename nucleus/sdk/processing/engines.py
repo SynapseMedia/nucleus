@@ -37,10 +37,13 @@ def _to_object(data: Any) -> Any:
     return data
 
 
-class VideoEngine(Engine[FFMPEG]):
-    """Engine to support low level transcoding using ffmpeg
+class VideoEngine(Engine):
+    """Engine adapt FFMPEG to support low level transcoding
     ref: https://github.com/kkroening/ffmpeg-python
     """
+
+    def __init__(self, lib: FFMPEG):
+        super().__init__(lib)
 
     def _build_output_args(self) -> ChainMap[Any, Any]:
         """Join config as output arguments for ffmpeg"""
@@ -77,15 +80,15 @@ class VideoEngine(Engine[FFMPEG]):
             )
 
 
-class ImageEngine(Engine[Pillow]):
-    """Engine to support image processing using Pillow
+class ImageEngine(Engine):
+    """Engine adapt Pillow to support image processing
     ref: https://pillow.readthedocs.io/en/stable/reference/Image.html
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
-        super().__init__(*args, **kwargs)
-        # lets compile the pattern to avoid overhead in loop
+    def __init__(self, lib: Pillow):
+        # compile the pattern to avoid overhead in loop and bind underlying lib
         self._pattern = re.compile(r"(?<!^)(?=[A-Z])")
+        super().__init__(lib)
 
     def _to_snake_case(self, class_name: str) -> str:
         """Transform PascalCase class definition to snake_case method name

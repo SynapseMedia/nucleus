@@ -2,20 +2,16 @@ from .store import *
 from .edge import *
 from .services import *
 from .partials import *
-from .types import Pin, Service, Storable, Store, Edge, Object
+from .types import *
 
 from . import store
 from . import edge
 from . import services
 from . import partials
+from . import types
 
 __all__ = [
-    "Pin",
-    "Edge",
-    "Store",
-    "Object",
-    "Service",
-    "Storable",
+    *types.__all__,
     *store.__all__,
     *edge.__all__,
     *services.__all__,

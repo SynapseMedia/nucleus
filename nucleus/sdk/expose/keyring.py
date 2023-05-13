@@ -6,6 +6,7 @@ import jwt
 import cryptography.hazmat.primitives.serialization as serialization
 import cryptography.hazmat.primitives.asymmetric.ec as ec
 
+from nucleus.core.types import Raw, Any
 from dataclasses import dataclass
 from enum import Enum
 
@@ -41,9 +42,8 @@ class KeyRing:
         public = private.public_key()
         return KeyRing(private, public)
 
-    def sign(self, payload: Raw, **kwargs: Any):
-        private_pem = self._key.private_pem().decode()
-        return jwt.encode(payload, private_pem, **kwargs)
+    def sign(self, raw: str, **kwargs: Any) -> bytes:
+        ...
 
     def verify(self, sig: str, **kwargs: Any) -> bool:
         try:

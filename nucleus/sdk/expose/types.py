@@ -1,7 +1,4 @@
-import dataclasses
-
 from dataclasses import dataclass
-from abc import ABC, abstractmethod
 from nucleus.core.types import Protocol, Literal, Raw, Optional, CID
 
 Claims = Literal["s", "d", "t"]
@@ -100,7 +97,7 @@ class SEP001:
         self.payload.add(meta)
 
 
-class Serializer(ABC):
+class Serializer(Protocol):
     """Serializer specifies the methods needed to handle SEP001 serialization.
     Defines how to handle serialization for each strategy according to the specification, which includes:
 
@@ -111,21 +108,10 @@ class Serializer(ABC):
     ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
     """
 
-    sep: SEP001
-
-    def alg(self) -> str:
-        """Return the algorithm specified in JOSE header"""
-        return self.sep.header.alg
-
-    def header(self) -> Raw:
-        """Return a raw dict representation for SEP001 JOSE header"""
-
-        return dataclasses.asdict(
-            self.sep.header,
-        )
-
-    @abstractmethod
-    def payload(self) -> Raw:
+    def sep(self) -> SEP001:
         """Return an "out of the box" payload based on serialization strategy"""
 
         ...
+
+
+__all__ = ("SEP001", "Payload", "Header")
