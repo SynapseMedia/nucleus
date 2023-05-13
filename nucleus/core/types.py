@@ -15,12 +15,12 @@ refs:
 """
 
 import json
-import cid  # type: ignore
 import pathlib
 import urllib.parse as parse
 
 from collections import UserDict
 from hexbytes import HexBytes
+from multiformats import CID as MultiFormatCID
 
 # "inherit" from global typing
 from typing import *  # type: ignore
@@ -59,35 +59,36 @@ class _ExtensibleStr(str):
         # explicitly only pass value to the str constructor
         return super().__new__(cls, value)
 
+    def __deepcopy__(self, *_: Any):
+        """Override deep copy to avoid serialization error with underlying object"""
+        return self
+
 
 class CID(_ExtensibleStr):
-    """Enhanced bridge string type extended with features needed to handle CIDs"""
+    """Enhanced bridge string type extended with features needed to handle CIDs
+    ref: https://multiformats.readthedocs.io/en/latest/cid.html
+    """
 
-    _cid: Union[cid.CIDv0, cid.CIDv1]
+    _cid: MultiFormatCID
 
     def __init__(self, value: str):
         try:
-            self._cid = cid.from_string(value)  # type: ignore
-        except ValueError:
-            # we want to allow control the behavior using `valid` method
-            ...
+            # a CID is always a CID, so if it's not valid, it simply can't be one
+            # raise an exception if an invalid CID is passed
+            self._cid = MultiFormatCID.decode(value)
+        except (ValueError, KeyError) as e:
+            raise ValueError(str(e))
+
+    def __bytes__(self):
+        return bytes(self._cid)
 
     def __getattr__(self, name: str) -> Any:
-        if name == "_cid" or not self._cid:
-            raise AttributeError(name)
+        """Proxy handling CID features"""
         return getattr(self._cid, name)
 
-    def valid(self) -> bool:
-        return cid.is_cid(self)  # type: ignore
-
     @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v: str):
-        if not cls(v).valid():
-            raise ValueError("string must be a CID")
+    def create(cls, *args: Any, **kwargs: Any):
+        return cls(str(MultiFormatCID(*args, **kwargs)))
 
 
 class URL(_ExtensibleStr):
@@ -98,15 +99,10 @@ class URL(_ExtensibleStr):
     _parsed: parse.ParseResult
 
     def __init__(self, value: str):
-        try:
-            self._parsed = parse.urlparse(value)
-        except ValueError:
-            # we want to allow control the behavior using `valid` method
-            ...
+        self._parsed = parse.urlparse(value)
 
     def __getattr__(self, name: str) -> str:
-        if name == "_parsed" or not self._parsed:
-            raise AttributeError(name)
+        """Proxy handling urlparse features"""
         return getattr(self._parsed, name)
 
     def valid(self) -> bool:
@@ -118,6 +114,7 @@ class URL(_ExtensibleStr):
 
     @classmethod
     def __get_validators__(cls):
+        """Add compat with pydantic validators"""
         yield cls.validate
 
     @classmethod
@@ -137,9 +134,6 @@ class Path(_ExtensibleStr):
 
     def __getattr__(self, name: str) -> Any:
         """Proxy handling pathlib features"""
-        if name == "_path" or not self._path:
-            # avoid recursion
-            raise AttributeError(name)
         return getattr(self._path, name)
 
     def size(self):
@@ -148,14 +142,13 @@ class Path(_ExtensibleStr):
 
     @classmethod
     def __get_validators__(cls):
+        """Add compat with pydantic validators"""
         yield cls.validate
 
     @classmethod
     def validate(cls, v: str):
         if not cls(v).exists():
             raise ValueError("string must be a Path")
-
-        ...
 
 
 class JSON(UserDict[Any, Any]):

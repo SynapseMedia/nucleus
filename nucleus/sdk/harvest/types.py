@@ -17,3 +17,6 @@ class Collector(ABC):
     def __iter__(self) -> Iterator[JSON]:
         """Collect metadata from any kind of data input"""
         ...
+
+
+__all__ = ("Collector",)
