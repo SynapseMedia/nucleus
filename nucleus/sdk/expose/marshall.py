@@ -117,4 +117,4 @@ class Compact:
         ...
 
 
-__all__ = ("Marshall", "Compact")
+__all__ = ("DagJose", "Compact")

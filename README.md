@@ -11,8 +11,9 @@
 
 ***NOTE!*** Nucleus is **alpha-stage** software. It means nucleus hasn't been security audited and programming APIs and data formats can still change.
 
-Nucleus its a low level compilation of "toolchain" for media decentralization.
-It includes:
+Nucleus is a low-level compilation of a "toolchain" for media decentralization. It provides a set of functionalities to facilitate the processing, storage, and distribution of multimedia in a decentralized manner.
+
+The key features of Nucleus include:
 
 - Metadata harvesting
 - Multimedia processing
@@ -20,28 +21,28 @@ It includes:
 - Metadata distribution
 - Web3 instruments
 
-The design so far contains 3 layers of abstraction:
+Nucleus follows a modular and layered design approach, consisting of the following layers:
 
-1. **The Core**: "The building block" packages here are intended to have minimal or no dependencies, those that have dependencies will be with the same internal packages and as far as possible they will be utility packages.
+1. **The Core**: This layer contains the building block packages that have minimal or no external dependencies. Any dependencies within the core layer will be limited to other internal packages.
 
-2. **The SDK**: Exposes the API to the client at the programming level to use core functions in a safe and conformant way.
+2. **The SDK**: The SDK exposes the programming-level API to interact with the core functions in a safe and conformant way.
 
-3. **The CLI and HTTP API**: These make use of the sdk to form the services.
+3. **The CLI and HTTP API**: These components utilize the SDK to provide services through command-line interfaces (CLI) and HTTP API endpoints.
 
 ## Summary
 
-Nucleus proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia.
+Nucleus proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:
 
-1. **Harvesting**: metadata collection
-2. **Processing**: media processing
-3. **Storage**:  storage in IPFS network
-4. **Expose**: metadata imprinted onto Blocks/IPLD
-5. **Mint**: mint meta as NFTs
-6. **Retrieval**: unmarshall and distribution of metadata
+1. **Harvesting**: Collect metadata associated with the multimedia content.
+2. **Processing**: Performing media processing tasks.
+3. **Storage**:  Store the processed content in the IPFS network.
+4. **Expose**: Distribute metadata through the IPFS ecosystem.
+5. **Mint**: Create metadata as NFTs (Non-Fungible Tokens).
+6. **Retrieval**: Retrieve and unmarshal metadata for further distribution.
 
-The pipeline design was based on the decoupling principle, allowing for different use cases. For instance, some elements such as the **storage** component may be optional if data is already stored on the IPFS network, or the **mint** component may be optional if there is no need to create NFTs for the metadata. Similarly, the **processing** component may not be necessary if the media is ready for storage.
+The pipeline design follows the decoupling principle, allowing for flexible use cases. For example, the **storage** component can be optional if data is already stored on the IPFS network. Similarly, the **mint** component can be skipped if there is no need to create NFTs for the metadata. The **processing** component may also be unnecessary if the media is already prepared for storage.
 
-"Retrieval" is an auxiliary component that allows for the retrieval and unmarshalling of data from meta lake as raw information that can then be used for distribution through any available or preferred means. In our case, we use Orbit as a distributed ledger for the "out of the box" consumption of our metadata.
+The **Retrieval** component facilitates the retrieval and unmarshalling of data from IPFS ecosystem, which can then be distributed through various means. eg.OrbitDB, Gun, etc..
 
 ## Installing
 

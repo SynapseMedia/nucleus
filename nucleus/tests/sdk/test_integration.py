@@ -10,12 +10,7 @@ from nucleus.core.types import List, Path
 from nucleus.sdk.harvest import Image, Model
 from nucleus.sdk.storage import Store, Service, Edge, Object
 from nucleus.sdk.processing import Resize, Engine, File
-from nucleus.sdk.expose import (
-    Structural,
-    Descriptive,
-    Technical,
-    Compact,
-)
+from nucleus.sdk.expose import Structural, Descriptive, Technical, Compact, Algorithm
 
 
 # @responses.activate
@@ -71,7 +66,9 @@ def test_nucleus():
 
         # standard implementation
         # https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
-        sep001 = expose.public(media_type)  # image/jpeg
+        sep001 = expose.standard(media_type)  # image/jpeg
+
+        sep001.add_alg(Algorithm.ES256K)  # define jose alg
         sep001.add_metadata(Descriptive(**dict(nucleus)))
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
