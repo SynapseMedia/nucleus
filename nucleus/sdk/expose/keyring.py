@@ -11,17 +11,17 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-class Algorithm(Enum):
+class Algorithm(str, Enum):
     ES256 = "ES256"
     ES256K = "ES256K"  # ECDSA + secp256k1
 
 
-class KeyType(Enum):
+class KeyType(str, Enum):
     EllipticCurve = "EC"
     RSA = "RSA"
 
 
-class Curve(Enum):
+class Curve(str, Enum):
     P256 = "P256"
     ED25519 = "ED25519"
     Secp256k1 = "Secp256k1"
@@ -52,3 +52,6 @@ class KeyRing:
             return True
         except jwt.DecodeError as error:
             raise error
+
+
+__all__ = ("Algorithm", "KeyType", "Curve", "KeyRing")

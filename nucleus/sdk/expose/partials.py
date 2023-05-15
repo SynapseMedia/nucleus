@@ -1,7 +1,7 @@
-from .types import SEP001, Header, Payload
+from .standard import SEP001, Header, Payload
 
 
-def public(type: str) -> SEP001:
+def standard(type: str) -> SEP001:
     """SEP001 factory
 
     :param type: the type of media to expose
@@ -9,10 +9,10 @@ def public(type: str) -> SEP001:
     :rtype: SEP001
     """
 
-    header = Header(type, alg="ES256")  # TODO Signed not encrypted?
+    return SEP001(
+        Header(type),
+        Payload(),
+    )
 
-    payload = Payload()
-    return SEP001(header, payload)
 
-
-__all__ = ("public",)
+__all__ = ("standard",)
