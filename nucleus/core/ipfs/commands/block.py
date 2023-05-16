@@ -1,15 +1,14 @@
-import dataclasses
+import nucleus.core.dataclass as dc
 
 from dataclasses import dataclass, field
 from nucleus.core.types import Setting, CID
 from nucleus.core.http import LiveSession
-
 from .constants import IPFS_API_BLOCK_PUT, IPFS_API_BLOCK_GET
 
 
 @dataclass(slots=True)
 class Put:
-    """Put text in ipfs block.
+    """Put data in block.
     ref: http://docs.ipfs.tech/reference/kubo/rpc/#api-v0-block-put
     """
 
@@ -22,8 +21,8 @@ class Put:
 
     def __call__(self, session: LiveSession):
         # convert dataclass to request IPFS 'add endpoint' attributes.
-        params = dataclasses.asdict(self)
-        params.pop("input", None)
+        # we don't want `input` into params
+        params = dc.asdict_exclusive(self, ("input",))
         compiled_settings = dict(self.input)
         # post request to /add endpoint using defined params and settings
         return session.post(IPFS_API_BLOCK_PUT, params=params, **compiled_settings)
@@ -38,8 +37,10 @@ class Get:
     arg: CID
 
     def __call__(self, session: LiveSession):
-        params = dataclasses.asdict(self)
-        return session.post(IPFS_API_BLOCK_GET, params=params)
+        return session.post(
+            IPFS_API_BLOCK_GET,
+            params=dc.asdict(self),
+        )
 
 
 @dataclass(slots=True)
@@ -53,8 +54,10 @@ class Remove:
     quiet: bool = False
 
     def __call__(self, session: LiveSession):
-        params = dataclasses.asdict(self)
-        return session.post(IPFS_API_BLOCK_GET, params=params)
+        return session.post(
+            IPFS_API_BLOCK_GET,
+            params=dc.asdict(self),
+        )
 
 
 __all__ = ("Put", "Get", "Remove")

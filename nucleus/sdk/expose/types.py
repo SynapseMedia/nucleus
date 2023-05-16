@@ -1,6 +1,12 @@
 from nucleus.core.types import Protocol, Literal
+from jwcrypto import jwk, jws, jwe
 
 Claims = Literal["s", "d", "t"]
+
+JWK = jwk.JWK
+JWS = jws.JWS
+JWE = jwe.JWE
+
 
 
 class Metadata(Protocol):
@@ -18,20 +24,6 @@ class Metadata(Protocol):
         Examples of valid claims include: s, t, d
         """
         ...
-
-
-class Serializer(Protocol):
-    """Serializer specifies the methods needed to handle SEP001 serialization.
-    Defines how to handle serialization for each strategy according to the specification, which includes:
-
-    - Compact
-    - DAG-JOSE
-
-    This template class must be implemented by other classes that provide concrete serialization logic.
-    ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
-    """
-
-    ...
 
 
 __all__ = ()

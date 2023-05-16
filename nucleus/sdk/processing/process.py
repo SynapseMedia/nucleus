@@ -1,4 +1,4 @@
-import ffmpeg  # type: ignore
+import ffmpeg  
 import functools
 import PIL.Image as PIL
 

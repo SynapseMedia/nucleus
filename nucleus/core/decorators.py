@@ -3,7 +3,7 @@ from nucleus.core.types import Any, Func, ExceptionType
 
 
 def proxy_exception(*, expected: ExceptionType, target: ExceptionType) -> Func:
-    """It decorate database operations to handle underlying exceptions and raise a new standard exception"""
+    """It decorate underlying raised exceptions and raise a new standard exception"""
 
     def decorator(func: Func):
         @functools.wraps(func)

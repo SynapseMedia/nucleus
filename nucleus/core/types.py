@@ -79,6 +79,10 @@ class CID(_ExtensibleStr):
         except (ValueError, KeyError) as e:
             raise ValueError(str(e))
 
+    def format(self) -> MultiFormatCID:
+        """Return internal CID object"""
+        return self._cid
+
     def __bytes__(self):
         return bytes(self._cid)
 
