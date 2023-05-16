@@ -2,7 +2,7 @@ import functools
 import nucleus.core.ipfs as ipfs_
 
 from nucleus.core.types import CID, Optional, JSON
-from nucleus.core.ipfs import Add, File, Text, Put
+from nucleus.core.ipfs import Add, Put, File, Text
 from nucleus.sdk.processing import File as FileType
 from .types import Storable, Object, Store
 

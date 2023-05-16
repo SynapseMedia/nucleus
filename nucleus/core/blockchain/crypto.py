@@ -1,5 +1,3 @@
-import cid  # type: ignore
-
 # Convention for importing types
 from web3 import Web3
 from nucleus.core.types import Primitives, HexStr, CID
@@ -22,6 +20,5 @@ def cid_to_uint256(cid_: CID) -> int:
     :return: uint256 cid representation
     :rtype: int
     """
-    cid_ = cid.make_cid(cid_)  # type: ignore
-    cid_base16 = cid_.encode("base16")  # type: ignore
-    return int("0x" + cid_base16[1:].decode("utf-8"), 0)  # type: ignore
+    cid_base16 = cid_.format().encode("base16")
+    return int("0x" + cid_base16[1:], 0)

@@ -8,7 +8,7 @@ import nucleus.sdk.processing as processing
 
 from collections import ChainMap
 from PIL.Image import Image as Pillow
-from ffmpeg.nodes import FilterableStream as FFMPEG  # type: ignore
+from ffmpeg.nodes import FilterableStream as FFMPEG  
 
 from nucleus.core.types import Path, Any, no_type_check, Dynamic
 from nucleus.sdk.exceptions import ProcessingEngineError

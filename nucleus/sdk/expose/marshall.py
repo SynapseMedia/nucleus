@@ -2,19 +2,14 @@ from __future__ import annotations
 
 
 import hashlib
-import dataclasses
-import functools
-import json
-
 import dag_cbor
 
-from dataclasses import dataclass
-from base64 import urlsafe_b64encode, b64encode
-from nucleus.core.types import JSON, Raw, CID
-from nucleus.sdk.storage import Object, Store
+from jwcrypto.common import json_decode  # type: ignore
+from nucleus.core.types import JSON, Raw, CID, Union, List, Any
 
-from .types import Serializer, SEP001
-from .keyring import KeyRing
+from .signature import Sign, Serializer
+from .standard import SEP001
+from .types import JWS, JWE
 
 
 def cid_from_bytes(data: bytes, codec: str = "raw") -> CID:
@@ -29,61 +24,40 @@ def cid_from_bytes(data: bytes, codec: str = "raw") -> CID:
     return CID.create("base32", 1, codec, ("sha2-256", digest))
 
 
-def dispatch(sep: SEP001):
-
-    # TODO singledispatch aca
-    @functools.singledispatch
-    # TODO el callable permite la firma por eso se devuelve un callback
-    # eg marshall(local_storage)(dag_jose)(keyRing)
-    def sign(serializer: Serializer) -> Callable[KeyRing, Any]:
-        ...
-
-    @serialize.register
-    def _(serializer: DagJose):
-        ...
-
-    return serialize
-
-
-@dataclass(slots=True)
-class DagJose:
+class DagJose(Serializer):
     """Dag-JOSE Serialization"""
 
-    sep: SEP001
+    _cbor: bytes
+    _cid: CID
 
-    def encode(self, kr: KeyRing) -> Raw:
+    def __init__(self, sep: SEP001):
+        super().__init__(sep)
+        # encode the payload as dag-cbor
+        payload = vars(self._sep.payload)
+        self._cbor = dag_cbor.encode(payload)
+        self._cid = cid_from_bytes(self._cbor)
+        self._assets = []
 
-        cbor_encoded = dag_cbor.encode(payload)
-        cid = cid_from_bytes(cbor_encoded)
-        cid_bytes = bytes(cid)
-        header_bytes = bytes(JSON(header))
+    def encode(self, jwt: Union[JWS, JWE]):
+        """Encode JWS/JWE general serialization to dag-jose"""
+        general_json = json_decode(jwt.serialize(False))  # type: ignore
+        return {"link": self._cid, **general_json}
 
-        payload_cid = urlsafe_b64encode(cid_bytes).rstrip(b"=").decode()
-        header_encoded = urlsafe_b64encode(header_bytes).rstrip(b"=").decode()
-        signing_input = ".".join([header_encoded, payload_cid])
+    def assets(self) -> List[Any]:
+        """Assets could be used to return storable assets.
+        eg. After generate CID from payload dag-cbor we need to store the bytes into blocks
+        """
+        return [self._cbor]
 
-        signature = kr.sign(signing_input)
-        encoded_signature = urlsafe_b64encode(signature).rstrip(b"=").decode()
-
-        # TODO new type
-        return {
-            "payload": f"{payload_cid}",
-            "signatures": [
-                {
-                    "header": {"jwk": {}},  # TODO agrear aca jwk, alg, typ
-                    "protected": f"{header_encoded}",
-                    "signature": f"{encoded_signature}",
-                }
-            ],
-            "link": f"{cid}",
-        }
+    def payload(self) -> bytes:
+        """Serialize SEP using dag-jose IPLD standard
+        ref: https://ipld.io/specs/codecs/dag-jose/spec/
+        """
+        return bytes(self._cid)
 
 
-@dataclass(slots=True)
-class Compact:
+class Compact(Serializer):
     """JWS Compact Serialization"""
-
-    sep: SEP001
 
     def _payload_cid_values(self, payload: Raw) -> Raw:
         """Parse claims values to CIDs.
@@ -113,8 +87,11 @@ class Compact:
             payload[key] = str(cid_from_bytes(raw_claim))
         return payload
 
-    def encode(self, kr: KeyRing) -> str:
+    def payload(self) -> bytes:
+        """SEP as compact serialization
+        ref: https://www.rfc-editor.org/rfc/rfc7515#section-3.1
+        """
         ...
 
 
-__all__ = ("DagJose", "Compact")
+__all__ = ("DagJose", "Compact", "Sign")

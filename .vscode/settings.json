@@ -3,6 +3,7 @@
     "cSpell.words": [
         "Algorand",
         "autouse",
+        "cbor",
         "coloredlogs",
         "creational",
         "dataclass",
@@ -16,6 +17,7 @@
         "ipfs",
         "IPNS",
         "jsonify",
+        "jwcrypto",
         "lastrowid",
         "levelname",
         "muxing",
@@ -23,6 +25,7 @@
         "programname",
         "pydantic",
         "rtype",
+        "Secp",
         "spidy",
         "strerror",
         "tqdm",

@@ -10,7 +10,14 @@ from nucleus.core.types import List, Path
 from nucleus.sdk.harvest import Image, Model
 from nucleus.sdk.storage import Store, Service, Edge, Object
 from nucleus.sdk.processing import Resize, Engine, File
-from nucleus.sdk.expose import Structural, Descriptive, Technical, Compact, Algorithm
+from nucleus.sdk.expose import (
+    Structural,
+    Descriptive,
+    Technical,
+    Sign,
+    DagJose,
+    KeyRing,
+)
 
 
 # @responses.activate
@@ -67,72 +74,18 @@ def test_nucleus():
         # standard implementation
         # https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
         sep001 = expose.standard(media_type)  # image/jpeg
-
-        sep001.add_alg(Algorithm.ES256K)  # define jose alg
         sep001.add_metadata(Descriptive(**dict(nucleus)))
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
 
-        # from nucleus.core.types import CID
-
-        # assert 0
-        # import dag_cbor
-        # import hashlib
-        # import json
-        # from multiformats import CID
-        # from base64 import urlsafe_b64encode, b64encode
-        # from cryptography.hazmat.primitives.asymmetric import ec
-        # from cryptography.hazmat.primitives import serialization
-        # from cryptography.hazmat.primitives import hashes
-        # from nucleus.core.types import JSON
-
-        # header = json.dumps({"alg": "ES256K", "typ": "image/png"})
-        # payload = {
-        #     "s": {"cid": "bafkzvzacdkfkzvcl4xqmnelaobsppwxahpnqvxhui4rmyxlaqhrq"},
-        #     "d": {
-        #         "name": "Nucleus the SDK 1",
-        #         "desc": "Building block for multimedia decentralization",
-        #         "contributors": ["Jacob", "Geo", "Dennis", "Mark"],
-        #     },
-        #     "t": {"size": 3495, "width": 50, "height": 50},
-        #     "r": {},
-        # }
-
-        # # este proceso es equivalente a agregar el payload en dag y luego usar el cid bytes
-        # cbor = dag_cbor.encode(payload)
-        # hashed = hashlib.sha256(bytes(JSON(payload["s"])))
-        # digest = hashed.digest()
-
-        # cid = CID("base32", 1, "raw", ("sha2-256", digest))
-        # assert 0
-        # cid_bytes = bytes(cid)
-
-        # payload_cid = urlsafe_b64encode(cid_bytes).rstrip(b"=").decode()
-        # header_encoded = urlsafe_b64encode(header.encode()).rstrip(b"=").decode()
-        # signing_input = ".".join([header_encoded, payload_cid])
-        # signature = distributor.key().private.sign(
-        #     signing_input.encode(), ec.ECDSA(hashes.SHA256())
-        # )
-
-        # encoded_signature = urlsafe_b64encode(signature).rstrip(b"=").decode()
-        # jwt = ".".join([header_encoded, payload_cid, encoded_signature])
-        # store_cid = local_storage(cbor)
-
-        # result = {
-        #     "payload": f"{payload_cid}",
-        #     "signatures": [
-        #         {
-        #             "header": {"jwk": {}},  # TODO agrear aca jwk, alg, typ
-        #             "protected": f"{header_encoded}",
-        #             "signature": f"{encoded_signature}",
-        #         }
-        #     ],
-        #     "link": f"{cid}",
-        # }
-
         # init our standard distribution for sep001
-        # TODO  approach sep001.serialize(Compact())?
-        serialization: Compact = Compact(sep001)
+        
+        signer = Sign(DagJose(sep001))
+        signer.add_key(KeyRing())
+        signer.serialize()
+        
+        assert 0
+
         distributor: Marshall = expose.dispatch(serialization)
         stored_signature: Object = distributor.announce(sep001)
 

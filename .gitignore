@@ -37,3 +37,4 @@ htmlconv
 watchit.db
 coverage.xml
 .models/*
+typings/*
