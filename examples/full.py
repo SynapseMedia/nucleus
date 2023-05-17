@@ -84,10 +84,10 @@ def main():
         
         # we get dag-jose signed.. let's store it
         serialized = signed_jose.serialize()
-        cid = serialized.save_to(local_storage)
+        obj: Object = serialized.save_to(local_storage)
         
         # what we do with our new and cool CID?
-        logger.console.print(cid)
+        logger.console.print(obj.hash)
 
         
         """
