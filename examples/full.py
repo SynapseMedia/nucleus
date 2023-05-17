@@ -53,7 +53,6 @@ def main():
     with logger.console.status("Storage"):
         local_storage: Store = storage.ipfs(LOCAL_ENDPOINT)
         stored_file_object: Object = local_storage(output_file)
-
         # choose and connect an edge service to pin our resources. eg. estuary
         estuary: Service = storage.estuary(FAKE_KEY)  # estuary service
         # based on service get the client
