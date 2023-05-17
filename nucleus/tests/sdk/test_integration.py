@@ -52,7 +52,7 @@ def test_nucleus():
         # TODO esta fallando
         image: Image = harvest.image(path=Path("example.jpg"))
         image_engine: Engine = processing.engine(image)
-        image_engine.configure(Resize(720,480))
+        image_engine.configure(Resize(720, 480))
         # finally save the processed image to our custom dir
         output_file: File = image_engine.save(Path("cat.jpg"))
 
