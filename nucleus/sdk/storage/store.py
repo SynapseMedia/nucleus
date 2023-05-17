@@ -29,7 +29,8 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         :return: Object instance
         :rtype: Object
         """
-        raise NotImplementedError(f"cannot process not registered storable `{data}")
+        raise NotImplementedError(
+            f"cannot process not registered storable `{data}")
 
     @store.register
     def _(data: FileType) -> Object:

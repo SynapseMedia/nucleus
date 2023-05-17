@@ -1,4 +1,4 @@
-import ffmpeg  
+import ffmpeg
 
 # Convention for importing types
 from nucleus.core.types import Path, Any, JSON

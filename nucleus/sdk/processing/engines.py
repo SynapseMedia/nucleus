@@ -8,7 +8,7 @@ import nucleus.sdk.processing as processing
 
 from collections import ChainMap
 from PIL.Image import Image as Pillow
-from ffmpeg.nodes import FilterableStream as FFMPEG  
+from ffmpeg.nodes import FilterableStream as FFMPEG
 
 from nucleus.core.types import Path, Any, no_type_check, Dynamic
 from nucleus.sdk.exceptions import ProcessingEngineError
@@ -116,7 +116,9 @@ class ImageEngine(Engine):
         # get attributes from PIL.Image object
         members = inspect.getmembers(PIL.Image.open(path))
         filter_private = filter(lambda x: not x[0].startswith("_"), members)
-        filter_method = filter(lambda x: not inspect.ismethod(x[1]), filter_private)
+        filter_method = filter(
+            lambda x: not inspect.ismethod(
+                x[1]), filter_private)
         image_introspection = _to_object(dict(filter_method))
         # patch to avoid size conflict keyword
         delattr(image_introspection, "size")
