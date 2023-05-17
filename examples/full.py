@@ -1,8 +1,10 @@
+
 import nucleus.core.logger as logger
 import nucleus.sdk.harvest as harvest
 import nucleus.sdk.processing as processing
 import nucleus.sdk.storage as storage
 import nucleus.sdk.expose as expose
+
 
 from nucleus.core.types import List, Path
 from nucleus.sdk.harvest import Image, Model
@@ -12,18 +14,19 @@ from nucleus.sdk.expose import (
     Structural,
     Descriptive,
     Technical,
-    Compact,
-    Marshall,
+    KeyRing,
+    DagJose,
+    Sign,
+    # Compact
 )
 
 
 def main():
 
     LOCAL_ENDPOINT = "http://localhost:5001"
-    FAKE_NODE_ID = "12D3KooWA86iJopk9FZcXdJZo8RpkFLV4D2qvKMsqCktiBzXTU11"
     FAKE_KEY = "ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY"
 
-    # 1. prepare our model schema to collect/validate/clean data and publish it
+    # 1. prepare our model schema to collect/validate/clean data
     with logger.console.status("Harvesting"):
 
         class Nucleus(Model):
@@ -31,19 +34,18 @@ def main():
             desc: str
             contributors: List[str]
 
-        nucleus: Model = Nucleus.parse_obj(
-            {
-                "name": "Nucleus the SDK 1",
-                "desc": "Building block for multimedia decentralization",
-                "contributors": ["Jacob", "Geo", "Dennis", "Mark"],
-            }
+        # set our data in the model
+        nucleus: Model = Nucleus(
+            name="Nucleus the SDK",
+            desc="Building block for multimedia decentralization",
+            contributors=["Jacob", "Geo", "Dennis", "Mark"],
         )
 
     # 2. init our processing engine based on our media model
     with logger.console.status("Processing"):
         # "infer" engine based on input media type
         image: Image = harvest.image(path=Path("arch.png"))
-        image_engine: Engine[Image] = processing.engine(image)
+        image_engine: Engine = processing.engine(image)
         image_engine.configure(Resize(50, 50))
         # finally save the processed image to our custom dir
         output_file: File = image_engine.save(Path("arch2.png"))
@@ -54,8 +56,9 @@ def main():
         stored_file_object: Object = local_storage(output_file)
 
         # choose and connect an edge service to pin our resources. eg. estuary
-        estuary: Service = storage.estuary(FAKE_KEY)  #  estuary service
-        edge_client: Edge = storage.service(estuary)  #  based on service get the client
+        estuary: Service = storage.estuary(FAKE_KEY)  # estuary service
+        # based on service get the client
+        edge_client: Edge = storage.service(estuary)
         edge_client.pin(stored_file_object)  # pin our cid in estuary
 
     # 4. expose our media through the standard
@@ -66,27 +69,45 @@ def main():
         height = output_file.meta.height
         media_type = output_file.meta.type
 
-        # standard implementation https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+        # standard implementation
+        # https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
         sep001 = expose.standard(media_type)  # image/jpeg
         sep001.add_metadata(Descriptive(**dict(nucleus)))
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
 
         # init our standard distribution for sep001
-        broker: Compact = Compact(key=FAKE_NODE_ID, store=local_storage)
-        distributor: Marshall = expose.dispatch(broker)
-        stored_signature: Object = distributor.announce(sep001)
+        key = KeyRing()
+        serializer = DagJose(sep001) # or Compact(sep001)
+        signed_jose = Sign(serializer)
+        signed_jose.add_key(key)
+        
+        # we get dag-jose signed.. let's store it
+        serialized = signed_jose.serialize()
+        cid = serialized.save_to(local_storage)
+        
+        # what we do with our new and cool CID?
+        logger.console.print(cid)
 
-        # verify our standard signature
-        key: str = distributor.key()
-        signature: str = distributor.sign(sep001)
-
-    # assert expected outputs
-    expected_cid = "bafkreicxagdqix6okyzdcpnvuyahhewfd6vafujctxxdv6ckegrelzs5hm"
-    expected_key = "d673fef08feb368505b575a615183d8982133403ebbbe07fd8baa4b6d3ce52e2"
-    valid_key = distributor.verify(sep001, signature)
-
-    assert valid_key == True
-    assert key == expected_key
-    assert stored_signature.hash == expected_cid
-    assert stored_signature.size == 443
+        
+        """
+        Lets try:
+        
+            ipfs dag get bagcqceraajwo66kumbcrxf2todw7wjrmayh7tjwaegwigcgpzk745my4qa5a
+        
+        Output:
+        
+            {
+                "link": {
+                    "/": "bafyreicjeouqwpslvdjm7nznimlvhdiibv6icucr73eqw56sm23kbs3yfy"
+                },
+                "payload": "AXESIEkjqQs-S6jSz7ctQxdTjQgNfIFQUf7JC3fSZragy3gu",
+                "signatures": [
+                    {
+                    "protected": "eyJhbGciOiJFUzI1NksiLCJqd2siOnsiYWxnIjoiRVMyNTZLIiwiY3J2Ijoic2VjcDI1NmsxIiwiZCI6IlFzVEtGY2pfSVE5VnQxWjc2S0F5V3V2ZzdROHNTRm4taXA1MWxyQm9hc3MiLCJrdHkiOiJFQyIsInVzZSI6InNpZyIsIngiOiJqLTlzOEZVTExCdmFnRm9yeE9FcmVGbUVKOUd4R19EU3dmaG1EYXNtY0hvIiwieSI6Imktc0R6cU5tRXZIVTFPcll3MHRfN2wtZG5razFEQ0pqNTRiaUthX1FsdVEifSwidHlwIjoiaW1hZ2UvcG5nIn0",
+                    "signature": "CK1djEEuVuyBlr2uA9RvJL86sgpgZnyf2jL59_imQ4xU5-88CNQ-kHbORkUigde43bNPzO-ylxM0eIm9GgXpqw"
+                    }
+                ]
+            }
+        
+        """

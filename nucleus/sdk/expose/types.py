@@ -8,7 +8,6 @@ JWS = jws.JWS
 JWE = jwe.JWE
 
 
-
 class Metadata(Protocol):
     """Metadata defines the expected behavior of metadata types.
     Examples of metadata types include:

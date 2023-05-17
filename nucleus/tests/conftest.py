@@ -41,7 +41,7 @@ def setup_database():
 
 @pytest.fixture()
 def rpc_api_add_request(**kwargs: Any):
-    mock_link = "http://localhost:5001/api/v0/add?pin=False&quieter=True&hash=blake2b-208&cid_version=1"
+    mock_link = "http://localhost:5001/api/v0/add?pin=False&quieter=True&hash=blake2b-208&cid-version=1"
     expected_output = '{"Hash": "bafyjvzacdjrk37kqvy5hbqepmcraz3txt3igs7dbjwwhlfm3433a", "Name": "meta", "Size": "197"}'
 
     responses.add(

@@ -2,7 +2,7 @@ import functools
 import nucleus.core.ipfs as ipfs_
 
 from nucleus.core.types import CID, Optional, JSON
-from nucleus.core.ipfs import Add, Put, File, Text
+from nucleus.core.ipfs import File, Text, Add, BlockPut, DagPut
 from nucleus.sdk.processing import File as FileType
 from .types import Storable, Object, Store
 
@@ -60,7 +60,7 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         :rtype: Object
         """
 
-        command = Put(Text(data))
+        command = BlockPut(Text(data))
         # expected block/put output from API
         # {Key: .., Size: ..}
         output = api(command)
@@ -93,7 +93,17 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         """
 
         bytes_ = bytes(data)
-        return store(bytes_)
+        command = DagPut(Text(bytes_))
+        # expected block/put output from API
+        # {"Cid": { "/": "<cid-string>" }}
+        output = api(command)
+        raw_cid = output["Cid"]["/"]
+
+        return Object(
+            name=raw_cid,
+            hash=CID(raw_cid),
+            size=len(data),
+        )
 
     return store
 
