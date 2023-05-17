@@ -5,9 +5,11 @@
 [![CI](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/ZorrillosDev/watchit-toolkit/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/SynapseMedia/nucleus/branch/main/graph/badge.svg?token=M9FF5B6UNA)](https://codecov.io/gh/SynapseMedia/nucleus)
 
-<img src="arch.png"
-    alt="Markdown Monster icon"
-    style="margin: 10px auto" />
+<div align="center">
+  <img src="arch.png"
+      alt="Markdown Monster icon"
+      style="margin: 10px auto; " />
+</div>
 
 ***NOTE!*** Nucleus is **alpha-stage** software. It means nucleus hasn't been security audited and programming APIs and data formats can still change.
 
