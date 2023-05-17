@@ -15,7 +15,6 @@ def standard(type: str) -> SEP001:
     )
 
 
-
 # TODO agregar combos de algs aca en partials
 # ES256
 # ES256K

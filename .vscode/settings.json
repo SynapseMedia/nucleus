@@ -6,6 +6,7 @@
         "cbor",
         "coloredlogs",
         "creational",
+        "cypher",
         "dataclass",
         "ENOENT",
         "executescript",

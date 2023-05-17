@@ -1,7 +1,7 @@
-from .commands import *
+from .cmd import *
 from .connect import *
 
-from . import commands
+from . import cmd
 from . import connect
 
-__all__ = [*commands.__all__, *connect.__all__]  # type: ignore
+__all__ = [*cmd.__all__, *connect.__all__]  # type: ignore

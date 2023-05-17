@@ -1,4 +1,5 @@
 import pytest
+# import responses
 import nucleus.core.logger as logger
 import nucleus.sdk.harvest as harvest
 import nucleus.sdk.processing as processing
@@ -14,14 +15,15 @@ from nucleus.sdk.expose import (
     Structural,
     Descriptive,
     Technical,
-    Sign,
-    DagJose,
     KeyRing,
+    # DagJose,
+    Sign,
+    Compact
 )
 
 
 # @responses.activate
-# @pytest.mark.skip(reason="need mocks")
+@pytest.mark.skip(reason="need mocks")
 def test_nucleus():
     """Should return valid Pin for valid CID"""
 
@@ -60,8 +62,8 @@ def test_nucleus():
         # choose and connect an edge service to pin our resources. eg. estuary
         estuary: Service = storage.estuary(FAKE_KEY)  # estuary service
         # based on service get the client
-        # edge_client: Edge = storage.service(estuary)
-        # edge_client.pin(stored_file_object)  # pin our cid in estuary
+        edge_client: Edge = storage.service(estuary)
+        edge_client.pin(stored_file_object)  # pin our cid in estuary
 
     # 4. expose our media through the standard
     with logger.console.status("Expose"):
@@ -79,16 +81,13 @@ def test_nucleus():
         sep001.add_metadata(Technical(size=size, width=width, height=height))
 
         # init our standard distribution for sep001
+        key = KeyRing()
         
-        signer = Sign(DagJose(sep001))
-        signer.add_key(KeyRing())
-        signer.serialize()
+        signed_jose = Sign(Compact(sep001))
+        signed_jose.add_key(key)
+        # we get dag-jose signed.. let's store it
+        serialized = signed_jose.serialize()
+        serialized.save_to(local_storage)
         
-        assert 0
+        # what we do with the CID?
 
-        distributor: Marshall = expose.dispatch(serialization)
-        stored_signature: Object = distributor.announce(sep001)
-
-        # # verify our standard signature
-        # signature: str = distributor.sign(sep001)
-        # assert distributor.verify(sep001, signature)
