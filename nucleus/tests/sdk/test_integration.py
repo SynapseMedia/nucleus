@@ -17,14 +17,14 @@ from nucleus.sdk.expose import (
     Descriptive,
     Technical,
     KeyRing,
-    # DagJose,
+    DagJose,
     Sign,
-    Compact,
+    # Compact,
 )
 
 
 # @responses.activate
-@pytest.mark.skip(reason="need mocks")
+# @pytest.mark.skip(reason="need mocks")
 def test_nucleus():
     """Should return valid Pin for valid CID"""
 
@@ -49,11 +49,12 @@ def test_nucleus():
     # 2. init our processing engine based on our media model
     with logger.console.status("Processing"):
         # "infer" engine based on input media type
-        image: Image = harvest.image(path=Path("arch.png"))
+        # TODO esta fallando
+        image: Image = harvest.image(path=Path("example.jpg"))
         image_engine: Engine = processing.engine(image)
-        image_engine.configure(Resize(50, 50))
+        image_engine.configure(Resize(720,480))
         # finally save the processed image to our custom dir
-        output_file: File = image_engine.save(Path("arch2.png"))
+        output_file: File = image_engine.save(Path("cat.jpg"))
 
     # 3. store our processed image in local IPFS node and pin it in estuary
     with logger.console.status("Storage"):
@@ -63,8 +64,8 @@ def test_nucleus():
         # choose and connect an edge service to pin our resources. eg. estuary
         estuary: Service = storage.estuary(FAKE_KEY)  # estuary service
         # based on service get the client
-        edge_client: Edge = storage.service(estuary)
-        edge_client.pin(stored_file_object)  # pin our cid in estuary
+        # edge_client: Edge = storage.service(estuary)
+        # edge_client.pin(stored_file_object)  # pin our cid in estuary
 
     # 4. expose our media through the standard
     with logger.console.status("Expose"):
@@ -83,11 +84,12 @@ def test_nucleus():
 
         # init our standard distribution for sep001
         key = KeyRing()
-
-        signed_jose = Sign(Compact(sep001))
+        signed_jose = Sign(DagJose(sep001))
         signed_jose.add_key(key)
         # we get dag-jose signed.. let's store it
         serialized = signed_jose.serialize()
-        serialized.save_to(local_storage)
+        obj: Object = serialized.save_to(local_storage)
+        assert 0
+        print(obj)
 
         # what we do with the CID?
