@@ -38,3 +38,4 @@ watchit.db
 coverage.xml
 .models/*
 typings/*
+example.jpg
