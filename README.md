@@ -7,6 +7,7 @@
 
 <div align="center">
   <img src="arch.png" style="margin: 20px auto"/>
+  <hr/>
 </div>
 
 ***NOTE!*** Nucleus is **alpha-stage** software. It means nucleus hasn't been security audited and programming APIs and data formats can still change.
