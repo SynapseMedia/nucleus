@@ -11,7 +11,7 @@
 
 ***NOTE!*** Nucleus is **alpha-stage** software. It means nucleus hasn't been security audited and programming APIs and data formats can still change.
 
-Nucleus is a low-level compilation of a "toolchain" for media decentralization. It provides a set of functionalities to facilitate the processing, storage, and distribution of multimedia in a decentralized manner.
+Nucleus is a collection of low-level tools for media decentralization. It offers functionalities to make it easier to process, store, and distribute multimedia in a decentralized way.
 
 The key features of Nucleus include:
 
