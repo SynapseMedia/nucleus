@@ -24,7 +24,7 @@ from nucleus.sdk.expose import (
 
 
 # @responses.activate
-# @pytest.mark.skip(reason="need mocks")
+@pytest.mark.skip(reason="need mocks")
 def test_nucleus():
     """Should return valid Pin for valid CID"""
 
@@ -64,8 +64,8 @@ def test_nucleus():
         # choose and connect an edge service to pin our resources. eg. estuary
         estuary: Service = storage.estuary(FAKE_KEY)  # estuary service
         # based on service get the client
-        # edge_client: Edge = storage.service(estuary)
-        # edge_client.pin(stored_file_object)  # pin our cid in estuary
+        edge_client: Edge = storage.service(estuary)
+        edge_client.pin(stored_file_object)  # pin our cid in estuary
 
     # 4. expose our media through the standard
     with logger.console.status("Expose"):
