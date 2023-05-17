@@ -54,7 +54,7 @@ test-debug: venv
 	${PYTEST} --pdb ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
 
 test-coverage: 
-	${PYTEST} --cov-report term --cov-report  xml:coverage.xml --cov=src
+	${PYTEST} --cov-report term --cov-report  xml:coverage.xml --cov=nucleus
 
 test-check:
 	${PYTEST} ${PYTHON_MODULES}
