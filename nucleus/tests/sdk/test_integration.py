@@ -1,4 +1,5 @@
 import pytest
+
 # import responses
 import nucleus.core.logger as logger
 import nucleus.sdk.harvest as harvest
@@ -18,7 +19,7 @@ from nucleus.sdk.expose import (
     KeyRing,
     # DagJose,
     Sign,
-    Compact
+    Compact,
 )
 
 
@@ -82,12 +83,11 @@ def test_nucleus():
 
         # init our standard distribution for sep001
         key = KeyRing()
-        
+
         signed_jose = Sign(Compact(sep001))
         signed_jose.add_key(key)
         # we get dag-jose signed.. let's store it
         serialized = signed_jose.serialize()
         serialized.save_to(local_storage)
-        
-        # what we do with the CID?
 
+        # what we do with the CID?

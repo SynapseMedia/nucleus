@@ -8,7 +8,11 @@ from nucleus.sdk.storage import Estuary, Object
 ENDPOINT = "https://api.estuary.tech"
 
 expected_cid = CID("bafyjvzacdi2ry54h6wd7muu2wyy3x74xia2wldqnlxpgyg44z2uq")
-expected_error = {"error": {"code": 0, "details": "string", "reason": "string"}}
+expected_error = {
+    "error": {
+        "code": 0,
+        "details": "string",
+        "reason": "string"}}
 expected = {
     "cid": expected_cid,
     "name": "estuary",

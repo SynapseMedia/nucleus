@@ -1,6 +1,6 @@
 import os
 import logging
-import rich 
+import rich
 
 from rich import *  # type: ignore
 from rich.logging import RichHandler

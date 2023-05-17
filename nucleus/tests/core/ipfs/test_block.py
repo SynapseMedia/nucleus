@@ -13,4 +13,3 @@ def test_block_put(rpc_api_block_put_request: JSON):
     command = BlockPut(Text(b"hello"))
     output = api(command)  # call the command in api
     assert output == rpc_api_block_put_request
-
