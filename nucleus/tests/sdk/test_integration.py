@@ -72,7 +72,7 @@ def test_nucleus():
 
         # standard implementation
         # https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
-        sep001 = expose.standard(media_type)  # image/jpeg
+        sep001 = expose.standard(media_type)  # image/png
         # choose a serialization method
         sep001.set_method(DagJose)  # the default
         sep001.add_metadata(Descriptive(**dict(nucleus)))
