@@ -34,7 +34,6 @@ class DagJose:
 
     def __init__(self, standard: Standard):
         self._header = standard.header()
-        # encode the payload as dag-cbor
         self._cbor = dag_cbor.encode(standard.payload())
         self._cid = cid_from_bytes(self._cbor, "dag-cbor")
 
@@ -74,7 +73,6 @@ class Compact:
 
     def __init__(self, standard: Standard):
         self._header = standard.header()
-        # prepare payload and claims
         raw_payload = standard.payload()
         self._claims = list(map(bytes, map(JSON, raw_payload.values())))
         self._payload = self._payload_cid_values(raw_payload)
