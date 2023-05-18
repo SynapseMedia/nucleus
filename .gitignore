@@ -10,6 +10,8 @@ __pycache__/
 __pycache__/*
 .tox
 *.deb
+*.pyc
+*.pyo
 doc/_build/
 .idea
 .env
@@ -20,6 +22,7 @@ hash
 orbitdb/
 source
 scheme.js
+_bck/
 _bck/**
 _build/
 _static/
