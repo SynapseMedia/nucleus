@@ -116,7 +116,7 @@ class Compact:
         # 1. store claims in blocks
         for claim in self._claims:
             store(claim)
-            
+
         # 2. store serialization and return
         return store(self._s11n)
 
