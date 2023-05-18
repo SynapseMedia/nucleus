@@ -49,22 +49,20 @@ def test_nucleus():
     # 2. init our processing engine based on our media model
     with logger.console.status("Processing"):
         # "infer" engine based on input media type
-        # TODO esta fallando
-        image: Image = harvest.image(path=Path("example.jpg"))
+        image: Image = harvest.image(path=Path("arch.png"))
         image_engine: Engine = processing.engine(image)
-        image_engine.configure(Resize(720, 480))
+        image_engine.configure(Resize(50, 50))
         # finally save the processed image to our custom dir
-        output_file: File = image_engine.save(Path("cat.jpg"))
+        output_file: File = image_engine.save(Path("arch2.png"))
 
     # 3. store our processed image in local IPFS node and pin it in estuary
     with logger.console.status("Storage"):
         local_storage: Store = storage.ipfs(LOCAL_ENDPOINT)
         stored_file_object: Object = local_storage(output_file)
         # choose and connect an edge service to pin our resources. eg. estuary
-        estuary: Service = storage.estuary(FAKE_KEY)  # estuary service
-        # based on service get the client
+        estuary: Service = storage.estuary(FAKE_KEY)
         edge_client: Client = storage.client(estuary)
-        edge_client.pin(stored_file_object)  # pin our cid in estuary
+        edge_client.pin(stored_file_object)
 
     # 4. expose our media through the standard
     with logger.console.status("Expose"):
@@ -81,14 +79,14 @@ def test_nucleus():
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
 
-        # init our standard distribution for sep001
-        key = KeyRing()
-        signed_jose = Sign(DagJose(sep001))
-        signed_jose.add_key(key)
-        # we get dag-jose signed.. let's store it
+        # choose a serialization method
+        serializer = DagJose(sep001) # or Compact(sep001)
+        # define signature type for method eg. ES256 algorithm
+        signed_jose = expose.sign(serializer, expose.es256())  
+        # we get signed dag-jose serialization.. let's store it
         serialized = signed_jose.serialize()
         obj: Object = serialized.save_to(local_storage)
-        assert 0
-        print(obj)
+        # what we do with our new and cool CID?
+        logger.console.print(obj.hash)
 
         # what we do with the CID?

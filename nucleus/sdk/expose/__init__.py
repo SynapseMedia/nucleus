@@ -2,9 +2,11 @@ from .types import *
 from .metadata import *
 from .partials import *
 from .marshall import *
+from .sep import *
 from .crypto import *
 from .key import *
 
+from . import sep
 from . import types
 from . import metadata
 from . import partials
@@ -13,6 +15,7 @@ from . import key
 from . import crypto
 
 __all__ = [
+    *sep.__all__,
     *partials.__all__,
     *types.__all__,
     *metadata.__all__,

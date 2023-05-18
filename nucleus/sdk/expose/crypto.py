@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from jwcrypto.common import json_encode  # type: ignore
 from nucleus.core.types import Raw
@@ -30,7 +32,7 @@ class Sign:
         """
         self._jws = JWS(bytes(self._s8r))
 
-    def add_key(self, kr: KeyRing) -> None:
+    def add_key(self, kr: KeyRing) -> Sign:
         """Bind signers to JWS
 
         :param kr: keyring to assoc with signature
@@ -41,6 +43,7 @@ class Sign:
         jwk: Raw = {k: v for k, v in kr.jwk.items() if k in self.__allowed__}  # type: ignore
         header = {**{"alg": kr.alg.value, "jwk": jwk}, **self._s8r.header()}
         self._jws.add_signature(kr.jwk, None, json_encode(header))  # type: ignore
+        return self
 
     def serialize(self) -> Serializer:
         """Trigger and notify to underneath serializer for JWS post-processing .

@@ -9,7 +9,7 @@ from jwcrypto.common import json_decode  # type: ignore
 from nucleus.core.types import JSON, Raw, CID, Union, List
 from nucleus.sdk.storage import Store, Object
 
-from .standard import SEP001
+from .sep import SEP001
 from .types import JWS, JWE
 
 
