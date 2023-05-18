@@ -84,7 +84,6 @@ netifaces==0.11.0
 networkx==2.8.2
 ninja==1.10.2.3
 nodeenv==1.6.0
-nucleus @ file:///home/gmena/PycharmProjects/watchit-toolkit
 numpy==1.24.2
 opencv-python==4.7.0.68
 packaging==21.3
