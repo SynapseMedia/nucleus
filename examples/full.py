@@ -65,7 +65,7 @@ def main():
 
         # standard implementation
         # https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
-        sep001 = expose.standard(media_type)  # image/jpeg
+        sep001 = expose.standard(media_type)  # image/png
         # set serialization method
         sep001.set_method(DagJose) 
         sep001.add_metadata(Descriptive(**dict(nucleus)))
