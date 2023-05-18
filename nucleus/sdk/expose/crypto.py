@@ -5,8 +5,7 @@ from jwcrypto.common import json_encode  # type: ignore
 from nucleus.core.types import Raw
 
 from .key import KeyRing
-from .marshall import Serializer
-from .types import JWS
+from .types import JWS, Serializer
 
 
 @dataclass(slots=True)
@@ -40,9 +39,11 @@ class Sign:
         :rtype: JWS
         """
 
-        jwk: Raw = {k: v for k, v in kr.jwk.items() if k in self.__allowed__}  # type: ignore
-        header = {**{"alg": kr.alg.value, "jwk": jwk}, **self._s8r.header()}
-        self._jws.add_signature(kr.jwk, None, json_encode(header))  # type: ignore
+        jwk: Raw = {k: v for k, v in kr.jwk.items(
+        ) if k in self.__allowed__}  # type: ignore
+        header = {**{"alg": kr.alg.value, "jwk": jwk}, **dict(self._s8r)}
+        self._jws.add_signature(
+            kr.jwk, None, json_encode(header))  # type: ignore
         return self
 
     def serialize(self) -> Serializer:

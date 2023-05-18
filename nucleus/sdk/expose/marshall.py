@@ -4,13 +4,11 @@ from __future__ import annotations
 import hashlib
 import dag_cbor
 
-from abc import ABC, abstractmethod
 from jwcrypto.common import json_decode  # type: ignore
 from nucleus.core.types import JSON, Raw, CID, Union, List
 from nucleus.sdk.storage import Store, Object
 
-from .sep import SEP001
-from .types import JWS, JWE
+from .types import JWS, JWE, Standard
 
 
 def cid_from_bytes(data: bytes, codec: str = "raw") -> CID:
@@ -25,69 +23,32 @@ def cid_from_bytes(data: bytes, codec: str = "raw") -> CID:
     return CID.create("base32", 1, codec, ("sha2-256", digest))
 
 
-class Serializer(ABC):
-    """Serializer observer/template specifies the methods needed to handle SEP001 serialization.
-    Defines how to handle serialization for each strategy according to the specification, which includes:
-
-    - Compact
-    - DAG-JOSE
-
-    This template class must be implemented by other classes that provide concrete serialization logic.
-    ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
-    """
-
-    _sep: SEP001
-
-    def __init__(self, sep: SEP001):
-        self._sep = sep
-
-    def header(self) -> Raw:
-        """Return the type of data to process"""
-        return vars(self._sep.header)
-
-    @abstractmethod
-    def save_to(self, store: Store) -> Object:
-        """Could be used to store assets.
-        eg. After generate CID from payload dag-cbor we need to store the bytes into blocks
-        """
-
-        ...
-
-    @abstractmethod
-    def update(self, jwt: Union[JWS, JWE]) -> Serializer:
-        """Receive updates when serialization is ready to handle any additional encoding step.
-        In this step we could add a new state or operate over JWS/JWE to handle any additional encoding.
-
-        :param jwt: JWT to handle
-        :return: ready to use Serializer
-        :rtype: Serializer
-        """
-        ...
-
-    @abstractmethod
-    def __str__(self) -> str:
-        """The serialized data as string"""
-        ...
-
-    @abstractmethod
-    def __bytes__(self) -> bytes:
-        """The payload data ready to sign/encrypt"""
-        ...
-
-
-class DagJose(Serializer):
+class DagJose:
     """Dag-JOSE Serialization observer"""
 
-    _cbor: bytes
     _cid: CID
     _s11n: JSON
+    _cbor: bytes
+    _header: Raw
+    _std: Standard
 
-    def __init__(self, sep: SEP001):
-        super().__init__(sep)
+    def __init__(self, standard: Standard):
+        self._header = standard.header()
         # encode the payload as dag-cbor
-        payload = vars(sep.payload)
-        self._cbor = dag_cbor.encode(payload)
+        self._cbor = dag_cbor.encode(standard.payload())
         self._cid = cid_from_bytes(self._cbor, "dag-cbor")
+
+    def __iter__(self):
+        return iter(self._header.items())
+
+    def __str__(self):
+        return str(self._s11n)
+
+    def __bytes__(self) -> bytes:
+        """Serialize SEP using dag-jose IPLD standard
+        ref: https://ipld.io/specs/codecs/dag-jose/spec/
+        """
+        return bytes(self._cid)
 
     def update(self, jwt: Union[JWS, JWE]) -> DagJose:
         """Encode JWS/JWE general serialization to dag-jose when crypto process get ready"""
@@ -102,28 +63,19 @@ class DagJose(Serializer):
         store(self._cbor)
         return store(self._s11n)
 
-    def __str__(self):
-        return str(self._s11n)
 
-    def __bytes__(self) -> bytes:
-        """Serialize SEP using dag-jose IPLD standard
-        ref: https://ipld.io/specs/codecs/dag-jose/spec/
-        """
-        return bytes(self._cid)
-
-
-class Compact(Serializer):
+class Compact:
     """JWS Compact Serialization"""
 
     _s11n: str
+    _header: Raw
     _payload: JSON
     _claims: List[bytes] = []
 
-    def __init__(self, sep: SEP001):
-        super().__init__(sep)
-
+    def __init__(self, standard: Standard):
+        self._header = standard.header()
         # prepare payload and claims
-        raw_payload = vars(self._sep.payload)
+        raw_payload = standard.payload()
         self._claims = list(map(bytes, map(JSON, raw_payload.values())))
         self._payload = self._payload_cid_values(raw_payload)
 
@@ -150,6 +102,7 @@ class Compact(Serializer):
                 't': 'bafkzvzacdkg4xam57fkxjno3uogkkchuqhclf32kmgnuwsl4ugaa'
             }
         """
+
         for key, value in payload.items():
             raw_claim = bytes(JSON(value))
             payload[key] = str(cid_from_bytes(raw_claim))
@@ -166,6 +119,9 @@ class Compact(Serializer):
         # 2. store serialization and return
         map(store, self._claims)
         return store(self._s11n)
+
+    def __iter__(self):
+        return iter(self._header.items())
 
     def __str__(self):
         return self._s11n

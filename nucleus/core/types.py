@@ -37,17 +37,17 @@ HexStr = NewType("HexStr", str)
 Hash32 = NewType("Hash32", bytes)
 Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
-Preset = Iterator[Tuple[str, Any]]
 Func = Callable[..., Any]
 Dynamic = SimpleNamespace
+Setting = Iterator[Tuple[str, Any]]
 
 
-class Setting(Protocol):
+class Settings(Protocol):
     """Setting defines the expected behavior of any configuration parameters.
     Use this class to create setting subtypes.
     """
 
-    def __iter__(self) -> Preset:
+    def __iter__(self) -> Setting:
         """Yield key value pair to build compilation of arguments.
         Allow to convert setting as dict.
         """

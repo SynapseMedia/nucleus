@@ -50,9 +50,9 @@ class Algorithm(str, Enum):
 
 @dataclass(slots=True)
 class KeyRing:
-    alg: Algorithm 
-    key_type: KeyType 
-    curve: Curve 
+    alg: Algorithm
+    key_type: KeyType
+    curve: Curve
     use: Use
 
     # internal jwk interface

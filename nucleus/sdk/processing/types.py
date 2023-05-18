@@ -9,7 +9,7 @@ from nucleus.core.types import (
     List,
     Tuple,
     Any,
-    Setting,
+    Settings,
     Dynamic,
 )
 
@@ -55,7 +55,7 @@ class Engine(ABC):
     """
 
     _library: Any
-    _settings: List[Setting]
+    _settings: List[Settings]
 
     def __init__(self, lib: Any):
         """Initialize a new instance with bound library"""
@@ -71,7 +71,7 @@ class Engine(ABC):
         for preset in self._settings:
             yield type(preset).__name__, dict(preset)
 
-    def configure(self, setting: Setting) -> Engine:
+    def configure(self, setting: Settings) -> Engine:
         """Set the context for media processing.
 
         :param setting: the setting to bind

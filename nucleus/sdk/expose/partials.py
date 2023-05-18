@@ -29,4 +29,7 @@ def es256() -> KeyRing:
     )
 
 
-__all__ = ("standard", "es256", "sign")
+__all__ = (
+    "standard",
+    "es256",
+)

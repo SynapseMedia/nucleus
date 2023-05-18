@@ -1,7 +1,7 @@
 import nucleus.core.dataclass as dc
 
 from dataclasses import dataclass
-from nucleus.core.types import Setting
+from nucleus.core.types import Settings
 from nucleus.core.http import LiveSession
 
 from .constants import IPFS_API_ADD
@@ -14,7 +14,7 @@ class Add:
     ref: https://docs.ipfs.io/reference/cli/#ipfs-add
     """
 
-    input: Setting
+    input: Settings
     pin: bool = False
     quieter: bool = True
     hash: str = "blake2b-208"

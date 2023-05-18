@@ -1,7 +1,7 @@
 import nucleus.core.dataclass as dc
 
 from dataclasses import dataclass
-from nucleus.core.types import Setting
+from nucleus.core.types import Settings
 from nucleus.core.http import LiveSession
 from .constants import IPFS_API_DAG_PUT
 
@@ -12,7 +12,7 @@ class DagPut:
     ref: http://docs.ipfs.tech/reference/kubo/rpc/#api-v0-block-put
     """
 
-    input: Setting
+    input: Settings
     pin: bool = True
     hash: str = "sha2-256"
     store_codec: str = "dag-jose"
