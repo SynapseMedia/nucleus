@@ -31,7 +31,7 @@ def _to_object(data: Any) -> Any:
     if isinstance(data, dict):
         container = Dynamic()
         for k, v in data.items():  # type: ignore
-            setattr(container, k, _to_object(v))  # type: ignore
+            setattr(container, str(k), _to_object(v))  # type: ignore
         return container
 
     return data

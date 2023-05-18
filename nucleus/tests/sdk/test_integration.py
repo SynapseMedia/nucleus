@@ -59,8 +59,8 @@ def test_nucleus():
         stored_file_object: Object = local_storage(output_file)
         # choose and connect an edge service to pin our resources. eg. estuary
         estuary: Service = storage.estuary(FAKE_KEY)
-        # edge_client: Client = storage.client(estuary)
-        # edge_client.pin(stored_file_object)
+        edge_client: Client = storage.client(estuary)
+        edge_client.pin(stored_file_object)
 
     # 4. expose our media through the standard
     with logger.console.status("Expose"):
@@ -78,13 +78,12 @@ def test_nucleus():
         sep001.add_metadata(Technical(size=size, width=width, height=height))
 
         # choose a serialization method
-        sep001.set_method(DagJose)
+        sep001.set_method(DagJose)  # the default
         # define signature type for method eg. ES256 algorithm
         signed_dag_jose = sep001.sign(expose.es256())
-        assert 0
         # we get signed dag-jose serialization.. let's store it
         obj: Object = signed_dag_jose.save_to(local_storage)
         # what we do with our new and cool CID?
         logger.console.print(obj.hash)
 
-        # what we do with the CID?
+        assert 0

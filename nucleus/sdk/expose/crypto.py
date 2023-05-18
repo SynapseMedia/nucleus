@@ -39,8 +39,9 @@ class Sign:
         :rtype: JWS
         """
 
-        jwk: Raw = {k: v for k, v in kr.jwk.items(
-        ) if k in self.__allowed__}  # type: ignore
+        jwk: Raw = {
+            k: v for k, v in kr.jwk.items() if k in self.__allowed__
+        }  # type: ignore
         header = {**{"alg": kr.alg.value, "jwk": jwk}, **dict(self._s8r)}
         self._jws.add_signature(
             kr.jwk, None, json_encode(header))  # type: ignore
