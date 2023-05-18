@@ -13,6 +13,7 @@ base58==1.0.3
 bases==0.2.1
 bitarray==1.2.2
 black==22.3.0
+bleach==6.0.0
 Brotli==1.0.9
 certifi==2022.5.18.1
 cffi==1.15.1
@@ -53,17 +54,21 @@ humanfriendly==10.0
 idna==3.3
 imagesize==1.4.1
 importlab==0.7
+importlib-metadata==6.6.0
 iniconfig==1.1.1
 ipfshttpclient==0.8.0a2
+jaraco.classes==3.2.3
 jeepney==0.8.0
 Jinja2==3.1.2
 jsonschema==4.5.1
 jwcrypto==1.4.2
+keyring==23.13.1
 libcst==0.4.3
 lru-dict==1.1.7
 MarkupSafe==2.1.2
 mccabe==0.7.0
 mock==4.0.3
+more-itertools==9.1.0
 morphys==1.0
 msgpack==1.0.5rc1
 msgpack-numpy==0.4.8
@@ -79,6 +84,7 @@ netifaces==0.11.0
 networkx==2.8.2
 ninja==1.10.2.3
 nodeenv==1.6.0
+nucleus @ file:///home/gmena/PycharmProjects/watchit-toolkit
 numpy==1.24.2
 opencv-python==4.7.0.68
 packaging==21.3
@@ -87,6 +93,7 @@ parso==0.1.1
 pathspec==0.9.0
 pickleshare==0.7.4
 Pillow==9.2.0
+pkginfo==1.9.6
 platformdirs==2.5.2
 pluggy==1.0.0
 protobuf==3.20.1
@@ -123,12 +130,16 @@ python-dotenv==0.18.0
 python-jose==3.3.0
 PyYAML==6.0
 pyzmq==24.0.1
+readme-renderer==37.3
 regex==2021.10.21
 requests==2.27.1
+requests-toolbelt==1.0.0
 responses==0.21.0
+rfc3986==2.0.0
 rich==13.1.0
 rlp==2.0.1
 rsa==4.9
+SecretStorage==3.3.3
 simplegeneric==0.8.1
 simplejpeg==1.6.5
 six==1.11.0
@@ -149,6 +160,7 @@ toml==0.10.2
 tomli==2.0.1
 toolz==0.11.2
 tqdm==4.64.1
+twine==4.0.2
 typing-inspect==0.7.1
 typing-validation==1.0.0.post2
 typing_extensions==4.3.0
@@ -164,3 +176,4 @@ websockets==9.1
 wrapt==1.15.0
 yarl==1.7.2
 yt-dlp==2023.2.17
+zipp==3.15.0

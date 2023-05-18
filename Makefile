@@ -37,6 +37,16 @@ requirements:
 
 bootstrap: setup-env venv requirements
 
+package-clean:
+	${PYTHON} setup.py clean --all
+
+package: package-clean
+	${PYTHON} setup.py sdist bdist_wheel
+
+package-publish: package
+	twine upload dist/*
+
+# Static analysis and coding convention
 code-fix: venv
 	${BLACKFIX} ${PYTHON_MODULES}
 	${AUTOPEP8} --in-place --aggressive --aggressive --recursive -v ./${PYTHON_MODULES}
@@ -47,17 +57,16 @@ code-check: venv
 type-check: venv
 	${PYTYPE} ${PYTHON_MODULES}/
 
+
+# Test tools
 test: venv
 	${PYTEST} ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
 
 test-debug: venv
 	${PYTEST} --pdb ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
 
-test-coverage: 
+test-coverage: venv 
 	${PYTEST} --cov-report term --cov-report  xml:coverage.xml --cov=nucleus
-
-test-check:
-	${PYTEST} ${PYTHON_MODULES}
 
 
 # Minimal makefile for Sphinx documentation

@@ -1,10 +1,10 @@
 {
-  "name": "watchit-gateway",
-  "version": "0.3.0",
+  "name": "nucleus",
+  "version": "0.1.0",
   "license": "GPL-3.0",
-  "repository": "https://github.com/ZorrillosDev/watchit-gateway",
-  "author": "The team zorrillos",
-  "description": "Watch movies for free",
+  "repository": "https://github.com/SynapseMedia/nucleus",
+  "author": "synapse",
+  "description": "The building block for decentralized media",
   "dependencies": {
     "ipfs-http-client": "^54.0.0",
     "it-last": "^1.0.6",
