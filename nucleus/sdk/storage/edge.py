@@ -2,11 +2,11 @@ import functools
 
 from .services import Estuary
 from .clients import EstuaryClient
-from .types import Service, Edge
+from .types import Service, Client
 
 
 @functools.singledispatch
-def client(svc: Service) -> Edge:
+def client(svc: Service) -> Client:
     """Client single dispatch factory.
     Use the model input to infer the right storage service.
 

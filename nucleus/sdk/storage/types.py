@@ -62,13 +62,10 @@ class Service(Protocol):
         ...
 
 
-class Edge(Protocol):
-    """Edge provides an standard interface to handle ipfs storage services.
-    For each storage service methods should be defined and encapsulate with any needed logic to simplify the usage.
-    Use this class to create edge services subtypes.
-
+class Client(Protocol):
+    """Client provides an standard interface to handle ipfs storage services.
     Each storage service represent a remote cache service like 'pinata', 'filebase' or any service that support remote pinning service.
-    ref: https://docs.ipfs.tech/reference/kubo/cli/#ipfs-pin-remote-service
+    Use this class to create edge services subtypes.
     """
 
     def pin(self, obj: Object) -> Pin:
@@ -90,4 +87,4 @@ class Edge(Protocol):
         ...
 
 
-__all__ = ("Pin", "Service", "Storable", "Store", "Edge", "Object")
+__all__ = ("Pin", "Service", "Storable", "Store", "Client", "Object")
