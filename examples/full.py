@@ -54,10 +54,8 @@ def main():
         local_storage: Store = storage.ipfs(LOCAL_ENDPOINT)
         stored_file_object: Object = local_storage(output_file)
         # choose and connect an edge service to pin our resources. eg. estuary
-        estuary: Service = storage.estuary(FAKE_KEY)  # estuary service
-        # based on service get the client
-        edge_client: Edge = storage.service(estuary)
-        # pin our cid in estuary
+        estuary: Service = storage.estuary(FAKE_KEY) 
+        edge_client: Edge = storage.client(estuary)
         edge_client.pin(stored_file_object)  
 
     # 4. expose our media through the standard

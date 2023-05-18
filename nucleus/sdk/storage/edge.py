@@ -6,18 +6,18 @@ from .types import Service, Edge
 
 
 @functools.singledispatch
-def service(svc: Service) -> Edge:
-    """Service single dispatch factory.
+def client(svc: Service) -> Edge:
+    """Client single dispatch factory.
     Use the model input to infer the right storage service.
 
     :param model: the model to dispatch
-    :return: service client instance
-    :rtype: ServiceClient
+    :return: edge service client instance
+    :rtype: Edge
     """
     raise NotImplementedError(f"cannot process not registered storable `{svc}")
 
 
-@service.register
+@client.register
 def _(svc: Estuary):
     """Return a estuary api client with the specified service settings."""
     return EstuaryClient(
@@ -26,4 +26,4 @@ def _(svc: Estuary):
     )
 
 
-__all__ = ("service",)
+__all__ = ("client",)

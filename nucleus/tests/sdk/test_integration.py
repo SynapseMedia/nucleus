@@ -63,7 +63,7 @@ def test_nucleus():
         # choose and connect an edge service to pin our resources. eg. estuary
         estuary: Service = storage.estuary(FAKE_KEY)  # estuary service
         # based on service get the client
-        edge_client: Edge = storage.service(estuary)
+        edge_client: Edge = storage.client(estuary)
         edge_client.pin(stored_file_object)  # pin our cid in estuary
 
     # 4. expose our media through the standard
