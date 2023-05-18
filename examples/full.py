@@ -66,12 +66,11 @@ def main():
         # standard implementation
         # https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
         sep001 = expose.standard(media_type)  # image/jpeg
+        # set serialization method
+        sep001.set_method(DagJose) 
         sep001.add_metadata(Descriptive(**dict(nucleus)))
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
-        
-        # add serialization method
-        sep001.set_method(DagJose) 
         # define signature type for method eg. ES256 algorithm
         signed_dag_jose = sep001.sign(expose.es256())
         # we get signed dag-jose serialization.. let's store it
