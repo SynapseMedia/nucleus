@@ -38,12 +38,9 @@ class Sign:
         :rtype: JWS
         """
 
-        jwk: Raw = {
-            k: v for k, v in kr.jwk.items() if k in self.__allowed__
-        }  # type: ignore
+        jwk: Raw = {k: v for k, v in kr.jwk.items() if k in self.__allowed__}  # type: ignore
         header = {**{"alg": kr.alg.value, "jwk": jwk}, **self._s8r.header()}
-        self._jws.add_signature(
-            kr.jwk, None, json_encode(header))  # type: ignore
+        self._jws.add_signature(kr.jwk, None, json_encode(header))  # type: ignore
 
     def serialize(self) -> Serializer:
         """Trigger and notify to underneath serializer for JWS post-processing .

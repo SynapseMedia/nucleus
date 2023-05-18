@@ -162,7 +162,7 @@ class Compact(Serializer):
         return self
 
     def save_to(self, store: Store) -> Object:
-        # 1. store cbor in blocks
+        # 1. store claims in blocks
         # 2. store serialization and return
         map(store, self._claims)
         return store(self._s11n)

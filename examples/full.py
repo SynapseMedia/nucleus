@@ -1,4 +1,3 @@
-
 import nucleus.core.logger as logger
 import nucleus.sdk.harvest as harvest
 import nucleus.sdk.processing as processing
@@ -13,9 +12,7 @@ from nucleus.sdk.expose import (
     Structural,
     Descriptive,
     Technical,
-    KeyRing,
     DagJose,
-    Sign,
     # Compact
 )
 
@@ -54,9 +51,9 @@ def main():
         local_storage: Store = storage.ipfs(LOCAL_ENDPOINT)
         stored_file_object: Object = local_storage(output_file)
         # choose and connect an edge service to pin our resources. eg. estuary
-        estuary: Service = storage.estuary(FAKE_KEY) 
+        estuary: Service = storage.estuary(FAKE_KEY)
         edge_client: Client = storage.client(estuary)
-        edge_client.pin(stored_file_object)  
+        edge_client.pin(stored_file_object)
 
     # 4. expose our media through the standard
     with logger.console.status("Expose"):
@@ -73,21 +70,16 @@ def main():
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
 
-        # init our standard distribution for sep001
-        # TODO aca tendra mas homogeinidad cuando pase esto a partials!!
-        key = KeyRing()
+        # choose a serialization method
         serializer = DagJose(sep001) # or Compact(sep001)
-        signed_jose = Sign(serializer)
-        signed_jose.add_key(key)
-        
-        # we get dag-jose signed.. let's store it
+        # define signature type for method eg. ES256 algorithm
+        signed_jose = expose.sign(serializer, expose.es256())  
+        # we get signed dag-jose serialization.. let's store it
         serialized = signed_jose.serialize()
         obj: Object = serialized.save_to(local_storage)
-        
         # what we do with our new and cool CID?
         logger.console.print(obj.hash)
 
-        
         """
         Lets try:
         

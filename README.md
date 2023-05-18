@@ -43,7 +43,7 @@ Nucleus proposes a sequence of steps (pipeline) for the processing and decentral
 
 The pipeline design follows the decoupling principle, allowing for flexible use cases. For example, the **storage** component can be optional if data is already stored on the IPFS network. Similarly, the **mint** component can be skipped if there is no need to create NFTs for the metadata. The **processing** component may also be unnecessary if the media is already prepared for storage.
 
-The **Retrieval** component facilitates the retrieval and unmarshalling of data from IPFS ecosystem, which can then be distributed through various means. eg.OrbitDB, Gun, etc..
+The **Retrieval** component facilitates the retrieval and unmarshalling of metadata from IPFS ecosystem, which can then be distributed through various means. eg.OrbitDB, Gun, etc..
 
 ## Installing
 

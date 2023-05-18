@@ -7,7 +7,7 @@ from .types import JWK
 
 """
 We can support more
-ref: https://datatracker.ietf.org/doc/html/rfc7518#section-3.4
+ref: https://www.rfc-editor.org/rfc/rfc7518#section-3.1
 HS256	HMAC using SHA-256	Required
 HS384	HMAC using SHA-384	Optional
 HS512	HMAC using SHA-512	Optional
@@ -31,27 +31,29 @@ class Use(str, Enum):
 
 
 class KeyType(str, Enum):
-    EllipticCurve = "EC"
     RSA = "RSA"
+    EllipticCurve = "EC"
 
 
 class Curve(str, Enum):
+    HMAC = "HMAC"
     P256 = "P-256"
     ED25519 = "ED25519"
     Secp256k1 = "secp256k1"
 
 
 class Algorithm(str, Enum):
+    H256 = "H256"
     ES256 = "ES256"
     ES256K = "ES256K"
 
 
 @dataclass(slots=True)
 class KeyRing:
-    alg: Algorithm = Algorithm.ES256
-    key_type: KeyType = KeyType.EllipticCurve
-    curve: Curve = Curve.P256
-    use: Use = Use.SIG
+    alg: Algorithm 
+    key_type: KeyType 
+    curve: Curve 
+    use: Use
 
     # internal jwk interface
     jwk: JWK = field(init=False)
