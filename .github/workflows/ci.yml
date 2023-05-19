@@ -18,10 +18,9 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: true
-
+      
       - name: Bootstrap
         run: make install
-
 
       - name: Static Analysis
         run: make lint
