@@ -8,7 +8,8 @@ from .types import RPCCommand
 class RPC:
 
     """IPFS strategically interact with different rpc command and execute them in a safe manner.
-    Each http call is preset with base url and version and the complement of the url is added during runtime based on each rpc command implementation.
+    Each http call is preset with base url and version and the complement of the url is added during runtime
+    based on each rpc command implementation.
         eg. localhost:5001/api/v0 + /add, /config, ...
 
     """

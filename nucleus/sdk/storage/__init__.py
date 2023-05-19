@@ -1,14 +1,18 @@
-from . import edge, partials, services, store, types
-from .edge import *
-from .partials import *
-from .services import *
-from .store import *
-from .types import *
+from .edge import client
+from .partials import estuary
+from .services import Estuary
+from .store import ipfs
+from .types import Client, Object, Pin, Service, Storable, Store
 
 __all__ = [
-    *types.__all__,
-    *store.__all__,
-    *edge.__all__,
-    *services.__all__,
-    *partials.__all__,
-]  # type: ignore
+    'Pin',
+    'Service',
+    'Storable',
+    'Object',
+    'Store',
+    'Client',
+    'Estuary',
+    'client',
+    'estuary',
+    'ipfs',
+]

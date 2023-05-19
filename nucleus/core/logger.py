@@ -2,7 +2,6 @@ import logging
 import os
 
 import rich
-from rich import *  # type: ignore
 from rich.logging import RichHandler
 
 # Get log level from env vars

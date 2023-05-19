@@ -141,7 +141,7 @@ skip-string-normalization = true
 target-version = ['py310']
 
 [tool.ruff]
-exclude = ['pydantic/v1']
+exclude = ["nucleus/core/types.py"]
 extend-select = ['Q', 'RUF100', 'C90', 'UP', 'I']
 flake8-quotes = {inline-quotes = 'single', multiline-quotes = 'double'}
 isort = {known-first-party = ['nucleus', 'tests']}

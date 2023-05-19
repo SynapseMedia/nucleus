@@ -5,7 +5,9 @@ from PIL.Image import Resampling
 from nucleus.core.types import Tuple
 
 """All these settings are defined by pillow library.
-Option classes should be named in correspondence to the methods of the Pillow Image object and using the Python class naming convention.
+Option classes should be named in correspondence to the methods of the Pillow Image object 
+using the Python class naming convention.
+
 Underneath each class is parsed as a method to setup pillow image object.
 ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize
 
