@@ -1,3 +1,4 @@
+
 [project]
 # This is the name of your project. The first time you publish this
 # package, this name will be registered for you. It will determine how
@@ -17,7 +18,7 @@ name = "nucleus-sdk" # Required
 #
 # For a discussion on single-sourcing the version, see
 # https://packaging.python.org/guides/single-sourcing-package-version/
-version = "0.1.0-alpha" # Required
+version = "0.1a0" # Required
 
 # This is a one-line description or tagline of what your project does. This
 # corresponds to the "Summary" metadata field:
@@ -43,7 +44,7 @@ requires-python = ">=3.10"
 # This is either text indicating the license for the distribution, or a file
 # that contains the license
 # https://packaging.python.org/en/latest/specifications/core-metadata/#license
-license = {file = "LICENSE.txt"}
+license = {file = "LICENSE"}
 
 # This field adds keywords for your project which will appear on the
 # project page. What does your project relate to?
@@ -123,13 +124,21 @@ dependencies = [
 "Homepage" = "https://github.com/SynapseMedia/nucleus"
 "Source" = "https://opencollective.com/synapse"
 
-# The following would provide a command line executable called `sample`
-# which executes the function `main` from this package when invoked.
+
 [build-system]
-# These are the assumed default build requirements from pip:
-# https://pip.pypa.io/en/stable/reference/pip/#pep-517-and-518-support
-build-backend = "setuptools.build_meta"
-requires = ["setuptools>=43.0.0", "wheel"]
+requires = ['hatchling', 'hatch-fancy-pypi-readme>=22.5.0']
+build-backend = 'hatchling.build'
+
+[tool.hatch.build.targets.sdist]
+# limit which files are included in the sdist (.tar.gz) asset,
+# see https://github.com/pydantic/pydantic/pull/4542
+include = [
+    '/README.md',
+    '/Makefile',
+    '/nucleus',
+    '/nucleus/tests',
+]
+
 
 [tool.coverage.run]
 source = ['nucleus']
