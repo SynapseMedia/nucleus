@@ -65,7 +65,7 @@ class Service(Protocol):
 
 class Client(Protocol):
     """Client provides an standard interface to handle ipfs storage services.
-    Each storage service represent a remote cache service like 'pinata', 'filebase' or any service that support remote pinning service.
+    Each storage service represent a remote cache service like eg. estuary'
     Use this class to create edge services subtypes.
     """
 

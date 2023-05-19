@@ -18,7 +18,7 @@ class Copy:
 
     _stream_specifier: str
 
-    def __init__(self, stream: Literal['v', 'a'] = 'v'):
+    def __init__(self, stream: Literal['v', 'a'] = 'v'):  # noqa: F821
         self._stream_specifier = stream
 
     def __contains__(self, codec: str) -> bool:

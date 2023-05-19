@@ -1,30 +1,31 @@
 from __future__ import annotations
 
-"""
-Types bridge "inherit" from global typing
-Use this `types` to handle global standard type definition
-
-Note: The Python runtime does not enforce function and variable type annotations.
-They can be used by third party tools such as type checkers, IDEs, linters, etc.
-
-refs:
-- https://docs.python.org/3/library/typing.html#module-typing
-- https://peps.python.org/pep-0544/#protocol-members
-- https://google.github.io/pytype/errors.html#bad-return-type
-
-"""
-
 import json
 import pathlib
 import urllib.parse as parse
 from collections import UserDict
-from types import *  # type: ignore
+from types import *  # noqa: F403
 
 # "inherit" from global typing
-from typing import *  # type: ignore
+from typing import *  # noqa: F403
 
 from hexbytes import HexBytes
 from multiformats import CID as MultiFormatCID
+
+"""
+    Types bridge "inherit" from global typing
+    Use this `types` to handle global standard type definition
+
+    Note: The Python runtime does not enforce function and variable type annotations.
+    They can be used by third party tools such as type checkers, IDEs, linters, etc.
+
+    refs:
+    - https://docs.python.org/3/library/typing.html#module-typing
+    - https://peps.python.org/pep-0544/#protocol-members
+    - https://google.github.io/pytype/errors.html#bad-return-type
+
+"""
+
 
 # https://docs.python.org/3/library/typing.html#typing.TypeVar
 T = TypeVar('T')

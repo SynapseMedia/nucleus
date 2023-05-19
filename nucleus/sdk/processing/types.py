@@ -22,7 +22,8 @@ Compilation = Iterator[Tuple[str, Any]]
 
 class Introspection(Dynamic):
     """Introspection hold internal media information/metadata.
-    For each result the media metadata is associated as `meta` and it could change based on media type and underneath library.
+    For each result the media metadata is associated as `meta` and it could change
+    based on media type and underneath library.
 
     eg.
         # could be related to ffprobe video info or PIL.Image, etc
@@ -30,7 +31,8 @@ class Introspection(Dynamic):
         image = Introspection(**PIL.Image)
 
         # in this case introspection dynamically receive all the metadata from the underneath library output
-        # the "WARNING" here is that based on media type the introspection content could change and needs an extra review.
+        # the "WARNING" here is that based on media type
+        # the introspection content could change and needs an extra review.
     """
 
     size: int
@@ -51,7 +53,8 @@ class File(Media[Path]):
 
 class Engine(ABC):
     """Engine implements a media engine template/adapter.
-    It uses an underlying library as an interface to process media files and produce output based on the provided settings.
+    It uses an underlying library as an interface to process media files.
+    It produce output based on the provided settings.
     Use this class to create engine subtypes.
     """
 
