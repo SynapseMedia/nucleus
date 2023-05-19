@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from nucleus.core.types import Protocol, Literal, Raw, Union, Setting
-from nucleus.sdk.storage import Store, Object
+from jwcrypto import jwe, jwk, jws
 
-from jwcrypto import jwk, jws, jwe
+from nucleus.core.types import Literal, Protocol, Raw, Setting, Union
+from nucleus.sdk.storage import Object, Store
 
-Claims = Literal["s", "d", "t"]
+Claims = Literal['s', 'd', 't']
 
 JWK = jwk.JWK
 JWS = jws.JWS

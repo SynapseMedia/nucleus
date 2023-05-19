@@ -10,21 +10,21 @@ class HttpError(Exception):
     """Exception raised for errors relation to http operations."""
 
     def __init__(self, message: str):
-        self.message = f"Core :: Http -> {message}"
+        self.message = f'Core :: Http -> {message}'
 
 
 class IPFSRuntimeError(Exception):
     """Exception raised for errors related to ipfs API."""
 
     def __init__(self, message: str):
-        self.message = f"Core :: IPFS -> {message}"
+        self.message = f'Core :: IPFS -> {message}'
 
 
 class DatabaseError(Exception):
     """Exception raised for errors that are related to the database."""
 
     def __init__(self, message: str):
-        self.message = f"Core :: Cache -> {message}"
+        self.message = f'Core :: Cache -> {message}'
 
 
 class DatabaseTransactionError(DatabaseError):

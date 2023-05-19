@@ -1,17 +1,18 @@
 from __future__ import annotations
 
-import re
 import inspect
 import mimetypes
-import PIL.Image
-import nucleus.sdk.processing as processing
-
+import re
 from collections import ChainMap
-from PIL.Image import Image as Pillow
-from ffmpeg.nodes import FilterableStream as FFMPEG
 
-from nucleus.core.types import Path, Any, no_type_check, Dynamic
+import PIL.Image
+from ffmpeg.nodes import FilterableStream as FFMPEG
+from PIL.Image import Image as Pillow
+
+import nucleus.sdk.processing as processing
+from nucleus.core.types import Any, Dynamic, Path, no_type_check
 from nucleus.sdk.exceptions import ProcessingEngineError
+
 from .types import Engine, File, Introspection
 
 
@@ -75,9 +76,7 @@ class VideoEngine(Engine):
             return File(path=path, meta=i8t)
         except Exception as e:
             # Standard exceptions raised
-            raise ProcessingEngineError(
-                f"error while trying to save video output: {str(e)}"
-            )
+            raise ProcessingEngineError(f'error while trying to save video output: {str(e)}')
 
 
 class ImageEngine(Engine):
@@ -87,7 +86,7 @@ class ImageEngine(Engine):
 
     def __init__(self, lib: Pillow):
         # compile the pattern to avoid overhead in loop and bind underlying lib
-        self._pattern = re.compile(r"(?<!^)(?=[A-Z])")
+        self._pattern = re.compile(r'(?<!^)(?=[A-Z])')
         super().__init__(lib)
 
     def _to_snake_case(self, class_name: str) -> str:
@@ -96,7 +95,7 @@ class ImageEngine(Engine):
         :para name: the class name to parse
         :return: the snake case version for class name
         """
-        return self._pattern.sub("_", class_name).lower()
+        return self._pattern.sub('_', class_name).lower()
 
     def _setup_methods(self):
         """Call and chain methods based on configured options"""
@@ -115,13 +114,11 @@ class ImageEngine(Engine):
         (mime_type, _) = mimetypes.guess_type(path)
         # get attributes from PIL.Image object
         members = inspect.getmembers(PIL.Image.open(path))
-        filter_private = filter(lambda x: not x[0].startswith("_"), members)
-        filter_method = filter(
-            lambda x: not inspect.ismethod(
-                x[1]), filter_private)
+        filter_private = filter(lambda x: not x[0].startswith('_'), members)
+        filter_method = filter(lambda x: not inspect.ismethod(x[1]), filter_private)
         image_introspection = _to_object(dict(filter_method))
         # patch to avoid size conflict keyword
-        delattr(image_introspection, "size")
+        delattr(image_introspection, 'size')
 
         # extend introspection with custom PIL.Image attributes
         return Introspection(
@@ -141,9 +138,7 @@ class ImageEngine(Engine):
             return File(path=path, meta=i8t)
         except Exception as e:
             # Standard exceptions raised
-            raise ProcessingEngineError(
-                f"error while trying to save image output: {str(e)}"
-            )
+            raise ProcessingEngineError(f'error while trying to save image output: {str(e)}')
 
 
-__all__ = ("VideoEngine", "ImageEngine")
+__all__ = ('VideoEngine', 'ImageEngine')

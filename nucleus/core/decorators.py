@@ -1,5 +1,6 @@
 import functools
-from nucleus.core.types import Any, Func, ExceptionType
+
+from nucleus.core.types import Any, ExceptionType, Func
 
 
 def proxy_exception(*, expected: ExceptionType, target: ExceptionType) -> Func:
@@ -11,9 +12,7 @@ def proxy_exception(*, expected: ExceptionType, target: ExceptionType) -> Func:
             try:
                 return func(*args, **kwargs)
             except expected as e:
-                raise target(
-                    f"raised exception during call to `{func.__name__}`: {str(e)}"
-                )
+                raise target(f'raised exception during call to `{func.__name__}`: {str(e)}')
 
         return wrapper
 

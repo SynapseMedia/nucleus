@@ -1,14 +1,14 @@
-import re
-import os
 import asyncio
-import subprocess
 import functools
+import os
+import re
+import subprocess
 
-from nucleus.core.types import Sequence, List, Union
+from nucleus.core.types import List, Sequence, Union
 
-from .protocol import StreamProtocol
-from .types import Reader, Loop, SubProcess, StdOut
 from .constants import EXIT_FAILURE, EXIT_SUCCESS
+from .protocol import StreamProtocol
+from .types import Loop, Reader, StdOut, SubProcess
 
 
 def _decode_bytes(b: bytes) -> str:
@@ -32,7 +32,7 @@ def _match_faulty_line(lines: Sequence[str]) -> Union[str, None]:
 
     for line in lines:
         # try find a fault in log lines
-        pattern = r"(\w+)?(Error|\[ERROR\])"  # what should we find?
+        pattern = r'(\w+)?(Error|\[ERROR\])'  # what should we find?
         match_found = re.search(pattern, line)
         if match_found:
             return line
@@ -52,7 +52,7 @@ async def _trace(stream: Reader) -> StdOut:
     logs: List[str] = []
 
     async for lines in stream:
-        raw_lines = lines.split(b"\n")
+        raw_lines = lines.split(b'\n')
         decoded_lines = map(_decode_bytes, raw_lines)
         cleaned_lines = tuple(filter(len, decoded_lines))
         match_found = _match_faulty_line(cleaned_lines)
@@ -118,9 +118,7 @@ class IPC:
         """
 
         # execute nodejs command and communicate the data input
-        protocol_factory = functools.partial(
-            StreamProtocol, self._stream, loop=self._loop
-        )
+        protocol_factory = functools.partial(StreamProtocol, self._stream, loop=self._loop)
 
         # run the cmd shell command + return a Process instance.
         transport, protocol = await self._loop.subprocess_shell(
@@ -133,7 +131,7 @@ class IPC:
 
         return SubProcess(transport, protocol, self._loop)
 
-    def communicate(self, data: bytes = b"") -> StdOut:
+    def communicate(self, data: bytes = b'') -> StdOut:
         """Communicate with process
 
         :param data: message sent to process

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from nucleus.core.types import Mapping, Any
+
+from nucleus.core.types import Any, Mapping
 
 """
 aspect ratio	H.264/AVC kb/s	Frame rate
@@ -30,8 +31,7 @@ class Custom:
         self._custom = kwargs
 
     def __iter__(self):
-        for k, v in self._custom.items():
-            yield k, v
+        yield from self._custom.items()
 
 
 @dataclass(slots=True)
@@ -44,10 +44,10 @@ class FrameSize:
     height: int
 
     def __str__(self) -> str:
-        return f"{self.width}x{self.height}"
+        return f'{self.width}x{self.height}'
 
     def __iter__(self):
-        yield "s", str(self)
+        yield 's', str(self)
 
 
 @dataclass(slots=True)
@@ -59,7 +59,7 @@ class FPS:
     fps: float
 
     def __iter__(self):
-        yield "r", self.fps
+        yield 'r', self.fps
 
 
 @dataclass(slots=True)
@@ -74,11 +74,11 @@ class BR:
     def __iter__(self):
         # if we only receive video bitrate, we consider it as overall bitrate
         if self.video and not self.audio:
-            yield "b", f"{self.video}k"
+            yield 'b', f'{self.video}k'
             return
 
-        yield "b:v", f"{self.video}k"
-        yield "b:a", f"{self.audio}k"
+        yield 'b:v', f'{self.video}k'
+        yield 'b:a', f'{self.audio}k'
 
 
 @dataclass(frozen=True)
@@ -103,4 +103,4 @@ class Screen:
     Q4k = FrameSize(3840, 2160)
 
 
-__all__ = ("FPS", "FrameSize", "Screen", "Bitrate", "BR", "Custom")
+__all__ = ('FPS', 'FrameSize', 'Screen', 'Bitrate', 'BR', 'Custom')

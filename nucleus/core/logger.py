@@ -1,12 +1,12 @@
-import os
 import logging
-import rich
+import os
 
+import rich
 from rich import *  # type: ignore
 from rich.logging import RichHandler
 
 # Get log level from env vars
-LOG_LEVEL = os.environ.get("LOGLEVEL", "DEBUG")
+LOG_LEVEL = os.environ.get('LOGLEVEL', 'DEBUG')
 
 
 # ref: https://rich.readthedocs.io/en/stable/console.html
@@ -20,7 +20,7 @@ handler = RichHandler(
 
 def factory(name: str, level: str = LOG_LEVEL):
     # create logger
-    fmt = "%(message)s"
+    fmt = '%(message)s'
     formatter = logging.Formatter(fmt)
     logger = logging.getLogger(name)
 
@@ -32,13 +32,13 @@ def factory(name: str, level: str = LOG_LEVEL):
 
 
 # Default logging
-core = factory("CORE")
-sdk = factory("SDK")
+core = factory('CORE')
+sdk = factory('SDK')
 
 __all__ = (
-    "core",
-    "sdk",
-    "logging",
-    "factory",
-    "console",
+    'core',
+    'sdk',
+    'logging',
+    'factory',
+    'console',
 )

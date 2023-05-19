@@ -17,24 +17,24 @@ refs:
 import json
 import pathlib
 import urllib.parse as parse
-
 from collections import UserDict
-from hexbytes import HexBytes
-from multiformats import CID as MultiFormatCID
+from types import *  # type: ignore
 
 # "inherit" from global typing
 from typing import *  # type: ignore
-from types import *  # type: ignore
+
+from hexbytes import HexBytes
+from multiformats import CID as MultiFormatCID
 
 # https://docs.python.org/3/library/typing.html#typing.TypeVar
-T = TypeVar("T")
-T_contra = TypeVar("T_contra", contravariant=True)
-T_co = TypeVar("T_co", covariant=True)
+T = TypeVar('T')
+T_contra = TypeVar('T_contra', contravariant=True)
+T_co = TypeVar('T_co', covariant=True)
 
 Raw = Dict[Any, Any]
 ExceptionType = Type[Exception]
-HexStr = NewType("HexStr", str)
-Hash32 = NewType("Hash32", bytes)
+HexStr = NewType('HexStr', str)
+Hash32 = NewType('Hash32', bytes)
 Primitives = Union[bytes, int, bool]
 Hash = Union[HexBytes, Hash32]
 Func = Callable[..., Any]
@@ -110,7 +110,7 @@ class URL(_ExtensibleStr):
         return getattr(self._parsed, name)
 
     def valid(self) -> bool:
-        allowed_schemes = {"http", "https"}
+        allowed_schemes = {'http', 'https'}
         valid_scheme = self.scheme in allowed_schemes
         # contains a valid scheme and valid domain
         # ref: https://docs.python.org/3/library/urllib.parse.html
@@ -124,7 +124,7 @@ class URL(_ExtensibleStr):
     @classmethod
     def validate(cls, v: str):
         if not cls(v).valid():
-            raise ValueError("string must be a URL")
+            raise ValueError('string must be a URL')
 
 
 class Path(_ExtensibleStr):
@@ -152,7 +152,7 @@ class Path(_ExtensibleStr):
     @classmethod
     def validate(cls, v: str):
         if not cls(v).exists():
-            raise ValueError("string must be a Path")
+            raise ValueError('string must be a Path')
 
 
 class JSON(UserDict[Any, Any]):
@@ -165,7 +165,7 @@ class JSON(UserDict[Any, Any]):
 
     def __bytes__(self) -> bytes:
         """Return json as bytes"""
-        return bytes(str(self), "utf-8")
+        return bytes(str(self), 'utf-8')
 
     def parse(self):
         return json.loads(str(self))

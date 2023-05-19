@@ -1,12 +1,8 @@
-from .options import *
-from .protocols import *
+from . import codecs, ffprobe, options, protocols
 from .codecs import *
 from .ffprobe import *
-
-from . import ffprobe
-from . import options
-from . import protocols
-from . import codecs
+from .options import *
+from .protocols import *
 
 __all__ = [
     *ffprobe.__all__,

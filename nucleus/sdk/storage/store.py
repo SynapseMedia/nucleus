@@ -1,10 +1,11 @@
 import functools
-import nucleus.core.ipfs as ipfs_
 
-from nucleus.core.types import CID, Optional, JSON
-from nucleus.core.ipfs import File, Text, Add, BlockPut, DagPut
+import nucleus.core.ipfs as ipfs_
+from nucleus.core.ipfs import Add, BlockPut, DagPut, File, Text
+from nucleus.core.types import CID, JSON, Optional
 from nucleus.sdk.processing import File as FileType
-from .types import Storable, Object, Store
+
+from .types import Object, Storable, Store
 
 
 def ipfs(endpoint: Optional[str] = None) -> Store:
@@ -29,8 +30,7 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         :return: Object instance
         :rtype: Object
         """
-        raise NotImplementedError(
-            f"cannot process not registered storable `{data}")
+        raise NotImplementedError(f'cannot process not registered storable `{data}')
 
     @store.register
     def _(data: FileType) -> Object:
@@ -47,9 +47,9 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         file_output = api(command)
 
         return Object(
-            name=file_output["Name"],
-            hash=CID(file_output["Hash"]),
-            size=int(file_output["Size"]),
+            name=file_output['Name'],
+            hash=CID(file_output['Hash']),
+            size=int(file_output['Size']),
         )
 
     @store.register
@@ -67,8 +67,8 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         output = api(command)
 
         return Object(
-            name=output["Key"],
-            hash=CID(output["Key"]),
+            name=output['Key'],
+            hash=CID(output['Key']),
             size=len(data),
         )
 
@@ -81,7 +81,7 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         :rtype: Object
         """
 
-        bytes_ = data.encode("utf-8")
+        bytes_ = data.encode('utf-8')
         return store(bytes_)
 
     @store.register
@@ -98,7 +98,7 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         # expected block/put output from API
         # {"Cid": { "/": "<cid-string>" }}
         output = api(command)
-        raw_cid = output["Cid"]["/"]
+        raw_cid = output['Cid']['/']
 
         return Object(
             name=raw_cid,
@@ -109,4 +109,4 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
     return store
 
 
-__all__ = ("ipfs",)
+__all__ = ('ipfs',)

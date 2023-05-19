@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-
 from dataclasses import dataclass
-from nucleus.core.types import Raw, Optional, CID, Type
 
-from .key import KeyRing
+from nucleus.core.types import CID, Optional, Raw, Type
+
 from .crypto import Sign
+from .key import KeyRing
 from .marshall import DagJose
 from .types import Metadata, Serializer
 
@@ -93,4 +93,4 @@ class SEP001:
         self._payload.add(meta)
 
 
-__all__ = ("SEP001", "Header", "Payload")
+__all__ = ('SEP001', 'Header', 'Payload')

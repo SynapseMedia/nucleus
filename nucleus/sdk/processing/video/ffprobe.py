@@ -1,7 +1,7 @@
 import ffmpeg
 
 # Convention for importing types
-from nucleus.core.types import Path, Any, JSON
+from nucleus.core.types import JSON, Any, Path
 from nucleus.sdk.exceptions import FFProbeError
 
 
@@ -18,7 +18,7 @@ def probe(path: Path, **kwargs: Any) -> JSON:
     try:
         return JSON(ffmpeg.probe(path, **kwargs))  # type: ignore
     except ffmpeg._run.Error as e:  # type: ignore
-        raise FFProbeError(f"error during ffprobe command call: {str(e)}")
+        raise FFProbeError(f'error during ffprobe command call: {str(e)}')
 
 
-__all__ = ("probe",)
+__all__ = ('probe',)

@@ -1,17 +1,17 @@
 from __future__ import annotations
 
-
 import hashlib
+
 import dag_cbor
-
 from jwcrypto.common import json_decode  # type: ignore
-from nucleus.core.types import JSON, Raw, CID, Union, List
-from nucleus.sdk.storage import Store, Object
 
-from .types import JWS, JWE, Standard
+from nucleus.core.types import CID, JSON, List, Raw, Union
+from nucleus.sdk.storage import Object, Store
+
+from .types import JWE, JWS, Standard
 
 
-def cid_from_bytes(data: bytes, codec: str = "raw") -> CID:
+def cid_from_bytes(data: bytes, codec: str = 'raw') -> CID:
     """Return a new CIDv1 base32 based on data hash and codec.
 
     :param data: the data to create a new CID
@@ -20,7 +20,7 @@ def cid_from_bytes(data: bytes, codec: str = "raw") -> CID:
     :rtype: CID
     """
     digest = hashlib.sha256(data).digest()
-    return CID.create("base32", 1, codec, ("sha2-256", digest))
+    return CID.create('base32', 1, codec, ('sha2-256', digest))
 
 
 class DagJose:
@@ -35,7 +35,7 @@ class DagJose:
     def __init__(self, standard: Standard):
         self._header = standard.header()
         self._cbor = dag_cbor.encode(standard.payload())
-        self._cid = cid_from_bytes(self._cbor, "dag-cbor")
+        self._cid = cid_from_bytes(self._cbor, 'dag-cbor')
 
     def __iter__(self):
         return iter(self._header.items())
@@ -53,7 +53,7 @@ class DagJose:
         """Encode JWS/JWE general serialization to dag-jose when crypto process get ready"""
         general_json = json_decode(jwt.serialize(False))  # type: ignore
         # set new state for serialization attribute
-        self._s11n = JSON({"link": self._cid, **general_json})
+        self._s11n = JSON({'link': self._cid, **general_json})
         return self
 
     def save_to(self, store: Store) -> Object:
@@ -133,4 +133,4 @@ class Compact:
         return bytes(self._payload)
 
 
-__all__ = ("DagJose", "Compact")
+__all__ = ('DagJose', 'Compact')

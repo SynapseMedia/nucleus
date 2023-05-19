@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-
 # Convention for importing constants/types
 from abc import ABC, abstractmethod
-from nucleus.core.types import Iterator, JSON
+
+from nucleus.core.types import JSON, Iterator
 
 
 class Collector(ABC):
@@ -19,4 +19,4 @@ class Collector(ABC):
         ...
 
 
-__all__ = ("Collector",)
+__all__ = ('Collector',)

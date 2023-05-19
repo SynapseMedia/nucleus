@@ -1,10 +1,10 @@
-import pkgutil
 import inspect
 import itertools
-
-
+import pkgutil
 from collections import defaultdict
-from nucleus.core.types import Iterator, Any, Mapping, JSON
+
+from nucleus.core.types import JSON, Any, Iterator, Mapping
+
 from .constants import COLLECTORS_PATH
 from .types import Collector
 
@@ -45,8 +45,7 @@ def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
     """
 
     for module_finder, name, _ in pkgutil.iter_modules([path]):
-        module = module_finder.find_module(
-            name).load_module(name)  # type: ignore
+        module = module_finder.find_module(name).load_module(name)  # type: ignore
 
         # Get the module collector class
         for _, obj in inspect.getmembers(module):
@@ -55,4 +54,4 @@ def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
                     yield obj()  # yield an instance of collector
 
 
-__all__ = ("load", "map", "merge")
+__all__ = ('load', 'map', 'merge')

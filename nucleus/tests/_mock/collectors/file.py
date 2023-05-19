@@ -1,4 +1,5 @@
 import json
+
 from nucleus.sdk.harvest import Collector
 
 # class MyMeta(Meta):
@@ -16,8 +17,7 @@ class File(Collector):
     def __iter__(self):
         """Here could be implemented any logic to collect metadata."""
 
-        source_file = "nucleus/tests/_mock/files/dummy.json"
+        source_file = 'nucleus/tests/_mock/files/dummy.json'
         with open(source_file) as file:
             # read movies from json file
-            for raw in json.load(file):
-                yield raw
+            yield from json.load(file)

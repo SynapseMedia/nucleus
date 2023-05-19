@@ -1,11 +1,12 @@
-import ffmpeg
 import functools
+
+import ffmpeg
 import PIL.Image as PIL
 
 from nucleus.core.types import Path
-from nucleus.sdk.harvest import Video, Image
+from nucleus.sdk.harvest import Image, Video
 
-from .engines import VideoEngine, ImageEngine
+from .engines import ImageEngine, VideoEngine
 from .types import Engine, Processable
 
 
@@ -19,7 +20,7 @@ def engine(media: Processable) -> Engine:
     :return: engine instance
     :rtype: Engine
     """
-    raise NotImplementedError(f"cannot process not registered media `{media}")
+    raise NotImplementedError(f'cannot process not registered media `{media}')
 
 
 @engine.register
@@ -36,4 +37,4 @@ def _(media: Image) -> ImageEngine:
     return ImageEngine(library)
 
 
-__all__ = ("engine",)
+__all__ = ('engine',)

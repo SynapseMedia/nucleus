@@ -1,4 +1,4 @@
-from nucleus.core.types import CID, Optional, Dynamic
+from nucleus.core.types import CID, Dynamic, Optional
 
 
 class Structural(Dynamic):
@@ -10,7 +10,7 @@ class Structural(Dynamic):
     path: Optional[str] = None
 
     def __str__(self):
-        return "s"
+        return 's'
 
 
 class Descriptive(Dynamic):
@@ -22,7 +22,7 @@ class Descriptive(Dynamic):
     desc: str
 
     def __str__(self):
-        return "d"
+        return 'd'
 
 
 class Technical(Dynamic):
@@ -33,7 +33,7 @@ class Technical(Dynamic):
     size: int
 
     def __str__(self):
-        return "t"
+        return 't'
 
 
-__all__ = ["Structural", "Descriptive", "Technical"]
+__all__ = ['Structural', 'Descriptive', 'Technical']

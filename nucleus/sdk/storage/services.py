@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from nucleus.core.types import URL
 
 
@@ -16,4 +17,4 @@ class Estuary:
         return self._key
 
 
-__all__ = ("Estuary",)
+__all__ = ('Estuary',)

@@ -1,8 +1,8 @@
 import pytest
 
+from nucleus.sdk.exceptions import ModelValidationError
 from nucleus.sdk.harvest import Model
 from nucleus.tests._mock.models import Movie
-from nucleus.sdk.exceptions import ModelValidationError
 
 
 class ExampleModel(Model):
@@ -16,7 +16,7 @@ def test_initialization_raise_model_validation_error():
 
 def test_parse_obj_raise_model_validation_error():
     with pytest.raises(ModelValidationError):
-        ExampleModel.parse_obj({"age": 10})  # missing name, description again
+        ExampleModel.parse_obj({'age': 10})  # missing name, description again
 
 
 def test_parse_raw_raise_model_validation_error():

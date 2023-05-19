@@ -1,4 +1,5 @@
 from dataclasses import asdict
+
 from nucleus.core.types import Any, Raw, Tuple
 
 # TODO write test
@@ -15,7 +16,5 @@ def asdict_sanitize(obj: Any, exclude: Tuple[str]) -> Raw:
     """
     return asdict(
         obj,
-        dict_factory=lambda x: {
-            k.replace("_", "-"): v for k, v in x if k not in exclude
-        },
+        dict_factory=lambda x: {k.replace('_', '-'): v for k, v in x if k not in exclude},
     )

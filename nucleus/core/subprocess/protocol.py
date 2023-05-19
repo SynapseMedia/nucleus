@@ -2,8 +2,9 @@ import asyncio
 
 # Convention for importing types
 from nucleus.core.types import Any
-from .types import Reader, Loop
+
 from .constants import FILE_NO
+from .types import Loop, Reader
 
 
 class StreamProtocol(asyncio.subprocess.SubprocessStreamProtocol):

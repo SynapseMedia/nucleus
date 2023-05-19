@@ -1,8 +1,8 @@
 import functools
 
-from .services import Estuary
 from .clients import EstuaryClient
-from .types import Service, Client
+from .services import Estuary
+from .types import Client, Service
 
 
 @functools.singledispatch
@@ -14,7 +14,7 @@ def client(svc: Service) -> Client:
     :return: edge service client instance
     :rtype: Edge
     """
-    raise NotImplementedError(f"cannot process not registered storable `{svc}")
+    raise NotImplementedError(f'cannot process not registered storable `{svc}')
 
 
 @client.register
@@ -26,4 +26,4 @@ def _(svc: Estuary):
     )
 
 
-__all__ = ("client",)
+__all__ = ('client',)

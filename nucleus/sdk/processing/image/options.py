@@ -1,5 +1,7 @@
-from PIL.Image import Resampling
 from dataclasses import dataclass, field
+
+from PIL.Image import Resampling
+
 from nucleus.core.types import Tuple
 
 """All these settings are defined by pillow library.
@@ -39,7 +41,7 @@ class Crop:
     box: Coord
 
     def __iter__(self):
-        yield "box", (
+        yield 'box', (
             self.box.left,
             self.box.top,
             self.box.right,
@@ -72,9 +74,9 @@ class Resize:
         self._resample = resample
 
     def __iter__(self):
-        yield "size", self._size
-        yield "resample", self._resample
-        yield "box", self._box
+        yield 'size', self._size
+        yield 'resample', self._resample
+        yield 'box', self._box
 
 
-__all__ = ("Crop", "Coord", "Resize", "Resampling")
+__all__ = ('Crop', 'Coord', 'Resize', 'Resampling')
