@@ -65,11 +65,11 @@ Before using `nucleus`, FFmpeg and IPFS must be installed.
 
 Some available capabilities for dev support:
 
-- **Install**: `make bootstrap`
+- **Install**: `make install`
 - **Tests**: `make test`
-- **Debug**: `make test-debug`
-- **Lint**: `make code-check`
-- **Lint Fix**: `make code-fix`
+- **Debug**: `make debug`
+- **Lint**: `make lint`
+- **Lint Fix**: `make format`
 
 Note: Please check [Makefile](https://github.com/SynapseMedia/nucleus/blob/main/Makefile) for more capabilities.  
 
