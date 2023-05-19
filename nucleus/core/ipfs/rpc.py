@@ -1,6 +1,7 @@
 from nucleus.core.exceptions import IPFSRuntimeError
 from nucleus.core.http import LiveSession
 from nucleus.core.types import JSON
+
 from .types import RPCCommand
 
 
@@ -38,14 +39,11 @@ class RPC:
 
         # check if request was successful
         if not response.ok:
-
-            error_details = json_response.get("Message")
-            raise IPFSRuntimeError(
-                f"error trying to execute IPFS command `{type(command).__name__}`: {error_details}"
-            )
+            error_details = json_response.get('Message')
+            raise IPFSRuntimeError(f'error trying to execute IPFS command `{type(command).__name__}`: {error_details}')
 
         # ready to use response
         return json_response
 
 
-__all__ = ("RPC",)
+__all__ = ('RPC',)

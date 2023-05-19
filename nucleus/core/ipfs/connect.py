@@ -1,5 +1,4 @@
 import nucleus.core.http as http
-
 from nucleus.core.types import Optional
 
 from .constants import IPFS_DEFAULT_ENDPOINT
@@ -18,4 +17,4 @@ def rpc(endpoint: Optional[str] = None):
     return RPC(http.live_session(endpoint))
 
 
-__all__ = ("rpc",)
+__all__ = ('rpc',)

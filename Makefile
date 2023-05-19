@@ -1,50 +1,75 @@
+.DEFAULT_GOAL := all
+sources = nucleus
 
-export SHELL:=/bin/bash
+.PHONY: .pdm  ## Check that PDM is installed
+.pdm:
+	@pdm -V || echo 'Please install PDM: https://pdm.fming.dev/latest/\#installation'
 
 
-PYTHON_MODULES = nucleus/
-PYTHONPATH = .
-VENV = .venv
-PYTYPE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/pyright 
-PYTEST = env PYTHONPATH=${PYTHONPATH} PYTEST=1 ${VENV}/bin/py.test -c pytest.ini --no-header --durations=5 --disable-pytest-warnings -v  
-FLAKE8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/flake8 --config=flake8.ini 
-COVERAGE = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/coverage 
-BLACKFIX = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/black
-AUTOPEP8 = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/autopep8
-PYTHON = env PYTHONPATH=${PYTHONPATH} ${VENV}/bin/python3
-PIP = ${VENV}/bin/pip3
+.PHONY: install  ## Install the package, dependencies, and pre-commit for local development
+install: .pdm 
+	pdm install --group :all
 
-DEFAULT_PYTHON := /usr/bin/python3
-VIRTUALENV := /usr/bin/virtualenv
-REQUIREMENTS := -r requirements.txt
+.PHONY: refresh-lockfiles  ## Sync lockfiles with requirements files.
+refresh-lockfiles: .pdm
+	pdm lock --refresh --dev --group :all
 
-default: check-coding-style
+.PHONY: test  ## Run all tests, skipping the type-checker integration tests
+test: .pdm
+	pdm run coverage run -m pytest 
 
-setup-env:
-	virtualenv --python=python3 -q .venv
-	python3 -m pip install --upgrade pip
-venv:
-	test -d ${VENV} || ${VIRTUALENV} -p ${DEFAULT_PYTHON} -q ${VENV}
+.PHONY: debug  ## Run all tests, skipping the type-checker integration tests
+debug: 
+	pdm run coverage run -m pytest  --pdb
 
-requirements:
-	@if [ -d wheelhouse ]; then \
-		${PIP} install -q --no-index --find-links=wheelhouse ${REQUIREMENTS}; \
-	else \
-		${PIP} install --no-cache-dir --force-reinstall ${REQUIREMENTS}; \
-	fi
 
-	npm i
+.PHONY: testcov  ## Run tests and generate a coverage report, skipping the type-checker integration tests
+testcov: test
+	@echo "building coverage html"
+	@pdm run coverage html
+	@echo "building coverage lcov"
+	@pdm run coverage lcov
 
-bootstrap: setup-env venv requirements
+.PHONY: codespell  ## Use Codespell to do spellchecking
+codespell: .pdm
+	pdm run codespell $(sources)
 
-package-clean:
-	${PYTHON} setup.py clean --all
+.PHONY: format  ## Auto-format python source files
+format: .pdm
+	pdm run black  $(sources)
+	pdm run ruff --fix $(sources)
 
-package: package-clean
-	${PYTHON} setup.py sdist bdist_wheel
+.PHONY: lint  ## Lint python source files
+lint: .pdm
+	pdm run ruff $(sources)
+	pdm run black --exclude 'nucleus/tests' $(sources) --check --diff
 
-package-publish: package
-	twine upload dist/*
+
+.PHONY: clean  ## Clear local caches and build artifacts
+clean:
+	rm -rf `find . -name __pycache__`
+	rm -f `find . -type f -name '*.py[co]'`
+	rm -f `find . -type f -name '*~'`
+	rm -f `find . -type f -name '.*~'`
+	rm -rf .cache
+	rm -rf .pytest_cache
+	rm -rf .ruff_cache
+	rm -rf htmlcov
+	rm -rf *.egg-info
+	rm -f .coverage
+	rm -f .coverage.*
+	rm -rf build
+	rm -rf dist
+	rm -rf site
+	rm -rf docs/_build
+	rm -rf docs/.changelog.md docs/.version.md docs/.tmp_schema_mappings.html
+	rm -rf fastapi/test.db
+	rm -rf coverage.xml
+
+.PHONY: all  ## Run the standard set of checks performed in CI
+all: lint typecheck codespell testcov
+
+default: .pdm
 
 # Static analysis and coding convention
 code-fix: venv
@@ -58,15 +83,15 @@ type-check: venv
 	${PYTYPE} ${PYTHON_MODULES}/
 
 
-# Test tools
-test: venv
-	${PYTEST} ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
+# # Test tools
+# test: venv
+# 	${PYTEST} ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
 
-test-debug: venv
-	${PYTEST} --pdb ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
+# test-debug: venv
+# 	${PYTEST} --pdb ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
 
-test-coverage: venv 
-	${PYTEST} --cov-report term --cov-report  xml:coverage.xml --cov=nucleus
+# test-coverage: venv 
+# 	${PYTEST} --cov-report term --cov-report  xml:coverage.xml --cov=nucleus
 
 
 # Minimal makefile for Sphinx documentation

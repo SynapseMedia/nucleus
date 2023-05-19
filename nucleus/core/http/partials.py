@@ -1,4 +1,5 @@
 import functools
+
 import requests
 
 from .session import LiveSession
@@ -12,10 +13,10 @@ delete = functools.partial(requests.delete)
 
 
 __all__ = (
-    "live_session",
-    "session",
-    "post",
-    "get",
-    "put",
-    "delete",
+    'live_session',
+    'session',
+    'post',
+    'get',
+    'put',
+    'delete',
 )

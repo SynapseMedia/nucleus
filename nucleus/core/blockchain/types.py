@@ -1,23 +1,23 @@
 from nucleus.core.types import (
-    URL,
-    HexStr,
-    Any,
-    Protocol,
-    Union,
-    NewType,
-    TypedDict,
-    NamedTuple,
-    Callable,
     JSON,
+    URL,
+    Any,
+    Callable,
+    HexStr,
+    NamedTuple,
+    NewType,
+    Protocol,
+    TypedDict,
+    Union,
 )
 
 Address = Union[HexStr, str]
-Abi = NewType("Abi", JSON)
+Abi = NewType('Abi', JSON)
 Connector = Callable[[URL], Any]
 PrivateKey = Union[Address, int]
 TxCall = Union[NamedTuple, TypedDict]
 TxAnswer = Union[NamedTuple, TypedDict]
-SignedTransaction = NewType("SignedTransaction", NamedTuple)
+SignedTransaction = NewType('SignedTransaction', NamedTuple)
 
 
 class Chain(Protocol):

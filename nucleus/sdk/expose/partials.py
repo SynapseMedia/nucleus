@@ -1,5 +1,5 @@
+from .key import Algorithm, Curve, KeyRing, KeyType, Use
 from .sep import SEP001, Header, Payload
-from .key import KeyRing, Algorithm, Curve, Use, KeyType
 
 
 def standard(type: str) -> SEP001:
@@ -30,6 +30,6 @@ def es256() -> KeyRing:
 
 
 __all__ = (
-    "standard",
-    "es256",
+    'standard',
+    'es256',
 )

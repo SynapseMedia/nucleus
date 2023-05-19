@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from .types import JWK
 
+from .types import JWK
 
 """
 We can support more
@@ -26,26 +26,26 @@ none	No digital signature or MAC performed	Optional
 
 
 class Use(str, Enum):
-    SIG = "sig"
-    ENC = "enc"
+    SIG = 'sig'
+    ENC = 'enc'
 
 
 class KeyType(str, Enum):
-    RSA = "RSA"
-    EllipticCurve = "EC"
+    RSA = 'RSA'
+    EllipticCurve = 'EC'
 
 
 class Curve(str, Enum):
-    HMAC = "HMAC"
-    P256 = "P-256"
-    ED25519 = "ED25519"
-    Secp256k1 = "secp256k1"
+    HMAC = 'HMAC'
+    P256 = 'P-256'
+    ED25519 = 'ED25519'
+    Secp256k1 = 'secp256k1'
 
 
 class Algorithm(str, Enum):
-    H256 = "H256"
-    ES256 = "ES256"
-    ES256K = "ES256K"
+    H256 = 'H256'
+    ES256 = 'ES256'
+    ES256K = 'ES256K'
 
 
 @dataclass(slots=True)
@@ -68,4 +68,4 @@ class KeyRing:
         )
 
 
-__all__ = ("KeyRing", "Algorithm", "Curve", "KeyType", "Use")
+__all__ = ('KeyRing', 'Algorithm', 'Curve', 'KeyType', 'Use')

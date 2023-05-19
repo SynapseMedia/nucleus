@@ -1,16 +1,17 @@
 from dataclasses import dataclass
-from nucleus.sdk.processing import File
+
 from nucleus.core.types import (
-    Protocol,
     CID,
-    NewType,
-    Optional,
-    Union,
+    JSON,
     URL,
     Callable,
-    JSON,
+    NewType,
+    Optional,
+    Protocol,
+    Union,
     runtime_checkable,
 )
+from nucleus.sdk.processing import File
 
 
 @dataclass(slots=True)
@@ -34,7 +35,7 @@ class Pin:
 
 
 # Alias for allowed media to store
-ID = NewType("ID", str)
+ID = NewType('ID', str)
 Storable = Union[File, JSON, str, bytes]
 Store = Callable[[Storable], Object]
 
@@ -87,4 +88,4 @@ class Client(Protocol):
         ...
 
 
-__all__ = ("Pin", "Service", "Storable", "Store", "Client", "Object")
+__all__ = ('Pin', 'Service', 'Storable', 'Store', 'Client', 'Object')

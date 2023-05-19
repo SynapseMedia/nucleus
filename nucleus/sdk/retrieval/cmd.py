@@ -8,8 +8,8 @@ def migrate(*args: Sequence[str]):
     :return: command to execute
     :rtype: Command
     """
-    args_ = " ".join(args)  # type: ignore
-    command = f"npm run migrate -- {args_} --enc=json"
+    args_ = ' '.join(args)  # type: ignore
+    command = f'npm run migrate -- {args_} --enc=json'
     sub = subprocess.call(command)
     _ = sub.communicate()
     # TODO what we dot with stdout?

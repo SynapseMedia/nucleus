@@ -1,12 +1,13 @@
 import json
+
 import pytest
 
-from nucleus.core.types import Path, JSON
+from nucleus.core.types import JSON, Path
 
 
 @pytest.fixture
 def json_content():
-    return JSON({"test": "hi"})
+    return JSON({'test': 'hi'})
 
 
 def test_write_json(json_content: JSON, mock_local_json_path: Path):
@@ -25,6 +26,6 @@ def test_read_json(json_content: JSON, mock_local_json_path: Path):
 
 def test_fail_read_json(json_content: JSON):
     """Should fail reading json file with invalid file path"""
-    new_dir = Path("bad.json")
+    new_dir = Path('bad.json')
     with pytest.raises(FileNotFoundError):
         json_content.read(new_dir)

@@ -1,17 +1,17 @@
 from __future__ import annotations
 
-import pydantic
-import sqlite3
 import pickle
+import sqlite3
+
 import nucleus.core.cache as cache
 import nucleus.core.decorators as decorators
-
-from pydantic import ValidationError
+import pydantic
 from nucleus.core.cache import Connection
-from nucleus.core.types import Any, Union, Iterator, Path, Generic, T
-
+from nucleus.core.types import Any, Generic, Iterator, Path, T, Union
 from nucleus.sdk.exceptions import ModelManagerError, ModelValidationError
-from .constants import MIGRATE, INSERT, FETCH, MODELS_PATH
+from pydantic import ValidationError
+
+from .constants import FETCH, INSERT, MIGRATE, MODELS_PATH
 
 
 class _Manager(pydantic.main.ModelMetaclass):
@@ -24,12 +24,11 @@ class _Manager(pydantic.main.ModelMetaclass):
     def __new__(mcs, name: Any, bases: Any, attrs: Any, **kwargs: Any):  # type: ignore
         """Start a new connection to cache database and ensure that the database is ready to receive requests."""
         db_path = Path(MODELS_PATH)
-        db_file = f"{db_path}/{name}.db"
+        db_file = f'{db_path}/{name}.db'
 
         super_new = super().__new__  # type: ignore
         # Ensure initialization is only performed for subclasses of _Model
-        is_subclass_instance = any(
-            map(lambda x: isinstance(x, _Manager), bases))
+        is_subclass_instance = any(map(lambda x: isinstance(x, _Manager), bases))
         if not is_subclass_instance:
             return super_new(mcs, name, bases, attrs, **kwargs)  # type: ignore
 
@@ -41,7 +40,7 @@ class _Manager(pydantic.main.ModelMetaclass):
         conn = cache.connect(db_path=db_file)
         conn.execute(MIGRATE % (name, name))
         # add new attributes to class
-        new_attrs = {**{"_conn": conn, "_alias": name}, **attrs}
+        new_attrs = {**{'_conn': conn, '_alias': name}, **attrs}
         return super_new(mcs, name, bases, new_attrs, **kwargs)  # type: ignore
 
 
@@ -62,11 +61,9 @@ class _BaseModel(pydantic.BaseModel, metaclass=_Manager):
 
     def __init__(self, *args: Any, **kwargs: Any):
         try:
-            super(_BaseModel, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
         except ValidationError as e:
-            raise ModelValidationError(
-                f"raised exception during model initialization: {str(e)}"
-            )
+            raise ModelValidationError(f'raised exception during model initialization: {str(e)}')
 
         sqlite3.register_converter(self._alias, pickle.loads)
         sqlite3.register_adapter(type(self), pickle.dumps)
@@ -149,4 +146,4 @@ class Media(_BaseModel, Generic[T]):
     path: T
 
 
-__all__ = ("Model", "Media")
+__all__ = ('Model', 'Media')

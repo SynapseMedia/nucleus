@@ -1,8 +1,9 @@
-import sqlite3
 import contextlib
+import sqlite3
 
 from nucleus.core.exceptions import DatabaseError
-from nucleus.core.types import Iterator, Any
+from nucleus.core.types import Any, Iterator
+
 from .constants import DB_DEFAULT
 from .types import Connection
 
@@ -29,8 +30,7 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
         )
     except sqlite3.Error as e:
         # proxy exception raising
-        raise DatabaseError(
-            f"error while trying to connect to database: {str(e)}")
+        raise DatabaseError(f'error while trying to connect to database: {str(e)}')
 
 
 @contextlib.contextmanager
@@ -56,4 +56,4 @@ def is_open(conn: Connection) -> bool:
     return cursor is not None  # type: ignore
 
 
-__all__ = ["connect", "connection", "is_open"]
+__all__ = ['connect', 'connection', 'is_open']

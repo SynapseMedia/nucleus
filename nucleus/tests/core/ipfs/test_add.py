@@ -1,8 +1,8 @@
 import responses
-import nucleus.core.ipfs as ipfs
 
-from nucleus.core.types import Path, JSON
+import nucleus.core.ipfs as ipfs
 from nucleus.core.ipfs import Add, File
+from nucleus.core.types import JSON, Path
 
 
 @responses.activate

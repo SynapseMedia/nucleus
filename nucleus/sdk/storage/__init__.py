@@ -1,14 +1,9 @@
-from .store import *
+from . import edge, partials, services, store, types
 from .edge import *
-from .services import *
 from .partials import *
+from .services import *
+from .store import *
 from .types import *
-
-from . import store
-from . import edge
-from . import services
-from . import partials
-from . import types
 
 __all__ = [
     *types.__all__,

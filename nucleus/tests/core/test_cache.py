@@ -1,12 +1,11 @@
 import os
+from unittest.mock import patch
+
 import nucleus.core.cache as cache
-
-from mock import patch
 from nucleus.core.constants import ROOT_DIR
-from nucleus.core.types import Any, Path
+from nucleus.core.types import Path
 
-
-TEST_DB = f"{ROOT_DIR}/test.db"
+TEST_DB = f'{ROOT_DIR}/test.db'
 
 
 def test_is_open_ok_for_opened_connection():
@@ -16,9 +15,9 @@ def test_is_open_ok_for_opened_connection():
         os.remove(TEST_DB)
 
 
-def test_is_open_fail_for_closed_connection(mocker: Any):
+def test_is_open_fail_for_closed_connection():
     """Should return False for valid opened connection"""
-    with patch("nucleus.core.cache.database.sqlite3") as mock:
+    with patch('nucleus.core.cache.database.sqlite3') as mock:
         mock.connect().cursor.return_value = None  # type: ignore
         with cache.connection(TEST_DB) as conn:
             assert cache.is_open(conn) is False

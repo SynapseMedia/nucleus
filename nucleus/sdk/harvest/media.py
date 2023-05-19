@@ -1,4 +1,5 @@
-from nucleus.core.types import Path, Union, URL
+from nucleus.core.types import URL, Path, Union
+
 from .models import Media
 
 """
@@ -23,6 +24,6 @@ class Image(Collectable):
 
 
 __all__ = (
-    "Image",
-    "Video",
+    'Image',
+    'Video',
 )

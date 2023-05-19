@@ -1,6 +1,7 @@
 # Convention for importing types
 from web3 import Web3
-from nucleus.core.types import Primitives, HexStr, CID
+
+from nucleus.core.types import CID, HexStr, Primitives
 
 
 def to_hex(input_: Primitives) -> HexStr:
@@ -10,7 +11,7 @@ def to_hex(input_: Primitives) -> HexStr:
     :return: hexadecimal string
     :rtype: str
     """
-    return HexStr(Web3.toHex(input_))
+    return HexStr(Web3.to_hex(input_))
 
 
 def cid_to_uint256(cid_: CID) -> int:
@@ -20,5 +21,5 @@ def cid_to_uint256(cid_: CID) -> int:
     :return: uint256 cid representation
     :rtype: int
     """
-    cid_base16 = cid_.format().encode("base16")
-    return int("0x" + cid_base16[1:], 0)
+    cid_base16 = cid_.format().encode('base16')
+    return int('0x' + cid_base16[1:], 0)

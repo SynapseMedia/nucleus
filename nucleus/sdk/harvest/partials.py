@@ -1,11 +1,11 @@
 import functools
 
-from nucleus.core.types import Any, Type, T
-from pydantic import create_model, parse_obj_as, ValidationError
+from nucleus.core.types import Any, T, Type
 from nucleus.sdk.exceptions import ModelValidationError
+from pydantic import ValidationError, create_model, parse_obj_as
 
-from .models import Model
 from .media import Image, Video
+from .models import Model
 
 
 def media_factory(*, base: Type[T], **kwargs: Any) -> T:
@@ -19,9 +19,7 @@ def media_factory(*, base: Type[T], **kwargs: Any) -> T:
     try:
         return parse_obj_as(base, kwargs)
     except ValidationError as e:
-        raise ModelValidationError(
-            f"exceptions raised during schema validation in partials factory: {str(e)}"
-        )
+        raise ModelValidationError(f'exceptions raised during schema validation in partials factory: {str(e)}')
 
 
 # A partial prepared model factory functions
@@ -30,4 +28,4 @@ image = functools.partial(media_factory, base=Image)
 video = functools.partial(media_factory, base=Video)
 
 
-__all__ = ("model", "image", "video")
+__all__ = ('model', 'image', 'video')

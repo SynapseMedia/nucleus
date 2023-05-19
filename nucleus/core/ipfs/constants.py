@@ -1,1 +1,1 @@
-IPFS_DEFAULT_ENDPOINT = "http://localhost:5001"
+IPFS_DEFAULT_ENDPOINT = 'http://localhost:5001'

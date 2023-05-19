@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+
 from jwcrypto.common import json_encode  # type: ignore
+
 from nucleus.core.types import Raw
 
 from .key import KeyRing
@@ -19,10 +21,10 @@ class Sign:
     _jws: JWS = field(init=False)
     # filter included members in jwk object
     __allowed__ = (
-        "crv",
-        "kty",
-        "x",
-        "y",
+        'crv',
+        'kty',
+        'x',
+        'y',
     )
 
     def __post_init__(self):
@@ -39,12 +41,9 @@ class Sign:
         :rtype: JWS
         """
 
-        jwk: Raw = {
-            k: v for k, v in kr.jwk.items() if k in self.__allowed__
-        }  # type: ignore
-        header = {**{"alg": kr.alg.value, "jwk": jwk}, **dict(self._s8r)}
-        self._jws.add_signature(
-            kr.jwk, None, json_encode(header))  # type: ignore
+        jwk: Raw = {k: v for k, v in kr.jwk.items() if k in self.__allowed__}  # type: ignore
+        header = {**{'alg': kr.alg.value, 'jwk': jwk}, **dict(self._s8r)}
+        self._jws.add_signature(kr.jwk, None, json_encode(header))  # type: ignore
         return self
 
     def serialize(self) -> Serializer:
@@ -62,4 +61,4 @@ class Cypher(Sign):
     ...
 
 
-__all__ = ("Sign", "Cypher")
+__all__ = ('Sign', 'Cypher')

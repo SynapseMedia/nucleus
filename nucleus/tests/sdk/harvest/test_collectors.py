@@ -1,8 +1,7 @@
 import nucleus.sdk.harvest as harvest
-
 from nucleus.core.types import JSON
 
-mock_collectors_dir = "nucleus/tests/_mock/collectors/"
+mock_collectors_dir = 'nucleus/tests/_mock/collectors/'
 
 
 def test_load_collector(mock_raw_collected: JSON):
@@ -29,4 +28,4 @@ def test_map_collector(mock_raw_collected: JSON, mock_raw_collected2: JSON):
     got_keys = data_merged.keys()
 
     assert list(got_values) == [[mock_raw_collected], [mock_raw_collected2]]
-    assert list(got_keys) == ["Dummy", "File"]
+    assert list(got_keys) == ['Dummy', 'File']

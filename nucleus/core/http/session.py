@@ -1,8 +1,9 @@
+from urllib.parse import urljoin
+
 import requests
 
-from urllib.parse import urljoin
-from nucleus.core.types import Any
 from nucleus.core.exceptions import HttpError
+from nucleus.core.types import Any
 
 
 class LiveSession(requests.Session):
@@ -23,5 +24,4 @@ class LiveSession(requests.Session):
         try:
             return super().request(method, joined_url, *args, **kwargs)
         except requests.exceptions.RequestException as e:
-            raise HttpError(
-                f"error trying to make a request to {joined_url}: {str(e)}")
+            raise HttpError(f'error trying to make a request to {joined_url}: {str(e)}')

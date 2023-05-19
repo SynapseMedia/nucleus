@@ -1,8 +1,8 @@
-import nucleus.sdk.processing as processing
+from unittest.mock import patch
 
-from mock import patch
-from nucleus.core.types import Path, Any
-from nucleus.sdk.harvest import Video, Image, Media
+import nucleus.sdk.processing as processing
+from nucleus.core.types import Any, Path
+from nucleus.sdk.harvest import Image, Media, Video
 
 
 class MockMedia:
@@ -10,9 +10,7 @@ class MockMedia:
         return Media(path=path)
 
 
-def test_dispatch_engine(
-        mock_local_video_path: Path,
-        mock_local_image_path: Path):
+def test_dispatch_engine(mock_local_video_path: Path, mock_local_image_path: Path):
     """Should dispatch the right engine based on media"""
     video = Video(path=mock_local_video_path)
     image = Image(path=mock_local_image_path)
@@ -26,13 +24,12 @@ def test_dispatch_engine(
 
 def test_video_engine(mock_local_video_path: Path):
     """Should start a valid transcoding process using VideoEngine returning a valid output"""
-    with patch("nucleus.sdk.processing.process.VideoEngine") as mock:
-
+    with patch('nucleus.sdk.processing.process.VideoEngine') as mock:
         mock.return_value = MockMedia()
         media = Video(path=mock_local_video_path)
 
         # Video processing using call to pass input args
-        output = Path("video.mp4")
+        output = Path('video.mp4')
         video = processing.engine(media)
         media = video.save(output)
 
@@ -43,12 +40,11 @@ def test_video_engine(mock_local_video_path: Path):
 
 def test_image_engine(mock_local_image_path: Path):
     """Should start a valid transform process using ImageEngine returning a valid output"""
-    with patch("nucleus.sdk.processing.process.ImageEngine") as mock:
-
+    with patch('nucleus.sdk.processing.process.ImageEngine') as mock:
         mock.return_value = MockMedia()
         media = Image(path=mock_local_image_path)
 
-        output = Path("image.jpg")
+        output = Path('image.jpg')
         # expected pillow adapter
         image = processing.engine(media)
         media = image.save(output)

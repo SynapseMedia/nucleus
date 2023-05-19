@@ -2,8 +2,8 @@
 from nucleus.core.constants import ROOT_DIR
 
 # Runtime directories
-COLLECTORS_PATH = f"{ROOT_DIR}/collectors/"
-MODELS_PATH = "./.models/"
+COLLECTORS_PATH = f'{ROOT_DIR}/collectors/'
+MODELS_PATH = './.models/'
 
 # Query constants
 # Insert template fields are ordered based on model ordered dict field.
