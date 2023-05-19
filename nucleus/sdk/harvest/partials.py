@@ -1,8 +1,9 @@
 import functools
 
+from pydantic import ValidationError, create_model, parse_obj_as
+
 from nucleus.core.types import Any, T, Type
 from nucleus.sdk.exceptions import ModelValidationError
-from pydantic import ValidationError, create_model, parse_obj_as
 
 from .media import Image, Video
 from .models import Model

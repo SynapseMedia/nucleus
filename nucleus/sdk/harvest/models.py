@@ -3,13 +3,14 @@ from __future__ import annotations
 import pickle
 import sqlite3
 
+import pydantic
+from pydantic import ValidationError
+
 import nucleus.core.cache as cache
 import nucleus.core.decorators as decorators
-import pydantic
 from nucleus.core.cache import Connection
 from nucleus.core.types import Any, Generic, Iterator, Path, T, Union
 from nucleus.sdk.exceptions import ModelManagerError, ModelValidationError
-from pydantic import ValidationError
 
 from .constants import FETCH, INSERT, MIGRATE, MODELS_PATH
 

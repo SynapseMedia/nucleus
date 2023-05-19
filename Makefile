@@ -22,7 +22,6 @@ test: .pdm
 debug: 
 	pdm run coverage run -m pytest  --pdb
 
-
 .PHONY: testcov  ## Run tests and generate a coverage report, skipping the type-checker integration tests
 testcov: test
 	@echo "building coverage html"
