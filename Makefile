@@ -44,6 +44,10 @@ lint: .pdm
 	pdm run black --exclude 'nucleus/tests' $(sources) --check --diff
 
 
+.PHONY: test  ## Run all tests, skipping the type-checker integration tests
+publish: .pdm
+	pdm publish
+
 .PHONY: clean  ## Clear local caches and build artifacts
 clean:
 	rm -rf `find . -name __pycache__`
@@ -68,33 +72,7 @@ clean:
 .PHONY: all  ## Run the standard set of checks performed in CI
 all: lint typecheck codespell testcov
 
-default: .pdm
 
-# Static analysis and coding convention
-code-fix: venv
-	${BLACKFIX} ${PYTHON_MODULES}
-	${AUTOPEP8} --in-place --aggressive --aggressive --recursive -v ./${PYTHON_MODULES}
-
-code-check: venv
-	${FLAKE8} ${PYTHON_MODULES}
-
-type-check: venv
-	${PYTYPE} ${PYTHON_MODULES}/
-
-
-# # Test tools
-# test: venv
-# 	${PYTEST} ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
-
-# test-debug: venv
-# 	${PYTEST} --pdb ${PYTHON_MODULES}/tests/$(filter-out $@,$(MAKECMDGOALS))
-
-# test-coverage: venv 
-# 	${PYTEST} --cov-report term --cov-report  xml:coverage.xml --cov=nucleus
-
-
-# Minimal makefile for Sphinx documentation
-#
 
 # You can set these variables from the command line, and also
 # from the environment for the first two.
