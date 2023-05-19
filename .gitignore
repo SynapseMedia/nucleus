@@ -43,3 +43,4 @@ coverage.xml
 typings/*
 example.jpg
 scripts/*
+coverage.lcov
