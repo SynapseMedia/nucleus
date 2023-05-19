@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-
+from nucleus.sdk.processing import File
 from nucleus.core.types import (
     CID,
     JSON,
@@ -11,7 +11,7 @@ from nucleus.core.types import (
     Union,
     runtime_checkable,
 )
-from nucleus.sdk.processing import File
+
 
 
 @dataclass(slots=True)
