@@ -651,7 +651,7 @@ dependencies = [
 [metadata]
 lock_version = "4.2"
 cross_platform = true
-groups = ["default", "codespell", "linint", "mock", "static", "test"]
+groups = ["default", "lint", "static", "test"]
 content_hash = "sha256:6930fc8e0ca5ffbf93623dd07719520aa06f5792438a1da1bebf57d250af7ccf"
 
 [metadata.files]
