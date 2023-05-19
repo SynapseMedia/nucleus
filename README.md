@@ -50,7 +50,7 @@ The **Retrieval** component facilitates the retrieval and unmarshalling of metad
 
 You can use pip to install nucleus with e.g.:
 
-```pip install nucleus-sdk```
+`pip install nucleus-sdk`
 
 Before using `nucleus`, FFmpeg and IPFS must be installed.
 
