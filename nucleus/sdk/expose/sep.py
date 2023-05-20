@@ -62,15 +62,6 @@ class SEP001:
     def payload(self) -> Raw:
         return vars(self._payload)
 
-    def set_method(self, method: Type[Serializer]):
-        """Set the serialization method.
-
-        :param method: the serialization method
-        :return: none
-        :rtype: None
-        """
-        self._method = method
-
     def sign(self, key: KeyRing) -> Serializer:
         """Sign SEP using defined key and serialization method.
 
@@ -91,6 +82,15 @@ class SEP001:
         :rtype: None
         """
         self._payload.add(meta)
+
+    def set_serialization(self, method: Type[Serializer]):
+        """Set the serialization method.
+
+        :param method: the serialization method
+        :return: none
+        :rtype: None
+        """
+        self._method = method
 
 
 __all__ = ('SEP001', 'Header', 'Payload')

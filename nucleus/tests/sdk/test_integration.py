@@ -71,7 +71,7 @@ def test_nucleus():
         # https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
         sep001 = expose.standard(media_type)  # image/png
         # choose a serialization method
-        sep001.set_method(DagJose)  # the default
+        sep001.set_serialization(DagJose)  # the default
         sep001.add_metadata(Descriptive(**dict(nucleus)))
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
