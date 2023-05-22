@@ -48,7 +48,7 @@ The **Retrieval** component facilitates the retrieval and unmarshalling of metad
 
 ## Installing
 
-You can use pip to install nucleus with e.g.:
+Install and update using [pip](https://pip.pypa.io/en/stable/getting-started/):
 
 `pip install nucleus-sdk`
 
