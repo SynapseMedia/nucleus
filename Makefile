@@ -63,6 +63,7 @@ clean:
 	rm -f .coverage.*
 	rm -rf build
 	rm -rf dist
+	rm -rf coverage.lcov
 	rm -rf site
 	rm -rf docs/_build
 	rm -rf docs/.changelog.md docs/.version.md docs/.tmp_schema_mappings.html

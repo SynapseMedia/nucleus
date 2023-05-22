@@ -142,6 +142,11 @@ include = [
 
 [tool.coverage.run]
 source = ['nucleus']
+branch = true
+context = '${CONTEXT}'
+
+[tool.coverage.paths]
+sournce = ['nucleus']
 
 [tool.black]
 color = true

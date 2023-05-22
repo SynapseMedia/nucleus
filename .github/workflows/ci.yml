@@ -39,6 +39,5 @@ jobs:
           flags: unittests # optional
           name: codecov-umbrella # optional
           override_branch: "main"
-          fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
           
