@@ -603,6 +603,12 @@ version = "2.3.0"
 summary = "A library implementing the 'SemVer' scheme."
 
 [[package]]
+name = "setuptools"
+version = "67.8.0"
+requires_python = ">=3.7"
+summary = "Easily download, build, install, upgrade, and uninstall Python packages"
+
+[[package]]
 name = "smmap"
 version = "5.0.0"
 requires_python = ">=3.6"
@@ -699,7 +705,7 @@ dependencies = [
 lock_version = "4.2"
 cross_platform = true
 groups = ["default", "lint", "static", "test"]
-content_hash = "sha256:6930fc8e0ca5ffbf93623dd07719520aa06f5792438a1da1bebf57d250af7ccf"
+content_hash = "sha256:abd5065807b4bc65e6ddd806506150e88ef6b131bc18acc452fb0bea328e2c83"
 
 [metadata.files]
 "aiohttp 3.8.4" = [
@@ -2028,6 +2034,10 @@ content_hash = "sha256:6930fc8e0ca5ffbf93623dd07719520aa06f5792438a1da1bebf57d25
 ]
 "semantic-version 2.3.0" = [
     {url = "https://files.pythonhosted.org/packages/77/da/b27a08c2020791eccf50e3fc6c16003645ef06e2d95801b5bd283e9a12f1/semantic_version-2.3.0.tar.gz", hash = "sha256:19723ccc0d7ac93fa5af5ce680e0ad0781350d3e17480da9655817bd52ce937c"},
+]
+"setuptools 67.8.0" = [
+    {url = "https://files.pythonhosted.org/packages/03/20/630783571e76e5fa5f3e9f29398ca3ace377207b8196b54e0ffdf09f12c1/setuptools-67.8.0.tar.gz", hash = "sha256:62642358adc77ffa87233bc4d2354c4b2682d214048f500964dbe760ccedf102"},
+    {url = "https://files.pythonhosted.org/packages/f5/2c/074ab1c5be9c7d523d8d6d69d1f46f450fe7f11713147dc9e779aa4ca4ea/setuptools-67.8.0-py3-none-any.whl", hash = "sha256:5df61bf30bb10c6f756eb19e7c9f3b473051f48db77fddbe06ff2ca307df9a6f"},
 ]
 "smmap 5.0.0" = [
     {url = "https://files.pythonhosted.org/packages/21/2d/39c6c57032f786f1965022563eec60623bb3e1409ade6ad834ff703724f3/smmap-5.0.0.tar.gz", hash = "sha256:c840e62059cd3be204b0c9c9f74be2c09d5648eddd4580d9314c3ecde0b30936"},

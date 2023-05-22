@@ -97,17 +97,18 @@ classifiers = [
 # For an analysis of this field vs pip's requirements files see:
 # https://packaging.python.org/discussions/install-requires-vs-requirements/
 dependencies = [
-  # Optional
-  "ffmpeg-python>=0.2.0",
-  "pydantic>=1.10.1",
-  "hexbytes>=0.2.2",
-  "multiformats>=0.2.1",
-  "dag-cbor>=0.3.2",
-  "Pillow>=9.2.0",
-  "requests>=2.27.1",
-  "rich>=13.3.5",
-  "jwcrypto>=1.4.2",
-  "web3>=6.4.0",
+    # Optional
+    "ffmpeg-python>=0.2.0",
+    "pydantic>=1.10.1",
+    "hexbytes>=0.2.2",
+    "multiformats>=0.2.1",
+    "dag-cbor>=0.3.2",
+    "Pillow>=9.2.0",
+    "requests>=2.27.1",
+    "rich>=13.3.5",
+    "jwcrypto>=1.4.2",
+    "web3>=6.4.0",
+    "setuptools>=67.8.0",
 ]
 
 # List additional groups of dependencies here (e.g. development
