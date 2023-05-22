@@ -6,7 +6,6 @@ from .partials import es256, standard
 
 __all__ = (
     'Sign',
-    'Cipher',
     'KeyRing',
     'Curve',
     'KeyType',
