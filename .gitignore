@@ -44,3 +44,4 @@ typings/*
 example.jpg
 scripts/*
 coverage.lcov
+.pdm-python

@@ -191,3 +191,6 @@ test = [
   "responses>=0.23.1",
   "mock>=5.0.2",
 ]
+docs = [
+    "sphinx>=7.0.1",
+]

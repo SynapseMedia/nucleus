@@ -58,5 +58,6 @@
             "database": "${workspaceFolder:watchit-toolkit}/watchit.db"
         }
     ],
-    "sqltools.useNodeRuntime": true
+    "sqltools.useNodeRuntime": true,
+    "esbonio.sphinx.confDir": ""
 }
