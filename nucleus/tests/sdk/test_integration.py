@@ -73,7 +73,7 @@ def test_nucleus():
         sep001.add_metadata(Descriptive(**dict(nucleus)))
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
-       
+
         # choose a serialization method
         sep001.set_serialization(DagJose)  # the default
         # define signature type for method eg. ES256 algorithm

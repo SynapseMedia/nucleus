@@ -24,13 +24,16 @@ jobs:
 
       - name: Static Analysis
         run: make lint
-
+      
+      - name: Static Type Check
+        run: make pyright
+        
       - name: Tests
         run: make test
 
       - name: Coverage
         run: make testcov
-
+      
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:

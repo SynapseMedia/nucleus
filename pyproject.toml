@@ -169,8 +169,8 @@ addopts = "--durations=10 -v"
 filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.pyright]
-exclude = ['nucleus/tests']
-include = ['nuclues']
+exclude = ['nucleus/tests/']
+include = ['nucleus/']
 
 [tool.codespell]
 skip = '.git,env*'
@@ -181,8 +181,9 @@ lint = [
   "ruff>=0.0.269",
 ]
 static = [
-  "codespell>=2.2.4",
-  "mypi>=0.0.3",
+    "codespell>=2.2.4",
+    "mypi>=0.0.3",
+    "pyright>=1.1.309",
 ]
 test = [
   "pytest>=7.3.1",

@@ -43,6 +43,9 @@ lint: .pdm
 	pdm run ruff $(sources)
 	pdm run black --exclude 'nucleus/tests' $(sources) --check --diff
 
+.PHONY: pyright  ## Run the pyright integration tests
+pyright: .pdm
+	pdm run pyright
 
 .PHONY: test  ## Run all tests, skipping the type-checker integration tests
 publish: .pdm

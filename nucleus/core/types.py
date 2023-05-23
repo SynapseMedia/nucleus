@@ -4,10 +4,10 @@ import json
 import pathlib
 import urllib.parse as parse
 from collections import UserDict
-from types import *  # noqa: F403
+from types import *  # noqa: F403 # type: ignore
 
 # "inherit" from global typing
-from typing import *  # noqa: F403
+from typing import *  # noqa: F403 # type: ignore
 
 from hexbytes import HexBytes
 from multiformats import CID as MultiFormatCID
