@@ -109,6 +109,7 @@ dependencies = [
     "jwcrypto>=1.4.2",
     "web3>=6.4.0",
     "setuptools>=67.8.0",
+    "mkdocs>=1.4.3",
 ]
 
 # List additional groups of dependencies here (e.g. development
@@ -175,6 +176,10 @@ include = ['nucleus/']
 [tool.codespell]
 skip = '.git,env*'
 
+[tool.pdm.resolution.overrides]
+myst-parser = "1.0.0"
+sphinx = "7.0.0"
+
 [tool.pdm.dev-dependencies]
 lint = [
   "black>=23.3.0",
@@ -186,11 +191,14 @@ static = [
     "pyright>=1.1.309",
 ]
 test = [
-  "pytest>=7.3.1",
-  "coverage[toml]>=7.2.5",
-  "responses>=0.23.1",
-  "mock>=5.0.2",
+    "pytest>=7.3.1",
+    "coverage[toml]>=7.2.5",
+    "responses>=0.23.1",
+    "mock>=5.0.2",
 ]
 docs = [
-    "sphinx>=7.0.1",
+    "mkdocs>=1.4.3",
+    "mkdocs-include-markdown-plugin>=3.9.1",
+    "mkdocstrings-python>=1.0.0",
+    "mkdocs-material>=9.1.14",
 ]

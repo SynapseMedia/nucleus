@@ -45,8 +45,11 @@ class _Manager(pydantic.main.ModelMetaclass):
         return super_new(mcs, name, bases, new_attrs, **kwargs)  # type: ignore
 
 
-class _BaseModel(pydantic.BaseModel, metaclass=_Manager):
-    """This model defines a template to handle cache associated with each derived model"""
+class BaseModel(pydantic.BaseModel, metaclass=_Manager):
+    """
+    This class allows for the management of model persistence and data validation. 
+    It defines the necessary methods to handle the cache of data associated with each sub-model.
+    """
 
     _alias: str
     _conn: Connection
@@ -74,11 +77,11 @@ class _BaseModel(pydantic.BaseModel, metaclass=_Manager):
         expected=sqlite3.ProgrammingError,
         target=ModelManagerError,
     )
-    def get(cls) -> _BaseModel:
+    def get(cls) -> BaseModel:
         """Exec query and fetch one entry from database.
 
         :return: one result as model instance
-        :rtype: _Model
+        :rtype: BaseModel
         :raises ModelManagerError: if there is an error fetching entry
         """
 
@@ -91,11 +94,11 @@ class _BaseModel(pydantic.BaseModel, metaclass=_Manager):
         expected=sqlite3.ProgrammingError,
         target=ModelManagerError,
     )
-    def all(cls) -> Iterator[_BaseModel]:
+    def all(cls) -> Iterator[BaseModel]:
         """Exec query and fetch a list of data from database.
 
         :return: all query result as model instance
-        :rtype: Iterator[_Model]
+        :rtype: Iterator[BaseModel]
         :raises ModelManagerError: if there is an error fetching entries
         """
         response = cls._conn.execute(FETCH % cls._alias)
@@ -117,31 +120,39 @@ class _BaseModel(pydantic.BaseModel, metaclass=_Manager):
         return cursor.lastrowid
 
 
-class Model(_BaseModel):
-    """Base Metadata model."""
+class Model(BaseModel):
+    """
+    This class specifies by default the attributes needed for the metadata model
+    and allows its extension to create metadata sub-models with custom attributes.
 
-    name: str
-    desc: str
+    Usage example:
+
+        class Nucleus(Model):
+            # Represents a specific model for `Nucleus` metadata
+            name: str # default property
+            desc: str # default property
+            address: str # my custom property
+
+    """
+
+    name: str # the name of the resource
+    desc: str # the description of the resource
 
 
-class Media(_BaseModel, Generic[T]):
-    """Generic media model.
-    All derived class are used as types for dispatch actions.
-    eg.
+class Media(BaseModel, Generic[T]):
+    """
+    Generic media model to create media subtypes.
+    Each subtype represents a specific media type and defines how the resource should be treated.
+
+    Usage example:
 
         class Video(Media[Path]):
+            # Represents a video media resource with a file path
             ...
 
-
-        @singledispatch/assessments
-        def process(model: Media[Path]):
-            raise NotImplementedError()
-
-        @process.register
-        def _(model: Video):
+        class Image(Media[URL]):
+            # Represents an image media resource with a URL
             ...
-
-        process(video)
     """
 
     path: T
