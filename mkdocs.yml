@@ -1,0 +1,27 @@
+site_name: Nucleus
+site_description: The building block for decentralized media
+site_url: https://synapsemedia.io/
+
+nav:
+  - Home: index.md
+  - Harvest:
+      - Models: models.md
+
+theme: material
+plugins:
+  - include-markdown
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [nucleus] # search packages in the src folder
+
+markdown_extensions:
+- tables
+- toc:
+    permalink: true
+    title: Page contents
+- admonition
+- pymdownx.highlight
+- pymdownx.extra
+- pymdownx.tabbed:
+    alternate_style: true
