@@ -19,7 +19,7 @@ class Descriptive(Dynamic):
     """
 
     name: str
-    desc: str
+    description: str
 
     def __str__(self):
         return 'd'

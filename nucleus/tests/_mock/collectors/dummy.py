@@ -16,7 +16,7 @@ class Dummy(Collector):
                     'mpa_rating': 'PG',
                     'rating': 6.0,
                     'runtime': 105.0,
-                    'desc': 'Baby loves have fun',
+                    'description': 'Baby loves have fun',
                     'release_year': 2010,
                     'genres': ['Action', 'Comedy', 'Crime'],
                     'speech_language': 'en',

@@ -27,13 +27,13 @@ def main():
 
         class Nucleus(Model):
             name: str
-            desc: str
+            description: str
             contributors: List[str]
 
         # set our data in the model
         nucleus: Model = Nucleus(
             name="Nucleus the SDK",
-            desc="Building block for multimedia decentralization",
+            description="Building block for multimedia decentralization",
             contributors=["Jacob", "Geo", "Dennis", "Mark"],
         )
 

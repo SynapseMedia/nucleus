@@ -6,6 +6,10 @@ nav:
   - Home: index.md
   - Harvest:
       - Models: models.md
+      - Media: models.md
+      - Partials: models.md
+      - Collector: models.md
+      - Types: models.md
 
 theme: material
 plugins:

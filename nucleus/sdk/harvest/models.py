@@ -130,13 +130,13 @@ class Model(BaseModel):
         class Nucleus(Model):
             # Represents a specific model for `Nucleus` metadata
             name: str # default property
-            desc: str # default property
+            description: str # default property
             address: str # my custom property
 
     """
 
     name: str # the name of the resource
-    desc: str # the description of the resource
+    description: str # the description of the resource
 
 
 class Media(BaseModel, Generic[T]):
