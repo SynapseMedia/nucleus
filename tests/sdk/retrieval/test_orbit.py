@@ -2,7 +2,7 @@
 # import nucleus.sdk.retrieval as retrieval
 
 
-# mock_collectors_dir = "nucleus/tests/_mock/collectors/"
+# mock_collectors_dir = "tests/_mock/collectors/"
 
 
 # def test_orbit_subprocess_call():
