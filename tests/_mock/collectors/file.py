@@ -2,15 +2,6 @@ import json
 from nucleus.core.types import JSON
 from nucleus.sdk.harvest import Collector
 
-# class MyMeta(Meta):
-#     """You can define your own data model here .
-#     Write here any custom metadata model to distribute"""
-
-#     title: str
-#     address: str
-#     ...
-
-
 class File(Collector):
     """File implements Collector interface"""
 

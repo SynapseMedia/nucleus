@@ -48,8 +48,3 @@ def mock_raw_collected2(mock_raw_collected: Any):
 def mock_models(mock_raw_metadata: Any):
     return Movie.parse_obj(mock_raw_metadata)
 
-
-@pytest.fixture
-def mock_models_B(mock_raw_metadata: Any):
-    mock_raw_metadata.update({'name': 'A in the Road'})
-    return Movie.parse_obj(mock_raw_metadata)
