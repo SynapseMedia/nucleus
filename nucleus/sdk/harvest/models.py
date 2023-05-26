@@ -47,7 +47,7 @@ class _Manager(pydantic.main.ModelMetaclass):
 
 class BaseModel(pydantic.BaseModel, metaclass=_Manager):
     """
-    This class allows for the management of model persistence and data validation. 
+    This class allows for the management of model persistence and data validation.
     It defines the necessary methods to handle the cache of data associated with each sub-model.
     """
 
@@ -135,8 +135,8 @@ class Model(BaseModel):
 
     """
 
-    name: str # the name of the resource
-    description: str # the description of the resource
+    name: str  # the name of the resource
+    description: str  # the description of the resource
 
 
 class Media(BaseModel, Generic[T]):

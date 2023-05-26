@@ -170,7 +170,7 @@ addopts = "--durations=10 -v"
 filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.pyright]
-exclude = ['nucleus/tests/']
+exclude = ['tests/']
 include = ['nucleus/']
 
 [tool.codespell]
@@ -188,7 +188,7 @@ lint = [
 static = [
     "codespell>=2.2.4",
     "mypi>=0.0.3",
-    "pyright>=1.1.309",
+    "pyright>=1.1.310",
 ]
 test = [
     "pytest>=7.3.1",

@@ -41,7 +41,7 @@ format: .pdm
 .PHONY: lint  ## Lint python source files
 lint: .pdm
 	pdm run ruff $(sources)
-	pdm run black --exclude 'nucleus/tests' $(sources) --check --diff
+	pdm run black --exclude 'tests' $(sources) --check --diff
 
 .PHONY: pyright  ## Run the pyright integration tests
 pyright: .pdm

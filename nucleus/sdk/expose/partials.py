@@ -2,6 +2,7 @@ from .key import Algorithm, Curve, KeyRing, KeyType, Use
 from .sep import SEP001, Header, Payload
 
 
+# todo rename tu factory esta archivo
 def standard(type: str) -> SEP001:
     """SEP001 factory
 
