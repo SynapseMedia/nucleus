@@ -138,7 +138,7 @@ include = [
     '/README.md',
     '/Makefile',
     '/nucleus',
-    '/nucleus/tests',
+    '/tests',
 ]
 
 
