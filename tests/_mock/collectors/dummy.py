@@ -1,5 +1,5 @@
-from nucleus.sdk.harvest import Collector
 from nucleus.core.types import JSON
+from nucleus.sdk.harvest import Collector
 
 
 class Dummy(Collector):
@@ -9,23 +9,24 @@ class Dummy(Collector):
         """Here could be implemented any logic to collect metadata."""
 
         dummy_data = [
-            JSON({
-                'metadata': {
-                    'name': 'A Fork in the Road',
-                    'imdb_code': 'wtt00000000',
-                    'creator_key': '0xee99ceff640d37edd9cac8c7cff4ed4cd609f435',
-                    'mpa_rating': 'PG',
-                    'rating': 6.0,
-                    'runtime': 105.0,
-                    'description': 'Baby loves have fun',
-                    'release_year': 2010,
-                    'genres': ['Action', 'Comedy', 'Crime'],
-                    'speech_language': 'en',
-                    'publish_date': 1669911990.9270618,
-                },
-                'media': [{'path': 'tests/_mock/files/watchit.png'}],
-            })
+            JSON(
+                {
+                    'metadata': {
+                        'name': 'A Fork in the Road',
+                        'imdb_code': 'wtt00000000',
+                        'creator_key': '0xee99ceff640d37edd9cac8c7cff4ed4cd609f435',
+                        'mpa_rating': 'PG',
+                        'rating': 6.0,
+                        'runtime': 105.0,
+                        'description': 'Baby loves have fun',
+                        'release_year': 2010,
+                        'genres': ['Action', 'Comedy', 'Crime'],
+                        'speech_language': 'en',
+                        'publish_date': 1669911990.9270618,
+                    },
+                    'media': [{'path': 'tests/_mock/files/watchit.png'}],
+                }
+            )
         ]
 
-        for data in dummy_data:
-            yield data
+        yield from dummy_data

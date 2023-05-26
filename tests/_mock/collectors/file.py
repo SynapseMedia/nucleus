@@ -1,6 +1,8 @@
 import json
+
 from nucleus.core.types import JSON
 from nucleus.sdk.harvest import Collector
+
 
 class File(Collector):
     """File implements Collector interface"""

@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := all
-sources = nucleus
+sources = nucleus tests
 
 .PHONY: .pdm  ## Check that PDM is installed
 .pdm:
