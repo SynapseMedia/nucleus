@@ -6,7 +6,7 @@ sources = nucleus
 	@pdm -V || echo 'Please install PDM: https://pdm.fming.dev/latest/\#installation'
 
 
-.PHONY: install  ## Install the package, dependencies, and pre-commit for local development
+.PHONY: install  ## Install the package and dependencies
 install: .pdm 
 	pdm install --group :all
 
@@ -14,15 +14,15 @@ install: .pdm
 refresh-lockfiles: .pdm
 	pdm lock --refresh --dev --group :all
 
-.PHONY: test  ## Run all tests, skipping the type-checker integration tests
+.PHONY: test  ## Run all tests
 test: .pdm
 	pdm run coverage run -m pytest 
 
-.PHONY: debug  ## Run all tests, skipping the type-checker integration tests
+.PHONY: debug  ## Run all tests in debug mode
 debug: 
 	pdm run coverage run -m pytest  --pdb
 
-.PHONY: testcov  ## Run tests and generate a coverage report, skipping the type-checker integration tests
+.PHONY: testcov  ## Run tests and generate a coverage report
 testcov: test
 	@echo "building coverage html"
 	@pdm run coverage html
@@ -43,11 +43,11 @@ lint: .pdm
 	pdm run ruff $(sources)
 	pdm run black --exclude 'tests' $(sources) --check --diff
 
-.PHONY: pyright  ## Run the pyright integration tests
+.PHONY: pyright  ## Run the pyright 
 pyright: .pdm
 	pdm run pyright
 
-.PHONY: test  ## Run all tests, skipping the type-checker integration tests
+.PHONY: test  # Build and publish to pypi
 publish: .pdm
 	pdm publish
 
@@ -80,3 +80,10 @@ docs:
 
 .PHONY: all  ## Run the standard set of checks performed in CI
 all: lint pyright codespell test
+
+.PHONY: help  ## Display this message
+help:
+	@grep -E \
+		'^.PHONY: .*?## .*$$' $(MAKEFILE_LIST) | \
+		sort | \
+		awk 'BEGIN {FS = ".PHONY: |## "}; {printf "\033[36m%-19s\033[0m %s\n", $$2, $$3}'
