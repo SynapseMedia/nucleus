@@ -2,7 +2,7 @@ from .crypto import Sign
 from .key import Curve, KeyRing, KeyType, Use
 from .marshall import Compact, DagJose
 from .metadata import Descriptive, Structural, Technical
-from .partials import es256, standard
+from .factory import es256, standard
 
 __all__ = (
     'Sign',
