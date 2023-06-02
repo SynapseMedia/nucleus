@@ -3,11 +3,14 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum
 
+from nucleus.core.types import Raw, Setting
+
 from .types import JWK
 
 """
 We can support more
 ref: https://www.rfc-editor.org/rfc/rfc7518#section-3.1
+ref: https://datatracker.ietf.org/doc/html/rfc7517#section-4.1
 HS256	HMAC using SHA-256	Required
 HS384	HMAC using SHA-384	Optional
 HS512	HMAC using SHA-512	Optional
@@ -48,18 +51,36 @@ class Algorithm(str, Enum):
     ES256K = 'ES256K'
 
 
+# class EncKeyRing:
+#     ...
+
+
 @dataclass(slots=True)
-class KeyRing:
+class SignKeyRing:
     alg: Algorithm
     key_type: KeyType
     curve: Curve
     use: Use
 
     # internal jwk interface
-    jwk: JWK = field(init=False)
+    _jwk: JWK = field(init=False)
+    # filter included members in jwk object
+    __allowed__ = (
+        'crv',
+        'kty',
+        'x',
+        'y',
+    )
+
+    def __iter__(self) -> Setting:
+        """Export extra headers to add into serialization"""
+        jwk: Raw = {k: v for k, v in self._jwk.items() if k in self.__allowed__}  # type: ignore
+        yield 'alg', self.alg.value
+        yield 'jwk', jwk
 
     def __post_init__(self):
         # Initialize _jwk as new JWK object
+        # ref: https://jwcrypto.readthedocs.io/en/latest/jwk.html
         self.jwk = JWK.generate(  # type: ignore
             alg=self.alg.value,
             kty=self.key_type.value,
@@ -68,4 +89,4 @@ class KeyRing:
         )
 
 
-__all__ = ('KeyRing', 'Algorithm', 'Curve', 'KeyType', 'Use')
+__all__ = ('SignKeyRing', 'Algorithm', 'Curve', 'KeyType', 'Use')

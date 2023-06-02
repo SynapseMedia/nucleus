@@ -9,7 +9,7 @@ from pydantic import ValidationError
 import nucleus.core.cache as cache
 import nucleus.core.decorators as decorators
 from nucleus.core.cache import Connection
-from nucleus.core.types import Any, Generic, Iterator, Path, T, Union
+from nucleus.core.types import Any, Generic, Iterator, Path, T
 from nucleus.sdk.exceptions import ModelManagerError, ModelValidationError
 
 from .constants import FETCH, INSERT, MIGRATE, MODELS_PATH
@@ -45,10 +45,21 @@ class _Manager(pydantic.main.ModelMetaclass):
         return super_new(mcs, name, bases, new_attrs, **kwargs)  # type: ignore
 
 
-class BaseModel(pydantic.BaseModel, metaclass=_Manager):
-    """
-    This class allows for the management of model persistence and data validation.
-    It defines the necessary methods to handle the cache of data associated with each sub-model.
+class Base(pydantic.BaseModel, metaclass=_Manager):
+    """Base class for models that enables efficient model persistence and data validation.
+
+    Example::
+
+        class MyModel(BaseModel):
+            name: str
+
+        # store a snapshot of the model
+        stored_model = MyModel(name="Model")
+        stored_model.save()
+
+        # we should be able to retrieve the same model
+        assert MyModel.all() == [stored_model] # True
+
     """
 
     _alias: str
@@ -77,10 +88,10 @@ class BaseModel(pydantic.BaseModel, metaclass=_Manager):
         expected=sqlite3.ProgrammingError,
         target=ModelManagerError,
     )
-    def get(cls) -> BaseModel:
-        """Exec query and fetch one entry from database.
+    def get(cls) -> Base:
+        """Exec query and fetch first entry from database.
 
-        :return: one result as model instance
+        :return: first registered snapshot
         :rtype: BaseModel
         :raises ModelManagerError: if there is an error fetching entry
         """
@@ -94,10 +105,10 @@ class BaseModel(pydantic.BaseModel, metaclass=_Manager):
         expected=sqlite3.ProgrammingError,
         target=ModelManagerError,
     )
-    def all(cls) -> Iterator[BaseModel]:
+    def all(cls) -> Iterator[Base]:
         """Exec query and fetch a list of data from database.
 
-        :return: all query result as model instance
+        :return: all registered snapshots
         :rtype: Iterator[BaseModel]
         :raises ModelManagerError: if there is an error fetching entries
         """
@@ -109,23 +120,24 @@ class BaseModel(pydantic.BaseModel, metaclass=_Manager):
         expected=sqlite3.ProgrammingError,
         target=ModelManagerError,
     )
-    def save(self) -> Union[int, None]:
-        """Exec insertion into database using built query
+    def save(self) -> bool:
+        """Exec insertion query into database
 
-        :return: true if query was saved or False otherwise
+        :return: True if successful else False
         :rtype: bool
         :raises ModelManagerError: if there is an error saving entry
         """
+
+        # https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.lastrowid
         cursor = self._conn.execute(INSERT % self._alias, (self,))
-        return cursor.lastrowid
+        return cursor.rowcount > 0
 
 
-class Model(BaseModel):
-    """
-    This class specifies by default the attributes needed for the metadata model
+class Model(Base):
+    """Model class specifies by default the attributes needed for the metadata model
     and allows its extension to create metadata sub-models with custom attributes.
 
-    Usage example:
+    Usage::
 
         class Nucleus(Model):
             # Represents a specific model for `Nucleus` metadata
@@ -139,12 +151,12 @@ class Model(BaseModel):
     description: str  # the description of the resource
 
 
-class Media(BaseModel, Generic[T]):
+class Media(Base, Generic[T]):
     """
     Generic media model to create media subtypes.
-    Each subtype represents a specific media type and defines how the resource should be treated.
+    Each subtype represents a specific media type with the allowed collection path type.
 
-    Usage example:
+    Usage::
 
         class Video(Media[Path]):
             # Represents a video media resource with a file path

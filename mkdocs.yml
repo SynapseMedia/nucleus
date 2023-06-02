@@ -3,29 +3,34 @@ site_description: The building block for decentralized media
 site_url: https://synapsemedia.io/
 
 nav:
-  - Home: index.md
-  - Harvest:
-      - Models: models.md
-      - Media: models.md
-      - Partials: models.md
-      - Collector: models.md
-      - Types: models.md
-
+  - Overview: index.md
+  - Getting started: gs.md
+  - Usage guide: 
+    - Harvesting raw: guide/harvest.md
+    - Processing multimedia: index.md
+    - Multimedia storage: index.md
+    - Publishing the metadata: index.md
+  - API Reference: 
+    - Harvest:
+        - Models: reference/harvest/models.md
+        - Media: reference/harvest/media.md
+        - Partials: reference/harvest/partials.md
+    # more here
+  - Developer Guide:
+    - Overview: dev/index.md
+    - Architecture: dev/arch.md
+    - Release notes: dev/arch.md
+   
 theme: material
 plugins:
   - include-markdown
+  - glightbox
   - mkdocstrings:
       handlers:
         python:
           paths: [nucleus] # search packages in the src folder
 
+
 markdown_extensions:
-- tables
-- toc:
-    permalink: true
-    title: Page contents
 - admonition
 - pymdownx.highlight
-- pymdownx.extra
-- pymdownx.tabbed:
-    alternate_style: true

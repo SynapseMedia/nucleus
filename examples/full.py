@@ -13,6 +13,7 @@ from nucleus.sdk.expose import (
     Descriptive,
     Technical,
     DagJose,
+    Sign,
     # Compact
 )
 
@@ -66,16 +67,17 @@ def main():
         # standard implementation
         # https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
         sep001 = expose.standard(media_type)  # image/png
+        # Prepare serialization
+        sep001.set_operation(Sign)
+        sep001.set_serialization(DagJose)
+        # Add signature/recipient key
+        sep001.add_key(expose.es256())
+        # add metadata into payload
         sep001.add_metadata(Descriptive(**dict(nucleus)))
         sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, width=width, height=height))
-        
-        # set serialization method
-        sep001.set_serialization(DagJose)
-        # define signature type for method eg. ES256 algorithm
-        signed_dag_jose = sep001.sign(expose.es256())
         # we get signed dag-jose serialization.. let's store it
-        obj: Object = signed_dag_jose.save_to(local_storage)
+        obj: Object = sep001.serialize().save_to(local_storage)
         # what we do with our new and cool CID?
         logger.console.print(obj.hash)
 

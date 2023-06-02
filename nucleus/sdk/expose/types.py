@@ -88,4 +88,25 @@ class Serializer(Protocol):
         ...
 
 
+class KeyRing(Protocol):
+    # TODO add docs
+
+    def __iter__(self) -> Setting:
+        """Export extra headers to add into serialization"""
+        ...
+
+
+class Crypto(Protocol):
+    # TODO add docs
+
+    def __init__(self, serializer: Serializer):
+        ...
+
+    def serialize(self) -> Serializer:
+        ...
+
+    def add_key(self, kr: KeyRing) -> Crypto:
+        ...
+
+
 __all__ = ()

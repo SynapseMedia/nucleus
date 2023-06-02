@@ -10,6 +10,10 @@ sources = nucleus tests
 install: .pdm 
 	pdm install --group :all
 
+.PHONY: sync ## Synchronize the current working set with lock file
+sync: .pdm
+	pdm sync --group :all
+
 .PHONY: refresh-lockfiles  ## Sync lockfiles with requirements files.
 refresh-lockfiles: .pdm
 	pdm lock --refresh --dev --group :all
@@ -72,11 +76,15 @@ clean:
 	rm -rf docs/.changelog.md docs/.version.md docs/.tmp_schema_mappings.html
 	rm -rf fastapi/test.db
 	rm -rf coverage.xml
-	
+
 .PHONY: docs  ## Generate the docs
 docs:
 	pdm run mkdocs build
 	
+
+.PHONY: watch ## Start docs server in localhost
+watch:
+	pdm run mkdocs serve
 
 .PHONY: all  ## Run the standard set of checks performed in CI
 all: lint pyright codespell test

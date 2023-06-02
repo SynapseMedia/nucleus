@@ -15,7 +15,7 @@ class Collector(ABC):
 
     @abstractmethod
     def __iter__(self) -> Iterator[JSON]:
-        """Collect metadata from any kind of data input"""
+        """Collect metadata from any kind of data input and return an iterator"""
         ...
 
 

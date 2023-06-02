@@ -1,12 +1,11 @@
 from .crypto import Sign
 from .factory import es256, standard
-from .key import Curve, KeyRing, KeyType, Use
+from .key import Curve, KeyType, SignKeyRing, Use
 from .marshall import Compact, DagJose
 from .metadata import Descriptive, Structural, Technical
 
 __all__ = (
     'Sign',
-    'KeyRing',
     'Curve',
     'KeyType',
     'Use',
@@ -14,6 +13,7 @@ __all__ = (
     'Compact',
     'Structural',
     'Descriptive',
+    'SignKeyRing',
     'Technical',
     'standard',
     'es256',

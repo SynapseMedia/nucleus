@@ -97,7 +97,6 @@ classifiers = [
 # For an analysis of this field vs pip's requirements files see:
 # https://packaging.python.org/discussions/install-requires-vs-requirements/
 dependencies = [
-    # Optional
     "ffmpeg-python>=0.2.0",
     "pydantic>=1.10.1",
     "hexbytes>=0.2.2",
@@ -109,7 +108,6 @@ dependencies = [
     "jwcrypto>=1.4.2",
     "web3>=6.4.0",
     "setuptools>=67.8.0",
-    "mkdocs>=1.4.3",
 ]
 
 # List additional groups of dependencies here (e.g. development
@@ -200,5 +198,6 @@ docs = [
     "mkdocs>=1.4.3",
     "mkdocs-include-markdown-plugin>=3.9.1",
     "mkdocstrings-python>=1.0.0",
-    "mkdocs-material>=9.1.14",
+    "mkdocs-material>=9.1.15",
+    "mkdocs-glightbox>=0.3.4",
 ]

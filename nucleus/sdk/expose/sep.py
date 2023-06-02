@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
-from nucleus.core.types import CID, Optional, Raw, Type
+from nucleus.core.types import CID, List, Optional, Raw, Type
 
 from .crypto import Sign
-from .key import KeyRing
 from .marshall import DagJose
-from .types import Metadata, Serializer
+from .types import Crypto, KeyRing, Metadata, Serializer
 
 """Standard implementation for SEP-001 .
 ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.mdhttps://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
@@ -53,8 +52,17 @@ class SEP001:
 
     _header: Header
     _payload: Payload
+
+    _keys: List[KeyRing] = field(init=False)
     # serialization method eg. DagJose, Compact, etc
-    _method: Type[Serializer] = DagJose
+    _method: Type[Serializer] = field(init=False)
+    # crypto operation type eg. Sign, Cypher
+    _crypto: Type[Crypto] = field(init=False)
+
+    def __post_init__(self):
+        self._keys = []
+        self._method = DagJose
+        self._crypto = Sign
 
     def header(self) -> Raw:
         return vars(self._header)
@@ -62,35 +70,57 @@ class SEP001:
     def payload(self) -> Raw:
         return vars(self._payload)
 
-    def sign(self, key: KeyRing) -> Serializer:
-        """Sign SEP using defined key and serialization method.
+    def add_key(self, kr: KeyRing):
+        """Add signature/recipient key.
+        We use the keys later in the serialization process.
 
-        :param key: the key to use during sign process
-        :return: signed serializer
-        :rtype: Serializer
+        :param kr: key ring implementation
+        :return: None
+        :rtype: None
         """
-        serializer = self._method(self)
-        sign = Sign(serializer).add_key(key)
-        signed_serializer = sign.serialize()
-        return signed_serializer
+        self._keys.append(kr)
 
-    def add_metadata(self, meta: Metadata) -> None:
-        """Proxy add metadata to payload
+    def add_metadata(self, meta: Metadata):
+        """Add metadata to payload
 
         :param meta: the metadata type to store in payload
-        :return: none
+        :return: None
         :rtype: None
         """
         self._payload.add(meta)
+
+    def set_operation(self, crypto: Type[Crypto]):
+        """Set cryptography operation type to use during standard serialization.
+
+        :param crypto: the crypto operation type
+        :return: None
+        :rtype: None
+        """
+        self._crypto = crypto
 
     def set_serialization(self, method: Type[Serializer]):
         """Set the serialization method.
 
         :param method: the serialization method
-        :return: none
+        :return: None
         :rtype: None
         """
         self._method = method
+
+    def serialize(self) -> Serializer:
+        """Serialize the standard according to the defined serialization method and crypto operation.
+        
+        :return: the out-of-the-box/ready-state serializer
+        :rtype: Serializer
+        """
+        serializer = self._method(self)
+        crypto = self._crypto(serializer)
+
+        # associate keys
+        for k in self._keys:
+            crypto.add_key(k)
+
+        return crypto.serialize()
 
 
 __all__ = ('SEP001', 'Header', 'Payload')

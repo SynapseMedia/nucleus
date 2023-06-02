@@ -12,13 +12,13 @@ Nucleus is a collection of low-level tools for media decentralization. It offers
 
 The key features of Nucleus include:
 
-- Metadata harvesting
-- Multimedia processing
-- Multimedia storage
-- Metadata distribution
-- Web3 instruments
+- **Metadata harvesting**
+- **Multimedia processing**
+- **Multimedia storage**
+- **Metadata distribution**
+- **Web3 instruments**
 
-Nucleus follows a modular and layered design approach, consisting of the following layers:
+Nucleus follows a modular and layered design approach:
 
 1. **The Core**: This layer contains the building block packages that have minimal or no external dependencies. Any dependencies within the core layer will be limited to other internal packages.
 
@@ -35,11 +35,11 @@ Nucleus proposes a sequence of steps (pipeline) for the processing and decentral
 3. **Storage**:  Store the processed content in the IPFS network.
 4. **Expose**: Distribute metadata through the IPFS ecosystem.
 5. **Mint**: Create metadata as NFTs (Non-Fungible Tokens).
-6. **Retrieval**: Retrieve and unmarshal metadata for further distribution.
+6. **Retrieval**: Facilitates the retrieval and unmarshalling of metadata from IPFS ecosystem.
 
-The pipeline design follows the decoupling principle, allowing for flexible use cases. For example, the **storage** component can be optional if data is already stored on the IPFS network. Similarly, the **mint** component can be skipped if there is no need to create NFTs for the metadata. The **processing** component may also be unnecessary if the media is already prepared for storage.
+The pipeline is modular and adheres to the decoupling principle, enabling flexible use cases. For instance, the **storage** component can be optional if data is already stored on the IPFS network. Similarly, the **mint** component can be skipped if there is no need to create NFTs for the metadata. The **processing** component may also be unnecessary if the media is already prepared for storage.
 
-The **Retrieval** component facilitates the retrieval and unmarshalling of metadata from IPFS ecosystem, which can then be distributed through various means. eg.OrbitDB, Gun, etc..
+As part of the metadata federation, **Meta Lake** emerges as a new concept in the Nucleus ecosystem, referring to the central communication point for metadata distribution. The [serialization](https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md) process of the metadata determines the transmission medium, with IPLD and Raw Blocks being among the means used by Nucleus. You can find more information about serialization in the following link:
 
 ## Installing
 
@@ -64,4 +64,4 @@ Some available capabilities for dev support:
 - **Lint**: `make lint`
 - **Lint Fix**: `make format`
 
-Note: Please check [Makefile](https://github.com/SynapseMedia/nucleus/blob/main/Makefile) for more capabilities.  
+Note: Run `make help` to check for more capabilities.  

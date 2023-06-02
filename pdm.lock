@@ -449,6 +449,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "mkdocs-glightbox"
+version = "0.3.4"
+summary = "MkDocs plugin supports image lightbox with GLightbox."
+
+[[package]]
 name = "mkdocs-include-markdown-plugin"
 version = "3.9.1"
 requires_python = ">=3.6"
@@ -456,7 +461,7 @@ summary = "Mkdocs Markdown includer plugin."
 
 [[package]]
 name = "mkdocs-material"
-version = "9.1.14"
+version = "9.1.15"
 requires_python = ">=3.7"
 summary = "Documentation that simply works"
 dependencies = [
@@ -873,7 +878,7 @@ dependencies = [
 lock_version = "4.2"
 cross_platform = true
 groups = ["default", "docs", "lint", "static", "test"]
-content_hash = "sha256:f332e3d36ed6f64e6d00299f34696abd8d64d73637cbf1e6599f3ce1d5cb58c3"
+content_hash = "sha256:4e1afe1960adb643c5cd84f6c114bea8454af2966201fbf0f011afb1bf6b1def"
 
 [metadata.files]
 "aiohttp 3.8.4" = [
@@ -1731,13 +1736,17 @@ content_hash = "sha256:f332e3d36ed6f64e6d00299f34696abd8d64d73637cbf1e6599f3ce1d
     {url = "https://files.pythonhosted.org/packages/3b/3f/9531888bc92bafb1bffddca5d9240a7bae9a479d465528883b61808ef9d6/mkdocs-autorefs-0.4.1.tar.gz", hash = "sha256:70748a7bd025f9ecd6d6feeba8ba63f8e891a1af55f48e366d6d6e78493aba84"},
     {url = "https://files.pythonhosted.org/packages/fb/5c/6594400290df38f99bf8d9ef249387b56f4ad962667836266f6fe7da8597/mkdocs_autorefs-0.4.1-py3-none-any.whl", hash = "sha256:a2248a9501b29dc0cc8ba4c09f4f47ff121945f6ce33d760f145d6f89d313f5b"},
 ]
+"mkdocs-glightbox 0.3.4" = [
+    {url = "https://files.pythonhosted.org/packages/a2/2d/d43cc9c22f4bc0f65bba2b78b18470eedff07a0b2bca5c0496a00c2c0ec9/mkdocs-glightbox-0.3.4.tar.gz", hash = "sha256:96aaf98216f83c0d0fad2e42a8d805cfa6329d6ab25b54265012ccb2154010d8"},
+    {url = "https://files.pythonhosted.org/packages/ca/46/52d22c7f15158a2aa591ae7dd328d4ebc1ea18e9245b92a22136ba0e01fe/mkdocs_glightbox-0.3.4-py3-none-any.whl", hash = "sha256:8f894435b4f75231164e5d9fb023c01e922e6769e74a121e822c4914f310a41d"},
+]
 "mkdocs-include-markdown-plugin 3.9.1" = [
     {url = "https://files.pythonhosted.org/packages/15/6a/6c0d064adb68e6553a18ccca5c187dcb0a7884a6a4a610f51401738a8001/mkdocs_include_markdown_plugin-3.9.1-py3-none-any.whl", hash = "sha256:f33687e29ac66d045ba181ea50f054646b0090b42b0a4318f08e7f1d1235e6f6"},
     {url = "https://files.pythonhosted.org/packages/4f/45/c48601119596157aeb453e1b1cc1eeda80ec50b6e8f508d916b39b5babe6/mkdocs_include_markdown_plugin-3.9.1.tar.gz", hash = "sha256:5e5698e78d7fea111be9873a456089daa333497988405acaac8eba2924a19152"},
 ]
-"mkdocs-material 9.1.14" = [
-    {url = "https://files.pythonhosted.org/packages/86/08/13bc6517824114eff7f9dd88317950061387d2aec854c95c64f1732a8e57/mkdocs_material-9.1.14.tar.gz", hash = "sha256:1ae74cc5464ef2f64574d4884512efed7f4db386fb9bc6af20fd427d7a702f49"},
-    {url = "https://files.pythonhosted.org/packages/aa/43/3f90ddbd6aa0ef85124d6f1d803ecde223b068adbf74f99db309134adb13/mkdocs_material-9.1.14-py3-none-any.whl", hash = "sha256:b56a9f955ed32d38333715cbbf68ce38f683bf38610c65094fa4ef2db9f08bcd"},
+"mkdocs-material 9.1.15" = [
+    {url = "https://files.pythonhosted.org/packages/12/f0/e25212dc7a0b028ba95f6b2db0ff8efd3317d9631ecd56bcff434212c2fa/mkdocs_material-9.1.15.tar.gz", hash = "sha256:8513ab847c9a541ed3d11a3a7eed556caf72991ee786c31c5aac6691a121088a"},
+    {url = "https://files.pythonhosted.org/packages/48/c7/9f4e97ea777e1dfa8e072cc07299a67509819f2d3da09dccf52d26a2eb4f/mkdocs_material-9.1.15-py3-none-any.whl", hash = "sha256:b49e12869ab464558e2dd3c5792da5b748a7e0c48ee83b4d05715f98125a7a39"},
 ]
 "mkdocs-material-extensions 1.1.1" = [
     {url = "https://files.pythonhosted.org/packages/cd/3f/e5e3c9bfbb42e4cb661f71bcec787ae6bdf4a161b8c4bb68fd7d991c436c/mkdocs_material_extensions-1.1.1.tar.gz", hash = "sha256:9c003da71e2cc2493d910237448c672e00cefc800d3d6ae93d2fc69979e3bd93"},
