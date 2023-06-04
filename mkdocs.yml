@@ -12,15 +12,19 @@ nav:
     - Publishing the metadata: index.md
   - API Reference: 
     - Harvest:
-        - Models: reference/harvest/models.md
-        - Media: reference/harvest/media.md
+        - Models reference: reference/harvest/models.md
+        - Media types: reference/harvest/media.md
+        - Utilities: reference/harvest/utilities.md
         - Partials: reference/harvest/partials.md
+        - Types: reference/harvest/types.md
     # more here
   - Developer Guide:
     - Overview: dev/index.md
     - Architecture: dev/arch.md
+    - Extending Engines: dev/arch.md
     - Release notes: dev/arch.md
    
+
 theme: material
 plugins:
   - include-markdown
@@ -29,6 +33,8 @@ plugins:
       handlers:
         python:
           paths: [nucleus] # search packages in the src folder
+          allow_inspection: true
+          annotations_path: source
 
 
 markdown_extensions:
