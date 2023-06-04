@@ -25,7 +25,7 @@ def media_factory(*, base: Type[T], **kwargs: Any) -> T:
     :param base: the base type for model
     :return: new media type instance
     :rtype: T
-    :raises: ModelValidationError: if model fails during schema validation
+    :raises ModelValidationError: if model fails during schema validation
     """
     try:
         return parse_obj_as(base, kwargs)

@@ -1,33 +1,55 @@
 site_name: Nucleus
 site_description: The building block for decentralized media
 site_url: https://synapsemedia.io/
+repo_url: https://github.com/SynapseMedia/nucleus
 
 nav:
-  - Overview: index.md
-  - Getting started: gs.md
+  - Getting started: index.md
   - Usage guide: 
     - Harvesting raw: guide/harvest.md
-    - Processing multimedia: index.md
-    - Multimedia storage: index.md
-    - Publishing the metadata: index.md
+    # - Processing multimedia: index.md
+    # - Multimedia storage: index.md
+    # - Publishing the metadata: index.md
   - API Reference: 
     - Harvest:
-        - Models reference: reference/harvest/models.md
-        - Media types: reference/harvest/media.md
+        - Models: reference/harvest/models.md
+        - Media: reference/harvest/media.md
         - Utilities: reference/harvest/utilities.md
         - Partials: reference/harvest/partials.md
         - Types: reference/harvest/types.md
     # more here
   - Developer Guide:
-    - Overview: dev/index.md
+    - Design: dev/index.md
     - Architecture: dev/arch.md
-    - Extending Engines: dev/arch.md
-    - Release notes: dev/arch.md
+    # - Extending Engines: dev/arch.md
+    # - Release notes: dev/arch.md
    
 
-theme: material
+theme: 
+  name: material
+  # Palette toggle for light mode
+  palette: 
+
+    # Palette toggle for light mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    # - navigation.tabs
+    - toc.integrate
+
+
+
 plugins:
   - include-markdown
+  - search
   - glightbox
   - mkdocstrings:
       handlers:
@@ -40,3 +62,9 @@ plugins:
 markdown_extensions:
 - admonition
 - pymdownx.highlight
+- pymdownx.snippets
+- pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

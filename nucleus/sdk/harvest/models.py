@@ -154,8 +154,8 @@ class Model(Base):
 class Media(Base, Generic[T]):
     """
     Generic media model to create media subtypes.
-    Each subtype represents a specific media type with the allowed collection path type.
-
+    Each subtype represents a specific media type and provides a generic specification of the sources from which it can be collected.
+    
     Usage::
 
         class Video(Media[Path]):
