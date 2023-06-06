@@ -16,7 +16,7 @@
         <link rel="prev" href="../media/">
       
       
-        <link rel="next" href="../partials/">
+        <link rel="next" href="../types/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
@@ -487,20 +487,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../partials/" class="md-nav__link">
-        Partials
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../types/" class="md-nav__link">
         Types
       </a>
@@ -686,7 +672,7 @@
   <div class="doc doc-contents ">
   
       <p>Generic model factory.</p>
-<p>Example::</p>
+<p>Usage::</p>
 <div class="highlight"><pre><span></span><code># define our partials types
 image = functools.partial(media_factory, base=Image)
 video = functools.partial(media_factory, base=Video)
@@ -781,7 +767,7 @@ my_img_type = image(path=&quot;image.jpg)
 <span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">media_factory</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">base</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generic model factory.</span>
 
-<span class="sd">    Example::</span>
+<span class="sd">    Usage::</span>
 
 <span class="sd">        # define our partials types</span>
 <span class="sd">        image = functools.partial(media_factory, base=Image)</span>
