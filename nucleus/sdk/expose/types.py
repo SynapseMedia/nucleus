@@ -90,7 +90,8 @@ class Serializer(Protocol):
 
 class KeyRing(Protocol):
     # TODO add docs
-
+    
+    
     def __iter__(self) -> Setting:
         """Export extra headers to add into serialization"""
         ...

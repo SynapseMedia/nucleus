@@ -86,19 +86,4 @@ def main():
         
             ipfs dag get bagcqceraajwo66kumbcrxf2todw7wjrmayh7tjwaegwigcgpzk745my4qa5a
         
-        Output:
-        
-            {
-                "link": {
-                    "/": "bafyreicjeouqwpslvdjm7nznimlvhdiibv6icucr73eqw56sm23kbs3yfy"
-                },
-                "payload": "AXESIEkjqQs-S6jSz7ctQxdTjQgNfIFQUf7JC3fSZragy3gu",
-                "signatures": [
-                    {
-                    "protected": "eyJhbGciOiJFUzI1NksiLCJqd2siOnsiYWxnIjoiRVMyNTZLIiwiY3J2Ijoic2VjcDI1NmsxIiwiZCI6IlFzVEtGY2pfSVE5VnQxWjc2S0F5V3V2ZzdROHNTRm4taXA1MWxyQm9hc3MiLCJrdHkiOiJFQyIsInVzZSI6InNpZyIsIngiOiJqLTlzOEZVTExCdmFnRm9yeE9FcmVGbUVKOUd4R19EU3dmaG1EYXNtY0hvIiwieSI6Imktc0R6cU5tRXZIVTFPcll3MHRfN2wtZG5razFEQ0pqNTRiaUthX1FsdVEifSwidHlwIjoiaW1hZ2UvcG5nIn0",
-                    "signature": "CK1djEEuVuyBlr2uA9RvJL86sgpgZnyf2jL59_imQ4xU5-88CNQ-kHbORkUigde43bNPzO-ylxM0eIm9GgXpqw"
-                    }
-                ]
-            }
-        
         """

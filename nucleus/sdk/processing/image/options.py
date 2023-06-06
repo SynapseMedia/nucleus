@@ -8,12 +8,12 @@ from nucleus.core.types import Tuple
 Option classes should be named in correspondence to the methods of the Pillow Image object 
 using the Python class naming convention.
 
-Underneath each class is parsed as a method to setup pillow image object.
+During processing time the underneath options classes are parsed as a method to dynamically call pillow image object.
 ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize
 
 eg:
     # after parsing
-    class RemapPalette(Option) = image.remap_palette(...)
+    class RemapPalette(Option) <= image.remap_palette(...)
         ...
 
 
@@ -49,6 +49,36 @@ class Crop:
             self.box.right,
             self.box.bottom,
         )
+
+
+@dataclass(slots=True)
+class Thumbnail:
+    """Thumbnail make the image into a thumbnail. 
+    ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail
+    """
+
+    _size: Tuple[int, int] = field(init=False)
+    _gap: float = field(init=False)
+    _resample: Resampling = field(init=False)
+
+    width: int
+    height: int
+
+    def __post_init__(self):
+        self._gap = 2.0
+        self._size = (self.width, self.height)
+        self._resample = Resampling.BICUBIC
+
+    def reducing_gap(self, gap: float):
+        self._gap = gap
+
+    def resample(self, resample: Resampling):
+        self._resample = resample
+
+    def __iter__(self):
+        yield 'size', self._size
+        yield 'resample', self._resample
+        yield 'reducing_gap', self._gap
 
 
 @dataclass(slots=True)

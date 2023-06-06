@@ -7,7 +7,7 @@ nav:
   - Getting started: index.md
   - Usage guide: 
     - Harvesting raw: guide/harvest.md
-    # - Processing multimedia: index.md
+    - Processing multimedia: guide/processing.md
     # - Multimedia storage: index.md
     # - Publishing the metadata: index.md
   - API Reference: 
@@ -19,7 +19,7 @@ nav:
         - Types: reference/harvest/types.md
     # more here
   - Developer Guide:
-    - Design: dev/index.md
+    - Overview: dev/index.md
     - Architecture: dev/arch.md
     # - Extending Engines: dev/arch.md
     # - Release notes: dev/arch.md

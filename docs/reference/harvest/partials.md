@@ -16,7 +16,7 @@ In the context of this document, partial functions are used to facilitate the qu
 
 !!! note
     Extend the default Model base and use `create_model` from pydantic to create ready-to-use models.
-    Learn more about `create_model` [here](https://docs.pydantic.dev/latest/usage/models/)
+    Learn more about `create_model` function [here](https://docs.pydantic.dev/latest/usage/models/)
 
 ---
 ::: nucleus.sdk.harvest.partials.image
@@ -27,7 +27,6 @@ In the context of this document, partial functions are used to facilitate the qu
       show_root_heading: true
       show_root_full_path: false
 
-
 ::: nucleus.sdk.harvest.partials.video
     handler: python
     options:
@@ -37,4 +36,4 @@ In the context of this document, partial functions are used to facilitate the qu
       show_root_full_path: false
 
 !!! note
-    We use utility [media_factory](./utilities.md) create "out of the box" media models derived from media types.
+    We use utility [media_factory](./utilities.md) to create ready-to-use media models derived from media types.
