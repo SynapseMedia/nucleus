@@ -643,7 +643,7 @@
 <p>This step is responsible for processing multimedia resources by performing transformations, transcoding, or other necessary operations based on the required parameters for each specific use case. This prepares the resources for consumption over the network.</p>
 <h2 id="engines">Engines</h2>
 <p>Engines are responsible for processing different types of media, providing configurations according to the nature of each multimedia type and its underlying library. These engines offer flexibility in modifying their behavior through their configurations and expose a standard output.</p>
-<p>In this example, we use two distinct engines specifically designed for different types of multimedia and their corresponding configurations. Initializing an engine is simple by utilizing the functions provided by the processing package:</p>
+<p>In this example, we will invoke the image processing engine and its configuration process based on the 'options'. Initializing an engine is straightforward with the functions offered by the processing package:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.harvest</span> <span class="k">as</span> <span class="nn">harvest</span>
 <span class="kn">import</span> <span class="nn">nucleus.sdk.processing</span> <span class="k">as</span> <span class="nn">processing</span>
 
@@ -677,7 +677,7 @@ Let's explore an example of how to configure the image engine:</p>
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>The options are derived from the methods or configurations established in each underlying library. Internally, the process involves preparing the library with the options provided during this stage. You can find more information about the available <a href="../../reference/processing/options/">options</a>.</p>
+<p>Given that the engines emulate the underlying libraries, the available options are based on the methods or configurations set within each respective library. Internally, the process entails preparing the library using the provided options during this stage. For further details on the available options, please refer to the documentation <a href="../../reference/processing/options/">options</a>.</p>
 </div>
 
 

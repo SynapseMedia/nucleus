@@ -730,7 +730,7 @@
 
   
       <p>Base class for models that enables efficient model persistence and data validation.</p>
-<p>Example::</p>
+<p>Usage::</p>
 <div class="highlight"><pre><span></span><code>class MyModel(BaseModel):
     name: str
 
@@ -833,7 +833,7 @@ assert MyModel.all() == [stored_model] # True
 <span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">_Manager</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for models that enables efficient model persistence and data validation.</span>
 
-<span class="sd">    Example::</span>
+<span class="sd">    Usage::</span>
 
 <span class="sd">        class MyModel(BaseModel):</span>
 <span class="sd">            name: str</span>
