@@ -463,15 +463,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.harvest.Model" class="md-nav__link">
-    Model
+  <a href="#nucleus.sdk.harvest.models.Media" class="md-nav__link">
+    Media
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.harvest.Media" class="md-nav__link">
-    Media
+  <a href="#nucleus.sdk.harvest.models.Model" class="md-nav__link">
+    Model
   </a>
   
 </li>
@@ -520,6 +520,130 @@
   
     <li class="md-nav__item">
       <a href="../types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          Processing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          Processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../processing/engines/" class="md-nav__link">
+        Engines
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
+          Options
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Options
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../processing/video/" class="md-nav__link">
+        Video
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../processing/image/" class="md-nav__link">
+        Image
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../processing/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -664,15 +788,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.harvest.Model" class="md-nav__link">
-    Model
+  <a href="#nucleus.sdk.harvest.models.Media" class="md-nav__link">
+    Media
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.harvest.Media" class="md-nav__link">
-    Media
+  <a href="#nucleus.sdk.harvest.models.Model" class="md-nav__link">
+    Model
   </a>
   
 </li>
@@ -699,24 +823,41 @@
 <p>Models serve as the primary mechanism for metadata harvesting. By extending <a href="https://docs.pydantic.dev/latest/usage/models/">pydantic</a>, defining data models and validating input data becomes effortless.</p>
 
 
+<div class="doc doc-object doc-module">
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
 <div class="doc doc-object doc-class">
 
 
 
 <h2 id="nucleus.sdk.harvest.models.Base" class="doc doc-heading">
-        <code>nucleus.sdk.harvest.models.Base</code>
+        <code>Base</code>
 
 
 </h2>
 
 
-  <div class="doc doc-contents first">
+  <div class="doc doc-contents ">
       <p class="doc doc-class-bases">
         Bases: <code>pydantic.<span title="pydantic.BaseModel">BaseModel</span></code></p>
 
   
       <p>Base class for models that enables efficient model persistence and data validation.</p>
-<p>Usage::</p>
+<p>Usage:</p>
 <div class="highlight"><pre><span></span><code>class MyModel(BaseModel):
     name: str
 
@@ -813,13 +954,10 @@ assert MyModel.all() == [stored_model] # True
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">_Manager</span><span class="p">):</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">_Manager</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for models that enables efficient model persistence and data validation.</span>
 
-<span class="sd">    Usage::</span>
+<span class="sd">    Usage:</span>
 
 <span class="sd">        class MyModel(BaseModel):</span>
 <span class="sd">            name: str</span>
@@ -862,9 +1000,8 @@ assert MyModel.all() == [stored_model] # True
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Base</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Exec query and fetch first entry from database.</span>
 
-<span class="sd">        :return: first registered snapshot</span>
-<span class="sd">        :rtype: BaseModel</span>
-<span class="sd">        :raises ModelManagerError: if there is an error fetching entry</span>
+<span class="sd">        :return: First registered snapshot</span>
+<span class="sd">        :raises ModelManagerError: If there is an error fetching entry</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">response</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">FETCH</span> <span class="o">%</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_alias</span><span class="p">)</span>
@@ -880,8 +1017,7 @@ assert MyModel.all() == [stored_model] # True
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Exec query and fetch a list of data from database.</span>
 
 <span class="sd">        :return: all registered snapshots</span>
-<span class="sd">        :rtype: Iterator[BaseModel]</span>
-<span class="sd">        :raises ModelManagerError: if there is an error fetching entries</span>
+<span class="sd">        :raises ModelManagerError: If there is an error fetching entries</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">FETCH</span> <span class="o">%</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_alias</span><span class="p">)</span>
         <span class="n">rows</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
@@ -895,8 +1031,7 @@ assert MyModel.all() == [stored_model] # True
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Exec insertion query into database</span>
 
 <span class="sd">        :return: True if successful else False</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        :raises ModelManagerError: if there is an error saving entry</span>
+<span class="sd">        :raises ModelManagerError: If there is an error saving entry</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.lastrowid</span>
@@ -946,7 +1081,7 @@ assert MyModel.all() == [stored_model] # True
     <tbody>
         <tr>
           <td>
-                <code>Iterator[BaseModel]</code>
+                <code><span title="nucleus.core.types.Iterator">Iterator</span>[<a class="autorefs autorefs-internal" title="nucleus.sdk.harvest.models.Base" href="#nucleus.sdk.harvest.models.Base">Base</a>]</code>
           </td>
           <td><p>all registered snapshots</p></td>
         </tr>
@@ -966,14 +1101,15 @@ assert MyModel.all() == [stored_model] # True
           <td>
                 <code>ModelManagerError</code>
           </td>
-          <td><p>if there is an error fetching entries</p></td>
+          <td><p>If there is an error fetching entries</p></td>
         </tr>
     </tbody>
   </table>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/harvest/models.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">103</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
+<span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
@@ -985,9 +1121,7 @@ assert MyModel.all() == [stored_model] # True
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="nd">@decorators</span><span class="o">.</span><span class="n">proxy_exception</span><span class="p">(</span>
     <span class="n">expected</span><span class="o">=</span><span class="n">sqlite3</span><span class="o">.</span><span class="n">ProgrammingError</span><span class="p">,</span>
     <span class="n">target</span><span class="o">=</span><span class="n">ModelManagerError</span><span class="p">,</span>
@@ -996,8 +1130,7 @@ assert MyModel.all() == [stored_model] # True
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exec query and fetch a list of data from database.</span>
 
 <span class="sd">    :return: all registered snapshots</span>
-<span class="sd">    :rtype: Iterator[BaseModel]</span>
-<span class="sd">    :raises ModelManagerError: if there is an error fetching entries</span>
+<span class="sd">    :raises ModelManagerError: If there is an error fetching entries</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">response</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">FETCH</span> <span class="o">%</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_alias</span><span class="p">)</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
@@ -1037,9 +1170,9 @@ assert MyModel.all() == [stored_model] # True
     <tbody>
         <tr>
           <td>
-                <code>BaseModel</code>
+                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.harvest.models.Base" href="#nucleus.sdk.harvest.models.Base">Base</a></code>
           </td>
-          <td><p>first registered snapshot</p></td>
+          <td><p>First registered snapshot</p></td>
         </tr>
     </tbody>
   </table>
@@ -1057,7 +1190,7 @@ assert MyModel.all() == [stored_model] # True
           <td>
                 <code>ModelManagerError</code>
           </td>
-          <td><p>if there is an error fetching entry</p></td>
+          <td><p>If there is an error fetching entry</p></td>
         </tr>
     </tbody>
   </table>
@@ -1078,8 +1211,7 @@ assert MyModel.all() == [stored_model] # True
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="nd">@decorators</span><span class="o">.</span><span class="n">proxy_exception</span><span class="p">(</span>
     <span class="n">expected</span><span class="o">=</span><span class="n">sqlite3</span><span class="o">.</span><span class="n">ProgrammingError</span><span class="p">,</span>
     <span class="n">target</span><span class="o">=</span><span class="n">ModelManagerError</span><span class="p">,</span>
@@ -1087,9 +1219,8 @@ assert MyModel.all() == [stored_model] # True
 <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Base</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exec query and fetch first entry from database.</span>
 
-<span class="sd">    :return: first registered snapshot</span>
-<span class="sd">    :rtype: BaseModel</span>
-<span class="sd">    :raises ModelManagerError: if there is an error fetching entry</span>
+<span class="sd">    :return: First registered snapshot</span>
+<span class="sd">    :raises ModelManagerError: If there is an error fetching entry</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">response</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">FETCH</span> <span class="o">%</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_alias</span><span class="p">)</span>
@@ -1146,14 +1277,16 @@ assert MyModel.all() == [stored_model] # True
           <td>
                 <code>ModelManagerError</code>
           </td>
-          <td><p>if there is an error saving entry</p></td>
+          <td><p>If there is an error saving entry</p></td>
         </tr>
     </tbody>
   </table>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/harvest/models.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
@@ -1164,10 +1297,7 @@ assert MyModel.all() == [stored_model] # True
 <span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@decorators</span><span class="o">.</span><span class="n">proxy_exception</span><span class="p">(</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@decorators</span><span class="o">.</span><span class="n">proxy_exception</span><span class="p">(</span>
     <span class="n">expected</span><span class="o">=</span><span class="n">sqlite3</span><span class="o">.</span><span class="n">ProgrammingError</span><span class="p">,</span>
     <span class="n">target</span><span class="o">=</span><span class="n">ModelManagerError</span><span class="p">,</span>
 <span class="p">)</span>
@@ -1175,8 +1305,7 @@ assert MyModel.all() == [stored_model] # True
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exec insertion query into database</span>
 
 <span class="sd">    :return: True if successful else False</span>
-<span class="sd">    :rtype: bool</span>
-<span class="sd">    :raises ModelManagerError: if there is an error saving entry</span>
+<span class="sd">    :raises ModelManagerError: If there is an error saving entry</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.lastrowid</span>
@@ -1194,112 +1323,28 @@ assert MyModel.all() == [stored_model] # True
 
   </div>
 
-</div><hr />
-
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="nucleus.sdk.harvest.Model" class="doc doc-heading">
-        <code>nucleus.sdk.harvest.Model</code>
-
-
-</h2>
-
-
-  <div class="doc doc-contents first">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.harvest.models.Base" href="#nucleus.sdk.harvest.models.Base">Base</a></code></p>
-
-  
-      <p>Model class specifies by default the attributes needed for the metadata model
-and allows its extension to create metadata sub-models with custom attributes.</p>
-<p>Usage::</p>
-<div class="highlight"><pre><span></span><code>class Nucleus(Model):
-    # Represents a specific model for `Nucleus` metadata
-    name: str # default property
-    description: str # default property
-    address: str # my custom property
-</code></pre></div>
-
-
-        <details class="quote">
-          <summary>Source code in <code>nucleus/sdk/harvest/models.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model class specifies by default the attributes needed for the metadata model</span>
-<span class="sd">    and allows its extension to create metadata sub-models with custom attributes.</span>
-
-<span class="sd">    Usage::</span>
-
-<span class="sd">        class Nucleus(Model):</span>
-<span class="sd">            # Represents a specific model for `Nucleus` metadata</span>
-<span class="sd">            name: str # default property</span>
-<span class="sd">            description: str # default property</span>
-<span class="sd">            address: str # my custom property</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># the name of the resource</span>
-    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># the description of the resource</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-  </div>
-
-</div><hr />
-
+</div>
 
 <div class="doc doc-object doc-class">
 
 
 
-<h2 id="nucleus.sdk.harvest.Media" class="doc doc-heading">
-        <code>nucleus.sdk.harvest.Media</code>
+<h2 id="nucleus.sdk.harvest.models.Media" class="doc doc-heading">
+        <code>Media</code>
 
 
 </h2>
 
 
-  <div class="doc doc-contents first">
+  <div class="doc doc-contents ">
       <p class="doc doc-class-bases">
         Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.harvest.models.Base" href="#nucleus.sdk.harvest.models.Base">Base</a></code>, <code><span title="nucleus.core.types.Generic">Generic</span>[<span title="nucleus.core.types.T">T</span>]</code></p>
 
   
       <p>Generic media model to create media subtypes.
-Each subtype represents a specific media type and provides a generic specification of the sources from which it can be collected.</p>
-<p>Usage::</p>
+Each subtype represents a specific media type and provides a generic specification
+of the sources from which it can be collected.</p>
+<p>Usage:</p>
 <div class="highlight"><pre><span></span><code>class Video(Media[Path]):
     # Represents a video media resource with a file path
     ...
@@ -1312,7 +1357,10 @@ class Image(Media[URL]):
 
         <details class="quote">
           <summary>Source code in <code>nucleus/sdk/harvest/models.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
@@ -1326,14 +1374,13 @@ class Image(Media[URL]):
 <span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Media</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Media</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generic media model to create media subtypes.</span>
-<span class="sd">    Each subtype represents a specific media type and provides a generic specification of the sources from which it can be collected.</span>
+<span class="sd">    Each subtype represents a specific media type and provides a generic specification</span>
+<span class="sd">    of the sources from which it can be collected.</span>
 
-<span class="sd">    Usage::</span>
+<span class="sd">    Usage:</span>
 
 <span class="sd">        class Video(Media[Path]):</span>
 <span class="sd">            # Represents a video media resource with a file path</span>
@@ -1366,7 +1413,99 @@ class Image(Media[URL]):
 
   </div>
 
-</div><hr />
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.harvest.models.Model" class="doc doc-heading">
+        <code>Model</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.harvest.models.Base" href="#nucleus.sdk.harvest.models.Base">Base</a></code></p>
+
+  
+      <p>Model class specifies by default the attributes needed for the metadata model
+and allows its extension to create metadata sub-models with custom attributes.</p>
+<p>Usage:</p>
+<div class="highlight"><pre><span></span><code>class Nucleus(Model):
+    # Represents a specific model for `Nucleus` metadata
+    name: str # default property
+    description: str # default property
+    address: str # my custom property
+</code></pre></div>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/harvest/models.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model class specifies by default the attributes needed for the metadata model</span>
+<span class="sd">    and allows its extension to create metadata sub-models with custom attributes.</span>
+
+<span class="sd">    Usage:</span>
+
+<span class="sd">        class Nucleus(Model):</span>
+<span class="sd">            # Represents a specific model for `Nucleus` metadata</span>
+<span class="sd">            name: str # default property</span>
+<span class="sd">            description: str # default property</span>
+<span class="sd">            address: str # my custom property</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># the name of the resource</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># the description of the resource</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
 
 
 
