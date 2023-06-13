@@ -4,13 +4,13 @@ from .models import Media
 
 
 class Video(Media[Union[URL, Path]]):
-    """Represents a video media type"""
+    """Represents a video media type."""
 
     ...
 
 
 class Image(Media[Union[URL, Path]]):
-    """Represents an image media type"""
+    """Represents an image media type."""
 
     ...
 

@@ -18,7 +18,7 @@ from .types import Engine, File, Introspection
 
 @no_type_check
 def _to_object(data: Any) -> Any:
-    """Recursively convert a nested JSON as Dynamic object
+    """Recursively convert a nested JSON as Dynamic object.
 
     :return: dynamic object mirroring JSON representation
     """

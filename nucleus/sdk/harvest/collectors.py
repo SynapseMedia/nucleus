@@ -35,7 +35,7 @@ def merge(collectors: Iterator[Collector]) -> Iterator[JSON]:
 
 
 def load(path: str = COLLECTORS_PATH) -> Iterator[Collector]:
-    """Import submodules from a given path and yield module object
+    """Import submodules from a given path and yield module object.
 
     :param path: The path to search for submodules.
     :return: Iterator of matched modules.

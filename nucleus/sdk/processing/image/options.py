@@ -21,7 +21,7 @@ For example:
 
 @dataclass(slots=True)
 class Coord:
-    """Represents a cartesian pixel coordinate"""
+    """Represents a cartesian pixel coordinate."""
 
     left: int
     top: int
@@ -31,7 +31,7 @@ class Coord:
 
 @dataclass(slots=True)
 class Crop:
-    """Crop a rectangular region from an image"""
+    """Crop a rectangular region from an image."""
 
     box: Coord
 
@@ -46,7 +46,7 @@ class Crop:
 
 @dataclass(slots=True)
 class Thumbnail:
-    """Resize the image into a thumbnail"""
+    """Resize the image into a thumbnail."""
 
     _size: Tuple[int, int] = field(init=False)
     _gap: float = field(init=False)
@@ -74,7 +74,7 @@ class Thumbnail:
 
 @dataclass(slots=True)
 class Resize:
-    """Resize the image to a given size"""
+    """Resize the image to a given size."""
 
     _size: Tuple[int, int] = field(init=False)
     _box: Tuple[int, int, int, int] = field(init=False)
