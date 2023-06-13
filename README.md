@@ -18,6 +18,10 @@ The key features of Nucleus include:
 - **Metadata distribution**
 - **Web3 instruments**
 
+## Help
+
+See [documentation](https://synapsemedia.github.io/nucleus/) for more details.
+
 ## Installing
 
 Try nucleus! Install is simple using pip: `pip install nucleus-sdk`
