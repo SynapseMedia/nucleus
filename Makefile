@@ -12,7 +12,7 @@ sources = nucleus tests
 .PHONY: install  ## Install the package and dependencies
 install: .pdm 
 	pdm install --group :all
-	pre-commit install --install-hooks
+	# pre-commit install --install-hooks
 
 .PHONY: sync ## Synchronize the current working set with lock file
 sync: .pdm
