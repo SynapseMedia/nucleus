@@ -53,10 +53,6 @@ class Algorithm(str, Enum):
     ES256K = 'ES256K'
 
 
-# class EncKeyRing:
-#     ...
-
-
 @dataclass(slots=True)
 class SignKeyRing:
     alg: Algorithm
