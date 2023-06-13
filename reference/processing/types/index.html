@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://synapsemedia.io/reference/processing/types/">
       
       
-        <link rel="prev" href="../image/">
+        <link rel="prev" href="../utilities/">
       
       
         <link rel="next" href="../../../dev/">
@@ -559,6 +559,20 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../utilities/" class="md-nav__link">
+        Utilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -952,16 +966,16 @@ Use this class to create engine subtypes.</p>
     <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Compilation</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compile engine settings into an map of arguments</span>
 
-<span class="sd">        :return: A new map of compiled arguments using</span>
+<span class="sd">        :return: A new map of compiled arguments based on configured options</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">preset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="p">:</span>
             <span class="k">yield</span> <span class="nb">type</span><span class="p">(</span><span class="n">preset</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">preset</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="p">:</span> <span class="n">Settings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Engine</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the context for media processing.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the context for media processing</span>
 
-<span class="sd">        :param setting: The setting to bind</span>
-<span class="sd">        :return: The self adapter</span>
+<span class="sd">        :param setting: The settings to apply to the engine output.</span>
+<span class="sd">        :return: Engine object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">setting</span><span class="p">)</span>
@@ -971,17 +985,17 @@ Use this class to create engine subtypes.</p>
     <span class="k">def</span> <span class="nf">introspect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Introspection</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return technical information of the input media.</span>
 
-<span class="sd">        :param path: The media path if None the internal media is evaluated</span>
+<span class="sd">        :param path: The media path</span>
 <span class="sd">        :return: Any technical information collected from media.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="o">...</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">File</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store the new media based on conf context and bounded library.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store the new media based on conf context and bound library.</span>
 
 <span class="sd">        :param path: The output path</span>
-<span class="sd">        :return: New media path</span>
+<span class="sd">        :return: File object</span>
 <span class="sd">        :raises ProcessingEngineError: If any exception is captured during processing</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="o">...</span>
@@ -1056,7 +1070,7 @@ Use this class to create engine subtypes.</p>
           <td>
                 <code><span title="nucleus.sdk.processing.types.Compilation">Compilation</span></code>
           </td>
-          <td><p>A new map of compiled arguments using</p></td>
+          <td><p>A new map of compiled arguments based on configured options</p></td>
         </tr>
     </tbody>
   </table>
@@ -1072,7 +1086,7 @@ Use this class to create engine subtypes.</p>
 <span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Compilation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compile engine settings into an map of arguments</span>
 
-<span class="sd">    :return: A new map of compiled arguments using</span>
+<span class="sd">    :return: A new map of compiled arguments based on configured options</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">preset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="p">:</span>
         <span class="k">yield</span> <span class="nb">type</span><span class="p">(</span><span class="n">preset</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">preset</span><span class="p">)</span>
@@ -1094,7 +1108,7 @@ Use this class to create engine subtypes.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Set the context for media processing.</p>
+      <p>Set the context for media processing</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -1112,7 +1126,7 @@ Use this class to create engine subtypes.</p>
           <td>
                 <code><span title="nucleus.core.types.Settings">Settings</span></code>
           </td>
-          <td><p>The setting to bind</p></td>
+          <td><p>The settings to apply to the engine output.</p></td>
           <td>
               <em>required</em>
           </td>
@@ -1133,7 +1147,7 @@ Use this class to create engine subtypes.</p>
           <td>
                 <code><a class="autorefs autorefs-internal" title="nucleus.sdk.processing.types.Engine" href="#nucleus.sdk.processing.types.Engine">Engine</a></code>
           </td>
-          <td><p>The self adapter</p></td>
+          <td><p>Engine object</p></td>
         </tr>
     </tbody>
   </table>
@@ -1149,10 +1163,10 @@ Use this class to create engine subtypes.</p>
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="p">:</span> <span class="n">Settings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Engine</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the context for media processing.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the context for media processing</span>
 
-<span class="sd">    :param setting: The setting to bind</span>
-<span class="sd">    :return: The self adapter</span>
+<span class="sd">    :param setting: The settings to apply to the engine output.</span>
+<span class="sd">    :return: Engine object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">setting</span><span class="p">)</span>
@@ -1197,7 +1211,7 @@ Use this class to create engine subtypes.</p>
           <td>
                 <code><span title="nucleus.core.types.Path">Path</span></code>
           </td>
-          <td><p>The media path if None the internal media is evaluated</p></td>
+          <td><p>The media path</p></td>
           <td>
               <em>required</em>
           </td>
@@ -1236,7 +1250,7 @@ Use this class to create engine subtypes.</p>
 <span class="k">def</span> <span class="nf">introspect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Introspection</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return technical information of the input media.</span>
 
-<span class="sd">    :param path: The media path if None the internal media is evaluated</span>
+<span class="sd">    :param path: The media path</span>
 <span class="sd">    :return: Any technical information collected from media.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>
@@ -1262,7 +1276,7 @@ Use this class to create engine subtypes.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Store the new media based on conf context and bounded library.</p>
+      <p>Store the new media based on conf context and bound library.</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -1301,7 +1315,7 @@ Use this class to create engine subtypes.</p>
           <td>
                 <code><a class="autorefs autorefs-internal" title="nucleus.sdk.processing.types.File" href="#nucleus.sdk.processing.types.File">File</a></code>
           </td>
-          <td><p>New media path</p></td>
+          <td><p>File object</p></td>
         </tr>
     </tbody>
   </table>
@@ -1336,10 +1350,10 @@ Use this class to create engine subtypes.</p>
 <span class="normal">104</span>
 <span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">File</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Store the new media based on conf context and bounded library.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Store the new media based on conf context and bound library.</span>
 
 <span class="sd">    :param path: The output path</span>
-<span class="sd">    :return: New media path</span>
+<span class="sd">    :return: File object</span>
 <span class="sd">    :raises ProcessingEngineError: If any exception is captured during processing</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>

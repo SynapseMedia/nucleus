@@ -76,6 +76,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://synapsemedia.io/reference/processing/utilities/</loc>
+         <lastmod>2023-06-13</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://synapsemedia.io/reference/processing/video/</loc>
          <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>

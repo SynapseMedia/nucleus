@@ -609,6 +609,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../utilities/" class="md-nav__link">
+        Utilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../types/" class="md-nav__link">
         Types
       </a>
@@ -861,8 +875,8 @@
     <span class="k">def</span> <span class="nf">_to_snake_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Transform PascalCase class definition to snake_case method name</span>
 
-<span class="sd">        :para name: the class name to parse</span>
-<span class="sd">        :return: the snake case version for class name</span>
+<span class="sd">        :para name: The class name to parse</span>
+<span class="sd">        :return: The snake case version for class name</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pattern</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
