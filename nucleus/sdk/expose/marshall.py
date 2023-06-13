@@ -3,9 +3,9 @@ from __future__ import annotations
 import hashlib
 
 import dag_cbor
-from jwcrypto.common import json_decode  # type: ignore
+from jwcrypto.common import json_decode
 
-from nucleus.core.types import CID, JSON, List, Raw, Union
+from nucleus.core.types import CID, JSON, List, Raw, Union, Setting
 from nucleus.sdk.storage import Object, Store
 
 from .types import JWE, JWS, Standard
@@ -14,10 +14,9 @@ from .types import JWE, JWS, Standard
 def cid_from_bytes(data: bytes, codec: str = 'raw') -> CID:
     """Return a new CIDv1 base32 based on data hash and codec.
 
-    :param data: the data to create a new CID
-    :param codec: the codec to use for the new CID
-    :return: the new multi format cid object
-    :rtype: CID
+    :param data: The data to create a new CID
+    :param codec: The codec to use for the new CID
+    :return: The new multi format cid object
     """
     digest = hashlib.sha256(data).digest()
     return CID.create('base32', 1, codec, ('sha2-256', digest))
@@ -37,10 +36,10 @@ class DagJose:
         self._cbor = dag_cbor.encode(standard.payload())
         self._cid = cid_from_bytes(self._cbor, 'dag-cbor')
 
-    def __iter__(self):
+    def __iter__(self) -> Setting:
         return iter(self._header.items())
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self._s11n)
 
     def __bytes__(self) -> bytes:
@@ -50,8 +49,8 @@ class DagJose:
         return bytes(self._cid)
 
     def update(self, jwt: Union[JWS, JWE]) -> DagJose:
-        """Encode JWS/JWE general serialization to dag-jose when crypto process get ready"""
-        general_json = json_decode(jwt.serialize(False))  # type: ignore
+        """Encode JWS/JWE general serialization to dag-jose when crypto process notify"""
+        general_json = json_decode(jwt.serialize(False))
         # set new state for serialization attribute
         self._s11n = JSON({'link': self._cid, **general_json})
         return self
@@ -72,17 +71,16 @@ class Compact:
     _claims: List[bytes] = []
 
     def __init__(self, standard: Standard):
-        self._header = standard.header()
         raw_payload = standard.payload()
+        self._header = standard.header()
         self._claims = list(map(bytes, map(JSON, raw_payload.values())))
         self._payload = self._payload_cid_values(raw_payload)
 
     def _payload_cid_values(self, payload: Raw) -> JSON:
         """Parse claims values to CIDs.
 
-        :param payload: payload to parse
-        :return: copy of processed payload
-        :rtype: JSON
+        :param payload: Payload to parse
+        :return: Copy of processed payload
 
         eg.
             {
@@ -109,7 +107,7 @@ class Compact:
     def update(self, jwt: Union[JWS, JWE]) -> Compact:
         """Encode JWS/JWE compact serialization when  crypto process get ready"""
         # set new state for serialization attribute
-        self._s11n = jwt.serialize(True)  # type: ignore
+        self._s11n = jwt.serialize(True)
         return self
 
     def save_to(self, store: Store) -> Object:

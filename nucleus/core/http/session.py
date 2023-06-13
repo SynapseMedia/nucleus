@@ -19,7 +19,7 @@ class LiveSession(requests.Session):
         """Same as Session request, we add an extra behavior to concat in every request the base url."""
 
         # auto concatenate base url with request path
-        joined_url = urljoin(self._base_url, url)  # type: ignore
+        joined_url = urljoin(self._base_url, url)
 
         try:
             return super().request(method, joined_url, *args, **kwargs)

@@ -15,10 +15,9 @@ def engine(media: Processable) -> Engine:
     """Engine single dispatch factory.
     Use the media input to infer the right engine.
 
-    :param media: the media to dispatch
-    :param kwargs: these args are passed directly to library.
-    :return: engine instance
-    :rtype: Engine
+    :param media: The media to dispatch
+    :param kwargs: These args are passed directly to library.
+    :return: Engine sub class instance
     """
     raise NotImplementedError(f'cannot process not registered media `{media}')
 
@@ -26,8 +25,8 @@ def engine(media: Processable) -> Engine:
 @engine.register
 def _(media: Video) -> VideoEngine:
     input_path = Path(media.path)
-    library = ffmpeg.input(input_path)  # type: ignore
-    return VideoEngine(library)  # type: ignore
+    library = ffmpeg.input(input_path)
+    return VideoEngine(library)
 
 
 @engine.register

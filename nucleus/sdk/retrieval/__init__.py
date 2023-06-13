@@ -1,3 +1,3 @@
-from .cmd import migrate
+# from .cmd import migrate
 
-__all__ = ['migrate']
+# __all__ = ['migrate']

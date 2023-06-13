@@ -8,11 +8,10 @@ from .types import Client, Service
 @functools.singledispatch
 def client(svc: Service) -> Client:
     """Client single dispatch factory.
-    Use the model input to infer the right storage service.
+    Use the svc input to infer the right storage service.
 
-    :param model: the model to dispatch
-    :return: edge service client instance
-    :rtype: Edge
+    :param svc: The service to dispatch
+    :return: Client service instance
     """
     raise NotImplementedError(f'cannot process not registered storable `{svc}')
 

@@ -1,31 +1,27 @@
 from dataclasses import dataclass
 
 from nucleus.core.types import Any, Mapping
-
 """
-aspect ratio	H.264/AVC kb/s	Frame rate
-416 x 234	    145 	        ≤ 30 fps
-640 x 360	    365             ≤ 30 fps
-768 x 432	    730, 1100       ≤ 30 fps
-960 x 540	    2000	        same as source
-1280 x 720	    3000,4500       same as source
-1920 x 1080	    6000,7000       same as source
-2560 x 1440	    6000,7000       same as source
-
+Aspect Ratio     H.264/AVC kb/s     Frame Rate
+416 x 234       145                 ≤ 30 fps
+640 x 360       365                 ≤ 30 fps
+768 x 432       730, 1100           ≤ 30 fps
+960 x 540       2000                same as source
+1280 x 720      3000, 4500          same as source
+1920 x 1080     6000, 7000          same as source
+2560 x 1440     6000, 7000          same as source
 """
 
-"""All these settings are defined by ffmpeg lib.
-ref: https://ffmpeg.org/ffmpeg.html#Main-options
-
+"""All these settings are defined by the ffmpeg library.
+Reference: https://ffmpeg.org/ffmpeg.html#Main-options
 """
 
 
+@dataclass(slots=True)
 class Custom:
-    """Special class to add custom settings directly to the ffmpeg command.
-    ref: https://ffmpeg.org/ffmpeg.html#Main-options
-    """
+    """Special class for directly specifying custom settings to the ffmpeg command"""
 
-    _custom: Mapping[str, Any]
+    _custom: Mapping[str, Any] 
 
     def __init__(self, **kwargs: Any):
         self._custom = kwargs
@@ -36,9 +32,7 @@ class Custom:
 
 @dataclass(slots=True)
 class FrameSize:
-    """Set frame size.
-    ref: https://ffmpeg.org/ffmpeg.html#Main-options
-    """
+    """Set the frame size"""
 
     width: int
     height: int
@@ -52,9 +46,7 @@ class FrameSize:
 
 @dataclass(slots=True)
 class FPS:
-    """Set frame rate (Hz value, fraction or abbreviation).
-    ref: https://ffmpeg.org/ffmpeg.html#Main-options
-    """
+    """Set the frame rate (Hz value, fraction or abbreviation)"""
 
     fps: float
 
@@ -64,9 +56,7 @@ class FPS:
 
 @dataclass(slots=True)
 class BR:
-    """Video/Audio bitrate
-    ref: https://ffmpeg.org/ffmpeg.html#Main-options
-    """
+    """Set the Video/Audio bitrate"""
 
     video: int
     audio: int = 0
@@ -83,6 +73,7 @@ class BR:
 
 @dataclass(frozen=True)
 class Bitrate:
+    """Default standard bitrate options"""
     B240 = BR(150, 94)
     B360 = BR(276, 128)
     B480 = BR(750, 192)
@@ -94,6 +85,7 @@ class Bitrate:
 
 @dataclass(frozen=True)
 class Screen:
+    """Default standard screen size options"""
     Q240 = FrameSize(416, 234)
     Q360 = FrameSize(640, 360)
     Q480 = FrameSize(854, 480)

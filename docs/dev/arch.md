@@ -26,7 +26,7 @@ Nucleus proposes a sequence of steps (pipeline) for the processing and decentral
 The pipeline is modular and adheres to the decoupling principle, enabling flexible use cases. For instance, the **storage** component can be optional if data is already stored on the IPFS network. Similarly, the **mint** component can be skipped if there is no need to create NFTs for the metadata. The **processing** component may also be unnecessary if the media is already prepared for storage.
 
 !!! tip
-    Harvesting and Expose are the only essential components required for the functioning of the pipeline.
+    Harvesting and Expose are the sole essential components necessary for operating the pipeline.
 
 ## Transmission/Distribution
 

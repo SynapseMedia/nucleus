@@ -11,7 +11,7 @@ class ExampleModel(Model):
 
 def test_initialization_raise_model_validation_error():
     with pytest.raises(ModelValidationError):
-        ExampleModel(age=10)  # type: ignore missing name, description
+        ExampleModel(age=10)  # missing name, description
 
 
 def test_parse_obj_raise_model_validation_error():

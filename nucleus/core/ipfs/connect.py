@@ -5,13 +5,11 @@ from .constants import IPFS_DEFAULT_ENDPOINT
 from .rpc import RPC
 
 
-def rpc(endpoint: Optional[str] = None):
-    """Create a new ipfs rpc interface object.
-    The purpose of this method is to create a flexible factory that allows connect with diff endpoints.
+def rpc(endpoint: Optional[str] = None) -> RPC:
+    """Create a new IPFS RPC interface object.
 
-    :param endpoint: the endpoint to connect to
-    :return: a new ipfs api interface object
-    :rtype: IPFSApi
+    :param endpoint: The endpoint to attach the RPC.
+    :return: A new IPFS API interface object.
     """
     endpoint = endpoint or IPFS_DEFAULT_ENDPOINT
     return RPC(http.live_session(endpoint))

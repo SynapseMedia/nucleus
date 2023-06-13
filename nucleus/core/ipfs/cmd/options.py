@@ -7,7 +7,7 @@ from nucleus.core.types import Path
 @dataclass(slots=True)
 class File:
     """File represent "files" params in request based on input path.
-    :raises IPFSRuntimeError if file does not exist.
+    :raises IPFSRuntimeError: If file does not exist.
     """
 
     path: Path

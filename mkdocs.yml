@@ -10,13 +10,20 @@ nav:
     - Processing multimedia: guide/processing.md
     # - Multimedia storage: index.md
     # - Publishing the metadata: index.md
+    # - Full Example
   - API Reference: 
     - Harvest:
         - Models: reference/harvest/models.md
         - Media: reference/harvest/media.md
         - Utilities: reference/harvest/utilities.md
-        - Partials: reference/harvest/partials.md
         - Types: reference/harvest/types.md
+    - Processing:
+        - Engines: reference/processing/engines.md
+        - Options: 
+          - Video: reference/processing/video.md
+          - Image: reference/processing/image.md
+        - Utilities: reference/processing/utilities.md
+        - Types: reference/processing/types.md
     # more here
   - Developer Guide:
     - Overview: dev/index.md
@@ -25,11 +32,11 @@ nav:
     # - Release notes: dev/arch.md
    
 
+
 theme: 
   name: material
   # Palette toggle for light mode
   palette: 
-
     # Palette toggle for light mode
     - scheme: slate
       toggle:
@@ -41,11 +48,6 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-  features:
-    # - navigation.tabs
-    - toc.integrate
-
-
 
 plugins:
   - include-markdown
@@ -68,3 +70,9 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+- attr_list
+- md_in_html
+- pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+

@@ -13,7 +13,7 @@
 #         # In this case we are using merge strategy so we expose a batch
 #         # metadata.
 #         cmd = retrieval.migrate("--key=dummy", "--test")
-#         stdout = cmd(b"abc")  # type: ignore
+#         stdout = cmd(b"abc")
 
 #         match_logs: list[bool] = []
 #         expected_matches = ["Waiting for data", "abc"]

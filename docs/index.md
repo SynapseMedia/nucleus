@@ -2,6 +2,6 @@
     end="## Examples"
 %}
 
-## Example
-
-- [Full Pipeline](./example.md)
+{% include-markdown "../README.md"
+    start="capabilities. "
+%}

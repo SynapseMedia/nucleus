@@ -14,8 +14,7 @@ class RPCCommand(Protocol):
         """This method is called in API handler as a nested call
         ref: http://docs.ipfs.tech/reference/kubo/cli/#ipfs-add
 
-        :param session: http "out of the box" interface
-        :return: endpoint command call response
-        :rtype: Response
+        :param session: Http session interface
+        :return: Endpoint command call response
         """
         ...

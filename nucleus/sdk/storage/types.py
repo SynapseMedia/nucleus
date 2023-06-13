@@ -17,7 +17,7 @@ from nucleus.sdk.processing import File
 @dataclass(slots=True)
 class Object:
     """Distributed/Stored media representation.
-    This class is used to infer any media decentralized and already stored in IPFS
+    This class is used to represent any media decentralized and already stored in IPFS
     """
 
     hash: CID
@@ -50,7 +50,6 @@ class Service(Protocol):
         """Return the service endpoint
 
         return: the url endpoint
-        :rtype: URL
         """
         ...
 
@@ -58,7 +57,6 @@ class Service(Protocol):
         """Return the service authentication key
 
         :return: the key string
-        :rtype: str
         """
         ...
 
@@ -72,18 +70,16 @@ class Client(Protocol):
     def pin(self, obj: Object) -> Pin:
         """Pin cid into remote storage
 
-        :param obj: object to pin
-        :return: pin object
-        :rtype: Pin
+        :param obj: Object to pin
+        :return: Pin object
         """
         ...
 
     def unpin(self, obj: Object) -> CID:
         """Remove pin from storage service
 
-        :param obj: object to remove from service
-        :return: just removed object cid
-        :rtype: CID
+        :param obj: Object to remove from service
+        :return: Just removed object cid
         """
         ...
 

@@ -22,7 +22,7 @@ class StorageError(Exception):
 
     def __init__(self, message: str, *args: Any, **kwargs: Any):
         self.message = f'SDK :: Storage -> {message}'
-        super().__init__(self.message, *args, **kwargs)  # type: ignore
+        super().__init__(self.message, *args, **kwargs)
 
 
 class ModelManagerError(HarvestingError):

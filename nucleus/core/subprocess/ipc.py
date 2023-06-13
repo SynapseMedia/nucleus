@@ -14,9 +14,8 @@ from .types import Loop, Reader, StdOut, SubProcess
 def _decode_bytes(b: bytes) -> str:
     """Helper function to decode bytes to string
 
-    :param b: bytes to decode
-    :return: string decoded
-    :rtype: str
+    :param b: Bytes to decode
+    :return: String decoded
     """
     return b.decode()
 
@@ -25,9 +24,8 @@ def _match_faulty_line(lines: Sequence[str]) -> Union[str, None]:
     """Check if the process failed.
     Consideration: Is Faulty if capture ERROR logs.
 
-    :param line: input line to analyze
-    :return: if process failed True is returned otherwise False.
-    :rtype: str | None
+    :param line: Input line to analyze
+    :return: If process failed True is returned otherwise False.
     """
 
     for line in lines:
@@ -43,10 +41,8 @@ def _match_faulty_line(lines: Sequence[str]) -> Union[str, None]:
 async def _trace(stream: Reader) -> StdOut:
     """Async pluggable function to trace information from process stream
 
-    :param stream: read stream
-    :return: standard output
-    :rtype: StdOut
-
+    :param stream: Read stream
+    :return: Standard output
     """
 
     logs: List[str] = []
@@ -84,11 +80,10 @@ class IPC:
         self._loop = asyncio.get_event_loop()  # type: ignore
         self._stream = Reader(loop=self._loop)
 
-    def stream(self):
+    def stream(self) -> Reader:
         """If we need to read live the output we can get stream directly using this method
 
-        :return: stream reader
-        :rtype: Reader
+        :return: Stream reader
         """
         return self._stream
 
@@ -96,8 +91,7 @@ class IPC:
         """Check the output and analyze it.
         Failed if capture ERROR logs or stderr pipe.
 
-        :return: standard output
-        :rtype: StdOut
+        :return: Standard output
         """
 
         # start process and check return code
@@ -109,12 +103,11 @@ class IPC:
         (_, result) = await asyncio.gather(*tasks)
         return result
 
-    async def _run(self):
+    async def _run(self) -> SubProcess:
         """Initialize subprocess call.
         We use a custom factory to stream process output.
 
-        :return: subprocess instance
-        :rtype: SubProcess
+        :return: Subprocess instance
         """
 
         # execute nodejs command and communicate the data input
@@ -134,9 +127,8 @@ class IPC:
     def communicate(self, data: bytes = b'') -> StdOut:
         """Communicate with process
 
-        :param data: message sent to process
-        :return: resulting output
-        :rtype: Any
+        :param data: Message sent to process
+        :return: Resulting output
         """
         routine = asyncio.gather(self.pipe(data))
         (result,) = self._loop.run_until_complete(routine)

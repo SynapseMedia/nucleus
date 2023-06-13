@@ -6,7 +6,7 @@ This step is responsible for processing multimedia resources by performing trans
 
 Engines are responsible for processing different types of media, providing configurations according to the nature of each multimedia type and its underlying library. These engines offer flexibility in modifying their behavior through their configurations and expose a standard output.
 
-In this example, we use two distinct engines specifically designed for different types of multimedia and their corresponding configurations. Initializing an engine is simple by utilizing the functions provided by the processing package:
+In this example, we will invoke the image processing engine and its configuration process based on the `options`. Initializing an engine is straightforward with the functions offered by the processing package:
 
 ```python
 
@@ -27,14 +27,14 @@ engine = processing.engine(image)
 ```
 
 !!! tip
-    The `engine` function from the `processing` package is a polymorphic function that automatically selects the appropriate engine based on the type of multimedia passed as a parameter. Please see more about [built-in engines](../dev/engines.md).
+    The `engine` function from the `processing` package is a polymorphic function that automatically selects the appropriate engine based on the type of multimedia passed as a parameter. Please see more about [built-in engines](../reference/processing/engines.md).
 
 ## Options
 
 Each engine provides a set of built-in configuration options that modify the engine's output and are tailored to the specific characteristics of each multimedia type.
 
-Configuring our engine is easy using the `configure` method.
-Let's see an example of configuring the image engine:
+Configuring our engine is straightforward with the use of the `configure` method.
+Let's explore an example of how to configure the image engine:
 
 ```python
 
@@ -50,4 +50,4 @@ output_image = engine.save(path=Path("image2.jpg"))
 ```
 
 !!! info
-    The options are derived from the methods or configurations established in each underlying library. Internally, the process involves preparing the library with the options provided during this stage. You can find more information about the available [options](../reference/processing/options.md).
+    Given that the engines emulate the underlying libraries, the available options are based on the methods or configurations set within each respective library. Internally, the process entails preparing the library using the provided options during this stage. For further details on the available options, please refer to the [video](../reference/processing/video.md) or [image](../reference/processing/image.md) documentation.

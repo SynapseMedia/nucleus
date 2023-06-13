@@ -23,8 +23,7 @@ class RPC:
         """Execute built command in container
 
         :return: json response from IPFS API call response
-        :rtype: JSON
-        :raises IPFSRuntimeException: if status code is not 200
+        :raises IPFSRuntimeException: If status code is not 200
 
         200 - The request was processed or is being processed (streaming)
         500 - RPC endpoint returned an error

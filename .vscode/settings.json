@@ -24,6 +24,7 @@
         "muxing",
         "ORBITDB",
         "programname",
+        "pyblake",
         "pydantic",
         "rtype",
         "Secp",
@@ -41,7 +42,7 @@
         "."
     ],
     "autoDocstring.docstringFormat": "sphinx",
-    "python.analysis.typeCheckingMode": "strict",
+    "python.analysis.typeCheckingMode": "basic",
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.experiments.optInto": [
@@ -59,5 +60,5 @@
         }
     ],
     "sqltools.useNodeRuntime": true,
-    "esbonio.sphinx.confDir": ""
+    "esbonio.sphinx.confDir": "",
 }

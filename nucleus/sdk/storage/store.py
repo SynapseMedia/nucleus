@@ -13,9 +13,8 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
     A form of generic function dispatch where the implementation is chosen based on the type of a single argument.
     ref: https://docs.python.org/3/glossary.html#term-single-dispatch
 
-    :param endpoint: endpoint to connect api
-    :return: singledispatch generic function
-    :rtype: Node
+    :param endpoint: Endpoint to connect api
+    :return: Singledispatch generic function
     """
 
     # connected ipfs api interface
@@ -26,9 +25,8 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
         """Storage single dispatch factory.
         Use the data input type to infer the right storage strategy.
 
-        :param data: the model to dispatch
+        :param data: The model to dispatch
         :return: Object instance
-        :rtype: Object
         """
         raise NotImplementedError(f'cannot process not registered storable `{data}')
 
@@ -36,9 +34,8 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
     def _(data: FileType) -> Object:
         """Add a file to IPFS
 
-        :param data: the file model to store
+        :param data: The file model to store
         :return: stored instance
-        :rtype: Stored
 
         """
         command = Add(File(data.path))
@@ -56,9 +53,8 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
     def _(data: bytes) -> Object:
         """Add bytes to ipfs
 
-        :param data: bytes to store
-        :return: object instance
-        :rtype: Object
+        :param data: Bytes to store
+        :return: Object instance
         """
 
         command = BlockPut(Text(data))
@@ -76,9 +72,8 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
     def _(data: str) -> Object:
         """Add JSON metadata representation to ipfs
 
-        :param data: string to store
-        :return: object instance
-        :rtype: Object
+        :param data: String to store
+        :return: Object instance
         """
 
         bytes_ = data.encode('utf-8')
@@ -88,9 +83,8 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
     def _(data: JSON) -> Object:
         """Add JSON metadata representation to ipfs
 
-        :param data: json to store
-        :return: object instance
-        :rtype: Object
+        :param data: JSON to store
+        :return: Object instance
         """
 
         bytes_ = bytes(data)

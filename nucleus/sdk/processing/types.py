@@ -21,29 +21,30 @@ Compilation = Iterator[Tuple[str, Any]]
 
 
 class Introspection(Dynamic):
-    """Introspection hold internal media information/metadata.
-    For each result the media metadata is associated as `meta` and it could change
-    based on media type and underneath library.
+    """Introspection holds internal media information and metadata.
+    For each result, the media metadata is associated with the `meta` attribute, and it could change
+    based on the media type and underlying library.
 
-    eg.
-        # could be related to ffprobe video info or PIL.Image, etc
+    Usage:
+    
+        # Introspect from ffprobe video info or PIL.Image, etc.
         video = Introspection(**ffprobe)
         image = Introspection(**PIL.Image)
 
-        # in this case introspection dynamically receive all the metadata from the underneath library output
-        # the "WARNING" here is that based on media type
-        # the introspection content could change and needs an extra review.
+        # Introspection dynamically receives all the metadata from the underlying library output.
+        # The "WARNING" here is that based on the media type,
+        # the introspection content could change and requires an extra review.
     """
 
     size: int
-    # we expect to fill this field with IANA Media types
+    # We expect to fill this field with IANA Media types
     # https://www.iana.org/assignments/media-types/media-types.xhtml
     type: str
 
 
 class File(Media[Path]):
     """Local media file representation.
-    This class is used to infer any media stored in local host.
+    This class is used to represent any media stored in local host.
     """
 
     # associated file introspection
@@ -69,18 +70,16 @@ class Engine(ABC):
     def compile(self) -> Compilation:
         """Compile engine settings into an map of arguments
 
-        :return: a new map of compiled arguments using
-        :rtype: Compilation
+        :return: A new map of compiled arguments based on configured options
         """
         for preset in self._settings:
             yield type(preset).__name__, dict(preset)
 
     def configure(self, setting: Settings) -> Engine:
-        """Set the context for media processing.
+        """Set the context for media processing
 
-        :param setting: the setting to bind
-        :return: the self adapter
-        :rtype: Engine
+        :param setting: The settings to apply to the engine output.
+        :return: Engine object
         """
 
         self._settings.append(setting)
@@ -90,20 +89,18 @@ class Engine(ABC):
     def introspect(self, path: Path) -> Introspection:
         """Return technical information of the input media.
 
-        :param path: the media path if None the internal media is evaluated
-        :return: any technical information collected from media.
-        :rtype: Introspection object
+        :param path: The media path 
+        :return: Any technical information collected from media.
         """
         ...
 
     @abstractmethod
     def save(self, path: Path) -> File:
-        """Store the new media based on conf context and bounded library.
+        """Store the new media based on conf context and bound library.
 
-        :param path: the output path
-        :return: new media path
-        :rtype: File
-        :raises ProcessingEngineError: if any exception is captured during processing
+        :param path: The output path
+        :return: File object
+        :raises ProcessingEngineError: If any exception is captured during processing
         """
         ...
 

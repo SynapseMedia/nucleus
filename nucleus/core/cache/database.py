@@ -8,16 +8,15 @@ from .constants import DB_DEFAULT
 from .types import Connection
 
 
-def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
+def connect(db_path: str = DB_DEFAULT, **kwargs: Any) -> Connection:
     """Db connection factory.
     If path is not found, a new database file is created.
     Connection is set to use Row as default row_factory.
     ref: https://docs.python.org/3/library/sqlite3.html
 
-    :param db_path: sqlite file path
-    :return: connection to database
-    :rtype: Connection
-    :raises DatabaseError: if any error occurs during connection creation
+    :param db_path: Sqlite file path
+    :return: Connection to database
+    :raises DatabaseError: If any error occurs during connection creation
     """
 
     try:
@@ -37,10 +36,9 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any):
 def connection(db_path: str = DB_DEFAULT, **k: Any) -> Iterator[Connection]:
     """Context db connection
 
-    :param db_path: sqlite file path
-    :return: connection to database
-    :rtype: Connection
-    :raises DatabaseError: if any error occurs during connection creation
+    :param db_path: Sqlite file path
+    :return: Connection to database
+    :raises DatabaseError: If any error occurs during connection creation
     """
     yield connect(db_path, **k)
 
@@ -48,12 +46,11 @@ def connection(db_path: str = DB_DEFAULT, **k: Any) -> Iterator[Connection]:
 def is_open(conn: Connection) -> bool:
     """Check if connection is open.
 
-    :param conn: connection to check
-    :return: true if connection is open or False otherwise
-    :rtype: bool
+    :param conn: Connection to check
+    :return: True if connection is open or False otherwise
     """
     cursor = conn.cursor()
-    return cursor is not None  # type: ignore
+    return cursor is not None
 
 
 __all__ = ['connect', 'connection', 'is_open']

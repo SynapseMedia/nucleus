@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import KW_ONLY, dataclass, field
 from enum import Enum
 
-from nucleus.core.types import Raw, Setting
+from jwcrypto.common import base64url_decode
+
+from nucleus.core.types import JSON, Raw, Setting
 
 from .types import JWK
 
@@ -62,31 +64,49 @@ class SignKeyRing:
     curve: Curve
     use: Use
 
+    _: KW_ONLY
+    # avoid to auto-gen the JWK
+    lazy_mode: bool = False
     # internal jwk interface
     _jwk: JWK = field(init=False)
-    # filter included members in jwk object
-    __allowed__ = (
-        'crv',
-        'kty',
-        'x',
-        'y',
-    )
 
     def __iter__(self) -> Setting:
-        """Export extra headers to add into serialization"""
-        jwk: Raw = {k: v for k, v in self._jwk.items() if k in self.__allowed__}  # type: ignore
+        """Yield needed headers to add into signature"""
         yield 'alg', self.alg.value
-        yield 'jwk', jwk
+        yield 'jwk', self._jwk.export_public(True)
 
     def __post_init__(self):
-        # Initialize _jwk as new JWK object
+        # Initialize jwk as new JWK object
         # ref: https://jwcrypto.readthedocs.io/en/latest/jwk.html
-        self.jwk = JWK.generate(  # type: ignore
+        if self.lazy_mode:
+            return
+
+        self._jwk = JWK.generate(
             alg=self.alg.value,
             kty=self.key_type.value,
             curve=self.curve.value,
             use=self.use.value,
         )
+
+    def jwk(self):
+        """Return the internal JWK (JSON Web Key) instance"""
+        return self._jwk
+
+    def as_dict(self):
+        """Export Keyring as JWK in standard JSON format"""
+        return self._jwk.export(True, True)
+
+    def from_dict(self, raw_key: Raw):
+        """Initialize Keyring from JWK standard JSON format"""
+        json_string = str(JSON(raw_key))
+        self._jwk = JWK.from_json(json_string)
+        return self
+
+    def fingerprint(self):
+        """Return the decoded sha256 thumbprint"""
+        b64_thumbprint = self._jwk.thumbprint()
+        decoded_thumbprint = base64url_decode(b64_thumbprint)
+        return decoded_thumbprint.hex()
 
 
 __all__ = ('SignKeyRing', 'Algorithm', 'Curve', 'KeyType', 'Use')

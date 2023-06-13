@@ -83,4 +83,4 @@ video = harvest.video(path=URL("https://example.com/video.mp4"))
 
 !!! note
     It is also possible to create a generic multimedia type as long as it is accompanied by an engine that takes care of its processing.
-    Please check [builtin media types source](../reference/harvest/media.md) to see media builtin-types and [engine development guide](../../dev/docs/engines.md).
+    Please check [builtin media types source](../reference/harvest/media.md) to see media builtin-types and [engine development guide](../reference/processing/engines.md).

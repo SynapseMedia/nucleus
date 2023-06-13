@@ -171,24 +171,22 @@ class JSON(UserDict[Any, Any]):
     def parse(self):
         return json.loads(str(self))
 
-    def write(self, path: Path):
+    def write(self, path: Path) -> Path:
         """Create an output json file into output file with self
 
-        :param path: directory to store json file
-        :return: path to file
-        :rtype: Path
+        :param path: Directory to store json file
+        :return: Path to file
         """
         json_string = json.dumps(self.data, ensure_ascii=False)
         path.write_text(json_string)
         return path
 
     @classmethod
-    def read(cls, path: Path):
+    def read(cls, path: Path) -> JSON:
         """Read a json file and return a JSON object
 
-        :param path: the path to read json raw
-        :return: JSON
-        :rtype: JSON
+        :param path: The path to read json raw
+        :return: JSON instance
         """
         raw = path.read_text()
         dict = json.loads(raw)

@@ -14,8 +14,7 @@ class Codec(Settings, Protocol):
         """Check if the available codecs contain the codec in question.
         If codec match we can just copy it.
 
-        :para codec: the name of the codec to match
-        :returns: true if match else False
-        :rtype: bool
+        :para codec: The name of the codec to match
+        :returns: True if match else False
         """
         ...

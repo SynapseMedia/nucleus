@@ -4,29 +4,24 @@ from PIL.Image import Resampling
 
 from nucleus.core.types import Tuple
 
-"""All these settings are defined by pillow library.
-Option classes should be named in correspondence to the methods of the Pillow Image object 
-using the Python class naming convention.
+"""
+All these settings are defined by the Pillow library.
+Option classes should be named according to the corresponding methods of the Pillow Image object, 
+following the Python class naming convention.
 
-During processing time the underneath options classes are parsed as a method to dynamically call pillow image object.
-ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize
+During processing, the underlying option classes are parsed as a method to dynamically call the Pillow image object.
+Reference: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize
 
-eg:
+For example:
     # after parsing
     class RemapPalette(Option) <= image.remap_palette(...)
         ...
-
-
 """
 
 
 @dataclass(slots=True)
 class Coord:
-    """The Python Imaging Library uses a Cartesian pixel coordinate system
-    ref: https://pillow.readthedocs.io/en/stable/handbook/concepts.html#coordinate-system
-    """
-
-    # ref: https://docs.python.org/3/reference/datamodel.html#slots
+    """Represents a cartesian pixel coordinate"""
 
     left: int
     top: int
@@ -36,9 +31,7 @@ class Coord:
 
 @dataclass(slots=True)
 class Crop:
-    """Crop image returns a rectangular region from this image
-    ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.crop
-    """
+    """Crop a rectangular region from an image"""
 
     box: Coord
 
@@ -53,9 +46,7 @@ class Crop:
 
 @dataclass(slots=True)
 class Thumbnail:
-    """Thumbnail make the image into a thumbnail. 
-    ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail
-    """
+    """Resize the image into a thumbnail"""
 
     _size: Tuple[int, int] = field(init=False)
     _gap: float = field(init=False)
@@ -83,9 +74,7 @@ class Thumbnail:
 
 @dataclass(slots=True)
 class Resize:
-    """Resize image
-    ref: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize
-    """
+    """Resize the image to a given size"""
 
     _size: Tuple[int, int] = field(init=False)
     _box: Tuple[int, int, int, int] = field(init=False)

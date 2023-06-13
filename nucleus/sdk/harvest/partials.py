@@ -11,21 +11,10 @@ from .models import Model
 
 def media_factory(*, base: Type[T], **kwargs: Any) -> T:
     """Generic model factory.
-    
-    Example::
 
-        # define our partials types
-        image = functools.partial(media_factory, base=Image)
-        video = functools.partial(media_factory, base=Video)
-        
-        # then we can use them to create a new type instance 
-        my_img_type = image(path="image.jpg)
-
-
-    :param base: the base type for model
-    :return: new media type instance
-    :rtype: T
-    :raises ModelValidationError: if model fails during schema validation
+    :param base: The base type for model
+    :return: New media type instance
+    :raises ModelValidationError: If model fails during schema validation
     """
     try:
         return parse_obj_as(base, kwargs)
@@ -33,7 +22,7 @@ def media_factory(*, base: Type[T], **kwargs: Any) -> T:
         raise ModelValidationError(f'exceptions raised during schema validation in partials factory: {str(e)}')
 
 
-# Extend the default Model base and use `create_model` from pydantic to create ready-to-use models. 
+# Extend the default Model base and use `create_model` from pydantic to create ready-to-use models.
 # Learn more about `create_model` [here](https://docs.pydantic.dev/latest/usage/models/)
 model = functools.partial(create_model, __base__=Model)
 # We use utility functions to create "out of the box" media models derived from media types

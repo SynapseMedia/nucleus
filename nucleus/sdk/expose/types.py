@@ -5,12 +5,13 @@ from jwcrypto import jwe, jwk, jws
 from nucleus.core.types import Literal, Protocol, Raw, Setting, Union
 from nucleus.sdk.storage import Object, Store
 
-Claims = Literal['s', 'd', 't']
 
 JWK = jwk.JWK
 JWS = jws.JWS
 JWE = jwe.JWE
 
+Claims = Literal['s', 'd', 't']
+Operations = Union[JWS, JWE]
 
 class Metadata(Protocol):
     """Metadata defines the expected behavior of metadata types.
@@ -77,36 +78,59 @@ class Serializer(Protocol):
 
         ...
 
-    def update(self, jwt: Union[JWS, JWE]) -> Serializer:
+    def update(self, jwt: Operations) -> Serializer:
         """Receive updates when serialization is ready to handle any additional encoding step.
         In this step we could add a new state or operate over JWS/JWE to handle any additional encoding.
 
         :param jwt: JWT to handle
         :return: ready to use Serializer
-        :rtype: Serializer
         """
         ...
 
 
-class KeyRing(Protocol):
-    # TODO add docs
-    
-    
+class Keyring(Protocol):
+    """Keyring specifies the required methods for handling keys based on the JWK (JSON Web Key) RFC 7517 standard"""
+
     def __iter__(self) -> Setting:
-        """Export extra headers to add into serialization"""
+        """Yield needed headers to add into signature/recipient"""
+        ...
+
+    def jwk(self) -> JWK:
+        """Return the internal JWK (JSON Web Key) instance"""
+        ...
+
+    def fingerprint(self) -> str:
+        """Return the base64 decoded thumbprint as specified by RFC 7638"""
+        ...
+
+    def from_dict(self, raw_key: Raw) -> Keyring:
+        """Initialize Keyring from JWK standard JSON format"""
+        ...
+
+    def as_dict(self) -> Raw:
+        """Export Keyring as JWK in standard JSON format"""
         ...
 
 
 class Crypto(Protocol):
-    # TODO add docs
+    """Specify a pub/sub middleware that handle cryptographic operations on serializers"""
 
     def __init__(self, serializer: Serializer):
+        """Initialize with the serializer on which we will operate"""
         ...
 
     def serialize(self) -> Serializer:
+        """Notify the underlying serializer of the current state of the cryptographic operation.
+        During this process, the serializer may modify its state or store the results of the operations.
+        """
         ...
 
-    def add_key(self, kr: KeyRing) -> Crypto:
+    def add_key(self, kr: Keyring) -> Crypto:
+        """Bind keys to the serialization process.
+
+        :param kr: Keyring to associate with operation
+        :return: Crypto object
+        """
         ...
 
 

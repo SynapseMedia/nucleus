@@ -23,10 +23,9 @@ class EstuaryClient:
     def _safe_request(self, res: Response) -> JSON:
         """Amplifier helper method to handle response from Estuary API
 
-        :param res: expected response
+        :param res: Expected response
         :return: json response
-        :rtype: JSON
-        :raises StorageServiceError: if an error occurs during request
+        :raises StorageServiceError: If an error occurs during request
         """
 
         # expected response as json
@@ -51,10 +50,9 @@ class EstuaryClient:
         """Collect details from estuary based on CID
         ref: https://docs.estuary.tech/Reference/SwaggerUI#/public/get_public_by_cid__cid_
 
-        :param cid: cid to retrieve content details
-        :return: cid content details
-        :rtype: JSON
-        :raises EdgePinException: if pin request fails
+        :param cid: Cid to retrieve content details
+        :return: Cid content details
+        :raises EdgePinException: If pin request fails
         """
 
         content_uri = f'{ESTUARY_API_PUBLIC}/by-cid/{cid}'
@@ -67,12 +65,11 @@ class EstuaryClient:
     def pin(self, obj: Object, **kwargs: Any) -> Pin:
         """Pin cid into estuary
 
-        :param obj: object to pin
-        :return: pin object
-        :rtype: Pin
-        :raises StorageServiceError: if pin request fails
+        :param obj: Object to pin
+        :return: Pin object
+        :raises StorageServiceError: If pin request fails
         """
-        # ref:
+        
         # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
         data = {'cid': obj.hash, **kwargs}
         req = self._http.post(ESTUARY_API_PIN, data=data)
@@ -88,10 +85,10 @@ class EstuaryClient:
         """Remove pin from estuary
 
         :param obj: object to remove from service
-        :return: just removed CID
-        :rtype: CID
+        :return: the recently removed CID
         :raises StorageServiceError: if an error occurs during request
         """
+        
         # content id is same as pin id
         pin_id = self._content_by_cid(obj.hash).get('id')
         response = self._http.delete(f'{ESTUARY_API_PIN}/{pin_id}')

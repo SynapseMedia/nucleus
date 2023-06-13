@@ -1,3 +1,5 @@
+from nucleus.core.types import Any
+
 from .key import Algorithm, Curve, KeyType, SignKeyRing, Use
 from .sep import SEP001, Header, Payload
 
@@ -5,9 +7,8 @@ from .sep import SEP001, Header, Payload
 def standard(type: str) -> SEP001:
     """SEP001 factory
 
-    :param type: the type of media to expose
-    :return: new standard implementation sep-001 object
-    :rtype: SEP001
+    :param type: The type of media to expose
+    :return: New standard implementation sep-001 object
     """
 
     return SEP001(
@@ -16,9 +17,12 @@ def standard(type: str) -> SEP001:
     )
 
 
-def es256() -> SignKeyRing:
+def es256(**kwargs: Any) -> SignKeyRing:
     """Return a KeyRing with ECDSA settings based on JWA specification.
     ref: https://www.rfc-editor.org/rfc/rfc7518#section-3.1
+
+    :param kwargs: Any extra settings could be passed as keyword arguments
+    :return: Ready to use signature keyring
     """
 
     return SignKeyRing(
@@ -26,6 +30,7 @@ def es256() -> SignKeyRing:
         key_type=KeyType.EllipticCurve,
         curve=Curve.P256,
         use=Use.SIG,
+        **kwargs,
     )
 
 

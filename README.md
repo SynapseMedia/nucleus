@@ -24,8 +24,8 @@ Try nucleus! Install is simple using pip: `pip install nucleus-sdk`
 
 Before using `nucleus`, FFmpeg and IPFS must be installed:
 
-* Check the official docs to [install IPFS](https://docs.ipfs.tech/install/command-line/#system-requirements).
-* There are a variety of ways to install FFmpeg, such as the [official download links](https://ffmpeg.org/download.html), or using your package manager of choice (e.g. `sudo apt install ffmpeg` on Debian/Ubuntu, `brew install ffmpeg` on OS X, etc.).
+- Check the official docs to [install IPFS](https://docs.ipfs.tech/install/command-line/#system-requirements).
+- There are a variety of ways to install FFmpeg, such as the [official download links](https://ffmpeg.org/download.html), or using your package manager of choice (e.g. `sudo apt install ffmpeg` on Debian/Ubuntu, `brew install ffmpeg` on OS X, etc.).
 
 ## Examples
 
@@ -42,3 +42,9 @@ Some available capabilities for dev support:
 - **Lint Fix**: `make format`
 
 Note: Run `make help` to check for more capabilities.  
+
+## More info
+
+- Visit our website [synapsemedia.io](https://synapsemedia.io)
+- Get in touch with us in [slack](https://join.slack.com/t/synapse-media/shared_invite/zt-1vbnai6ee-zxOs1Outt2oGMA7Sh1CXgQ) | [discord](https://discord.gg/MedWgZ7u) | [reddit](https://www.reddit.com/r/synapse_media/)
+- For help or bugs please create an [issue](https://github.com/SynapseMedia/nucleus/issues).

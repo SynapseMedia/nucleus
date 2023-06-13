@@ -20,28 +20,25 @@ from .types import Engine, File, Introspection
 def _to_object(data: Any) -> Any:
     """Recursively convert a nested JSON as Dynamic object
 
-    :return: Dynamic object mirroring JSON representation
-    :rtype: Dynamic
+    :return: dynamic object mirroring JSON representation
     """
 
-    # if is a list recursive parse the entries
+    # If it's a list, recursively parse the entries
     if isinstance(data, list):
-        return list(map(_to_object, data))  # type: ignore
+        return list(map(_to_object, data))
 
-    # if is a dict recursive parse
+    # If it's a list, recursively parse the entries
     if isinstance(data, dict):
         container = Dynamic()
-        for k, v in data.items():  # type: ignore
-            setattr(container, str(k), _to_object(v))  # type: ignore
+        for k, v in data.items():
+            setattr(container, str(k), _to_object(v))
         return container
 
     return data
 
 
 class VideoEngine(Engine):
-    """Engine adapt FFMPEG to support low level transcoding
-    ref: https://github.com/kkroening/ffmpeg-python
-    """
+    """Engine that adapts the FFMPEG Python library to support low-level transcoding."""
 
     def __init__(self, lib: FFMPEG):
         super().__init__(lib)
@@ -69,7 +66,7 @@ class VideoEngine(Engine):
         try:
             output_args = self._build_output_args()
             # We generate the expected path after transcode
-            self._library.output(path, **output_args).run()  # type: ignore
+            self._library.output(path, **output_args).run()
 
             # after low level processing happen!!
             i8t = self.introspect(path)
@@ -80,9 +77,7 @@ class VideoEngine(Engine):
 
 
 class ImageEngine(Engine):
-    """Engine adapt Pillow to support image processing
-    ref: https://pillow.readthedocs.io/en/stable/reference/Image.html
-    """
+    """Engine that adapts the Pillow library to support image processing."""
 
     def __init__(self, lib: Pillow):
         # compile the pattern to avoid overhead in loop and bind underlying lib
@@ -92,8 +87,8 @@ class ImageEngine(Engine):
     def _to_snake_case(self, class_name: str) -> str:
         """Transform PascalCase class definition to snake_case method name
 
-        :para name: the class name to parse
-        :return: the snake case version for class name
+        :para name: The class name to parse
+        :return: The snake case version for class name
         """
         return self._pattern.sub('_', class_name).lower()
 

@@ -5,4 +5,4 @@
     options:
       show_submodules: true
       docstring_style: sphinx
-      show_root_heading: true
+      show_root_heading:  false

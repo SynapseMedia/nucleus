@@ -22,16 +22,16 @@ class _Manager(pydantic.main.ModelMetaclass):
     This metaclass prepare the connection to query to the right database according to the class name.
     """
 
-    def __new__(mcs, name: Any, bases: Any, attrs: Any, **kwargs: Any):  # type: ignore
+    def __new__(mcs, name: Any, bases: Any, attrs: Any, **kwargs: Any):
         """Start a new connection to cache database and ensure that the database is ready to receive requests."""
         db_path = Path(MODELS_PATH)
         db_file = f'{db_path}/{name}.db'
 
-        super_new = super().__new__  # type: ignore
+        super_new = super().__new__
         # Ensure initialization is only performed for subclasses of _Model
         is_subclass_instance = any(map(lambda x: isinstance(x, _Manager), bases))
         if not is_subclass_instance:
-            return super_new(mcs, name, bases, attrs, **kwargs)  # type: ignore
+            return super_new(mcs, name, bases, attrs, **kwargs)
 
         # ensure that model directory exists
         if not db_path.exists():
@@ -42,13 +42,13 @@ class _Manager(pydantic.main.ModelMetaclass):
         conn.execute(MIGRATE % (name, name))
         # add new attributes to class
         new_attrs = {**{'_conn': conn, '_alias': name}, **attrs}
-        return super_new(mcs, name, bases, new_attrs, **kwargs)  # type: ignore
+        return super_new(mcs, name, bases, new_attrs, **kwargs)
 
 
 class Base(pydantic.BaseModel, metaclass=_Manager):
     """Base class for models that enables efficient model persistence and data validation.
 
-    Example::
+    Usage:
 
         class MyModel(BaseModel):
             name: str
@@ -91,9 +91,8 @@ class Base(pydantic.BaseModel, metaclass=_Manager):
     def get(cls) -> Base:
         """Exec query and fetch first entry from database.
 
-        :return: first registered snapshot
-        :rtype: BaseModel
-        :raises ModelManagerError: if there is an error fetching entry
+        :return: First registered snapshot
+        :raises ModelManagerError: If there is an error fetching entry
         """
 
         response = cls._conn.execute(FETCH % cls._alias)
@@ -109,8 +108,7 @@ class Base(pydantic.BaseModel, metaclass=_Manager):
         """Exec query and fetch a list of data from database.
 
         :return: all registered snapshots
-        :rtype: Iterator[BaseModel]
-        :raises ModelManagerError: if there is an error fetching entries
+        :raises ModelManagerError: If there is an error fetching entries
         """
         response = cls._conn.execute(FETCH % cls._alias)
         rows = response.fetchall()
@@ -124,8 +122,7 @@ class Base(pydantic.BaseModel, metaclass=_Manager):
         """Exec insertion query into database
 
         :return: True if successful else False
-        :rtype: bool
-        :raises ModelManagerError: if there is an error saving entry
+        :raises ModelManagerError: If there is an error saving entry
         """
 
         # https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.lastrowid
@@ -137,7 +134,7 @@ class Model(Base):
     """Model class specifies by default the attributes needed for the metadata model
     and allows its extension to create metadata sub-models with custom attributes.
 
-    Usage::
+    Usage:
 
         class Nucleus(Model):
             # Represents a specific model for `Nucleus` metadata
@@ -154,9 +151,10 @@ class Model(Base):
 class Media(Base, Generic[T]):
     """
     Generic media model to create media subtypes.
-    Each subtype represents a specific media type and provides a generic specification of the sources from which it can be collected.
-    
-    Usage::
+    Each subtype represents a specific media type and provides a generic specification
+    of the sources from which it can be collected.
+
+    Usage:
 
         class Video(Media[Path]):
             # Represents a video media resource with a file path

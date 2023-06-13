@@ -10,14 +10,13 @@ from nucleus.sdk.exceptions import FFProbeError
 def probe(path: Path, **kwargs: Any) -> JSON:
     """Run ffprobe on the specified file and return a JSON representation of the output.
 
-    :param path: the path to probe
+    :param path: The path to probe
     :return: JSON representation of the output
-    :rtype: JSON
-    :raises FFProbeError: if the file path does not exist
+    :raises FFProbeError: If the file path does not exist
     """
     try:
-        return JSON(ffmpeg.probe(path, **kwargs))  # type: ignore
-    except ffmpeg._run.Error as e:  # type: ignore
+        return JSON(ffmpeg.probe(path, **kwargs))
+    except ffmpeg._run.Error as e:
         raise FFProbeError(f'error during ffprobe command call: {str(e)}')
 
 

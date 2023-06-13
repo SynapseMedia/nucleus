@@ -5,10 +5,14 @@ sources = nucleus tests
 .pdm:
 	@pdm -V || echo 'Please install PDM: https://pdm.fming.dev/latest/\#installation'
 
+.PHONY: .pre-commit  ## Check that pre-commit is installed
+.pre-commit:
+	@pre-commit -V || echo 'Please install pre-commit: https://pre-commit.com/'
 
 .PHONY: install  ## Install the package and dependencies
 install: .pdm 
 	pdm install --group :all
+	pre-commit install --install-hooks
 
 .PHONY: sync ## Synchronize the current working set with lock file
 sync: .pdm
@@ -85,6 +89,11 @@ docs:
 .PHONY: watch ## Start docs server in localhost
 watch:
 	pdm run mkdocs serve
+
+.PHONY: push ## Push docs to github pages
+push:
+	pdm run mkdocs gh-deploy
+
 
 .PHONY: all  ## Run the standard set of checks performed in CI
 all: lint pyright codespell test

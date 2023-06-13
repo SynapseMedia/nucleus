@@ -4,8 +4,7 @@ from .ipc import IPC
 def call(cmd: str) -> IPC:
     """Spawn subprocess .
 
-    :param cmd: process to execute
-    :return: inter process communication instance
-    :rtype: IPC
+    :param cmd: Process to execute
+    :return: Inter process communication instance
     """
     return IPC(cmd)

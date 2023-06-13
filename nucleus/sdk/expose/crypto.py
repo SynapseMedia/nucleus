@@ -2,15 +2,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from jwcrypto.common import json_encode  # type: ignore
+from jwcrypto.common import json_encode
 
-from .types import JWS, KeyRing, Serializer
+from .types import JWS, Keyring, Serializer
 
 
 @dataclass(slots=True)
 class Sign:
-
-    """Sign is in charge of JWS serialization"""
+    """JWS serialization"""
 
     # attach serializer as subscriber
     _s8r: Serializer
@@ -23,24 +22,22 @@ class Sign:
         """
         self._jws = JWS(bytes(self._s8r))
 
-    def add_key(self, kr: KeyRing) -> Sign:
+    def add_key(self, kr: Keyring) -> Sign:
         """Bind signers to JWS
 
-        :param kr: keyring to assoc with signature
-        :return: JWS object
-        :rtype: JWS
+        :param kr: Keyring to assoc with signature
+        :return: Sign object
         """
 
         header = {**dict(kr), **dict(self._s8r)}
-        self._jws.add_signature(kr.jwk, None, json_encode(header))  # type: ignore
+        self._jws.add_signature(kr.jwk(), None, json_encode(header))
         return self
 
     def serialize(self) -> Serializer:
         """Trigger and notify to underneath serializer for JWS post-processing .
         In this step additional data could be added/modified into JWS.
 
-        :return: an out of the box serializer
-        :rtype: Serializer
+        :return: The ready to use serializer object
         """
         return self._s8r.update(self._jws)
 
