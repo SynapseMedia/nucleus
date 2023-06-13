@@ -11,6 +11,7 @@ from .models import Model
 
 def media_factory(*, base: Type[T], **kwargs: Any) -> T:
     """Generic model factory.
+    Allows the creation of a new model based on the given `base` model
 
     :param base: The base type for model
     :return: New media type instance

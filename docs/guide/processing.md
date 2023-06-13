@@ -1,6 +1,6 @@
 # Processing
 
-This step is responsible for processing multimedia resources by performing transformations, transcoding, or other necessary operations based on the required parameters for each specific use case. This prepares the resources for consumption over the network.
+This step involves processing multimedia resources by performing transformations, transcoding, or other necessary operations based on the required parameters for each specific use case. These operations prepare the resources for consumption over the network.
 
 ## Engines
 
@@ -39,7 +39,7 @@ Let's explore an example of how to configure the image engine:
 ```python
 
 # import options from processing package
-from nucleus.sdk.processing import Thumbnail, Coord
+from nucleus.sdk.processing import Thumbnail
 
 # we want to create a thumbnail from the image
 # new thumb size is 50x50 output
@@ -50,4 +50,4 @@ output_image = engine.save(path=Path("image2.jpg"))
 ```
 
 !!! info
-    Given that the engines emulate the underlying libraries, the available options are based on the methods or configurations set within each respective library. Internally, the process entails preparing the library using the provided options during this stage. For further details on the available options, please refer to the [video](../reference/processing/video.md) or [image](../reference/processing/image.md) documentation.
+    Given that the engines emulate the underlying libraries, the available options are based on the methods or configurations set within each respective library. For further details on the available options, please refer to the [video](../reference/processing/video.md) or [image](../reference/processing/image.md) documentation.

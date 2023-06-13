@@ -3,21 +3,20 @@ import functools
 import ffmpeg
 import PIL.Image as PIL
 
-from nucleus.core.types import Path
-from nucleus.sdk.harvest import Image, Video
+from nucleus.core.types import Path,URL,    Path,    Union
+from nucleus.sdk.harvest import Image, Video, Media
 
 from .engines import ImageEngine, VideoEngine
-from .types import Engine, Processable
+from .types import Engine
 
 
 @functools.singledispatch
-def engine(media: Processable) -> Engine:
-    """Engine single dispatch factory.
+def engine(media: Media[Union[Path, URL]]) -> Engine:
+    """Engine singledispatch factory.
     Use the media input to infer the right engine.
 
-    :param media: The media to dispatch
-    :param kwargs: These args are passed directly to library.
-    :return: Engine sub class instance
+    :param media: The media type to dispatch
+    :return: The appropriate engine implementation for the type of media
     """
     raise NotImplementedError(f'cannot process not registered media `{media}')
 

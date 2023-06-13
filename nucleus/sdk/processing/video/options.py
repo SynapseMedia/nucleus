@@ -20,7 +20,7 @@ Reference: https://ffmpeg.org/ffmpeg.html#Main-options
 
 @dataclass(slots=True)
 class Custom:
-    """Special class for directly specifying custom settings to the ffmpeg command"""
+    """Special class for directly specifying custom settings to the ffmpeg command."""
 
     _custom: Mapping[str, Any]
 
@@ -33,7 +33,7 @@ class Custom:
 
 @dataclass(slots=True)
 class FrameSize:
-    """Set the frame size"""
+    """Set the frame size."""
 
     width: int
     height: int
@@ -47,7 +47,7 @@ class FrameSize:
 
 @dataclass(slots=True)
 class FPS:
-    """Set the frame rate (Hz value, fraction or abbreviation)"""
+    """Set the frame rate (Hz value, fraction or abbreviation)."""
 
     fps: float
 
@@ -57,7 +57,7 @@ class FPS:
 
 @dataclass(slots=True)
 class BR:
-    """Set the Video/Audio bitrate"""
+    """Set the Video/Audio bitrate."""
 
     video: int
     audio: int = 0
@@ -74,7 +74,7 @@ class BR:
 
 @dataclass(frozen=True)
 class Bitrate:
-    """Default standard bitrate options"""
+    """Default standard bitrate options."""
 
     B240 = BR(150, 94)
     B360 = BR(276, 128)
@@ -87,7 +87,7 @@ class Bitrate:
 
 @dataclass(frozen=True)
 class Screen:
-    """Default standard screen size options"""
+    """Default standard screen size options."""
 
     Q240 = FrameSize(416, 234)
     Q360 = FrameSize(640, 360)

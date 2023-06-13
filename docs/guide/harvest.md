@@ -8,8 +8,7 @@ Metadata collection is carried out using models created based on the requirement
 
 Underneath the validation and schematization of the models is [pydantic](https://docs.pydantic.dev/latest/), so we can use [python standard library](https://docs.pydantic.dev/latest/usage/types/#standard-library-types) types to define fields.
 
-Here's an example of how you can define models by extending the [Model](../reference/harvest/models.md) class as the base class:
-In this example, we define a model called Nucleus that extends the Model class from the nucleus.sdk.harvest module. The fields name, description, and contributors are defined with their respective types (str and List[str]).
+In the example below, we have a model called Nucleus that extends the [Model](../reference/harvest/models.md) class. It includes fields such as name, description, and contributors, each defined with their respective types (str and List[str]).
 
 ```python
 from nucleus.sdk.harvest import Model
@@ -52,7 +51,7 @@ nucleus: Model = Nucleus(
 
 ## Media
 
-Let's discuss multimedia resources and their collection using the types defined or predetermined by the SDK.
+Let's explore multimedia resources and how to collect them using the SDK's built-in types.
 
 In order to properly handle multimedia resources such as images, videos, music, text, and more, it is important to collect and categorize them using the appropriate types defined or provided by the SDK. These types allow for easy identification and handling of the resources during subsequent stages or processes in the pipeline.
 
@@ -69,7 +68,7 @@ video = Video(path=URL("https://example.com/video.mp4"))
 
 ```
 
-Using partials:
+Alternatively, for those who prefer using functions, we can make use of partials to create media types:
 
 ```python
 import nucleus.sdk.harvest as harvest

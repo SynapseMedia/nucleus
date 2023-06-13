@@ -46,20 +46,8 @@ class _Manager(pydantic.main.ModelMetaclass):
 
 
 class Base(pydantic.BaseModel, metaclass=_Manager):
-    """Base class for models that enables efficient model persistence and data validation.
-
-    Usage:
-
-        class MyModel(BaseModel):
-            name: str
-
-        # store a snapshot of the model
-        stored_model = MyModel(name="Model")
-        stored_model.save()
-
-        # we should be able to retrieve the same model
-        assert MyModel.all() == [stored_model] # True
-
+    """Base model provides efficient model persistence and data validation capabilities.
+    The persistence mechanism relies on sqlite and pickle, allowing the entire model to be stored as a snapshot
     """
 
     _alias: str
@@ -89,7 +77,7 @@ class Base(pydantic.BaseModel, metaclass=_Manager):
         target=ModelManagerError,
     )
     def get(cls) -> Base:
-        """Exec query and fetch first entry from database.
+        """Exec query and fetch first entry from local database.
 
         :return: First registered snapshot
         :raises ModelManagerError: If there is an error fetching entry
@@ -105,7 +93,7 @@ class Base(pydantic.BaseModel, metaclass=_Manager):
         target=ModelManagerError,
     )
     def all(cls) -> Iterator[Base]:
-        """Exec query and fetch a list of data from database.
+        """Exec query and fetch a list of data from local database.
 
         :return: all registered snapshots
         :raises ModelManagerError: If there is an error fetching entries
@@ -119,7 +107,7 @@ class Base(pydantic.BaseModel, metaclass=_Manager):
         target=ModelManagerError,
     )
     def save(self) -> bool:
-        """Exec insertion query into database
+        """Exec insertion query into local database
 
         :return: True if successful else False
         :raises ModelManagerError: If there is an error saving entry
@@ -133,15 +121,6 @@ class Base(pydantic.BaseModel, metaclass=_Manager):
 class Model(Base):
     """Model class specifies by default the attributes needed for the metadata model
     and allows its extension to create metadata sub-models with custom attributes.
-
-    Usage:
-
-        class Nucleus(Model):
-            # Represents a specific model for `Nucleus` metadata
-            name: str # default property
-            description: str # default property
-            address: str # my custom property
-
     """
 
     name: str  # the name of the resource
@@ -149,20 +128,9 @@ class Model(Base):
 
 
 class Media(Base, Generic[T]):
-    """
-    Generic media model to create media subtypes.
+    """Generic media model to create media subtypes.
     Each subtype represents a specific media type and provides a generic specification
     of the sources from which it can be collected.
-
-    Usage:
-
-        class Video(Media[Path]):
-            # Represents a video media resource with a file path
-            ...
-
-        class Image(Media[URL]):
-            # Represents an image media resource with a URL
-            ...
     """
 
     path: T

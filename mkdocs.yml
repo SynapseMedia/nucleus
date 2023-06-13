@@ -10,7 +10,7 @@ nav:
     - Processing multimedia: guide/processing.md
     # - Multimedia storage: index.md
     # - Publishing the metadata: index.md
-    # - Full Example
+    # - Putting all together
   - API Reference: 
     - Harvest:
         - Models: reference/harvest/models.md

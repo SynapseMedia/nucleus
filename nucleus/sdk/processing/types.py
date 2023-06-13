@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-
+from nucleus.sdk.harvest import Media
 from nucleus.core.types import (
-    URL,
     Any,
     Dynamic,
     Iterator,
@@ -11,13 +10,8 @@ from nucleus.core.types import (
     Path,
     Settings,
     Tuple,
-    Union,
 )
-from nucleus.sdk.harvest import Media
 
-# Alias for allowed engine inputs
-Processable = Media[Union[Path, URL]]
-Compilation = Iterator[Tuple[str, Any]]
 
 
 class Introspection(Dynamic):
@@ -67,7 +61,7 @@ class Engine(ABC):
         self._library = lib
         self._settings = []
 
-    def compile(self) -> Compilation:
+    def compile(self) -> Iterator[Tuple[str, Any]]:
         """Compile engine settings into an map of arguments
 
         :return: A new map of compiled arguments based on configured options
