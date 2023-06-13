@@ -16,8 +16,6 @@ Nucleus is a collection of low-level tools for decentralized media management, t
 4. **Metadata distribution**: Facilitates seamless distribution of metadata across federated networks.
 5. **Web3 instruments**: Integrates with Web3 technologies, leveraging blockchain and smart contracts.
 
-These features empower users to manage multimedia content in a decentralized ecosystem, promoting greater control, privacy, and efficiency in media operations.
-
 ## Help
 
 See [documentation](https://synapsemedia.github.io/nucleus/) for more details.
