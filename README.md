@@ -10,14 +10,6 @@
 
 Nucleus is a collection of low-level tools for media decentralization. It offers functionalities to make it easier to process, store, and distribute multimedia in a decentralized way.
 
-The key features of Nucleus include:
-
-- **Metadata harvesting**
-- **Multimedia processing**
-- **Multimedia storage**
-- **Metadata distribution**
-- **Web3 instruments**
-
 ## Help
 
 See [documentation](https://synapsemedia.github.io/nucleus/) for more details.
