@@ -1,3 +1,5 @@
+import pytest
+
 import nucleus.core.logger as logger
 import nucleus.sdk.expose as expose
 import nucleus.sdk.harvest as harvest
@@ -16,6 +18,7 @@ from nucleus.sdk.processing import Engine, File, Resize
 from nucleus.sdk.storage import Object, Store
 
 
+@pytest.mark.skip(reason='no way of currently testing this. mock needed')
 def test_main():
     LOCAL_ENDPOINT = 'http://localhost:5001'
 
