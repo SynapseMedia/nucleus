@@ -5,7 +5,7 @@ import hashlib
 import dag_cbor
 from jwcrypto.common import json_decode
 
-from nucleus.core.types import CID, JSON, List, Raw, Union, Setting
+from nucleus.core.types import CID, JSON, List, Raw, Setting, Union
 from nucleus.sdk.storage import Object, Store
 
 from .types import JWE, JWS, Standard

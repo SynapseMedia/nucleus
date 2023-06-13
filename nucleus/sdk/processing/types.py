@@ -26,7 +26,7 @@ class Introspection(Dynamic):
     based on the media type and underlying library.
 
     Usage:
-    
+
         # Introspect from ffprobe video info or PIL.Image, etc.
         video = Introspection(**ffprobe)
         image = Introspection(**PIL.Image)
@@ -89,7 +89,7 @@ class Engine(ABC):
     def introspect(self, path: Path) -> Introspection:
         """Return technical information of the input media.
 
-        :param path: The media path 
+        :param path: The media path
         :return: Any technical information collected from media.
         """
         ...

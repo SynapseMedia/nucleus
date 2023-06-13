@@ -69,7 +69,7 @@ class EstuaryClient:
         :return: Pin object
         :raises StorageServiceError: If pin request fails
         """
-        
+
         # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
         data = {'cid': obj.hash, **kwargs}
         req = self._http.post(ESTUARY_API_PIN, data=data)
@@ -88,7 +88,7 @@ class EstuaryClient:
         :return: the recently removed CID
         :raises StorageServiceError: if an error occurs during request
         """
-        
+
         # content id is same as pin id
         pin_id = self._content_by_cid(obj.hash).get('id')
         response = self._http.delete(f'{ESTUARY_API_PIN}/{pin_id}')

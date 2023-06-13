@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from nucleus.core.types import Any, Mapping
+
 """
 Aspect Ratio     H.264/AVC kb/s     Frame Rate
 416 x 234       145                 ≤ 30 fps
@@ -21,7 +22,7 @@ Reference: https://ffmpeg.org/ffmpeg.html#Main-options
 class Custom:
     """Special class for directly specifying custom settings to the ffmpeg command"""
 
-    _custom: Mapping[str, Any] 
+    _custom: Mapping[str, Any]
 
     def __init__(self, **kwargs: Any):
         self._custom = kwargs
@@ -74,6 +75,7 @@ class BR:
 @dataclass(frozen=True)
 class Bitrate:
     """Default standard bitrate options"""
+
     B240 = BR(150, 94)
     B360 = BR(276, 128)
     B480 = BR(750, 192)
@@ -86,6 +88,7 @@ class Bitrate:
 @dataclass(frozen=True)
 class Screen:
     """Default standard screen size options"""
+
     Q240 = FrameSize(416, 234)
     Q360 = FrameSize(640, 360)
     Q480 = FrameSize(854, 480)

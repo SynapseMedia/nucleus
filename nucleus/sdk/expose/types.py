@@ -5,13 +5,13 @@ from jwcrypto import jwe, jwk, jws
 from nucleus.core.types import Literal, Protocol, Raw, Setting, Union
 from nucleus.sdk.storage import Object, Store
 
-
 JWK = jwk.JWK
 JWS = jws.JWS
 JWE = jwe.JWE
 
 Claims = Literal['s', 'd', 't']
 Operations = Union[JWS, JWE]
+
 
 class Metadata(Protocol):
     """Metadata defines the expected behavior of metadata types.
