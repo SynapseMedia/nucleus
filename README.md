@@ -10,11 +10,11 @@
 
 Nucleus is a comprehensive toolkit for decentralized media management, which simplifies the processing, storage, and distribution of multimedia. Its key features include:
 
-1. **Metadata harvesting**: Nucleus simplify the extraction and collection of metadata associated with multimedia resources.
-2. **Multimedia processing**: Nucleus offers robust tools for processing multimedia content, including transcoding and image manipulation.
-3. **Multimedia storage**: Nucleus enables secure and efficient storage of multimedia files within the IPFS ecosystem.
-4. **Metadata distribution**: Nucleus facilitates seamless distribution of metadata across federated networks.
-5. **Web3 instruments**: Nucleus integrates with Web3 technologies, leveraging blockchain and smart contracts.
+1. **Metadata harvesting**: Simplify the extraction and collection of metadata associated with multimedia resources.
+2. **Multimedia processing**: Offers robust tools for processing multimedia content, including transcoding and image manipulation.
+3. **Multimedia storage**: Enables secure and efficient storage of multimedia files within the IPFS ecosystem.
+4. **Metadata distribution**: Facilitates seamless distribution of metadata across federated networks.
+5. **Web3 instruments**: Integrates with Web3 technologies, leveraging blockchain and smart contracts.
 
 These features empower users to manage multimedia content in a decentralized ecosystem, promoting greater control, privacy, and efficiency in media operations.
 
