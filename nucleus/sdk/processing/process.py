@@ -3,36 +3,41 @@ import functools
 import ffmpeg
 import PIL.Image as PIL
 
-from nucleus.core.types import Path,URL,    Path,    Union
-from nucleus.sdk.harvest import Image, Video, Media
-
+from nucleus.core.types import Path
+from nucleus.sdk.harvest import Image, Media, Video
+from nucleus.sdk.exceptions import ProcessingEngineError
 from .engines import ImageEngine, VideoEngine
 from .types import Engine
 
 
 @functools.singledispatch
-def engine(media: Media[Union[Path, URL]]) -> Engine:
+def engine(media: Media[Path]) -> Engine:
     """Engine singledispatch factory.
     Use the media input to infer the right engine.
 
     :param media: The media type to dispatch
     :return: The appropriate engine implementation for the type of media
+    :raises: ProcessingEngineError:  If any error occurs during engine initialization
     """
     raise NotImplementedError(f'cannot process not registered media `{media}')
 
 
 @engine.register
 def _(media: Video) -> VideoEngine:
-    input_path = Path(media.path)
-    library = ffmpeg.input(input_path)
+    
+    if not media.path.exists():
+        raise ProcessingEngineError(f"No such file or directory: {media.path}")
+    
+    library = ffmpeg.input(media.path)
     return VideoEngine(library)
-
 
 @engine.register
 def _(media: Image) -> ImageEngine:
-    input_path = Path(media.path)
-    library = PIL.open(input_path)
-    return ImageEngine(library)
-
+    try:
+        input_path = Path(media.path)
+        library = PIL.open(input_path)
+        return ImageEngine(library)
+    except FileNotFoundError as e:
+        raise ProcessingEngineError(str(e))
 
 __all__ = ('engine',)

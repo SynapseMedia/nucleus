@@ -19,7 +19,7 @@ from nucleus.sdk.processing import Engine
 
 # initialize an Image type to pass into engine function
 image = harvest.image(path=Path("image.jpg"))
-# retrieve an Image engine from the input image
+# get back an Image engine from the input type
 engine = processing.engine(image)
 
 # ... below engine configuration
@@ -27,7 +27,7 @@ engine = processing.engine(image)
 ```
 
 !!! tip
-    The `engine` function from the `processing` package is a polymorphic function that automatically selects the appropriate engine based on the type of multimedia passed as a parameter. Please see more about [built-in engines](../reference/processing/engines.md).
+    The `engine` function from the `processing` package is a polymorphic function that automatically selects the appropriate engine based on the type of multimedia passed as a parameter. Please see more about [built-in engines](../reference/processing/engines.md) and [utilities](../reference/processing/utilities.md).
 
 ## Options
 
