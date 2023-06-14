@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from nucleus.sdk.harvest import Media
+
 from nucleus.core.types import (
     Any,
     Dynamic,
@@ -11,7 +11,7 @@ from nucleus.core.types import (
     Settings,
     Tuple,
 )
-
+from nucleus.sdk.harvest import Media
 
 
 class Introspection(Dynamic):

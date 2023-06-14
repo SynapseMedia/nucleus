@@ -21,6 +21,7 @@ from nucleus.sdk.storage import Object, Store
 @pytest.mark.skip(reason='no way of currently testing this. mock needed')
 def test_main():
     LOCAL_ENDPOINT = 'http://localhost:5001'
+    FAKE_KEY = "ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY"
 
     # 1. prepare our model schema to collect/validate/clean data
     with logger.console.status('Harvesting'):
@@ -40,11 +41,11 @@ def test_main():
     # 2. init our processing engine based on our media model
     with logger.console.status('Processing'):
         # "infer" engine based on input media type
-        image: Image = harvest.image(path=Path('arch.png'))
+        image: Image = harvest.image(path=Path('test/_mock/255x255.jpg'))
         image_engine: Engine = processing.engine(image)
         image_engine.configure(Resize(50, 50))
         # finally save the processed image to our custom dir
-        output_file: File = image_engine.save(Path('arch2.png'))
+        output_file: File = image_engine.save(Path('test.jpg'))
 
     # 3. store our processed image in local IPFS node and pin it in estuary
     with logger.console.status('Storage'):
@@ -81,6 +82,8 @@ def test_main():
         obj: Object = sep001.serialize().save_to(local_storage)
         # what we do with our new and cool CID?
         logger.console.print(obj.hash)
+        
+        assert 0
 
         """
         Lets try:

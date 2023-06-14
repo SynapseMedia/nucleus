@@ -58,13 +58,13 @@ In order to properly handle multimedia resources such as images, videos, music, 
 For example, the SDK may provide builtin data types for each type of multimedia resource. This could include Image and Video types, each with their respective properties and methods for processing and manipulation.
 
 ```python
-
+from nucleus.core.types import Path
 from nucleus.sdk.harvest import Image, Video
 
 # Collecting an image using the Image type
 image = Image(path=Path("/local/path/image.jpg"))
 # Collecting a video using the Video type
-video = Video(path=URL("https://example.com/video.mp4"))
+video = Video(path=Path("/local/path/video.mp4"))
 
 ```
 
@@ -73,13 +73,15 @@ Alternatively, for those who prefer using functions, we can make use of partials
 ```python
 import nucleus.sdk.harvest as harvest
 
+from nucleus.core.types import Path
+
 # Collecting an image using the Image type
 image = harvest.image(path=Path("/local/path/image.jpg"))
 # Collecting a video using the Video type
-video = harvest.video(path=URL("https://example.com/video.mp4"))
+video = harvest.video(path=Path("/local/path/video.mp4"))
 
 ```
 
 !!! note
-    It is also possible to create a generic multimedia type as long as it is accompanied by an engine that takes care of its processing.
-    Please check [builtin media types source](../reference/harvest/media.md) to see media builtin-types and [engine development guide](../reference/processing/engines.md).
+    It is also possible to create our own multimedia type as long as it is accompanied by an engine that takes care of its processing.
+    Please check [built-in media types](../reference/harvest/media.md) and [built-in engines](../reference/processing/engines.md).

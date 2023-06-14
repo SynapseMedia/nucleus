@@ -46,3 +46,4 @@ scripts/*
 coverage.lcov
 .pdm-python
 site/
+test.jpg

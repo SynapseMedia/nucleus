@@ -1,5 +1,10 @@
 {% include-markdown "../README.md"
-    end="## Examples"
+    end="## Help"
+%}
+
+{% include-markdown "../README.md"
+    start="for more details."
+    end="## Example"
 %}
 
 {% include-markdown "../README.md"

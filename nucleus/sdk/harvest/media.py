@@ -1,15 +1,15 @@
-from nucleus.core.types import URL, Path, Union
+from nucleus.core.types import Path
 
 from .models import Media
 
 
-class Video(Media[Union[URL, Path]]):
+class Video(Media[Path]):
     """Represents a video media type."""
 
     ...
 
 
-class Image(Media[Union[URL, Path]]):
+class Image(Media[Path]):
     """Represents an image media type."""
 
     ...
