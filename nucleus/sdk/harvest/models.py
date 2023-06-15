@@ -48,6 +48,18 @@ class _Manager(pydantic.main.ModelMetaclass):
 class Base(pydantic.BaseModel, metaclass=_Manager):
     """Base model provides efficient model persistence and data validation capabilities.
     The persistence mechanism relies on sqlite and pickle, allowing the entire model to be stored as a snapshot
+    
+    Usage:
+
+        class MyModel(BaseModel):
+            name: str
+
+        # store a snapshot of the model
+        stored_model = MyModel(name="Model")
+        stored_model.save()
+
+        # we should be able to retrieve the same model
+        assert MyModel.all() == [stored_model] # True
     """
 
     _alias: str
@@ -121,6 +133,14 @@ class Base(pydantic.BaseModel, metaclass=_Manager):
 class Model(Base):
     """Model class specifies by default the attributes needed for the metadata model
     and allows its extension to create metadata sub-models with custom attributes.
+    
+    Usage:
+
+        class Nucleus(Model):
+            # Represents a specific model for `Nucleus` metadata
+            name: str # default property
+            description: str # default property
+            address: str # my custom property
     """
 
     name: str  # the name of the resource
@@ -131,6 +151,16 @@ class Media(Base, Generic[T]):
     """Generic media model to create media subtypes.
     Each subtype represents a specific media type and provides a generic specification
     of the sources from which it can be collected.
+    
+    Usage:
+
+        class Video(Media[Path]):
+            # Represents a video media type.
+            ...
+
+        class Image(Media[URL]):
+            # Represents an image media type.
+            ...
     """
 
     path: T

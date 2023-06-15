@@ -84,7 +84,7 @@ class SignKeyRing:
             use=self.use.value,
         )
 
-    def jwk(self):
+    def jwk(self) -> JWK:
         """Return the internal JWK (JSON Web Key) instance"""
         return self._jwk
 

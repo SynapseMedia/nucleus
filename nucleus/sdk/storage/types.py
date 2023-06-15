@@ -17,7 +17,7 @@ from nucleus.sdk.processing import File
 @dataclass(slots=True)
 class Object:
     """Distributed/Stored media representation.
-    This class is used to represent any media decentralized and already stored in IPFS
+    This class is used to represent any media decentralized and already stored in IPFS.
     """
 
     hash: CID
@@ -42,8 +42,8 @@ Store = Callable[[Storable], Object]
 
 @runtime_checkable
 class Service(Protocol):
-    """Storage abstraction to manage the configuration needed to connect to services.
-    Use this class to create Services subtypes.
+    """specifies the methods required to establish connections with services.
+    This class can be used as a base to create subtypes for different services.
     """
 
     def endpoint(self) -> URL:
@@ -62,9 +62,9 @@ class Service(Protocol):
 
 
 class Client(Protocol):
-    """Client provides an standard interface to handle ipfs storage services.
-    Each storage service represent a remote cache service like eg. estuary'
-    Use this class to create edge services subtypes.
+    """provides a standardized interface for handling IPFS storage services. Each storage service
+    represents a remote cache service, such as Estuary. This class can be used as a base to 
+    create subtypes for specific edge clients.
     """
 
     def pin(self, obj: Object) -> Pin:

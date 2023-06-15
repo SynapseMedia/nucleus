@@ -2,8 +2,6 @@
 
 This section outlines the supported multimedia resource types. Each type is used for selecting the appropriate processing engine. If necessary, additional types can be easily incorporated.
 
-## Built-in media types
-
 ::: nucleus.sdk.harvest.media
     handler: python
     options:
@@ -14,8 +12,3 @@ This section outlines the supported multimedia resource types. Each type is used
 
 !!! tip
     Each media type specifies "Path" as the source types from which it can be collected.
-
-
-
-
-

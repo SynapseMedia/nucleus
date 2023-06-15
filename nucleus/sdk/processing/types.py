@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-
+from nucleus.sdk.harvest import Media
 from nucleus.core.types import (
     Any,
     Dynamic,
@@ -11,7 +11,7 @@ from nucleus.core.types import (
     Settings,
     Tuple,
 )
-from nucleus.sdk.harvest import Media
+
 
 
 class Introspection(Dynamic):
@@ -39,6 +39,15 @@ class Introspection(Dynamic):
 class File(Media[Path]):
     """Local media file representation.
     This class is used to represent any media stored in local host.
+    
+    Usage:
+
+        # Introspect from ffprobe video info or PIL.Image, etc.
+        video_meta = Introspection(**ffprobe)
+
+        # create a local file with metadata information
+        file = File(Path("local_video.mp4"), video_meta)
+    
     """
 
     # associated file introspection
@@ -47,10 +56,24 @@ class File(Media[Path]):
 
 
 class Engine(ABC):
-    """Engine implements a media engine template/adapter.
+    """Engine implements a media engine abstract adapter.
     It uses an underlying library as an interface to process media files.
     It produce output based on the provided settings.
     Use this class to create engine subtypes.
+    
+    Usage:
+
+        # create our own engine implementation
+        class MusicEngine(Engine):
+
+            def __init__(self, lib: MusicLib):
+                super().__init__(lib)
+
+            def introspect(self, path: Path) -> Introspection:
+                ...
+
+            def save(self, path: Path) -> File:
+                ... 
     """
 
     _library: Any
@@ -64,15 +87,15 @@ class Engine(ABC):
     def compile(self) -> Iterator[Tuple[str, Any]]:
         """Compile engine settings into an map of arguments
 
-        :return: A new map of compiled arguments based on configured options
+        :return: A new map of compiled arguments based on settings
         """
         for preset in self._settings:
             yield type(preset).__name__, dict(preset)
 
     def configure(self, setting: Settings) -> Engine:
-        """Set the context for media processing
+        """Add setting to media processing context
 
-        :param setting: The settings to apply to the engine output.
+        :param setting: The setting to apply to the engine output.
         :return: Engine object
         """
 

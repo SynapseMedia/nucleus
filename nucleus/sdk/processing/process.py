@@ -14,10 +14,19 @@ from .types import Engine
 def engine(media: Media[Path]) -> Engine:
     """Engine singledispatch factory.
     Use the media input to infer the right engine.
+    
+    Usage:
+    
+        # initialize an Image type to pass into engine function
+        image = harvest.image(path=Path("image.jpg"))
+        # get back an Image engine from the input type
+        engine = processing.engine(image)
 
     :param media: The media type to dispatch
     :return: The appropriate engine implementation for the type of media
     :raises: ProcessingEngineError:  If any error occurs during engine initialization
+    
+
     """
     raise NotImplementedError(f'cannot process not registered media `{media}')
 
@@ -34,8 +43,7 @@ def _(media: Video) -> VideoEngine:
 @engine.register
 def _(media: Image) -> ImageEngine:
     try:
-        input_path = Path(media.path)
-        library = PIL.open(input_path)
+        library = PIL.open(media.path)
         return ImageEngine(library)
     except FileNotFoundError as e:
         raise ProcessingEngineError(str(e))

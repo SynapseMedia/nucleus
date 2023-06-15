@@ -6,7 +6,7 @@ This step involves processing multimedia resources by performing transformations
 
 Engines are responsible for processing different types of media, providing configurations according to the nature of each multimedia type and its underlying library. These engines offer flexibility in modifying their behavior through their configurations and expose a standard output.
 
-In this example, we will invoke the image processing engine and its configuration process based on the `options`. Initializing an engine is straightforward with the functions offered by the processing package:
+In this example, we will invoke the image processing engine and its configuration process based on the `settings`. Initializing an engine is straightforward with the functions offered by the processing package:
 
 ```python
 
@@ -27,18 +27,18 @@ engine = processing.engine(image)
 ```
 
 !!! tip
-    The `engine` function from the `processing` package is a polymorphic function that automatically selects the appropriate engine based on the type of multimedia passed as a parameter. Please see more about [built-in engines](../reference/processing/engines.md) and [utilities](../reference/processing/utilities.md).
+    The `engine` function from the `processing` package is a polymorphic function that automatically selects the appropriate engine based on the [type of multimedia](../reference/harvest/media.md) passed as a parameter. Please see more about [built-in engines](../reference/processing/engines.md) and [utilities](../reference/processing/utilities.md).
 
-## Options
+## Settings
 
-Each engine provides a set of built-in configuration options that modify the engine's output and are tailored to the specific characteristics of each multimedia type.
+Each engine provides a set of built-in settings that modify the engine's output and are tailored to the specific characteristics of each multimedia type.
 
 Configuring our engine is straightforward with the use of the `configure` method.
 Let's explore an example of how to configure the image engine:
 
 ```python
 
-# import options from processing package
+# import settings from processing package
 from nucleus.sdk.processing import Thumbnail
 
 # we want to create a thumbnail from the image
@@ -50,4 +50,4 @@ output_image = engine.save(path=Path("image2.jpg"))
 ```
 
 !!! info
-    Given that the engines emulate the underlying libraries, the available options are based on the methods or configurations set within each respective library. For further details on the available options, please refer to the [video](../reference/processing/video.md) or [image](../reference/processing/image.md) documentation.
+    Given that the engines emulate the underlying libraries, the available settings are based on the methods or configurations set within each respective library. For further details on the available settings, please refer to the [video](../reference/processing/video.md) or [image](../reference/processing/image.md) documentation.

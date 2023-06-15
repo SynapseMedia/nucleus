@@ -29,7 +29,7 @@ class Copy:
 
 
 class H264:
-    """Represent H264 codec with default options.
+    """Represent H264 codec with default settings.
     ref: https://trac.ffmpeg.org/wiki/Encode/H.264
 
     """
@@ -51,7 +51,7 @@ class H264:
 
 
 class HEVC:
-    """Represent HEVC codec with default options.
+    """Represent HEVC codec with default settings.
     ref: https://trac.ffmpeg.org/wiki/Encode/H.265
 
     """
@@ -73,7 +73,7 @@ class HEVC:
 
 
 class VP9:
-    """Represent Vp9 codec with default options.
+    """Represent Vp9 codec with default settings.
     ref: https://trac.ffmpeg.org/wiki/Encode/VP9
 
     """

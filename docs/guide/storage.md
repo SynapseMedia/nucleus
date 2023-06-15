@@ -4,9 +4,9 @@ We have learned how to collect multimedia resources and metadata, and we have al
 
 ## Store
 
-Como parte del proceso de almacenamiento, primero debemos almacenar nuestros medios en el nodo local de IPFS, y eso es lo que se encarga del "local store". La inicialización de nuestro nodo local es sencilla utilizando la función "store" del paquete de almacenamiento.
+As part of the storage process, we first need to store our media in the local IPFS node, and that's where the `local storage` comes into play. Initializing our local node is simple using the `store` function from the storage package.
 
-A continuacion veamos un ejemplo de como almacenamos una imagen en el almacenamiento local.
+Let's see an example of how to store an image:
 
 ```python
 
@@ -18,6 +18,9 @@ stored_file_object = local_storage(output_image)
 # ... below pinning stored file
 
 ```
+
+!!! tip
+    The `local storage` function from the `storage` package is a polymorphic function that automatically selects the appropriate storage strategy based on the type of the param. Please see more about in [utilities](../reference/storage/utilities.md).
 
 ## Services
 
