@@ -9,21 +9,20 @@ from .types import Object, Storable, Store
 
 
 def ipfs(endpoint: Optional[str] = None) -> Store:
-    """HOF to handle storage endpoint and return a singledispatch generic function.
-    A form of generic function dispatch where the implementation is chosen based on the type of a single argument.
-    ref: https://docs.python.org/3/glossary.html#term-single-dispatch
+    """Higher-order function to handle storage endpoint and return a singledispatch generic function with preset storage strategies.
+    This is a form of generic function dispatch where the implementation is chosen based on the type of a single argument.
 
-    :param endpoint: Endpoint to connect api
-    :return: Singledispatch generic function
+    :param endpoint: Endpoint to connect to the API. If the endpoint is not specified, localhost is used instead.
+    :return: Singledispatch decorated function
     """
 
-    # connected ipfs api interface
+    # Connect to the IPFS API interface
     api = ipfs_.rpc(endpoint)
 
     @functools.singledispatch
     def store(data: Storable) -> Object:
         """Storage single dispatch factory.
-        Use the data input type to infer the right storage strategy.
+        Uses the data input type to infer the right storage strategy.
 
         :param data: The model to dispatch
         :return: Object instance
@@ -32,11 +31,10 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
 
     @store.register
     def _(data: FileType) -> Object:
-        """Add a file to IPFS
+        """Store files in IPFS.
 
-        :param data: The file model to store
-        :return: stored instance
-
+        :param data: String to store
+        :return: Object instance
         """
         command = Add(File(data.path))
         # expected /add output from API
@@ -51,7 +49,8 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
 
     @store.register
     def _(data: bytes) -> Object:
-        """Add bytes to ipfs
+        """Store bytes in IPFS.
+        Store bytes in raw blocks.
 
         :param data: Bytes to store
         :return: Object instance
@@ -70,8 +69,9 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
 
     @store.register
     def _(data: str) -> Object:
-        """Add JSON metadata representation to ipfs
-
+        """String string in IPFS.
+        Encode string to bytes and store it in raw blocks.
+        
         :param data: String to store
         :return: Object instance
         """
@@ -81,7 +81,7 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
 
     @store.register
     def _(data: JSON) -> Object:
-        """Add JSON metadata representation to ipfs
+        """Store JSON in IPFS Dag.
 
         :param data: JSON to store
         :return: Object instance

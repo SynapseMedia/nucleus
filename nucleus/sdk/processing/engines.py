@@ -18,9 +18,9 @@ from .types import Engine, File, Introspection
 
 @no_type_check
 def _to_object(data: Any) -> Any:
-    """Recursively convert a nested JSON as Dynamic object.
-
-    :return: dynamic object mirroring JSON representation
+    """Recursively convert a nested JSON as Dynamic instance.
+    
+    :return: Dynamic object mirroring JSON representation
     """
 
     # If it's a list, recursively parse the entries
@@ -38,7 +38,14 @@ def _to_object(data: Any) -> Any:
 
 
 class VideoEngine(Engine):
-    """Engine that adapts the FFMPEG Python library to support low-level transcoding."""
+    """Engine that adapts the FFMPEG Python library to support low-level transcoding.
+    
+    Usage:
+
+        # adapt ffmpeg lib
+        library = ffmpeg.input(media.path)
+        return VideoEngine(library)
+    """
 
     def __init__(self, lib: FFMPEG):
         super().__init__(lib)
@@ -77,7 +84,14 @@ class VideoEngine(Engine):
 
 
 class ImageEngine(Engine):
-    """Engine that adapts the Pillow library to support image processing."""
+    """Engine that adapts the Pillow library to support image processing.
+    
+    Usage: 
+
+        # adapt pillow Image
+        library = PIL.open(media.path)
+        return ImageEngine(library)
+    """
 
     def __init__(self, lib: Pillow):
         # compile the pattern to avoid overhead in loop and bind underlying lib
@@ -93,7 +107,7 @@ class ImageEngine(Engine):
         return self._pattern.sub('_', class_name).lower()
 
     def _setup_methods(self):
-        """Call and chain methods based on configured options"""
+        """Call and chain methods based on settings"""
         for class_name, params in self.compile():
             # The method to call should be the same as the option name.
             method = self._to_snake_case(class_name)

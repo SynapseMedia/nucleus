@@ -1,8 +1,8 @@
 
 !!! note
-    During processing time the options classes are parsed as configuration arguments for [FFMPEG python library](https://github.com/kkroening/ffmpeg-python). To know more about the options implemented in this reference please see [FFMPEG main options](https://ffmpeg.org/ffmpeg.html#Main-options).
+    During processing time, the setting classes are parsed as configuration arguments for [FFMPEG python library](https://github.com/kkroening/ffmpeg-python). To know more about the settings implemented in this reference please see [FFMPEG main options](https://ffmpeg.org/ffmpeg.html#Main-options).
 
-::: nucleus.sdk.processing.video.options
+::: nucleus.sdk.processing.video.settings
     handler: python
     options:
       members:
@@ -19,7 +19,7 @@
 
 ## Defaults
 
-::: nucleus.sdk.processing.video.options.Bitrate
+::: nucleus.sdk.processing.video.settings.Bitrate
     handler: python
     options:
       annotations_path: source
@@ -30,7 +30,7 @@
 
 ----
 
-::: nucleus.sdk.processing.video.options.Screen
+::: nucleus.sdk.processing.video.settings.Screen
     handler: python
     options:
       annotations_path: source

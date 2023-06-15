@@ -24,6 +24,9 @@ nav:
           - Image: reference/processing/image.md
         - Utilities: reference/processing/utilities.md
         - Types: reference/processing/types.md
+    - Storage:
+        - Utilities: reference/storage/utilities.md
+        - Types: reference/storage/types.md
     # more here
   - Developer Guide:
     - Overview: dev/index.md
@@ -33,8 +36,6 @@ nav:
     # - Extending Engines: dev/arch.md
     # - Extending Clients and Services: dev/arch.md
     # - Release notes: dev/arch.md
-   
-
 
 theme: 
   name: material
