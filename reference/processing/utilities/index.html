@@ -323,6 +323,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/storage/" class="md-nav__link">
+        Multimedia storage
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -570,9 +584,40 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Utilities
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Utilities
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.processing.process.engine" class="md-nav__link">
+    engine()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -586,6 +631,68 @@
   
     <li class="md-nav__item">
       <a href="../types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/utilities/" class="md-nav__link">
+        Utilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -689,6 +796,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.processing.process.engine" class="md-nav__link">
+    engine()
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -706,6 +828,142 @@
 
 
 <h1 id="utilities">Utilities</h1>
+<p>For the inference of engines based on multimedia types, we use the <a href="https://docs.python.org/3/library/functools.html">singledispatch</a> decorator to simplify the selection process of the appropriate engines. The decorator transforms a function into a generic function that can have different engine implementations depending on the type of the input media.</p>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="nucleus.sdk.processing.process.engine" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">engine</span><span class="p">(</span><span class="n">media</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Engine singledispatch factory.
+Use the media input to infer the right engine.</p>
+<p>Usage:</p>
+<div class="highlight"><pre><span></span><code># initialize an Image type to pass into engine function
+image = harvest.image(path=Path(&quot;image.jpg&quot;))
+# get back an Image engine from the input type
+engine = processing.engine(image)
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>media</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.harvest.Media" href="../../harvest/models/#nucleus.sdk.harvest.models.Media">Media</a>[<span title="nucleus.core.types.Path">Path</span>]</code>
+          </td>
+          <td><p>The media type to dispatch</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.processing.types.Engine" href="../types/#nucleus.sdk.processing.types.Engine">Engine</a></code>
+          </td>
+          <td><p>The appropriate engine implementation for the type of media</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/processing/process.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@functools</span><span class="o">.</span><span class="n">singledispatch</span>
+<span class="k">def</span> <span class="nf">engine</span><span class="p">(</span><span class="n">media</span><span class="p">:</span> <span class="n">Media</span><span class="p">[</span><span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Engine</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Engine singledispatch factory.</span>
+<span class="sd">    Use the media input to infer the right engine.</span>
+
+<span class="sd">    Usage:</span>
+
+<span class="sd">        # initialize an Image type to pass into engine function</span>
+<span class="sd">        image = harvest.image(path=Path(&quot;image.jpg&quot;))</span>
+<span class="sd">        # get back an Image engine from the input type</span>
+<span class="sd">        engine = processing.engine(image)</span>
+
+<span class="sd">    :param media: The media type to dispatch</span>
+<span class="sd">    :return: The appropriate engine implementation for the type of media</span>
+<span class="sd">    :raises: ProcessingEngineError:  If any error occurs during engine initialization</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cannot process not registered media `</span><span class="si">{</span><span class="n">media</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
 
 
 

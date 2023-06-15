@@ -323,6 +323,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/storage/" class="md-nav__link">
+        Multimedia storage
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -651,6 +665,68 @@
 
             
           
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/utilities/" class="md-nav__link">
+        Utilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -831,6 +907,15 @@
 Collector define an abstraction with methods needed to handle metadata collection process.
 Subclasses should implement the <strong>iter</strong> method to collect metadata from various data inputs.
 Use this class to create collector subtypes.</p>
+<p>Usage:</p>
+<div class="highlight"><pre><span></span><code>class File(Collector):
+
+    def __iter__(self):
+        # read our file and yield the content
+        with open(&#39;dummy.json&#39;) as file:
+            for data in json.load(file):
+                yield JSON(data)
+</code></pre></div>
 
 
         <details class="quote">
@@ -845,11 +930,33 @@ Use this class to create collector subtypes.</p>
 <span class="normal">16</span>
 <span class="normal">17</span>
 <span class="normal">18</span>
-<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Collector</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Collector</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract class for metadata collection.</span>
 <span class="sd">    Collector define an abstraction with methods needed to handle metadata collection process.</span>
 <span class="sd">    Subclasses should implement the __iter__ method to collect metadata from various data inputs.</span>
 <span class="sd">    Use this class to create collector subtypes.</span>
+
+<span class="sd">    Usage:</span>
+
+<span class="sd">        class File(Collector):</span>
+
+<span class="sd">            def __iter__(self):</span>
+<span class="sd">                # read our file and yield the content</span>
+<span class="sd">                with open(&#39;dummy.json&#39;) as file:</span>
+<span class="sd">                    for data in json.load(file):</span>
+<span class="sd">                        yield JSON(data)</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@abstractmethod</span>
@@ -891,10 +998,10 @@ Use this class to create collector subtypes.</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/harvest/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">JSON</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Collect metadata from any kind of data input and return an iterator&quot;&quot;&quot;</span>
     <span class="o">...</span>

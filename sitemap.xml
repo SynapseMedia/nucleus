@@ -2,87 +2,102 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://synapsemedia.io/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/example/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/dev/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/dev/arch/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/dev/engines/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/guide/harvest/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/guide/processing/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/guide/storage/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/reference/harvest/media/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/reference/harvest/models/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/reference/harvest/types/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/reference/harvest/utilities/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/reference/processing/engines/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/reference/processing/image/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/reference/processing/types/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/reference/processing/utilities/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://synapsemedia.io/reference/processing/video/</loc>
-         <lastmod>2023-06-13</lastmod>
+         <lastmod>2023-06-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://synapsemedia.io/reference/storage/clients/</loc>
+         <lastmod>2023-06-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://synapsemedia.io/reference/storage/types/</loc>
+         <lastmod>2023-06-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://synapsemedia.io/reference/storage/utilities/</loc>
+         <lastmod>2023-06-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

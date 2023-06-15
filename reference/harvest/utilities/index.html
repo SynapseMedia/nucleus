@@ -323,6 +323,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/storage/" class="md-nav__link">
+        Multimedia storage
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -457,13 +471,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#built-in-partials" class="md-nav__link">
-    Built-in partials
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#factories" class="md-nav__link">
     Factories
   </a>
@@ -480,6 +487,13 @@
         <li class="md-nav__item">
   <a href="#nucleus.sdk.harvest.partials.media_factory" class="md-nav__link">
     media_factory()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#built-in-partials" class="md-nav__link">
+    Built-in partials
   </a>
   
 </li>
@@ -652,6 +666,68 @@
 
             
           
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/utilities/" class="md-nav__link">
+        Utilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -748,13 +824,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#built-in-partials" class="md-nav__link">
-    Built-in partials
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#factories" class="md-nav__link">
     Factories
   </a>
@@ -771,6 +840,13 @@
         <li class="md-nav__item">
   <a href="#nucleus.sdk.harvest.partials.media_factory" class="md-nav__link">
     media_factory()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#built-in-partials" class="md-nav__link">
+    Built-in partials
   </a>
   
 </li>
@@ -795,20 +871,6 @@
 
 <h1 id="utilities">Utilities</h1>
 <p>Partial functions allow us to derive specific functions from complex functions, making their usage simpler. They are particularly useful when creating specialized versions of existing functions, reducing the number of arguments required for each call.</p>
-<h2 id="built-in-partials">Built-in partials</h2>
-<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">create_model</span><span class="p">,</span> <span class="n">__base__</span><span class="o">=</span><span class="n">Model</span><span class="p">)</span>
-</code></pre></div>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Enhance the <code>create_model</code> pydantic factory function by extending the default <a href="../models/#nucleus.sdk.harvest.Model">model</a> as a base argument. This partial allows the fast creation of metadata models. For more information check <a href="https://docs.pydantic.dev/latest/usage/models/">here</a>.</p>
-</div>
-<div class="highlight"><pre><span></span><code><span class="n">image</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">media_factory</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">Image</span><span class="p">)</span>
-<span class="n">video</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">media_factory</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">Video</span><span class="p">)</span>
-</code></pre></div>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>These partial functions are used to create predefined models for different types of media.</p>
-</div>
 <h2 id="factories">Factories</h2>
 
 
@@ -842,7 +904,12 @@
 
   <div class="doc doc-contents ">
   
-      <p>Generic model factory.</p>
+      <p>Generic model factory.
+Allows the creation of a new model based on the given <code>base</code> model.</p>
+<p>Usage:</p>
+<div class="highlight"><pre><span></span><code># create our own media partial
+music = functools.partial(media_factory, base=Music)
+</code></pre></div>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -916,8 +983,20 @@
 <span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
-<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">media_factory</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">base</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">media_factory</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">base</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generic model factory.</span>
+<span class="sd">    Allows the creation of a new model based on the given `base` model.</span>
+
+<span class="sd">    Usage:</span>
+
+<span class="sd">        # create our own media partial</span>
+<span class="sd">        music = functools.partial(media_factory, base=Music)</span>
 
 <span class="sd">    :param base: The base type for model</span>
 <span class="sd">    :return: New media type instance</span>
@@ -942,6 +1021,20 @@
 </div><div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>We can extend the list of multimedia partials using <code>media_factory</code> and our own media type.</p>
+</div>
+<h2 id="built-in-partials">Built-in partials</h2>
+<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">create_model</span><span class="p">,</span> <span class="n">__base__</span><span class="o">=</span><span class="n">Model</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The partial <code>model</code> enhance the <code>create_model</code> pydantic factory function by extending the default <a href="../models/#nucleus.sdk.harvest.Model">model</a> as a base argument. This partial allows the fast creation of metadata models. For more information check <a href="https://docs.pydantic.dev/latest/usage/models/">here</a>.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="n">image</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">media_factory</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">Image</span><span class="p">)</span>
+<span class="n">video</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">media_factory</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">Video</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>These partial allows the fast creation of <a href="../media/">media types</a>.</p>
 </div>
 
 

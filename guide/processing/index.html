@@ -16,7 +16,7 @@
         <link rel="prev" href="../harvest/">
       
       
-        <link rel="next" href="../../reference/harvest/models/">
+        <link rel="next" href="../storage/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
@@ -358,8 +358,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    Options
+  <a href="#settings" class="md-nav__link">
+    Settings
   </a>
   
 </li>
@@ -368,6 +368,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        Multimedia storage
+      </a>
     </li>
   
 
@@ -636,6 +650,68 @@
 
             
           
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/storage/utilities/" class="md-nav__link">
+        Utilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/storage/types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -739,8 +815,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    Options
+  <a href="#settings" class="md-nav__link">
+    Settings
   </a>
   
 </li>
@@ -764,10 +840,10 @@
 
 
 <h1 id="processing">Processing</h1>
-<p>This step is responsible for processing multimedia resources by performing transformations, transcoding, or other necessary operations based on the required parameters for each specific use case. This prepares the resources for consumption over the network.</p>
+<p>This step involves processing multimedia resources by performing transformations, transcoding, or other necessary operations based on the required parameters for each specific use case. These operations prepare the resources for consumption over the network.</p>
 <h2 id="engines">Engines</h2>
 <p>Engines are responsible for processing different types of media, providing configurations according to the nature of each multimedia type and its underlying library. These engines offer flexibility in modifying their behavior through their configurations and expose a standard output.</p>
-<p>In this example, we will invoke the image processing engine and its configuration process based on the <code>options</code>. Initializing an engine is straightforward with the functions offered by the processing package:</p>
+<p>In this example, we will invoke the image processing engine and its configuration process based on the <code>settings</code>. Initializing an engine is straightforward with the functions offered by the processing package:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.harvest</span> <span class="k">as</span> <span class="nn">harvest</span>
 <span class="kn">import</span> <span class="nn">nucleus.sdk.processing</span> <span class="k">as</span> <span class="nn">processing</span>
 
@@ -777,21 +853,21 @@
 
 <span class="c1"># initialize an Image type to pass into engine function</span>
 <span class="n">image</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;image.jpg&quot;</span><span class="p">))</span>
-<span class="c1"># retrieve an Image engine from the input image</span>
+<span class="c1"># get back an Image engine from the input type</span>
 <span class="n">engine</span> <span class="o">=</span> <span class="n">processing</span><span class="o">.</span><span class="n">engine</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 
 <span class="c1"># ... below engine configuration</span>
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>The <code>engine</code> function from the <code>processing</code> package is a polymorphic function that automatically selects the appropriate engine based on the type of multimedia passed as a parameter. Please see more about <a href="../../reference/processing/engines/">built-in engines</a>.</p>
+<p>The <code>engine</code> function from the <code>processing</code> package is a polymorphic function that automatically selects the appropriate engine based on the <a href="../../reference/harvest/media/">type of multimedia</a> passed as a parameter. Please see more about <a href="../../reference/processing/engines/">built-in engines</a> and <a href="../../reference/processing/utilities/">utilities</a>.</p>
 </div>
-<h2 id="options">Options</h2>
-<p>Each engine provides a set of built-in configuration options that modify the engine's output and are tailored to the specific characteristics of each multimedia type.</p>
+<h2 id="settings">Settings</h2>
+<p>Each engine provides a set of built-in settings that modify the engine's output and are tailored to the specific characteristics of each multimedia type.</p>
 <p>Configuring our engine is straightforward with the use of the <code>configure</code> method.
 Let's explore an example of how to configure the image engine:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import options from processing package</span>
-<span class="kn">from</span> <span class="nn">nucleus.sdk.processing</span> <span class="kn">import</span> <span class="n">Thumbnail</span><span class="p">,</span> <span class="n">Coord</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># import settings from processing package</span>
+<span class="kn">from</span> <span class="nn">nucleus.sdk.processing</span> <span class="kn">import</span> <span class="n">Thumbnail</span>
 
 <span class="c1"># we want to create a thumbnail from the image</span>
 <span class="c1"># new thumb size is 50x50 output</span>
@@ -801,7 +877,7 @@ Let's explore an example of how to configure the image engine:</p>
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>Given that the engines emulate the underlying libraries, the available options are based on the methods or configurations set within each respective library. Internally, the process entails preparing the library using the provided options during this stage. For further details on the available options, please refer to the <a href="../../reference/processing/video/">video</a> or <a href="../../reference/processing/image/">image</a> documentation.</p>
+<p>Given that the engines emulate the underlying libraries, the available settings are based on the methods or configurations set within each respective library. For further details on the available settings, please refer to the <a href="../../reference/processing/video/">video</a> or <a href="../../reference/processing/image/">image</a> documentation.</p>
 </div>
 
 

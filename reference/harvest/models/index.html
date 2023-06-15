@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://synapsemedia.io/reference/harvest/models/">
       
       
-        <link rel="prev" href="../../../guide/processing/">
+        <link rel="prev" href="../../../guide/storage/">
       
       
         <link rel="next" href="../media/">
@@ -317,6 +317,20 @@
     <li class="md-nav__item">
       <a href="../../../guide/processing/" class="md-nav__link">
         Processing multimedia
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/storage/" class="md-nav__link">
+        Multimedia storage
       </a>
     </li>
   
@@ -672,6 +686,68 @@
 
             
           
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/utilities/" class="md-nav__link">
+        Utilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -870,7 +946,8 @@
         Bases: <code>pydantic.<span title="pydantic.BaseModel">BaseModel</span></code></p>
 
   
-      <p>Base class for models that enables efficient model persistence and data validation.</p>
+      <p>Base model provides efficient model persistence and data validation capabilities.
+The persistence mechanism relies on sqlite and pickle, allowing the entire model to be stored as a snapshot</p>
 <p>Usage:</p>
 <div class="highlight"><pre><span></span><code>class MyModel(BaseModel):
     name: str
@@ -969,7 +1046,8 @@ assert MyModel.all() == [stored_model] # True
 <span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">_Manager</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for models that enables efficient model persistence and data validation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base model provides efficient model persistence and data validation capabilities.</span>
+<span class="sd">    The persistence mechanism relies on sqlite and pickle, allowing the entire model to be stored as a snapshot</span>
 
 <span class="sd">    Usage:</span>
 
@@ -982,7 +1060,6 @@ assert MyModel.all() == [stored_model] # True
 
 <span class="sd">        # we should be able to retrieve the same model</span>
 <span class="sd">        assert MyModel.all() == [stored_model] # True</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_alias</span><span class="p">:</span> <span class="nb">str</span>
@@ -1012,7 +1089,7 @@ assert MyModel.all() == [stored_model] # True
         <span class="n">target</span><span class="o">=</span><span class="n">ModelManagerError</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Base</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exec query and fetch first entry from database.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exec query and fetch first entry from local database.</span>
 
 <span class="sd">        :return: First registered snapshot</span>
 <span class="sd">        :raises ModelManagerError: If there is an error fetching entry</span>
@@ -1028,7 +1105,7 @@ assert MyModel.all() == [stored_model] # True
         <span class="n">target</span><span class="o">=</span><span class="n">ModelManagerError</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Base</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exec query and fetch a list of data from database.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exec query and fetch a list of data from local database.</span>
 
 <span class="sd">        :return: all registered snapshots</span>
 <span class="sd">        :raises ModelManagerError: If there is an error fetching entries</span>
@@ -1042,7 +1119,7 @@ assert MyModel.all() == [stored_model] # True
         <span class="n">target</span><span class="o">=</span><span class="n">ModelManagerError</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exec insertion query into database</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exec insertion query into local database</span>
 
 <span class="sd">        :return: True if successful else False</span>
 <span class="sd">        :raises ModelManagerError: If there is an error saving entry</span>
@@ -1082,7 +1159,7 @@ assert MyModel.all() == [stored_model] # True
 
   <div class="doc doc-contents ">
   
-      <p>Exec query and fetch a list of data from database.</p>
+      <p>Exec query and fetch a list of data from local database.</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -1141,7 +1218,7 @@ assert MyModel.all() == [stored_model] # True
     <span class="n">target</span><span class="o">=</span><span class="n">ModelManagerError</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Base</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exec query and fetch a list of data from database.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exec query and fetch a list of data from local database.</span>
 
 <span class="sd">    :return: all registered snapshots</span>
 <span class="sd">    :raises ModelManagerError: If there is an error fetching entries</span>
@@ -1171,7 +1248,7 @@ assert MyModel.all() == [stored_model] # True
 
   <div class="doc doc-contents ">
   
-      <p>Exec query and fetch first entry from database.</p>
+      <p>Exec query and fetch first entry from local database.</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -1231,7 +1308,7 @@ assert MyModel.all() == [stored_model] # True
     <span class="n">target</span><span class="o">=</span><span class="n">ModelManagerError</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Base</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exec query and fetch first entry from database.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exec query and fetch first entry from local database.</span>
 
 <span class="sd">    :return: First registered snapshot</span>
 <span class="sd">    :raises ModelManagerError: If there is an error fetching entry</span>
@@ -1258,7 +1335,7 @@ assert MyModel.all() == [stored_model] # True
 
   <div class="doc doc-contents ">
   
-      <p>Exec insertion query into database</p>
+      <p>Exec insertion query into local database</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -1316,7 +1393,7 @@ assert MyModel.all() == [stored_model] # True
     <span class="n">target</span><span class="o">=</span><span class="n">ModelManagerError</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exec insertion query into database</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exec insertion query into local database</span>
 
 <span class="sd">    :return: True if successful else False</span>
 <span class="sd">    :raises ModelManagerError: If there is an error saving entry</span>
@@ -1360,18 +1437,19 @@ Each subtype represents a specific media type and provides a generic specificati
 of the sources from which it can be collected.</p>
 <p>Usage:</p>
 <div class="highlight"><pre><span></span><code>class Video(Media[Path]):
-    # Represents a video media resource with a file path
+    # Represents a video media type.
     ...
 
 class Image(Media[URL]):
-    # Represents an image media resource with a URL
+    # Represents an image media type.
     ...
 </code></pre></div>
 
 
         <details class="quote">
           <summary>Source code in <code>nucleus/sdk/harvest/models.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">150</span>
+<span class="normal">151</span>
 <span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
@@ -1386,22 +1464,19 @@ class Image(Media[URL]):
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Media</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generic media model to create media subtypes.</span>
+<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Media</span><span class="p">(</span><span class="n">Base</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generic media model to create media subtypes.</span>
 <span class="sd">    Each subtype represents a specific media type and provides a generic specification</span>
 <span class="sd">    of the sources from which it can be collected.</span>
 
 <span class="sd">    Usage:</span>
 
 <span class="sd">        class Video(Media[Path]):</span>
-<span class="sd">            # Represents a video media resource with a file path</span>
+<span class="sd">            # Represents a video media type.</span>
 <span class="sd">            ...</span>
 
 <span class="sd">        class Image(Media[URL]):</span>
-<span class="sd">            # Represents an image media resource with a URL</span>
+<span class="sd">            # Represents an image media type.</span>
 <span class="sd">            ...</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1472,8 +1547,7 @@ and allows its extension to create metadata sub-models with custom attributes.</
 <span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Model class specifies by default the attributes needed for the metadata model</span>
 <span class="sd">    and allows its extension to create metadata sub-models with custom attributes.</span>
 
@@ -1484,7 +1558,6 @@ and allows its extension to create metadata sub-models with custom attributes.</
 <span class="sd">            name: str # default property</span>
 <span class="sd">            description: str # default property</span>
 <span class="sd">            address: str # my custom property</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># the name of the resource</span>

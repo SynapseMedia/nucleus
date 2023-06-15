@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://synapsemedia.io/reference/processing/types/">
+        <link rel="canonical" href="https://synapsemedia.io/reference/storage/types/">
       
       
         <link rel="prev" href="../utilities/">
       
       
-        <link rel="next" href="../../storage/utilities/">
+        <link rel="next" href="../../../dev/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#nucleus.sdk.processing.types.Introspection" class="md-skip">
+        <a href="#nucleus.sdk.storage.types.Client" class="md-skip">
           Skip to content
         </a>
       
@@ -468,16 +468,14 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
       
       
       
@@ -486,7 +484,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_3_2">
           <span class="md-nav__icon md-icon"></span>
           Processing
@@ -499,7 +497,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../engines/" class="md-nav__link">
+      <a href="../../processing/engines/" class="md-nav__link">
         Engines
       </a>
     </li>
@@ -540,7 +538,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../video/" class="md-nav__link">
+      <a href="../../processing/video/" class="md-nav__link">
         Video
       </a>
     </li>
@@ -554,7 +552,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../image/" class="md-nav__link">
+      <a href="../../processing/image/" class="md-nav__link">
         Image
       </a>
     </li>
@@ -568,6 +566,70 @@
   
 
             
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../processing/utilities/" class="md-nav__link">
+        Utilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../processing/types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          Storage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Storage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
             
               
@@ -619,51 +681,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Introspection" class="md-nav__link">
-    Introspection
+  <a href="#nucleus.sdk.storage.types.Client" class="md-nav__link">
+    Client
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.File" class="md-nav__link">
-    File
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Engine" class="md-nav__link">
-    Engine
-  </a>
-  
-    <nav class="md-nav" aria-label="Engine">
+    <nav class="md-nav" aria-label="Client">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Engine.compile" class="md-nav__link">
-    compile()
+  <a href="#nucleus.sdk.storage.types.Client.pin" class="md-nav__link">
+    pin()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Engine.configure" class="md-nav__link">
-    configure()
+  <a href="#nucleus.sdk.storage.types.Client.unpin" class="md-nav__link">
+    unpin()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.types.Object" class="md-nav__link">
+    Object
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.types.Pin" class="md-nav__link">
+    Pin
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.types.Service" class="md-nav__link">
+    Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.types.Service.endpoint" class="md-nav__link">
+    endpoint()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Engine.introspect" class="md-nav__link">
-    introspect()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Engine.save" class="md-nav__link">
-    save()
+  <a href="#nucleus.sdk.storage.types.Service.key" class="md-nav__link">
+    key()
   </a>
   
 </li>
@@ -677,68 +752,6 @@
   
 </nav>
       
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
-          Storage
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_3_3">
-          <span class="md-nav__icon md-icon"></span>
-          Storage
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../storage/utilities/" class="md-nav__link">
-        Utilities
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../storage/types/" class="md-nav__link">
-        Types
-      </a>
     </li>
   
 
@@ -845,51 +858,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Introspection" class="md-nav__link">
-    Introspection
+  <a href="#nucleus.sdk.storage.types.Client" class="md-nav__link">
+    Client
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.File" class="md-nav__link">
-    File
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Engine" class="md-nav__link">
-    Engine
-  </a>
-  
-    <nav class="md-nav" aria-label="Engine">
+    <nav class="md-nav" aria-label="Client">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Engine.compile" class="md-nav__link">
-    compile()
+  <a href="#nucleus.sdk.storage.types.Client.pin" class="md-nav__link">
+    pin()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Engine.configure" class="md-nav__link">
-    configure()
+  <a href="#nucleus.sdk.storage.types.Client.unpin" class="md-nav__link">
+    unpin()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.types.Object" class="md-nav__link">
+    Object
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.types.Pin" class="md-nav__link">
+    Pin
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.types.Service" class="md-nav__link">
+    Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.types.Service.endpoint" class="md-nav__link">
+    endpoint()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Engine.introspect" class="md-nav__link">
-    introspect()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#nucleus.sdk.processing.types.Engine.save" class="md-nav__link">
-    save()
+  <a href="#nucleus.sdk.storage.types.Service.key" class="md-nav__link">
+    key()
   </a>
   
 </li>
@@ -940,8 +966,8 @@
 
 
 
-<h2 id="nucleus.sdk.processing.types.Introspection" class="doc doc-heading">
-        <code>Introspection</code>
+<h2 id="nucleus.sdk.storage.types.Client" class="doc doc-heading">
+        <code>Client</code>
 
 
 </h2>
@@ -949,139 +975,59 @@
 
   <div class="doc doc-contents ">
       <p class="doc doc-class-bases">
-        Bases: <code><span title="nucleus.core.types.Dynamic">Dynamic</span></code></p>
+        Bases: <code><span title="nucleus.core.types.Protocol">Protocol</span></code></p>
 
   
-      <p>Introspection holds internal media information and metadata.
-For each result, the media metadata is associated with the <code>meta</code> attribute, and it could change
-based on the media type and underlying library.</p>
-<p>Usage:</p>
-<div class="highlight"><pre><span></span><code># Introspect from ffprobe video info or PIL.Image, etc.
-video = Introspection(**ffprobe)
-image = Introspection(**PIL.Image)
-
-# Introspection dynamically receives all the metadata from the underlying library output.
-# The &quot;WARNING&quot; here is that based on the media type,
-# the introspection content could change and requires an extra review.
-</code></pre></div>
+      <p>provides a standardized interface for handling IPFS storage services. Each storage service
+represents a remote cache service, such as Estuary. This class can be used as a base to 
+create subtypes for specific edge clients.</p>
 
 
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="nucleus.sdk.processing.types.File" class="doc doc-heading">
-        <code>File</code>
-
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.harvest.Media" href="../../harvest/models/#nucleus.sdk.harvest.models.Media">Media</a>[<span title="nucleus.core.types.Path">Path</span>]</code></p>
-
-  
-      <p>Local media file representation.
-This class is used to represent any media stored in local host.</p>
-<p>Usage:</p>
-<div class="highlight"><pre><span></span><code># Introspect from ffprobe video info or PIL.Image, etc.
-video_meta = Introspection(**ffprobe)
-
-# create a local file with metadata information
-file = File(Path(&quot;local_video.mp4&quot;), video_meta)
-</code></pre></div>
-
-
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="nucleus.sdk.processing.types.Engine" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">Engine</span><span class="p">(</span><span class="n">lib</span><span class="p">)</span></code>
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><span title="abc.ABC">ABC</span></code></p>
-
-  
-      <p>Engine implements a media engine abstract adapter.
-It uses an underlying library as an interface to process media files.
-It produce output based on the provided settings.
-Use this class to create engine subtypes.</p>
-<p>Usage:</p>
-<div class="highlight"><pre><span></span><code># create our own engine implementation
-class MusicEngine(Engine):
-
-    def __init__(self, lib: MusicLib):
-        super().__init__(lib)
-
-    def introspect(self, path: Path) -&gt; Introspection:
-        ...
-
-    def save(self, path: Path) -&gt; File:
-        ...
-</code></pre></div>
-
-  
-      <p>Initialize a new instance with bound library</p>
-
-          <details class="quote">
-            <summary>Source code in <code>nucleus/sdk/processing/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">82</span>
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/storage/types.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
 <span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lib</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize a new instance with bound library&quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_library</span> <span class="o">=</span> <span class="n">lib</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;provides a standardized interface for handling IPFS storage services. Each storage service</span>
+<span class="sd">    represents a remote cache service, such as Estuary. This class can be used as a base to </span>
+<span class="sd">    create subtypes for specific edge clients.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">pin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pin</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pin cid into remote storage</span>
+
+<span class="sd">        :param obj: Object to pin</span>
+<span class="sd">        :return: Pin object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">unpin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CID</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove pin from storage service</span>
+
+<span class="sd">        :param obj: Object to remove from service</span>
+<span class="sd">        :return: Just removed object cid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span>
 </code></pre></div></td></tr></table></div>
-          </details>
+        </details>
 
   
 
@@ -1099,68 +1045,15 @@ class MusicEngine(Engine):
 
 
 
-<h3 id="nucleus.sdk.processing.types.Engine.compile" class="doc doc-heading">
-<code class="highlight language-python"><span class="nb">compile</span><span class="p">()</span></code>
+<h3 id="nucleus.sdk.storage.types.Client.pin" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">pin</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></code>
 
 </h3>
 
 
   <div class="doc doc-contents ">
   
-      <p>Compile engine settings into an map of arguments</p>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="nucleus.core.types.Iterator">Iterator</span>[<span title="nucleus.core.types.Tuple">Tuple</span>[str, <span title="nucleus.core.types.Any">Any</span>]]</code>
-          </td>
-          <td><p>A new map of compiled arguments based on settings</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-      <details class="quote">
-        <summary>Source code in <code>nucleus/sdk/processing/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compile engine settings into an map of arguments</span>
-
-<span class="sd">    :return: A new map of compiled arguments based on settings</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">preset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="nb">type</span><span class="p">(</span><span class="n">preset</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">preset</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h3 id="nucleus.sdk.processing.types.Engine.configure" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">configure</span><span class="p">(</span><span class="n">setting</span><span class="p">)</span></code>
-
-</h3>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Add setting to media processing context</p>
+      <p>Pin cid into remote storage</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -1174,11 +1067,11 @@ class MusicEngine(Engine):
     </thead>
     <tbody>
         <tr>
-          <td><code>setting</code></td>
+          <td><code>obj</code></td>
           <td>
-                <code><span title="nucleus.core.types.Settings">Settings</span></code>
+                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.storage.types.Object" href="#nucleus.sdk.storage.types.Object">Object</a></code>
           </td>
-          <td><p>The setting to apply to the engine output.</p></td>
+          <td><p>Object to pin</p></td>
           <td>
               <em>required</em>
           </td>
@@ -1197,113 +1090,26 @@ class MusicEngine(Engine):
     <tbody>
         <tr>
           <td>
-                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.processing.types.Engine" href="#nucleus.sdk.processing.types.Engine">Engine</a></code>
+                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.storage.types.Pin" href="#nucleus.sdk.storage.types.Pin">Pin</a></code>
           </td>
-          <td><p>Engine object</p></td>
+          <td><p>Pin object</p></td>
         </tr>
     </tbody>
   </table>
 
       <details class="quote">
-        <summary>Source code in <code>nucleus/sdk/processing/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="p">:</span> <span class="n">Settings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Engine</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add setting to media processing context</span>
+        <summary>Source code in <code>nucleus/sdk/storage/types.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pin</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pin cid into remote storage</span>
 
-<span class="sd">    :param setting: The setting to apply to the engine output.</span>
-<span class="sd">    :return: Engine object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">setting</span><span class="p">)</span>
-    <span class="k">return</span> <span class="bp">self</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h3 id="nucleus.sdk.processing.types.Engine.introspect" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">introspect</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></code>
-  
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-  </span>
-
-</h3>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Return technical information of the input media.</p>
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>path</code></td>
-          <td>
-                <code><span title="nucleus.core.types.Path">Path</span></code>
-          </td>
-          <td><p>The media path</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.processing.types.Introspection" href="#nucleus.sdk.processing.types.Introspection">Introspection</a></code>
-          </td>
-          <td><p>Any technical information collected from media.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-      <details class="quote">
-        <summary>Source code in <code>nucleus/sdk/processing/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
-<span class="k">def</span> <span class="nf">introspect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Introspection</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return technical information of the input media.</span>
-
-<span class="sd">    :param path: The media path</span>
-<span class="sd">    :return: Any technical information collected from media.</span>
+<span class="sd">    :param obj: Object to pin</span>
+<span class="sd">    :return: Pin object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>
 </code></pre></div></td></tr></table></div>
@@ -1316,19 +1122,15 @@ class MusicEngine(Engine):
 
 
 
-<h3 id="nucleus.sdk.processing.types.Engine.save" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></code>
-  
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-  </span>
+<h3 id="nucleus.sdk.storage.types.Client.unpin" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">unpin</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></code>
 
 </h3>
 
 
   <div class="doc doc-contents ">
   
-      <p>Store the new media based on conf context and bound library.</p>
+      <p>Remove pin from storage service</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -1342,11 +1144,11 @@ class MusicEngine(Engine):
     </thead>
     <tbody>
         <tr>
-          <td><code>path</code></td>
+          <td><code>obj</code></td>
           <td>
-                <code><span title="nucleus.core.types.Path">Path</span></code>
+                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.storage.types.Object" href="#nucleus.sdk.storage.types.Object">Object</a></code>
           </td>
-          <td><p>The output path</p></td>
+          <td><p>Object to remove from service</p></td>
           <td>
               <em>required</em>
           </td>
@@ -1365,14 +1167,288 @@ class MusicEngine(Engine):
     <tbody>
         <tr>
           <td>
-                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.processing.types.File" href="#nucleus.sdk.processing.types.File">File</a></code>
+                <code><span title="nucleus.core.types.CID">CID</span></code>
           </td>
-          <td><p>File object</p></td>
+          <td><p>Just removed object cid</p></td>
         </tr>
     </tbody>
   </table>
 
-  <p><strong>Raises:</strong></p>
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/storage/types.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">unpin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CID</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove pin from storage service</span>
+
+<span class="sd">    :param obj: Object to remove from service</span>
+<span class="sd">    :return: Just removed object cid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.storage.types.Object" class="doc doc-heading">
+        <code>Object</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Distributed/Stored media representation.
+This class is used to represent any media decentralized and already stored in IPFS.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/storage/types.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Object</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Distributed/Stored media representation.</span>
+<span class="sd">    This class is used to represent any media decentralized and already stored in IPFS.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">hash</span><span class="p">:</span> <span class="n">CID</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.storage.types.Pin" class="doc doc-heading">
+        <code>Pin</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Represents ipfs /pin output</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/storage/types.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Pin</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents ipfs /pin output&quot;&quot;&quot;</span>
+
+    <span class="n">cid</span><span class="p">:</span> <span class="n">CID</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.storage.types.Service" class="doc doc-heading">
+        <code>Service</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="nucleus.core.types.Protocol">Protocol</span></code></p>
+
+  
+      <p>specifies the methods required to establish connections with services.
+This class can be used as a base to create subtypes for different services.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/storage/types.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@runtime_checkable</span>
+<span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;specifies the methods required to establish connections with services.</span>
+<span class="sd">    This class can be used as a base to create subtypes for different services.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">URL</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the service endpoint</span>
+
+<span class="sd">        return: the url endpoint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the service authentication key</span>
+
+<span class="sd">        :return: the key string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="nucleus.sdk.storage.types.Service.endpoint" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">endpoint</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return the service endpoint</p>
+<p>return: the url endpoint</p>
+
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/storage/types.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">URL</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the service endpoint</span>
+
+<span class="sd">    return: the url endpoint</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="nucleus.sdk.storage.types.Service.key" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">key</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return the service authentication key</p>
+
+  <p><strong>Returns:</strong></p>
   <table>
     <thead>
       <tr>
@@ -1383,30 +1459,24 @@ class MusicEngine(Engine):
     <tbody>
         <tr>
           <td>
-                <code>ProcessingEngineError</code>
+                <code>str</code>
           </td>
-          <td><p>If any exception is captured during processing</p></td>
+          <td><p>the key string</p></td>
         </tr>
     </tbody>
   </table>
 
       <details class="quote">
-        <summary>Source code in <code>nucleus/sdk/processing/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
-<span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">File</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Store the new media based on conf context and bound library.</span>
+        <summary>Source code in <code>nucleus/sdk/storage/types.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the service authentication key</span>
 
-<span class="sd">    :param path: The output path</span>
-<span class="sd">    :return: File object</span>
-<span class="sd">    :raises ProcessingEngineError: If any exception is captured during processing</span>
+<span class="sd">    :return: the key string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>
 </code></pre></div></td></tr></table></div>
