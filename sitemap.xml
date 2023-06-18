@@ -41,6 +41,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://synapsemedia.io/reference/exceptions/</loc>
+         <lastmod>2023-06-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://synapsemedia.io/reference/harvest/media/</loc>
          <lastmod>2023-06-18</lastmod>
          <changefreq>daily</changefreq>

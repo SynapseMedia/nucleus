@@ -802,6 +802,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/exceptions/" class="md-nav__link">
+        Exceptions
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -940,7 +954,10 @@
 <span class="kn">from</span> <span class="nn">nucleus.core.types</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="n">image</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;image.jpg&quot;</span><span class="p">))</span>
-<span class="n">engine</span> <span class="o">=</span> <span class="n">processing</span><span class="o">.</span><span class="n">engine</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">video</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">video</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;video.mp4&quot;</span><span class="p">))</span>
+
+<span class="n">image_engine</span> <span class="o">=</span> <span class="n">processing</span><span class="o">.</span><span class="n">engine</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">video_engine</span> <span class="o">=</span> <span class="n">processing</span><span class="o">.</span><span class="n">engine</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -953,9 +970,17 @@ Let's explore an example of how to configure the image engine:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nucleus.sdk.processing</span> <span class="kn">import</span> <span class="n">Thumbnail</span>
 
 <span class="c1"># Let&#39;s define how the output of our image should be.</span>
-<span class="c1"># Now our engine has the form of an image engine</span>
-<span class="n">engine</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">Thumbnail</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span> <span class="c1"># 50x50 px</span>
-<span class="n">output_image</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;image2.jpg&quot;</span><span class="p">))</span>
+<span class="n">image_engine</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">Thumbnail</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span> <span class="c1"># 50x50 px</span>
+<span class="n">output_image</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;image2.jpg&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p>Example processing a video:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nucleus.sdk.processing</span> <span class="kn">import</span> <span class="n">HLS</span><span class="p">,</span> <span class="n">VP9</span><span class="p">,</span> <span class="n">Screen</span><span class="p">,</span> <span class="n">Bitrate</span>
+
+<span class="c1"># Let&#39;s define how the output of our video should be.</span>
+<span class="n">video_engine</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">HLS</span><span class="p">(</span><span class="n">VP9</span><span class="p">()))</span>
+<span class="n">video_engine</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">Screen</span><span class="o">.</span><span class="n">Q1080</span><span class="p">)</span>
+<span class="n">video_engine</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">Bitrate</span><span class="o">.</span><span class="n">B1080</span><span class="p">)</span>
+<span class="n">video_engine</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;index.m3u8&quot;</span><span class="p">))</span>
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>

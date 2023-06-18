@@ -10,20 +10,20 @@
       
       
       
-        <link rel="canonical" href="https://synapsemedia.io/guide/harvest/">
+        <link rel="canonical" href="https://synapsemedia.io/reference/exceptions/">
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../storage/types/">
       
       
-        <link rel="next" href="../processing/">
+        <link rel="next" href="../../dev/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
     
     
       
-        <title>Harvesting raw - Nucleus</title>
+        <title>Exceptions - Nucleus</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#harvesting" class="md-skip">
+        <a href="#nucleus.sdk.exceptions.HarvestingError" class="md-skip">
           Skip to content
         </a>
       
@@ -123,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Harvesting raw
+              Exceptions
             
           </span>
         </div>
@@ -272,16 +272,14 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
       
       
       
@@ -290,7 +288,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Usage guide
@@ -301,59 +299,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Harvesting raw
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../guide/harvest/" class="md-nav__link">
         Harvesting raw
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#metadata" class="md-nav__link">
-    Metadata
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#media" class="md-nav__link">
-    Media
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -365,7 +315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../processing/" class="md-nav__link">
+      <a href="../../guide/processing/" class="md-nav__link">
         Processing multimedia
       </a>
     </li>
@@ -379,7 +329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../storage/" class="md-nav__link">
+      <a href="../../guide/storage/" class="md-nav__link">
         Multimedia storage
       </a>
     </li>
@@ -399,14 +349,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
       
       
       
@@ -415,7 +367,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           API Reference
@@ -455,7 +407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/harvest/models/" class="md-nav__link">
+      <a href="../harvest/models/" class="md-nav__link">
         Models
       </a>
     </li>
@@ -469,7 +421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/harvest/media/" class="md-nav__link">
+      <a href="../harvest/media/" class="md-nav__link">
         Media
       </a>
     </li>
@@ -483,7 +435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/harvest/utilities/" class="md-nav__link">
+      <a href="../harvest/utilities/" class="md-nav__link">
         Utilities
       </a>
     </li>
@@ -497,7 +449,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/harvest/types/" class="md-nav__link">
+      <a href="../harvest/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -545,7 +497,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/engines/" class="md-nav__link">
+      <a href="../processing/engines/" class="md-nav__link">
         Engines
       </a>
     </li>
@@ -586,7 +538,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/video/settings/" class="md-nav__link">
+      <a href="../processing/video/settings/" class="md-nav__link">
         Settings
       </a>
     </li>
@@ -600,7 +552,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/video/codecs/" class="md-nav__link">
+      <a href="../processing/video/codecs/" class="md-nav__link">
         Codecs
       </a>
     </li>
@@ -614,7 +566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/video/protocols/" class="md-nav__link">
+      <a href="../processing/video/protocols/" class="md-nav__link">
         Protocols
       </a>
     </li>
@@ -628,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/video/types/" class="md-nav__link">
+      <a href="../processing/video/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -676,7 +628,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/image/settings/" class="md-nav__link">
+      <a href="../processing/image/settings/" class="md-nav__link">
         Settings
       </a>
     </li>
@@ -697,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/utilities/" class="md-nav__link">
+      <a href="../processing/utilities/" class="md-nav__link">
         Utilities
       </a>
     </li>
@@ -711,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/types/" class="md-nav__link">
+      <a href="../processing/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -759,7 +711,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/storage/services/" class="md-nav__link">
+      <a href="../storage/services/" class="md-nav__link">
         Services
       </a>
     </li>
@@ -773,7 +725,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/storage/utilities/" class="md-nav__link">
+      <a href="../storage/utilities/" class="md-nav__link">
         Utilities
       </a>
     </li>
@@ -787,7 +739,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/storage/types/" class="md-nav__link">
+      <a href="../storage/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -806,11 +758,97 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../reference/exceptions/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Exceptions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Exceptions
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.HarvestingError" class="md-nav__link">
+    HarvestingError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.ProcessingError" class="md-nav__link">
+    ProcessingError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.StorageError" class="md-nav__link">
+    StorageError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.ModelManagerError" class="md-nav__link">
+    ModelManagerError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.ModelValidationError" class="md-nav__link">
+    ModelValidationError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.StorageServiceError" class="md-nav__link">
+    StorageServiceError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.ProcessingEngineError" class="md-nav__link">
+    ProcessingEngineError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.FFProbeError" class="md-nav__link">
+    FFProbeError
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -902,8 +940,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -912,15 +948,57 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#metadata" class="md-nav__link">
-    Metadata
+  <a href="#nucleus.sdk.exceptions.HarvestingError" class="md-nav__link">
+    HarvestingError
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#media" class="md-nav__link">
-    Media
+  <a href="#nucleus.sdk.exceptions.ProcessingError" class="md-nav__link">
+    ProcessingError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.StorageError" class="md-nav__link">
+    StorageError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.ModelManagerError" class="md-nav__link">
+    ModelManagerError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.ModelValidationError" class="md-nav__link">
+    ModelValidationError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.StorageServiceError" class="md-nav__link">
+    StorageServiceError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.ProcessingEngineError" class="md-nav__link">
+    ProcessingEngineError
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.exceptions.FFProbeError" class="md-nav__link">
+    FFProbeError
   </a>
   
 </li>
@@ -943,55 +1021,397 @@
   
 
 
-<h1 id="harvesting">Harvesting</h1>
-<p>The data harvesting stage involves obtaining "raw" information that is available to clean, structure, and validate it, and then distribute it on the network.</p>
-<h2 id="metadata">Metadata</h2>
-<p>Metadata collection is carried out using models created based on the requirements of each user and following the <a href="https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md">SEP001</a> specification (the standard on which Nucleus is based for metadata management), which provides flexibility for different use cases.</p>
-<p>Underneath the validation and schematization of the models is <a href="https://docs.pydantic.dev/latest/">pydantic</a>, so we can use <a href="https://docs.pydantic.dev/latest/usage/types/#standard-library-types">python standard library</a> types to define fields.</p>
-<p>In the example below, we have a model called Nucleus that extends the <a href="../../reference/harvest/models/">Model</a> class. It includes fields such as name, description, and contributors, each defined with their respective types (str and List[str]).</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nucleus.sdk.harvest</span> <span class="kn">import</span> <span class="n">Model</span>
+  <h1>Exceptions</h1>
 
-<span class="k">class</span> <span class="nc">Nucleus</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">contributors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-</code></pre></div>
-<p>If you are function lovers you could step this using a partial function:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.harvest</span> <span class="k">as</span> <span class="nn">harvest</span>
+<div class="doc doc-object doc-module">
 
-<span class="n">nucleus_model</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">model</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">),</span> 
-    <span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">),</span> 
-    <span class="n">contributors</span><span class="o">=</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">...</span><span class="p">)</span>
-<span class="p">)</span>
-</code></pre></div>
-<p>To create an instance of the Nucleus model and populate it with data, you can do the following:</p>
-<div class="highlight"><pre><span></span><code><span class="n">nucleus</span><span class="p">:</span> <span class="n">Model</span> <span class="o">=</span> <span class="n">Nucleus</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Nucleus the SDK&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Building block for multimedia decentralization&quot;</span><span class="p">,</span>
-    <span class="n">contributors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Jacob&quot;</span><span class="p">,</span> <span class="s2">&quot;Geo&quot;</span><span class="p">,</span> <span class="s2">&quot;Dennis&quot;</span><span class="p">,</span> <span class="s2">&quot;Mark&quot;</span><span class="p">],</span>
-<span class="p">)</span>
-</code></pre></div>
-<hr />
-<h2 id="media">Media</h2>
-<p>Let's explore multimedia resources and how to collect them using the SDK's built-in types.</p>
-<p>In order to properly handle multimedia resources such as images, videos, music, text, and more, it is important to collect and categorize them using the appropriate types defined or provided by the SDK. These types allow for easy identification and handling of the resources during subsequent stages or processes in the pipeline.</p>
-<p>Here's an example of how to collect media using the built-in media types:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nucleus.sdk.harvest</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">Video</span>
 
-<span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/local/path/image.jpg&quot;</span><span class="p">))</span>
-<span class="n">video</span> <span class="o">=</span> <span class="n">Video</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">URL</span><span class="p">(</span><span class="s2">&quot;/local/path/video.mp4&quot;</span><span class="p">))</span>
-</code></pre></div>
-<p>Alternatively, we can use the partial function to make it easier:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.harvest</span> <span class="k">as</span> <span class="nn">harvest</span>
 
-<span class="n">image</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/local/path/image.jpg&quot;</span><span class="p">))</span>
-<span class="n">video</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">video</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">URL</span><span class="p">(</span><span class="s2">&quot;/local/path/video.mp4&quot;</span><span class="p">))</span>
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>It is also possible to create our own multimedia type as long as it is accompanied by an engine that takes care of its processing.
-Please check <a href="../../reference/harvest/media/">built-in media types</a> and <a href="../../reference/processing/engines/">built-in engines</a>.</p>
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.exceptions.HarvestingError" class="doc doc-heading">
+        <code>HarvestingError</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code>Exception</code></p>
+
+  
+      <p>Exception raised for errors related to harvesting tasks.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HarvestingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised for errors related to harvesting tasks.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;SDK :: Harvesting -&gt; </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.exceptions.ProcessingError" class="doc doc-heading">
+        <code>ProcessingError</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code>Exception</code></p>
+
+  
+      <p>Exception raised for errors related to processing tasks.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ProcessingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised for errors related to processing tasks.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;SDK :: Processing -&gt; </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.exceptions.StorageError" class="doc doc-heading">
+        <code>StorageError</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code>Exception</code></p>
+
+  
+      <p>Exception raised for errors related to storage tasks.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StorageError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised for errors related to storage tasks.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;SDK :: Storage -&gt; </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.exceptions.ModelManagerError" class="doc doc-heading">
+        <code>ModelManagerError</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.exceptions.HarvestingError" href="#nucleus.sdk.exceptions.HarvestingError">HarvestingError</a></code></p>
+
+  
+      <p>Raised when a model fails to persist or interact with the underlying cache.
+ModelManagerError error is a subclass from HarvestingError.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ModelManagerError</span><span class="p">(</span><span class="n">HarvestingError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a model fails to persist or interact with the underlying cache.</span>
+<span class="sd">    ModelManagerError error is a subclass from HarvestingError.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.exceptions.ModelValidationError" class="doc doc-heading">
+        <code>ModelValidationError</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.exceptions.HarvestingError" href="#nucleus.sdk.exceptions.HarvestingError">HarvestingError</a></code></p>
+
+  
+      <p>Raised when a model fails during schema validation.
+ModelValidationError error is a subclass from HarvestingError.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ModelValidationError</span><span class="p">(</span><span class="n">HarvestingError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a model fails during schema validation.</span>
+<span class="sd">    ModelValidationError error is a subclass from HarvestingError.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.exceptions.StorageServiceError" class="doc doc-heading">
+        <code>StorageServiceError</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.exceptions.StorageError" href="#nucleus.sdk.exceptions.StorageError">StorageError</a></code></p>
+
+  
+      <p>Raised when something fails when trying to operate on the edge services.
+StorageServiceError error is a subclass from StorageError.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StorageServiceError</span><span class="p">(</span><span class="n">StorageError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when something fails when trying to operate on the edge services.</span>
+<span class="sd">    StorageServiceError error is a subclass from StorageError.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.exceptions.ProcessingEngineError" class="doc doc-heading">
+        <code>ProcessingEngineError</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.exceptions.ProcessingError" href="#nucleus.sdk.exceptions.ProcessingError">ProcessingError</a></code></p>
+
+  
+      <p>Raised when something fail during media processing.
+ProcessingEngineError error is a subclass from ProcessingError.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ProcessingEngineError</span><span class="p">(</span><span class="n">ProcessingError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when something fail during media processing.</span>
+<span class="sd">    ProcessingEngineError error is a subclass from ProcessingError.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.exceptions.FFProbeError" class="doc doc-heading">
+        <code>FFProbeError</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.exceptions.ProcessingError" href="#nucleus.sdk.exceptions.ProcessingError">ProcessingError</a></code></p>
+
+  
+      <p>Raised when something fail during ffprobe call.
+FFProbeError error is a subclass from ProcessingError.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FFProbeError</span><span class="p">(</span><span class="n">ProcessingError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when something fail during ffprobe call.</span>
+<span class="sd">    FFProbeError error is a subclass from ProcessingError.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
 </div>
 
 
