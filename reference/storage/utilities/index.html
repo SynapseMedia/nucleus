@@ -977,8 +977,10 @@
 
   <div class="doc doc-contents ">
   
-      <p>Higher-order function to handle storage endpoint and return a singledispatch generic function with preset storage strategies.
-This is a form of generic function dispatch where the implementation is chosen based on the type of a single argument.</p>
+      <p>Higher-order function to handle storage endpoint and
+return a singledispatch generic function with preset storage strategies.
+This is a form of generic function dispatch where the
+implementation is chosen based on the type of a single argument.</p>
 <p>Usage:</p>
 <div class="highlight"><pre><span></span><code>store = storage.ipfs() # default localhost:5001
 stored_object = store(b&#39;test bytes&#39;) # auto-choose the storage strategy
@@ -1126,9 +1128,13 @@ stored_object = store(b&#39;test bytes&#39;) # auto-choose the storage strategy
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
-<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ipfs</span><span class="p">(</span><span class="n">endpoint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Store</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Higher-order function to handle storage endpoint and return a singledispatch generic function with preset storage strategies.</span>
-<span class="sd">    This is a form of generic function dispatch where the implementation is chosen based on the type of a single argument.</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ipfs</span><span class="p">(</span><span class="n">endpoint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Store</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Higher-order function to handle storage endpoint and</span>
+<span class="sd">    return a singledispatch generic function with preset storage strategies.</span>
+<span class="sd">    This is a form of generic function dispatch where the</span>
+<span class="sd">    implementation is chosen based on the type of a single argument.</span>
 
 <span class="sd">    Usage:</span>
 
