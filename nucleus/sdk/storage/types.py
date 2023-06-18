@@ -3,13 +3,11 @@ from dataclasses import dataclass
 from nucleus.core.types import (
     CID,
     JSON,
-    URL,
     Callable,
     NewType,
     Optional,
     Protocol,
     Union,
-    runtime_checkable,
 )
 from nucleus.sdk.processing import File
 
@@ -18,9 +16,9 @@ from nucleus.sdk.processing import File
 class Object:
     """Distributed/Stored media representation.
     This class is used to represent any media decentralized and already stored in IPFS.
-    
+
     Usage:
-    
+
         # generally, these objects are returned by storage operations
         stored_object = Object("bafyjvzacdjrk37kqvy5hbqepmcraz3txt3igs7dbjwwhlfm3433a","image",250)
     """
@@ -33,9 +31,9 @@ class Object:
 @dataclass(slots=True)
 class Pin:
     """Represents ipfs /pin output
-    
+
     Usage:
-    
+
         # generally, these objects are returned by pin operations
         stored_object = Object("bafyjvzacdjrk37kqvy5hbqepmcraz3txt3igs7dbjwwhlfm3433a","pinned", "image.jpg")
     """
@@ -53,14 +51,14 @@ Store = Callable[[Storable], Object]
 
 class Client(Protocol):
     """Provides an standard interface for handling IPFS storage services. Each storage service
-    represents a remote cache service, such as Estuary. This class can be used as a base to 
+    represents a remote cache service, such as Estuary. This class can be used as a base to
     create subtypes for specific edge clients.
-    
+
     Usage:
-    
+
         # our own service implementation
         class EdgeService:
-           
+
             def pin(self, obj: Object, **kwargs: Any) -> Pin:
                 # Implementation for pinning the object
                 ...
@@ -68,7 +66,7 @@ class Client(Protocol):
             def unpin(self, cid: CID) -> CID:
                 # Implementation for unpinning the CID
                 ...
-        
+
     """
 
     def pin(self, obj: Object) -> Pin:
@@ -88,4 +86,4 @@ class Client(Protocol):
         ...
 
 
-__all__ = ('Pin', 'Service', 'Storable', 'Store', 'Client', 'Object')
+__all__ = ('Pin', 'Storable', 'Store', 'Client', 'Object')

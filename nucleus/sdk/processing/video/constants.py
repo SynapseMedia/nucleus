@@ -1,4 +1,3 @@
-
 # HLS default constants
 # https://developer.apple.com/documentation/http-live-streaming/hls-authoring-specification-for-apple-devices
 HLS_TIME = 10

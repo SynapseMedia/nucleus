@@ -7,12 +7,12 @@ from .types import Codec
 @dataclass(slots=True)
 class HLS:
     """HLS streaming protocol.
-    
+
     Usage:
-        
+
         # use h264 as codec
         hls = HLS(H264())
-    
+
     """
 
     codec: Codec

@@ -21,11 +21,11 @@ Reference: https://ffmpeg.org/ffmpeg.html#Main-options
 @dataclass(slots=True)
 class Custom:
     """Special class for directly specifying custom settings to the ffmpeg command.
-    
+
     Usage:
 
         # create a custom command based on ffmpeg option -fs
-        # No further chunk of bytes is written after the limit is exceeded. 
+        # No further chunk of bytes is written after the limit is exceeded.
         custom = Custom(fs=100)
     """
 
@@ -41,7 +41,7 @@ class Custom:
 @dataclass(slots=True)
 class FrameSize:
     """Set the frame size.
-    
+
     Usage:
 
         # the output screen size
@@ -61,7 +61,7 @@ class FrameSize:
 @dataclass(slots=True)
 class FPS:
     """Set the frame rate (Hz value, fraction or abbreviation).
-    
+
     Usage:
 
         # frame per seconds
@@ -77,13 +77,13 @@ class FPS:
 @dataclass(slots=True)
 class BR:
     """Set the Video/Audio bitrate.
-    
+
     Usage:
 
-        # set bitrate for both streams or independent 
+        # set bitrate for both streams or independent
         br = BR(100) # audio/video
         br = BR(150, 94) # video b:v 150, audio b:a 94
-        
+
     """
 
     video: int
@@ -102,7 +102,7 @@ class BR:
 @dataclass(frozen=True)
 class Bitrate:
     """Default standard bitrate settings.
-    
+
     Usage:
 
         # using default standard bitrate
@@ -121,12 +121,12 @@ class Bitrate:
 @dataclass(frozen=True)
 class Screen:
     """Default standard screen size settings.
-    
+
     Usage:
 
         # using default screen sizes
         br = Screen.Q720 # appropriate size 720p
-        
+
     """
 
     Q240 = FrameSize(416, 234)

@@ -1,10 +1,12 @@
-import pytest
-import nucleus.sdk.processing as processing
-
 from unittest.mock import patch
+
+import pytest
+
+import nucleus.sdk.processing as processing
 from nucleus.core.types import Any, Path
-from nucleus.sdk.harvest import Image, Media, Video
 from nucleus.sdk.exceptions import ProcessingEngineError
+from nucleus.sdk.harvest import Image, Media, Video
+
 
 class MockMedia:
     def save(self, path: Path, **kwargs: Any) -> Media[Path]:
@@ -22,11 +24,13 @@ def test_dispatch_engine(mock_local_video_path: Path, mock_local_image_path: Pat
     assert isinstance(video_engine, processing.VideoEngine)
     assert isinstance(image_engine, processing.ImageEngine)
 
+
 def test_invalid_engine_media_path():
     """Should fail with invalid media path"""
-    video = Video(path=Path("invalid_path"))
+    video = Video(path=Path('invalid_path'))
     with pytest.raises(ProcessingEngineError):
         processing.engine(video)
+
 
 def test_video_engine(mock_local_video_path: Path):
     """Should start a valid transcoding process using VideoEngine returning a valid output"""
