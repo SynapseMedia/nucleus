@@ -24,7 +24,7 @@ def engine(media: Media[Path]) -> Engine:
 
     :param media: The media type to dispatch
     :return: The appropriate engine implementation for the type of media
-    :raises: ProcessingEngineError:  If any error occurs during engine initialization
+    :raises ProcessingEngineError:  If any error occurs during engine initialization
     
 
     """

@@ -1,6 +1,5 @@
-# Utilities
-
-Partial functions allow us to derive specific functions from complex functions, making their usage simpler. They are particularly useful when creating specialized versions of existing functions, reducing the number of arguments required for each call.
+!!! info
+    Partial functions allow us to derive specific functions from complex functions, making their usage simpler. They are particularly useful when creating specialized versions of existing functions, reducing the number of arguments required for each call.
 
 ## Factories
 
@@ -9,6 +8,7 @@ Partial functions allow us to derive specific functions from complex functions, 
     options:
       show_submodules: true
       docstring_style: sphinx
+      show_root_toc_entry: false
       show_root_heading: false
 
 !!! tip

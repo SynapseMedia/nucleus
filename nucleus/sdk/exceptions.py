@@ -2,7 +2,7 @@ from nucleus.core.types import Any
 
 
 class HarvestingError(Exception):
-    """Exception raised for errors related to harvesting tasks"""
+    """Exception raised for errors related to harvesting tasks."""
 
     def __init__(self, message: str, *args: Any, **kwargs: Any):
         self.message = f'SDK :: Harvesting -> {message}'
@@ -10,7 +10,7 @@ class HarvestingError(Exception):
 
 
 class ProcessingError(Exception):
-    """Exception raised for errors related to processing tasks"""
+    """Exception raised for errors related to processing tasks."""
 
     def __init__(self, message: str, *args: Any, **kwargs: Any):
         self.message = f'SDK :: Processing -> {message}'
@@ -18,7 +18,7 @@ class ProcessingError(Exception):
 
 
 class StorageError(Exception):
-    """Exception raised for errors related to storage tasks"""
+    """Exception raised for errors related to storage tasks."""
 
     def __init__(self, message: str, *args: Any, **kwargs: Any):
         self.message = f'SDK :: Storage -> {message}'

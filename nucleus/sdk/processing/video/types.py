@@ -4,17 +4,14 @@ from nucleus.core.types import Protocol, Settings
 
 
 class Codec(Settings, Protocol):
-    """Codec compression abstraction.
-    ref: https://trac.ffmpeg.org/wiki/Encode/VP9
-    ref: https://trac.ffmpeg.org/wiki/Encode/H.265
-    ref: https://trac.ffmpeg.org/wiki/Encode/H.264
-    """
+    """Codec specify the behavior of video compression formats."""
 
     def __contains__(self, codec: str) -> bool:
-        """Check if the available codecs contain the codec in question.
-        If codec match we can just copy it.
+        """Check if the available codecs contain the specified codec.
+        This method can be useful to avoid re-encoding by checking if a codec match exists
+        allowing for a direct copy operation.
 
-        :para codec: The name of the codec to match
+        :param codec: The name of the codec to match
         :returns: True if match else False
         """
         ...

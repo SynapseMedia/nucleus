@@ -1,6 +1,7 @@
 # Media
 
-This section outlines the supported multimedia resource types. Each type is used for selecting the appropriate processing engine. If necessary, additional types can be easily incorporated.
+!!! info
+    This section outlines the supported multimedia resource types. Each type is used for selecting the appropriate processing engine. If necessary, additional types can be easily incorporated.
 
 ::: nucleus.sdk.harvest.media
     handler: python

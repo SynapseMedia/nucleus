@@ -6,7 +6,7 @@ import nucleus.sdk.expose as expose
 
 from nucleus.core.types import List, Path
 from nucleus.sdk.harvest import Image, Model
-from nucleus.sdk.storage import Store, Service, Client, Object
+from nucleus.sdk.storage import Store, Client, Object
 from nucleus.sdk.processing import Resize, Engine, File
 from nucleus.sdk.expose import (
     Structural,
@@ -52,9 +52,8 @@ def main():
         local_storage: Store = storage.ipfs(LOCAL_ENDPOINT)
         stored_file_object: Object = local_storage(output_file)
         # choose and connect an edge service to pin our resources. eg. estuary
-        estuary: Service = storage.estuary(FAKE_KEY)
-        edge_client: Client = storage.client(estuary)
-        edge_client.pin(stored_file_object)
+        estuary: Client = storage.estuary(FAKE_KEY)
+        estuary.pin(stored_file_object)
 
     # 4. expose our media through the standard
     with logger.console.status("Expose"):
