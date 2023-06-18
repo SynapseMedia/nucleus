@@ -365,8 +365,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#store" class="md-nav__link">
-    Store
+  <a href="#local-storage" class="md-nav__link">
+    Local Storage
   </a>
   
 </li>
@@ -374,13 +374,6 @@
         <li class="md-nav__item">
   <a href="#services" class="md-nav__link">
     Services
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#clients" class="md-nav__link">
-    Clients
   </a>
   
 </li>
@@ -576,14 +569,14 @@
       
       
         <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
-          Options
+          Video
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_3_2_2">
           <span class="md-nav__icon md-icon"></span>
-          Options
+          Video
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -593,8 +586,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/video/" class="md-nav__link">
-        Video
+      <a href="../../reference/processing/video/settings/" class="md-nav__link">
+        Settings
       </a>
     </li>
   
@@ -607,8 +600,84 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/image/" class="md-nav__link">
-        Image
+      <a href="../../reference/processing/video/codecs/" class="md-nav__link">
+        Codecs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/processing/video/protocols/" class="md-nav__link">
+        Protocols
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/processing/video/types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2_3" id="__nav_3_2_3_label" tabindex="0">
+          Image
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Image
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/processing/image/settings/" class="md-nav__link">
+        Settings
       </a>
     </li>
   
@@ -683,6 +752,20 @@
           Storage
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/storage/services/" class="md-nav__link">
+        Services
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -815,8 +898,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#store" class="md-nav__link">
-    Store
+  <a href="#local-storage" class="md-nav__link">
+    Local Storage
   </a>
   
 </li>
@@ -824,13 +907,6 @@
         <li class="md-nav__item">
   <a href="#services" class="md-nav__link">
     Services
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#clients" class="md-nav__link">
-    Clients
   </a>
   
 </li>
@@ -854,56 +930,41 @@
 
 
 <h1 id="storage">Storage</h1>
-<p>We have learned how to collect multimedia resources and metadata, and we have also covered basic aspects of multimedia processing. Now, in this guide, we will discuss how to store the processed media on the IPFS network using the storage package.</p>
-<h2 id="store">Store</h2>
-<p>As part of the storage process, we first need to store our media in the local IPFS node, and that's where the <code>local storage</code> comes into play. Initializing our local node is simple using the <code>store</code> function from the storage package.</p>
-<p>Let's see an example of how to store an image:</p>
+<p>In this guide, we will explore how to store processed media on the IPFS network using the storage package. We'll cover local storage, services, and clients. We have already learned how to collect multimedia resources and metadata, as well as basic aspects of multimedia processing.</p>
+<h2 id="local-storage">Local Storage</h2>
+<p>To store our media in the local IPFS node, we can use the <code>local storage</code> feature provided by the storage package. Initializing the local node is straightforward using the <code>ipfs</code> function.</p>
+<p>Here's an example of how to store an image:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.storage</span> <span class="k">as</span> <span class="nn">storage</span>
 
 <span class="n">local_storage</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">ipfs</span><span class="p">(</span><span class="s2">&quot;http://localhost:5001&quot;</span><span class="p">)</span>
 <span class="n">stored_file_object</span> <span class="o">=</span> <span class="n">local_storage</span><span class="p">(</span><span class="n">output_image</span><span class="p">)</span> 
-
-<span class="c1"># ... below pinning stored file</span>
 </code></pre></div>
+<p>After storing the file locally, we can proceed to pin it or perform further actions.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>The <code>local storage</code> function from the <code>storage</code> package is a polymorphic function that automatically selects the appropriate storage strategy based on the type of the param. Please see more about in <a href="../../reference/storage/utilities/">utilities</a>.</p>
+<p>The <code>local_storage</code> is a repository of storage options in the form of a function that automatically selects the appropriate storage strategy based on the type of the parameter. Please see more about in <a href="../../reference/storage/utilities/">utilities</a> reference.</p>
 </div>
 <h2 id="services">Services</h2>
-<p>Services are storage providers based on the IPFS ecosystem. Any service that exposes an API is compatible and can be integrated into the SDK.</p>
-<p>Nucleus refers to these services as "Edge" because it uses them as external storage mediums to the local IPFS node. Currently, the SDK supports Estuary, a service that provides storage through the IPFS and Filecoin network. Let's see some examples of how to configure our service and how we can use it to store our multimedia resources.</p>
+<p>Services are storage providers within the IPFS ecosystem. Currently, the SDK supports Estuary, a service that provides storage through the IPFS and Filecoin network. Here are some examples of how to configure the service and use it to store multimedia resources.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nucleus.sdk.storage</span> <span class="kn">import</span> <span class="n">Estuary</span>
 
 <span class="n">estuary_endpoint</span> <span class="o">=</span> <span class="s2">&quot;https://api.estuary.tech&quot;</span>
 <span class="n">estuary_key</span> <span class="o">=</span>  <span class="s2">&quot;ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY&quot;</span> <span class="c1"># fake key</span>
-
-<span class="c1"># lets initialize our service</span>
 <span class="n">estuary</span> <span class="o">=</span> <span class="n">Estuary</span><span class="p">(</span><span class="n">estuary_endpoint</span><span class="p">,</span> <span class="n">estuary_key</span><span class="p">)</span>
-
-<span class="c1"># ... below client initialization</span>
 </code></pre></div>
-<p>O podriamos hacerlo mas sencillo usando la funcion fabricadora:</p>
+<p>Alternatively, we can use the partial function to make it easier:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.storage</span> <span class="k">as</span> <span class="nn">storage</span>
 
 <span class="n">estuary</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">estuary</span><span class="p">(</span><span class="n">estuary_key</span><span class="p">)</span>
 </code></pre></div>
-<p>Ahora que tenemos listo nuestro servicio veamos como inicializar nuestro cliente de estuary</p>
-<h2 id="clients">Clients</h2>
-<p>Los clientes estan a cargo de interactuar directamente con las API provistas por los edge services, en este caso mostraremos el uso del API estuary.</p>
-<p>Ya que nuestro almacenamiento se lleva a cabo primeramente en nuestro nodo local, solo necesitamos hacer pin de nuestro CID en el servicio edge.
-Veamos el ejemplo:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.storage</span> <span class="k">as</span> <span class="nn">storage</span>
-
-<span class="n">edge_client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="n">estuary</span><span class="p">)</span>
-<span class="n">edge_client</span><span class="o">.</span><span class="n">pin</span><span class="p">(</span><span class="n">stored_file_object</span><span class="p">)</span>
+<p>Since our storage primarily takes place on our local node, we only need to pin our CID on the edge service.
+Here's an example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ...</span>
+<span class="n">estuary</span><span class="o">.</span><span class="n">pin</span><span class="p">(</span><span class="n">stored_file_object</span><span class="p">)</span>
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>The <code>client</code> function from the <code>storage</code> package is a polymorphic function that automatically selects the appropriate API client based on the type of service passed as a parameter. Please see more about <a href="../../reference/storage/clients/">built-in clients</a> and <a href="../../reference/storage/utilities/">utilities</a>.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Es posible extender los clientes y los servicios implementando las interfaces Client y Services disponibles en los tipos del paquete storage. Ver mas sobre built-in clients y built-in services.</p>
+<p>Any storage service that exposes an API is compatible and can be integrated into the SDK by implementing the <a href="../../reference/storage/types/">service protocol</a>. See more about <a href="../../reference/storage/services/">built-in services</a> reference.</p>
 </div>
 
 

@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://synapsemedia.io/reference/processing/utilities/">
       
       
-        <link rel="prev" href="../image/">
+        <link rel="prev" href="../image/settings/">
       
       
         <link rel="next" href="../types/">
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#utilities" class="md-skip">
+        <a href="#nucleus.sdk.processing.process.engine" class="md-skip">
           Skip to content
         </a>
       
@@ -523,14 +523,14 @@
       
       
         <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
-          Options
+          Video
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_3_2_2">
           <span class="md-nav__icon md-icon"></span>
-          Options
+          Video
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -540,8 +540,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../video/" class="md-nav__link">
-        Video
+      <a href="../video/settings/" class="md-nav__link">
+        Settings
       </a>
     </li>
   
@@ -554,8 +554,84 @@
   
   
     <li class="md-nav__item">
-      <a href="../image/" class="md-nav__link">
-        Image
+      <a href="../video/codecs/" class="md-nav__link">
+        Codecs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../video/protocols/" class="md-nav__link">
+        Protocols
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../video/types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2_3" id="__nav_3_2_3_label" tabindex="0">
+          Image
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Image
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../image/settings/" class="md-nav__link">
+        Settings
       </a>
     </li>
   
@@ -581,8 +657,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Utilities
@@ -598,8 +672,6 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
-  
-    
   
   
     <label class="md-nav__title" for="__toc">
@@ -671,6 +743,20 @@
           Storage
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/services/" class="md-nav__link">
+        Services
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -793,8 +879,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -827,8 +911,12 @@
   
 
 
-<h1 id="utilities">Utilities</h1>
+  <h1>Utilities</h1>
+
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>For the inference of engines based on multimedia types, we use the <a href="https://docs.python.org/3/library/functools.html">singledispatch</a> decorator to simplify the selection process of the appropriate engines. The decorator transforms a function into a generic function that can have different engine implementations depending on the type of the input media.</p>
+</div>
 
 
 <div class="doc doc-object doc-module">
@@ -912,6 +1000,24 @@ engine = processing.engine(image)
     </tbody>
   </table>
 
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>ProcessingEngineError</code>
+          </td>
+          <td><p>If any error occurs during engine initialization</p></td>
+        </tr>
+    </tbody>
+  </table>
+
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/processing/process.py</code></summary>
         <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">13</span>
@@ -946,7 +1052,7 @@ engine = processing.engine(image)
 
 <span class="sd">    :param media: The media type to dispatch</span>
 <span class="sd">    :return: The appropriate engine implementation for the type of media</span>
-<span class="sd">    :raises: ProcessingEngineError:  If any error occurs during engine initialization</span>
+<span class="sd">    :raises ProcessingEngineError:  If any error occurs during engine initialization</span>
 
 
 <span class="sd">    &quot;&quot;&quot;</span>

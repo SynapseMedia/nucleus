@@ -569,14 +569,14 @@
       
       
         <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
-          Options
+          Video
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_3_2_2">
           <span class="md-nav__icon md-icon"></span>
-          Options
+          Video
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -586,8 +586,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/video/" class="md-nav__link">
-        Video
+      <a href="../../reference/processing/video/settings/" class="md-nav__link">
+        Settings
       </a>
     </li>
   
@@ -600,8 +600,84 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/image/" class="md-nav__link">
-        Image
+      <a href="../../reference/processing/video/codecs/" class="md-nav__link">
+        Codecs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/processing/video/protocols/" class="md-nav__link">
+        Protocols
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/processing/video/types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2_3" id="__nav_3_2_3_label" tabindex="0">
+          Image
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Image
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/processing/image/settings/" class="md-nav__link">
+        Settings
       </a>
     </li>
   
@@ -676,6 +752,20 @@
           Storage
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/storage/services/" class="md-nav__link">
+        Services
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -848,36 +938,28 @@
 <span class="kn">import</span> <span class="nn">nucleus.sdk.processing</span> <span class="k">as</span> <span class="nn">processing</span>
 
 <span class="kn">from</span> <span class="nn">nucleus.core.types</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">nucleus.sdk.harvest</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">from</span> <span class="nn">nucleus.sdk.processing</span> <span class="kn">import</span> <span class="n">Engine</span>
 
-<span class="c1"># initialize an Image type to pass into engine function</span>
 <span class="n">image</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;image.jpg&quot;</span><span class="p">))</span>
-<span class="c1"># get back an Image engine from the input type</span>
 <span class="n">engine</span> <span class="o">=</span> <span class="n">processing</span><span class="o">.</span><span class="n">engine</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-
-<span class="c1"># ... below engine configuration</span>
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>The <code>engine</code> function from the <code>processing</code> package is a polymorphic function that automatically selects the appropriate engine based on the <a href="../../reference/harvest/media/">type of multimedia</a> passed as a parameter. Please see more about <a href="../../reference/processing/engines/">built-in engines</a> and <a href="../../reference/processing/utilities/">utilities</a>.</p>
+<p>The <code>engine</code> function from the <code>processing</code> package automatically selects the appropriate engine based on the <a href="../../reference/harvest/media/">type of multimedia</a> passed as a parameter. Please see more about <a href="../../reference/processing/engines/">built-in engines</a> and <a href="../../reference/processing/utilities/">utilities</a> reference.</p>
 </div>
 <h2 id="settings">Settings</h2>
 <p>Each engine provides a set of built-in settings that modify the engine's output and are tailored to the specific characteristics of each multimedia type.</p>
 <p>Configuring our engine is straightforward with the use of the <code>configure</code> method.
 Let's explore an example of how to configure the image engine:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import settings from processing package</span>
-<span class="kn">from</span> <span class="nn">nucleus.sdk.processing</span> <span class="kn">import</span> <span class="n">Thumbnail</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nucleus.sdk.processing</span> <span class="kn">import</span> <span class="n">Thumbnail</span>
 
-<span class="c1"># we want to create a thumbnail from the image</span>
-<span class="c1"># new thumb size is 50x50 output</span>
-<span class="n">engine</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">Thumbnail</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
-<span class="c1"># save our new image to our preferred path</span>
+<span class="c1"># Let&#39;s define how the output of our image should be.</span>
+<span class="c1"># Now our engine has the form of an image engine</span>
+<span class="n">engine</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">Thumbnail</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span> <span class="c1"># 50x50 px</span>
 <span class="n">output_image</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;image2.jpg&quot;</span><span class="p">))</span>
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>Given that the engines emulate the underlying libraries, the available settings are based on the methods or configurations set within each respective library. For further details on the available settings, please refer to the <a href="../../reference/processing/video/">video</a> or <a href="../../reference/processing/image/">image</a> documentation.</p>
+<p>Given that the engines emulate the underlying libraries, the available settings are based on the methods or configurations set within each respective library. For further details on the available settings, please refer to the <a href="../reference/processing/video.md">video</a> or <a href="../reference/processing/image.md">image</a> documentation.</p>
 </div>
 
 

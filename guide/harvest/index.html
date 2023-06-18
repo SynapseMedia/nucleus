@@ -569,14 +569,14 @@
       
       
         <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
-          Options
+          Video
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_3_2_2">
           <span class="md-nav__icon md-icon"></span>
-          Options
+          Video
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -586,8 +586,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/video/" class="md-nav__link">
-        Video
+      <a href="../../reference/processing/video/settings/" class="md-nav__link">
+        Settings
       </a>
     </li>
   
@@ -600,8 +600,84 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/image/" class="md-nav__link">
-        Image
+      <a href="../../reference/processing/video/codecs/" class="md-nav__link">
+        Codecs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/processing/video/protocols/" class="md-nav__link">
+        Protocols
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/processing/video/types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2_3" id="__nav_3_2_3_label" tabindex="0">
+          Image
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Image
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/processing/image/settings/" class="md-nav__link">
+        Settings
       </a>
     </li>
   
@@ -676,6 +752,20 @@
           Storage
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/storage/services/" class="md-nav__link">
+        Services
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -855,7 +945,6 @@
 <p>If you are function lovers you could step this using a partial function:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.harvest</span> <span class="k">as</span> <span class="nn">harvest</span>
 
-<span class="c1"># create a model using partial function</span>
 <span class="n">nucleus_model</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">model</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">),</span> 
     <span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">),</span> 
@@ -863,8 +952,7 @@
 <span class="p">)</span>
 </code></pre></div>
 <p>To create an instance of the Nucleus model and populate it with data, you can do the following:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># set our data in the model</span>
-<span class="n">nucleus</span><span class="p">:</span> <span class="n">Model</span> <span class="o">=</span> <span class="n">Nucleus</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="n">nucleus</span><span class="p">:</span> <span class="n">Model</span> <span class="o">=</span> <span class="n">Nucleus</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Nucleus the SDK&quot;</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Building block for multimedia decentralization&quot;</span><span class="p">,</span>
     <span class="n">contributors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Jacob&quot;</span><span class="p">,</span> <span class="s2">&quot;Geo&quot;</span><span class="p">,</span> <span class="s2">&quot;Dennis&quot;</span><span class="p">,</span> <span class="s2">&quot;Mark&quot;</span><span class="p">],</span>
@@ -874,24 +962,17 @@
 <h2 id="media">Media</h2>
 <p>Let's explore multimedia resources and how to collect them using the SDK's built-in types.</p>
 <p>In order to properly handle multimedia resources such as images, videos, music, text, and more, it is important to collect and categorize them using the appropriate types defined or provided by the SDK. These types allow for easy identification and handling of the resources during subsequent stages or processes in the pipeline.</p>
-<p>For example, the SDK may provide builtin data types for each type of multimedia resource. This could include Image and Video types, each with their respective properties and methods for processing and manipulation.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nucleus.core.types</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">nucleus.sdk.harvest</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">Video</span>
+<p>Here's an example of how to collect media using the built-in media types:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nucleus.sdk.harvest</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">Video</span>
 
-<span class="c1"># Collecting an image using the Image type</span>
 <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/local/path/image.jpg&quot;</span><span class="p">))</span>
-<span class="c1"># Collecting a video using the Video type</span>
-<span class="n">video</span> <span class="o">=</span> <span class="n">Video</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/local/path/video.mp4&quot;</span><span class="p">))</span>
+<span class="n">video</span> <span class="o">=</span> <span class="n">Video</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">URL</span><span class="p">(</span><span class="s2">&quot;/local/path/video.mp4&quot;</span><span class="p">))</span>
 </code></pre></div>
-<p>Alternatively, for those who prefer using functions, we can make use of partials to create media types:</p>
+<p>Alternatively, we can use the partial function to make it easier:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.harvest</span> <span class="k">as</span> <span class="nn">harvest</span>
 
-<span class="kn">from</span> <span class="nn">nucleus.core.types</span> <span class="kn">import</span> <span class="n">Path</span>
-
-<span class="c1"># Collecting an image using the Image type</span>
 <span class="n">image</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/local/path/image.jpg&quot;</span><span class="p">))</span>
-<span class="c1"># Collecting a video using the Video type</span>
-<span class="n">video</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">video</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/local/path/video.mp4&quot;</span><span class="p">))</span>
+<span class="n">video</span> <span class="o">=</span> <span class="n">harvest</span><span class="o">.</span><span class="n">video</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">URL</span><span class="p">(</span><span class="s2">&quot;/local/path/video.mp4&quot;</span><span class="p">))</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

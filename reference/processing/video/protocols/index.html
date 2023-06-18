@@ -10,25 +10,27 @@
       
       
       
-        <link rel="canonical" href="https://synapsemedia.io/dev/arch/">
+        <link rel="canonical" href="https://synapsemedia.io/reference/processing/video/protocols/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../codecs/">
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+        <link rel="next" href="../types/">
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
     
     
       
-        <title>Architecture - Nucleus</title>
+        <title>Protocols - Nucleus</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.26e3688c.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ecc896b0.min.css">
       
       
 
@@ -44,16 +46,16 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
     
-   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
         html.glightbox-open { overflow: initial; height: 100%; }
         .gslide-title { margin-top: 0px; user-select: text; }
         .gslide-desc { color: #666; user-select: text; }
@@ -64,7 +66,7 @@
             body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+            </style> <script src="../../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -86,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#architecture" class="md-skip">
+        <a href="#nucleus.sdk.processing.video.protocols.HLS" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +104,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Nucleus" class="md-header__button md-logo" aria-label="Nucleus" data-md-component="logo">
+    <a href="../../../.." title="Nucleus" class="md-header__button md-logo" aria-label="Nucleus" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -121,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Architecture
+              Protocols
             
           </span>
         </div>
@@ -226,7 +228,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Nucleus" class="md-nav__button md-logo" aria-label="Nucleus" data-md-component="logo">
+    <a href="../../../.." title="Nucleus" class="md-nav__button md-logo" aria-label="Nucleus" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -257,7 +259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         Getting started
       </a>
     </li>
@@ -299,7 +301,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/harvest/" class="md-nav__link">
+      <a href="../../../../guide/harvest/" class="md-nav__link">
         Harvesting raw
       </a>
     </li>
@@ -313,7 +315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/processing/" class="md-nav__link">
+      <a href="../../../../guide/processing/" class="md-nav__link">
         Processing multimedia
       </a>
     </li>
@@ -327,7 +329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/storage/" class="md-nav__link">
+      <a href="../../../../guide/storage/" class="md-nav__link">
         Multimedia storage
       </a>
     </li>
@@ -347,14 +349,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
       
       
       
@@ -363,7 +367,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           API Reference
@@ -403,7 +407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/harvest/models/" class="md-nav__link">
+      <a href="../../../harvest/models/" class="md-nav__link">
         Models
       </a>
     </li>
@@ -417,7 +421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/harvest/media/" class="md-nav__link">
+      <a href="../../../harvest/media/" class="md-nav__link">
         Media
       </a>
     </li>
@@ -431,7 +435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/harvest/utilities/" class="md-nav__link">
+      <a href="../../../harvest/utilities/" class="md-nav__link">
         Utilities
       </a>
     </li>
@@ -445,7 +449,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/harvest/types/" class="md-nav__link">
+      <a href="../../../harvest/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -464,14 +468,16 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
       
       
       
@@ -480,7 +486,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3_2">
           <span class="md-nav__icon md-icon"></span>
           Processing
@@ -493,7 +499,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/engines/" class="md-nav__link">
+      <a href="../../engines/" class="md-nav__link">
         Engines
       </a>
     </li>
@@ -505,14 +511,16 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" checked>
       
       
       
@@ -521,7 +529,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3_2_2">
           <span class="md-nav__icon md-icon"></span>
           Video
@@ -534,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/video/settings/" class="md-nav__link">
+      <a href="../settings/" class="md-nav__link">
         Settings
       </a>
     </li>
@@ -548,7 +556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/video/codecs/" class="md-nav__link">
+      <a href="../codecs/" class="md-nav__link">
         Codecs
       </a>
     </li>
@@ -560,11 +568,48 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../reference/processing/video/protocols/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Protocols
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Protocols
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.processing.video.protocols.HLS" class="md-nav__link">
+    HLS
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -576,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/video/types/" class="md-nav__link">
+      <a href="../types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -624,7 +669,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/image/settings/" class="md-nav__link">
+      <a href="../../image/settings/" class="md-nav__link">
         Settings
       </a>
     </li>
@@ -645,7 +690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/utilities/" class="md-nav__link">
+      <a href="../../utilities/" class="md-nav__link">
         Utilities
       </a>
     </li>
@@ -659,7 +704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/processing/types/" class="md-nav__link">
+      <a href="../../types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -707,7 +752,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/storage/services/" class="md-nav__link">
+      <a href="../../../storage/services/" class="md-nav__link">
         Services
       </a>
     </li>
@@ -721,7 +766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/storage/utilities/" class="md-nav__link">
+      <a href="../../../storage/utilities/" class="md-nav__link">
         Utilities
       </a>
     </li>
@@ -735,7 +780,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/storage/types/" class="md-nav__link">
+      <a href="../../../storage/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -762,16 +807,14 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
       
       
       
@@ -780,7 +823,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Developer Guide
@@ -793,7 +836,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../../../dev/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -805,52 +848,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Architecture
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../../dev/arch/" class="md-nav__link">
         Architecture
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#transmissiondistribution" class="md-nav__link">
-    Transmission/Distribution
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -879,8 +881,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -889,8 +889,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#transmissiondistribution" class="md-nav__link">
-    Transmission/Distribution
+  <a href="#nucleus.sdk.processing.video.protocols.HLS" class="md-nav__link">
+    HLS
   </a>
   
 </li>
@@ -913,38 +913,120 @@
   
 
 
-<h1 id="architecture">Architecture</h1>
-<pre class="mermaid"><code>graph LR
-  A[Raw] --&gt; B[Harvesting];
-  B --&gt; C[Expose];
-  B -.-&gt; D[Processing];
-  B -.-&gt; E[Storage]
-  D -.-&gt; E[Storage]
-  E -.-&gt; C[Expose]
-  C --&gt; F[Meta Lake]
-  C -.-&gt; G[Mint]
-  F -.-&gt; G[Mint]</code></pre>
-<p>Nucleus proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:</p>
-<ol>
-<li><strong>Harvesting</strong>: Collect metadata associated with the multimedia content.</li>
-<li><strong>Processing</strong>: Performing media processing tasks.</li>
-<li><strong>Storage</strong>:  Store the processed content in the IPFS network.</li>
-<li><strong>Expose</strong>: Distribute metadata through the IPFS ecosystem.</li>
-<li><strong>Mint</strong>: Create metadata as NFTs (Non-Fungible Tokens).</li>
-<li><strong>Retrieval</strong>: Facilitates the retrieval and unmarshalling of metadata from IPFS ecosystem.</li>
-</ol>
-<p>The pipeline is modular and adheres to the decoupling principle, enabling flexible use cases. For instance, the <strong>storage</strong> component can be optional if data is already stored on the IPFS network. Similarly, the <strong>mint</strong> component can be skipped if there is no need to create NFTs for the metadata. The <strong>processing</strong> component may also be unnecessary if the media is already prepared for storage.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Harvesting and Expose are the sole essential components necessary for operating the pipeline.</p>
+  <h1>Protocols</h1>
+
+<div class="doc doc-object doc-module">
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.processing.video.protocols.HLS" class="doc doc-heading">
+        <code>HLS</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>HLS streaming protocol.</p>
+<p>Usage:</p>
+<div class="highlight"><pre><span></span><code># use h264 as codec
+hls = HLS(H264())
+</code></pre></div>
+
+
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/processing/video/protocols.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">HLS</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;HLS streaming protocol.</span>
+
+<span class="sd">    Usage:</span>
+
+<span class="sd">        # use h264 as codec</span>
+<span class="sd">        hls = HLS(H264())</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">codec</span><span class="p">:</span> <span class="n">Codec</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="s1">&#39;hls_time&#39;</span><span class="p">,</span> <span class="n">HLS_TIME</span>
+        <span class="k">yield</span> <span class="s1">&#39;hls_list_size&#39;</span><span class="p">,</span> <span class="n">HLS_LIST_SIZE</span>
+        <span class="k">yield</span> <span class="s1">&#39;hls_playlist_type&#39;</span><span class="p">,</span> <span class="n">HLS_PLAYLIST_TYPE</span><span class="p">,</span>
+        <span class="k">yield</span> <span class="s1">&#39;tag:v&#39;</span><span class="p">,</span> <span class="n">HLS_TAG_VIDEO_FORMAT</span><span class="p">,</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
 </div>
-<h2 id="transmissiondistribution">Transmission/Distribution</h2>
-<p>As part of the metadata federation, <strong>Meta Lake</strong> emerges as a new concept in the Nucleus ecosystem, referring to the central communication point for metadata distribution. The <a href="https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md">serialization</a> process of the metadata determines the transmission medium, with IPLD and Raw Blocks being among the means used by Nucleus eg:</p>
-<pre class="mermaid"><code>graph LR
-  R[Expose] --&gt; A[DagJose]
-  A --&gt; B[IPLD];
-  D[Compact] --&gt; F[Raw Block]
-  R --&gt; D[Compact]</code></pre>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
 
 
 
@@ -982,10 +1064,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.b4d07000.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>

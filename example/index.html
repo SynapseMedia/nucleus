@@ -515,14 +515,14 @@
       
       
         <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
-          Options
+          Video
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_3_2_2">
           <span class="md-nav__icon md-icon"></span>
-          Options
+          Video
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -532,8 +532,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/processing/video/" class="md-nav__link">
-        Video
+      <a href="../reference/processing/video/settings/" class="md-nav__link">
+        Settings
       </a>
     </li>
   
@@ -546,8 +546,84 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/processing/image/" class="md-nav__link">
-        Image
+      <a href="../reference/processing/video/codecs/" class="md-nav__link">
+        Codecs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/processing/video/protocols/" class="md-nav__link">
+        Protocols
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/processing/video/types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2_3" id="__nav_3_2_3_label" tabindex="0">
+          Image
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Image
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/processing/image/settings/" class="md-nav__link">
+        Settings
       </a>
     </li>
   
@@ -622,6 +698,20 @@
           Storage
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/storage/services/" class="md-nav__link">
+        Services
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -788,7 +878,7 @@
 
 <span class="kn">from</span> <span class="nn">nucleus.core.types</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">nucleus.sdk.harvest</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">Model</span>
-<span class="kn">from</span> <span class="nn">nucleus.sdk.storage</span> <span class="kn">import</span> <span class="n">Store</span><span class="p">,</span> <span class="n">Service</span><span class="p">,</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Object</span>
+<span class="kn">from</span> <span class="nn">nucleus.sdk.storage</span> <span class="kn">import</span> <span class="n">Store</span><span class="p">,</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Object</span>
 <span class="kn">from</span> <span class="nn">nucleus.sdk.processing</span> <span class="kn">import</span> <span class="n">Resize</span><span class="p">,</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">File</span>
 <span class="kn">from</span> <span class="nn">nucleus.sdk.expose</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Structural</span><span class="p">,</span>
@@ -834,9 +924,8 @@
         <span class="n">local_storage</span><span class="p">:</span> <span class="n">Store</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">ipfs</span><span class="p">(</span><span class="n">LOCAL_ENDPOINT</span><span class="p">)</span>
         <span class="n">stored_file_object</span><span class="p">:</span> <span class="n">Object</span> <span class="o">=</span> <span class="n">local_storage</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
         <span class="c1"># choose and connect an edge service to pin our resources. eg. estuary</span>
-        <span class="n">estuary</span><span class="p">:</span> <span class="n">Service</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">estuary</span><span class="p">(</span><span class="n">FAKE_KEY</span><span class="p">)</span>
-        <span class="n">edge_client</span><span class="p">:</span> <span class="n">Client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="n">estuary</span><span class="p">)</span>
-        <span class="n">edge_client</span><span class="o">.</span><span class="n">pin</span><span class="p">(</span><span class="n">stored_file_object</span><span class="p">)</span>
+        <span class="n">estuary</span><span class="p">:</span> <span class="n">Client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">estuary</span><span class="p">(</span><span class="n">FAKE_KEY</span><span class="p">)</span>
+        <span class="n">estuary</span><span class="o">.</span><span class="n">pin</span><span class="p">(</span><span class="n">stored_file_object</span><span class="p">)</span>
 
     <span class="c1"># 4. expose our media through the standard</span>
     <span class="k">with</span> <span class="n">logger</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="s2">&quot;Expose&quot;</span><span class="p">):</span>

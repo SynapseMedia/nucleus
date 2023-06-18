@@ -10,20 +10,20 @@
       
       
       
-        <link rel="canonical" href="https://synapsemedia.io/reference/storage/utilities/">
+        <link rel="canonical" href="https://synapsemedia.io/reference/storage/services/">
       
       
-        <link rel="prev" href="../services/">
+        <link rel="prev" href="../../processing/types/">
       
       
-        <link rel="next" href="../types/">
+        <link rel="next" href="../utilities/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
     
     
       
-        <title>Utilities - Nucleus</title>
+        <title>Services - Nucleus</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#nucleus.sdk.storage.store.ipfs" class="md-skip">
+        <a href="#nucleus.sdk.storage.services.Estuary" class="md-skip">
           Skip to content
         </a>
       
@@ -123,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Utilities
+              Services
             
           </span>
         </div>
@@ -711,20 +711,6 @@
               
   
   
-  
-    <li class="md-nav__item">
-      <a href="../services/" class="md-nav__link">
-        Services
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -735,12 +721,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Utilities
+          Services
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Utilities
+        Services
       </a>
       
         
@@ -757,16 +743,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.storage.store.ipfs" class="md-nav__link">
-    ipfs()
+  <a href="#nucleus.sdk.storage.services.Estuary" class="md-nav__link">
+    Estuary
+  </a>
+  
+    <nav class="md-nav" aria-label="Estuary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.services.Estuary.pin" class="md-nav__link">
+    pin()
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#built-in-partials" class="md-nav__link">
-    Built-in partials
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.services.Estuary.unpin" class="md-nav__link">
+    unpin()
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -774,6 +773,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilities/" class="md-nav__link">
+        Utilities
+      </a>
     </li>
   
 
@@ -894,16 +907,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.storage.store.ipfs" class="md-nav__link">
-    ipfs()
+  <a href="#nucleus.sdk.storage.services.Estuary" class="md-nav__link">
+    Estuary
+  </a>
+  
+    <nav class="md-nav" aria-label="Estuary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.services.Estuary.pin" class="md-nav__link">
+    pin()
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#built-in-partials" class="md-nav__link">
-    Built-in partials
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.storage.services.Estuary.unpin" class="md-nav__link">
+    unpin()
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -925,11 +951,11 @@
   
 
 
-  <h1>Utilities</h1>
+  <h1>Services</h1>
 
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p><code>Store</code> is a repository of storage options in the form of a function that automatically selects the appropriate storage strategy based on the type of the parameter</p>
+<p>Services are storage providers within the IPFS ecosystem. Any storage service that exposes an API is compatible and can be integrated into the SDK by implementing the <a href="../reference/storage/types.md">service protocol</a>.</p>
 </div>
 
 
@@ -950,72 +976,39 @@
 
 
 
-
-<div class="doc doc-object doc-function">
-
+<div class="doc doc-object doc-class">
 
 
-<h2 id="nucleus.sdk.storage.store.ipfs" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">ipfs</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<h2 id="nucleus.sdk.storage.services.Estuary" class="doc doc-heading">
+        <code>Estuary</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
 
 </h2>
 
 
   <div class="doc doc-contents ">
+
   
-      <p>Higher-order function to handle storage endpoint and return a singledispatch generic function with preset storage strategies.
-This is a form of generic function dispatch where the implementation is chosen based on the type of a single argument.</p>
+      <p>Estuary API service client.</p>
 <p>Usage:</p>
-<div class="highlight"><pre><span></span><code>store = storage.ipfs() # default localhost:5001
-stored_object = store(b&#39;test bytes&#39;) # auto-choose the storage strategy
+<div class="highlight"><pre><span></span><code> # create a estuary api client
+estuary_endpoint = &quot;https://api.estuary.tech&quot;
+estuary_key =  &quot;ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY&quot; # fake key
+estuary = EstuaryClient(estuary_endpoint, estuary_key)
+
+pin = estuary.pin(stored_object)
+removed_cid = estuary.unpin(pin.cid)
 </code></pre></div>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>endpoint</code></td>
-          <td>
-                <code><span title="nucleus.core.types.Optional">Optional</span>[str]</code>
-          </td>
-          <td><p>Endpoint to connect to the API. If the endpoint is not specified, localhost is used instead.</p></td>
-          <td>
-                <code>None</code>
-          </td>
-        </tr>
-    </tbody>
-  </table>
 
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="nucleus.sdk.storage.types.Store">Store</span></code>
-          </td>
-          <td><p>Singledispatch decorated function</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-      <details class="quote">
-        <summary>Source code in <code>nucleus/sdk/storage/store.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 11</span>
-<span class="normal"> 12</span>
+        <details class="quote">
+          <summary>Source code in <code>nucleus/sdk/storage/services.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 12</span>
 <span class="normal"> 13</span>
 <span class="normal"> 14</span>
 <span class="normal"> 15</span>
@@ -1112,105 +1105,341 @@ stored_object = store(b&#39;test bytes&#39;) # auto-choose the storage strategy
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
-<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ipfs</span><span class="p">(</span><span class="n">endpoint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Store</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Higher-order function to handle storage endpoint and return a singledispatch generic function with preset storage strategies.</span>
-<span class="sd">    This is a form of generic function dispatch where the implementation is chosen based on the type of a single argument.</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Estuary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estuary API service client.</span>
 
 <span class="sd">    Usage:</span>
 
-<span class="sd">        store = storage.ipfs() # default localhost:5001</span>
-<span class="sd">        stored_object = store(b&#39;test bytes&#39;) # auto-choose the storage strategy</span>
+<span class="sd">         # create a estuary api client</span>
+<span class="sd">        estuary_endpoint = &quot;https://api.estuary.tech&quot;</span>
+<span class="sd">        estuary_key =  &quot;ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY&quot; # fake key</span>
+<span class="sd">        estuary = EstuaryClient(estuary_endpoint, estuary_key)</span>
+
+<span class="sd">        pin = estuary.pin(stored_object)</span>
+<span class="sd">        removed_cid = estuary.unpin(pin.cid)</span>
 
 
-<span class="sd">    :param endpoint: Endpoint to connect to the API. If the endpoint is not specified, localhost is used instead.</span>
-<span class="sd">    :return: Singledispatch decorated function</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Connect to the IPFS API interface</span>
-    <span class="n">api</span> <span class="o">=</span> <span class="n">ipfs_</span><span class="o">.</span><span class="n">rpc</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+    <span class="n">endpoint</span><span class="p">:</span> <span class="n">URL</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
 
-    <span class="nd">@functools</span><span class="o">.</span><span class="n">singledispatch</span>
-    <span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Storable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Object</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Storage single dispatch factory.</span>
-<span class="sd">        Uses the data input type to infer the right storage strategy.</span>
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_http</span> <span class="o">=</span> <span class="n">http_client</span><span class="o">.</span><span class="n">live_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">})</span>
 
-<span class="sd">        :param data: The model to dispatch</span>
-<span class="sd">        :return: Object instance</span>
+    <span class="k">def</span> <span class="nf">_safe_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSON</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Amplifier helper method to handle response from Estuary API</span>
+
+<span class="sd">        :param res: Expected response</span>
+<span class="sd">        :return: Json response</span>
+<span class="sd">        :raises StorageServiceError: If an error occurs during request</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cannot process not registered storable `</span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="nd">@store</span><span class="o">.</span><span class="n">register</span>
-    <span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">FileType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Object</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store files in IPFS.</span>
+        <span class="c1"># expected response as json</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-<span class="sd">        :param data: String to store</span>
-<span class="sd">        :return: Object instance</span>
+        <span class="c1"># if response fail</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">res</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Observable behavior:</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;code&quot;: 0,</span>
+<span class="sd">                    &quot;details&quot;: &quot;string&quot;,</span>
+<span class="sd">                    &quot;reason&quot;: &quot;string&quot;</span>
+<span class="sd">                }</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">error_description</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">][</span><span class="s1">&#39;details&#39;</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="n">StorageServiceError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;exception raised during request: </span><span class="si">{</span><span class="n">error_description</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">JSON</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_content_by_cid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cid</span><span class="p">:</span> <span class="n">CID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSON</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect details from estuary based on CID</span>
+<span class="sd">        ref: https://docs.estuary.tech/Reference/SwaggerUI#/public/get_public_by_cid__cid_</span>
+
+<span class="sd">        :param cid: Cid to retrieve content details</span>
+<span class="sd">        :return: Cid content details</span>
+<span class="sd">        :raises EdgePinException: If pin request fails</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">command</span> <span class="o">=</span> <span class="n">Add</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
-        <span class="c1"># expected /add output from API</span>
-        <span class="c1"># {Hash: .., Name: .., Size: ...}</span>
-        <span class="n">file_output</span> <span class="o">=</span> <span class="n">api</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">Object</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">file_output</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">],</span>
-            <span class="nb">hash</span><span class="o">=</span><span class="n">CID</span><span class="p">(</span><span class="n">file_output</span><span class="p">[</span><span class="s1">&#39;Hash&#39;</span><span class="p">]),</span>
-            <span class="n">size</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">file_output</span><span class="p">[</span><span class="s1">&#39;Size&#39;</span><span class="p">]),</span>
+        <span class="n">content_uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ESTUARY_API_PUBLIC</span><span class="si">}</span><span class="s1">/by-cid/</span><span class="si">{</span><span class="n">cid</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">content_uri</span><span class="p">)</span>
+
+        <span class="c1"># expected response as json</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_safe_request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="k">def</span> <span class="nf">pin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Object</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pin</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pin cid into estuary</span>
+
+<span class="sd">        :param obj: Object to pin</span>
+<span class="sd">        :return: Pin object</span>
+<span class="sd">        :raises StorageServiceError: If pin request fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cid&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">hash</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">ESTUARY_API_PIN</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">json_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_safe_request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Pin</span><span class="p">(</span>
+            <span class="n">cid</span><span class="o">=</span><span class="n">json_response</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">],</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">json_response</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+            <span class="n">status</span><span class="o">=</span><span class="s1">&#39;pending&#39;</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="nd">@store</span><span class="o">.</span><span class="n">register</span>
-    <span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Object</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store bytes in IPFS.</span>
-<span class="sd">        Store bytes in raw blocks.</span>
+    <span class="k">def</span> <span class="nf">unpin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cid</span><span class="p">:</span> <span class="n">CID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CID</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove pin from estuary</span>
 
-<span class="sd">        :param data: Bytes to store</span>
-<span class="sd">        :return: Object instance</span>
+<span class="sd">        :param cid: The cid to remove from service</span>
+<span class="sd">        :return: The recently removed CID</span>
+<span class="sd">        :raises StorageServiceError: if an error occurs during request</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">command</span> <span class="o">=</span> <span class="n">BlockPut</span><span class="p">(</span><span class="n">Text</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-        <span class="c1"># expected block/put output from API</span>
-        <span class="c1"># {Key: .., Size: ..}</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">api</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="c1"># content id is same as pin id</span>
+        <span class="n">pin_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content_by_cid</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ESTUARY_API_PIN</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">pin_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="c1"># If error happens then raise standard exception.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_safe_request</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cid</span>
+</code></pre></div></td></tr></table></div>
+        </details>
 
-        <span class="k">return</span> <span class="n">Object</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;Key&#39;</span><span class="p">],</span>
-            <span class="nb">hash</span><span class="o">=</span><span class="n">CID</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;Key&#39;</span><span class="p">]),</span>
-            <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
-        <span class="p">)</span>
+  
 
-    <span class="nd">@store</span><span class="o">.</span><span class="n">register</span>
-    <span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Object</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;String string in IPFS.</span>
-<span class="sd">        Encode string to bytes and store it in raw blocks.</span>
+  <div class="doc doc-children">
 
-<span class="sd">        :param data: String to store</span>
-<span class="sd">        :return: Object instance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">bytes_</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">store</span><span class="p">(</span><span class="n">bytes_</span><span class="p">)</span>
 
-    <span class="nd">@store</span><span class="o">.</span><span class="n">register</span>
-    <span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">JSON</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Object</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store JSON in IPFS Dag.</span>
 
-<span class="sd">        :param data: JSON to store</span>
-<span class="sd">        :return: Object instance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">bytes_</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">command</span> <span class="o">=</span> <span class="n">DagPut</span><span class="p">(</span><span class="n">Text</span><span class="p">(</span><span class="n">bytes_</span><span class="p">))</span>
-        <span class="c1"># expected block/put output from API</span>
-        <span class="c1"># {&quot;Cid&quot;: { &quot;/&quot;: &quot;&lt;cid-string&gt;&quot; }}</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">api</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-        <span class="n">raw_cid</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;Cid&#39;</span><span class="p">][</span><span class="s1">&#39;/&#39;</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">Object</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">raw_cid</span><span class="p">,</span>
-            <span class="nb">hash</span><span class="o">=</span><span class="n">CID</span><span class="p">(</span><span class="n">raw_cid</span><span class="p">),</span>
-            <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
-        <span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">store</span>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="nucleus.sdk.storage.services.Estuary.pin" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">pin</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Pin cid into estuary</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>obj</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.storage.types.Object" href="../types/#nucleus.sdk.storage.types.Object">Object</a></code>
+          </td>
+          <td><p>Object to pin</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.storage.types.Pin" href="../types/#nucleus.sdk.storage.types.Pin">Pin</a></code>
+          </td>
+          <td><p>Pin object</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>StorageServiceError</code>
+          </td>
+          <td><p>If pin request fails</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/storage/services.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Object</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pin</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pin cid into estuary</span>
+
+<span class="sd">    :param obj: Object to pin</span>
+<span class="sd">    :return: Pin object</span>
+<span class="sd">    :raises StorageServiceError: If pin request fails</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cid&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">hash</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">ESTUARY_API_PIN</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">json_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_safe_request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Pin</span><span class="p">(</span>
+        <span class="n">cid</span><span class="o">=</span><span class="n">json_response</span><span class="p">[</span><span class="s1">&#39;cid&#39;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">json_response</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+        <span class="n">status</span><span class="o">=</span><span class="s1">&#39;pending&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="nucleus.sdk.storage.services.Estuary.unpin" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">unpin</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Remove pin from estuary</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>cid</code></td>
+          <td>
+                <code><span title="nucleus.core.types.CID">CID</span></code>
+          </td>
+          <td><p>The cid to remove from service</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="nucleus.core.types.CID">CID</span></code>
+          </td>
+          <td><p>The recently removed CID</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>StorageServiceError</code>
+          </td>
+          <td><p>if an error occurs during request</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/storage/services.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">unpin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cid</span><span class="p">:</span> <span class="n">CID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CID</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove pin from estuary</span>
+
+<span class="sd">    :param cid: The cid to remove from service</span>
+<span class="sd">    :return: The recently removed CID</span>
+<span class="sd">    :raises StorageServiceError: if an error occurs during request</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># content id is same as pin id</span>
+    <span class="n">pin_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content_by_cid</span><span class="p">(</span><span class="n">cid</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ESTUARY_API_PIN</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">pin_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="c1"># If error happens then raise standard exception.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_safe_request</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cid</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -1223,12 +1452,15 @@ stored_object = store(b&#39;test bytes&#39;) # auto-choose the storage strategy
 
   </div>
 
-</div><h2 id="built-in-partials">Built-in partials</h2>
-<div class="highlight"><pre><span></span><code><span class="n">estuary</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">Estuary</span><span class="p">,</span> <span class="n">ESTUARY_API_BASE</span><span class="p">)</span>
-</code></pre></div>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>These partial allows the fast creation of <a href="../services/">services</a>.</p>
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
 </div>
 
 
