@@ -1,7 +1,7 @@
 from .codecs import H264, HEVC, VP9, Copy
 from .ffprobe import probe
-from .settings import BR, FPS, Bitrate, Custom, FrameSize, Screen
 from .protocols import HLS
+from .settings import BR, FPS, Bitrate, Custom, FrameSize, Screen
 
 __all__ = [
     'HEVC',

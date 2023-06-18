@@ -9,15 +9,17 @@ from .types import Object, Storable, Store
 
 
 def ipfs(endpoint: Optional[str] = None) -> Store:
-    """Higher-order function to handle storage endpoint and return a singledispatch generic function with preset storage strategies.
-    This is a form of generic function dispatch where the implementation is chosen based on the type of a single argument.
+    """Higher-order function to handle storage endpoint and
+    return a singledispatch generic function with preset storage strategies.
+    This is a form of generic function dispatch where the
+    implementation is chosen based on the type of a single argument.
 
     Usage:
-    
+
         store = storage.ipfs() # default localhost:5001
         stored_object = store(b'test bytes') # auto-choose the storage strategy
 
-    
+
     :param endpoint: Endpoint to connect to the API. If the endpoint is not specified, localhost is used instead.
     :return: Singledispatch decorated function
     """
@@ -77,7 +79,7 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
     def _(data: str) -> Object:
         """String string in IPFS.
         Encode string to bytes and store it in raw blocks.
-        
+
         :param data: String to store
         :return: Object instance
         """

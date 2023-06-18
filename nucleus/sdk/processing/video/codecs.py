@@ -12,9 +12,9 @@ from .constants import (
 class Copy:
     """Used to `copy` the codec from the source to the output.
     Special value copy (output only) to indicate that the stream is not to be re-encoded.
-    
+
     Usage:
-    
+
         copy_audio_stream = Copy("a")
         copy_video_stream = Copy("v")
     """
@@ -33,11 +33,11 @@ class Copy:
 
 class H264:
     """H264 codec ffmpeg settings.
-    
+
     Usage:
-    
+
         h264 = H264()
-                
+
     """
 
     def __contains__(self, codec: str) -> bool:
@@ -58,9 +58,9 @@ class H264:
 
 class HEVC:
     """HEVC codec ffmpeg settings.
-    
+
     Usage:
-    
+
         hevc = HEVC()
 
     """
@@ -85,9 +85,9 @@ class VP9:
     """Vp9 codec ffmpeg settings.
 
     Usage:
-    
+
         vp9 = VP9()
-        
+
     """
 
     def __contains__(self, codec: str) -> bool:

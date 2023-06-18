@@ -48,7 +48,7 @@ class _Manager(pydantic.main.ModelMetaclass):
 class Base(pydantic.BaseModel, metaclass=_Manager):
     """Base model provides efficient model persistence and data validation capabilities.
     The persistence mechanism relies on sqlite and pickle, allowing the entire model to be stored as a snapshot
-    
+
     Usage:
 
         class MyModel(BaseModel):
@@ -133,7 +133,7 @@ class Base(pydantic.BaseModel, metaclass=_Manager):
 class Model(Base):
     """Model class specifies by default the attributes needed for the metadata model
     and allows its extension to create metadata sub-models with custom attributes.
-    
+
     Usage:
 
         class Nucleus(Model):
@@ -151,7 +151,7 @@ class Media(Base, Generic[T]):
     """Generic media model to create media subtypes.
     Each subtype represents a specific media type and provides a generic specification
     of the sources from which it can be collected.
-    
+
     Usage:
 
         class Video(Media[Path]):

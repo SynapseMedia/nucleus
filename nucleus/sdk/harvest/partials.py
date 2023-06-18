@@ -17,7 +17,7 @@ def media_factory(*, base: Type[T], **kwargs: Any) -> T:
 
         # create our own media partial
         music = functools.partial(media_factory, base=Music)
-        
+
     :param base: The base type for model
     :return: New media type instance
     :raises ModelValidationError: If model fails during schema validation

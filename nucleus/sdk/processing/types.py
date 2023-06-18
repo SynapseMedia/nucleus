@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from nucleus.sdk.harvest import Media
+
 from nucleus.core.types import (
     Any,
     Dynamic,
@@ -11,7 +11,7 @@ from nucleus.core.types import (
     Settings,
     Tuple,
 )
-
+from nucleus.sdk.harvest import Media
 
 
 class Introspection(Dynamic):
@@ -39,7 +39,7 @@ class Introspection(Dynamic):
 class File(Media[Path]):
     """Local media file representation.
     This class is used to represent any media stored in local host.
-    
+
     Usage:
 
         # Introspect from ffprobe video info or PIL.Image, etc.
@@ -47,7 +47,7 @@ class File(Media[Path]):
 
         # create a local file with metadata information
         file = File(Path("local_video.mp4"), video_meta)
-    
+
     """
 
     # associated file introspection
@@ -60,7 +60,7 @@ class Engine(ABC):
     It uses an underlying library as an interface to process media files.
     It produce output based on the provided settings.
     Use this class to create engine subtypes.
-    
+
     Usage:
 
         # our own engine implementation
@@ -75,7 +75,7 @@ class Engine(ABC):
 
             def save(self, path: Path) -> File:
                 # Implementation for saving the processed music file to the specified path
-                ... 
+                ...
     """
 
     _library: Any

@@ -22,7 +22,7 @@ For example:
 @dataclass(slots=True)
 class Coord:
     """Represents a cartesian pixel coordinate.
-    
+
     Usage:
 
         # two points in the cartesian plane: top + left, right + bottom
@@ -38,7 +38,7 @@ class Coord:
 @dataclass(slots=True)
 class Crop:
     """Crop a rectangular region from an image.
-    
+
     Usage:
 
         # crop an image using coords
@@ -59,7 +59,7 @@ class Crop:
 @dataclass(slots=True)
 class Thumbnail:
     """Resize the image into a thumbnail.
-    
+
     Usage:
 
         # thumbnail size 50x50 pixels
@@ -93,7 +93,7 @@ class Thumbnail:
 @dataclass(slots=True)
 class Resize:
     """Resize the image to a given size.
-    
+
     Usage:
 
         # new image size 100x100

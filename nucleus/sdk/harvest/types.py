@@ -11,11 +11,11 @@ class Collector(ABC):
     Collector define an abstraction with methods needed to handle metadata collection process.
     Subclasses should implement the __iter__ method to collect metadata from various data inputs.
     Use this class to create collector subtypes.
-    
+
     Usage:
 
         class File(Collector):
-            
+
             def __iter__(self):
                 # read our file and yield the content
                 with open('dummy.json') as file:

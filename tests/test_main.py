@@ -21,7 +21,6 @@ from nucleus.sdk.storage import Object, Store
 @pytest.mark.skip(reason='no way of currently testing this. mock needed')
 def test_main():
     LOCAL_ENDPOINT = 'http://localhost:5001'
-    FAKE_KEY = "ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY"
 
     # 1. prepare our model schema to collect/validate/clean data
     with logger.console.status('Harvesting'):
@@ -82,7 +81,7 @@ def test_main():
         obj: Object = sep001.serialize().save_to(local_storage)
         # what we do with our new and cool CID?
         logger.console.print(obj.hash)
-        
+
         assert 0
 
         """

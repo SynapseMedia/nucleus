@@ -19,7 +19,7 @@ from .types import Engine, File, Introspection
 @no_type_check
 def _to_object(data: Any) -> Any:
     """Recursively convert a nested JSON as Dynamic instance.
-    
+
     :return: Dynamic object mirroring JSON representation
     """
 
@@ -39,7 +39,7 @@ def _to_object(data: Any) -> Any:
 
 class VideoEngine(Engine):
     """Engine that adapts the FFMPEG Python library to support low-level transcoding.
-    
+
     Usage:
 
         # adapt ffmpeg lib
@@ -85,8 +85,8 @@ class VideoEngine(Engine):
 
 class ImageEngine(Engine):
     """Engine that adapts the Pillow library to support image processing.
-    
-    Usage: 
+
+    Usage:
 
         # adapt pillow Image
         library = PIL.open(media.path)

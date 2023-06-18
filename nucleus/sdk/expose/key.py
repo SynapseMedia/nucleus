@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from enum import Enum
 from dataclasses import KW_ONLY, dataclass, field
+from enum import Enum
 
 from jwcrypto.common import base64url_decode
 
@@ -90,7 +90,7 @@ class SignKeyRing:
 
     def as_dict(self) -> Raw:
         """Export Keyring as JWK in standard JSON format"""
-        return self._jwk.export(True, True) # type: ignore
+        return self._jwk.export(True, True)  # type: ignore
 
     def from_dict(self, raw_key: Raw) -> SignKeyRing:
         """Initialize Keyring from JWK standard JSON format"""
