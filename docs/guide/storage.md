@@ -13,6 +13,8 @@ Here's an example of how to store an image:
 import nucleus.sdk.storage as storage
 
 local_storage = storage.ipfs("http://localhost:5001")
+# in this case que are storing a File instance, we can obtain it from a processing output
+# if we have an already processed media we can create a custom File instance
 stored_file_object = local_storage(output_image) 
 
 ```
@@ -40,6 +42,7 @@ Alternatively, we can use the partial function to make it easier:
 ```python
 import nucleus.sdk.storage as storage
 
+# by default the endpoint is bundled inside the factory
 estuary = storage.estuary(estuary_key)
 
 ```
