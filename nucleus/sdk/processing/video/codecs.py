@@ -10,10 +10,13 @@ from .constants import (
 
 
 class Copy:
-    """Format used to `copy` the codec from the source to the output.
+    """Used to `copy` the codec from the source to the output.
     Special value copy (output only) to indicate that the stream is not to be re-encoded.
-    ref: https://ffmpeg.org/ffmpeg.html#Main-options
-
+    
+    Usage:
+    
+        copy_audio_stream = Copy("a")
+        copy_video_stream = Copy("v")
     """
 
     _stream_specifier: str
@@ -29,9 +32,12 @@ class Copy:
 
 
 class H264:
-    """Represent H264 codec with default settings.
-    ref: https://trac.ffmpeg.org/wiki/Encode/H.264
-
+    """H264 codec ffmpeg settings.
+    
+    Usage:
+    
+        h264 = H264()
+                
     """
 
     def __contains__(self, codec: str) -> bool:
@@ -51,8 +57,11 @@ class H264:
 
 
 class HEVC:
-    """Represent HEVC codec with default settings.
-    ref: https://trac.ffmpeg.org/wiki/Encode/H.265
+    """HEVC codec ffmpeg settings.
+    
+    Usage:
+    
+        hevc = HEVC()
 
     """
 
@@ -73,9 +82,12 @@ class HEVC:
 
 
 class VP9:
-    """Represent Vp9 codec with default settings.
-    ref: https://trac.ffmpeg.org/wiki/Encode/VP9
+    """Vp9 codec ffmpeg settings.
 
+    Usage:
+    
+        vp9 = VP9()
+        
     """
 
     def __contains__(self, codec: str) -> bool:

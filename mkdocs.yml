@@ -19,14 +19,21 @@ nav:
         - Types: reference/harvest/types.md
     - Processing:
         - Engines: reference/processing/engines.md
-        - Options: 
-          - Video: reference/processing/video.md
-          - Image: reference/processing/image.md
+        - Video: 
+            - Settings: reference/processing/video/settings.md
+            - Codecs: reference/processing/video/codecs.md
+            - Protocols: reference/processing/video/protocols.md
+            - Types: reference/processing/video/types.md
+        - Image: 
+            - Settings: reference/processing/image/settings.md
         - Utilities: reference/processing/utilities.md
         - Types: reference/processing/types.md
     - Storage:
+        - Services: reference/storage/services.md
         - Utilities: reference/storage/utilities.md
         - Types: reference/storage/types.md
+    - Exceptions: reference/exceptions.md
+    
     # more here
   - Developer Guide:
     - Overview: dev/index.md
@@ -36,6 +43,7 @@ nav:
     # - Extending Engines: dev/arch.md
     # - Extending Clients and Services: dev/arch.md
     # - Release notes: dev/arch.md
+
 
 theme: 
   name: material

@@ -6,10 +6,13 @@ from .types import Codec
 
 @dataclass(slots=True)
 class HLS:
-    """Represent HLS streaming protocol.
-    ref: https://ffmpeg.org/ffmpeg-formats.html#Options-10
-    ref: https://en.wikipedia.org/wiki/HTTP_Live_Streaming
-
+    """HLS streaming protocol.
+    
+    Usage:
+        
+        # use h264 as codec
+        hls = HLS(H264())
+    
     """
 
     codec: Codec

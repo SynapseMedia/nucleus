@@ -26,7 +26,6 @@ If you are function lovers you could step this using a partial function:
 
 import nucleus.sdk.harvest as harvest
 
-# create a model using partial function
 nucleus_model = harvest.model(
     name=(str, ...), 
     description=(str, ...), 
@@ -38,7 +37,7 @@ nucleus_model = harvest.model(
 To create an instance of the Nucleus model and populate it with data, you can do the following:
 
 ```python
-# set our data in the model
+
 nucleus: Model = Nucleus(
     name="Nucleus the SDK",
     description="Building block for multimedia decentralization",
@@ -55,30 +54,24 @@ Let's explore multimedia resources and how to collect them using the SDK's built
 
 In order to properly handle multimedia resources such as images, videos, music, text, and more, it is important to collect and categorize them using the appropriate types defined or provided by the SDK. These types allow for easy identification and handling of the resources during subsequent stages or processes in the pipeline.
 
-For example, the SDK may provide builtin data types for each type of multimedia resource. This could include Image and Video types, each with their respective properties and methods for processing and manipulation.
+Here's an example of how to collect media using the built-in media types:
 
 ```python
-from nucleus.core.types import Path
+
 from nucleus.sdk.harvest import Image, Video
 
-# Collecting an image using the Image type
 image = Image(path=Path("/local/path/image.jpg"))
-# Collecting a video using the Video type
-video = Video(path=Path("/local/path/video.mp4"))
+video = Video(path=URL("/local/path/video.mp4"))
 
 ```
 
-Alternatively, for those who prefer using functions, we can make use of partials to create media types:
+Alternatively, we can use the partial function to make it easier:
 
 ```python
 import nucleus.sdk.harvest as harvest
 
-from nucleus.core.types import Path
-
-# Collecting an image using the Image type
 image = harvest.image(path=Path("/local/path/image.jpg"))
-# Collecting a video using the Video type
-video = harvest.video(path=Path("/local/path/video.mp4"))
+video = harvest.video(path=URL("/local/path/video.mp4"))
 
 ```
 

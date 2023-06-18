@@ -1,12 +1,12 @@
 # Storage
 
-We have learned how to collect multimedia resources and metadata, and we have also covered basic aspects of multimedia processing. Now, in this guide, we will discuss how to store the processed media on the IPFS network using the storage package.
+In this guide, we will explore how to store processed media on the IPFS network using the storage package. We'll cover local storage, services, and clients. We have already learned how to collect multimedia resources and metadata, as well as basic aspects of multimedia processing.
 
-## Store
+## Local Storage
 
-As part of the storage process, we first need to store our media in the local IPFS node, and that's where the `local storage` comes into play. Initializing our local node is simple using the `store` function from the storage package.
+To store our media in the local IPFS node, we can use the `local storage` feature provided by the storage package. Initializing the local node is straightforward using the `ipfs` function.
 
-Let's see an example of how to store an image:
+Here's an example of how to store an image:
 
 ```python
 
@@ -15,32 +15,27 @@ import nucleus.sdk.storage as storage
 local_storage = storage.ipfs("http://localhost:5001")
 stored_file_object = local_storage(output_image) 
 
-# ... below pinning stored file
-
 ```
 
+After storing the file locally, we can proceed to pin it or perform further actions.
+
 !!! tip
-    The `local storage` function from the `storage` package is a polymorphic function that automatically selects the appropriate storage strategy based on the type of the param. Please see more about in [utilities](../reference/storage/utilities.md).
+    The `local_storage` is a repository of storage options in the form of a function that automatically selects the appropriate storage strategy based on the type of the parameter. Please see more about in [utilities](../reference/storage/utilities.md) reference.
 
 ## Services
 
-Services are storage providers based on the IPFS ecosystem. Any service that exposes an API is compatible and can be integrated into the SDK.
-
-Nucleus refers to these services as "Edge" because it uses them as external storage mediums to the local IPFS node. Currently, the SDK supports Estuary, a service that provides storage through the IPFS and Filecoin network. Let's see some examples of how to configure our service and how we can use it to store our multimedia resources.
+Services are storage providers within the IPFS ecosystem. Currently, the SDK supports Estuary, a service that provides storage through the IPFS and Filecoin network. Here are some examples of how to configure the service and use it to store multimedia resources.
 
 ```python
 from nucleus.sdk.storage import Estuary
 
 estuary_endpoint = "https://api.estuary.tech"
 estuary_key =  "ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY" # fake key
-
-# lets initialize our service
 estuary = Estuary(estuary_endpoint, estuary_key)
 
-# ... below client initialization
 ```
 
-O podriamos hacerlo mas sencillo usando la funcion fabricadora:
+Alternatively, we can use the partial function to make it easier:
 
 ```python
 import nucleus.sdk.storage as storage
@@ -49,25 +44,15 @@ estuary = storage.estuary(estuary_key)
 
 ```
 
-Ahora que tenemos listo nuestro servicio veamos como inicializar nuestro cliente de estuary
-
-## Clients
-
-Los clientes estan a cargo de interactuar directamente con las API provistas por los edge services, en este caso mostraremos el uso del API estuary.
-
-Ya que nuestro almacenamiento se lleva a cabo primeramente en nuestro nodo local, solo necesitamos hacer pin de nuestro CID en el servicio edge.
-Veamos el ejemplo:
+Since our storage primarily takes place on our local node, we only need to pin our CID on the edge service.
+Here's an example:
 
 ```python
-import nucleus.sdk.storage as storage
 
-edge_client = storage.client(estuary)
-edge_client.pin(stored_file_object)
+# ...
+estuary.pin(stored_file_object)
 
 ```
 
 !!! tip
-    The `client` function from the `storage` package is a polymorphic function that automatically selects the appropriate API client based on the type of service passed as a parameter. Please see more about [built-in clients](../reference/storage/clients.md) and [utilities](../reference/storage/utilities.md).
-
-!!! note
-    Es posible extender los clientes y los servicios implementando las interfaces Client y Services disponibles en los tipos del paquete storage. Ver mas sobre built-in clients y built-in services.
+    Any storage service that exposes an API is compatible and can be integrated into the SDK by implementing the [service protocol](../reference/storage/types.md). See more about [built-in services](../reference/storage/services.md) reference.

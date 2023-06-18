@@ -14,20 +14,17 @@ import nucleus.sdk.harvest as harvest
 import nucleus.sdk.processing as processing
 
 from nucleus.core.types import Path
-from nucleus.sdk.harvest import Image
-from nucleus.sdk.processing import Engine
 
-# initialize an Image type to pass into engine function
 image = harvest.image(path=Path("image.jpg"))
-# get back an Image engine from the input type
-engine = processing.engine(image)
+video = harvest.video(path=Path("video.mp4"))
 
-# ... below engine configuration
+image_engine = processing.engine(image)
+video_engine = processing.engine(video)
 
 ```
 
 !!! tip
-    The `engine` function from the `processing` package is a polymorphic function that automatically selects the appropriate engine based on the [type of multimedia](../reference/harvest/media.md) passed as a parameter. Please see more about [built-in engines](../reference/processing/engines.md) and [utilities](../reference/processing/utilities.md).
+    The `engine` function from the `processing` package automatically selects the appropriate engine based on the [type of multimedia](../reference/harvest/media.md) passed as a parameter. Please see more about [built-in engines](../reference/processing/engines.md) and [utilities](../reference/processing/utilities.md) reference.
 
 ## Settings
 
@@ -37,17 +34,28 @@ Configuring our engine is straightforward with the use of the `configure` method
 Let's explore an example of how to configure the image engine:
 
 ```python
-
-# import settings from processing package
 from nucleus.sdk.processing import Thumbnail
 
-# we want to create a thumbnail from the image
-# new thumb size is 50x50 output
-engine.configure(Thumbnail(50,50))
-# save our new image to our preferred path
-output_image = engine.save(path=Path("image2.jpg"))
+# Let's define how the output of our image should be.
+image_engine.configure(Thumbnail(50,50)) # 50x50 px
+output_image = engine.save(Path("image2.jpg"))
 
 ```
 
+Example processing a video:
+
+```python
+from nucleus.sdk.processing import HLS, VP9, Screen, Bitrate
+
+# Let's define how the output of our video should be.
+video_engine.configure(HLS(VP9()))
+video_engine.configure(Screen.Q1080)
+video_engine.configure(Bitrate.B1080)
+video_engine.save(Path("index.m3u8"))
+
+
+```
+
+
 !!! info
-    Given that the engines emulate the underlying libraries, the available settings are based on the methods or configurations set within each respective library. For further details on the available settings, please refer to the [video](../reference/processing/video.md) or [image](../reference/processing/image.md) documentation.
+    Given that the engines emulate the underlying libraries, the available settings are based on the methods or configurations set within each respective library. For further details on the available settings, please refer to the [video](../reference/processing/video/settings.md) or [image](../reference/processing/image/settings.md) documentation.

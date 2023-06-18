@@ -63,16 +63,18 @@ class Engine(ABC):
     
     Usage:
 
-        # create our own engine implementation
+        # our own engine implementation
         class MusicEngine(Engine):
 
             def __init__(self, lib: MusicLib):
                 super().__init__(lib)
 
             def introspect(self, path: Path) -> Introspection:
+                # Implementation for introspecting the music file at the specified path
                 ...
 
             def save(self, path: Path) -> File:
+                # Implementation for saving the processed music file to the specified path
                 ... 
     """
 
@@ -113,7 +115,7 @@ class Engine(ABC):
 
     @abstractmethod
     def save(self, path: Path) -> File:
-        """Store the new media based on conf context and bound library.
+        """Store the new media based on settings and bound library.
 
         :param path: The output path
         :return: File object
