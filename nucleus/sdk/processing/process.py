@@ -18,9 +18,8 @@ def engine(media: Media[Path]) -> Engine:
 
     Usage:
 
-        # initialize an Image type to pass into engine function
+        # create an image type to pass into engine function 
         image = harvest.image(path=Path("image.jpg"))
-        # get back an Image engine from the input type
         engine = processing.engine(image)
 
     :param media: The media type to dispatch

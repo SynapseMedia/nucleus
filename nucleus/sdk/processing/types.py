@@ -63,18 +63,17 @@ class Engine(ABC):
 
     Usage:
 
-        # our own engine implementation
         class MusicEngine(Engine):
 
             def __init__(self, lib: MusicLib):
                 super().__init__(lib)
 
             def introspect(self, path: Path) -> Introspection:
-                # Implementation for introspecting the music file at the specified path
+                # implementation for introspecting the music file at the specified path
                 ...
 
             def save(self, path: Path) -> File:
-                # Implementation for saving the processed music file to the specified path
+                # implementation for saving the processed music file to the specified path
                 ...
     """
 

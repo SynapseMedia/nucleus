@@ -10,7 +10,7 @@ nav:
     - Processing multimedia: guide/processing.md
     - Multimedia storage: guide/storage.md
     # - Publishing the metadata: index.md
-    # - Putting all together
+    - Putting all together: guide/example.md
   - API Reference: 
     - Harvest:
         - Models: reference/harvest/models.md
@@ -44,6 +44,11 @@ nav:
     # - Extending Clients and Services: dev/arch.md
     # - Release notes: dev/arch.md
 
+
+extra:
+  analytics:
+    provider: google
+    property: G-9V6M4NPR7F
 
 theme: 
   name: material

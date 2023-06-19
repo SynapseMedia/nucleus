@@ -30,12 +30,12 @@ class Object:
 
 @dataclass(slots=True)
 class Pin:
-    """Represents ipfs /pin output
+    """Represents ipfs pin output
 
     Usage:
 
-        # generally, these objects are returned by pin operations
-        stored_object = Object("bafyjvzacdjrk37kqvy5hbqepmcraz3txt3igs7dbjwwhlfm3433a","pinned", "image.jpg")
+        # generally, returned by pinning operations
+        pin = Pin("bafyjvzacdjrk37kqvy5hbqepmcraz3txt3igs7dbjwwhlfm3433a","pinned", "image.jpg")
     """
 
     cid: CID
@@ -56,15 +56,14 @@ class Client(Protocol):
 
     Usage:
 
-        # our own service implementation
         class EdgeService:
 
             def pin(self, obj: Object, **kwargs: Any) -> Pin:
-                # Implementation for pinning the object
+                # implementation for pinning the object
                 ...
 
             def unpin(self, cid: CID) -> CID:
-                # Implementation for unpinning the CID
+                # implementation for unpinning the CID
                 ...
 
     """
