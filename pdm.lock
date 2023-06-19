@@ -1006,7 +1006,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 lock_version = "4.2"
 cross_platform = true
 groups = ["default", "docs", "lint", "static", "test"]
-content_hash = "sha256:d1fd19bf3487e5a980be12f91657021e65428f5a4322f699c9bf612c8600526c"
+content_hash = "sha256:376b39a9f7aad426f77d5ef039386ceb0d7b2c20bf03d2efb696d29b4b994e78"
 
 [metadata.files]
 "aiohttp 3.8.4" = [

@@ -15,7 +15,6 @@ class Estuary:
 
     Usage:
 
-         # create a estuary api client
         estuary_endpoint = "https://api.estuary.tech"
         estuary_key =  "ESTbb693fa8-d758-48ce-9843-a8acadb98a53ARY" # fake key
         estuary = EstuaryClient(estuary_endpoint, estuary_key)

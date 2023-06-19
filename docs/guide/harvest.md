@@ -38,7 +38,7 @@ To create an instance of the Nucleus model and populate it with data, you can do
 
 ```python
 
-nucleus: Model = Nucleus(
+nucleus = Nucleus(
     name="Nucleus the SDK",
     description="Building block for multimedia decentralization",
     contributors=["Jacob", "Geo", "Dennis", "Mark"],
@@ -57,21 +57,10 @@ In order to properly handle multimedia resources such as images, videos, music, 
 Here's an example of how to collect media using the built-in media types:
 
 ```python
-
-from nucleus.sdk.harvest import Image, Video
-
-image = Image(path=Path("/local/path/image.jpg"))
-video = Video(path=URL("/local/path/video.mp4"))
-
-```
-
-Alternatively, we can use the partial function to make it easier:
-
-```python
 import nucleus.sdk.harvest as harvest
 
 image = harvest.image(path=Path("/local/path/image.jpg"))
-video = harvest.video(path=URL("/local/path/video.mp4"))
+video = harvest.video(path=Path("/local/path/video.mp4"))
 
 ```
 

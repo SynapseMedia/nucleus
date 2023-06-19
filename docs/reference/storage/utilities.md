@@ -13,9 +13,9 @@
 ## Built-in partials
 
 ```python
+# default request to https://api.estuary.tech
 estuary = functools.partial(Estuary, ESTUARY_API_BASE)
 ```
 
 !!! info
     These partial allows the fast creation of [services](./services.md).
-

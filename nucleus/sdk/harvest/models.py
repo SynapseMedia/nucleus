@@ -137,7 +137,6 @@ class Model(Base):
     Usage:
 
         class Nucleus(Model):
-            # Represents a specific model for `Nucleus` metadata
             name: str # default property
             description: str # default property
             address: str # my custom property
@@ -155,11 +154,11 @@ class Media(Base, Generic[T]):
     Usage:
 
         class Video(Media[Path]):
-            # Represents a video media type.
+            # represents a video file type .
             ...
 
         class Image(Media[URL]):
-            # Represents an image media type.
+            # represents an image url type.
             ...
     """
 
