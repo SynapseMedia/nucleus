@@ -9,7 +9,7 @@ nav:
     - Harvesting raw: guide/harvest.md
     - Processing multimedia: guide/processing.md
     - Multimedia storage: guide/storage.md
-    # - Publishing the metadata: index.md
+    - Metadata distribution: guide/expose.md
     - Putting all together: guide/example.md
   - API Reference: 
     - Harvest:

@@ -15,9 +15,11 @@ import nucleus.sdk.processing as processing
 
 from nucleus.core.types import Path
 
+# harvest media using media types
 image = harvest.image(path=Path("image.jpg"))
 video = harvest.video(path=Path("video.mp4"))
 
+# get engines based on media type
 image_engine = processing.engine(image)
 video_engine = processing.engine(video)
 
@@ -36,7 +38,7 @@ Let's explore an example of how to configure the image engine:
 ```python
 from nucleus.sdk.processing import Thumbnail
 
-# Let's define how the output of our image should be.
+# let's define how the output of our image should be.
 image_engine.configure(Thumbnail(50,50)) # 50x50 px
 output_image = engine.save(Path("image2.jpg"))
 
@@ -47,7 +49,7 @@ Example processing a video:
 ```python
 from nucleus.sdk.processing import HLS, VP9, Screen, Bitrate
 
-# Let's define how the output of our video should be.
+# let's define how the output of our video should be.
 video_engine.configure(HLS(VP9()))
 video_engine.configure(Screen.Q1080)
 video_engine.configure(Bitrate.B1080)

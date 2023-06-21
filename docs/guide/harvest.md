@@ -20,20 +20,6 @@ class Nucleus(Model):
 
 ```
 
-If you are function lovers you could step this using a partial function:
-
-```python
-
-import nucleus.sdk.harvest as harvest
-
-nucleus_model = harvest.model(
-    name=(str, ...), 
-    description=(str, ...), 
-    contributors=(List[str], ...)
-)
-
-```
-
 To create an instance of the Nucleus model and populate it with data, you can do the following:
 
 ```python
@@ -59,6 +45,7 @@ Here's an example of how to collect media using the built-in media types:
 ```python
 import nucleus.sdk.harvest as harvest
 
+# harvest image and video using built-in types 
 image = harvest.image(path=Path("/local/path/image.jpg"))
 video = harvest.video(path=Path("/local/path/video.mp4"))
 
