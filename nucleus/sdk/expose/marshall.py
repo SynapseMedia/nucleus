@@ -11,7 +11,7 @@ from nucleus.sdk.storage import Object, Store
 from .types import JWE, JWS, Standard
 
 
-def cid_from_bytes(data: bytes, codec: str = 'raw') -> CID:
+def _cid_from_bytes(data: bytes, codec: str = 'raw') -> CID:
     """Return a new CIDv1 base32 based on data hash and codec.
 
     :param data: The data to create a new CID
@@ -23,7 +23,7 @@ def cid_from_bytes(data: bytes, codec: str = 'raw') -> CID:
 
 
 class DagJose:
-    """Dag-JOSE Serialization observer"""
+    """Dag-JOSE serialization observer."""
 
     _cid: CID
     _s11n: JSON
@@ -34,7 +34,7 @@ class DagJose:
     def __init__(self, standard: Standard):
         self._header = standard.header()
         self._cbor = dag_cbor.encode(standard.payload())
-        self._cid = cid_from_bytes(self._cbor, 'dag-cbor')
+        self._cid = _cid_from_bytes(self._cbor, 'dag-cbor')
 
     def __iter__(self) -> Setting:
         return iter(self._header.items())
@@ -43,13 +43,13 @@ class DagJose:
         return str(self._s11n)
 
     def __bytes__(self) -> bytes:
-        """Serialize SEP using dag-jose IPLD standard
+        """Serialize SEP001 using dag-jose IPLD standard
         ref: https://ipld.io/specs/codecs/dag-jose/spec/
         """
         return bytes(self._cid)
 
     def update(self, jwt: Union[JWS, JWE]) -> DagJose:
-        """Encode JWS/JWE general serialization to dag-jose when crypto process notify"""
+        """Encode JWS/JWE general serialization to dag-jose when crypto operation notify"""
         general_json = json_decode(jwt.serialize(False))
         # set new state for serialization attribute
         self._s11n = JSON({'link': self._cid, **general_json})
@@ -63,7 +63,7 @@ class DagJose:
 
 
 class Compact:
-    """JWS Compact Serialization"""
+    """JWS Compact serialization observer."""
 
     _s11n: str
     _header: Raw
@@ -101,11 +101,11 @@ class Compact:
 
         for key, value in payload.items():
             raw_claim = bytes(JSON(value))
-            payload[key] = str(cid_from_bytes(raw_claim))
+            payload[key] = str(_cid_from_bytes(raw_claim))
         return JSON(payload)
 
     def update(self, jwt: Union[JWS, JWE]) -> Compact:
-        """Encode JWS/JWE compact serialization when  crypto process get ready"""
+        """Encode JWS/JWE compact serialization when crypto operation notify"""
         # set new state for serialization attribute
         self._s11n = jwt.serialize(True)
         return self
@@ -125,9 +125,7 @@ class Compact:
         return self._s11n
 
     def __bytes__(self) -> bytes:
-        """SEP as compact serialization
-        ref: https://www.rfc-editor.org/rfc/rfc7515#section-3.1
-        """
+        """SEP001 as compact serialization"""
         return bytes(self._payload)
 
 

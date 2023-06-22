@@ -32,6 +32,13 @@ nav:
         - Services: reference/storage/services.md
         - Utilities: reference/storage/utilities.md
         - Types: reference/storage/types.md
+    - Expose:
+        - Serializers: reference/expose/serializers.md
+        - Operations: reference/storage/utilities.md
+        - Metadata: reference/storage/utilities.md
+        - Keys: reference/storage/utilities.md
+        - Utilities: reference/storage/utilities.md
+        - Types: reference/expose/types.md
     - Exceptions: reference/exceptions.md
     
     # more here
