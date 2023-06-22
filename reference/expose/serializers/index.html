@@ -10,27 +10,27 @@
       
       
       
-        <link rel="canonical" href="https://synapsemedia.io/reference/exceptions/">
+        <link rel="canonical" href="https://synapsemedia.io/reference/expose/serializers/">
       
       
-        <link rel="prev" href="../expose/types/">
+        <link rel="prev" href="../../storage/types/">
       
       
-        <link rel="next" href="../../dev/">
+        <link rel="next" href="../../storage/utilities/">
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
     
     
       
-        <title>Exceptions - Nucleus</title>
+        <title>Serializers - Nucleus</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
       
       
 
@@ -46,9 +46,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -67,7 +67,7 @@
     
     
     
-   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+   <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
         html.glightbox-open { overflow: initial; height: 100%; }
         .gslide-title { margin-top: 0px; user-select: text; }
         .gslide-desc { color: #666; user-select: text; }
@@ -78,7 +78,7 @@
             body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+            </style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -100,7 +100,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#nucleus.sdk.exceptions.HarvestingError" class="md-skip">
+        <a href="#nucleus.sdk.expose.marshall.Compact" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Nucleus" class="md-header__button md-logo" aria-label="Nucleus" data-md-component="logo">
+    <a href="../../.." title="Nucleus" class="md-header__button md-logo" aria-label="Nucleus" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -135,7 +135,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Exceptions
+              Serializers
             
           </span>
         </div>
@@ -240,7 +240,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Nucleus" class="md-nav__button md-logo" aria-label="Nucleus" data-md-component="logo">
+    <a href="../../.." title="Nucleus" class="md-nav__button md-logo" aria-label="Nucleus" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -271,7 +271,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         Getting started
       </a>
     </li>
@@ -313,7 +313,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/harvest/" class="md-nav__link">
+      <a href="../../../guide/harvest/" class="md-nav__link">
         Harvesting raw
       </a>
     </li>
@@ -327,7 +327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/processing/" class="md-nav__link">
+      <a href="../../../guide/processing/" class="md-nav__link">
         Processing multimedia
       </a>
     </li>
@@ -341,7 +341,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/storage/" class="md-nav__link">
+      <a href="../../../guide/storage/" class="md-nav__link">
         Multimedia storage
       </a>
     </li>
@@ -355,7 +355,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/expose/" class="md-nav__link">
+      <a href="../../../guide/expose/" class="md-nav__link">
         Metadata distribution
       </a>
     </li>
@@ -369,7 +369,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guide/example/" class="md-nav__link">
+      <a href="../../../guide/example/" class="md-nav__link">
         Putting all together
       </a>
     </li>
@@ -447,7 +447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../harvest/models/" class="md-nav__link">
+      <a href="../../harvest/models/" class="md-nav__link">
         Models
       </a>
     </li>
@@ -461,7 +461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../harvest/media/" class="md-nav__link">
+      <a href="../../harvest/media/" class="md-nav__link">
         Media
       </a>
     </li>
@@ -475,7 +475,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../harvest/utilities/" class="md-nav__link">
+      <a href="../../harvest/utilities/" class="md-nav__link">
         Utilities
       </a>
     </li>
@@ -489,7 +489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../harvest/types/" class="md-nav__link">
+      <a href="../../harvest/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -537,7 +537,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../processing/engines/" class="md-nav__link">
+      <a href="../../processing/engines/" class="md-nav__link">
         Engines
       </a>
     </li>
@@ -578,7 +578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../processing/video/settings/" class="md-nav__link">
+      <a href="../../processing/video/settings/" class="md-nav__link">
         Settings
       </a>
     </li>
@@ -592,7 +592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../processing/video/codecs/" class="md-nav__link">
+      <a href="../../processing/video/codecs/" class="md-nav__link">
         Codecs
       </a>
     </li>
@@ -606,7 +606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../processing/video/protocols/" class="md-nav__link">
+      <a href="../../processing/video/protocols/" class="md-nav__link">
         Protocols
       </a>
     </li>
@@ -620,7 +620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../processing/video/types/" class="md-nav__link">
+      <a href="../../processing/video/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -668,7 +668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../processing/image/settings/" class="md-nav__link">
+      <a href="../../processing/image/settings/" class="md-nav__link">
         Settings
       </a>
     </li>
@@ -689,7 +689,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../processing/utilities/" class="md-nav__link">
+      <a href="../../processing/utilities/" class="md-nav__link">
         Utilities
       </a>
     </li>
@@ -703,7 +703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../processing/types/" class="md-nav__link">
+      <a href="../../processing/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -751,7 +751,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../storage/services/" class="md-nav__link">
+      <a href="../../storage/services/" class="md-nav__link">
         Services
       </a>
     </li>
@@ -765,7 +765,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../storage/utilities/" class="md-nav__link">
+      <a href="../../storage/utilities/" class="md-nav__link">
         Utilities
       </a>
     </li>
@@ -779,7 +779,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../storage/types/" class="md-nav__link">
+      <a href="../../storage/types/" class="md-nav__link">
         Types
       </a>
     </li>
@@ -798,14 +798,16 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
       
       
       
@@ -814,103 +816,12 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3_4">
           <span class="md-nav__icon md-icon"></span>
           Expose
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../expose/serializers/" class="md-nav__link">
-        Serializers
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../storage/utilities/" class="md-nav__link">
-        Operations
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../storage/utilities/" class="md-nav__link">
-        Metadata
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../storage/utilities/" class="md-nav__link">
-        Keys
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../storage/utilities/" class="md-nav__link">
-        Utilities
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../expose/types/" class="md-nav__link">
-        Types
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
           
             
               
@@ -926,12 +837,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Exceptions
+          Serializers
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Exceptions
+        Serializers
       </a>
       
         
@@ -948,58 +859,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.HarvestingError" class="md-nav__link">
-    HarvestingError
+  <a href="#nucleus.sdk.expose.marshall.Compact" class="md-nav__link">
+    Compact
   </a>
+  
+    <nav class="md-nav" aria-label="Compact">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.marshall.Compact.__bytes__" class="md-nav__link">
+    __bytes__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.marshall.Compact.update" class="md-nav__link">
+    update()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.ProcessingError" class="md-nav__link">
-    ProcessingError
+  <a href="#nucleus.sdk.expose.marshall.DagJose" class="md-nav__link">
+    DagJose
+  </a>
+  
+    <nav class="md-nav" aria-label="DagJose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.marshall.DagJose.__bytes__" class="md-nav__link">
+    __bytes__()
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.StorageError" class="md-nav__link">
-    StorageError
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.marshall.DagJose.update" class="md-nav__link">
+    update()
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.ModelManagerError" class="md-nav__link">
-    ModelManagerError
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.ModelValidationError" class="md-nav__link">
-    ModelValidationError
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.StorageServiceError" class="md-nav__link">
-    StorageServiceError
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.ProcessingEngineError" class="md-nav__link">
-    ProcessingEngineError
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.FFProbeError" class="md-nav__link">
-    FFProbeError
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1007,6 +916,97 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/utilities/" class="md-nav__link">
+        Operations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/utilities/" class="md-nav__link">
+        Metadata
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/utilities/" class="md-nav__link">
+        Keys
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/utilities/" class="md-nav__link">
+        Utilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types/" class="md-nav__link">
+        Types
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exceptions/" class="md-nav__link">
+        Exceptions
+      </a>
     </li>
   
 
@@ -1053,7 +1053,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../dev/" class="md-nav__link">
+      <a href="../../../dev/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -1067,7 +1067,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../dev/arch/" class="md-nav__link">
+      <a href="../../../dev/arch/" class="md-nav__link">
         Architecture
       </a>
     </li>
@@ -1106,58 +1106,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.HarvestingError" class="md-nav__link">
-    HarvestingError
+  <a href="#nucleus.sdk.expose.marshall.Compact" class="md-nav__link">
+    Compact
   </a>
+  
+    <nav class="md-nav" aria-label="Compact">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.marshall.Compact.__bytes__" class="md-nav__link">
+    __bytes__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.marshall.Compact.update" class="md-nav__link">
+    update()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.ProcessingError" class="md-nav__link">
-    ProcessingError
+  <a href="#nucleus.sdk.expose.marshall.DagJose" class="md-nav__link">
+    DagJose
+  </a>
+  
+    <nav class="md-nav" aria-label="DagJose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.marshall.DagJose.__bytes__" class="md-nav__link">
+    __bytes__()
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.StorageError" class="md-nav__link">
-    StorageError
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.marshall.DagJose.update" class="md-nav__link">
+    update()
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.ModelManagerError" class="md-nav__link">
-    ModelManagerError
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.ModelValidationError" class="md-nav__link">
-    ModelValidationError
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.StorageServiceError" class="md-nav__link">
-    StorageServiceError
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.ProcessingEngineError" class="md-nav__link">
-    ProcessingEngineError
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.exceptions.FFProbeError" class="md-nav__link">
-    FFProbeError
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1179,7 +1177,10 @@
   
 
 
-  <h1>Exceptions</h1>
+  <h1>Serializers</h1>
+
+<p>Que hacen? de que estan a cargo?</p>
+
 
 <div class="doc doc-object doc-module">
 
@@ -1202,36 +1203,31 @@
 
 
 
-<h2 id="nucleus.sdk.exceptions.HarvestingError" class="doc doc-heading">
-        <code>HarvestingError</code>
-
+<h2 id="nucleus.sdk.expose.marshall.Compact" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">Compact</span><span class="p">(</span><span class="n">standard</span><span class="p">)</span></code>
 
 </h2>
 
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code>Exception</code></p>
 
   
-      <p>Exception raised for errors related to harvesting tasks.</p>
+      <p>JWS Compact serialization observer.</p>
 
 
-        <details class="quote">
-          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span>
-<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HarvestingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised for errors related to harvesting tasks.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;SDK :: Harvesting -&gt; </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+          <details class="quote">
+            <summary>Source code in <code>nucleus/sdk/expose/marshall.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">standard</span><span class="p">:</span> <span class="n">Standard</span><span class="p">):</span>
+    <span class="n">raw_payload</span> <span class="o">=</span> <span class="n">standard</span><span class="o">.</span><span class="n">payload</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_header</span> <span class="o">=</span> <span class="n">standard</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_claims</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="n">JSON</span><span class="p">,</span> <span class="n">raw_payload</span><span class="o">.</span><span class="n">values</span><span class="p">())))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_payload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_payload_cid_values</span><span class="p">(</span><span class="n">raw_payload</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-        </details>
+          </details>
 
   
 
@@ -1245,6 +1241,64 @@
 
 
 
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="nucleus.sdk.expose.marshall.Compact.__bytes__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__bytes__</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>SEP001 as compact serialization</p>
+
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/expose/marshall.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;SEP001 as compact serialization&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_payload</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="nucleus.sdk.expose.marshall.Compact.update" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">update</span><span class="p">(</span><span class="n">jwt</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Encode JWS/JWE compact serialization when crypto operation notify</p>
+
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/expose/marshall.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jwt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JWS</span><span class="p">,</span> <span class="n">JWE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Compact</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encode JWS/JWE compact serialization when crypto operation notify&quot;&quot;&quot;</span>
+    <span class="c1"># set new state for serialization attribute</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_s11n</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
 
 
   </div>
@@ -1257,36 +1311,29 @@
 
 
 
-<h2 id="nucleus.sdk.exceptions.ProcessingError" class="doc doc-heading">
-        <code>ProcessingError</code>
-
+<h2 id="nucleus.sdk.expose.marshall.DagJose" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">DagJose</span><span class="p">(</span><span class="n">standard</span><span class="p">)</span></code>
 
 </h2>
 
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code>Exception</code></p>
 
   
-      <p>Exception raised for errors related to processing tasks.</p>
+      <p>Dag-JOSE serialization observer.</p>
 
 
-        <details class="quote">
-          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ProcessingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised for errors related to processing tasks.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;SDK :: Processing -&gt; </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+          <details class="quote">
+            <summary>Source code in <code>nucleus/sdk/expose/marshall.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">standard</span><span class="p">:</span> <span class="n">Standard</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_header</span> <span class="o">=</span> <span class="n">standard</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_cbor</span> <span class="o">=</span> <span class="n">dag_cbor</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">standard</span><span class="o">.</span><span class="n">payload</span><span class="p">())</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_cid</span> <span class="o">=</span> <span class="n">_cid_from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cbor</span><span class="p">,</span> <span class="s1">&#39;dag-cbor&#39;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-        </details>
+          </details>
 
   
 
@@ -1300,264 +1347,74 @@
 
 
 
-
-
-  </div>
-
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
+<div class="doc doc-object doc-function">
 
 
 
-<h2 id="nucleus.sdk.exceptions.StorageError" class="doc doc-heading">
-        <code>StorageError</code>
+<h3 id="nucleus.sdk.expose.marshall.DagJose.__bytes__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__bytes__</span><span class="p">()</span></code>
 
-
-</h2>
+</h3>
 
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code>Exception</code></p>
-
   
-      <p>Exception raised for errors related to storage tasks.</p>
+      <p>Serialize SEP001 using dag-jose IPLD standard
+ref: https://ipld.io/specs/codecs/dag-jose/spec/</p>
 
-
-        <details class="quote">
-          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StorageError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised for errors related to storage tasks.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;SDK :: Storage -&gt; </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="nucleus.sdk.exceptions.ModelManagerError" class="doc doc-heading">
-        <code>ModelManagerError</code>
-
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.exceptions.HarvestingError" href="#nucleus.sdk.exceptions.HarvestingError">HarvestingError</a></code></p>
-
-  
-      <p>Raised when a model fails to persist or interact with the underlying cache.
-ModelManagerError error is a subclass from HarvestingError.</p>
-
-
-        <details class="quote">
-          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ModelManagerError</span><span class="p">(</span><span class="n">HarvestingError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a model fails to persist or interact with the underlying cache.</span>
-<span class="sd">    ModelManagerError error is a subclass from HarvestingError.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="o">...</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="nucleus.sdk.exceptions.ModelValidationError" class="doc doc-heading">
-        <code>ModelValidationError</code>
-
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.exceptions.HarvestingError" href="#nucleus.sdk.exceptions.HarvestingError">HarvestingError</a></code></p>
-
-  
-      <p>Raised when a model fails during schema validation.
-ModelValidationError error is a subclass from HarvestingError.</p>
-
-
-        <details class="quote">
-          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ModelValidationError</span><span class="p">(</span><span class="n">HarvestingError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a model fails during schema validation.</span>
-<span class="sd">    ModelValidationError error is a subclass from HarvestingError.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="o">...</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="nucleus.sdk.exceptions.StorageServiceError" class="doc doc-heading">
-        <code>StorageServiceError</code>
-
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.exceptions.StorageError" href="#nucleus.sdk.exceptions.StorageError">StorageError</a></code></p>
-
-  
-      <p>Raised when something fails when trying to operate on the edge services.
-StorageServiceError error is a subclass from StorageError.</p>
-
-
-        <details class="quote">
-          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
-<span class="normal">45</span>
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/expose/marshall.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
-<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StorageServiceError</span><span class="p">(</span><span class="n">StorageError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when something fails when trying to operate on the edge services.</span>
-<span class="sd">    StorageServiceError error is a subclass from StorageError.</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize SEP001 using dag-jose IPLD standard</span>
+<span class="sd">    ref: https://ipld.io/specs/codecs/dag-jose/spec/</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="o">...</span>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cid</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-        </details>
-
+      </details>
   </div>
 
 </div>
 
-<div class="doc doc-object doc-class">
+<div class="doc doc-object doc-function">
 
 
 
-<h2 id="nucleus.sdk.exceptions.ProcessingEngineError" class="doc doc-heading">
-        <code>ProcessingEngineError</code>
+<h3 id="nucleus.sdk.expose.marshall.DagJose.update" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">update</span><span class="p">(</span><span class="n">jwt</span><span class="p">)</span></code>
 
-
-</h2>
+</h3>
 
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.exceptions.ProcessingError" href="#nucleus.sdk.exceptions.ProcessingError">ProcessingError</a></code></p>
-
   
-      <p>Raised when something fail during media processing.
-ProcessingEngineError error is a subclass from ProcessingError.</p>
+      <p>Encode JWS/JWE general serialization to dag-jose when crypto operation notify</p>
 
-
-        <details class="quote">
-          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/expose/marshall.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">51</span>
+<span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">ProcessingEngineError</span><span class="p">(</span><span class="n">ProcessingError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when something fail during media processing.</span>
-<span class="sd">    ProcessingEngineError error is a subclass from ProcessingError.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="o">...</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jwt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JWS</span><span class="p">,</span> <span class="n">JWE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DagJose</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encode JWS/JWE general serialization to dag-jose when crypto operation notify&quot;&quot;&quot;</span>
+    <span class="n">general_json</span> <span class="o">=</span> <span class="n">json_decode</span><span class="p">(</span><span class="n">jwt</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">False</span><span class="p">))</span>
+    <span class="c1"># set new state for serialization attribute</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_s11n</span> <span class="o">=</span> <span class="n">JSON</span><span class="p">({</span><span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cid</span><span class="p">,</span> <span class="o">**</span><span class="n">general_json</span><span class="p">})</span>
+    <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div></td></tr></table></div>
-        </details>
-
+      </details>
   </div>
 
 </div>
 
-<div class="doc doc-object doc-class">
 
 
-
-<h2 id="nucleus.sdk.exceptions.FFProbeError" class="doc doc-heading">
-        <code>FFProbeError</code>
-
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="nucleus.sdk.exceptions.ProcessingError" href="#nucleus.sdk.exceptions.ProcessingError">ProcessingError</a></code></p>
-
-  
-      <p>Raised when something fail during ffprobe call.
-FFProbeError error is a subclass from ProcessingError.</p>
-
-
-        <details class="quote">
-          <summary>Source code in <code>nucleus/sdk/exceptions.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FFProbeError</span><span class="p">(</span><span class="n">ProcessingError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when something fail during ffprobe call.</span>
-<span class="sd">    FFProbeError error is a subclass from ProcessingError.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="o">...</span>
-</code></pre></div></td></tr></table></div>
-        </details>
+  </div>
 
   </div>
 
@@ -1610,10 +1467,10 @@ FFProbeError error is a subclass from ProcessingError.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.b4d07000.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
