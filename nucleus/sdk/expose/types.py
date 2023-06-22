@@ -89,7 +89,9 @@ class Serializer(Protocol):
 
 
 class Keyring(Protocol):
-    """Keyring specifies the required methods for handling keys based on the JWK (JSON Web Key) RFC 7517 standard"""
+    """Keyring specifies the required methods for handling
+    keys based on the JWK (JSON Web Key) RFC 7517 standard.
+    """
 
     def __iter__(self) -> Setting:
         """Yield needed headers to add into signature/recipient"""
@@ -113,10 +115,10 @@ class Keyring(Protocol):
 
 
 class Crypto(Protocol):
-    """Specify a pub/sub middleware that handle cryptographic operations on serializers"""
+    """Specify a pub/sub middleware that handle cryptographic operations on serializers."""
 
     def __init__(self, serializer: Serializer):
-        """Initialize with the serializer on which we will operate"""
+        """Initialize with the serializer on which we will operate."""
         ...
 
     def serialize(self) -> Serializer:

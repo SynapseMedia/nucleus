@@ -1,8 +1,8 @@
 # Expose
 
-After learning how to collect, process, and store our media, it's time to understand how to distribute it to reach our target audience. In this guide, we will explore the necessary steps to process the metadata standard and its corresponding distribution through the federated network.
+After learning how to collect, process, and store our media, it's time to understand how to distribute our metadata to reach our target audience. In this guide, we will explore the necessary steps to process the metadata standard and its corresponding distribution through the federated network.
 
-## Standard
+## SEP001 Standard
 
 Assuming you are already familiar with the anatomy of the standard, let's now examine its implementation. The adoption of the standard is crucial in ensuring smooth integration and compatibility across the federated network. By adhering to the standard defined in SEP001, metadata is effectively handled through an interface that facilitates signing, payload assignment, and the necessary headers.
 
@@ -10,50 +10,71 @@ If you need more details about the specific requirements and guidelines of the s
 
 Now, let's delve into the implementation of the standard in Nucleus.
 
-Primero que nada definamos el tipo de medio a distribuir en la cabecera del standard :
+First, let's define the type of media to distribute in the standard header:
 
 ```python
-    import nucleus.sdk.expose as expose
+import nucleus.sdk.expose as expose
 
-    # create a standard instance for "image/jpeg" media resource
-    sep001 = expose.standard(media_type)  
+# create a standard instance for "image/jpeg" media resource
+sep001 = expose.standard(media_type)  
 ```
 
-Ahora podemos comenzar a establecer las operaciones y metodo de serializacion que deseamos para nuestros metadatos.
-Veamos un ejemplo siguiendo la misma definicion del standard anterior:
+## Cryptography & Serialization
+
+!!! Note
+    In Nucleus, it is possible to extend the signature/encryption algorithms using the [KeyRing](../reference/expose/types.md) protocol. You can see the [JWA](https://datatracker.ietf.org/doc/html/rfc7518) standard specification for more.
+
+Now we can start establishing the cryptographic operations and serialization method we want for our metadata. Let's see an example following the same definition as the previous standard:
 
 ``` python
-    # Prepare serialization
-    sep001.set_operation(Sign)
-    sep001.set_serialization(DagJose)
+# serialization and sign operation
+sep001.set_operation(Sign)
+sep001.set_serialization(DagJose)
 ```
 
-Una parte importante en el proceso de distribucion de los metadatos es la "firma", que nos permite establecer el origen de los datos y comprobar la propiedad o autoria de nuestros recursos multimedia. Este proceso agregar la llave publica y la firma a la cabecera de los metadatos.
+An important part of the metadata distribution process is the "signature," which allows us to establish the origin of the data and verify the ownership or authorship of our multimedia resources. This process adds the public key and signature to the metadata header.
 
-Para firmar es simple usando algunos algoritmos "built-in" en el SDK. 
-Mas adelante veremos como podemos exportar e importar nuestras llaves de modo que podamos portarlas.
+Signing is simple using some "built-in" algorithms in the SDK:
 
 ```python
-    # Add signature/recipient key
-    sep001.add_key(expose.es256())
+
+key = expose.es256()
+sep001.add_key(key)
 
 ```
 
-Ahora es tiempo de asociar nuestros datos a la carga util de los metadatos, en este paso agregamos informacion relacionada a los procesos de "harvesting", "almacenamiento" y "procesamiento". Veamos de que manera toda esta informacion se consolida en los metadatos a exportar:
+!!! Example
+    We can export/import our key using the methods defined in the [KeyRing](../reference/expose/types.md) protocol. Let's see a simple example of how to do it:
+
+    ```python
+    # Export the key to later import it
+    exported_key = key.as_dict()
+    # Restore key to original state
+    key.from_dict(exported_key)
+    ```
+
+## Metadata & Storage
+
+Now it's time to associate our data with the payload of the metadata. In this step, we add information related to the "harvesting," "storage," and "processing" steps. Let's see how all this information is consolidated in the exported metadata:
+
 ```python
-    # add metadata into payload
-    sep001.add_metadata(Descriptive(**dict(nucleus)))
-    sep001.add_metadata(Structural(cid=stored_file_object.hash))
-    sep001.add_metadata(Technical(size=size, width=width, height=height))
+# append metadata into payload
+sep001.add_metadata(Descriptive(**dict(nucleus)))
+sep001.add_metadata(Structural(cid=stored_file_object.hash))
+sep001.add_metadata(Technical(size=size, width=width, height=height))
 ```
 
-Ya hemos preparado nuestros metadatos, es tiempo de enviarlos al "meta lake" y compartirlos.
-Almacenar el standard es sencillo utilizando el "store" (visto previamente en la guia de almacenamiento), el cual sabra donde debe almacenar nuestro standard en dependencia del tipo de serializacion establecido. En el caso de ser DagJose lo enviara al entorno de IPLD por medio del servicio DAG de IPFS, si es una version compacta lo enviara directo a un Raw Block, veamos el ejemplo:
+To store the standard, we can use the "store" function, which automatically determines the appropriate storage location based on the selected serialization type. If the serialization is set to DagJose, the metadata will be sent to the IPLD environment through the IPFS DAG service. If it is a compact version, it will be stored directly in a Raw Block. Let's see the example:
 
 ```python
-    # we get signed dag-jose serialization.. let's store it
-    obj: Object = sep001.serialize().save_to(local_storage)
-    # what we do with our new and cool CID?
-    logger.console.print(obj.hash)
-
+# we get signed dag-jose serialization.. let's store it
+obj = sep001.serialize().save_to(local_storage)
+# What should we do with our new and cool CID?
+logger.console.print(obj.hash)
 ```
+
+!!! Example
+    It is easy to retrieve our metadata using the tools provided by IPFS. In this case, we can use [DAG](https://docs.ipfs.tech/reference/kubo/cli/#ipfs-dag-get) to traverse DagJose or the compact version using [Block](https://docs.ipfs.tech/reference/kubo/cli/#ipfs-block-get):
+
+        ipfs dag get bagcqceraajwo66kumbcrxf2todw7wjrmayh7tjwaegwigcgpzk745my4qa5a
+        ipfs block get bagcqceraajwo66kumbcrxf2todw7wjrmayh7tjwaegwigcgpzk745my4qa5a
