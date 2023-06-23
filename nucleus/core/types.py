@@ -51,6 +51,8 @@ class Settings(Protocol):
     def __iter__(self) -> Setting:
         """Yield key value pair to build compilation of arguments.
         Allow to convert setting as dict.
+        
+        return: The iterable tuple (key, value) with configuration elements.
         """
         ...
 
@@ -141,7 +143,7 @@ class Path(_ExtensibleStr):
         """Proxy handling pathlib features"""
         return getattr(self._path, name)
 
-    def size(self):
+    def size(self) -> float:
         """Shortcut for Path.size().st_size"""
         return self.stat().st_size
 
@@ -168,7 +170,7 @@ class JSON(UserDict[Any, Any]):
         """Return json as bytes"""
         return bytes(str(self), 'utf-8')
 
-    def parse(self):
+    def parse(self) -> JSON:
         return json.loads(str(self))
 
     def write(self, path: Path) -> Path:

@@ -16,6 +16,7 @@ def connect(db_path: str = DB_DEFAULT, **kwargs: Any) -> Connection:
 
     :param db_path: Sqlite file path
     :return: Connection to database
+    :param **kwargs: Any extra arguments to pass to sqlite connector
     :raises DatabaseError: If any error occurs during connection creation
     """
 
