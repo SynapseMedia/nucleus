@@ -1288,7 +1288,7 @@
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
-<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jwt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JWS</span><span class="p">,</span> <span class="n">JWE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Compact</span><span class="p">:</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jwt</span><span class="p">:</span> <span class="n">JWT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Compact</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Encode JWS/JWE compact serialization when crypto operation notify&quot;&quot;&quot;</span>
     <span class="c1"># set new state for serialization attribute</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_s11n</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
@@ -1400,7 +1400,7 @@ ref: https://ipld.io/specs/codecs/dag-jose/spec/</p>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jwt</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">JWS</span><span class="p">,</span> <span class="n">JWE</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DagJose</span><span class="p">:</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jwt</span><span class="p">:</span> <span class="n">JWT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DagJose</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Encode JWS/JWE general serialization to dag-jose when crypto operation notify&quot;&quot;&quot;</span>
     <span class="n">general_json</span> <span class="o">=</span> <span class="n">json_decode</span><span class="p">(</span><span class="n">jwt</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="kc">False</span><span class="p">))</span>
     <span class="c1"># set new state for serialization attribute</span>

@@ -1130,7 +1130,7 @@
 <h2 id="cryptography-serialization">Cryptography &amp; Serialization</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>In Nucleus, it is possible to extend the signature/encryption algorithms using the <a href="../../reference/expose/types/">KeyRing</a> protocol. You can see the <a href="https://datatracker.ietf.org/doc/html/rfc7518">JWA</a> standard specification for more.</p>
+<p>In Nucleus, it is possible to extend the signature/encryption algorithms using the <a href="../../reference/expose/types/">Keyring</a> protocol. You can see the <a href="https://datatracker.ietf.org/doc/html/rfc7518">JWA</a> standard specification for more.</p>
 </div>
 <p>Now we can start establishing the cryptographic operations and serialization method we want for our metadata. Let's see an example following the same definition as the previous standard:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># serialization and sign operation</span>
@@ -1166,7 +1166,7 @@
 </code></pre></div>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<p>It is easy to retrieve our metadata using the tools provided by IPFS. In this case, we can use <a href="https://docs.ipfs.tech/reference/kubo/cli/#ipfs-dag-get">DAG</a> to traverse DagJose or the compact version using <a href="https://docs.ipfs.tech/reference/kubo/cli/#ipfs-block-get">Block</a>:</p>
+<p>It is easy to retrieve our metadata using the tools provided by IPFS. In this case, we can use <a href="https://docs.ipfs.tech/reference/kubo/cli/#ipfs-dag-get">DAG</a> to traverse DagJose or retrieve the compact version using <a href="https://docs.ipfs.tech/reference/kubo/cli/#ipfs-block-get">Block</a>:</p>
 <div class="highlight"><pre><span></span><code>ipfs dag get bagcqceraajwo66kumbcrxf2todw7wjrmayh7tjwaegwigcgpzk745my4qa5a
 ipfs block get bagcqceraajwo66kumbcrxf2todw7wjrmayh7tjwaegwigcgpzk745my4qa5a
 </code></pre></div>

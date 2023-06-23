@@ -1163,6 +1163,16 @@ music = functools.partial(media_factory, base=Music)
               <em>required</em>
           </td>
         </tr>
+        <tr>
+          <td><code>**kwargs</code></td>
+          <td>
+                <code><span title="nucleus.core.types.Any">Any</span></code>
+          </td>
+          <td><p>The fields to declare into media model</p></td>
+          <td>
+                <code>{}</code>
+          </td>
+        </tr>
     </tbody>
   </table>
 
@@ -1220,7 +1230,8 @@ music = functools.partial(media_factory, base=Music)
 <span class="normal">25</span>
 <span class="normal">26</span>
 <span class="normal">27</span>
-<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">media_factory</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">base</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+<span class="normal">28</span>
+<span class="normal">29</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">media_factory</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">base</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generic model factory.</span>
 <span class="sd">    Allows the creation of a new model based on the given `base` model.</span>
 
@@ -1230,6 +1241,7 @@ music = functools.partial(media_factory, base=Music)
 <span class="sd">        music = functools.partial(media_factory, base=Music)</span>
 
 <span class="sd">    :param base: The base type for model</span>
+<span class="sd">    :param **kwargs: The fields to declare into media model</span>
 <span class="sd">    :return: New media type instance</span>
 <span class="sd">    :raises ModelValidationError: If model fails during schema validation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
