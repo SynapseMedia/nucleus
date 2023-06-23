@@ -22,7 +22,7 @@ sep001 = expose.standard(media_type)
 ## Cryptography & Serialization
 
 !!! Note
-    In Nucleus, it is possible to extend the signature/encryption algorithms using the [KeyRing](../reference/expose/types.md) protocol. You can see the [JWA](https://datatracker.ietf.org/doc/html/rfc7518) standard specification for more.
+    In Nucleus, it is possible to extend the signature/encryption algorithms using the [Keyring](../reference/expose/types.md) protocol. You can see the [JWA](https://datatracker.ietf.org/doc/html/rfc7518) standard specification for more.
 
 Now we can start establishing the cryptographic operations and serialization method we want for our metadata. Let's see an example following the same definition as the previous standard:
 
@@ -73,8 +73,8 @@ obj = sep001.serialize().save_to(local_storage)
 logger.console.print(obj.hash)
 ```
 
-!!! Example
-    It is easy to retrieve our metadata using the tools provided by IPFS. In this case, we can use [DAG](https://docs.ipfs.tech/reference/kubo/cli/#ipfs-dag-get) to traverse DagJose or the compact version using [Block](https://docs.ipfs.tech/reference/kubo/cli/#ipfs-block-get):
+!!! example
+    It is easy to retrieve our metadata using the tools provided by IPFS. In this case, we can use [DAG](https://docs.ipfs.tech/reference/kubo/cli/#ipfs-dag-get) to traverse DagJose or retrieve the compact version using [Block](https://docs.ipfs.tech/reference/kubo/cli/#ipfs-block-get):
 
         ipfs dag get bagcqceraajwo66kumbcrxf2todw7wjrmayh7tjwaegwigcgpzk745my4qa5a
         ipfs block get bagcqceraajwo66kumbcrxf2todw7wjrmayh7tjwaegwigcgpzk745my4qa5a

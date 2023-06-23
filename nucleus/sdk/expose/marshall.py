@@ -8,7 +8,7 @@ from jwcrypto.common import json_decode
 from nucleus.core.types import CID, JSON, List, Raw, Setting, Union
 from nucleus.sdk.storage import Object, Store
 
-from .types import JWE, JWS, Standard
+from .types import JWT, Standard
 
 
 def _cid_from_bytes(data: bytes, codec: str = 'raw') -> CID:
@@ -48,7 +48,7 @@ class DagJose:
         """
         return bytes(self._cid)
 
-    def update(self, jwt: Union[JWS, JWE]) -> DagJose:
+    def update(self, jwt: JWT) -> DagJose:
         """Encode JWS/JWE general serialization to dag-jose when crypto operation notify"""
         general_json = json_decode(jwt.serialize(False))
         # set new state for serialization attribute
@@ -104,7 +104,7 @@ class Compact:
             payload[key] = str(_cid_from_bytes(raw_claim))
         return JSON(payload)
 
-    def update(self, jwt: Union[JWS, JWE]) -> Compact:
+    def update(self, jwt: JWT) -> Compact:
         """Encode JWS/JWE compact serialization when crypto operation notify"""
         # set new state for serialization attribute
         self._s11n = jwt.serialize(True)

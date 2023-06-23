@@ -10,7 +10,7 @@ JWS = jws.JWS
 JWE = jwe.JWE
 
 Claims = Literal['s', 'd', 't']
-Operations = Union[JWS, JWE]
+JWT = Union[JWS, JWE]
 
 
 class Metadata(Protocol):
@@ -56,34 +56,49 @@ class Serializer(Protocol):
     """
 
     def __str__(self) -> str:
-        """The serialized data as string"""
+        """The serialized data as string
+        
+        :return: 
+        """
         ...
 
     def __bytes__(self) -> bytes:
-        """The payload data ready to sign/encrypt"""
+        """The payload data ready to sign/encrypt
+        
+        :return:
+        """
         ...
 
     def __iter__(self) -> Setting:
-        """Expected to use to provide additions to the header registry"""
+        """Yield `typ` headers specified in RFC 7517/7516 standard.
+        
+        :return: The iterable media type settings
+        """
         ...
 
     def __init__(self, standard: Standard):
-        """Serializer must be initialized with Standard implementation"""
+        """Serializer must be initialized with Standard implementation
+        
+        :param standard: The standard implementation
+        """
         ...
 
     def save_to(self, store: Store) -> Object:
         """Could be used to store assets.
         eg. After generate CID from payload dag-cbor we need to store the bytes into blocks
+        
+        :param store: The local store function
+        :return: Object instance
         """
 
         ...
 
-    def update(self, jwt: Operations) -> Serializer:
+    def update(self, jwt: JWT) -> Serializer:
         """Receive updates when serialization is ready to handle any additional encoding step.
         In this step we could add a new state or operate over JWS/JWE to handle any additional encoding.
 
-        :param jwt: JWT to handle
-        :return: ready to use Serializer
+        :param jwt: The type of JWT implementation to handle
+        :return: Self serializer
         """
         ...
 
@@ -94,23 +109,40 @@ class Keyring(Protocol):
     """
 
     def __iter__(self) -> Setting:
-        """Yield needed headers to add into signature/recipient"""
+        """Yield `alg` and `jwk` headers specified in RFC 7517/7516 standard.
+        
+        :return: The iterable header settings to associate
+        """
         ...
 
     def jwk(self) -> JWK:
-        """Return the internal JWK (JSON Web Key) instance"""
+        """Return the internal JWK (JSON Web Key) instance
+        
+        :return: The JWK (JSON Web Key) instance
+        """
         ...
 
     def fingerprint(self) -> str:
-        """Return the base64 decoded thumbprint as specified by RFC 7638"""
+        """Return the base64 decoded thumbprint as specified by RFC 7638
+        
+        :return: The decoded thumbprint as string. eg: sha256, blake, etc..
+        
+        """
         ...
 
     def from_dict(self, raw_key: Raw) -> Keyring:
-        """Initialize Keyring from JWK standard JSON format"""
+        """Initialize Keyring using JWK JSON format
+        
+        :param raw_key: Keyring to import as dict (JSON format)
+        :return: KeyRing object
+        """
         ...
 
     def as_dict(self) -> Raw:
-        """Export Keyring as JWK in standard JSON format"""
+        """Export Keyring as JWK JSON format
+        
+        :return: Keyring as dict
+        """
         ...
 
 
@@ -118,12 +150,17 @@ class Crypto(Protocol):
     """Specify a pub/sub middleware that handle cryptographic operations on serializers."""
 
     def __init__(self, serializer: Serializer):
-        """Initialize with the serializer on which we will operate."""
+        """Initialize with the serializer on which we will operate.
+        
+        :param serializer: The serializer implementation
+        """
         ...
 
     def serialize(self) -> Serializer:
         """Notify the underlying serializer of the current state of the cryptographic operation.
         During this process, the serializer may modify its state or store the results of the operations.
+        
+        :return: The input Serializer with a new ready to use state
         """
         ...
 

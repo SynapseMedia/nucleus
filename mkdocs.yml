@@ -41,6 +41,7 @@ nav:
         - Types: reference/expose/types.md
     - Exceptions: reference/exceptions.md
     
+    
     # more here
   - Developer Guide:
     - Overview: dev/index.md
@@ -50,7 +51,6 @@ nav:
     # - Extending Engines: dev/arch.md
     # - Extending Clients and Services: dev/arch.md
     # - Release notes: dev/arch.md
-
 
 extra:
   analytics:
