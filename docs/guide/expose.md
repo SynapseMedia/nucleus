@@ -2,7 +2,7 @@
 
 After learning how to collect, process, and store our media, it's time to understand how to distribute our metadata to reach our target audience. In this guide, we will explore the necessary steps to process the metadata standard and its corresponding distribution through the federated network.
 
-## SEP001 Standard
+## SEP-001 Standard
 
 Assuming you are already familiar with the anatomy of the standard, let's now examine its implementation. The adoption of the standard is crucial in ensuring smooth integration and compatibility across the federated network. By adhering to the standard defined in SEP001, metadata is effectively handled through an interface that facilitates signing, payload assignment, and the necessary headers.
 

@@ -59,29 +59,16 @@ class Engine(ABC):
     """Engine implements a media engine abstract adapter.
     It uses an underlying library as an interface to process media files.
     It produce output based on the provided settings.
-    Use this class to create engine subtypes.
-
-    Usage:
-
-        class MusicEngine(Engine):
-
-            def __init__(self, lib: MusicLib):
-                super().__init__(lib)
-
-            def introspect(self, path: Path) -> Introspection:
-                # implementation for introspecting the music file at the specified path
-                ...
-
-            def save(self, path: Path) -> File:
-                # implementation for saving the processed music file to the specified path
-                ...
     """
 
     _library: Any
     _settings: List[Settings]
 
     def __init__(self, lib: Any):
-        """Initialize a new instance with bound library"""
+        """Initialize a new instance with bound library
+        
+        :param lib: Any underlying lib
+        """
         self._library = lib
         self._settings = []
 

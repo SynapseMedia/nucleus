@@ -18,7 +18,7 @@ def engine(media: Media[Path]) -> Engine:
 
     Usage:
 
-        # create an image type to pass into engine function 
+        # create an image type to pass into engine function
         image = harvest.image(path=Path("image.jpg"))
         engine = processing.engine(image)
 

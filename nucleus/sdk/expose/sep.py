@@ -15,9 +15,7 @@ ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.mdhttps://github.
 
 @dataclass
 class Header:
-    """JWT Header standard based on SEP-001:
-    ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
-    """
+    """SEP-001 Header implementation."""
 
     # Is used by JWT applications to declare the media type [IANA.MediaTypes]
     # of this complete JWT
@@ -26,9 +24,7 @@ class Header:
 
 @dataclass(init=False)
 class Payload:
-    """JWT Payload standard based on SEP-001:
-    ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
-    """
+    """SEP-001 Payload implementation."""
 
     s: Raw  # s: structural metadata Object
     d: Raw  # d: descriptive metadata Object
@@ -46,8 +42,9 @@ class Payload:
 
 @dataclass(slots=True)
 class SEP001:
-    """SEP-001 standard implementation:
-    ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+    """SEP-001 standard implementation.
+    
+    `ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md`
     """
 
     _header: Header
@@ -55,13 +52,13 @@ class SEP001:
 
     _keys: List[Keyring] = field(init=False)
     # serialization method eg. DagJose, Compact, etc
-    _method: Type[Serializer] = field(init=False)
+    _serializer: Type[Serializer] = field(init=False)
     # crypto operation type eg. Sign, Cypher
     _crypto: Type[Crypto] = field(init=False)
 
     def __post_init__(self):
         self._keys = []
-        self._method = DagJose  # default
+        self._serializer = DagJose  # default
         self._crypto = Sign  # default
 
     def header(self) -> Raw:
@@ -74,13 +71,13 @@ class SEP001:
         """Add signature/recipient key.
         We use the keys later in the serialization process.
 
-        :param kr: Key ring implementation
+        :param kr: Keyring implementation
         :return: None
         """
         self._keys.append(kr)
 
     def add_metadata(self, meta: Metadata) -> None:
-        """Add metadata to payload
+        """Add metadata to payload.
 
         :param meta: The metadata type to store in payload
         :return: None
@@ -95,20 +92,20 @@ class SEP001:
         """
         self._crypto = crypto
 
-    def set_serialization(self, method: Type[Serializer]) -> None:
-        """Set the serialization method.
+    def set_serialization(self, serializer: Type[Serializer]) -> None:
+        """Set the serializer to use during serialization.
 
-        :param method: The serialization method
+        :param serializer: The serializer type
         :return: None
         """
-        self._method = method
+        self._serializer = serializer
 
     def serialize(self) -> Serializer:
         """Serialize the standard according to the defined serialization method and crypto operation.
 
-        :return: the out-of-the-box/ready-state serializer
+        :return: the ready-state serializer
         """
-        serializer = self._method(self)
+        serializer = self._serializer(self)
         crypto = self._crypto(serializer)
 
         # associate keys

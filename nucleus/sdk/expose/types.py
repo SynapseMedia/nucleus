@@ -25,60 +25,66 @@ class Metadata(Protocol):
 
     def __str__(self) -> Claims:
         """Metadata types MUST return the specified claims as a string.
-        Examples of valid claims include: s, t, d
+        Examples of valid claims include:
+            s, t, d
+
+        :return: The claim type specified in SEP-001
         """
         ...
 
 
 class Standard(Protocol):
-    """Standard defines the expected behavior of Standard implementations.
-    ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+    """Standard defines the expected behavior of Standard implementations according to SEP-001.
+    `ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md`
+
     """
 
     def header(self) -> Raw:
-        """Return the standard header"""
+        """Return the standard header
+
+        :return:
+        """
         ...
 
     def payload(self) -> Raw:
-        """Return the standard payload"""
+        """Return the standard payload
+
+        :return:
+        """
         ...
 
 
 class Serializer(Protocol):
-    """Serializer observer specifies the methods needed to handle SEP001 serialization.
-    Defines how to handle serialization for each strategy according to the specification, which includes:
-
-    - Compact
-    - DAG-JOSE
-
-    This template class must be implemented by other classes that provide concrete serialization logic.
-    ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+    """Serializer specifies an observer with the necessary methods to handle SEP-001 serialization.
+    It defines how to handle serialization for each strategy according to the specification.
+    
+    `ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md`
     """
 
     def __str__(self) -> str:
-        """The serialized data as string
-        
-        :return: 
+        """Serialization as string.
+
+        :return:
         """
         ...
 
     def __bytes__(self) -> bytes:
-        """The payload data ready to sign/encrypt
-        
+        """Serialization as bytes.
+
         :return:
         """
         ...
 
     def __iter__(self) -> Setting:
-        """Yield `typ` headers specified in RFC 7517/7516 standard.
-        
+        """Yield `typ` headers specified in SEP-001 standard.
+
         :return: The iterable media type settings
         """
         ...
 
     def __init__(self, standard: Standard):
-        """Serializer must be initialized with Standard implementation
-        
+        """Serializer must be initialized with Standard implementation.
+
         :param standard: The standard implementation
         """
         ...
@@ -86,7 +92,7 @@ class Serializer(Protocol):
     def save_to(self, store: Store) -> Object:
         """Could be used to store assets.
         eg. After generate CID from payload dag-cbor we need to store the bytes into blocks
-        
+
         :param store: The local store function
         :return: Object instance
         """
@@ -94,10 +100,10 @@ class Serializer(Protocol):
         ...
 
     def update(self, jwt: JWT) -> Serializer:
-        """Receive updates when serialization is ready to handle any additional encoding step.
-        In this step we could add a new state or operate over JWS/JWE to handle any additional encoding.
+        """Receive updates when cryptographic operations are ready to handle any additional encoding step.
+        This step allows for adding a new state or performing operations on JWS/JWE to handle additional encoding.
 
-        :param jwt: The type of JWT implementation to handle
+        :param jwt: The type of JWT implementation to handle.
         :return: Self serializer
         """
         ...
@@ -109,30 +115,29 @@ class Keyring(Protocol):
     """
 
     def __iter__(self) -> Setting:
-        """Yield `alg` and `jwk` headers specified in RFC 7517/7516 standard.
-        
+        """Yield `alg` and `jwk` headers specified in RFC 7517-7516 standard.
+
         :return: The iterable header settings to associate
         """
         ...
 
     def jwk(self) -> JWK:
         """Return the internal JWK (JSON Web Key) instance
-        
+
         :return: The JWK (JSON Web Key) instance
         """
         ...
 
     def fingerprint(self) -> str:
         """Return the base64 decoded thumbprint as specified by RFC 7638
-        
+
         :return: The decoded thumbprint as string. eg: sha256, blake, etc..
-        
         """
         ...
 
     def from_dict(self, raw_key: Raw) -> Keyring:
         """Initialize Keyring using JWK JSON format
-        
+
         :param raw_key: Keyring to import as dict (JSON format)
         :return: KeyRing object
         """
@@ -140,18 +145,20 @@ class Keyring(Protocol):
 
     def as_dict(self) -> Raw:
         """Export Keyring as JWK JSON format
-        
+
         :return: Keyring as dict
         """
         ...
 
 
 class Crypto(Protocol):
-    """Specify a pub/sub middleware that handle cryptographic operations on serializers."""
+    """Crypto specifies a pub/sub middleware that handles cryptographic operations on serializers.
+    It notifies serializers when crypto operations are ready to be used.
+    """
 
     def __init__(self, serializer: Serializer):
         """Initialize with the serializer on which we will operate.
-        
+
         :param serializer: The serializer implementation
         """
         ...
@@ -159,7 +166,7 @@ class Crypto(Protocol):
     def serialize(self) -> Serializer:
         """Notify the underlying serializer of the current state of the cryptographic operation.
         During this process, the serializer may modify its state or store the results of the operations.
-        
+
         :return: The input Serializer with a new ready to use state
         """
         ...

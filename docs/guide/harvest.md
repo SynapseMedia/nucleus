@@ -4,7 +4,7 @@ The data harvesting stage involves obtaining "raw" information that is available
 
 ## Metadata
 
-Metadata collection is carried out using models created based on the requirements of each user and following the [SEP001](https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md) specification (the standard on which Nucleus is based for metadata management), which provides flexibility for different use cases.
+Metadata collection is carried out using models created based on the requirements of each user and following the [SEP-001](https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md) specification (the standard on which Nucleus is based for metadata management), which provides flexibility for different use cases.
 
 Underneath the validation and schematization of the models is [pydantic](https://docs.pydantic.dev/latest/), so we can use [python standard library](https://docs.pydantic.dev/latest/usage/types/#standard-library-types) types to define fields.
 

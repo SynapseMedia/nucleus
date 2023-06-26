@@ -51,7 +51,7 @@ class Settings(Protocol):
     def __iter__(self) -> Setting:
         """Yield key value pair to build compilation of arguments.
         Allow to convert setting as dict.
-        
+
         return: The iterable tuple (key, value) with configuration elements.
         """
         ...
@@ -69,7 +69,7 @@ class _ExtensibleStr(str):
 
 class CID(_ExtensibleStr):
     """Enhanced bridge string type extended with features needed to handle CIDs
-    ref: https://multiformats.readthedocs.io/en/latest/cid.html
+    https://multiformats.readthedocs.io/en/latest/cid.html
     """
 
     _cid: MultiFormatCID
@@ -100,7 +100,8 @@ class CID(_ExtensibleStr):
 
 class URL(_ExtensibleStr):
     """Enhanced bridge string type extended with features needed to handle urls
-    ref: https://docs.python.org/3/library/urllib.parse.html#module-urllib.parse
+    `Link text <https://docs.python.org/3/library/urllib.parse.html#module-urllib.parse>`_
+
     """
 
     _parsed: parse.ParseResult
