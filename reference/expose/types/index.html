@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://synapsemedia.io/reference/expose/types/">
       
       
-        <link rel="prev" href="../../storage/utilities/">
+        <link rel="prev" href="../utilities/">
       
       
         <link rel="next" href="../../exceptions/">
@@ -829,6 +829,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../standard/" class="md-nav__link">
+        Standard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keys/" class="md-nav__link">
+        Keys
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../serializers/" class="md-nav__link">
         Serializers
       </a>
@@ -843,7 +871,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../storage/utilities/" class="md-nav__link">
+      <a href="../operations/" class="md-nav__link">
         Operations
       </a>
     </li>
@@ -857,7 +885,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../storage/utilities/" class="md-nav__link">
+      <a href="../metadata/" class="md-nav__link">
         Metadata
       </a>
     </li>
@@ -871,21 +899,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../storage/utilities/" class="md-nav__link">
-        Keys
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../storage/utilities/" class="md-nav__link">
+      <a href="../utilities/" class="md-nav__link">
         Utilities
       </a>
     </li>
@@ -1042,6 +1056,53 @@
           <li class="md-nav__item">
   <a href="#nucleus.sdk.expose.types.Crypto.serialize" class="md-nav__link">
     serialize()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Metadata" class="md-nav__link">
+    Metadata
+  </a>
+  
+    <nav class="md-nav" aria-label="Metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Metadata.__str__" class="md-nav__link">
+    __str__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Standard" class="md-nav__link">
+    Standard
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Standard.header" class="md-nav__link">
+    header()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Standard.payload" class="md-nav__link">
+    payload()
   </a>
   
 </li>
@@ -1297,6 +1358,53 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Metadata" class="md-nav__link">
+    Metadata
+  </a>
+  
+    <nav class="md-nav" aria-label="Metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Metadata.__str__" class="md-nav__link">
+    __str__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Standard" class="md-nav__link">
+    Standard
+  </a>
+  
+    <nav class="md-nav" aria-label="Standard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Standard.header" class="md-nav__link">
+    header()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Standard.payload" class="md-nav__link">
+    payload()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1379,7 +1487,7 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Yield <code>alg</code> and <code>jwk</code> headers specified in RFC 7517/7516 standard.</p>
+      <p>Yield <code>alg</code> and <code>jwk</code> headers specified in RFC 7517-7516 standard.</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -1401,13 +1509,13 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Setting</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield `alg` and `jwk` headers specified in RFC 7517/7516 standard.</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Setting</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield `alg` and `jwk` headers specified in RFC 7517-7516 standard.</span>
 
 <span class="sd">    :return: The iterable header settings to associate</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1452,12 +1560,12 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Raw</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Raw</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Export Keyring as JWK JSON format</span>
 
 <span class="sd">    :return: Keyring as dict</span>
@@ -1503,17 +1611,15 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fingerprint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fingerprint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the base64 decoded thumbprint as specified by RFC 7638</span>
 
 <span class="sd">    :return: The decoded thumbprint as string. eg: sha256, blake, etc..</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>
 </code></pre></div></td></tr></table></div>
@@ -1580,13 +1686,13 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_key</span><span class="p">:</span> <span class="n">Raw</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Keyring</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_key</span><span class="p">:</span> <span class="n">Raw</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Keyring</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize Keyring using JWK JSON format</span>
 
 <span class="sd">    :param raw_key: Keyring to import as dict (JSON format)</span>
@@ -1633,12 +1739,12 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">jwk</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JWK</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">jwk</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JWK</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the internal JWK (JSON Web Key) instance</span>
 
 <span class="sd">    :return: The JWK (JSON Web Key) instance</span>
@@ -1673,17 +1779,12 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
         Bases: <code><span title="nucleus.core.types.Protocol">Protocol</span></code></p>
 
   
-      <p>Serializer observer specifies the methods needed to handle SEP001 serialization.
-Defines how to handle serialization for each strategy according to the specification, which includes:</p>
-<ul>
-<li>Compact</li>
-<li>DAG-JOSE</li>
-</ul>
-<p>This template class must be implemented by other classes that provide concrete serialization logic.
-ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</p>
+      <p>Serializer specifies an observer with the necessary methods to handle SEP-001 serialization.
+It defines how to handle serialization for each strategy according to the specification.</p>
+<p><code>ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</code></p>
 
   
-      <p>Serializer must be initialized with Standard implementation</p>
+      <p>Serializer must be initialized with Standard implementation.</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -1699,7 +1800,7 @@ ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</p>
         <tr>
           <td><code>standard</code></td>
           <td>
-                <code><span title="nucleus.sdk.expose.types.Standard">Standard</span></code>
+                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.expose.types.Standard" href="#nucleus.sdk.expose.types.Standard">Standard</a></code>
           </td>
           <td><p>The standard implementation</p></td>
           <td>
@@ -1711,13 +1812,13 @@ ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</p>
 
           <details class="quote">
             <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">standard</span><span class="p">:</span> <span class="n">Standard</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serializer must be initialized with Standard implementation</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">standard</span><span class="p">:</span> <span class="n">Standard</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serializer must be initialized with Standard implementation.</span>
 
 <span class="sd">    :param standard: The standard implementation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1749,7 +1850,7 @@ ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</p>
 
   <div class="doc doc-contents ">
   
-      <p>The payload data ready to sign/encrypt</p>
+      <p>Serialization as bytes.</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -1771,13 +1872,13 @@ ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The payload data ready to sign/encrypt</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__bytes__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialization as bytes.</span>
 
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1800,7 +1901,7 @@ ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</p>
 
   <div class="doc doc-contents ">
   
-      <p>Yield <code>typ</code> headers specified in RFC 7517/7516 standard.</p>
+      <p>Yield <code>typ</code> headers specified in SEP-001 standard.</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -1822,13 +1923,13 @@ ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Setting</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield `typ` headers specified in RFC 7517/7516 standard.</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Setting</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield `typ` headers specified in SEP-001 standard.</span>
 
 <span class="sd">    :return: The iterable media type settings</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1851,7 +1952,7 @@ ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</p>
 
   <div class="doc doc-contents ">
   
-      <p>The serialized data as string</p>
+      <p>Serialization as string.</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -1873,15 +1974,15 @@ ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The serialized data as string</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialization as string.</span>
 
-<span class="sd">    :return: </span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>
 </code></pre></div></td></tr></table></div>
@@ -1949,15 +2050,15 @@ eg. After generate CID from payload dag-cbor we need to store the bytes into blo
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">:</span> <span class="n">Store</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Object</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">:</span> <span class="n">Store</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Object</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Could be used to store assets.</span>
 <span class="sd">    eg. After generate CID from payload dag-cbor we need to store the bytes into blocks</span>
 
@@ -1984,8 +2085,8 @@ eg. After generate CID from payload dag-cbor we need to store the bytes into blo
 
   <div class="doc doc-contents ">
   
-      <p>Receive updates when serialization is ready to handle any additional encoding step.
-In this step we could add a new state or operate over JWS/JWE to handle any additional encoding.</p>
+      <p>Receive updates when cryptographic operations are ready to handle any additional encoding step.
+This step allows for adding a new state or performing operations on JWS/JWE to handle additional encoding.</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -2003,7 +2104,7 @@ In this step we could add a new state or operate over JWS/JWE to handle any addi
           <td>
                 <code><span title="nucleus.sdk.expose.types.JWT">JWT</span></code>
           </td>
-          <td><p>The type of JWT implementation to handle</p></td>
+          <td><p>The type of JWT implementation to handle.</p></td>
           <td>
               <em>required</em>
           </td>
@@ -2031,18 +2132,18 @@ In this step we could add a new state or operate over JWS/JWE to handle any addi
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jwt</span><span class="p">:</span> <span class="n">JWT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Serializer</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Receive updates when serialization is ready to handle any additional encoding step.</span>
-<span class="sd">    In this step we could add a new state or operate over JWS/JWE to handle any additional encoding.</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jwt</span><span class="p">:</span> <span class="n">JWT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Serializer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Receive updates when cryptographic operations are ready to handle any additional encoding step.</span>
+<span class="sd">    This step allows for adding a new state or performing operations on JWS/JWE to handle additional encoding.</span>
 
-<span class="sd">    :param jwt: The type of JWT implementation to handle</span>
+<span class="sd">    :param jwt: The type of JWT implementation to handle.</span>
 <span class="sd">    :return: Self serializer</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>
@@ -2075,7 +2176,8 @@ In this step we could add a new state or operate over JWS/JWE to handle any addi
         Bases: <code><span title="nucleus.core.types.Protocol">Protocol</span></code></p>
 
   
-      <p>Specify a pub/sub middleware that handle cryptographic operations on serializers.</p>
+      <p>Crypto specifies a pub/sub middleware that handles cryptographic operations on serializers.
+It notifies serializers when crypto operations are ready to be used.</p>
 
   
       <p>Initialize with the serializer on which we will operate.</p>
@@ -2106,12 +2208,12 @@ In this step we could add a new state or operate over JWS/JWE to handle any addi
 
           <details class="quote">
             <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serializer</span><span class="p">:</span> <span class="n">Serializer</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serializer</span><span class="p">:</span> <span class="n">Serializer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize with the serializer on which we will operate.</span>
 
 <span class="sd">    :param serializer: The serializer implementation</span>
@@ -2190,13 +2292,13 @@ In this step we could add a new state or operate over JWS/JWE to handle any addi
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kr</span><span class="p">:</span> <span class="n">Keyring</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Crypto</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kr</span><span class="p">:</span> <span class="n">Keyring</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Crypto</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Bind keys to the serialization process.</span>
 
 <span class="sd">    :param kr: Keyring to associate with operation</span>
@@ -2244,17 +2346,263 @@ During this process, the serializer may modify its state or store the results of
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Serializer</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Serializer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Notify the underlying serializer of the current state of the cryptographic operation.</span>
 <span class="sd">    During this process, the serializer may modify its state or store the results of the operations.</span>
 
 <span class="sd">    :return: The input Serializer with a new ready to use state</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.expose.types.Metadata" class="doc doc-heading">
+        <code>Metadata</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="nucleus.core.types.Protocol">Protocol</span></code></p>
+
+  
+      <p>Metadata defines the expected behavior of metadata types.
+Examples of metadata types include:</p>
+<ul>
+<li>Descriptive</li>
+<li>Structural</li>
+<li>Technical</li>
+</ul>
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="nucleus.sdk.expose.types.Metadata.__str__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__str__</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Metadata types MUST return the specified claims as a string.
+Examples of valid claims include:
+    s, t, d</p>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="nucleus.sdk.expose.types.Claims">Claims</span></code>
+          </td>
+          <td><p>The claim type specified in SEP-001</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Claims</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata types MUST return the specified claims as a string.</span>
+<span class="sd">    Examples of valid claims include:</span>
+<span class="sd">        s, t, d</span>
+
+<span class="sd">    :return: The claim type specified in SEP-001</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="nucleus.sdk.expose.types.Standard" class="doc doc-heading">
+        <code>Standard</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="nucleus.core.types.Protocol">Protocol</span></code></p>
+
+  
+      <p>Standard defines the expected behavior of Standard implementations according to SEP-001.
+<code>ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md</code></p>
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="nucleus.sdk.expose.types.Standard.header" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">header</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return the standard header</p>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="nucleus.core.types.Raw">Raw</span></code>
+          </td>
+          <td></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">header</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Raw</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the standard header</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="nucleus.sdk.expose.types.Standard.payload" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">payload</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return the standard payload</p>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="nucleus.core.types.Raw">Raw</span></code>
+          </td>
+          <td></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">payload</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Raw</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the standard payload</span>
+
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>
 </code></pre></div></td></tr></table></div>

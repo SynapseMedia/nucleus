@@ -13,10 +13,10 @@
         <link rel="canonical" href="https://synapsemedia.io/reference/storage/utilities/">
       
       
-        <link rel="prev" href="./">
+        <link rel="prev" href="../services/">
       
       
-        <link rel="next" href="../../expose/types/">
+        <link rel="next" href="../types/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
@@ -722,14 +722,16 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
       
       
       
@@ -738,7 +740,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3_3">
           <span class="md-nav__icon md-icon"></span>
           Storage
@@ -763,8 +765,10 @@
               
   
   
+    
   
-    <li class="md-nav__item">
+  
+    <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
@@ -840,16 +844,14 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
       
       
       
@@ -858,12 +860,40 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_3_4">
           <span class="md-nav__icon md-icon"></span>
           Expose
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../expose/standard/" class="md-nav__link">
+        Standard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../expose/keys/" class="md-nav__link">
+        Keys
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -885,7 +915,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./" class="md-nav__link">
+      <a href="../../expose/operations/" class="md-nav__link">
         Operations
       </a>
     </li>
@@ -899,7 +929,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./" class="md-nav__link">
+      <a href="../../expose/metadata/" class="md-nav__link">
         Metadata
       </a>
     </li>
@@ -913,67 +943,9 @@
   
   
     <li class="md-nav__item">
-      <a href="./" class="md-nav__link">
-        Keys
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Utilities
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="../../expose/utilities/" class="md-nav__link">
         Utilities
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#nucleus.sdk.storage.store.ipfs" class="md-nav__link">
-    ipfs()
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#built-in-partials" class="md-nav__link">
-    Built-in partials
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1447,9 +1419,9 @@ stored_object = store(b&#39;test bytes&#39;) # auto-choose the storage strategy
 <div class="highlight"><pre><span></span><code><span class="c1"># default request to https://api.estuary.tech</span>
 <span class="n">estuary</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">Estuary</span><span class="p">,</span> <span class="n">ESTUARY_API_BASE</span><span class="p">)</span>
 </code></pre></div>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>These partial allows the fast creation of <a href="../services/">services</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These partial allows the fast creation of <a href="../services/">services</a>. Any storage service that exposes an API is compatible and can be integrated into the SDK by implementing the <a href="../types/">service protocol</a>.</p>
 </div>
 
 
