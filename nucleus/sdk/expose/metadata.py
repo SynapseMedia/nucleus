@@ -2,8 +2,14 @@ from nucleus.core.types import CID, Dynamic, Optional
 
 
 class Structural(Dynamic):
-    """Structural metadata implementation.
-    https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+    """Structural "s" claim metadata implementation.
+
+    Usage:
+
+        # example of populating "s" claim
+        s = Structural(cid="QmZG1jK2zYyzdHZtkZb9f9Uu3qQ2Ru6yvLjWFRV8ZuM6aM")
+        s_with_path = Structural(cid="QmZG1jK2zYyzdHZtkZb9f9Uu3qQ2Ru6yvLjWFRV8ZuM6aM", path="/videos/example_video.mp4")
+
     """
 
     cid: CID
@@ -14,8 +20,18 @@ class Structural(Dynamic):
 
 
 class Descriptive(Dynamic):
-    """Descriptive metadata implementation.
-    https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+    """Descriptive "d" claim metadata implementation.
+
+    Usage:
+
+        # example of populating "d" claim
+        d = Descriptive(
+            name="Example",
+            description="Example description",
+            language="English",
+            author="NASA",
+        )
+
     """
 
     name: str
@@ -26,8 +42,18 @@ class Descriptive(Dynamic):
 
 
 class Technical(Dynamic):
-    """Technical metadata implementation.
-    https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md
+    """Technical "t" claim metadata implementation.
+
+    Usage:
+
+        # example of populating "t" claim
+        t = Technical(
+            size=1024,
+            width=256,
+            height=256,
+            length=90
+        )
+
     """
 
     size: int

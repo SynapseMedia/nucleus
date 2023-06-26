@@ -61,3 +61,4 @@ video_engine.save(Path("index.m3u8"))
 
 !!! info
     Given that the engines emulate the underlying libraries, the available settings are based on the methods or configurations set within each respective library. For further details on the available settings, please refer to the [video](../reference/processing/video/settings.md) or [image](../reference/processing/image/settings.md) documentation.
+

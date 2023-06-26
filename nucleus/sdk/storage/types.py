@@ -51,21 +51,7 @@ Store = Callable[[Storable], Object]
 
 class Client(Protocol):
     """Provides an standard interface for handling IPFS storage services. Each storage service
-    represents a remote cache service, such as Estuary. This class can be used as a base to
-    create subtypes for specific edge clients.
-
-    Usage:
-
-        class EdgeService:
-
-            def pin(self, obj: Object, **kwargs: Any) -> Pin:
-                # implementation for pinning the object
-                ...
-
-            def unpin(self, cid: CID) -> CID:
-                # implementation for unpinning the CID
-                ...
-
+    represents a remote cache service, such as Estuary.
     """
 
     def pin(self, obj: Object) -> Pin:

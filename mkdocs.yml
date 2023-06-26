@@ -33,11 +33,12 @@ nav:
         - Utilities: reference/storage/utilities.md
         - Types: reference/storage/types.md
     - Expose:
+        - Standard: reference/expose/standard.md
+        - Keys: reference/expose/keys.md
         - Serializers: reference/expose/serializers.md
-        - Operations: reference/storage/utilities.md
-        - Metadata: reference/storage/utilities.md
-        - Keys: reference/storage/utilities.md
-        - Utilities: reference/storage/utilities.md
+        - Operations: reference/expose/operations.md
+        - Metadata: reference/expose/metadata.md
+        - Utilities: reference/expose/utilities.md
         - Types: reference/expose/types.md
     - Exceptions: reference/exceptions.md
     

@@ -17,5 +17,5 @@
 estuary = functools.partial(Estuary, ESTUARY_API_BASE)
 ```
 
-!!! info
-    These partial allows the fast creation of [services](./services.md).
+!!! note
+    These partial allows the fast creation of [services](./services.md). Any storage service that exposes an API is compatible and can be integrated into the SDK by implementing the [service protocol](./types.md).

@@ -67,7 +67,10 @@ class SignKeyRing:
     _jwk: JWK = field(init=False)
 
     def __iter__(self) -> Setting:
-        """Yield needed headers to add into signature"""
+        """Yield `alg` and `jwk` headers specified in RFC 7517-7516 standard.
+
+        :return: The iterable header settings to associate
+        """
         yield 'alg', self.alg.value
         yield 'jwk', self._jwk.export_public(True)
 
@@ -85,21 +88,34 @@ class SignKeyRing:
         )
 
     def jwk(self) -> JWK:
-        """Return the internal JWK (JSON Web Key) instance"""
+        """Return the internal JWK (JSON Web Key) instance
+
+        :return: The JWK (JSON Web Key) instance
+        """
         return self._jwk
 
     def as_dict(self) -> Raw:
-        """Export Keyring as JWK in standard JSON format"""
+        """Export Keyring as JWK JSON format
+
+        :return: Keyring as dict
+        """
         return self._jwk.export(True, True)  # type: ignore
 
     def from_dict(self, raw_key: Raw) -> SignKeyRing:
-        """Initialize Keyring from JWK standard JSON format"""
+        """Initialize Keyring using JWK JSON format
+
+        :param raw_key: Keyring to import as dict (JSON format)
+        :return: KeyRing object
+        """
         json_string = str(JSON(raw_key))
         self._jwk = JWK.from_json(json_string)
         return self
 
     def fingerprint(self):
-        """Return the decoded sha256 thumbprint"""
+        """Return the base64 decoded thumbprint as specified by RFC 7638.
+        
+        :return: The decoded sha256 thumbprint.
+        """
         b64_thumbprint = self._jwk.thumbprint()
         decoded_thumbprint = base64url_decode(b64_thumbprint)
         return decoded_thumbprint.hex()

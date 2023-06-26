@@ -5,7 +5,7 @@ import hashlib
 import dag_cbor
 from jwcrypto.common import json_decode
 
-from nucleus.core.types import CID, JSON, List, Raw, Setting, Union
+from nucleus.core.types import CID, JSON, List, Raw, Setting
 from nucleus.sdk.storage import Object, Store
 
 from .types import JWT, Standard
@@ -23,7 +23,10 @@ def _cid_from_bytes(data: bytes, codec: str = 'raw') -> CID:
 
 
 class DagJose:
-    """Dag-JOSE serialization observer."""
+    """Dag-JOSE serializer implementation.
+    
+    `ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md#serialization`
+    """
 
     _cid: CID
     _s11n: JSON
@@ -32,30 +35,54 @@ class DagJose:
     _std: Standard
 
     def __init__(self, standard: Standard):
+        """Initialize a new instance with standard implementation
+        
+        :param standard: Standard object
+        """
         self._header = standard.header()
         self._cbor = dag_cbor.encode(standard.payload())
         self._cid = _cid_from_bytes(self._cbor, 'dag-cbor')
 
     def __iter__(self) -> Setting:
+        """Yield `typ` headers specified in SEP-001 standard.
+
+        :return: The iterable media type settings
+        """
         return iter(self._header.items())
 
     def __str__(self) -> str:
+        """Return DAG-JOSE serialization as string.
+
+        :return:
+        """
         return str(self._s11n)
 
     def __bytes__(self) -> bytes:
-        """Serialize SEP001 using dag-jose IPLD standard
-        ref: https://ipld.io/specs/codecs/dag-jose/spec/
+        """Return DAG-JOSE serialization as bytes.
+
+        :return:
         """
         return bytes(self._cid)
 
     def update(self, jwt: JWT) -> DagJose:
-        """Encode JWS/JWE general serialization to dag-jose when crypto operation notify"""
+        """Acts as an observer, waiting for events triggered by any cryptographic operation.
+        Encodes JWS/JWE to DAG-JOSE serialization when a cryptographic operation notifies.
+
+        :param jwt: The JWT implementation passed by the cryptographic operation.
+        :return: The DAG-JOSE serialization format.
+        """
         general_json = json_decode(jwt.serialize(False))
         # set new state for serialization attribute
         self._s11n = JSON({'link': self._cid, **general_json})
         return self
 
     def save_to(self, store: Store) -> Object:
+        """Publishes DAG-JOSE into the local store.
+
+        :param store: The Store function
+        :return:
+        """
+
         # 1. store cbor in blocks
         # 2. store serialization and return
         store(self._cbor)
@@ -63,7 +90,10 @@ class DagJose:
 
 
 class Compact:
-    """JWS Compact serialization observer."""
+    """JWS Compact serializer implementation.
+    
+    `ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md#serialization`
+    """
 
     _s11n: str
     _header: Raw
@@ -71,6 +101,11 @@ class Compact:
     _claims: List[bytes] = []
 
     def __init__(self, standard: Standard):
+        """Initialize a new instance with standard implementation
+        
+        :param standard: Standard object
+        """
+        
         raw_payload = standard.payload()
         self._header = standard.header()
         self._claims = list(map(bytes, map(JSON, raw_payload.values())))
@@ -105,12 +140,23 @@ class Compact:
         return JSON(payload)
 
     def update(self, jwt: JWT) -> Compact:
-        """Encode JWS/JWE compact serialization when crypto operation notify"""
+        """Acts as an observer, waiting for events triggered by any cryptographic operation.
+        Encodes JWS/JWE to compact serialization when a cryptographic operation notifies.
+
+        :param jwt: The JWT implementation passed by the cryptographic operation.
+        :return: The compact serialization string.
+        """
         # set new state for serialization attribute
         self._s11n = jwt.serialize(True)
         return self
 
     def save_to(self, store: Store) -> Object:
+        """Publishes Compact serialization into the local store.
+        
+        :param store: The Store function
+        :return:
+        """
+
         # 1. store claims in blocks
         for claim in self._claims:
             store(claim)
@@ -118,14 +164,25 @@ class Compact:
         # 2. store serialization and return
         return store(self._s11n)
 
-    def __iter__(self):
+    def __iter__(self) -> Setting:
+        """Yield `typ` headers specified in SEP-001 standard.
+
+        :return: The iterable media type settings
+        """
         return iter(self._header.items())
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Return compact serialization as string.
+
+        :return:
+        """
         return self._s11n
 
     def __bytes__(self) -> bytes:
-        """SEP001 as compact serialization"""
+        """Return compact serialization as bytes.
+
+        :return:
+        """
         return bytes(self._payload)
 
 

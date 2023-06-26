@@ -9,7 +9,10 @@ from .types import JWS, Keyring, Serializer
 
 @dataclass(slots=True)
 class Sign:
-    """JWS serialization"""
+    """JWS serialization implementation
+    
+    `ref: https://jwcrypto.readthedocs.io/en/latest/jws.html`
+    """
 
     # attach serializer as subscriber
     _s8r: Serializer
@@ -17,13 +20,11 @@ class Sign:
     _jws: JWS = field(init=False)
 
     def __post_init__(self):
-        """Initialize JWS instance
-        ref: https://jwcrypto.readthedocs.io/en/latest/jws.html
-        """
+        # Initialize JWS instance
         self._jws = JWS(bytes(self._s8r))
 
     def add_key(self, kr: Keyring) -> Sign:
-        """Bind signers to JWS
+        """Bind signature keys to JWS serialization.
 
         :param kr: Keyring to assoc with signature
         :return: Sign object
