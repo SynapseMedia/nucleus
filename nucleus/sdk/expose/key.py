@@ -113,7 +113,7 @@ class SignKeyRing:
 
     def fingerprint(self):
         """Return the base64 decoded thumbprint as specified by RFC 7638.
-        
+
         :return: The decoded sha256 thumbprint.
         """
         b64_thumbprint = self._jwk.thumbprint()

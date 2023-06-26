@@ -43,7 +43,7 @@ class Payload:
 @dataclass(slots=True)
 class SEP001:
     """SEP-001 standard implementation.
-    
+
     `ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md`
     """
 

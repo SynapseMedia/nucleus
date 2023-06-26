@@ -9,9 +9,9 @@ def test_hls_hevc_protocol():
     protocol = HLS(HEVC())
     expected_protocol = {
         **hls_settings,
-        'g': 250,
+        'g': 100,
         'crf': 0,
-        'keyint_min': 25,
+        'keyint_min': 100,
         'sc_threshold': 0,
         'c:a': 'aac',
         'c:v': 'libx265',
@@ -41,9 +41,9 @@ def test_hls_h264_protocol():
     expected_protocol = {
         **hls_settings,
         'bf': 1,
-        'g': 250,
+        'g': 100,
         'crf': 0,
-        'keyint_min': 25,
+        'keyint_min': 100,
         'sc_threshold': 0,
         'c:a': 'aac',
         'c:v': 'libx264',

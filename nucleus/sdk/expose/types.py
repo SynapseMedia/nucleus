@@ -57,7 +57,7 @@ class Standard(Protocol):
 class Serializer(Protocol):
     """Serializer specifies an observer with the necessary methods to handle SEP-001 serialization.
     It defines how to handle serialization for each strategy according to the specification.
-    
+
     `ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md`
     """
 
