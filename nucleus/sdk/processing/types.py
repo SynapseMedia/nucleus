@@ -66,7 +66,7 @@ class Engine(ABC):
 
     def __init__(self, lib: Any):
         """Initialize a new instance with bound library
-        
+
         :param lib: Any underlying lib
         """
         self._library = lib

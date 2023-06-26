@@ -918,7 +918,7 @@ summary = "A simple library for runtime type-checking."
 
 [[package]]
 name = "urllib3"
-version = "2.0.2"
+version = "2.0.3"
 requires_python = ">=3.7"
 summary = "HTTP library with thread-safe connection pooling, file post, and more."
 
@@ -1006,7 +1006,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 lock_version = "4.2"
 cross_platform = true
 groups = ["default", "docs", "lint", "static", "test"]
-content_hash = "sha256:376b39a9f7aad426f77d5ef039386ceb0d7b2c20bf03d2efb696d29b4b994e78"
+content_hash = "sha256:5c6d8edfc7b8eb19709f0835e8464692e83f0feb1423001ca5ee7599b2af2328"
 
 [metadata.files]
 "aiohttp 3.8.4" = [
@@ -2488,9 +2488,9 @@ content_hash = "sha256:376b39a9f7aad426f77d5ef039386ceb0d7b2c20bf03d2efb696d29b4
     {url = "https://files.pythonhosted.org/packages/0b/f2/5668ea12faf229a6802894c9a7d4737cb508d09ab57e6336eeb1c5adfeaa/typing-validation-1.0.0.post2.tar.gz", hash = "sha256:6a30dec74373f9dca29db6f79ef65eb765a6934c09d87639cf422288933b2aa4"},
     {url = "https://files.pythonhosted.org/packages/d2/ba/4076afa371816bcb846229ea4363a342f8065f7790c51ff4e2b7ee823708/typing_validation-1.0.0.post2-py3-none-any.whl", hash = "sha256:c9f5cb42435ee59fcf5a1a69dc88ccd5dc6f904436e61b5b8c276906a1c9e454"},
 ]
-"urllib3 2.0.2" = [
-    {url = "https://files.pythonhosted.org/packages/4b/1d/f8383ef593114755429c307449e7717b87044b3bcd5f7860b89b1f759e34/urllib3-2.0.2-py3-none-any.whl", hash = "sha256:d055c2f9d38dc53c808f6fdc8eab7360b6fdbbde02340ed25cfbcd817c62469e"},
-    {url = "https://files.pythonhosted.org/packages/fb/c0/1abba1a1233b81cf2e36f56e05194f5e8a0cec8c03c244cab56cc9dfb5bd/urllib3-2.0.2.tar.gz", hash = "sha256:61717a1095d7e155cdb737ac7bb2f4324a858a1e2e6466f6d03ff630ca68d3cc"},
+"urllib3 2.0.3" = [
+    {url = "https://files.pythonhosted.org/packages/8a/03/ad9306a50d05c166e3456fe810f33cee2b8b2a7a6818ec5d4908c4ec6b36/urllib3-2.0.3-py3-none-any.whl", hash = "sha256:48e7fafa40319d358848e1bc6809b208340fafe2096f1725d05d67443d0483d1"},
+    {url = "https://files.pythonhosted.org/packages/d6/af/3b4cfedd46b3addab52e84a71ab26518272c23c77116de3c61ead54af903/urllib3-2.0.3.tar.gz", hash = "sha256:bee28b5e56addb8226c96f7f13ac28cb4c301dd5ea8a6ca179c0b9835e032825"},
 ]
 "virtualenv 20.23.0" = [
     {url = "https://files.pythonhosted.org/packages/d6/37/3ff25b2ad0d51cfd752dc68ee0ad4387f058a5ceba4d89b47ac478de3f59/virtualenv-20.23.0.tar.gz", hash = "sha256:a85caa554ced0c0afbd0d638e7e2d7b5f92d23478d05d17a76daeac8f279f924"},

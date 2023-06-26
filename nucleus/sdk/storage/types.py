@@ -1,14 +1,6 @@
 from dataclasses import dataclass
 
-from nucleus.core.types import (
-    CID,
-    JSON,
-    Callable,
-    NewType,
-    Optional,
-    Protocol,
-    Union,
-)
+from nucleus.core.types import CID, JSON, Callable, NewType, Optional, Protocol, Union, runtime_checkable
 from nucleus.sdk.processing import File
 
 
@@ -49,6 +41,7 @@ Storable = Union[File, JSON, str, bytes]
 Store = Callable[[Storable], Object]
 
 
+@runtime_checkable
 class Client(Protocol):
     """Provides an standard interface for handling IPFS storage services. Each storage service
     represents a remote cache service, such as Estuary.
