@@ -10,7 +10,7 @@ from ffmpeg.nodes import FilterableStream as FFMPEG
 from PIL.Image import Image as Pillow
 
 import nucleus.sdk.processing as processing
-from nucleus.core.types import Any, Dynamic, Path, no_type_check
+from nucleus.core.types import Any, Dynamic, Path,JSON, no_type_check
 from nucleus.sdk.exceptions import ProcessingEngineError
 
 from .types import Engine, File, Introspection
@@ -70,17 +70,17 @@ class VideoEngine(Engine):
     def save(self, path: Path) -> File:
         # TODO allow see ffmpeg progress
         # TODO pubsub? Observer: Keep reading on event?
-        try:
-            output_args = self._build_output_args()
-            # We generate the expected path after transcode
-            self._library.output(path, **output_args).run()
+        # try:
+        output_args = self._build_output_args()
+        # We generate the expected path after transcode
+        self._library.output(path, **output_args).run()
 
-            # after low level processing happen!!
-            i8t = self.introspect(path)
-            return File(path=path, meta=i8t)
-        except Exception as e:
-            # Standard exceptions raised
-            raise ProcessingEngineError(f'error while trying to save video output: {str(e)}')
+        # after low level processing happen!!
+        i8t = self.introspect(path)
+        return File(path=path, meta=i8t)
+        # except Exception as e:
+        #     # Standard exceptions raised
+        #     raise ProcessingEngineError(f'error while trying to save video output: {str(e)}')
 
 
 class ImageEngine(Engine):

@@ -31,6 +31,7 @@ class Estuary:
     def __post_init__(self):
         self._http = http_client.live_session(self.endpoint)
         self._http.headers.update({'Authorization': f'Bearer {self.key}'})
+        self._http.headers.update({'Content-Type': 'application/json'})
 
     def _safe_request(self, res: Response) -> JSON:
         """Amplifier helper method to handle response from Estuary API
@@ -53,6 +54,8 @@ class Estuary:
                     "reason": "string"
                 }
             """
+            
+            assert 0
             error_description = response['error']['details']
             raise StorageServiceError(f'exception raised during request: {error_description}')
 
@@ -73,7 +76,7 @@ class Estuary:
         response = self._safe_request(req)
         return response.get('content', {})
 
-    def pin(self, obj: Object, **kwargs: Any) -> Pin:
+    def pin(self, obj: Object) -> Pin:
         """Pin cid into estuary
 
         :param obj: Object to pin
@@ -82,7 +85,14 @@ class Estuary:
         """
 
         # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
-        data = {'cid': obj.hash, **kwargs}
+        data = str(JSON({
+            'cid': obj.hash, 
+            'name': obj.name, 
+            'meta': {}, 
+            'origins': []
+
+        }))
+        
         req = self._http.post(ESTUARY_API_PIN, data=data)
         json_response = self._safe_request(req)
 

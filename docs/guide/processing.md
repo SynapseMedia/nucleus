@@ -84,7 +84,7 @@ introspection = video_engine.introspect(Path("video.mp4"))
 
 ```
 
-!!! note
+!!! warning
     Introspection holds internal media information and technical details from media resources.
     Media introspection may vary based on the media type and underlying library.
     In the code snippet, introspection is obtained from `ffprobe`.
