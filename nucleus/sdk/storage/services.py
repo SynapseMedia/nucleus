@@ -60,7 +60,6 @@ class Estuary:
 
     def _content_by_cid(self, cid: CID) -> JSON:
         """Collect details from estuary based on CID
-        `ref: https://docs.estuary.tech/Reference/SwaggerUI#/public/get_public_by_cid__cid`
 
         :param cid: Cid to retrieve content details
         :return: Cid content details

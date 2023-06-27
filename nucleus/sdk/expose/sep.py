@@ -42,10 +42,7 @@ class Payload:
 
 @dataclass(slots=True)
 class SEP001:
-    """SEP-001 standard implementation.
-
-    `ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md`
-    """
+    """SEP-001 standard implementation."""
 
     _header: Header
     _payload: Payload
@@ -68,8 +65,7 @@ class SEP001:
         return vars(self._payload)
 
     def add_key(self, kr: Keyring) -> None:
-        """Add signature/recipient key.
-        We use the keys later in the serialization process.
+        """Add signature/recipient keyring.
 
         :param kr: Keyring implementation
         :return: None

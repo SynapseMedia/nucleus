@@ -23,10 +23,7 @@ def _cid_from_bytes(data: bytes, codec: str = 'raw') -> CID:
 
 
 class DagJose:
-    """Dag-JOSE serializer implementation.
-
-    `ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md#serialization`
-    """
+    """Dag-JOSE serializer implementation."""
 
     _cid: CID
     _s11n: JSON
@@ -35,7 +32,7 @@ class DagJose:
     _std: Standard
 
     def __init__(self, standard: Standard):
-        """Initialize a new instance with standard implementation
+        """Initialize a new instance with the standard implementation.
 
         :param standard: Standard object
         """
@@ -90,10 +87,7 @@ class DagJose:
 
 
 class Compact:
-    """JWS Compact serializer implementation.
-
-    `ref: https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md#serialization`
-    """
+    """JWS Compact serializer implementation."""
 
     _s11n: str
     _header: Raw
@@ -101,7 +95,7 @@ class Compact:
     _claims: List[bytes] = []
 
     def __init__(self, standard: Standard):
-        """Initialize a new instance with standard implementation
+        """Initialize a new instance with the standard implementation.
 
         :param standard: Standard object
         """

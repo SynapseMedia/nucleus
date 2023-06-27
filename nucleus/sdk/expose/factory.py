@@ -24,9 +24,7 @@ def standard(type: str) -> SEP001:
 
 
 def es256(**kwargs: Any) -> SignKeyRing:
-    """Return a KeyRing with ECDSA settings based on JWA specification.
-
-    `ref: https://www.rfc-editor.org/rfc/rfc7518#section-3.1`
+    """Return a KeyRing with ECDSA settings based on JWA RFC7518 spec.
 
     Usage:
 

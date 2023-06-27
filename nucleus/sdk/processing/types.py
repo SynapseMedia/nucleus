@@ -15,9 +15,8 @@ from nucleus.sdk.harvest import Media
 
 
 class Introspection(Dynamic):
-    """Introspection holds internal media information and metadata.
-    For each result, the media metadata is associated with the `meta` attribute, and it could change
-    based on the media type and underlying library.
+    """Introspection holds internal media information and technical details from media resources.
+    The media introspection may vary based on the media type and underlying library.
 
     Usage:
 

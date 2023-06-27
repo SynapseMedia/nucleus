@@ -58,11 +58,17 @@ sep001.add_key(key)
 Now it's time to associate our data with the payload of the metadata. In this step, we add information related to the "harvesting," "storage," and "processing" steps. Let's see how all this information is consolidated in the exported metadata:
 
 ```python
-# append metadata into payload
+
+# nucleus model from harvesting guide
 sep001.add_metadata(Descriptive(**dict(nucleus)))
+# stored_file_object from storage guide
 sep001.add_metadata(Structural(cid=stored_file_object.hash))
+# introspection from processing guide
 sep001.add_metadata(Technical(size=size, width=width, height=height))
 ```
+
+!!! tip
+    In this code snippet, we use `**nucleus` to unpack the `nucleus` model as `**kwargs` and populate the `Descriptive` metadata model. 
 
 To store the standard, we can use the "store" function, which automatically determines the appropriate storage location based on the selected serialization type. If the serialization is set to DagJose, the metadata will be sent to the IPLD environment through the IPFS DAG service. If it is a compact version, it will be stored directly in a Raw Block. Let's see the example:
 
