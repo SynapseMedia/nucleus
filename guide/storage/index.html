@@ -1119,13 +1119,22 @@
 <p>In this guide, we will explore how to store processed media on the IPFS network using the storage package. We'll cover local storage, services, and clients. We have already learned how to collect multimedia resources and metadata, as well as basic aspects of multimedia processing.</p>
 <h2 id="local-storage">Local Storage</h2>
 <p>To store our media in the local IPFS node, we can use the <code>local storage</code> feature provided by the storage package. Initializing the local node is straightforward using the <code>ipfs</code> function.</p>
-<p>Here's an example of how to store an image:</p>
+<p>Here's an example of how to store our processed image:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.storage</span> <span class="k">as</span> <span class="nn">storage</span>
 
 <span class="n">local_storage</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">ipfs</span><span class="p">(</span><span class="s2">&quot;http://localhost:5001&quot;</span><span class="p">)</span>
-<span class="c1"># in this case que are storing a File instance, we can obtain it from a processing output</span>
+<span class="c1"># in this case que are storing a File instance, we can obtain it from a processing output.</span>
 <span class="c1"># if we have an already processed media we can create a custom File instance</span>
 <span class="n">stored_file_object</span> <span class="o">=</span> <span class="n">local_storage</span><span class="p">(</span><span class="n">output_image</span><span class="p">)</span> 
+</code></pre></div>
+<p>In the example of video processing, HLS generates multiple files in the output directory. To ensure we capture all the files, including the entire directory, we have a solution for you (Don't worry, we've got your back).</p>
+<p>Let's take a look at an example that shows how to handle this use case using the video processing example:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.storage</span> <span class="k">as</span> <span class="nn">storage</span>
+
+<span class="n">local_storage</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">ipfs</span><span class="p">(</span><span class="s2">&quot;http://localhost:5001&quot;</span><span class="p">)</span>
+<span class="c1"># we are not storing the File instance in this case since the File instance refers to the &quot;index.m3u8&quot; file only.</span>
+<span class="c1"># instead, the output_directory is a Path instance that points to a directory containing the HLS files.</span>
+<span class="n">stored_file_object</span> <span class="o">=</span> <span class="n">local_storage</span><span class="p">(</span><span class="n">output_directory</span><span class="p">)</span> 
 </code></pre></div>
 <p>After storing the file locally, we can proceed to pin it or perform further actions.</p>
 <div class="admonition tip">
