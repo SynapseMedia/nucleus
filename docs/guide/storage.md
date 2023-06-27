@@ -6,16 +6,31 @@ In this guide, we will explore how to store processed media on the IPFS network 
 
 To store our media in the local IPFS node, we can use the `local storage` feature provided by the storage package. Initializing the local node is straightforward using the `ipfs` function.
 
-Here's an example of how to store an image:
+Here's an example of how to store our processed image:
 
 ```python
 
 import nucleus.sdk.storage as storage
 
 local_storage = storage.ipfs("http://localhost:5001")
-# in this case que are storing a File instance, we can obtain it from a processing output
+# in this case que are storing a File instance, we can obtain it from a processing output.
 # if we have an already processed media we can create a custom File instance
 stored_file_object = local_storage(output_image) 
+
+```
+
+In the example of video processing, HLS generates multiple files in the output directory. To ensure we capture all the files, including the entire directory, we have a solution for you (Don't worry, we've got your back).
+
+Let's take a look at an example that shows how to handle this use case using the video processing example:
+
+```python
+
+import nucleus.sdk.storage as storage
+
+local_storage = storage.ipfs("http://localhost:5001")
+# we are not storing the File instance in this case since the File instance refers to the "index.m3u8" file only.
+# instead, the output_directory is a Path instance that points to a directory containing the HLS files.
+stored_file_object = local_storage(output_directory) 
 
 ```
 

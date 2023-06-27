@@ -44,16 +44,28 @@ output_image = engine.save(Path("image2.jpg"))
 
 ```
 
-Example processing a video:
+Example processing a video to HLS/VP9:
 
 ```python
 from nucleus.sdk.processing import HLS, VP9, Screen, Bitrate
 
 # let's define how the output of our video should be.
 video_engine.configure(HLS(VP9()))
+# set the screen quality to 1080p (Full HD).
 video_engine.configure(Screen.Q1080)
+# set the bitrate to 1080p (Full HD).
 video_engine.configure(Bitrate.B1080)
-output_file = video_engine.save(Path("index.m3u8"))
+
+output_file_name = 'index.m3u8'
+output_directory = Path('my/output/dir')
+
+# create the output directory if it doesn't already exist.
+if not output_directory.exists():
+    output_directory.mkdir()
+
+# save HLS files to the new output path
+output_path = Path(f'{output_directory}/{output_file_name}')
+output_file: File = video_engine.save(output_path)
 
 ```
 

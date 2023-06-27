@@ -48,4 +48,5 @@ coverage.lcov
 site/
 test.jpg
 sample.mp4
+hls/
 

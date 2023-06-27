@@ -41,9 +41,9 @@ def test_main():
     with logger.console.status('Processing'):
         # "infer" engine based on input media type
         video: Video = harvest.video(path=Path('sample.mp4'))
-        image_engine: Engine = processing.engine(video)
+        video_engine: Engine = processing.engine(video)
         # transcode to HLS/H264
-        image_engine.configure(HLS(H264()))
+        video_engine.configure(HLS(H264()))
 
         # finally save the processed video
         output_file_name = 'index.m3u8'
@@ -54,7 +54,7 @@ def test_main():
 
         # output HLS files to the new output path
         output_path = Path(f'{output_directory}/{output_file_name}')
-        output_file: File = image_engine.save(output_path)
+        output_file: File = video_engine.save(output_path)
 
     # 3. store our processed image in local IPFS node and pin it in estuary
     with logger.console.status('Storage'):
