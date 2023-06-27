@@ -42,7 +42,7 @@ class Payload:
 
 @dataclass(slots=True)
 class SEP001:
-    """SEP-001 standard implementation."""
+    """SEP-001 standard interface."""
 
     _header: Header
     _payload: Payload

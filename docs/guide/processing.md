@@ -73,9 +73,9 @@ media_type = output_file.meta.type
 ```
 
 !!! tip
-    The output of the engine returns a File type object that contains an attribute called meta, which is essentially the result of introspecting the output multimedia file.
+    The output of the engine returns a [File](../reference/processing/types.md) type object that contains an attribute called meta, which is essentially the result of introspecting the output multimedia file.
 
-Another way we can use introspection is by using the engine with the introspect method. Let's also see an example:
+Another way we can use introspection is by using the engine with the `introspect` method. Let's also see an example:
 
 ```python
 

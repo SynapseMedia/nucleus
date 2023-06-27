@@ -61,7 +61,7 @@ Now it's time to associate our data with the payload of the metadata. In this st
 
 # nucleus model from harvesting guide
 sep001.add_metadata(Descriptive(**dict(nucleus)))
-# stored_file_object from storage guide
+# stored file from storage guide
 sep001.add_metadata(Structural(cid=stored_file_object.hash))
 # introspection from processing guide
 sep001.add_metadata(Technical(size=size, width=width, height=height))
