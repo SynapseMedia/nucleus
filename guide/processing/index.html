@@ -376,6 +376,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#introspection" class="md-nav__link">
+    Introspection
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1097,6 +1104,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#introspection" class="md-nav__link">
+    Introspection
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1154,11 +1168,32 @@ Let's explore an example of how to configure the image engine:</p>
 <span class="n">video_engine</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">HLS</span><span class="p">(</span><span class="n">VP9</span><span class="p">()))</span>
 <span class="n">video_engine</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">Screen</span><span class="o">.</span><span class="n">Q1080</span><span class="p">)</span>
 <span class="n">video_engine</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">Bitrate</span><span class="o">.</span><span class="n">B1080</span><span class="p">)</span>
-<span class="n">video_engine</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;index.m3u8&quot;</span><span class="p">))</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="n">video_engine</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;index.m3u8&quot;</span><span class="p">))</span>
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Given that the engines emulate the underlying libraries, the available settings are based on the methods or configurations set within each respective library. For further details on the available settings, please refer to the <a href="../../reference/processing/video/settings/">video</a> or <a href="../../reference/processing/image/settings/">image</a> documentation.</p>
+</div>
+<h2 id="introspection">Introspection</h2>
+<p>In the context of multimedia, introspection refers to the ability to obtain detailed and descriptive information about the elements and characteristics of a multimedia file. In the following example, we can see how to access the introspection obtained by the video engine:</p>
+<div class="highlight"><pre><span></span><code><span class="n">size</span> <span class="o">=</span> <span class="n">output_file</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">size</span>
+<span class="n">width</span> <span class="o">=</span> <span class="n">output_file</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">width</span>
+<span class="n">height</span> <span class="o">=</span> <span class="n">output_file</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">height</span>
+<span class="n">media_type</span> <span class="o">=</span> <span class="n">output_file</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">type</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The output of the engine returns a <a href="../../reference/processing/types/">File</a> type object that contains an attribute called meta, which is essentially the result of introspecting the output multimedia file.</p>
+</div>
+<p>Another way we can use introspection is by using the engine with the <code>introspect</code> method. Let's also see an example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># get technical details from &quot;video.mp4`</span>
+<span class="n">introspection</span> <span class="o">=</span> <span class="n">video_engine</span><span class="o">.</span><span class="n">introspect</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;video.mp4&quot;</span><span class="p">))</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Introspection holds internal media information and technical details from media resources.
+Media introspection may vary based on the media type and underlying library.
+In the code snippet, introspection is obtained from <code>ffprobe</code>.</p>
 </div>
 
 

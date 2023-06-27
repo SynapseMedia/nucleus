@@ -1167,11 +1167,17 @@
 </div>
 <h2 id="metadata-storage">Metadata &amp; Storage</h2>
 <p>Now it's time to associate our data with the payload of the metadata. In this step, we add information related to the "harvesting," "storage," and "processing" steps. Let's see how all this information is consolidated in the exported metadata:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># append metadata into payload</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># nucleus model from harvesting guide</span>
 <span class="n">sep001</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">Descriptive</span><span class="p">(</span><span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">nucleus</span><span class="p">)))</span>
+<span class="c1"># stored file from storage guide</span>
 <span class="n">sep001</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">Structural</span><span class="p">(</span><span class="n">cid</span><span class="o">=</span><span class="n">stored_file_object</span><span class="o">.</span><span class="n">hash</span><span class="p">))</span>
+<span class="c1"># introspection from processing guide</span>
 <span class="n">sep001</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">Technical</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
 </code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In this code snippet, we use <code>**nucleus</code> to unpack the <code>nucleus</code> model as <code>**kwargs</code> and populate the <code>Descriptive</code> metadata model. </p>
+</div>
 <p>To store the standard, we can use the "store" function, which automatically determines the appropriate storage location based on the selected serialization type. If the serialization is set to DagJose, the metadata will be sent to the IPLD environment through the IPFS DAG service. If it is a compact version, it will be stored directly in a Raw Block. Let's see the example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># we get signed dag-jose serialization.. let&#39;s store it</span>
 <span class="n">obj</span> <span class="o">=</span> <span class="n">sep001</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span><span class="o">.</span><span class="n">save_to</span><span class="p">(</span><span class="n">local_storage</span><span class="p">)</span>

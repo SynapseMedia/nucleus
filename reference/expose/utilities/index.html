@@ -1143,8 +1143,7 @@
 
   <div class="doc doc-contents ">
   
-      <p>Return a KeyRing with ECDSA settings based on JWA specification.</p>
-<p><code>ref: https://www.rfc-editor.org/rfc/rfc7518#section-3.1</code></p>
+      <p>Return a KeyRing with ECDSA settings based on JWA RFC7518 spec.</p>
 <p>Usage:</p>
 <div class="highlight"><pre><span></span><code># create a KeyRing with ECDSA settings
 sign_algorithm = expose.es256()
@@ -1212,12 +1211,8 @@ sign_algorithm = expose.es256()
 <span class="normal">41</span>
 <span class="normal">42</span>
 <span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">es256</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignKeyRing</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a KeyRing with ECDSA settings based on JWA specification.</span>
-
-<span class="sd">    `ref: https://www.rfc-editor.org/rfc/rfc7518#section-3.1`</span>
+<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">es256</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignKeyRing</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a KeyRing with ECDSA settings based on JWA RFC7518 spec.</span>
 
 <span class="sd">    Usage:</span>
 
