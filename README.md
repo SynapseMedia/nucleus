@@ -49,5 +49,5 @@ Note: Run `make help` to check for more capabilities.
 
 - Check our roadmap at [synapsemedia.io](https://synapsemedia.io)
 - Follow us on [twitter](https://twitter.com/synapse__media) | [reddit](https://www.reddit.com/r/synapse_media/)
-- Get in touch with us on [slack](https://join.slack.com/t/synapse-media/shared_invite/zt-1vbnai6ee-zxOs1Outt2oGMA7Sh1CXgQ) | [discord](https://discord.gg/MedWgZ7u) 
+- Get in touch with us on [slack](https://join.slack.com/t/synapse-media/shared_invite/zt-1vbnai6ee-zxOs1Outt2oGMA7Sh1CXgQ) | [discord](https://discord.gg/YW2RmGJ9YF)
 - For help or reporting bugs, please create an [issue](https://github.com/SynapseMedia/nucleus/issues).

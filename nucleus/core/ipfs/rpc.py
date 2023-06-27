@@ -1,3 +1,7 @@
+import json
+
+from requests.exceptions import JSONDecodeError
+
 from nucleus.core.exceptions import IPFSRuntimeError
 from nucleus.core.http import LiveSession
 from nucleus.core.types import JSON
@@ -35,7 +39,23 @@ class RPC:
 
         # we pass an out of the box http session
         response = command(self._http)
-        json_response = response.json()
+
+        try:
+            json_response = response.json()
+        except JSONDecodeError:
+            # sometime the IPFS output is not JSON
+            byte_content = response.content
+            string_content = byte_content.decode('utf-8')
+
+            # we expect this behavior when a directory is added
+            # IPFS output in this case is a list of json separated by \n
+            matched_delimiter = string_content.split('\n')
+            if len(matched_delimiter) == 0:
+                raise
+
+            json_dicts = map(json.loads, filter(None, matched_delimiter))
+            sorted_sizes = sorted(json_dicts, key=lambda d: int(d['Size']), reverse=True)
+            return JSON(sorted_sizes[0])
 
         # check if request was successful
         if not response.ok:

@@ -2,15 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from nucleus.core.types import (
-    Any,
-    Dynamic,
-    Iterator,
-    List,
-    Path,
-    Settings,
-    Tuple,
-)
+from nucleus.core.types import Any, Dynamic, Iterator, List, Path, Settings, Tuple
 from nucleus.sdk.harvest import Media
 
 

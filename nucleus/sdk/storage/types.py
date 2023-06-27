@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from nucleus.core.types import CID, JSON, Callable, NewType, Optional, Protocol, Union, runtime_checkable
+from nucleus.core.types import CID, JSON, Callable, NewType, Optional, Path, Protocol, Union, runtime_checkable
 from nucleus.sdk.processing import File
 
 
@@ -37,7 +37,7 @@ class Pin:
 
 # Alias for allowed media to store
 ID = NewType('ID', str)
-Storable = Union[File, JSON, str, bytes]
+Storable = Union[File, JSON, Path, str, bytes]
 Store = Callable[[Storable], Object]
 
 

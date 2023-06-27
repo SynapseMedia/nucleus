@@ -44,16 +44,24 @@ def test_main():
         image_engine: Engine = processing.engine(video)
         # transcode to HLS/H264
         image_engine.configure(HLS(H264()))
-        # finally save the processed image to our custom dir
-        output_file: File = image_engine.save(Path('sample.m3u8'))
+
+        # finally save the processed video
+        output_file_name = 'index.m3u8'
+        output_directory = Path('hls')
+
+        if not output_directory.exists():
+            output_directory.mkdir()
+
+        # output HLS files to the new output path
+        output_path = Path(f'{output_directory}/{output_file_name}')
+        output_file: File = image_engine.save(output_path)
 
     # 3. store our processed image in local IPFS node and pin it in estuary
     with logger.console.status('Storage'):
+        # since hls generate many different files in the same directory
+        # we need to store the full directory. Dont worry we got your back ;).
         local_storage: Store = storage.ipfs(LOCAL_ENDPOINT)
-        stored_file_object: Object = local_storage(output_file)
-        # choose and connect an edge service to pin our resources. eg. estuary
-        # estuary: Client = storage.estuary(FAKE_KEY)
-        # estuary.pin(stored_file_object)
+        stored_file_object: Object = local_storage(output_directory)
 
     # 4. expose our media through the standard
     with logger.console.status('Expose'):
@@ -72,8 +80,8 @@ def test_main():
         sep001.add_key(expose.es256())
         # add metadata into payload
         sep001.add_metadata(Descriptive(**dict(nucleus)))
-        sep001.add_metadata(Structural(cid=stored_file_object.hash))
         sep001.add_metadata(Technical(size=size, length=length))
+        sep001.add_metadata(Structural(cid=stored_file_object.hash, path=output_file_name))
         # we get signed dag-jose serialization.. let's store it
         obj: Object = sep001.serialize().save_to(local_storage)
         # what we do with our new and cool CID?

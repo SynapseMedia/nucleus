@@ -1,8 +1,8 @@
 import functools
 
 import nucleus.core.ipfs as ipfs_
-from nucleus.core.ipfs import Add, BlockPut, DagPut, File, Text
-from nucleus.core.types import CID, JSON, Optional
+from nucleus.core.ipfs import Add, BlockPut, DagPut, Dir, File, Text
+from nucleus.core.types import CID, JSON, Optional, Path
 from nucleus.sdk.processing import File as FileType
 
 from .types import Object, Storable, Store
@@ -41,7 +41,7 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
     def _(data: FileType) -> Object:
         """Store files in IPFS.
 
-        :param data: String to store
+        :param data: File to store
         :return: Object instance
         """
         command = Add(File(data.path))
@@ -53,6 +53,28 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
             name=file_output['Name'],
             hash=CID(file_output['Hash']),
             size=int(file_output['Size']),
+        )
+
+    @store.register
+    def _(data: Path) -> Object:
+        """Store directory in IPFS.
+
+        :param data: Directory path to store
+        :return: Object instance
+        """
+        command = Add(
+            input=Dir(data),
+            wrap_with_directory=True,
+        )
+        
+        # expected /add output from API
+        # {Hash: .., Name: .., Size: ...}
+        dir_output = api(command)
+
+        return Object(
+            name=dir_output['Name'],
+            hash=CID(dir_output['Hash']),
+            size=int(dir_output['Size']),
         )
 
     @store.register

@@ -19,6 +19,7 @@ class Add:
     quieter: bool = True
     hash: str = 'blake2b-208'
     cid_version: int = 1
+    wrap_with_directory: bool = False
 
     def __call__(self, session: LiveSession):
         # convert dataclass to request IPFS 'add endpoint' attributes.
