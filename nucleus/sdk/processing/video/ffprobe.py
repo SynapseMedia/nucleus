@@ -1,7 +1,7 @@
 import ffmpeg
 
 # Convention for importing types
-from nucleus.core.types import Raw, Any, Path
+from nucleus.core.types import Any, Path, Raw
 from nucleus.sdk.exceptions import FFProbeError
 
 

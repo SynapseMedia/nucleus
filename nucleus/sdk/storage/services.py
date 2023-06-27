@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 import nucleus.core.http as http_client
 from nucleus.core.http import Response
-from nucleus.core.types import CID, JSON, URL, Any
+from nucleus.core.types import CID, JSON, URL
 from nucleus.sdk.exceptions import StorageServiceError
 
 from .constants import ESTUARY_API_PIN, ESTUARY_API_PUBLIC
@@ -54,7 +54,7 @@ class Estuary:
                     "reason": "string"
                 }
             """
-            
+
             assert 0
             error_description = response['error']['details']
             raise StorageServiceError(f'exception raised during request: {error_description}')
@@ -85,14 +85,8 @@ class Estuary:
         """
 
         # https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins
-        data = str(JSON({
-            'cid': obj.hash, 
-            'name': obj.name, 
-            'meta': {}, 
-            'origins': []
+        data = str(JSON({'cid': obj.hash, 'name': obj.name, 'meta': {}, 'origins': []}))
 
-        }))
-        
         req = self._http.post(ESTUARY_API_PIN, data=data)
         json_response = self._safe_request(req)
 

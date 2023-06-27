@@ -10,7 +10,7 @@ from ffmpeg.nodes import FilterableStream as FFMPEG
 from PIL.Image import Image as Pillow
 
 import nucleus.sdk.processing as processing
-from nucleus.core.types import Any, Dynamic, Path,JSON, no_type_check
+from nucleus.core.types import Any, Dynamic, Path, no_type_check
 from nucleus.sdk.exceptions import ProcessingEngineError
 
 from .types import Engine, File, Introspection
