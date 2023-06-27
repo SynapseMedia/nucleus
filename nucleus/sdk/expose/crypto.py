@@ -9,7 +9,7 @@ from .types import JWS, Keyring, Serializer
 
 @dataclass(slots=True)
 class Sign:
-    """JWS serialization implementation"""
+    """JWS serialization implementation."""
 
     # attach serializer as subscriber
     _s8r: Serializer
