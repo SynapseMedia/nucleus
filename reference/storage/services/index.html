@@ -1289,7 +1289,17 @@ removed_cid = estuary.unpin(pin.cid)
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Estuary</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Estuary API service client.</span>
 
@@ -1311,6 +1321,7 @@ removed_cid = estuary.unpin(pin.cid)
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_http</span> <span class="o">=</span> <span class="n">http_client</span><span class="o">.</span><span class="n">live_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">})</span>
 
     <span class="k">def</span> <span class="nf">_safe_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JSON</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Amplifier helper method to handle response from Estuary API</span>
@@ -1333,6 +1344,8 @@ removed_cid = estuary.unpin(pin.cid)
 <span class="sd">                    &quot;reason&quot;: &quot;string&quot;</span>
 <span class="sd">                }</span>
 <span class="sd">            &quot;&quot;&quot;</span>
+
+            <span class="k">assert</span> <span class="mi">0</span>
             <span class="n">error_description</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">][</span><span class="s1">&#39;details&#39;</span><span class="p">]</span>
             <span class="k">raise</span> <span class="n">StorageServiceError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;exception raised during request: </span><span class="si">{</span><span class="n">error_description</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
@@ -1353,7 +1366,7 @@ removed_cid = estuary.unpin(pin.cid)
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_safe_request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="p">{})</span>
 
-    <span class="k">def</span> <span class="nf">pin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Object</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pin</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">pin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pin</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Pin cid into estuary</span>
 
 <span class="sd">        :param obj: Object to pin</span>
@@ -1362,7 +1375,14 @@ removed_cid = estuary.unpin(pin.cid)
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cid&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">hash</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">JSON</span><span class="p">({</span>
+            <span class="s1">&#39;cid&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">hash</span><span class="p">,</span> 
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> 
+            <span class="s1">&#39;meta&#39;</span><span class="p">:</span> <span class="p">{},</span> 
+            <span class="s1">&#39;origins&#39;</span><span class="p">:</span> <span class="p">[]</span>
+
+        <span class="p">}))</span>
+
         <span class="n">req</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">ESTUARY_API_PIN</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
         <span class="n">json_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_safe_request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 
@@ -1406,7 +1426,7 @@ removed_cid = estuary.unpin(pin.cid)
 
 
 <h3 id="nucleus.sdk.storage.services.Estuary.pin" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">pin</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">pin</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></code>
 
 </h3>
 
@@ -1477,24 +1497,31 @@ removed_cid = estuary.unpin(pin.cid)
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/storage/services.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Object</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pin</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pin</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Pin cid into estuary</span>
 
 <span class="sd">    :param obj: Object to pin</span>
@@ -1503,7 +1530,14 @@ removed_cid = estuary.unpin(pin.cid)
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># https://docs.estuary.tech/Reference/SwaggerUI#/pinning/post_pinning_pins</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cid&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">hash</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">JSON</span><span class="p">({</span>
+        <span class="s1">&#39;cid&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">hash</span><span class="p">,</span> 
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> 
+        <span class="s1">&#39;meta&#39;</span><span class="p">:</span> <span class="p">{},</span> 
+        <span class="s1">&#39;origins&#39;</span><span class="p">:</span> <span class="p">[]</span>
+
+    <span class="p">}))</span>
+
     <span class="n">req</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">ESTUARY_API_PIN</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
     <span class="n">json_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_safe_request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 
@@ -1594,20 +1628,20 @@ removed_cid = estuary.unpin(pin.cid)
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/storage/services.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">unpin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cid</span><span class="p">:</span> <span class="n">CID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CID</span><span class="p">:</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">unpin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cid</span><span class="p">:</span> <span class="n">CID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CID</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove pin from estuary</span>
 
 <span class="sd">    :param cid: The cid to remove from service</span>
