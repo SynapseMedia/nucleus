@@ -66,7 +66,7 @@ def ipfs(endpoint: Optional[str] = None) -> Store:
             input=Dir(data),
             wrap_with_directory=True,
         )
-        
+
         # expected /add output from API
         # {Hash: .., Name: .., Size: ...}
         dir_output = api(command)
