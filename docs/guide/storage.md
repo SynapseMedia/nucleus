@@ -15,7 +15,7 @@ import nucleus.sdk.storage as storage
 local_storage = storage.ipfs("http://localhost:5001")
 # in this case que are storing a File instance, we can obtain it from a processing output.
 # if we have an already processed media we can create a custom File instance
-stored_file_object = local_storage(output_image) 
+stored_image_object = local_storage(output_image) 
 
 ```
 
@@ -68,7 +68,7 @@ Here's an example of how to pin the CID for our stored image:
 ```python
 
 # ...
-estuary.pin(stored_file_object)
+estuary.pin(stored_image_object)
 
 ```
 
