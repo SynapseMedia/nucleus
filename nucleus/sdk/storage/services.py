@@ -55,7 +55,6 @@ class Estuary:
                 }
             """
 
-            assert 0
             error_description = response['error']['details']
             raise StorageServiceError(f'exception raised during request: {error_description}')
 
