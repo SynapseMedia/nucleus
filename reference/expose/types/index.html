@@ -2081,7 +2081,7 @@ It defines how to handle serialization for each strategy according to the SEP-00
 
   <div class="doc doc-contents ">
   
-      <p>Receive updates when cryptographic operations are ready to handle any additional encoding step.
+      <p>Receive updates when cryptographic operations are ready to be used.
 This step allows for adding a new state or performing operations on JWS/JWE to handle additional encoding.</p>
 
   <p><strong>Parameters:</strong></p>
@@ -2136,7 +2136,7 @@ This step allows for adding a new state or performing operations on JWS/JWE to h
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jwt</span><span class="p">:</span> <span class="n">JWT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Serializer</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Receive updates when cryptographic operations are ready to handle any additional encoding step.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Receive updates when cryptographic operations are ready to be used.</span>
 <span class="sd">    This step allows for adding a new state or performing operations on JWS/JWE to handle additional encoding.</span>
 
 <span class="sd">    :param jwt: The type of JWT implementation to handle.</span>
