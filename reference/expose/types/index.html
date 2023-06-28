@@ -2320,7 +2320,7 @@ It notifies serializers when crypto operations are ready to be used.</p>
   <div class="doc doc-contents ">
   
       <p>Notify the underlying serializer of the current state of the cryptographic operation.
-During this process, the serializer may modify its state or store the results of the operations.</p>
+During this process, the serializer may modify its state or store the results of the cryptographic operations.</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -2350,7 +2350,7 @@ During this process, the serializer may modify its state or store the results of
 <span class="normal">165</span>
 <span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Serializer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Notify the underlying serializer of the current state of the cryptographic operation.</span>
-<span class="sd">    During this process, the serializer may modify its state or store the results of the operations.</span>
+<span class="sd">    During this process, the serializer may modify its state or store the results of the cryptographic operations.</span>
 
 <span class="sd">    :return: The input Serializer with a new ready to use state</span>
 <span class="sd">    &quot;&quot;&quot;</span>
