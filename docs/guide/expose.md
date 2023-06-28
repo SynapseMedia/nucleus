@@ -59,16 +59,26 @@ Now it's time to associate our data with the payload of the metadata. In this st
 
 ```python
 
-# nucleus model from harvesting guide
+# using nucleus model from harvesting guide
 sep001.add_metadata(Descriptive(**dict(nucleus)))
-# stored file from storage guide
-sep001.add_metadata(Structural(cid=stored_file_object.hash))
-# introspection from processing guide
+# using stored file object from storage guide
+sep001.add_metadata(Structural(cid=stored_image_object.hash))
+# using introspection from processing guide
 sep001.add_metadata(Technical(size=size, width=width, height=height))
 ```
 
+!!! warning
+    In the case of structural metadata, if we refer directly to the example of how to store our processed videos in the storage guide, it's important to know that the hash returned by the local storage is an object that contains the hash of the directory of files related to the HLS protocol. Therefore, it's important to define the additional path in the Structural type. For example:
+
+    ```python
+
+    # using stored directory object from storage guide
+    sep001.add_metadata(Structural(cid=stored_directory_object.hash), path="index.m3u8")
+
+    ```
+
 !!! tip
-    In this code snippet, we use `**nucleus` to unpack the `nucleus` model as `**kwargs` and populate the `Descriptive` metadata model. 
+    In this code snippet, we use `**nucleus` to unpack the `nucleus` model as `**kwargs` and populate the `Descriptive` metadata model.
 
 To store the standard, we can use the "store" function, which automatically determines the appropriate storage location based on the selected serialization type. If the serialization is set to DagJose, the metadata will be sent to the IPLD environment through the IPFS DAG service. If it is a compact version, it will be stored directly in a Raw Block. Let's see the example:
 

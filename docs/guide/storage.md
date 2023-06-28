@@ -30,7 +30,7 @@ import nucleus.sdk.storage as storage
 local_storage = storage.ipfs("http://localhost:5001")
 # we are not storing the File instance in this case since the File instance refers to the "index.m3u8" file only.
 # instead, the output_directory is a Path instance that points to a directory containing the HLS files.
-stored_file_object = local_storage(output_directory) 
+stored_directory_object = local_storage(output_directory) 
 
 ```
 
@@ -63,7 +63,7 @@ estuary = storage.estuary(estuary_key)
 ```
 
 Since our storage primarily takes place on our local node, we only need to pin our CID on the edge service.
-Here's an example:
+Here's an example of how to pin the CID for our stored image:
 
 ```python
 
