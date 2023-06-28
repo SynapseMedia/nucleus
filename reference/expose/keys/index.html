@@ -1365,6 +1365,7 @@
     <tbody>
         <tr>
           <td>
+                <code>str</code>
           </td>
           <td><p>The decoded sha256 thumbprint.</p></td>
         </tr>
@@ -1380,7 +1381,7 @@
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
-<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fingerprint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fingerprint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the base64 decoded thumbprint as specified by RFC 7638.</span>
 
 <span class="sd">    :return: The decoded sha256 thumbprint.</span>
