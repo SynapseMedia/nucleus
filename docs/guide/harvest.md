@@ -32,8 +32,6 @@ nucleus = Nucleus(
 
 ```
 
----
-
 ## Media
 
 Let's explore multimedia resources and how to collect them using the SDK's built-in types.

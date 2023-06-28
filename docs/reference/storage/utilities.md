@@ -1,6 +1,6 @@
 
 !!! info
-    `Store` is a repository of storage options in the form of a function that automatically selects the appropriate storage strategy based on the type of the parameter
+    `Store` is a repository of storage options in the form of a function that automatically selects the appropriate storage strategy based on the type of the parameter.
 
 ::: nucleus.sdk.storage.store
     handler: python

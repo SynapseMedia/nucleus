@@ -1,12 +1,13 @@
 from dataclasses import dataclass
 
+from .codecs import H264
 from .constants import HLS_LIST_SIZE, HLS_PLAYLIST_TYPE, HLS_TAG_VIDEO_FORMAT, HLS_TIME
 from .types import Codec
 
 
 @dataclass(slots=True)
 class HLS:
-    """HLS streaming protocol.
+    """Represents a HLS streaming protocol.
 
     Usage:
 
@@ -15,7 +16,8 @@ class HLS:
 
     """
 
-    codec: Codec
+    # default h264 codec
+    codec: Codec = H264()
 
     def __iter__(self):
         yield 'hls_time', HLS_TIME

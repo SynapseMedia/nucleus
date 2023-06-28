@@ -68,7 +68,7 @@ sep001.add_metadata(Technical(size=size, width=width, height=height))
 ```
 
 !!! warning
-    In the case of structural metadata, if we refer directly to the example of how to store our processed videos in the storage guide, it's important to know that the hash returned by the local storage is an object that contains the hash of the directory of files related to the HLS protocol. Therefore, it's important to define the additional path in the Structural type. For example:
+    When considering structural metadata, specifically in the context of storing processed videos according to the [multimedia storage guide](./storage.md), it's crucial to understand that the hash obtained from `local storage` represents the stored directory's hash for files associated with the HLS protocol. Hence, it is essential to specify the supplementary path within the Structural type. For instance:
 
     ```python
 
@@ -80,7 +80,7 @@ sep001.add_metadata(Technical(size=size, width=width, height=height))
 !!! tip
     In this code snippet, we use `**nucleus` to unpack the `nucleus` model as `**kwargs` and populate the `Descriptive` metadata model.
 
-To store the standard, we can use the "store" function, which automatically determines the appropriate storage location based on the selected serialization type. If the serialization is set to DagJose, the metadata will be sent to the IPLD environment through the IPFS DAG service. If it is a compact version, it will be stored directly in a Raw Block. Let's see the example:
+To store the standard, we can use the [local store](../reference/storage/utilities.md) function, which automatically determines the appropriate storage location based on the selected serialization type. If the serialization is set to DagJose, the metadata will be sent to the IPLD environment through the IPFS DAG service. If it is a compact version, it will be stored directly in a Raw Block. Let's see the example:
 
 ```python
 # we get signed dag-jose serialization.. let's store it

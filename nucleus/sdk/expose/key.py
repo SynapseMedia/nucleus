@@ -111,7 +111,7 @@ class SignKeyRing:
         self._jwk = JWK.from_json(json_string)
         return self
 
-    def fingerprint(self):
+    def fingerprint(self) -> str:
         """Return the base64 decoded thumbprint as specified by RFC 7638.
 
         :return: The decoded sha256 thumbprint.

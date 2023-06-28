@@ -32,7 +32,7 @@ class Copy:
 
 
 class H264:
-    """H264 codec ffmpeg settings.
+    """Represents a H264 codec.
 
     Usage:
 
@@ -57,7 +57,7 @@ class H264:
 
 
 class HEVC:
-    """HEVC codec ffmpeg settings.
+    """Represents a HEVC codec.
 
     Usage:
 
@@ -82,7 +82,7 @@ class HEVC:
 
 
 class VP9:
-    """Vp9 codec ffmpeg settings.
+    """Represents a VP9 codec.
 
     Usage:
 

@@ -53,7 +53,7 @@ class Standard(Protocol):
 
 class Serializer(Protocol):
     """Serializer specifies an observer with the necessary methods to handle SEP-001 serialization.
-    It defines how to handle serialization for each strategy according to the specification.
+    It defines how to handle serialization for each strategy according to the SEP-001 serialization spec.
     """
 
     def __str__(self) -> str:
@@ -78,15 +78,14 @@ class Serializer(Protocol):
         ...
 
     def __init__(self, standard: Standard):
-        """Serializer must be initialized with Standard implementation.
+        """Serializer must be initialized with the SEP-001 standard implementation.
 
         :param standard: The standard implementation
         """
         ...
 
     def save_to(self, store: Store) -> Object:
-        """Could be used to store assets.
-        eg. After generate CID from payload dag-cbor we need to store the bytes into blocks
+        """Publishes serialization into the local store.
 
         :param store: The local store function
         :return: Object instance
@@ -95,7 +94,7 @@ class Serializer(Protocol):
         ...
 
     def update(self, jwt: JWT) -> Serializer:
-        """Receive updates when cryptographic operations are ready to handle any additional encoding step.
+        """Receive updates when cryptographic operations are ready to be used.
         This step allows for adding a new state or performing operations on JWS/JWE to handle additional encoding.
 
         :param jwt: The type of JWT implementation to handle.
@@ -160,7 +159,7 @@ class Crypto(Protocol):
 
     def serialize(self) -> Serializer:
         """Notify the underlying serializer of the current state of the cryptographic operation.
-        During this process, the serializer may modify its state or store the results of the operations.
+        During this process, the serializer may modify its state or store the results of the cryptographic operations.
 
         :return: The input Serializer with a new ready to use state
         """
