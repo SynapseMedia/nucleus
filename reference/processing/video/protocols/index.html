@@ -1136,7 +1136,7 @@
   <div class="doc doc-contents ">
 
   
-      <p>HLS streaming protocol.</p>
+      <p>Represents a HLS streaming protocol.</p>
 <p>Usage:</p>
 <div class="highlight"><pre><span></span><code># use h264 as codec
 hls = HLS(H264())
@@ -1145,8 +1145,7 @@ hls = HLS(H264())
 
         <details class="quote">
           <summary>Source code in <code>nucleus/sdk/processing/video/protocols.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 7</span>
-<span class="normal"> 8</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
 <span class="normal"> 9</span>
 <span class="normal">10</span>
 <span class="normal">11</span>
@@ -1163,9 +1162,11 @@ hls = HLS(H264())
 <span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
-<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">HLS</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;HLS streaming protocol.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a HLS streaming protocol.</span>
 
 <span class="sd">    Usage:</span>
 
@@ -1174,7 +1175,8 @@ hls = HLS(H264())
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">codec</span><span class="p">:</span> <span class="n">Codec</span>
+    <span class="c1"># default h264 codec</span>
+    <span class="n">codec</span><span class="p">:</span> <span class="n">Codec</span> <span class="o">=</span> <span class="n">H264</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">yield</span> <span class="s1">&#39;hls_time&#39;</span><span class="p">,</span> <span class="n">HLS_TIME</span>

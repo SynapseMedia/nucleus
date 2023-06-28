@@ -1176,7 +1176,7 @@
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>In the case of structural metadata, if we refer directly to the example of how to store our processed videos in the storage guide, it's important to know that the hash returned by the local storage is an object that contains the hash of the directory of files related to the HLS protocol. Therefore, it's important to define the additional path in the Structural type. For example:</p>
+<p>When considering structural metadata, specifically in the context of storing processed videos according to the <a href="../storage/">multimedia storage guide</a>, it's crucial to understand that the hash obtained from <code>local storage</code> represents the stored directory's hash for files associated with the HLS protocol. Hence, it is essential to specify the supplementary path within the Structural type. For instance:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># using stored directory object from storage guide</span>
 <span class="n">sep001</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">Structural</span><span class="p">(</span><span class="n">cid</span><span class="o">=</span><span class="n">stored_directory_object</span><span class="o">.</span><span class="n">hash</span><span class="p">),</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;index.m3u8&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -1185,7 +1185,7 @@
 <p class="admonition-title">Tip</p>
 <p>In this code snippet, we use <code>**nucleus</code> to unpack the <code>nucleus</code> model as <code>**kwargs</code> and populate the <code>Descriptive</code> metadata model.</p>
 </div>
-<p>To store the standard, we can use the "store" function, which automatically determines the appropriate storage location based on the selected serialization type. If the serialization is set to DagJose, the metadata will be sent to the IPLD environment through the IPFS DAG service. If it is a compact version, it will be stored directly in a Raw Block. Let's see the example:</p>
+<p>To store the standard, we can use the <a href="../../reference/storage/utilities/">local store</a> function, which automatically determines the appropriate storage location based on the selected serialization type. If the serialization is set to DagJose, the metadata will be sent to the IPLD environment through the IPFS DAG service. If it is a compact version, it will be stored directly in a Raw Block. Let's see the example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># we get signed dag-jose serialization.. let&#39;s store it</span>
 <span class="n">obj</span> <span class="o">=</span> <span class="n">sep001</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span><span class="o">.</span><span class="n">save_to</span><span class="p">(</span><span class="n">local_storage</span><span class="p">)</span>
 <span class="c1"># What should we do with our new and cool CID?</span>
