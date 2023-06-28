@@ -6,7 +6,7 @@ repo_url: https://github.com/SynapseMedia/nucleus
 nav:
   - Getting started: index.md
   - Usage guide: 
-    - Harvesting raw: guide/harvest.md
+    - Harvesting raw data: guide/harvest.md
     - Processing multimedia: guide/processing.md
     - Multimedia storage: guide/storage.md
     - Metadata distribution: guide/expose.md
