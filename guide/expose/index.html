@@ -1167,16 +1167,23 @@
 </div>
 <h2 id="metadata-storage">Metadata &amp; Storage</h2>
 <p>Now it's time to associate our data with the payload of the metadata. In this step, we add information related to the "harvesting," "storage," and "processing" steps. Let's see how all this information is consolidated in the exported metadata:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># nucleus model from harvesting guide</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># using nucleus model from harvesting guide</span>
 <span class="n">sep001</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">Descriptive</span><span class="p">(</span><span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">nucleus</span><span class="p">)))</span>
-<span class="c1"># stored file from storage guide</span>
-<span class="n">sep001</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">Structural</span><span class="p">(</span><span class="n">cid</span><span class="o">=</span><span class="n">stored_file_object</span><span class="o">.</span><span class="n">hash</span><span class="p">))</span>
-<span class="c1"># introspection from processing guide</span>
+<span class="c1"># using stored file object from storage guide</span>
+<span class="n">sep001</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">Structural</span><span class="p">(</span><span class="n">cid</span><span class="o">=</span><span class="n">stored_image_object</span><span class="o">.</span><span class="n">hash</span><span class="p">))</span>
+<span class="c1"># using introspection from processing guide</span>
 <span class="n">sep001</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">Technical</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">))</span>
 </code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In the case of structural metadata, if we refer directly to the example of how to store our processed videos in the storage guide, it's important to know that the hash returned by the local storage is an object that contains the hash of the directory of files related to the HLS protocol. Therefore, it's important to define the additional path in the Structural type. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># using stored directory object from storage guide</span>
+<span class="n">sep001</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">Structural</span><span class="p">(</span><span class="n">cid</span><span class="o">=</span><span class="n">stored_directory_object</span><span class="o">.</span><span class="n">hash</span><span class="p">),</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;index.m3u8&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>In this code snippet, we use <code>**nucleus</code> to unpack the <code>nucleus</code> model as <code>**kwargs</code> and populate the <code>Descriptive</code> metadata model. </p>
+<p>In this code snippet, we use <code>**nucleus</code> to unpack the <code>nucleus</code> model as <code>**kwargs</code> and populate the <code>Descriptive</code> metadata model.</p>
 </div>
 <p>To store the standard, we can use the "store" function, which automatically determines the appropriate storage location based on the selected serialization type. If the serialization is set to DagJose, the metadata will be sent to the IPLD environment through the IPFS DAG service. If it is a compact version, it will be stored directly in a Raw Block. Let's see the example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># we get signed dag-jose serialization.. let&#39;s store it</span>
