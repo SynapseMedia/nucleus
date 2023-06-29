@@ -1189,7 +1189,9 @@ First, let's define the type of media to distribute in the standard header:</p>
 <p>In this code snippet, we use <code>**nucleus</code> to unpack the <code>nucleus</code> model as <code>**kwargs</code> and populate the <code>Descriptive</code> metadata model.</p>
 </div>
 <p>To store the standard, we can use the <a href="../../reference/storage/utilities/">local store</a> function, which automatically determines the appropriate storage location based on the selected serialization type. If the serialization is set to DagJose, the metadata will be sent to the IPLD environment through the IPFS DAG service. If it is a compact version, it will be stored directly in a Raw Block. Let's see the example:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># we get signed dag-jose serialization.. let&#39;s store it</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.core.logger</span> <span class="k">as</span> <span class="nn">logger</span>
+
+<span class="c1"># we get signed dag-jose serialization.. let&#39;s store it</span>
 <span class="n">obj</span> <span class="o">=</span> <span class="n">sep001</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span><span class="o">.</span><span class="n">save_to</span><span class="p">(</span><span class="n">local_storage</span><span class="p">)</span>
 <span class="c1"># What should we do with our new and cool CID?</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">hash</span><span class="p">)</span>
