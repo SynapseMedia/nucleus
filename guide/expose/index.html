@@ -1179,7 +1179,7 @@ First, let's define the type of media to distribute in the standard header:</p>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>When considering structural metadata, specifically in the context of storing processed videos according to the <a href="../storage/">multimedia storage guide</a>, it's crucial to understand that the hash obtained from <code>local storage</code> represents the stored directory's hash for files associated with the HLS protocol. Hence, it is essential to specify the supplementary path within the Structural type. For instance:</p>
+<p>When considering structural metadata, specifically in the context of storing processed videos according to the <a href="../storage/">multimedia storage guide</a>, it's crucial to understand that the hash obtained from <code>local storage</code> represents the stored directory's hash with files associated with the HLS protocol. Hence, it is essential to specify the supplementary path within the Structural type. For instance:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># using stored directory object from storage guide</span>
 <span class="n">sep001</span><span class="o">.</span><span class="n">add_metadata</span><span class="p">(</span><span class="n">Structural</span><span class="p">(</span><span class="n">cid</span><span class="o">=</span><span class="n">stored_directory_object</span><span class="o">.</span><span class="n">hash</span><span class="p">),</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;index.m3u8&quot;</span><span class="p">)</span>
 </code></pre></div>
