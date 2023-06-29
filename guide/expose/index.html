@@ -1148,7 +1148,9 @@ First, let's define the type of media to distribute in the standard header:</p>
 <p>In Nucleus, it is possible to extend the signature/encryption algorithms using the <a href="../../reference/expose/types/">Keyring</a> protocol. You can see the <a href="https://datatracker.ietf.org/doc/html/rfc7518">JWA</a> standard specification for more.</p>
 </div>
 <p>Now we can start establishing the cryptographic operations and serialization method we want for our metadata. Let's see an example following the same definition as the previous standard:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># serialization and sign operation</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nucleus.sdk.expose</span> <span class="kn">import</span> <span class="n">DagJose</span><span class="p">,</span> <span class="n">Sign</span>
+
+<span class="c1"># serialization and sign operation</span>
 <span class="n">sep001</span><span class="o">.</span><span class="n">set_operation</span><span class="p">(</span><span class="n">Sign</span><span class="p">)</span>
 <span class="n">sep001</span><span class="o">.</span><span class="n">set_serialization</span><span class="p">(</span><span class="n">DagJose</span><span class="p">)</span>
 </code></pre></div>
