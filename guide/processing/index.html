@@ -1180,7 +1180,7 @@ Let's explore an example of how to configure the image engine:</p>
 
 <span class="c1"># save HLS files to the new output path</span>
 <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_directory</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">output_file_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="n">output_file</span><span class="p">:</span> <span class="n">File</span> <span class="o">=</span> <span class="n">video_engine</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="n">video_engine</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -1203,7 +1203,7 @@ Let's explore an example of how to configure the image engine:</p>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Introspection holds internal media information and technical details from media resources.
+<p><a href="../../reference/processing/types/">Introspection</a> holds internal media information and technical details from media resources.
 Media introspection may vary based on the media type and underlying library.
 In the code snippet, introspection is obtained from <code>ffprobe</code>.</p>
 </div>
