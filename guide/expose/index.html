@@ -1134,8 +1134,7 @@
 <h2 id="sep-001-standard">SEP-001 Standard</h2>
 <p>Assuming you are already familiar with the anatomy of the standard, let's now examine its implementation. The adoption of the standard is crucial in ensuring smooth integration and compatibility across the federated network. By adhering to the standard defined in SEP-001, metadata is effectively handled through an interface that facilitates signing, payload assignment, and the necessary headers.</p>
 <p>If you need more details about the specific requirements and guidelines of the standard, please refer to the <a href="https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md">specification document</a>.</p>
-<p>Now, let's delve into the implementation of the standard in Nucleus.</p>
-<p>First, let's define the type of media to distribute in the standard header:</p>
+<p>Now, let's delve into the implementation of the standard in Nucleus. First, let's define the type of media to distribute in the standard header:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">nucleus.sdk.expose</span> <span class="k">as</span> <span class="nn">expose</span>
 
 <span class="c1"># create a standard instance for &quot;image/jpeg&quot; media resource</span>
