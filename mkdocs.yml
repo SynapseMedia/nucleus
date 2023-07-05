@@ -48,9 +48,7 @@ nav:
     - Overview: dev/index.md
     - Architecture: dev/arch.md
     # - Metadata Standard
-    # - Extending Media Types: dev/arch.md
-    # - Extending Engines: dev/arch.md
-    # - Extending Clients and Services: dev/arch.md
+    # - Extending Media Types and Engines: dev/arch.md
     # - Release notes: dev/arch.md
 
 extra:

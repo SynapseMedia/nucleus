@@ -65,7 +65,7 @@ if not output_directory.exists():
 
 # save HLS files to the new output path
 output_path = Path(f'{output_directory}/{output_file_name}')
-output_file: File = video_engine.save(output_path)
+output_file = video_engine.save(output_path)
 
 ```
 
@@ -97,6 +97,6 @@ introspection = video_engine.introspect(Path("video.mp4"))
 ```
 
 !!! warning
-    Introspection holds internal media information and technical details from media resources.
+    [Introspection](../reference/processing/types.md) holds internal media information and technical details from media resources.
     Media introspection may vary based on the media type and underlying library.
     In the code snippet, introspection is obtained from `ffprobe`.

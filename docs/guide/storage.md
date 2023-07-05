@@ -14,10 +14,12 @@ import nucleus.sdk.storage as storage
 
 local_storage = storage.ipfs("http://localhost:5001")
 # in this case que are storing a File instance, we can obtain it from a processing output.
-# if we have an already processed media we can create a custom File instance
 stored_image_object = local_storage(output_image) 
 
 ```
+
+!!! tip
+    If we already a have processed media, we can create a custom [File](../reference/processing/types.md) instance.
 
 In the example of video processing, HLS generates multiple files in the output directory. To ensure we capture all the files, including the entire directory, we have a solution for you (Don't worry, we've got your back).
 
