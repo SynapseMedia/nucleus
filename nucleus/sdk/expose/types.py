@@ -52,7 +52,9 @@ class Standard(Protocol):
 
 
 class Serializer(Protocol):
-    """Serializer specifies methods to handle serialization for each strategy according to the SEP-001 serialization spec."""
+    """Serializer specifies methods to handle serialization for
+    each strategy according to the SEP-001 serialization spec.
+    """
 
     def __str__(self) -> str:
         """Serialization as string.
