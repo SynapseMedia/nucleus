@@ -47,7 +47,7 @@ class File(Media[Path]):
 
 
 class Engine(ABC):
-    """Engine implements a media engine abstract adapter.
+    """Engine implements a media engine adapter.
     It uses an underlying library as an interface to process media files.
     It produce output based on the provided settings.
     """
