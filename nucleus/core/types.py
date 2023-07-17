@@ -132,7 +132,6 @@ class URL(_ExtensibleStr):
 
 
 class Path(_ExtensibleStr):
-
     """Enhanced bridge string type extended with features needed to handle paths"""
 
     _path: pathlib.Path
@@ -160,7 +159,6 @@ class Path(_ExtensibleStr):
 
 
 class JSON(UserDict[Any, Any]):
-
     """Enhanced bridge dict type extended with features needed to handle json structure"""
 
     def __str__(self) -> str:
