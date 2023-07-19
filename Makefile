@@ -85,7 +85,6 @@ clean:
 docs:
 	pdm run mkdocs build
 	
-
 .PHONY: watch ## Start docs server in localhost
 watch:
 	pdm run mkdocs serve
