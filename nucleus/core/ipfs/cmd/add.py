@@ -1,6 +1,6 @@
-import nucleus.core.dataclass as dc
-
 from dataclasses import dataclass
+
+import nucleus.core.dataclass as dc
 from nucleus.core.http import LiveSession
 from nucleus.core.types import Settings
 
