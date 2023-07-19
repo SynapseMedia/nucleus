@@ -17,7 +17,7 @@ class BlockPut:
     mhtype: str = 'sha2-256'
     mhlen: int = -1
     pin: bool = True
-    cid_codec: str = 'cidv2'
+    cid_codec: str = 'raw'
     allow_big_block: bool = False
 
     def __call__(self, session: LiveSession):

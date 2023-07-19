@@ -12,13 +12,15 @@ from nucleus.sdk.expose import (
     Sign,
     Structural,
     Technical,
+    Compact
+    
 )
 from nucleus.sdk.harvest import Model, Video
 from nucleus.sdk.processing import H264, HLS, Engine, File
 from nucleus.sdk.storage import Object, Store
 
 
-@pytest.mark.skip(reason='no way of currently testing this. mock needed')
+# @pytest.mark.skip(reason='no way of currently testing this. mock needed')
 def test_main():
     LOCAL_ENDPOINT = 'http://localhost:5001'
 
@@ -75,7 +77,7 @@ def test_main():
         sep001 = expose.standard(media_type)  # image/png
         # Prepare serialization
         sep001.set_operation(Sign)
-        sep001.set_serialization(DagJose)
+        sep001.set_serialization(Compact)
         # Add signature/recipient key
         sep001.add_key(expose.es256())
         # add metadata into payload
