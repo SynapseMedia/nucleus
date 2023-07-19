@@ -25,7 +25,7 @@ def _bind_request(mock_link: str, expected_output: str, **kwargs: Any):
 @pytest.fixture()
 def rpc_api_block_put_request(**kwargs: Any):
     mock_link = (
-        'http://localhost:5001/api/v0/block/put?mhtype=sha2-256&mhlen=-1&pin=True&cid-codec=cidv2&allow-big-block=False'
+        'http://localhost:5001/api/v0/block/put?mhtype=sha2-256&mhlen=-1&pin=True&cid-codec=raw&allow-big-block=False'
     )
     expected_output = '{"Key": "bafyjvzacdjrk37kqvy5hbqepmcraz3txt3igs7dbjwwhlfm3433a", "Size": "197"}'
     return _bind_request(mock_link, expected_output)
