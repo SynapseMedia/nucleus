@@ -115,7 +115,7 @@ class Compact:
             {
                 's': {'cid': 'bafkzvzacdkfkzvcl4xqmnelaobsppwxahpnqvxhui4rmyxlaqhrq'},
                 'd': {
-                    'name': 'Nucleus the SDK 1',
+                    'title': 'Nucleus the SDK 1',
                     'description': 'Building block for multimedia decentralization',
                     'contributors': ['Jacob', 'Geo', 'Dennis', 'Mark']
                 },

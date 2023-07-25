@@ -6,7 +6,7 @@ import nucleus.sdk.harvest as harvest
 import nucleus.sdk.processing as processing
 import nucleus.sdk.storage as storage
 from nucleus.core.types import List, Path
-from nucleus.sdk.expose import Compact, Descriptive, Sign, Structural, Technical
+from nucleus.sdk.expose import DagJose, Descriptive, Sign, Structural, Technical
 from nucleus.sdk.harvest import Model, Video
 from nucleus.sdk.processing import H264, HLS, Engine, File
 from nucleus.sdk.storage import Object, Store
@@ -20,13 +20,11 @@ def test_main():
     with logger.console.status('Harvesting'):
 
         class Nucleus(Model):
-            name: str
-            description: str
             contributors: List[str]
 
         # set our data in the model
         nucleus: Model = Nucleus(
-            name='Nucleus the SDK',
+            title='Nucleus the SDK',
             description='Building block for multimedia decentralization',
             contributors=['Jacob', 'Geo', 'Dennis', 'Mark'],
         )
@@ -69,7 +67,7 @@ def test_main():
         sep001 = expose.standard(media_type)  # image/png
         # Prepare serialization
         sep001.set_operation(Sign)
-        sep001.set_serialization(Compact)
+        sep001.set_serialization(DagJose)
         # Add signature/recipient key
         sep001.add_key(expose.es256())
         # add metadata into payload

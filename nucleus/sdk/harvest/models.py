@@ -52,10 +52,10 @@ class Base(pydantic.BaseModel, metaclass=_Manager):
     Usage:
 
         class MyModel(BaseModel):
-            name: str
+            title: str
 
         # store a snapshot of the model
-        stored_model = MyModel(name="Model")
+        stored_model = MyModel(title="Model")
         stored_model.save()
 
         # we should be able to retrieve the same model
@@ -137,12 +137,12 @@ class Model(Base):
     Usage:
 
         class Nucleus(Model):
-            name: str # default property
+            title: str # default property
             description: str # default property
             address: str # my custom property
     """
 
-    name: str  # the name of the resource
+    title: str  # the name of the resource
     description: str  # the description of the resource
 
 

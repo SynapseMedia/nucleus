@@ -99,7 +99,7 @@ class ImageEngine(Engine):
         super().__init__(lib)
 
     def _to_snake_case(self, class_name: str) -> str:
-        """Transform PascalCase class definition to snake_case method name
+        """Transform PascalCase class definition to snake_case method name.
 
         :para name: The class name to parse
         :return: The snake case version for class name

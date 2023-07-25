@@ -26,7 +26,7 @@ class Descriptive(Dynamic):
 
         # example of populating "d" claim
         d = Descriptive(
-            name="Example",
+            title="Example",
             description="Example description",
             language="English",
             author="NASA",
@@ -34,7 +34,7 @@ class Descriptive(Dynamic):
 
     """
 
-    name: str
+    title: str
     description: str
 
     def __str__(self):

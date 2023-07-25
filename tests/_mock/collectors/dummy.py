@@ -12,7 +12,7 @@ class Dummy(Collector):
             JSON(
                 {
                     'metadata': {
-                        'name': 'A Fork in the Road',
+                        'title': 'A Fork in the Road',
                         'imdb_code': 'wtt00000000',
                         'creator_key': '0xee99ceff640d37edd9cac8c7cff4ed4cd609f435',
                         'mpa_rating': 'PG',

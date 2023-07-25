@@ -18,7 +18,7 @@ def mock_raw_metadata():
     """Fixture to provide a mocking for movie"""
 
     return {
-        'name': 'A Fork in the Road',
+        'title': 'A Fork in the Road',
         'imdb_code': 'wtt00000000',
         'creator_key': '0xee99ceff640d37edd9cac8c7cff4ed4cd609f435',
         'mpa_rating': 'PG',
@@ -40,7 +40,7 @@ def mock_raw_collected(mock_raw_metadata: Any, mock_raw_media: Any):
 @pytest.fixture
 def mock_raw_collected2(mock_raw_collected: Any):
     mock_raw_collected2 = copy.deepcopy(mock_raw_collected)
-    mock_raw_collected2['metadata'].update({'name': 'A in the Road'})
+    mock_raw_collected2['metadata'].update({'title': 'A in the Road'})
     return mock_raw_collected2
 
 

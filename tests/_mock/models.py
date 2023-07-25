@@ -14,7 +14,7 @@ FIRST_MOVIE_YEAR_EVER = 1880
 class Movie(Model):
     """Movies define needed fields for standard movie schema."""
 
-    name: str
+    title: str
     # imdb code is adopted from IMB movies site to handle an alphanumeric id
     # https://es.wikipedia.org/wiki/Internet_Movie_Database
     imdb_code: str

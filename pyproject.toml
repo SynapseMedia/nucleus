@@ -148,7 +148,7 @@ branch = true
 context = '${CONTEXT}'
 
 [tool.coverage.paths]
-sournce = ['nucleus']
+source = ['nucleus']
 
 [tool.black]
 color = true
