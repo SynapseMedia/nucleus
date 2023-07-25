@@ -27,6 +27,9 @@ jobs:
       
       - name: Static Type Check
         run: make pyright
+      
+      - name: Spell check
+        run: make codespell
         
       - name: Tests
         run: make test
