@@ -13,7 +13,7 @@ def map(collectors: Iterator[Collector]) -> Mapping[str, Iterator[JSON]]:
     """Returns a map of collectors.
     Map collectors using name as key and the metadata content as value list.
 
-    :param collectors: Collector iterator
+    :param collectors: Collector iterator.
     :return: Mapped collected data using the name of collector as key and value with meta provided.
     """
 

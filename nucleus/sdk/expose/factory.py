@@ -37,8 +37,8 @@ def es256(**kwargs: Any) -> SignKeyRing:
 
     return SignKeyRing(
         alg=Algorithm.ES256,
-        key_type=KeyType.EllipticCurve,
-        curve=Curve.P256,
+        kty=KeyType.EllipticCurve,
+        crv=Curve.P256,
         use=Use.SIG,
         **kwargs,
     )

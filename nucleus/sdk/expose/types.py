@@ -116,7 +116,7 @@ class Keyring(Protocol):
         ...
 
     def jwk(self) -> JWK:
-        """Return the internal JWK (JSON Web Key) instance
+        """Return the internal JWK (JSON Web Key) instance.
 
         :return: The JWK (JSON Web Key) instance
         """
@@ -129,18 +129,28 @@ class Keyring(Protocol):
         """
         ...
 
-    def from_dict(self, raw_key: Raw) -> Keyring:
-        """Initialize Keyring using JWK JSON format
+    def import_key(self, jwk: Raw) -> Keyring:
+        """Restore the internal key associated with a JWK (JSON Web Key).
 
-        :param raw_key: Keyring to import as dict (JSON format)
+        :param jwk: The JWK to restore.
+        :return: Keyring object
+
+        """
+        ...
+
+    @classmethod
+    def from_dict(cls, jwk: Raw) -> Keyring:
+        """Creates a Keyring object from a JWK (JSON Web Key) dictionary.
+
+        :param jwk: The JWK dictionary to import
         :return: KeyRing object
         """
         ...
 
     def as_dict(self) -> Raw:
-        """Export Keyring as JWK JSON format
+        """Exports the key in the standard JSON format.
 
-        :return: Keyring as dict
+        :return: A portable representation of the key in JWK format.
         """
         ...
 

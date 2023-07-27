@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import dataclasses
 from dataclasses import KW_ONLY, dataclass, field
 from enum import Enum
 
@@ -56,13 +57,13 @@ class Algorithm(str, Enum):
 @dataclass(slots=True)
 class SignKeyRing:
     alg: Algorithm
-    key_type: KeyType
-    curve: Curve
+    kty: KeyType
+    crv: Curve
     use: Use
 
     _: KW_ONLY
     # avoid to auto-gen the JWK
-    lazy_mode: bool = False
+    _lazy_mode: bool = False
     # internal jwk interface
     _jwk: JWK = field(init=False)
 
@@ -77,13 +78,13 @@ class SignKeyRing:
     def __post_init__(self):
         # Initialize jwk as new JWK object
         # ref: https://jwcrypto.readthedocs.io/en/latest/jwk.html
-        if self.lazy_mode:
+        if self._lazy_mode:
             return
 
         self._jwk = JWK.generate(
             alg=self.alg.value,
-            kty=self.key_type.value,
-            curve=self.curve.value,
+            kty=self.kty.value,
+            curve=self.crv.value,
             use=self.use.value,
         )
 
@@ -94,22 +95,38 @@ class SignKeyRing:
         """
         return self._jwk
 
-    def as_dict(self) -> Raw:
-        """Export Keyring as JWK JSON format
+    def import_key(self, jwk: Raw) -> SignKeyRing:
+        """Restore the internal key associated with a JWK (JSON Web Key).
 
-        :return: Keyring as dict
+        :param jwk: The JWK to restore.
+        :return: SignKeyRing object
+
+        """
+        json_string = str(JSON(jwk))
+        self._jwk = JWK.from_json(json_string)
+        return self
+
+    def as_dict(self) -> Raw:
+        """Exports the key in the standard JSON format.
+
+        :return: A portable representation of the key in JWK format.
         """
         return self._jwk.export(True, True)  # type: ignore
 
-    def from_dict(self, raw_key: Raw) -> SignKeyRing:
-        """Initialize Keyring using JWK JSON format
+    @classmethod
+    def from_dict(cls, jwk: Raw) -> SignKeyRing:
+        """Creates a Keyring object from a JWK (JSON Web Key) dictionary.
 
-        :param raw_key: Keyring to import as dict (JSON format)
-        :return: KeyRing object
+        :param jwk: The JWK dictionary to import
+        :return: SignKeyRing object
         """
-        json_string = str(JSON(raw_key))
-        self._jwk = JWK.from_json(json_string)
-        return self
+
+        allowed_fields = set([f.name for f in dataclasses.fields(cls)])
+        fields = {k: v for k, v in jwk.items() if k in allowed_fields}
+
+        key = cls(**{**fields, **{'_lazy_mode': True}})
+        key.import_key(jwk)
+        return key
 
     def fingerprint(self) -> str:
         """Return the base64 decoded thumbprint as specified by RFC 7638.
