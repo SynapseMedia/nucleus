@@ -9,7 +9,7 @@ graph LR
   B -.-> E[Storage]
   D -.-> E[Storage]
   E -.-> C[Expose]
-  C --> F[Meta Lake]
+  C --> F[Metalake]
   C -.-> G[Mint]
   F -.-> G[Mint]
 ```
@@ -30,7 +30,7 @@ The pipeline is modular and adheres to the decoupling principle, enabling flexib
 
 ## Transmission/Distribution
 
-As part of the metadata federation, **Meta Lake** emerges as a new concept in the Nucleus ecosystem, referring to the central communication point for metadata distribution. The [serialization](https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md) process of the metadata determines the transmission medium, with IPLD and Raw Blocks being among the means used by Nucleus eg:
+As part of the metadata distribution, **Metalake** emerges as a new concept in the Nucleus ecosystem. It refers to the "global metadata public good" stored in the IPFS ecosystem, serving as a valuable information resource where everyone can freely exchange information. The [serialization](https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md) process of the metadata determines the transmission medium, with IPLD and Raw Blocks being among the means used by Nucleus eg:
 
 ``` mermaid
 graph LR
