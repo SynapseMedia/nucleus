@@ -1107,7 +1107,7 @@
   B -.-&gt; E[Storage]
   D -.-&gt; E[Storage]
   E -.-&gt; C[Expose]
-  C --&gt; F[Meta Lake]
+  C --&gt; F[Metalake]
   C -.-&gt; G[Mint]
   F -.-&gt; G[Mint]</code></pre>
 <p>Nucleus proposes a sequence of steps (pipeline) for the processing and decentralization of multimedia:</p>
@@ -1125,7 +1125,7 @@
 <p>Harvesting and Expose are the sole essential components necessary for operating the pipeline.</p>
 </div>
 <h2 id="transmissiondistribution">Transmission/Distribution</h2>
-<p>As part of the metadata federation, <strong>Meta Lake</strong> emerges as a new concept in the Nucleus ecosystem. It refers to the "global metadata public good" stored in the IPFS ecosystem, serving as a valuable information resource where everyone can freely exchange information. The <a href="https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md">serialization</a> process of the metadata determines the transmission medium, with IPLD and Raw Blocks being among the means used by Nucleus eg:</p>
+<p>As part of the metadata federation, <strong>Metalake</strong> emerges as a new concept in the Nucleus ecosystem. It refers to the "global metadata public good" stored in the IPFS ecosystem, serving as a valuable information resource where everyone can freely exchange information. The <a href="https://github.com/SynapseMedia/sep/blob/main/SEP/SEP-001.md">serialization</a> process of the metadata determines the transmission medium, with IPLD and Raw Blocks being among the means used by Nucleus eg:</p>
 <pre class="mermaid"><code>graph LR
   R[Expose] --&gt; A[DagJose]
   A --&gt; B[IPLD];
