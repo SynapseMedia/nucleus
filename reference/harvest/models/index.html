@@ -1229,10 +1229,10 @@
 The persistence mechanism relies on sqlite and pickle, allowing the entire model to be stored as a snapshot</p>
 <p>Usage:</p>
 <div class="highlight"><pre><span></span><code>class MyModel(BaseModel):
-    name: str
+    title: str
 
 # store a snapshot of the model
-stored_model = MyModel(name=&quot;Model&quot;)
+stored_model = MyModel(title=&quot;Model&quot;)
 stored_model.save()
 
 # we should be able to retrieve the same model
@@ -1331,10 +1331,10 @@ assert MyModel.all() == [stored_model] # True
 <span class="sd">    Usage:</span>
 
 <span class="sd">        class MyModel(BaseModel):</span>
-<span class="sd">            name: str</span>
+<span class="sd">            title: str</span>
 
 <span class="sd">        # store a snapshot of the model</span>
-<span class="sd">        stored_model = MyModel(name=&quot;Model&quot;)</span>
+<span class="sd">        stored_model = MyModel(title=&quot;Model&quot;)</span>
 <span class="sd">        stored_model.save()</span>
 
 <span class="sd">        # we should be able to retrieve the same model</span>
@@ -1803,7 +1803,7 @@ class Image(Media[URL]):
 and allows its extension to create metadata sub-models with custom attributes.</p>
 <p>Usage:</p>
 <div class="highlight"><pre><span></span><code>class Nucleus(Model):
-    name: str # default property
+    title: str # default property
     description: str # default property
     address: str # my custom property
 </code></pre></div>
@@ -1831,12 +1831,12 @@ and allows its extension to create metadata sub-models with custom attributes.</
 <span class="sd">    Usage:</span>
 
 <span class="sd">        class Nucleus(Model):</span>
-<span class="sd">            name: str # default property</span>
+<span class="sd">            title: str # default property</span>
 <span class="sd">            description: str # default property</span>
 <span class="sd">            address: str # my custom property</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># the name of the resource</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># the name of the resource</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># the description of the resource</span>
 </code></pre></div></td></tr></table></div>
         </details>

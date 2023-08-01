@@ -979,6 +979,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Keyring.import_key" class="md-nav__link">
+    import_key()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#nucleus.sdk.expose.types.Keyring.jwk" class="md-nav__link">
     jwk()
   </a>
@@ -1272,6 +1279,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#nucleus.sdk.expose.types.Keyring.import_key" class="md-nav__link">
+    import_key()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#nucleus.sdk.expose.types.Keyring.jwk" class="md-nav__link">
     jwk()
   </a>
@@ -1538,7 +1552,7 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Export Keyring as JWK JSON format</p>
+      <p>Exports the key in the standard JSON format.</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -1553,22 +1567,22 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
           <td>
                 <code><span title="nucleus.core.types.Raw">Raw</span></code>
           </td>
-          <td><p>Keyring as dict</p></td>
+          <td><p>A portable representation of the key in JWK format.</p></td>
         </tr>
     </tbody>
   </table>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Raw</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Export Keyring as JWK JSON format</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Raw</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exports the key in the standard JSON format.</span>
 
-<span class="sd">    :return: Keyring as dict</span>
+<span class="sd">    :return: A portable representation of the key in JWK format.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>
 </code></pre></div></td></tr></table></div>
@@ -1633,14 +1647,18 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 
 
 <h3 id="nucleus.sdk.expose.types.Keyring.from_dict" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">from_dict</span><span class="p">(</span><span class="n">raw_key</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">from_dict</span><span class="p">(</span><span class="n">jwk</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
 
 </h3>
 
 
   <div class="doc doc-contents ">
   
-      <p>Initialize Keyring using JWK JSON format</p>
+      <p>Creates a Keyring object from a JWK (JSON Web Key) dictionary.</p>
 
   <p><strong>Parameters:</strong></p>
   <table>
@@ -1654,11 +1672,11 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
     </thead>
     <tbody>
         <tr>
-          <td><code>raw_key</code></td>
+          <td><code>jwk</code></td>
           <td>
                 <code><span title="nucleus.core.types.Raw">Raw</span></code>
           </td>
-          <td><p>Keyring to import as dict (JSON format)</p></td>
+          <td><p>The JWK dictionary to import</p></td>
           <td>
               <em>required</em>
           </td>
@@ -1686,17 +1704,98 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">jwk</span><span class="p">:</span> <span class="n">Raw</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Keyring</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Keyring object from a JWK (JSON Web Key) dictionary.</span>
+
+<span class="sd">    :param jwk: The JWK dictionary to import</span>
+<span class="sd">    :return: KeyRing object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="nucleus.sdk.expose.types.Keyring.import_key" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">import_key</span><span class="p">(</span><span class="n">jwk</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Restore the internal key associated with a JWK (JSON Web Key).</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>jwk</code></td>
+          <td>
+                <code><span title="nucleus.core.types.Raw">Raw</span></code>
+          </td>
+          <td><p>The JWK to restore.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="nucleus.sdk.expose.types.Keyring" href="#nucleus.sdk.expose.types.Keyring">Keyring</a></code>
+          </td>
+          <td><p>Keyring object</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
         <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
-<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_key</span><span class="p">:</span> <span class="n">Raw</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Keyring</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize Keyring using JWK JSON format</span>
+<span class="normal">138</span>
+<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">import_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jwk</span><span class="p">:</span> <span class="n">Raw</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Keyring</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Restore the internal key associated with a JWK (JSON Web Key).</span>
 
-<span class="sd">    :param raw_key: Keyring to import as dict (JSON format)</span>
-<span class="sd">    :return: KeyRing object</span>
+<span class="sd">    :param jwk: The JWK to restore.</span>
+<span class="sd">    :return: Keyring object</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>
 </code></pre></div></td></tr></table></div>
@@ -1717,7 +1816,7 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 
   <div class="doc doc-contents ">
   
-      <p>Return the internal JWK (JSON Web Key) instance</p>
+      <p>Return the internal JWK (JSON Web Key) instance.</p>
 
   <p><strong>Returns:</strong></p>
   <table>
@@ -1745,7 +1844,7 @@ keys based on the JWK (JSON Web Key) RFC 7517 standard.</p>
 <span class="normal">121</span>
 <span class="normal">122</span>
 <span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">jwk</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JWK</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the internal JWK (JSON Web Key) instance</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the internal JWK (JSON Web Key) instance.</span>
 
 <span class="sd">    :return: The JWK (JSON Web Key) instance</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2204,12 +2303,12 @@ It notifies serializers when crypto operations are ready to be used.</p>
 
           <details class="quote">
             <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serializer</span><span class="p">:</span> <span class="n">Serializer</span><span class="p">):</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serializer</span><span class="p">:</span> <span class="n">Serializer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize with the serializer on which we will operate.</span>
 
 <span class="sd">    :param serializer: The serializer implementation</span>
@@ -2288,13 +2387,13 @@ It notifies serializers when crypto operations are ready to be used.</p>
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kr</span><span class="p">:</span> <span class="n">Keyring</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Crypto</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kr</span><span class="p">:</span> <span class="n">Keyring</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Crypto</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Bind keys to the serialization process.</span>
 
 <span class="sd">    :param kr: Keyring to associate with operation</span>
@@ -2342,13 +2441,13 @@ During this process, the serializer may modify its state or store the results of
 
       <details class="quote">
         <summary>Source code in <code>nucleus/sdk/expose/types.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Serializer</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Serializer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Notify the underlying serializer of the current state of the cryptographic operation.</span>
 <span class="sd">    During this process, the serializer may modify its state or store the results of the cryptographic operations.</span>
 

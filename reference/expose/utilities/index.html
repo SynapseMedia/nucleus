@@ -1225,8 +1225,8 @@ sign_algorithm = expose.es256()
 
     <span class="k">return</span> <span class="n">SignKeyRing</span><span class="p">(</span>
         <span class="n">alg</span><span class="o">=</span><span class="n">Algorithm</span><span class="o">.</span><span class="n">ES256</span><span class="p">,</span>
-        <span class="n">key_type</span><span class="o">=</span><span class="n">KeyType</span><span class="o">.</span><span class="n">EllipticCurve</span><span class="p">,</span>
-        <span class="n">curve</span><span class="o">=</span><span class="n">Curve</span><span class="o">.</span><span class="n">P256</span><span class="p">,</span>
+        <span class="n">kty</span><span class="o">=</span><span class="n">KeyType</span><span class="o">.</span><span class="n">EllipticCurve</span><span class="p">,</span>
+        <span class="n">crv</span><span class="o">=</span><span class="n">Curve</span><span class="o">.</span><span class="n">P256</span><span class="p">,</span>
         <span class="n">use</span><span class="o">=</span><span class="n">Use</span><span class="o">.</span><span class="n">SIG</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span>
